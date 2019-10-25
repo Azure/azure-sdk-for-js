@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import {
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
   ListQueuesIncludeType,
@@ -174,7 +179,7 @@ export class QueueServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxy = extractedCreds.proxyUri;
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {

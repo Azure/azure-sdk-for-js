@@ -14,14 +14,13 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -130,7 +129,10 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxy?: ProxySettings | string;
+  /**
+   * Options to configure a proxy for outgoing requests.
+   */
+  proxyOptions?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -197,13 +199,7 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(
     isTokenCredential(credential)

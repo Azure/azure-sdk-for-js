@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import {
+  HttpResponse,
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
   EnqueuedMessage,
@@ -498,7 +504,7 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

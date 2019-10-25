@@ -14,7 +14,7 @@ import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -686,8 +686,7 @@ export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
     // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    // (undocumented)
-    proxy?: ProxySettings | string;
+    proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
     telemetry?: TelemetryOptions;
 }
