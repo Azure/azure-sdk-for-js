@@ -217,7 +217,6 @@ Messages are processed in two steps.
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
-// Receiving a message is also commonly known as dequeueing a message.
 const response = await queueClient.receiveMessages();
 if (response.receivedMessageItems.length == 1) {
   const receivedMessageItem = response.receivedMessageItems[0];
