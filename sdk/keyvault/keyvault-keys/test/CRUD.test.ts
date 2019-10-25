@@ -58,7 +58,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -106,7 +107,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -138,7 +140,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create an EC key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -226,7 +229,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -258,7 +262,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can delete a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -295,7 +300,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);

@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import {
-  JsonWebKeyOperation,
-  JsonWebKeyCurveName,
-  JsonWebKeyType
-} from "./core/models";
+import { JsonWebKeyOperation, JsonWebKeyCurveName, JsonWebKeyType } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
@@ -17,7 +13,7 @@ export interface KeyClientInterface {
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault.
-	 */
+   */
   recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
   /**
    * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
