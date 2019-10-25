@@ -5,7 +5,7 @@ import { ShareServiceClient, newPipeline, SharedKeyCredential } from "../../src"
 import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
-describe("ShareServiceClient Node.js only", () => {
+describe("FileServiceClient Node.js only", () => {
   let recorder: any;
 
   beforeEach(async function() {

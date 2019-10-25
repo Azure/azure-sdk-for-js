@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { ShareServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
-describe("ShareServiceClient", () => {
+describe("FileServiceClient", () => {
   let recorder: any;
 
   beforeEach(function() {
