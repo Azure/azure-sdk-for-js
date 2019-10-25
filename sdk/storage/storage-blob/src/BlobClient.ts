@@ -5,7 +5,8 @@ import {
   isNode,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential
+  isTokenCredential,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
@@ -894,7 +895,8 @@ export class BlobClient extends StorageClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxy = extractedCreds.proxyUri;
+
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

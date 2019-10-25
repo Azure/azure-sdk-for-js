@@ -52,7 +52,7 @@ describe("AppendBlobClient Node.js only", () => {
     const factories = (appendBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
-      telemetry: { value: "test/1.0" }
+      userAgentOptions: { userAgentPrefix: "test/1.0" }
     });
 
     await newClient.create();

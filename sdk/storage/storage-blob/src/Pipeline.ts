@@ -14,7 +14,6 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
   TokenCredential,
   isTokenCredential,
@@ -28,7 +27,7 @@ import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { UserAgentOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -130,14 +129,14 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxy?: ProxySettings | string;
+  proxyOptions?: ProxySettings;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
@@ -181,7 +180,7 @@ export function newPipeline(
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     new UniqueRequestIDPolicyFactory(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -195,13 +194,7 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(
     isTokenCredential(credential)
