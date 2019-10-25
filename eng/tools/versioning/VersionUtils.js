@@ -44,11 +44,15 @@ async function updatePackageConstants(packagePath, packageJson, newVersion) {
     return;
   }
 
-  for (const constantFilePath of packageJson["//metadata"].constantPaths) {
-    const targetPath = path.join(packagePath, constantFilePath);
+  for (const constantFileSpec of packageJson["//metadata"].constantPaths) {
+    const targetPath = path.join(packagePath, constantFileSpec.path);
     const fileContents = await readFile(targetPath);
 
-    const updatedContents = fileContents.replace(semverRegex, newVersion);
+    const versionExpression = buildSemverRegex(constantFileSpec.prefix);
+    const updatedContents = fileContents.replace(
+      versionExpression,
+      `$1${newVersion}`
+    );
 
     if (updatedContents == fileContents) {
       continue;
@@ -58,13 +62,14 @@ async function updatePackageConstants(packagePath, packageJson, newVersion) {
   }
 }
 
+function buildSemverRegex(prefix) {
+  return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
+}
+
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
-// Given JS regex semantics the lack of a global flag (/g) means that this regex
-// only matches the first instance of a regular expression in a file.
-const semverRegex = /(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/;
+const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;
 
-module.exports.semverRegex = semverRegex;
 module.exports.readFile = readFile;
 module.exports.readFileJson = readFileJson;
 module.exports.writeFile = writeFile;
