@@ -15,7 +15,7 @@ import {
   FileCreateResponse,
   FileDeleteResponse,
   FileItem,
-  HandleItem,
+  HandleItem
 } from "./generatedModels";
 import { Directory } from "./generated/src/operations";
 import {
@@ -33,7 +33,7 @@ import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.commo
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { ShareFileClient, FileCreateOptions, FileDeleteOptions } from "./ShareFileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
@@ -288,18 +288,18 @@ export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
 }
 
 /**
- * A DirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
+ * A ShareDirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
  * @export
- * @class DirectoryClient
+ * @class ShareDirectoryClient
  */
-export class DirectoryClient extends StorageClient {
+export class ShareDirectoryClient extends StorageClient {
   /**
    * context provided by protocol layer.
    *
    * @private
    * @type {Directory}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private context: Directory;
   private _shareName: string;
@@ -327,7 +327,7 @@ export class DirectoryClient extends StorageClient {
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
@@ -343,7 +343,7 @@ export class DirectoryClient extends StorageClient {
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -375,12 +375,10 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
    * @returns {Promise<DirectoryCreateResponse>} Response data for the Directory  operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
-  public async create(
-    options: DirectoryCreateOptions = {}
-  ): Promise<DirectoryCreateResponse> {
-    const { span, spanOptions } = createSpan("DirectoryClient-create", options.spanOptions);
+  public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.spanOptions);
     try {
       if (!options.fileAttributes) {
         options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
@@ -420,13 +418,13 @@ export class DirectoryClient extends StorageClient {
    * @param {properties} [DirectoryProperties] Directory properties. If no values are provided,
    *                                            existing values will be preserved.
    * @returns {Promise<DirectorySetPropertiesResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async setProperties(
     properties: DirectoryProperties = {}
   ): Promise<DirectorySetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-setProperties",
+      "ShareDirectoryClient-setProperties",
       properties.spanOptions
     );
     try {
@@ -455,14 +453,14 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a DirectoryClient object for a sub directory.
+   * Creates a ShareDirectoryClient object for a sub directory.
    *
    * @param subDirectoryName A subdirectory name
-   * @returns {DirectoryClient} The DirectoryClient object for the given subdirectory name.
-   * @memberof DirectoryClient
+   * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
+   * @memberof ShareDirectoryClient
    */
-  public getDirectoryClient(subDirectoryName: string): DirectoryClient {
-    return new DirectoryClient(
+  public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
+    return new ShareDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
       this.pipeline
     );
@@ -474,18 +472,18 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<{ directoryClient: DirectoryClient; directoryCreateResponse: DirectoryCreateResponse; }>} Directory create response data and the corresponding DirectoryClient instance.
-   * @memberof DirectoryClient
+   * @returns {Promise<{ directoryClient: ShareDirectoryClient; directoryCreateResponse: DirectoryCreateResponse; }>} Directory create response data and the corresponding DirectoryClient instance.
+   * @memberof ShareDirectoryClient
    */
   public async createSubdirectory(
     directoryName: string,
     options: DirectoryCreateOptions = {}
   ): Promise<{
-    directoryClient: DirectoryClient;
+    directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-createSubdirectory",
+      "ShareDirectoryClient-createSubdirectory",
       options.spanOptions
     );
     try {
@@ -514,14 +512,14 @@ export class DirectoryClient extends StorageClient {
    * @param {string} directoryName
    * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
    * @returns {DirectoryDeleteResponse} Directory deletion response data.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async deleteSubdirectory(
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-deleteSubdirectory",
+      "ShareDirectoryClient-deleteSubdirectory",
       options.spanOptions
     );
     try {
@@ -545,15 +543,18 @@ export class DirectoryClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
-   * @memberof DirectoryClient
+   * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
+   * @memberof ShareDirectoryClient
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
-  ): Promise<{ fileClient: FileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, spanOptions } = createSpan("DirectoryClient-createFile", options.spanOptions);
+  ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-createFile",
+      options.spanOptions
+    );
     try {
       const fileClient = this.getFileClient(fileName);
       const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
@@ -589,13 +590,16 @@ export class DirectoryClient extends StorageClient {
    * @param {string} fileName Name of the file to delete
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
    * @returns {Promise<FileDeleteResponse>} File deletion response data.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async deleteFile(
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("DirectoryClient-deleteFile", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-deleteFile",
+      options.spanOptions
+    );
     try {
       const fileClient = this.getFileClient(fileName);
       return await fileClient.delete({ ...options, spanOptions });
@@ -611,14 +615,17 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a FileClient object.
+   * Creates a ShareFileClient object.
    *
    * @param {string} fileName A file name.
-   * @returns {FileClient} A new FileClient object for the given file name.
-   * @memberof FileClient
+   * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
+   * @memberof ShareFileClient
    */
-  public getFileClient(fileName: string): FileClient {
-    return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
+  public getFileClient(fileName: string): ShareFileClient {
+    return new ShareFileClient(
+      appendToURLPath(this.url, encodeURIComponent(fileName)),
+      this.pipeline
+    );
   }
 
   /**
@@ -629,12 +636,15 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {DirectoryGetPropertiesOptions} [options] Options to Directory Get Properties operation.
    * @returns {Promise<DirectoryGetPropertiesResponse>} Response data for the Directory Get Properties operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<DirectoryGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("DirectoryClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-getProperties",
+      options.spanOptions
+    );
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -658,12 +668,10 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
    * @returns {Promise<DirectoryDeleteResponse>} Response data for the Directory Delete operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
-  public async delete(
-    options: DirectoryDeleteOptions = {}
-  ): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("DirectoryClient-delete", options.spanOptions);
+  public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.spanOptions);
     try {
       return this.context.deleteMethod({
         abortSignal: options.abortSignal,
@@ -687,13 +695,16 @@ export class DirectoryClient extends StorageClient {
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @param {DirectorySetMetadataOptions} [options] Options to Directory Set Metadata operation.
    * @returns {Promise<DirectorySetMetadataResponse>} Response data for the Directory Set Metadata operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async setMetadata(
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<DirectorySetMetadataResponse> {
-    const { span, spanOptions } = createSpan("DirectoryClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-setMetadata",
+      options.spanOptions
+    );
     try {
       return this.context.setMetadata({
         abortSignal: options.abortSignal,
@@ -724,7 +735,7 @@ export class DirectoryClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
    * @returns {AsyncIterableIterator<DirectoryListFilesAndDirectoriesSegmentResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async *iterateFilesAndDirectoriesSegments(
     marker?: string,
@@ -744,13 +755,11 @@ export class DirectoryClient extends StorageClient {
    * @private
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
    * @returns {AsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async *listFilesAndDirectoriesItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<
-    { kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem
-  > {
+  ): AsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem> {
     let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
       marker,
@@ -846,7 +855,7 @@ export class DirectoryClient extends StorageClient {
    * ```
    *
    * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    * @returns {PagedAsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } , DirectoryListFilesAndDirectoriesSegmentResponse>}
    * An asyncIterableIterator that supports paging.
    */
@@ -891,14 +900,14 @@ export class DirectoryClient extends StorageClient {
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to Directory List Files and Directories Segment operation.
    * @returns {Promise<DirectoryListFilesAndDirectoriesSegmentResponse>} Response data for the Directory List Files and Directories operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async listFilesAndDirectoriesSegment(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-listFilesAndDirectoriesSegment",
+      "ShareDirectoryClient-listFilesAndDirectoriesSegment",
       options.spanOptions
     );
     try {
@@ -929,7 +938,7 @@ export class DirectoryClient extends StorageClient {
    *                          set of list items.
    * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
    * @returns {AsyncIterableIterator<DirectoryListHandlesResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async *iterateHandleSegments(
     marker?: string,
@@ -951,7 +960,7 @@ export class DirectoryClient extends StorageClient {
    * @private
    * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
    * @returns {AsyncIterableIterator<HandleItem>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async *listHandleItems(
     options: DirectoryListHandlesSegmentOptions = {}
@@ -1034,7 +1043,7 @@ export class DirectoryClient extends StorageClient {
    * ```
    *
    * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    * @returns {PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>}
    * An asyncIterableIterator that supports paging.
    */
@@ -1079,14 +1088,14 @@ export class DirectoryClient extends StorageClient {
    *                          set of list items.
    * @param {DirectoryListHandlesSegmentOptions} [options={}]
    * @returns {Promise<DirectoryListHandlesResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async listHandlesSegment(
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<DirectoryListHandlesResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-listHandlesSegment",
+      "ShareDirectoryClient-listHandlesSegment",
       options.spanOptions
     );
     try {
@@ -1125,14 +1134,14 @@ export class DirectoryClient extends StorageClient {
    *                          may then be used in a subsequent call to close the next set of handles.
    * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
    * @returns {Promise<DirectoryForceCloseHandlesResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   private async forceCloseHandlesSegment(
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-forceCloseHandlesSegment",
+      "ShareDirectoryClient-forceCloseHandlesSegment",
       options.spanOptions
     );
     try {
@@ -1159,13 +1168,13 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
    * @returns {Promise<number>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async forceCloseAllHandles(
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<number> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-forceCloseAllHandles",
+      "ShareDirectoryClient-forceCloseAllHandles",
       options.spanOptions
     );
     try {
@@ -1203,14 +1212,14 @@ export class DirectoryClient extends StorageClient {
    *                          Use forceCloseHandlesSegment() to close all handles.
    * @param {DirectoryForceCloseHandlesOptions} [options={}]
    * @returns {Promise<DirectoryForceCloseHandlesResponse>}
-   * @memberof DirectoryClient
+   * @memberof ShareDirectoryClient
    */
   public async forceCloseHandle(
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
-      "DirectoryClient-forceCloseHandle",
+      "ShareDirectoryClient-forceCloseHandle",
       options.spanOptions
     );
     try {

@@ -4,7 +4,7 @@
 
 import {
   newPipeline,
-  FileServiceClient,
+  ShareServiceClient,
   SharedKeyCredential,
   HttpPipelineLogLevel
 } from "../../src"; // Change to "@azure/storage-file-share" in your package
@@ -52,7 +52,10 @@ async function main() {
   });
 
   // List shares
-  const serviceClient = new FileServiceClient(`https://${account}.file.core.windows.net`, pipeline);
+  const serviceClient = new ShareServiceClient(
+    `https://${account}.file.core.windows.net`,
+    pipeline
+  );
 
   console.log(`List shares`);
   let i = 1;

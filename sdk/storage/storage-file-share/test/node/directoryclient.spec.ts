@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getBSU } from "../utils";
 import * as dotenv from "dotenv";
-import { DirectoryClient, newPipeline, SharedKeyCredential, ShareClient } from "../../src";
+import { ShareDirectoryClient, newPipeline, SharedKeyCredential, ShareClient } from "../../src";
 import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -10,7 +10,7 @@ describe("DirectoryClient Node.js only", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
 
   let recorder: any;
 
@@ -34,7 +34,7 @@ describe("DirectoryClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new DirectoryClient(dirClient.url, credential);
+    const newClient = new ShareDirectoryClient(dirClient.url, credential);
 
     const result = await newClient.getProperties();
 
@@ -48,7 +48,7 @@ describe("DirectoryClient Node.js only", () => {
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new DirectoryClient(dirClient.url, credential, {
+    const newClient = new ShareDirectoryClient(dirClient.url, credential, {
       retryOptions: {
         maxTries: 5
       }
@@ -67,7 +67,7 @@ describe("DirectoryClient Node.js only", () => {
     const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
-    const newClient = new DirectoryClient(dirClient.url, pipeline);
+    const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
 
     const result = await newClient.getProperties();
 
