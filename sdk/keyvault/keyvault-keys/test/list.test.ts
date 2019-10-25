@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -63,7 +63,8 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("can get the versions of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
@@ -144,7 +145,8 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("can get several inserted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
@@ -184,7 +186,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 
@@ -208,7 +210,8 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list deleted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
@@ -224,7 +227,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 

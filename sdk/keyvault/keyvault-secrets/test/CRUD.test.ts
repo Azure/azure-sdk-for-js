@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -272,7 +272,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
 
     let deletedSecret = deletePoller.getResult();
     assert.equal(typeof deletedSecret!.properties.recoveryId, "string");
@@ -309,7 +309,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       await client.beginDeleteSecret(secretName, {
         requestOptions: {
           timeout: 1
-        }
+        },
+        ...testPollerProperties
       });
     });
   });
@@ -320,7 +321,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      await client.beginDeleteSecret(secretName);
+      await client.beginDeleteSecret(secretName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -337,7 +338,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
 
     let deletedSecret = deletePoller.getResult();
     assert.equal(
@@ -365,7 +366,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      const deletePoller = await client.beginDeleteSecret(secretName);
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
       await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {

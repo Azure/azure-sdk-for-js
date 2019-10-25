@@ -20,3 +20,7 @@ export function uniqueString(): string {
         .toString()
         .slice(2);
 }
+
+export const testPollerProperties = {
+  intervalInMs: isRecording ? 2000 : 0
+};

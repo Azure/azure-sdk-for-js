@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../src";
 import { RestError, isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -58,7 +58,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -106,7 +107,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -138,7 +140,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create an EC key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -226,7 +229,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -241,7 +245,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can delete a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const poller = await client.beginDeleteKey(keyName);
+    const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
 
     try {
@@ -258,13 +262,15 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can delete a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await assertThrowsAbortError(async () => {
       await client.beginDeleteKey(keyName, {
+        ...testPollerProperties,
         requestOptions: {
           timeout: 1
         }
@@ -295,7 +301,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    if (!isNode || isPlayingBack) {
+      // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -321,7 +328,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can get a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const poller = await client.beginDeleteKey(keyName);
+    const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.equal(poller.getResult()!.name, keyName, "Unexpected key name in result from getKey().");
     await poller.pollUntilDone();
     const getResult = await poller.getResult();
@@ -333,7 +340,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      const poller = await client.beginDeleteKey(keyName);
+      const poller = await client.beginDeleteKey(keyName, testPollerProperties);
       await poller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
