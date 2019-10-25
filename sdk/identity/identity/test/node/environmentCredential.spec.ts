@@ -40,7 +40,7 @@ describe("EnvironmentCredential", function() {
 
     const mockHttpClient = new MockAuthHttpClient();
 
-    const credential = new EnvironmentCredential(mockHttpClient.identityClientOptions);
+    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await credential.getToken("scope");
 
     delete process.env.AZURE_TENANT_ID;
@@ -66,7 +66,7 @@ describe("EnvironmentCredential", function() {
 
     const mockHttpClient = new MockAuthHttpClient();
 
-    const credential = new EnvironmentCredential(mockHttpClient.identityClientOptions);
+    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await credential.getToken("scope");
 
     delete process.env.AZURE_TENANT_ID;
