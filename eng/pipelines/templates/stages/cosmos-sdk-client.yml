@@ -1,7 +1,6 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
-  DocArgs: not-specified
   RunUnitTests: false
 
 stages:
@@ -11,7 +10,6 @@ stages:
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
-          DocArgs: ${{parameters.DocArgs}}
 
       - template: ../jobs/archetype-sdk-integration.yml
         parameters:
