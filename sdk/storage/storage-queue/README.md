@@ -204,7 +204,7 @@ doesn't prevent other code from accessing peeked messages.
 
 ```javascript
 const peekQueueResponse = await queueClient.peekMessages();
-console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
+console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
 ```
 
 ### Processing a message
