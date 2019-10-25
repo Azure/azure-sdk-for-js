@@ -132,18 +132,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating the client
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeysClient, which will connect to the key vault.
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeyClient, which will connect to the key vault.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 // DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -156,7 +156,7 @@ const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our keys client and connect to the service
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 ```
 
 ## Examples
@@ -177,14 +177,14 @@ the same name already exists, then a new version of the key is created.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -210,14 +210,14 @@ parameters.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -246,14 +246,14 @@ An object with these attributes can be sent as the third parameter of
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -275,14 +275,14 @@ Attributes can also be updated to an existing key version with
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -304,14 +304,14 @@ are available.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -330,14 +330,14 @@ read, recovered or purged.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -377,14 +377,14 @@ calls until the key is deleted, or by waiting until the process is done:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -407,7 +407,7 @@ main();
 
 ### Iterating lists of keys
 
-Using the KeysClient, you can retrieve and iterate through all of the
+Using the KeyClient, you can retrieve and iterate through all of the
 keys in a Key Vault, as well as through all of the deleted keys and the
 versions of a specific key. The following API methods are available:
 
@@ -422,14 +422,14 @@ Which can be used as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -454,14 +454,14 @@ want to use, as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new KeysClient(url, credential);
+const client = new KeyClient(url, credential);
 
 const keyName = "MyKeyName";
 
@@ -487,26 +487,26 @@ async function main() {
 ## Cryptography
 
 This library also offers a set of cryptographic utilities available through
-`CryptographyClient`. Similar to the `KeysClient`, `CryptographyClient` will
+`CryptographyClient`. Similar to the `KeyClient`, `CryptographyClient` will
 connect to Azure Key Vault with the provided set of credentials. Once
 connected, `CryptographyClient` can encrypt, decrypt, sign, verify, wrap keys,
 and unwrap keys.
 
-We can next connect to the key vault service just as we do with the KeysClient.
+We can next connect to the key vault service just as we do with the KeyClient.
 We'll need to copy some settings from the key vault we are
 connecting to into our environment variables. Once they are in our environment,
 we can access them with the following code:
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   // Create or retrieve a key from the keyvault
@@ -526,14 +526,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -552,14 +552,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -578,14 +578,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -610,14 +610,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -636,14 +636,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -665,14 +665,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -696,14 +696,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
@@ -722,14 +722,14 @@ main();
 
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
-import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const keysClient = new KeysClient(url, credential);
+const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
