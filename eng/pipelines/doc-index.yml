@@ -44,7 +44,7 @@ jobs:
       - pwsh: |
           $(Build.BinariesDirectory)/docfx/docfx.exe build
         displayName: Build Doc Content
-        workingDirectory: $(Build.SourcesDirectory))/docfx_project/
+        workingDirectory: $(Build.SourcesDirectory)/docfx_project/
 
       - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
