@@ -98,7 +98,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   metadata?: Metadata;
   /**
    * Callback to receive events on the progress of upload operation.
-   *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -144,7 +144,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   conditions?: LeaseAccessConditions;
   /**
    * Callback to receive events on the progress of stage block operation.
-   *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobStageBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -173,7 +173,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -254,12 +254,6 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   abortSignal?: AbortSignalLike;
-  /**
-   * Conditions to meet when committing the block list.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobCommitBlockListOptions
-   */
   /**
    * Conditions to meet when committing block list.
    *
@@ -365,7 +359,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
   /**
    * Progress updater.
-   *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -407,7 +401,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Progress updater.
-   *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -1098,7 +1092,6 @@ export class BlockBlobClient extends BlobClient {
    *    parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream
-   * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
    * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
    * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
    *                                 positive correlation with max uploading concurrency. Default value is 5

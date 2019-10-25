@@ -9,9 +9,9 @@ Version: 12.0.0-preview.5
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
+- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
-- [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
 
 ## Key concepts
 
@@ -145,17 +145,17 @@ Use the constructor to create a instance of `BlobServiceClient`.
 
 - **Recommended way to instantiate a `BlobServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
 
-  Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app
+  Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
 
   - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user
 
-    - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+    - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
     - In the `API permissions` section, select `Add a permission` and choose `Microsoft APIs`.
     - Pick `Azure Storage` and select the checkbox next to `user_impersonation` and then click `Add permissions`. This would allow the application to access Azure Storage on behalf of the signed-in user.
 
   - Grant access to Azure Blob data with RBAC in the Azure Portal
 
-    - RBAC roles for blobs and queues - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal.
+    - RBAC roles for blobs and queues - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
     - In the azure portal, go to your storage-account and assign **Storage Blob Data Contributor** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your storage account in the azure-portal).
 
   - Environment setup for the sample
@@ -331,7 +331,7 @@ setLogLevel("info");
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 

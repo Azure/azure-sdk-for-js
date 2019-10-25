@@ -137,6 +137,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of upload pages operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof PageBlobUploadPagesOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;

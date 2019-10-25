@@ -108,8 +108,9 @@ export class BlobLeaseClient {
    *
    * @readonly
    * @memberof BlobLeaseClient
+   * @type {string}
    */
-  public get leaseId() {
+  public get leaseId(): string {
     return this._leaseId;
   }
 
@@ -118,8 +119,9 @@ export class BlobLeaseClient {
    *
    * @readonly
    * @memberof BlobLeaseClient
+   * @type {string}
    */
-  public get url() {
+  public get url(): string {
     return this._url;
   }
 
@@ -291,7 +293,6 @@ export class BlobLeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @static
-   * @param {(ContainerClient | BlobClient)} client
    * @param {number} breakPeriod Break period
    * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.

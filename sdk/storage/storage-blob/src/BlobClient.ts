@@ -1483,7 +1483,7 @@ export class BlobClient extends StorageClient {
    * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
    * @param {BlobSyncCopyFromURLOptions} [options={}]
    * @returns {Promise<BlobCopyFromURLResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async syncCopyFromURL(
     copySource: string,

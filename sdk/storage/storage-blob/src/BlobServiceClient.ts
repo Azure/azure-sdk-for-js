@@ -177,9 +177,8 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {ListContainersIncludeType} [includeMetadata] Specifies whether the container's metadata
-   *                                     should be returned as part of the response.
-   * body.
+   * @member {boolean} [includeMetadata] Specifies whether the container's metadata
+   *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
 }
@@ -367,7 +366,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Creates a ContainerClient object
    *
-   * @param containerName A container name
+   * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    */
@@ -583,12 +582,12 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
    * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of containers to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all containers remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
+   *                        the list of containers to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all containers remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
    * @returns {Promise<ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
@@ -624,12 +623,12 @@ export class BlobServiceClient extends StorageClient {
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of containers to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all containers remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
+   *                        the list of containers to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all containers remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
    * @returns {AsyncIterableIterator<ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
