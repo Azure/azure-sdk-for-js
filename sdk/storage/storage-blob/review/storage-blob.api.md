@@ -1750,7 +1750,6 @@ export const StorageOAuthScopes: string | string[];
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
-    // (undocumented)
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;

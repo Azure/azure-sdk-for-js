@@ -131,9 +131,12 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
+  /**
+   * Options to configure a proxy for outgoing requests.
+   */
   proxyOptions?: ProxyOptions;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options for adding user agent details to outgoing requests.
    *
    * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions

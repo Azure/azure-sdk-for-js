@@ -136,7 +136,7 @@ export interface StoragePipelineOptions {
    */
   proxyOptions?: ProxyOptions;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options for adding user agent details to outgoing requests.
    *
    * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
