@@ -9,7 +9,7 @@ import {
   RestError,
   TokenCredential
 } from "@azure/core-http";
-import { IdentityClient, IdentityClientOptions } from "../client/identityClient";
+import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -40,18 +40,18 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param options Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: IdentityClientOptions);
+  constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    * 
    * @param options Options for configuring the client which makes the access token request.
    */
-  constructor(options?: IdentityClientOptions);
+  constructor(options?: TokenCredentialOptions);
   /**
    * @internal
    * @ignore   
    */
-  constructor(clientIdOrOptions: string | IdentityClientOptions | undefined, options?: IdentityClientOptions) {
+  constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
 
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor

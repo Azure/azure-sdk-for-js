@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { IdentityClientOptions } from "../src";
+import { TokenCredentialOptions } from "../src";
 import { _setDelayTestFunction } from "../src/util/delay";
 import {
   HttpHeaders,
@@ -29,7 +29,7 @@ export class MockAuthHttpClient implements HttpClient {
   private currentResponse: number = 0;
   private mockTimeout: boolean;
 
-  public identityClientOptions: IdentityClientOptions;
+  public tokenCredentialOptions: TokenCredentialOptions;
   public requests: WebResource[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
@@ -55,7 +55,7 @@ export class MockAuthHttpClient implements HttpClient {
 
     this.mockTimeout = options.mockTimeout !== undefined ? options.mockTimeout : false;
 
-    this.identityClientOptions = {
+    this.tokenCredentialOptions = {
       authorityHost: "https://authority",
       httpClient: this,
       retryOptions: {

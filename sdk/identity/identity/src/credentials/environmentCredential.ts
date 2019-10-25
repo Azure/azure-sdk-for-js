@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { IdentityClientOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
@@ -33,7 +33,7 @@ export class EnvironmentCredential implements TokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: IdentityClientOptions) {
+  constructor(options?: TokenCredentialOptions) {
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
