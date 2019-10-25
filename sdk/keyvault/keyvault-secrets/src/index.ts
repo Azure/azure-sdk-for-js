@@ -211,18 +211,15 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     if (requestOptions) {
-      const unflattenedProperties = {
-        enabled: requestOptions.enabled,
-        notBefore: requestOptions.notBefore,
-        expires: requestOptions.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        secretAttributes: unflattenedProperties
+        ...remainingOptions,
+        secretAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("setSecret", unflattenedOptions);
 
@@ -318,18 +315,15 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     if (requestOptions) {
-      const unflattenedProperties = {
-        enabled: requestOptions.enabled,
-        notBefore: requestOptions.notBefore,
-        expires: requestOptions.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        secretAttributes: unflattenedProperties
+        ...remainingOptions,
+        secretAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("updateSecretProperties", unflattenedOptions);
 
@@ -628,7 +622,6 @@ export class SecretClient {
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties[]> {
-
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -669,11 +662,7 @@ export class SecretClient {
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
-    for await (const page of this.listPropertiesOfSecretVersionsPage(
-      secretName,
-      f,
-      options
-    )) {
+    for await (const page of this.listPropertiesOfSecretVersionsPage(secretName, f, options)) {
       for (const item of page) {
         yield item;
       }
