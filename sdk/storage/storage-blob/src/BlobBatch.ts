@@ -1,6 +1,5 @@
 import {
   BaseRequestPolicy,
-  deserializationPolicy,
   generateUuid,
   HttpHeaders,
   HttpOperationResponse,
@@ -10,7 +9,6 @@ import {
   WebResource,
   TokenCredential,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   isNode,
   PipelineOptions
 } from "@azure/core-http";
@@ -19,14 +17,12 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
-import { newPipeline } from "./Pipeline";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
 import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
-  HTTP_LINE_ENDING,
-  StorageOAuthScopes
+  HTTP_LINE_ENDING
 } from "./utils/constants";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { createSpan } from "./utils/tracing";
@@ -203,11 +199,7 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(
-            url,
-            credential,
-            this.batchRequest.createPipelineOptions(credential)
-          ).delete({
+          await new BlobClient(url, credential, this.batchRequest.createPipelineOptions()).delete({
             ...options,
             spanOptions
           });
@@ -326,7 +318,7 @@ export class BlobBatch {
           await new BlobClient(
             url,
             credential,
-            this.batchRequest.createPipelineOptions(credential)
+            this.batchRequest.createPipelineOptions()
           ).setAccessTier(tier, { ...options, spanOptions });
         }
       );
@@ -376,32 +368,21 @@ class InnerBatchRequest {
   }
 
   /**
-   * Create pipelineOptions to assemble sub requests. The idea here is to use exising
-   * credential and serialization/deserialization components, with additional policies to
+   * Create pipelineOptions to assemble sub requests. The idea here is to extend the
+   * default pipeline policies with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
-   * @param credential
    */
-  public createPipelineOptions(
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential
-  ): PipelineOptions {
-    const isAnonymousCreds = credential instanceof AnonymousCredential;
-    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
-    let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
-
-    factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
-    factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
-    if (!isAnonymousCreds) {
-      factories[2] = isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
-        : credential;
-    }
-    factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
-
+  public createPipelineOptions(): PipelineOptions {
     return {
       updatePipelinePolicies: (requestPolicyFactories) => {
-        // ADD THE NEW ONES!!!
-        return requestPolicyFactories;
+        return [
+          ...requestPolicyFactories,
+          // Use batch header filter policy to exclude unnecessary headers
+          new BatchHeaderFilterPolicyFactory(),
+          // Use batch assemble policy to assemble request and intercept request from going to wire
+          new BatchRequestAssemblePolicyFactory(this)
+        ];
       }
     };
   }
