@@ -94,7 +94,7 @@ describe("ContainerClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 
@@ -142,7 +142,7 @@ describe("ContainerClient Node.js only", () => {
   it("can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 

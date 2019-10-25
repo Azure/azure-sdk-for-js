@@ -90,7 +90,7 @@ describe("AppendBlobClient Node.js only", () => {
       blobName,
       {
         retryOptions: {
-          maxRetries: 5
+          maxTries: 5
         }
       }
     );

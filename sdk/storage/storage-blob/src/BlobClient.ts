@@ -5,7 +5,6 @@ import {
   isNode,
   TransferProgressEvent,
   TokenCredential,
-  PipelineOptions,
   getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -41,7 +40,7 @@ import {
   PremiumPageBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
@@ -733,7 +732,7 @@ export class BlobClient extends StorageClient {
   /**
    * Options used to configure the HTTP pipeline.
    */
-  protected pipelineOptions: PipelineOptions;
+  protected pipelineOptions: StoragePipelineOptions;
 
   /**
    *
@@ -747,14 +746,14 @@ export class BlobClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlobClient.
@@ -768,13 +767,13 @@ export class BlobClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   constructor(
     urlOrConnectionString: string,
@@ -783,12 +782,12 @@ export class BlobClient extends StorageClient {
       | SharedKeyCredential
       | AnonymousCredential
       | TokenCredential = new AnonymousCredential(),
-    blobNameOrOptions: string | PipelineOptions = {},
-    options: PipelineOptions = {}
+    blobNameOrOptions: string | StoragePipelineOptions = {},
+    options: StoragePipelineOptions = {}
   ) {
     let url: string;
     let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
-    let pipelineOptions: PipelineOptions;
+    let pipelineOptions: StoragePipelineOptions;
 
     if (
       credentialOrContainerName &&
@@ -796,7 +795,7 @@ export class BlobClient extends StorageClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrContainerName;
       const blobName = blobNameOrOptions;
       pipelineOptions = options;

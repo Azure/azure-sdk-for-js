@@ -15,12 +15,12 @@ import { CommonOptions, BlobDeleteOptions, BlobClient, BlobSetTierOptions } from
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
-import { HttpResponse, TokenCredential, PipelineOptions } from "@azure/core-http";
+import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { newPipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions } from "./Pipeline";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -74,7 +74,7 @@ export class BlobBatchClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {PipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof BlobBatchClient
    */
   constructor(
@@ -83,7 +83,7 @@ export class BlobBatchClient {
       | SharedKeyCredential
       | AnonymousCredential
       | TokenCredential = new AnonymousCredential(),
-    options: PipelineOptions = {}
+    options: StoragePipelineOptions = {}
   ) {
     const serviceOptions = newPipeline(credential, options);
 

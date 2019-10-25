@@ -8,8 +8,7 @@ import {
   HttpRequestBody,
   HttpResponse,
   TransferProgressEvent,
-  TokenCredential,
-  PipelineOptions
+  TokenCredential
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
@@ -50,6 +49,7 @@ import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { Batch } from "./utils/Batch";
 import { createSpan } from "./utils/tracing";
+import { StoragePipelineOptions } from "./Pipeline";
 
 /**
  * Options to configure Block Blob - Upload operation.
@@ -480,14 +480,14 @@ export class BlockBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -504,13 +504,13 @@ export class BlockBlobClient extends BlobClient {
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   constructor(
     urlOrConnectionString: string,
@@ -519,8 +519,8 @@ export class BlockBlobClient extends BlobClient {
       | SharedKeyCredential
       | AnonymousCredential
       | TokenCredential = new AnonymousCredential(),
-    blobNameOrOptions: string | PipelineOptions = {},
-    options: PipelineOptions = {}
+    blobNameOrOptions: string | StoragePipelineOptions = {},
+    options: StoragePipelineOptions = {}
   ) {
     if (
       credentialOrContainerName &&
@@ -528,7 +528,7 @@ export class BlockBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       super(urlOrConnectionString, credentialOrContainerName, blobNameOrOptions, options);
     } else if (
       typeof credentialOrContainerName !== "string" &&

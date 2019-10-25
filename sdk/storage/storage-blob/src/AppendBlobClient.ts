@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  HttpRequestBody,
-  TransferProgressEvent,
-  TokenCredential,
-  PipelineOptions
-} from "@azure/core-http";
+import { HttpRequestBody, TransferProgressEvent, TokenCredential } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
   BlobHTTPHeaders,
@@ -31,6 +26,7 @@ import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { rangeToString } from "./Range";
 import { createSpan } from "./utils/tracing";
+import { StoragePipelineOptions } from "./Pipeline";
 
 /**
  * Options to configure Append Blob - Create operation.
@@ -218,14 +214,14 @@ export class AppendBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -244,13 +240,13 @@ export class AppendBlobClient extends BlobClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   constructor(
     urlOrConnectionString: string,
@@ -259,8 +255,8 @@ export class AppendBlobClient extends BlobClient {
       | SharedKeyCredential
       | AnonymousCredential
       | TokenCredential = new AnonymousCredential(),
-    blobNameOrOptions: string | PipelineOptions = {},
-    options: PipelineOptions = {}
+    blobNameOrOptions: string | StoragePipelineOptions = {},
+    options: StoragePipelineOptions = {}
   ) {
     if (
       credentialOrContainerName &&
@@ -268,7 +264,7 @@ export class AppendBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       super(urlOrConnectionString, credentialOrContainerName, blobNameOrOptions, options);
     } else if (
       typeof credentialOrContainerName !== "string" &&

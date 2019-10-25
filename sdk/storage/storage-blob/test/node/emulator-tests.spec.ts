@@ -92,7 +92,7 @@ describe("Emulator Tests", () => {
   it("ContainerClient can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 

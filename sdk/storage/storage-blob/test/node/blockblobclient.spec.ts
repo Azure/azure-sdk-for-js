@@ -74,7 +74,7 @@ describe("BlockBlobClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 
@@ -116,7 +116,7 @@ describe("BlockBlobClient Node.js only", () => {
       blobName,
       {
         retryOptions: {
-          maxRetries: 5
+          maxTries: 5
         }
       }
     );

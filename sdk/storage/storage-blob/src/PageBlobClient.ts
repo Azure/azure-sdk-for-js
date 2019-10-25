@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  HttpRequestBody,
-  TransferProgressEvent,
-  TokenCredential,
-  PipelineOptions
-} from "@azure/core-http";
+import { HttpRequestBody, TransferProgressEvent, TokenCredential } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
@@ -43,6 +38,7 @@ import {
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
+import { StoragePipelineOptions } from "./Pipeline";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -403,14 +399,14 @@ export class PageBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -423,19 +419,19 @@ export class PageBlobClient extends BlobClient {
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   constructor(
     urlOrConnectionString: string,
     credentialOrContainerName: string | SharedKeyCredential | AnonymousCredential | TokenCredential,
-    blobNameOrOptions?: string | PipelineOptions,
-    options?: PipelineOptions
+    blobNameOrOptions?: string | StoragePipelineOptions,
+    options?: StoragePipelineOptions
   ) {
     if (
       credentialOrContainerName &&
@@ -443,7 +439,7 @@ export class PageBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       super(urlOrConnectionString, credentialOrContainerName, blobNameOrOptions, options);
     } else if (
       typeof credentialOrContainerName !== "string" &&

@@ -167,7 +167,7 @@ describe("PageBlobClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 
@@ -207,7 +207,7 @@ describe("PageBlobClient Node.js only", () => {
       blobName,
       {
         retryOptions: {
-          maxRetries: 5
+          maxTries: 5
         }
       }
     );

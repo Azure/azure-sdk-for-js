@@ -6,7 +6,6 @@ import {
   HttpResponse,
   TokenCredential,
   isNode,
-  PipelineOptions,
   getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -33,7 +32,7 @@ import {
 import { Container } from "./generated/src/operations";
 import { BlobRequestConditions, Metadata } from "./models";
 import { DevelopmentConnectionString } from "./utils/constants";
-import { newPipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
 import {
   appendToURLPath,
@@ -507,7 +506,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Options used to configure the HTTP pipeline.
    */
-  protected pipelineOptions: PipelineOptions;
+  protected pipelineOptions: StoragePipelineOptions;
 
   /**
    *
@@ -520,10 +519,10 @@ export class ContainerClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(connectionString: string, containerName: string, options?: PipelineOptions);
+  constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -541,13 +540,13 @@ export class ContainerClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: PipelineOptions
+    options?: StoragePipelineOptions
   );
   constructor(
     urlOrConnectionString: string,
@@ -556,13 +555,13 @@ export class ContainerClient extends StorageClient {
       | SharedKeyCredential
       | AnonymousCredential
       | TokenCredential = new AnonymousCredential(),
-    options: PipelineOptions = {}
+    options: StoragePipelineOptions = {}
   ) {
     let url: string;
     let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
 
     if (typeof credentialOrContainerName === "string") {
-      // (connectionString: string, containerName: string, options?: PipelineOptions)
+      // (connectionString: string, containerName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrContainerName;
 
       if (!containerName) {

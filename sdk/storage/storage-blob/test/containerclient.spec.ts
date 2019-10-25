@@ -626,7 +626,7 @@ describe("ContainerClient", () => {
   it("can be created with a sas connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 

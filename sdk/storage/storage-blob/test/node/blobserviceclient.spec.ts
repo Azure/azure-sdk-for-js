@@ -37,7 +37,7 @@ describe("BlobServiceClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential, {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 
@@ -61,7 +61,7 @@ describe("BlobServiceClient Node.js only", () => {
   it("can be created from a connection string and an option bag", async () => {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
       retryOptions: {
-        maxRetries: 5
+        maxTries: 5
       }
     });
 
