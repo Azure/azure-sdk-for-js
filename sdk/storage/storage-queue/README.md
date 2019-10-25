@@ -203,7 +203,7 @@ console.log(
 
 ### Peek a message
 
-`MessagesClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
+`QueueClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
