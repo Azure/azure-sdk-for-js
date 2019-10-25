@@ -11,7 +11,7 @@ npm install @azure/event-hubs@next
 
 ## Get connection string & Event Hubs name
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Event Hubs > _your-eventhubs-namespace_**.
-- If you don't have a Event Hubs resource you can create one using the Azure portal:
+- If you don't have an Event Hubs resource you can create one using the Azure portal:
   - [Azure Event Hubs - NodeJS DOCS](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-node-get-started-send).
   - [Azure IoT Hubs - NodeJS DOCS](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-node-node-module-twin-getstarted).
 - Note the "Primary Connection String" of **RootManageSharedAccessKey** at **Shared access policies** under **Settings** tab.
