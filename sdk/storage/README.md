@@ -259,7 +259,7 @@ async function main() {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
   // Passing the continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: result.continuationToken, maxPageSize: 10 });
+  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {
