@@ -115,18 +115,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating the client
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and CertificatesClient, which will connect to the key vault.
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and CertificateClient, which will connect to the key vault.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 // DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -139,7 +139,7 @@ const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our certificates client and connect to the service
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 ```
 
 ## Examples
@@ -162,14 +162,14 @@ certificate is created.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -189,14 +189,14 @@ Besides the name of the certificate, you can also pass the following attributes:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
@@ -236,14 +236,14 @@ the certificate's policy.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -263,14 +263,14 @@ main();
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -289,14 +289,14 @@ main();
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 async function main() {
   for await (let listedCertificate of client.listCertificates()) {
@@ -314,14 +314,14 @@ The certificate attributes can be updated to an existing certificate version wit
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -347,14 +347,14 @@ The certificate's policy can also be updated individually with `updateCertificat
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -380,14 +380,14 @@ read, recovered or purged.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -411,7 +411,7 @@ available to be read, recovered or purged.
 
 ### Iterating lists of certificates
 
-Using the CertificatesClient, you can retrieve and iterate through all of the
+Using the CertificateClient, you can retrieve and iterate through all of the
 certificates in a Certificate Vault, as well as through all of the deleted certificates and the
 versions of a specific certificate. The following API methods are available:
 
@@ -426,14 +426,14 @@ Which can be used as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
@@ -458,14 +458,14 @@ want to use, as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificatesClient } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificatesClient(url, credential);
+const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
