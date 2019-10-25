@@ -1,389 +1,344 @@
 import * as assert from "assert";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { QueueClient } from "../src/QueueClient";
-import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { extractConnectionStringParts } from "../src/utils/utils.common";
+import { QueueServiceClient } from "../src/QueueServiceClient";
+import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
-describe("QueueClient message methods", () => {
-  const queueServiceClient = getQSU();
-  let queueName: string;
-  let queueClient: QueueClient;
-  const messageContent = "Hello World";
-
+describe("QueueServiceClient", () => {
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
-    queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.getQueueClient(queueName);
-    await queueClient.create();
   });
 
-  afterEach(async function() {
-    await queueClient.delete();
+  afterEach(function() {
     recorder.stop();
   });
 
-  it("enqueue, peek, dequeue and clear message with default parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
+  it("listQueues with default parameters", async () => {
+    const queueServiceClient = getQSU();
+    const result = (await queueServiceClient
+      .listQueues()
+      .byPage()
+      .next()).value;
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
 
-    await queueClient.sendMessage(messageContent);
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.queueItems!.length >= 0);
 
-    let pResult = await queueClient.peekMessages();
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-
-    let dqResult = await queueClient.receiveMessages();
-    assert.ok(dqResult.date);
-    assert.ok(dqResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(dqResult.version);
-    assert.deepStrictEqual(dqResult.receivedMessageItems.length, 1);
-    assert.ok(dqResult.receivedMessageItems[0].popReceipt);
-    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageId, eResult.messageId);
-
-    let cResult = await queueClient.clearMessages();
-    assert.ok(cResult.date);
-    assert.ok(cResult.requestId);
-    assert.ok(eResult.clientRequestId);
-    assert.ok(cResult.version);
-
-    // check all messages are cleared
-    let pResult2 = await queueClient.peekMessages();
-    assert.ok(pResult2.date);
-    assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
-  });
-
-  it("enqueue, peek, dequeue and clear message with all parameters", async () => {
-    let eResult = await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 40,
-      visibilityTimeout: 0
-    });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
-
-    let eResult2 = await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 40,
-      visibilityTimeout: 0
-    });
-    await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 10,
-      visibilityTimeout: 5
-    });
-    await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 20,
-      visibilityTimeout: 19
-    });
-
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 2);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
-
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageId, eResult2.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].insertedOn, eResult2.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].expiresOn, eResult2.expiresOn);
-
-    let dResult = await queueClient.receiveMessages({
-      visibilityTimeout: 10,
-      numberOfMessages: 2
-    });
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.receivedMessageItems.length, 2);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.receivedMessageItems[0].popReceipt);
-    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
-
-    assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
-
-    // check no message is visible
-    let pResult2 = await queueClient.peekMessages();
-    assert.ok(pResult2.date);
-    assert.deepStrictEqual(pResult2.peekedMessageItems.length, 0);
-  });
-
-  it("enqueue, peek, dequeue empty message, and peek, dequeue with numberOfMessages > count(messages)", async () => {
-    let eResult = await queueClient.sendMessage("", {
-      messageTimeToLive: 40,
-      visibilityTimeout: 0
-    });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
-
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, "");
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
-
-    let dResult = await queueClient.receiveMessages({
-      visibilityTimeout: 10,
-      numberOfMessages: 2
-    });
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, "");
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.receivedMessageItems[0].popReceipt);
-    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
-  });
-
-  it("enqueue, peek, dequeue special characters", async () => {
-    let specialMessage =
-      "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦\u00E9";
-
-    let eResult = await queueClient.sendMessage(specialMessage, {
-      messageTimeToLive: 40,
-      visibilityTimeout: 0
-    });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
-
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, specialMessage);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
-
-    let dResult = await queueClient.receiveMessages({
-      visibilityTimeout: 10,
-      numberOfMessages: 2
-    });
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, specialMessage);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.receivedMessageItems[0].popReceipt);
-    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
-  });
-
-  it("enqueue, peek, dequeue with 64KB characters size which is computed after encoding", async () => {
-    let messageContent = new Array(64 * 1024 + 1).join("a");
-
-    let eResult = await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 40,
-      visibilityTimeout: 0
-    });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
-
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
-
-    let dResult = await queueClient.receiveMessages({
-      visibilityTimeout: 10,
-      numberOfMessages: 2
-    });
-    assert.ok(dResult.date);
-    assert.ok(dResult.requestId);
-    assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.receivedMessageItems[0].popReceipt);
-    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
-  });
-
-  it("enqueue, peek and dequeue negative", async () => {
-    let eResult = await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 40
-    });
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.nextVisibleOn);
-    assert.ok(eResult.version);
-
-    let error;
-    try {
-      await queueClient.sendMessage(messageContent, {
-        messageTimeToLive: 30,
-        visibilityTimeout: 30
-      });
-    } catch (err) {
-      error = err;
+    if (result.queueItems!.length > 0) {
+      const queue = result.queueItems![0];
+      assert.ok(queue.name.length > 0);
     }
-    assert.ok(error);
+  });
 
-    let errorPeek;
-    try {
-      await queueClient.peekMessages({ numberOfMessages: 100 });
-    } catch (err) {
-      errorPeek = err;
+  it("listQueues with all parameters", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    const result1 = (await queueServiceClient
+      .listQueues({
+        includeMetadata: true,
+        prefix: queueNamePrefix
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
+
+    assert.ok(result1.continuationToken);
+    assert.equal(result1.queueItems!.length, 1);
+    assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
+    assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
+
+    const result2 = (await queueServiceClient
+      .listQueues({
+        includeMetadata: true,
+        prefix: queueNamePrefix
+      })
+      .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
+      .next()).value;
+
+    assert.ok(!result2.continuationToken);
+    assert.equal(result2.queueItems!.length, 1);
+    assert.ok(result2.queueItems![0].name.startsWith(queueNamePrefix));
+    assert.deepEqual(result2.queueItems![0].metadata!.key, "val");
+
+    await queueClient1.delete();
+    await queueClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator for listQueues", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    for await (const item of queueServiceClient.listQueues({
+      includeMetadata: true,
+      prefix: queueNamePrefix
+    })) {
+      assert.ok(item.name.startsWith(queueNamePrefix));
+      assert.deepEqual(item.metadata!.key, "val");
     }
-    assert.ok(errorPeek);
 
-    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
-    assert.ok(pResult.date);
-    assert.ok(pResult.requestId);
-    assert.ok(pResult.version);
-    assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
+    await queueClient1.delete();
+    await queueClient2.delete();
+  });
 
-    // Note visibility time could be larger then message time to live for dequeue.
-    await queueClient.receiveMessages({
-      visibilityTimeout: 40,
-      numberOfMessages: 2
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listQueues", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    let iter1 = await queueServiceClient.listQueues({
+      includeMetadata: true,
+      prefix: queueNamePrefix
     });
+    let queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    await queueClient1.delete();
+    await queueClient2.delete();
   });
 
-  it("enqueue negative with 65537B(64KB+1B) characters size which is computed after encoding", async () => {
-    let messageContent = new Array(64 * 1024 + 2).join("a");
+  it("Verify PagedAsyncIterableIterator(byPage()) for listQueues", async () => {
+    const queueClients = [];
+    const queueServiceClient = getQSU();
+    const queueNamePrefix = recorder.getUniqueName("queue");
 
-    let error;
-    try {
-      await queueClient.sendMessage(messageContent, {});
-    } catch (err) {
-      error = err;
+    for (let i = 0; i < 4; i++) {
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
+      await queueClient.create({ metadata: { key: "val" } });
+      queueClients.push(queueClient);
     }
-    assert.ok(error);
-    assert.ok(
-      error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
-    );
-  });
 
-  it("can be created with a sas connection string and a queue name", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
-
-    const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-  });
-
-  it("can be created with a sas connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
-      retryOptions: {
-        maxTries: 5
+    for await (const response of queueServiceClient
+      .listQueues({
+        includeMetadata: true,
+        prefix: queueNamePrefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const queueItem of response.queueItems!) {
+        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.deepEqual(queueItem.metadata!.key, "val");
       }
-    });
+    }
 
-    const eResult = await newClient.sendMessage(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expiresOn);
-    assert.ok(eResult.insertedOn);
-    assert.ok(eResult.messageId);
-    assert.ok(eResult.popReceipt);
-  });
-
-  it("throws error if constructor queueName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new QueueClient(getSASConnectionStringFromEnvironment(), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for queueName parameter",
-        error.message,
-        "Error message is different than expected."
-      );
+    for (const queueClient of queueClients) {
+      await queueClient.delete();
     }
   });
 
-  it("verify queueName passed to the client", async () => {
-    const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url +
-        "/" +
-        queueName +
-        "/messages/"
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listQueues", async () => {
+    const queueClients = [];
+    const queueServiceClient = getQSU();
+    const queueNamePrefix = recorder.getUniqueName("queue");
+
+    for (let i = 0; i < 4; i++) {
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
+      await queueClient.create({ metadata: { key: "val" } });
+      queueClients.push(queueClient);
+    }
+
+    let iter = queueServiceClient
+      .listQueues({
+        includeMetadata: true,
+        prefix: queueNamePrefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let item = (await iter.next()).value;
+    // Gets 2 queues
+    if (item.queueItems) {
+      for (const queueItem of item.queueItems) {
+        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.deepEqual(queueItem.metadata!.key, "val");
+      }
+    }
+    // Gets next marker
+    let marker = item.continuationToken;
+    // Passing next marker as continuationToken
+    iter = queueServiceClient
+      .listQueues({
+        includeMetadata: true,
+        prefix: queueNamePrefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 10 });
+    item = (await iter.next()).value;
+    // Gets 2 queues
+    for (const queueItem of item.queueItems!) {
+      assert.ok(queueItem.name.startsWith(queueNamePrefix));
+      assert.deepEqual(queueItem.metadata!.key, "val");
+    }
+
+    for (const queueClient of queueClients) {
+      await queueClient.delete();
+    }
+  });
+
+  it("getProperties with default/all parameters", async () => {
+    const queueServiceClient = getQSU();
+    const result = await queueServiceClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+
+    if (result.cors && result.cors!.length > 0) {
+      assert.ok(result.cors![0].allowedHeaders.length > 0);
+      assert.ok(result.cors![0].allowedMethods.length > 0);
+      assert.ok(result.cors![0].allowedOrigins.length > 0);
+      assert.ok(result.cors![0].exposedHeaders.length > 0);
+      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+    }
+  });
+
+  it("setProperties with all parameters", async () => {
+    const queueServiceClient = getQSU();
+
+    const serviceProperties = await queueServiceClient.getProperties();
+
+    serviceProperties.queueAnalyticsLogging = {
+      deleteProperty: true,
+      read: true,
+      retentionPolicy: {
+        days: 5,
+        enabled: true
+      },
+      version: "1.0",
+      write: true
+    };
+
+    serviceProperties.minuteMetrics = {
+      enabled: true,
+      includeAPIs: true,
+      retentionPolicy: {
+        days: 4,
+        enabled: true
+      },
+      version: "1.0"
+    };
+
+    serviceProperties.hourMetrics = {
+      enabled: true,
+      includeAPIs: true,
+      retentionPolicy: {
+        days: 3,
+        enabled: true
+      },
+      version: "1.0"
+    };
+
+    const newCORS = {
+      allowedHeaders: "*",
+      allowedMethods: "GET",
+      allowedOrigins: "example.com",
+      exposedHeaders: "*",
+      maxAgeInSeconds: 8888
+    };
+    if (!serviceProperties.cors) {
+      serviceProperties.cors = [newCORS];
+    } else if (serviceProperties.cors!.length < 5) {
+      serviceProperties.cors.push(newCORS);
+    }
+
+    await queueServiceClient.setProperties(serviceProperties);
+    await delay(5 * 1000);
+
+    const result = await queueServiceClient.getProperties();
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+    assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
+  });
+
+  it("getStatistics with default/all parameters secondary", (done) => {
+    let queueServiceClient: QueueServiceClient | undefined;
+    try {
+      queueServiceClient = getAlternateQSU();
+    } catch (err) {
+      done();
+      return;
+    }
+
+    queueServiceClient!
+      .getStatistics()
+      .then((result) => {
+        assert.ok(result.geoReplication!.lastSyncOn);
+        done();
+      })
+      .catch(done);
+  });
+
+  it("can be created from a sas connection string", async () => {
+    const newClient = QueueServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment()
     );
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+  });
+
+  it("can create and delete a queue", async () => {
+    const queueServiceClient = getQSU();
+    const queueName = recorder.getUniqueName("queue");
+
+    // creates a queue
+    await queueServiceClient.createQueue(queueName);
+    const metadata = {
+      key0: "val0",
+      keya: "vala"
+    };
+    await queueServiceClient.getQueueClient(queueName).setMetadata(metadata);
+
+    const result = await getQSU()
+      .getQueueClient(queueName)
+      .getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    // deletes the queue
+    await queueServiceClient.deleteQueue(queueName);
+
+    let err;
+    try {
+      await queueServiceClient.getQueueClient(queueName).getProperties();
+    } catch (error) {
+      err = error;
+    }
+    assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
+    assert.ok(err.message.includes("QueueNotFound"), "Error doesn't say `QueueNotFound`");
   });
 });
