@@ -55,12 +55,8 @@ jobs:
       - pwsh: |
           $folder = "${{parameters.ServiceDirectory}}"
           if ($folder -eq "*") { $folder = "" }
-          echo "##vso[task.setvariable variable=folder;isOutput=true]this is the value"
+          echo "##vso[task.setvariable variable=folder]$folder"
         displayName: "Set folder variable for readme links"
-
-      - pwsh: |
-          echo "Folder = $(folder)"
-        displayName: check folder value
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
         parameters:
