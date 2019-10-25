@@ -105,7 +105,12 @@ To understand what partitions are available, you query the Event Hub using the c
 const { EventHubClient } = require("@azure/event-hubs");
 
 const client = new EventHubCLient("connectionString", "eventHubName");
-const partitionIds = await client.getPartitionIds();
+
+async function main() {
+  const partitionIds = await client.getPartitionIds();
+}
+
+main();
 ```
 
 ### Publish events to an Event Hub
@@ -121,8 +126,13 @@ const { EventHubClient } = require("@azure/event-hubs");
 
 const client = new EventHubClient("connectionString", "eventHubName");
 const producer = client.createProducer();
-await producer.send({ body: "my-event-body" });
-await producer.send([{ body: "foo" }, { body: "bar" }]);
+
+async function main() {
+  await producer.send({ body: "my-event-body" });
+  await producer.send([{ body: "foo" }, { body: "bar" }]);
+}
+
+main();
 ```
 
 #### Send a batch of events
@@ -137,10 +147,15 @@ const { EventHubClient } = require("@azure/event-hubs");
 
 const client = new EventHubClient("connectionString", "eventHubName");
 const producer = client.createProducer();
-const eventDataBatch = await producer.createBatch();
-let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
-wasAdded = eventDataBatch.tryAdd({ body: "my-event-body-2" });
-await producer.send(eventDataBatch);
+
+async function main() {
+  const eventDataBatch = await producer.createBatch();
+  let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+  wasAdded = eventDataBatch.tryAdd({ body: "my-event-body-2" });
+  await producer.send(eventDataBatch);
+}
+
+main();
 ```
 
 The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids should you wish to specify one for a producer.
@@ -159,6 +174,8 @@ For example: `body: { "message": "Hello World" }`
 To consume events from a single Event Hub partition in a consumer group, create an `EventHubConsumer` for that partition and consumer group combination. You will need to provide a position in the event stream from where to begin receiving events; in our example, we will read new events as they are published.
 
 ```javascript
+const { EventHubClient } = require("@azure/event-hubs");
+
 const client = new EventHubClient("connectionString", "eventHubName");
 
 const consumer = client.createConsumer(
@@ -185,8 +202,23 @@ Use the [receiveBatch](https://azure.github.io/azure-sdk-for-js/event-hubs/class
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
+const { EventHubClient } = require("@azure/event-hubs");
+
+const client = new EventHubClient("connectionString", "eventHubName");
+
+const consumer = client.createConsumer(
+  EventHubClient.defaultConsumerGroupName,
+  partitionIds[0],
+  EventPosition.latest()
+);
+
 const maxMessageCount = 10;
-const myEvents = await consumer.receiveBatch(maxMessageCount);
+
+async function main() {
+  const myEvents = await consumer.receiveBatch(maxMessageCount);
+}
+
+main();
 ```
 
 #### Register event handler
@@ -196,6 +228,16 @@ Use the [receive](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/ev
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
+const { EventHubClient } = require("@azure/event-hubs");
+
+const client = new EventHubClient("connectionString", "eventHubName");
+
+const consumer = client.createConsumer(
+  EventHubClient.defaultConsumerGroupName,
+  partitionIds[0],
+  EventPosition.latest()
+);
+
 const myEventHandler = (event) => {
   // your code here
 };
@@ -205,7 +247,9 @@ const myErrorHandler = (error) => {
 const receiveHandler = consumer.receive(myEventHandler, myErrorHandler);
 
 // When ready to stop receiving
-await receiveHandler.stop();
+receiveHandler.stop().catch((error) => {
+  console.error("Failed to stop receiving events:", error);
+});
 ```
 
 #### Use async iterator
@@ -215,9 +259,23 @@ Use the [getMessageIterator](https://azure.github.io/azure-sdk-for-js/event-hubs
 This function takes an optional [EventIteratorOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventiteratoroptions.html) parameter that includes `abortSignal` to cancel the current operation.
 
 ```javascript
-for await (const events of consumer.getEventIterator()){
-  // your code here
+const { EventHubClient } = require("@azure/event-hubs");
+
+const client = new EventHubClient("connectionString", "eventHubName");
+
+const consumer = client.createConsumer(
+  EventHubClient.defaultConsumerGroupName,
+  partitionIds[0],
+  EventPosition.latest()
+);
+
+async function main() {
+  for await (const events of consumer.getEventIterator()){
+    // your code here
+  }
 }
+
+main();
 ```
 
 ### Consume events using an Event Processor
@@ -245,6 +303,8 @@ In the below example, we create two instances of EventProcessor against the same
 using an `InMemoryPartitionManager`.
 
 ```javascript
+const { EventHubClient, EventProcessor, InMemoryPartitionManager } = require("@azure/event-hubs");
+
 // Your Partition Processor where you override the `processEvents` method to include your
 // business logic for processing events.
 // You may choose to also override other methods like `initialize`, `close`, `processError` as you see fit
@@ -274,16 +334,21 @@ const processor2 = new EventProcessor(
   SamplePartitionProcessor,
   partitionManager
 );
-await processor1.start();
-await processor2.start();
-// At this point, both processors are consuming events from different partitions of the Event Hub and
-// delegating them to the SamplePartitionProcessor instance created for that partition.
-// This processing takes place in the background and will not block.
-//
-// In this example, we'll stop processing after thirty seconds.
-await delay(30000);
-await processor1.stop();
-await processor2.stop();
+
+async function main() {
+  await processor1.start();
+  await processor2.start();
+  // At this point, both processors are consuming events from different partitions of the Event Hub and
+  // delegating them to the SamplePartitionProcessor instance created for that partition.
+  // This processing takes place in the background and will not block.
+  //
+  // In this example, we'll stop processing after thirty seconds.
+  await delay(30000);
+  await processor1.stop();
+  await processor2.stop();
+}
+
+main()
 ```
 
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
@@ -301,6 +366,8 @@ hence sending events is not possible.
   e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 
 ```javascript
+const { EventHubClient } = require("@azure/event-hubs");
+
 const client = new EventHubClient(
   "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 );
