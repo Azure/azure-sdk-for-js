@@ -894,7 +894,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      const associatedLinkName = this._getAssociatedReceiverName(this._context);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
