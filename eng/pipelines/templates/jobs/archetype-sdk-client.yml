@@ -52,9 +52,15 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
+      - pwsh: |
+          $folder = "${{parameters.ServiceDirectory}}"
+          if ($folder -eq "*") { $folder = "" }
+          echo "##vso[task.setvariable variable=folder;isOutput=true]this is the $(folder) value"
+        displayName: "Set folder variable for readme links"
+
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
         parameters:
-          TargetFolder: $(Build.SourcesDirectory)/sdk/${{parameters.ServiceDirectory}}
+          TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
           RootFolder: $(Build.SourcesDirectory)
           BuildSHA: $(Build.SourceVersion)
           RepoId: "Azure/azure-sdk-for-js"
