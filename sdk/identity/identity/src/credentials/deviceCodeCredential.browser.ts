@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { DeviceCodePromptCallback } from './deviceCodeCredential';
-import { IdentityClientOptions } from '../client/identityClient';
+import { TokenCredentialOptions } from '../client/identityClient';
 
 const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
 
@@ -14,7 +14,7 @@ export class DeviceCodeCredential implements TokenCredential {
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     throw BrowserNotSupportedError;
   }

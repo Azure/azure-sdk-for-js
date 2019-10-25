@@ -15,7 +15,7 @@ pr:
       - sdk/servicebus/service-bus/
       - sdk/storage/storage-blob/
       - sdk/storage/storage-datalake/
-      - sdk/storage/storage-file/
+      - sdk/storage/storage-file-share/
       - sdk/storage/storage-queue/
       - sdk/template/template/
 

@@ -16,6 +16,8 @@ import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { ProxySettings } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
@@ -245,6 +247,26 @@ export type BlobBatchSubmitBatchResponse = ParsedBatchResponse & ServiceSubmitBa
 };
 
 // @public
+export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
+    intervalInMs?: number;
+    onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
+    resumeFrom?: string;
+}
+
+// @public
+export interface BlobBeginCopyFromUrlPollState extends PollOperationState<BlobBeginCopyFromURLResponse> {
+    readonly blobClient: CopyPollerBlobClient;
+    copyId?: string;
+    copyProgress?: string;
+    copySource: string;
+    readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
+}
+
+// @public
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {
+}
+
+// @public
 export interface BlobBreakLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
@@ -264,12 +286,14 @@ export class BlobClient extends StorageClient {
     constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     // (undocumented)
     readonly containerName: string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -282,7 +306,6 @@ export class BlobClient extends StorageClient {
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
-    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobStartCopyFromURLResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
@@ -1085,6 +1108,11 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
 };
 
 // @public
+export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
+    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobBeginCopyFromURLResponse>;
+};
+
+// @public
 export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 // @public
@@ -1439,7 +1467,11 @@ export interface PipelineOptions {
     logger?: IHttpPipelineLogger;
 }
 
-// @public
+export { PollerLike }
+
+export { PollOperationState }
+
+// @public (undocumented)
 export enum PremiumPageBlobTier {
     // (undocumented)
     P10 = "P10",

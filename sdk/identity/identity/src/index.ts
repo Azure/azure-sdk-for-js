@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
-export { IdentityClientOptions } from "./client/identityClient";
+export { TokenCredentialOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";

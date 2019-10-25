@@ -1,14 +1,12 @@
 import * as corehttp from "@azure/core-http";
 import * as lib from "../src/index";
-
 // another node built-in that has to be shimmed for the browser
 import assert from "assert";
 
 let debug = false;
 let testOnInternalServer = false;
-
 const serverBase = "https://api.cognitive.microsoft.com";
-const apiKey = "[Fill your api key here]";
+const apiKey = process.env['INKRECOGNIZER_API_KEY'];
 
 describe("InkRecognizerClient Creation Error test", () => {
   it("1. should throw error with missing version", async () => {

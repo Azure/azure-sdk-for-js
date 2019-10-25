@@ -63,6 +63,55 @@ import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import { createSpan } from "./utils/tracing";
+import {
+  BlobBeginCopyFromUrlPoller,
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient
+} from "./pollers/BlobStartCopyFromUrlPoller";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+
+/**
+ * Options to configure Blob - Begin Copy from URL operation.
+ *
+ * @export
+ * @interface BlobBeginCopyFromURLOptions
+ */
+export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
+  /**
+   * The amount of time in milliseconds the poller should wait between
+   * calls to the service to determine the status of the Blob copy.
+   * Defaults to 15 seconds.
+   *
+   * @type {number}
+   * @memberof BlobBeginCopyFromURLOptions
+   */
+  intervalInMs?: number;
+  /**
+   * Callback to receive the state of the copy progress.
+   *
+   * @memberof BlobBeginCopyFromURLOptions
+   */
+  onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
+  /**
+   * Serialized poller state that can be used to resume polling from.
+   * This may be useful when starting a copy on one process or thread
+   * and you wish to continue polling on another process or thread.
+   *
+   * To get serialized poller state, call `poller.toString()` on an existing
+   * poller.
+   *
+   * @memberof BlobBeginCopyFromURLOptions
+   */
+  resumeFrom?: string;
+}
+
+/**
+ * Contains response data for the beginCopyFromURL operation.
+ *
+ * @export
+ * @interface BlobBeginCopyFromURLResponse
+ */
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
  * Options to configure Blob - Download operation.
@@ -1302,6 +1351,10 @@ export class BlobClient extends StorageClient {
 
   /**
    * Asynchronously copies a blob to a destination within the storage account.
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
    * Beginning with version 2015-02-21, the source for a Copy Blob operation can be
@@ -1310,44 +1363,82 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {string} copySource url to the ource Azure Blob/File.
-   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
-   * @returns {Promise<BlobStartCopyFromURLResponse>}
-   * @memberof BlobClient
+   * Example usage of automatic polling:
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url');
+   * const result = await copyPoller.pollUntilDone();
+   * ```
+   *
+   * Example usage of manual polling:
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url');
+   * while (!poller.isDone()) {
+   *    await poller.poll();
+   * }
+   * const result = copyPoller.getResult();
+   * ```
+   *
+   * Example usage of progress updates:
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url', {
+   *   onProgress(state) {
+   *     console.log(`Progress: ${state.copyProgress}`);
+   *   }
+   * });
+   * const result = await copyPoller.pollUntilDone();
+   * ```
+   *
+   * Example usage of changing polling interval (default 15 seconds):
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url', {
+   *   intervalInMs: 1000 // poll blob every 1 second for copy progress
+   * });
+   * const result = await copyPoller.pollUntilDone();
+   * ```
+   *
+   * Example usage of copy cancellation:
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url');
+   * // cancel operation after starting it.
+   * try {
+   *   await copyPoller.cancelOperation();
+   *   // calls to get the result now throw PollerCancelledError
+   *   await copyPoller.getResult();
+   * } catch (err) {
+   *   if (err.name === 'PollerCancelledError') {
+   *     console.log('The copy was cancelled.');
+   *   }
+   * }
+   * ```
+   *
+   * @param {string} copySource url to the source Azure Blob/File.
+   * @param {BlobBeginCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
    */
-  public async startCopyFromURL(
+  public async beginCopyFromURL(
     copySource: string,
-    options: BlobStartCopyFromURLOptions = {}
-  ): Promise<BlobStartCopyFromURLResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.spanOptions);
-    options.conditions = options.conditions || {};
-    options.sourceConditions = options.sourceConditions || {};
+    options: BlobBeginCopyFromURLOptions = {}
+  ): Promise<
+    PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>
+  > {
+    const client: CopyPollerBlobClient = {
+      abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
+      getProperties: (...args) => this.getProperties(...args),
+      startCopyFromURL: (...args) => this.startCopyFromURL(...args)
+    };
+    const poller = new BlobBeginCopyFromUrlPoller({
+      blobClient: client,
+      copySource,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      startCopyFromURLOptions: options
+    });
 
-    try {
-      return this.blobContext.startCopyFromURL(copySource, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
-        },
-        rehydratePriority: options.rehydratePriority,
-        tier: toAccessTier(options.tier),
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    // Trigger the startCopyFromURL call by calling poll.
+    // Any errors from this method should be surfaced to the user.
+    await poller.poll();
+
+    return poller;
   }
 
   /**
@@ -1467,7 +1558,25 @@ export class BlobClient extends StorageClient {
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Downloads an Azure Blob in parallel to a buffer.
-   * Offset and count are optional, pass 0 for both to download the entire blob.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
+   *
+   * @export
+   * @param {number} offset From which position of the block blob to download(in bytes)
+   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
+   * @returns {Promise<Buffer>}
+   */
+  public async downloadToBuffer(
+    offset?: number,
+    count?: number,
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob in parallel to a buffer.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
@@ -1478,10 +1587,30 @@ export class BlobClient extends StorageClient {
    */
   public async downloadToBuffer(
     buffer: Buffer,
-    offset: number,
+    offset?: number,
     count?: number,
-    options: BlobDownloadToBufferOptions = {}
-  ): Promise<Buffer> {
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  public async downloadToBuffer(
+    param1?: Buffer | number,
+    param2?: number,
+    param3?: BlobDownloadToBufferOptions | number,
+    param4: BlobDownloadToBufferOptions = {}
+  ) {
+    let buffer: Buffer | undefined;
+    let offset = 0;
+    let count = 0;
+    let options = param4;
+    if (param1 instanceof Buffer) {
+      buffer = param1;
+      offset = param2 || 0;
+      count = typeof param3 === "number" ? param3 : 0;
+    } else {
+      offset = typeof param1 === "number" ? param1 : 0;
+      count = typeof param2 === "number" ? param2 : 0;
+      options = (param3 as BlobDownloadToBufferOptions) || {};
+    }
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1521,6 +1650,17 @@ export class BlobClient extends StorageClient {
         }
       }
 
+      // Allocate the buffer of size = count if the buffer is not provided
+      if (!buffer) {
+        try {
+          buffer = Buffer.alloc(count);
+        } catch (error) {
+          throw new Error(
+            `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
+          );
+        }
+      }
+
       if (buffer.length < count) {
         throw new RangeError(
           `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
@@ -1543,7 +1683,7 @@ export class BlobClient extends StorageClient {
             spanOptions
           });
           const stream = response.readableStreamBody!;
-          await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+          await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
           // Update progress after block is downloaded, in case of block trying
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
@@ -1661,6 +1801,56 @@ export class BlobClient extends StorageClient {
       }
     } catch (error) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
+    }
+  }
+
+  /**
+   * Asynchronously copies a blob to a destination within the storage account.
+   * In version 2012-02-12 and later, the source for a Copy Blob operation can be
+   * a committed blob in any Azure storage account.
+   * Beginning with version 2015-02-21, the source for a Copy Blob operation can be
+   * an Azure file in any Azure storage account.
+   * Only storage accounts created on or after June 7th, 2012 allow the Copy Blob
+   * operation to copy from another storage account.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
+   *
+   * @param {string} copySource url to the source Azure Blob/File.
+   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
+   * @returns {Promise<BlobStartCopyFromURLResponse>}
+   * @memberof BlobClient
+   */
+  private async startCopyFromURL(
+    copySource: string,
+    options: BlobStartCopyFromURLOptions = {}
+  ): Promise<BlobStartCopyFromURLResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.spanOptions);
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
+
+    try {
+      return this.blobContext.startCopyFromURL(copySource, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.conditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+        },
+        rehydratePriority: options.rehydratePriority,
+        tier: toAccessTier(options.tier),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
   }
 }

@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -37,7 +37,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     clientId: string,
     username: string,
     password: string,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
