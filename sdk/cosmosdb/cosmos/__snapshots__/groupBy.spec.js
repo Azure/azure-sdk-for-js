@@ -1136,3 +1136,41 @@ exports['Cross partition GROUP BY with aggregates and fields that do not exist 1
     "undefined_sum": 0
   }
 ]
+
+exports['Cross partition GROUP BY with missing aggregate field 1'] = [
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {}
+]
+
+exports['Cross partition GROUP BY with missing GROUP BY projection 1'] = [
+  {
+    "age": 11
+  },
+  {
+    "age": 12
+  },
+  {
+    "age": 13
+  },
+  {
+    "age": 14
+  },
+  {
+    "age": 15
+  },
+  {
+    "age": 16
+  },
+  {
+    "age": 17
+  },
+  {
+    "age": 18
+  }
+]
