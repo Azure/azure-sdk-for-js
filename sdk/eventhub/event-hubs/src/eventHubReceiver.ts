@@ -223,7 +223,12 @@ export class EventHubReceiver extends LinkEntity {
       sequenceNumber: data.sequenceNumber!,
       enqueuedTimeUtc: data.enqueuedTimeUtc!,
       partitionKey: data.partitionKey!,
-      systemProperties: data.systemProperties
+      systemProperties: data.systemProperties,
+
+      // TODO: fill these out.
+      consumerGroupName: "",
+      eventHubName: "",
+      partitionId: ""
     };
 
     this._checkpoint = receivedEventData.sequenceNumber;

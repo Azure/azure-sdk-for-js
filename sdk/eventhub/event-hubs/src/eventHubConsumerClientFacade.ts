@@ -3,10 +3,8 @@ import { EventHubClientOptions, EventHubClient } from './eventHubClient';
 import { PartitionProcessor } from './partitionProcessor';
 import { ReceivedEventData } from './eventData';
 import { InMemoryPartitionManager } from './inMemoryPartitionManager';
-import { EventProcessor, PartitionManager, PartitionOwnership } from './eventProcessor';
-import { EventPosition } from './eventPosition';
-import { EventHubConsumer } from './receiver';
-import { AbortSignalLike } from '../../../core/core-http/es/lib/coreHttp';
+import { EventProcessor, PartitionManager } from './eventProcessor';
+import { MessagingError } from '@azure/core-amqp';
 
 interface HostAndCredential {
   host: string,
@@ -18,7 +16,6 @@ interface EventHubConnectionString {
   connectionString: string;
   eventHubName?: string;
 }
-
 
 export class PartitionishProcessor {
   async processEvents(events: ReceivedEventData[]): Promise<void> { }
@@ -33,54 +30,15 @@ export interface ReceiveHandlerIsh {
   consumerGroup(): string;
 }
 
-export interface EventProcessorOptions2 extends EventHubClientOptions {
-  /**
-   * The max size of the batch of events passed each time to user code for processing.
-   */
-  maxBatchSize?: number;
-  /**
-   * The maximum amount of time to wait to build up the requested message count before
-   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
-   */
-  maxWaitTimeInSeconds?: number;
-  /**
-   * @property
-   * Indicates whether or not the consumer should request information on the last enqueued event on its
-   * associated partition, and track that information as events are received.
-
-   * When information about the partition's last enqueued event is being tracked, each event received 
-   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
-   * additional network bandwidth consumption that is generally a favorable trade-off when considered
-   * against periodically making requests for partition properties using the Event Hub client.
-   */
-  trackLastEnqueuedEventInfo?: boolean;
-}
-
-class SingleInMemoryPartitionManager extends InMemoryPartitionManager {
-  private partitionsToOwn: Set<string>;
-
-  constructor(partitionsToOwnArray: number[]) {
-    super();
-    this.partitionsToOwn = new Set<string>(partitionsToOwnArray.map(p => p.toString()));    
-  }
-
-  async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
-    return partitionOwnership.filter(po => this.partitionsToOwn.has(po.partitionId));
-  }
-}
-
 export class EventHubConsumerClientFacade {
-  private _consumersMap : Map<string,EventHubConsumer>;
   private _eventHubClient: EventHubClient;
 
   constructor(
     connectionInfo: EventHubConnectionString | HostAndCredential,
     private consumerGroupName: string,
-    private partitionProcessorClass: typeof PartitionishProcessor,
     options?: EventHubClientOptions) {
     // create the client
     this._eventHubClient = EventHubConsumerClientFacade.createEventHubClient(connectionInfo, options);
-    this._consumersMap = new Map();
   }
 
   private static createEventHubClient(
@@ -99,23 +57,32 @@ export class EventHubConsumerClientFacade {
     }
   }
 
-  receiveAll(checkpointManager: PartitionManager = new InMemoryPartitionManager()) : ReceiveHandlerIsh {
-    const cls = new this.partitionProcessorClass();
-
+  /**
+   * Subscribe to all messages from all available partitions. 
+   *
+   * Use this overload if you want to read from all partitions and not coordinate with
+   * other subscribers.
+   * 
+   * @param onMessage 
+   * @param onError 
+   */
+  subscribe(
+    onReceivedEvents: (receivedEvents: ReceivedEventData[]) => Promise<void>, 
+    onError: (error: MessagingError | Error) => Promise<void>) : ReceiveHandlerIsh {
+    
     class DefaultPartitionProcessor extends PartitionProcessor {
       async processEvents(events: ReceivedEventData[]): Promise<void> {
-        await cls.processEvents(events);
+        await onReceivedEvents(events);
       }
 
+      // TODO: need to include `PartitionContext` information so they know which 
+      // partition actually had an issue
       async processError(error: Error): Promise<void> { 
-        await cls.processError(error);
+        await onError(error);
       }
     }
-    
-    // TODO: where should they pass this?
-    const inMemoryPartitionManager = new InMemoryPartitionManager();
 
-    const eventProcessor = new EventProcessor(this.consumerGroupName, this._eventHubClient, DefaultPartitionProcessor, inMemoryPartitionManager);
+    const eventProcessor = new EventProcessor(this.consumerGroupName, this._eventHubClient, DefaultPartitionProcessor, new InMemoryPartitionManager());
     eventProcessor.start();
 
     return {
@@ -125,46 +92,66 @@ export class EventHubConsumerClientFacade {
     };
   }
 
-  receiveFromPartition(partitionId: number[]) : ReceiveHandlerIsh {
-    const cls = new this.partitionProcessorClass();
-
+  /**
+   * Subscribes to multiple partitions.
+   * 
+   * Use this overload if you want to read from a subset of partitions and not coordinate with
+   * other subscribers.
+   * 
+   * @param partitionIds The partitions IDs to subscribe to
+   */
+  subscribe2(partitionIds: string[],
+    onReceivedEvents: (receivedEvents: ReceivedEventData[]) => Promise<void>, 
+    onError: (error: MessagingError | Error) => Promise<void>): ReceiveHandlerIsh {
+    
     class DefaultPartitionProcessor extends PartitionProcessor {
       async processEvents(events: ReceivedEventData[]): Promise<void> {
-        await cls.processEvents(events);
+        await onReceivedEvents(events);
       }
 
       async processError(error: Error): Promise<void> { 
-        await cls.processError(error);
+        onError(error);
       }
     }
     
-    const eventProcessor = new EventProcessor(this.consumerGroupName, this._eventHubClient, DefaultPartitionProcessor, new SingleInMemoryPartitionManager(partitionId));
+    const eventProcessor = new EventProcessor(this.consumerGroupName, this._eventHubClient, DefaultPartitionProcessor, new InMemoryPartitionManager());
     eventProcessor.start();
 
     return {
-      // TODO: how do you tell the event processor is stil running>
       isReceiverOpen: () => eventProcessor.isRunning(),
       stop: () => eventProcessor.stop(),
       consumerGroup: () => this.consumerGroupName
     };
   }
 
-  async receiveBatch(partitionId: number, maxMessageCount: number,
-    maxWaitTimeInSeconds: number = 60,
-    abortSignal?: AbortSignalLike
-  ) : Promise<ReceivedEventData[]> {
-    let consumer = this._consumersMap.get(partitionId.toString());
+ /**
+   * Subscribes to multiple partitions and coordinate with other members of a 
+   * consumer group.
+   *
+   * @param partitionIds The partitions IDs to subscribe to
+   */
+  subscribe3(partitionManager: PartitionManager = new InMemoryPartitionManager(),
+    onReceivedEvents: (receivedEvents: ReceivedEventData[]) => Promise<void>, 
+    onError: (error: MessagingError | Error) => Promise<void>): ReceiveHandlerIsh {
     
-    if (!consumer) {
-      consumer = this._eventHubClient.createConsumer(
-        this.consumerGroupName,
-        partitionId.toString(),
-        EventPosition.latest()
-      );
-      this._consumersMap.set(partitionId.toString(), consumer);
-    }
+    class DefaultPartitionProcessor extends PartitionProcessor {
+      async processEvents(events: ReceivedEventData[]): Promise<void> {
+        await onReceivedEvents(events);
+      }
 
-    return consumer.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, abortSignal);
+      async processError(error: Error): Promise<void> { 
+        onError(error);
+      }
+    }
+    
+    const eventProcessor = new EventProcessor(this.consumerGroupName, this._eventHubClient, DefaultPartitionProcessor, partitionManager);
+    eventProcessor.start();
+
+    return {
+      isReceiverOpen: () => eventProcessor.isRunning(),
+      stop: () => eventProcessor.stop(),
+      consumerGroup: () => this.consumerGroupName
+    };
   }
 
   private static isHostAndCredential(connectionInfo: EventHubConnectionString | HostAndCredential): connectionInfo is HostAndCredential {

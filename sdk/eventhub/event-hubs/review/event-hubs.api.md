@@ -243,17 +243,16 @@ export interface PartitionManager {
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PartitionContext" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface PartitionOwnership {
-    consumerGroupName: string;
+export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
-    eventHubName: string;
     fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
     ownerLevel: number;
-    partitionId: string;
     sequenceNumber?: number;
 }
 
@@ -285,7 +284,7 @@ export interface PartitionProperties {
 }
 
 // @public
-export interface ReceivedEventData {
+export interface ReceivedEventData extends PartitionContext {
     body: any;
     enqueuedTimeUtc: Date;
     offset: number;

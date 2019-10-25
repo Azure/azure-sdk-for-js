@@ -334,10 +334,13 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         sequenceNumber: 0,
-        partitionKey: null,
+        partitionKey: null,        
         properties: {
           [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
-        }
+        },
+        consumerGroupName: "",
+        eventHubName: "",
+        partitionId: "",
       };
 
       const spanContext = extractSpanContextFromEventData(eventData);
@@ -364,7 +367,11 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         partitionKey: null,
         properties: {
           [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
-        }
+        },
+
+        consumerGroupName: "",
+        eventHubName: "",
+        partitionId: ""
       };
 
       const spanContext = extractSpanContextFromEventData(eventData);
@@ -381,7 +388,12 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         sequenceNumber: 0,
-        partitionKey: null
+        partitionKey: null,
+
+        // TODO: fill these in
+        consumerGroupName: "",
+        eventHubName: "",
+        partitionId: ""
       };
 
       const spanContext = extractSpanContextFromEventData(eventData);

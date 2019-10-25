@@ -3,6 +3,7 @@
 
 import { Message, Dictionary, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
+import { PartitionContext } from './eventProcessor';
 
 /**
  * Describes the delivery annotations.
@@ -209,7 +210,7 @@ export interface EventData {
 /**
  * Describes the structure of an event received from Event Hub.
  */
-export interface ReceivedEventData {
+export interface ReceivedEventData extends PartitionContext {
   /**
    * @property The message body that needs to be sent or is received.
    */
