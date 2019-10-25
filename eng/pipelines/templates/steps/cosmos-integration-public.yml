@@ -11,9 +11,12 @@ steps:
 
   - pwsh: |
       $emulator = "$env:tmp\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe"
+
       Write-Host "Launching Cosmos DB Emulator at $emulator"
       Start-Process $emulator "/NoExplorer /NoUI" -Verb RunAs
+
       Write-Host "Waiting for emulator to start..."
+      $continueChecking = $true
       do {
         $process = Start-Process $emulator -ArgumentList "/getstatus" -PassThru -Wait
         switch ($process.ExitCode) {
@@ -22,16 +25,18 @@ steps:
           }
           2 {
             Write-Host "Emulator is running"
-            return
+            $continueChecking = $false
           }
           3 {
             Write-Host "Emulator is stopped"
+            $continueChecking = $false
           }
           default {
             Write-Host "Unknown exit code: $process.ExitCode"
+            $continueChecking = $false
           }
         }
         Start-Sleep -Seconds 1
-      } while ($true)
+      } while ($continueChecking)
     displayName: Start Cosmos DB Emulator
     timeoutInMinutes: 10
