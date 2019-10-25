@@ -245,9 +245,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
     const sasURLForMessageId = `${queueClient.url}?${queueSAS}`;
-    const messageIdClientWithSAS = new QueueClient(sasURLForMessageId);
+    const queueClientWithSAS = new QueueClient(sasURLForMessageId);
 
-    await messageIdClientWithSAS.deleteMessage(enqueueResult.messageId, enqueueResult.popReceipt);
+    await queueClientWithSAS.deleteMessage(enqueueResult.messageId, enqueueResult.popReceipt);
 
     pResult = await queueClient.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 0);
@@ -307,8 +307,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await delay(2 * 1000);
 
     const sasURLForMessage = `${queueClient.url}?${queueSAS}`;
-    const messageIdClientwithSAS = new QueueClient(sasURLForMessage);
-    const deleteResult = await messageIdClientwithSAS.deleteMessage(
+    const queueClientwithSAS = new QueueClient(sasURLForMessage);
+    const deleteResult = await queueClientwithSAS.deleteMessage(
       dResult.receivedMessageItems[0].messageId,
       dResult.receivedMessageItems[0].popReceipt
     );

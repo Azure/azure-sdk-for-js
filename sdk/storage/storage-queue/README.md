@@ -222,8 +222,7 @@ const response = await queueClient.receiveMessages();
 if (response.receivedMessageItems.length == 1) {
   const receivedMessageItem = response.receivedMessageItems[0];
   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
-  const messageIdClient = queueClient.getMessageIdClient(receivedMessageItem.messageId);
-  const deleteMessageResponse = await messageIdClient.deleteMessage(receivedMessageItem.popReceipt);
+  const deleteMessageResponse = await queueClient.deleteMessage(receivedMessageItem.messageId, receivedMessageItem.popReceipt);
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );
