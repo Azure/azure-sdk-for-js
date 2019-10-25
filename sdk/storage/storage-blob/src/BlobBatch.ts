@@ -10,7 +10,9 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  PipelineOptions
+  PipelineOptions,
+  deserializationPolicy,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -22,7 +24,8 @@ import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
-  HTTP_LINE_ENDING
+  HTTP_LINE_ENDING,
+  StorageOAuthScopes
 } from "./utils/constants";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { createSpan } from "./utils/tracing";
@@ -199,7 +202,11 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, credential, this.batchRequest.createPipelineOptions()).delete({
+          await new BlobClient(
+            url,
+            credential,
+            this.batchRequest.createPipelineOptions(credential)
+          ).delete({
             ...options,
             spanOptions
           });
@@ -318,7 +325,7 @@ export class BlobBatch {
           await new BlobClient(
             url,
             credential,
-            this.batchRequest.createPipelineOptions()
+            this.batchRequest.createPipelineOptions(credential)
           ).setAccessTier(tier, { ...options, spanOptions });
         }
       );
@@ -372,17 +379,27 @@ class InnerBatchRequest {
    * default pipeline policies with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential
    */
-  public createPipelineOptions(): PipelineOptions {
+  public createPipelineOptions(
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential
+  ): PipelineOptions {
+    const isAnonymousCreds = credential instanceof AnonymousCredential;
+    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
+    const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
+
+    factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
+    factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
+    if (!isAnonymousCreds) {
+      factories[2] = isTokenCredential(credential)
+        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+        : credential;
+    }
+    factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
+
     return {
-      updatePipelinePolicies: (requestPolicyFactories) => {
-        return [
-          ...requestPolicyFactories,
-          // Use batch header filter policy to exclude unnecessary headers
-          new BatchHeaderFilterPolicyFactory(),
-          // Use batch assemble policy to assemble request and intercept request from going to wire
-          new BatchRequestAssemblePolicyFactory(this)
-        ];
+      updatePipelinePolicies: () => {
+        return factories;
       }
     };
   }
