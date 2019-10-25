@@ -522,7 +522,12 @@ export class BlockBlobClient extends BlobClient {
     blobNameOrOptions: string | PipelineOptions = {},
     options: PipelineOptions = {}
   ) {
-    if (typeof credentialOrContainerName === "string" && typeof blobNameOrOptions === "string") {
+    if (
+      credentialOrContainerName &&
+      typeof credentialOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
       super(urlOrConnectionString, credentialOrContainerName, blobNameOrOptions, options);
     } else if (

@@ -790,7 +790,12 @@ export class BlobClient extends StorageClient {
     let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
     let pipelineOptions: PipelineOptions;
 
-    if (typeof credentialOrContainerName === "string" && typeof blobNameOrOptions === "string") {
+    if (
+      credentialOrContainerName &&
+      typeof credentialOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
       const containerName = credentialOrContainerName;
       const blobName = blobNameOrOptions;

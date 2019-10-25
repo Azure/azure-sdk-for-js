@@ -565,6 +565,10 @@ export class ContainerClient extends StorageClient {
       // (connectionString: string, containerName: string, options?: PipelineOptions)
       const containerName = credentialOrContainerName;
 
+      if (!containerName) {
+        throw new Error("Expecting non-empty strings for containerName parameter");
+      }
+
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
