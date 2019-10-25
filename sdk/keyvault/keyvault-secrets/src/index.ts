@@ -214,7 +214,7 @@ export class SecretClient {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
         ...remainingOptions,
-        keyAttributes: {
+        secretAttributes: {
           enabled,
           notBefore,
           expires
@@ -318,7 +318,7 @@ export class SecretClient {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
         ...remainingOptions,
-        keyAttributes: {
+        secretAttributes: {
           enabled,
           notBefore,
           expires
