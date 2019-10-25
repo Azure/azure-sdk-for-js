@@ -193,7 +193,7 @@ Use `sendMessage()` to add a message to the queue:
 // Send a message into the queue using the sendMessage method.
 const enqueueQueueResponse = await queueClient.sendMessage("Hello World!");
 console.log(
-  `Sent message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+  `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`
 );
 ```
 
