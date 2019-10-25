@@ -45,7 +45,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 // @public
 export class CryptographyClient {
-    constructor(vaultUrl: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
+    constructor(key: string | KeyVaultKey, // keyUrl or KeyVaultKey
     credential: TokenCredential, pipelineOptions?: PipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
     decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
