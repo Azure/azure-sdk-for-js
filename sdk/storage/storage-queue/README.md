@@ -203,7 +203,7 @@ console.log(
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
-const peekQueueResponse = await queueClient.peekMessages();
+const peekMessagesResponse = await queueClient.peekMessages();
 console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
 ```
 
