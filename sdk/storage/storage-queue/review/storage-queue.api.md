@@ -273,7 +273,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HttpClient?: IHttpClient;
+    httpClient?: IHttpClient;
     logger?: IHttpPipelineLogger;
 }
 
