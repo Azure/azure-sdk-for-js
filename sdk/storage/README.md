@@ -103,13 +103,13 @@ npm install @azure/storage-blob@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```JavaScript
-import * as Azure from "@azure/storage-blob";
+import * as AzureStorageBlob from "@azure/storage-blob";
 ```
 
 Or
 
 ```JavaScript
-const Azure = require("@azure/storage-blob");
+conss AzureStorageBlob = require("@azure/storage-blob");
 ```
 
 ### JavaScript Bundle
@@ -250,7 +250,7 @@ async function main() {
     response = (await iterator.next()).value;
   } while (response);
 
-  // 7. Passing marker as an argument (similar to the previous example)
+  // 7. Passing the page marker as an argument (similar to the previous example)
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
   response = (await iterator.next()).value;
@@ -258,10 +258,8 @@ async function main() {
   for (const blob of response.segment.blobItems) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
-  // Gets next marker
-  let marker = response.nextMarker;
-  // Passing next marker as continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+  // Passing the continuationToken
+  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: result.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {

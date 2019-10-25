@@ -72,13 +72,13 @@ npm install @azure/storage-queue@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-queue";
+import * as AzureStorageQueue from "@azure/storage-queue";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-queue");
+const AzureStorageQueue = require("@azure/storage-queue");
 ```
 
 ### JavaScript bundle
@@ -203,11 +203,11 @@ console.log(
 
 ### Peek a message
 
-`MessagesClient.peek()` allows looking at one or more messages in front of the queue. This call
+`MessagesClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
-const peekQueueResponse = await messagesClient.peek();
+const peekQueueResponse = await messagesClient.peekMessages();
 console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
 ```
 
@@ -215,18 +215,19 @@ console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].me
 
 Messages are processed in two steps.
 
-- First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- First call `MessagesClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
 - When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
-const dequeueResponse = await messagesClient.dequeue();
-if (dequeueResponse.dequeuedMessageItems.length == 1) {
-  const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-  console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-  const messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
-  const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
+// Receiving a message is also commonly known as dequeueing a message.
+const response = await messagesClient.receiveMessages();
+if (response.receivedMessageItems.length == 1) {
+  const receivedMessageItem = response.receivedMessageItems[0];
+  console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
+  const messageIdClient = messagesClient.getMessageIdClient(receivedMessageItem.messageId);
+  const deleteMessageResponse = await messageIdClient.delete(receivedMessageItem.popReceipt);
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );
@@ -236,7 +237,7 @@ if (dequeueResponse.dequeuedMessageItems.length == 1) {
 ### Delete a queue
 
 ```javascript
-const deleteQueueResponse = await queueClient.delete();
+const deleteQueueResponse = await queueClient.deleteMessage();
 console.log(
   `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
 );
