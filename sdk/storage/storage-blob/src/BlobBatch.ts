@@ -11,14 +11,15 @@ import {
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  isNode
+  isNode,
+  PipelineOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
-import { Pipeline } from "./Pipeline";
+import { newPipeline } from "./Pipeline";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
 import {
   HeaderConstants,
@@ -202,7 +203,11 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
+          await new BlobClient(
+            url,
+            credential,
+            this.batchRequest.createPipelineOptions(credential)
+          ).delete({
             ...options,
             spanOptions
           });
@@ -318,10 +323,11 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
-            tier,
-            { ...options, spanOptions }
-          );
+          await new BlobClient(
+            url,
+            credential,
+            this.batchRequest.createPipelineOptions(credential)
+          ).setAccessTier(tier, { ...options, spanOptions });
         }
       );
     } catch (e) {
@@ -370,15 +376,15 @@ class InnerBatchRequest {
   }
 
   /**
-   * Create pipeline to assemble sub requests. The idea here is to use exising
+   * Create pipelineOptions to assemble sub requests. The idea here is to use exising
    * credential and serialization/deserialization components, with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
    * @param credential
    */
-  public createPipeline(
+  public createPipelineOptions(
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential
-  ): Pipeline {
+  ): PipelineOptions {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
     const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
     let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
@@ -392,7 +398,12 @@ class InnerBatchRequest {
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
 
-    return new Pipeline(factories, {});
+    return {
+      updatePipelinePolicies: (requestPolicyFactories) => {
+        // ADD THE NEW ONES!!!
+        return requestPolicyFactories;
+      }
+    };
   }
 
   public appendSubRequestToBody(request: WebResource) {
