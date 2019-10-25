@@ -126,12 +126,13 @@ export function browserConfig(test = false) {
     ]
   };
 
-  baseConfig.external = ["fs", "fs-extra", "child_process", "path", "crypto", "constants"];
+  baseConfig.external = ["child_process", "path", "crypto", "constants"];
   if (test) {
     baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     baseConfig.context = "null";
+    baseConfig.external = ["fs", "fs-extra", "child_process", "path", "crypto", "constants"];
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
