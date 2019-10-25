@@ -248,6 +248,8 @@ export interface EventHubConsumerOptions {
  * }
  * ```
  * @interface ClientOptions
+ * @internal
+ * @ignore
  */
 export interface EventHubClientOptions {
   /**

@@ -7,7 +7,7 @@ import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
-import { PartitionLoadBalancer } from "./partitionLoadBalancer";
+import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 
@@ -27,17 +27,9 @@ export enum CloseReason {
 }
 
 /**
- * An interface representing the details on which instance of a `EventProcessor` owns processing
- * of a given partition from a consumer group of an Event Hub instance.
- *
- * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
+ * An interface representing data that can identify a partition.
  */
-export interface PartitionOwnership {
-  /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   */
-  fullyQualifiedNamespace: string;
+export interface PartitionContext {
   /**
    * @property The event hub name
    */
@@ -47,13 +39,27 @@ export interface PartitionOwnership {
    */
   consumerGroupName: string;
   /**
-   * @property The unique identifier of the event processor.
-   */
-  ownerId: string;
-  /**
    * @property The identifier of the Event Hub partition
    */
   partitionId: string;
+}
+
+/**
+ * An interface representing the details on which instance of a `EventProcessor` owns processing
+ * of a given partition from a consumer group of an Event Hub instance.
+ *
+ * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
+ */
+export interface PartitionOwnership extends PartitionContext {
+  /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
+   * @property The unique identifier of the event processor.
+   */
+  ownerId: string;  
   /**
    * @property
    * The owner level
@@ -160,6 +166,8 @@ export interface EventProcessorOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventInfo?: boolean;
+
+  partitionLoadBalancer?: PartitionLoadBalancer
 }
 
 /**
@@ -233,7 +241,7 @@ export class EventProcessor {
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
-    this._partitionLoadBalancer = new PartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**
@@ -343,12 +351,15 @@ export class EventProcessor {
         }
 
         if (partitionIds.length > 0) {
-          const partitionToClaim = this._partitionLoadBalancer.loadBalance(
+          const partitionToClaims = this._partitionLoadBalancer.loadBalance(
             partitionOwnershipMap,
             partitionIds
           );
-          if (partitionToClaim) {
-            await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+          if (partitionToClaims) {
+
+            for (const partitionToClaim of partitionToClaims) {
+              await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+            }
           }
         }
 
@@ -384,6 +395,10 @@ export class EventProcessor {
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
     this._loopTask = this._runLoop(this._abortController.signal);
+  }
+
+  isRunning() {
+    return this._isRunning;
   }
 
   /**

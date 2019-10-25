@@ -42,7 +42,7 @@ describe("Event Processor", function(): void {
   });
 
   beforeEach("create the client", function() {
-    client = new EventHubClient(service.connectionString, service.path);
+    client = new EventHubClient(service.connectionString, service.path, {});
   });
 
   afterEach("close the connection", async function(): Promise<void> {

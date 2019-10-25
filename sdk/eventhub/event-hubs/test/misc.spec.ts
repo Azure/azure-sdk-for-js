@@ -334,7 +334,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         enqueuedTimeUtc: new Date(),
         offset: 0,
         sequenceNumber: 0,
-        partitionKey: null,
+        partitionKey: null,        
         properties: {
           [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
         }

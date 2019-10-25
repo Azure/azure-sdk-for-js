@@ -180,6 +180,8 @@ export class EventPosition {
 export class EventProcessor {
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
+    // (undocumented)
+    isRunning(): boolean;
     start(): void;
     stop(): Promise<void>;
 }
@@ -188,6 +190,10 @@ export class EventProcessor {
 export interface EventProcessorOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
+    // Warning: (ae-forgotten-export) The symbol "PartitionLoadBalancer" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    partitionLoadBalancer?: PartitionLoadBalancer;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
@@ -241,17 +247,16 @@ export interface PartitionManager {
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PartitionContext" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface PartitionOwnership {
-    consumerGroupName: string;
+export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
-    eventHubName: string;
     fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
     ownerLevel: number;
-    partitionId: string;
     sequenceNumber?: number;
 }
 
