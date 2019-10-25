@@ -18,9 +18,9 @@ import {
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -129,7 +129,7 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxyOptions?: ProxySettings;
+  proxyOptions?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
