@@ -535,7 +535,7 @@ describe("FileClient", () => {
           name: rootSpan.name,
           children: [
             {
-              name: "Azure.Storage.File.ShareClient-create",
+              name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
                   name: "core-http",
