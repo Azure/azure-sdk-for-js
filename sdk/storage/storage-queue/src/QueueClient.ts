@@ -26,7 +26,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
@@ -417,10 +417,10 @@ export class QueueClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
+  constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -431,13 +431,13 @@ export class QueueClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of QueueClient.
@@ -459,7 +459,7 @@ export class QueueClient extends StorageClient {
       | TokenCredential
       | Pipeline
       | string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     options = options || {};
     let pipeline: Pipeline;
@@ -473,14 +473,14 @@ export class QueueClient extends StorageClient {
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -488,7 +488,7 @@ export class QueueClient extends StorageClient {
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
-      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, queueName: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
