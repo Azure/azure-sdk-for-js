@@ -588,9 +588,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
-      const associatedLinkName = this._context.sender!.name;
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (this._context.sender) {
+        request.application_properties![Constants.associatedLinkName] = this._context.sender!.name;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -666,9 +665,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
-      const associatedLinkName = this._context.sender!.name;
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+
+      if (this._context.sender) {
+        request.application_properties![Constants.associatedLinkName] = this._context.sender!.name;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
