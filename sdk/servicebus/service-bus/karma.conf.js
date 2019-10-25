@@ -121,6 +121,8 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
+        // --disable-web-security flag is needed for bypassing CORS issue
+        // when running the Service Bus Atom based management API feature's browser tests
         flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
