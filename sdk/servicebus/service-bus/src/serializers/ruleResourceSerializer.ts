@@ -35,20 +35,18 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): Rule | {} {
+export function buildRule(rawRule: any): Rule | undefined {
   if (rawRule == undefined || rawRule == {}) {
-    return {};
-  } else {
-    const result: Rule = {
-      ruleName: rawRule["RuleName"],
-      topicName: rawRule["TopicName"],
-      subscriptionName: rawRule["SubscriptionName"],
-      filter: getTopicFilterOrUndefined(rawRule["Filter"]),
-      action: getRuleActionOrUndefined(rawRule["Action"]),
-      createdAt: rawRule["CreatedAt"]
-    };
-    return result;
+    return undefined;
   }
+  return {
+    ruleName: rawRule["RuleName"],
+    topicName: rawRule["TopicName"],
+    subscriptionName: rawRule["SubscriptionName"],
+    filter: getTopicFilterOrUndefined(rawRule["Filter"]),
+    action: getRuleActionOrUndefined(rawRule["Action"]),
+    createdAt: rawRule["CreatedAt"]
+  };
 }
 
 /**
