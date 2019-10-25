@@ -23,7 +23,7 @@ export class KeepAlivePolicyFactory implements RequestPolicyFactory {
   /**
    * Creates an instance of KeepAlivePolicyFactory.
    *
-   * @param {KeepAliveOptions} keepAliveOptions
+   * @param {KeepAliveOptions} [keepAliveOptions]
    * @memberof KeepAlivePolicyFactory
    */
   constructor(private readonly keepAliveOptions: KeepAliveOptions = { enable: true }) {}

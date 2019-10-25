@@ -125,7 +125,7 @@ export class BlobBatch {
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
-   * @param {BlobDeleteOptions} options
+   * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BlobBatch
    */
@@ -146,7 +146,7 @@ export class BlobBatch {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
-   * @param {BlobDeleteOptions} options
+   * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BlobBatch
    */
@@ -234,7 +234,7 @@ export class BlobBatch {
    * @param {string} url The url of the blob resource to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} options
+   * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BlobBatch
    */

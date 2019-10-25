@@ -385,7 +385,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} options Options to the Append Block Create operation.
+   * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
    */
@@ -421,7 +421,7 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
-   * @param {AppendBlobAppendBlockOptions} options Options to the Append Block operation.
+   * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */

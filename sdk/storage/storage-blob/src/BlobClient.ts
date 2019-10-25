@@ -741,7 +741,7 @@ export class BlobClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
@@ -762,7 +762,7 @@ export class BlobClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
@@ -936,7 +936,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} count How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlobDownloadOptions} options Optional options to Blob Download operation.
+   * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
    */
@@ -1047,7 +1047,7 @@ export class BlobClient extends StorageClient {
    * applications. Vice versa new blobs might be added by other clients or applications after this
    * function completes.
    *
-   * @param {BlobExistsOptions} options options to Exists operation.
+   * @param {BlobExistsOptions} [options] options to Exists operation.
    * @returns {Promise<boolean>}
    * @memberof BlobClient
    */
@@ -1084,7 +1084,7 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {BlobGetPropertiesOptions} options Optional options to Get Properties operation.
+   * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
    * @returns {Promise<BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
@@ -1120,7 +1120,7 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} options Optional options to Blob Delete operation.
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
    * @returns {Promise<BlobDeleteResponse>}
    * @memberof BlobClient
    */
@@ -1152,7 +1152,7 @@ export class BlobClient extends StorageClient {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
-   * @param {BlobUndeleteOptions} options Optional options to Blob Undelete operation.
+   * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
    * @returns {Promise<BlobUndeleteResponse>}
    * @memberof BlobClient
    */
@@ -1184,7 +1184,7 @@ export class BlobClient extends StorageClient {
    * @param {BlobHTTPHeaders} blobHTTPHeaders If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {BlobSetHTTPHeadersOptions} options Optional options to Blob Set HTTP Headers operation.
+   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
@@ -1224,7 +1224,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {Metadata} metadata Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {BlobSetMetadataOptions} options Optional options to Set Metadata operation.
+   * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
    * @returns {Promise<BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
@@ -1270,7 +1270,7 @@ export class BlobClient extends StorageClient {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {BlobCreateSnapshotOptions} options Optional options to the Blob Create Snapshot operation.
+   * @param {BlobCreateSnapshotOptions} [options] Optional options to the Blob Create Snapshot operation.
    * @returns {Promise<BlobCreateSnapshotResponse>}
    * @memberof BlobClient
    */
@@ -1311,7 +1311,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
    * @param {string} copySource url to the ource Azure Blob/File.
-   * @param {BlobStartCopyFromURLOptions} options Optional options to the Blob Start Copy From URL operation.
+   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
    * @returns {Promise<BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
@@ -1356,7 +1356,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
    * @param {string} copyId Id of the Copy From URL operation.
-   * @param {BlobAbortCopyFromURLOptions} options Optional options to the Blob Abort Copy From URL operation.
+   * @param {BlobAbortCopyFromURLOptions} [options] Optional options to the Blob Abort Copy From URL operation.
    * @returns {Promise<BlobAbortCopyFromURLResponse>}
    * @memberof BlobClient
    */
@@ -1434,7 +1434,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
    * @param {BlockBlobTier | PremiumPageBlobTier | string} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
-   * @param {BlobSetTierOptions} options Optional options to the Blob Set Tier operation.
+   * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
    * @returns {Promise<BlobsSetTierResponse>}
    * @memberof BlobClient
    */
@@ -1473,7 +1473,7 @@ export class BlobClient extends StorageClient {
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} count How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {BlobDownloadToBufferOptions} options BlobDownloadToBufferOptions
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
    * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
@@ -1576,7 +1576,7 @@ export class BlobClient extends StorageClient {
    * @param {string} filePath
    * @param {number} offset From which position of the block blob to download.
    * @param {number} count How much data to be downloaded. Will download to the end when passing undefined.
-   * @param {BlobDownloadOptions} options Options to Blob download options.
+   * @param {BlobDownloadOptions} [options] Options to Blob download options.
    * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file

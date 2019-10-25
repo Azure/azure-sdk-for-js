@@ -417,7 +417,7 @@ export class QueueClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} options Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
@@ -431,7 +431,7 @@ export class QueueClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} options Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
@@ -543,7 +543,7 @@ export class QueueClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} options Options to Queue create operation.
+   * @param {QueueCreateOptions} [options] Options to Queue create operation.
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
    */
@@ -570,7 +570,7 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} options Options to Queue delete operation.
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
    */
@@ -597,7 +597,7 @@ export class QueueClient extends StorageClient {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * @param {QueueGetPropertiesOptions} options Options to Queue get properties operation.
+   * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
    * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
    * @memberof QueueClient
    */
@@ -628,8 +628,8 @@ export class QueueClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
-   * @param {Metadata} metadata If no metadata provided, all existing metadata will be removed.
-   * @param {QueueSetMetadataOptions} options Options to Queue set metadata operation.
+   * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
+   * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
    * @returns {Promise<QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
    * @memberof QueueClient
    */
@@ -663,7 +663,7 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {QueueGetAccessPolicyOptions} options Options to Queue get access policy operation.
+   * @param {QueueGetAccessPolicyOptions} [options] Options to Queue get access policy operation.
    * @returns {Promise<QueueGetAccessPolicyResponse>} Response data for the Queue get access policy operation.
    * @memberof QueueClient
    */
@@ -714,8 +714,8 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {SignedIdentifier[]} queueAcl
-   * @param {QueueSetAccessPolicyOptions} options Options to Queue set access policy operation.
+   * @param {SignedIdentifier[]} [queueAcl]
+   * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
    * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
    * @memberof QueueClient
    */
@@ -757,7 +757,7 @@ export class QueueClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {QueueClearMessagesOptions} options Options to clear messages operation.
+   * @param {QueueClearMessagesOptions} [options] Options to clear messages operation.
    * @returns {Promise<QueueClearMessagesResponse>} Response data for the clear messages operation.
    * @memberof QueueClient
    */
@@ -789,7 +789,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
    * @param {string} messageText Text of the message to send
-   * @param {QueueSendMessageOptions} options Options to send messages operation.
+   * @param {QueueSendMessageOptions} [options] Options to send messages operation.
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
    */
@@ -838,7 +838,7 @@ export class QueueClient extends StorageClient {
    * Dequeue retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {QueueReceiveMessageOptions} options Options to receive messages operation.
+   * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
    */
@@ -883,7 +883,7 @@ export class QueueClient extends StorageClient {
    * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {QueuePeekMessagesOptions} options Options to peek messages operation.
+   * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
    */
@@ -930,7 +930,7 @@ export class QueueClient extends StorageClient {
    *
    * @param {string} messageId Id of the message
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {QueueDeleteMessageOptions} options Options to delete message operation.
+   * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
    * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
    * @memberof QueueClient
    */
@@ -970,7 +970,7 @@ export class QueueClient extends StorageClient {
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {QueueUpdateMessageOptions} options Options to update message operation.
+   * @param {QueueUpdateMessageOptions} [options] Options to update message operation.
    * @returns {Promise<QueueUpdateMessageResponse>} Response data for the update message operation.
    * @memberof QueueClient
    */

@@ -212,8 +212,8 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @protected
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
-   * @param {HttpOperationResponse} response
-   * @param {RestError} err
+   * @param {HttpOperationResponse} [response]
+   * @param {RestError} [err]
    * @returns {boolean}
    * @memberof RetryPolicy
    */
@@ -307,7 +307,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @private
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
-   * @param {AbortSignalLike} abortSignal
+   * @param {AbortSignalLike} [abortSignal]
    * @memberof RetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

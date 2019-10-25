@@ -241,7 +241,7 @@ export function appendToURLPath(url: string, name: string): string {
  * @export
  * @param {string} url Source URL string
  * @param {string} name Parameter name
- * @param {string} value Parameter value
+ * @param {string} [value] Parameter value
  * @returns {string} An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
@@ -430,8 +430,8 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  *
  * @export
  * @param {number} timeInMs
- * @param {AbortSignalLike} aborter
- * @param {Error} abortError
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
   return new Promise((resolve, reject) => {

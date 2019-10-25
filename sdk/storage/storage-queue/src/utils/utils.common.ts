@@ -32,7 +32,7 @@ export function appendToURLPath(url: string, name: string): string {
  * @export
  * @param {string} url Source URL string
  * @param {string} name Parameter name
- * @param {string} value Parameter value
+ * @param {string} [value] Parameter value
  * @returns {string} An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
@@ -143,9 +143,9 @@ function getProxyUriFromDevConnString(connectionString: string): string {
 
 /**
  *
- * @param {string} connectionString Account connection string
- * @param {string} argument property to get value from the connection string
- * @returns {string} Value of the property specified in argument
+ * @param {string} connectionString Account connection string.
+ * @param {string} argument property to get value from the connection string.
+ * @returns {string} Value of the property specified in argument.
  */
 export function getValueInConnString(
   connectionString: string,
@@ -273,8 +273,8 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  *
  * @export
  * @param {number} timeInMs
- * @param {AbortSignalLike} aborter
- * @param {Error} abortError
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
   return new Promise((resolve, reject) => {

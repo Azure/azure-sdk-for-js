@@ -323,7 +323,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
   }
 
   /**
-   * The error code
+   * The error code.
    *
    * @readonly
    * @type {(string | undefined)}
@@ -476,7 +476,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
   }
 
   /**
-   * The HTTP response
+   * The HTTP response.
    *
    * @type {HttpResponse}
    * @memberof BlobDownloadResponse

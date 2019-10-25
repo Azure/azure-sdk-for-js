@@ -87,7 +87,7 @@ export class RetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of RetryPolicyFactory.
-   * @param {RetryOptions} retryOptions
+   * @param {RetryOptions} [retryOptions]
    * @memberof RetryPolicyFactory
    */
   constructor(retryOptions?: RetryOptions) {
