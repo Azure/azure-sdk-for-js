@@ -8,7 +8,7 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * Protocols for generated SAS.
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum SASProtocol {
   /**
@@ -160,7 +160,6 @@ export class SASQueryParameters {
    * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
    * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
    * @param {string} [resource] Representing the storage queue (only for Service SAS)
-   * @memberof SASQueryParameters
    */
   constructor(
     version: string,

@@ -20,7 +20,7 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {KeepAliveOptions} [keepAliveOptions]
+   * @param {KeepAliveOptions} keepAliveOptions
    * @memberof KeepAlivePolicy
    */
   constructor(
