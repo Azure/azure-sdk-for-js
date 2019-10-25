@@ -23,7 +23,7 @@ const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new Servi
 
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
-    const request: WebResource = new WebResource("http://xyz.com", "PUT");
+    const request: WebResource = new WebResource("https://xyz.com", "PUT");
     request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
 
     const testSerializer = new DummySerializer();

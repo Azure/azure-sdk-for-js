@@ -348,19 +348,12 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
       });
     } else {
       Object.keys(errorProperties).forEach((property: any) => {
-        {
-          let value = null;
-          if (property !== Constants.XML_METADATA_MARKER) {
-            if (
-              errorProperties[property] &&
-              errorProperties[property][Constants.XML_VALUE_MARKER]
-            ) {
-              value = errorProperties[property][Constants.XML_VALUE_MARKER];
-            } else {
-              value = errorProperties[property];
-            }
-            normalizedError[property.toLowerCase()] = value;
+        let value = errorProperties[property];
+        if (property !== Constants.XML_METADATA_MARKER) {
+          if (value && value[Constants.XML_VALUE_MARKER]) {
+            value = value[Constants.XML_VALUE_MARKER];
           }
+          normalizedError[property.toLowerCase()] = value;
         }
       });
     }
