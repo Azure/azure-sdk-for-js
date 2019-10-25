@@ -13,10 +13,24 @@ export interface PartitionLoadBalancer {
 
 /**
  * This class does no load balancing - it's intended to be used when 
- * you want to avoid load balancing and consume all partitions at once
+ * you want to avoid load balancing and consume a set of partitions (or all 
+ * available partitions)
  */
 export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
+  private partitionsToClaim?: Set<string>;
+
+  /**
+   * @param partitionIds An optional set of partition IDs. undefined means  all partitions.
+   */
+  constructor(partitionIds?: string[]) {
+    this.partitionsToClaim = partitionIds && new Set(partitionIds);
+  }
+
   loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
+    if (this.partitionsToClaim) {
+      return partitionsToAdd.filter(part => this.partitionsToClaim!.has(part));
+    }
+
     return partitionsToAdd;
   }
 }

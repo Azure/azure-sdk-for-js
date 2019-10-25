@@ -7,7 +7,7 @@ import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
-import { FairPartitionLoadBalancer } from "./partitionLoadBalancer";
+import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 
@@ -166,6 +166,8 @@ export interface EventProcessorOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventInfo?: boolean;
+
+  partitionLoadBalancer?: PartitionLoadBalancer
 }
 
 /**
@@ -209,7 +211,7 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionManager: PartitionManager;
-  private _partitionLoadBalancer: FairPartitionLoadBalancer;
+  private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
    * @param consumerGroupName The name of the consumer group from which you want to process events.
@@ -239,7 +241,7 @@ export class EventProcessor {
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
-    this._partitionLoadBalancer = new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**

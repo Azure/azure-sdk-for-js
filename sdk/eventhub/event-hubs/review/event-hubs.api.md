@@ -190,6 +190,10 @@ export class EventProcessor {
 export interface EventProcessorOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
+    // Warning: (ae-forgotten-export) The symbol "PartitionLoadBalancer" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    partitionLoadBalancer?: PartitionLoadBalancer;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
