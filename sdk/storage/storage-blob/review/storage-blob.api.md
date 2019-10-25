@@ -774,7 +774,7 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export enum BlockBlobTier {
     // (undocumented)
     Archive = "Archive",
@@ -1439,7 +1439,7 @@ export interface PipelineOptions {
     logger?: IHttpPipelineLogger;
 }
 
-// @public (undocumented)
+// @public
 export enum PremiumPageBlobTier {
     // (undocumented)
     P10 = "P10",

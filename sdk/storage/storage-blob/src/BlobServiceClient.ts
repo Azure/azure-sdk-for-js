@@ -581,7 +581,7 @@ export class BlobServiceClient extends StorageClient {
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {string} marker A string value that identifies the portion of
+   * @param {string} [marker] A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
    *                        operation returns the NextMarker value within the response body if the
    *                        listing operation did not return all containers remaining to be listed
@@ -622,7 +622,7 @@ export class BlobServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
    *
    * @private
-   * @param {string} marker A string value that identifies the portion of
+   * @param {string} [marker] A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
    *                        operation returns the NextMarker value within the response body if the
    *                        listing operation did not return all containers remaining to be listed
@@ -749,19 +749,19 @@ export class BlobServiceClient extends StorageClient {
     const iter = this.listItems(listSegmentOptions);
     return {
       /**
-       * @member {Promise} next The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} asyncIterator The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} byPage Return an AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {

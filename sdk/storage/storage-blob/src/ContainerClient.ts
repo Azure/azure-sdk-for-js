@@ -1162,7 +1162,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
-   * @param {string} marker A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
@@ -1197,7 +1197,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobFlatSegmentResponse
    *
    * @private
-   * @param {string} marker A string value that identifies the portion of
+   * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed

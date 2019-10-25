@@ -934,8 +934,8 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {number} offset From which position of the blob to download, >= 0
-   * @param {number} count How much data to be downloaded, > 0. Will download to the end when undefined
+   * @param {number} [offset] From which position of the blob to download, >= 0
+   * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
@@ -1222,7 +1222,7 @@ export class BlobClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
-   * @param {Metadata} metadata Replace existing metadata with this value.
+   * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
    * @returns {Promise<BlobSetMetadataResponse>}
@@ -1258,7 +1258,7 @@ export class BlobClient extends StorageClient {
   /**
    * Get a BlobLeaseClient that manages leases on the blob.
    *
-   * @param {string} proposeLeaseId Initial proposed lease Id.
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
@@ -1472,7 +1472,7 @@ export class BlobClient extends StorageClient {
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
-   * @param {number} count How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
    * @returns {Promise<Buffer>}
    */
@@ -1574,8 +1574,8 @@ export class BlobClient extends StorageClient {
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
    * @param {string} filePath
-   * @param {number} offset From which position of the block blob to download.
-   * @param {number} count How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {number} [offset] From which position of the block blob to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
    * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
