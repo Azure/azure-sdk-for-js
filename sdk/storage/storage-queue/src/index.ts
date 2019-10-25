@@ -17,7 +17,6 @@ export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
 export { Metadata } from "./models";
 export * from "./policies/SharedKeyCredentialPolicy";
-export * from "./TelemetryPolicyFactory";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";
