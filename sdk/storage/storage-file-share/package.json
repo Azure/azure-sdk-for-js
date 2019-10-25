@@ -50,7 +50,7 @@
   "files": [
     "BreakingChanges.md",
     "browser/*.min.js*",
-    "browser/ThirdPartyNotices.txt",
+    "ThirdPartyNotices.txt",
     "dist/",
     "dist-esm/src/",
     "LICENSE",
