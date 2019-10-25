@@ -129,8 +129,7 @@ on which credential you are using.
 
 ### UsernamePasswordCredential
 
-The `UsernamePasswordCredential` follows the [resource owner password
-credentials
+The `UsernamePasswordCredential` follows the [resource owner password credential
 flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
 to authenticate public or confidential clients.  To use this credential, you
 will need the `tenantId` and `clientId` of your app and a `username` and
@@ -180,11 +179,23 @@ application to learn how to configure environment variables for your deployment.
 
 The `ManagedIdentityCredential` takes advantage of authentication endpoints that
 are hosted within the virtual network of applications deployed to Azure on
-virtual machines, App Services, Functions, and Container Services.
+virtual machines, App Services, Functions, Container Services, [and
+more](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview#how-can-i-use-managed-identities-for-azure-resources).
+
+More information on configuring and using managed identities can be found in the
+[Managed identities for Azure
+resources](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)
+documentation.
 
 ### InteractiveBrowserCredential
 
-https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+The `InteractiveBrowserCredential` follows the [implicit grant
+flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+which enables authentication for clients that run completely in the browser.  It
+is primarily useful for single-page web applications (SPAs) which need to
+authenticate to access Azure resources and APIs directly.
+
+TODO: redirect_uri
 
 > NOTE: At this time, this credential can only be used in the browser but
 > Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
@@ -203,6 +214,8 @@ The `AuthenticationCodeCredential` follows the [authorization code
 flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
+
+TODO: redirect_uri
 
 ### DefaultAzureCredential
 
