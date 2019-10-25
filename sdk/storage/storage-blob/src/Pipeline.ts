@@ -53,13 +53,13 @@ export {
 };
 
 /**
- * Creates a new Pipeline object with Credential provided.
+ * Creates a ServiceClientOptions object with Credential provided.
  *
  * @export
  * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
  * @param {PipelineOptions} [pipelineOptions] Optional. Options.
- * @returns {Pipeline} A new Pipeline object.
+ * @returns {ServiceClientOptions} ServiceClientOptions for use with @azure/core-http
  */
 export function newPipeline(
   credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
