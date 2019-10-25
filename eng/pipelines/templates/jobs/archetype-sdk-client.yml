@@ -33,7 +33,6 @@ parameters:
 
 jobs:
   - job: "Build"
-    timeoutInMinutes: 90
     variables:
       - template: ../variables/globals.yml
 
@@ -96,7 +95,6 @@ jobs:
         displayName: "Install tool dependencies"
 
       - pwsh: |
-          Write-Host "${{parameters.DocArgs}}"
           $docDirectory = ${{parameters.ServiceDirectory}}
           if ($docDirectory -eq '*') { $docDirectory = "core" }
           node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "$docDirectory"
