@@ -13,7 +13,7 @@ access to Azure services.
 - [Getting Started](#getting-started)
 - [Understanding the Credential Types](#understanding-the-credential-types)
 - [Choosing a Credential Type](#choosing-a-credential-type)
-- [Credential Types in @azure/identity](#credential-types-in-azure-identity)
+- [Credential Types in @azure/identity](#credential-types-in-@azure/identity)
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ account types" documentation.
 
 You can easily change your application from single to multi-tenant and vice
 versa after it is created, but you cannot currently change it to support
-personal Microsoft accounts if it was created without that options.
+personal Microsoft accounts if it was created without that option set.
 
 ## Understanding the Credential Types
 
@@ -70,8 +70,8 @@ specific purpose, like authenticating a backend service for use with storage
 APIs.  Some credentials may be both public or confidential depending on how you
 configure them.  For example, the [authorization code
 flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
-can be initiated from a mobile or desktop client _or_ from within a web
-application running in a server.
+can be initiated from a mobile application _or_ from within a web application
+running in a server.
 
 ## Choosing a Credential Type
 
@@ -96,6 +96,10 @@ credential for your application:
       `InteractiveBrowserCredential`.
 
     - If not, use the `DeviceCodeCredential`.
+
+- **Are you developing an application on your local machine?**
+
+  - Use the `DefaultAzureCredential`.
 
 ## Credential Types in @azure/identity
 
@@ -199,6 +203,18 @@ The `AuthenticationCodeCredential` follows the [authorization code
 flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
+
+### DefaultAzureCredential
+
+The `DefaultAzureCredential` is meant to be used by developers who are writing
+applications on their local machine.  It is a specialization of the
+`ChainedTokenCredential` which tries each of the following credential types in
+order until one of them succeeds:
+
+- `EnvironmentCredential`
+- `ManagedIdentityCredential`
+
+More credential types will be added to this list in the future.
 
 ## Access Policies, Roles, and Consent
 
