@@ -27,7 +27,7 @@ import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { UserAgentOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -136,10 +136,10 @@ export interface StoragePipelineOptions {
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
@@ -185,7 +185,7 @@ export function newPipeline(
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     new UniqueRequestIDPolicyFactory(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer

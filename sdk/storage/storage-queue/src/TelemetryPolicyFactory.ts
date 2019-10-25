@@ -16,16 +16,16 @@ import { SDK_VERSION } from "./utils/constants";
  * Interface of TelemetryPolicy options.
  *
  * @export
- * @interface TelemetryOptions
+ * @interface UserAgentOptions
  */
-export interface TelemetryOptions {
+export interface UserAgentOptions {
   /**
-   * Configues the costom string that is pre-pended to the user agent string.
+   * Configues the custom string that is pre-pended to the user agent string.
    *
    * @type {string}
    * @memberof TelemetryOptions
    */
-  value: string;
+  userAgentPrefix?: string;
 }
 
 /**
@@ -40,22 +40,22 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {TelemetryOptions} [telemetry]
+   * @param {UserAgentOptions} [telemetry]
    * @memberof TelemetryPolicyFactory
    */
-  constructor(telemetry?: TelemetryOptions) {
+  constructor(telemetry?: UserAgentOptions) {
     const userAgentInfo: string[] = [];
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.value.replace(" ", "");
+        const telemetryString = (telemetry.userAgentPrefix || "").replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
       }
 
-      // e.g. azsdk-js-storagequeue/11.0.0
-      const libInfo = `azsdk-js-storagequeue/${SDK_VERSION}`;
+      // e.g. azsdk-js-storageblob/10.0.0
+      const libInfo = `azsdk-js-storageblob/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }

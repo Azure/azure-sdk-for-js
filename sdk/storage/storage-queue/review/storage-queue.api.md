@@ -688,17 +688,12 @@ export interface StoragePipelineOptions {
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
-// @public
-export interface TelemetryOptions {
-    value: string;
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
+    constructor(telemetry?: UserAgentOptions);
     // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
     }
@@ -707,6 +702,11 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
     // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
+}
+
+// @public
+export interface UserAgentOptions {
+    userAgentPrefix?: string;
 }
 
 export { WebResource }
