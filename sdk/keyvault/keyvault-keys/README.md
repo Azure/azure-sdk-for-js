@@ -369,7 +369,7 @@ let myKey = await keysClient.createKey("MyKey", "RSA");
 
 // Lastly, create our cryptography client and connect to the service
 // This example uses the URL that is part of the key we created (called key ID or kid)
-const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+const cryptographyClient = new CryptographyClient(myKey.id!, credential);
 ```
 
 ### Encrypt
