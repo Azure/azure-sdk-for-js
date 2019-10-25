@@ -23,12 +23,8 @@ const semver = require("semver");
 const versionUtils = require("./VersionUtils");
 
 function getDevVersion(currentVersion, buildId) {
-  const prerelease = semver.prerelease(currentVersion);
-  if (prerelease) {
-    return `${currentVersion}.${buildId}`;
-  }
-
-  return `${currentVersion}-dev.${buildId}`;
+  const parsedVersion = semver.parse(currentVersion);
+  return `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}-dev.${buildId}`;
 }
 
 async function main(argv) {
