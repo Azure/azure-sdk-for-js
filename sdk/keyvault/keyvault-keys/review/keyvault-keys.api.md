@@ -45,7 +45,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 // @public
 export class CryptographyClient {
-    constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
+    constructor(vaultUrl: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
     credential: TokenCredential, pipelineOptions?: PipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
     decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
@@ -56,7 +56,7 @@ export class CryptographyClient {
     sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
-    readonly vaultBaseUrl: string;
+    readonly vaultUrl: string;
     verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
@@ -93,11 +93,8 @@ export interface DeletedKey {
 
 // @public
 export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
-    // (undocumented)
     client: KeyClientInterface;
-    // (undocumented)
     name: string;
-    // (undocumented)
     requestOptions?: RequestOptionsBase;
 }
 
@@ -147,7 +144,6 @@ export interface JsonWebKey {
     dq?: Uint8Array;
     e?: Uint8Array;
     k?: Uint8Array;
-    // (undocumented)
     keyOps?: JsonWebKeyOperation[];
     kid?: string;
     kty?: JsonWebKeyType;
@@ -174,7 +170,7 @@ export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export class KeyClient {
-    constructor(endpoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
     beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
@@ -197,13 +193,9 @@ export class KeyClient {
 
 // @public
 export interface KeyClientInterface {
-    // (undocumented)
     deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
-    // (undocumented)
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
-    // (undocumented)
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    // (undocumented)
     recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
 }
 
@@ -253,24 +245,11 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
 export { PipelineOptions }
 
 export { PollerLike }
 
 export { PollOperationState }
-
-// @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
 
 // @public
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
@@ -282,11 +261,8 @@ export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
-    // (undocumented)
     client: KeyClientInterface;
-    // (undocumented)
     name: string;
-    // (undocumented)
     requestOptions?: RequestOptionsBase;
 }
 
@@ -310,12 +286,6 @@ export interface SignResult {
     algorithm: KeySignatureAlgorithm;
     keyID?: string;
     result: Uint8Array;
-}
-
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
 }
 
 // @public
