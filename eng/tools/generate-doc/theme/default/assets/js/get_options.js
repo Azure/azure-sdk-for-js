@@ -41,7 +41,7 @@ function hideSelectors(selectors) {
 function populateOptions(optionSelector, otherSelectors) {
   if (currentPackage()) {
     var versionRequestUrl =
-      "https://azuresdkdocsdev.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
+      "https://azuresdkdocs.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
       SELECTED_LANGUAGE +
       "/" +
       currentPackage() +
@@ -89,7 +89,7 @@ function populateVersionDropDown(selector, values) {
 
 function getPackageUrl(language, package, version) {
   return (
-    "https://azuresdkdocsdev.blob.core.windows.net/$web/" +
+    "https://azuresdkdocs.blob.core.windows.net/$web/" +
     language +
     "/" +
     package +
@@ -101,7 +101,7 @@ function getPackageUrl(language, package, version) {
 
 function populateIndexList(selector, packageName) {
   url =
-    "https://azuresdkdocsdev.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
+    "https://azuresdkdocs.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
     SELECTED_LANGUAGE +
     "/" +
     packageName +
