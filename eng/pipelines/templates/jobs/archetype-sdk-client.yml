@@ -59,7 +59,7 @@ jobs:
         displayName: "Set folder variable for readme links"
 
       - pwsh: |
-          echo "$(folder)"
+          echo "Folder = $(folder)"
         displayName: check folder value
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
