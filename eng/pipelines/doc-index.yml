@@ -15,7 +15,7 @@ jobs:
           $(Build.BinariesDirectory)/docfx/docfx.exe init -q
         displayName: Provision DocFX Directory
         workingDirectory: $(Build.SourcesDirectory)
-  
+
       - pwsh: |
           mkdir "templates"
         displayName: Create Template Directory
@@ -38,7 +38,6 @@ jobs:
           New-Item -Path "$(Build.SourcesDirectory)/docfx_project" -Name "toc.yml" -Force
           Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for JavaScript APIs`r`n  href: api/`r`n  homepage: api/index.md"
           Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/api/index.md" -Force
-          Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/index.md" -Force
         displayName: Update toc.yml and index
 
       - pwsh: |
@@ -50,8 +49,20 @@ jobs:
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
           Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/main.js" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/main.js"
           Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.css" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/docfx.css"
+        displayName: Replace site assets
+
+      - task: UsePythonVersion@0
+        displayName: "Use Python 3.6"
+        inputs:
+          versionSpec: "3.6"
+
+      - template: eng/pipelines/templates/scripts/mashup-doc-index.yml@azure-sdk-tools
+        parameters:
+          SourceDirectory: $(Build.SourcesDirectory)
+
+      - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/docfx_project/*" -Destination "$(Build.ArtifactStagingDirectory)/docfx_project/" -Recursive -Force
-        displayName: Replace site assets and Copy HTML to Artifacts Directory
+        displayName: Copy HTML to Artifacts Directory
 
       - task: PublishPipelineArtifact@0
         condition: succeeded()
