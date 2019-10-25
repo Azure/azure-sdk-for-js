@@ -3,6 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
+export { PollerLike, PollOperationState } from "@azure/core-lro";
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
@@ -45,3 +46,7 @@ export {
   PageList
 } from "./PageBlobRangeResponse";
 export { logger } from "./log";
+export {
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient
+} from "./pollers/BlobStartCopyFromUrlPoller";
