@@ -73,11 +73,21 @@ export function newPipeline(
       allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters
     },
     updatePipelinePolicies: (requestPolicyFactories) => {
+      // Start with a clone
+      let result = requestPolicyFactories.slice(0);
       // Currently, the only way to remove the retry policies provided by createPipelineFromOptions is
-      // by removing the last 3 factories.
+      // by doing some careful math
       // https://github.com/Azure/azure-sdk-for-js/issues/5804
-      let result = requestPolicyFactories.slice(0, -3);
-      result.push(new RetryPolicyFactory(pipelineOptions.retryOptions));
+      let keepLastN = 2;
+      if (
+        pipelineOptions.redirectOptions &&
+        pipelineOptions.redirectOptions.handleRedirects === false
+      ) {
+        keepLastN = 3;
+      }
+      let start = (keepLastN + 3) * -1;
+      const retryPolicy = new RetryPolicyFactory(pipelineOptions.retryOptions);
+      requestPolicyFactories.splice(start, 3, retryPolicy);
 
       if (pipelineOptions.updatePipelinePolicies) {
         result = pipelineOptions.updatePipelinePolicies(result);
