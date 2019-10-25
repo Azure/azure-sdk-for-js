@@ -116,18 +116,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating the client
 
-To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
+To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretClient, which will connect to the key vault.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 ```
 
 Once these are imported, we can next connect to the Key Vault service. To do this, we'll need to copy some settings from the Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 // DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -140,7 +140,7 @@ const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our secrets client and connect to the service
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 ```
 
 ## Examples
@@ -161,14 +161,14 @@ with the same name already exists, then a new version of the secret is created.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -189,14 +189,14 @@ optional parameters.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -226,14 +226,14 @@ An object with these attributes can be sent as the third parameter of
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -254,14 +254,14 @@ Attributes can also be updated to an existing secret version with
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -281,14 +281,14 @@ are available.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -306,14 +306,14 @@ read, recovered or purged.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -353,14 +353,14 @@ calls until the secret is deleted, or by waiting until the process is done:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -383,7 +383,7 @@ main();
 
 ### Iterating lists of secrets
 
-Using the SecretsClient, you can retrieve and iterate through all of the
+Using the SecretClient, you can retrieve and iterate through all of the
 secrets in a Key Vault, as well as through all of the deleted secrets and the
 versions of a specific secret. The following API methods are available:
 
@@ -398,14 +398,14 @@ Which can be used as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
@@ -430,14 +430,14 @@ want to use, as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretsClient } = require("@azure/keyvault-secrets");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-const client = new SecretsClient(url, credential);
+const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
