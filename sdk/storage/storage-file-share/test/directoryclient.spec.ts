@@ -616,10 +616,10 @@ describe("DirectoryClient", () => {
           name: rootSpan.name,
           children: [
             {
-              name: "Azure.Storage.File.DirectoryClient-createSubdirectory",
+              name: "Azure.Storage.File.ShareDirectoryClient-createSubdirectory",
               children: [
                 {
-                  name: "Azure.Storage.File.DirectoryClient-create",
+                  name: "Azure.Storage.File.ShareDirectoryClient-create",
                   children: [
                     {
                       name: "core-http",
@@ -630,10 +630,10 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-createFile",
+              name: "Azure.Storage.File.ShareDirectoryClient-createFile",
               children: [
                 {
-                  name: "Azure.Storage.File.FileClient-create",
+                  name: "Azure.Storage.File.ShareClient-create",
                   children: [
                     {
                       name: "core-http",
@@ -644,7 +644,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.FileClient-getProperties",
+              name: "Azure.Storage.File.ShareClient-getProperties",
               children: [
                 {
                   name: "core-http",
@@ -653,10 +653,10 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-deleteFile",
+              name: "Azure.Storage.File.ShareDirectoryClient-deleteFile",
               children: [
                 {
-                  name: "Azure.Storage.File.FileClient-delete",
+                  name: "Azure.Storage.File.ShareClient-delete",
                   children: [
                     {
                       name: "core-http",
@@ -667,7 +667,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.FileClient-getProperties",
+              name: "Azure.Storage.File.ShareClient-getProperties",
               children: [
                 {
                   name: "core-http",
@@ -676,7 +676,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-delete",
+              name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
                   name: "core-http",
