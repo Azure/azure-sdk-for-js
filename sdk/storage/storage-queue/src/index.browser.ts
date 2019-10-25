@@ -14,7 +14,6 @@ export { Metadata } from "./models";
 export * from "./TelemetryPolicyFactory";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
-export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";

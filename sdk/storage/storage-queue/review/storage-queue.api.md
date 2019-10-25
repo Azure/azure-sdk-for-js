@@ -13,6 +13,7 @@ import { HttpOperationResponse } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
@@ -684,7 +685,6 @@ export const StorageOAuthScopes: string | string[];
 // @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
@@ -697,12 +697,6 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
     // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
     }
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-}
 
 // @public
 export interface UserAgentOptions {

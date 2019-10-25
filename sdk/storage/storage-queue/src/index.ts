@@ -21,7 +21,6 @@ export * from "./TelemetryPolicyFactory";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";
-export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
