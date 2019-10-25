@@ -5,7 +5,7 @@ import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -92,7 +92,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      const deletePoller = await client.beginDeleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
       await deletePoller.pollUntilDone();
     }
 
@@ -212,7 +212,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      const deletePoller = await client.beginDeleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
       await deletePoller.pollUntilDone();
     }
 

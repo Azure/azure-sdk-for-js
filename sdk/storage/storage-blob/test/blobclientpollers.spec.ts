@@ -5,7 +5,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record } from "./utils/recorder";
+import { record, testPollerProperties } from "./utils/recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -58,7 +58,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller: PollerLike<
       PollOperationState<BlobBeginCopyFromURLResponse>,
       BlobBeginCopyFromURLResponse
-    > = await newBlobClient.beginCopyFromURL(blobClient.url);
+    > = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
     const result = await poller.pollUntilDone();
     assert.ok(result.copyId);
@@ -74,7 +74,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
-    const poller = await newBlobClient.beginCopyFromURL(blobClient.url);
+    const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
     let result: BlobBeginCopyFromURLResponse;
     do {
       await poller.poll();
@@ -98,7 +98,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       recorder.getUniqueName("copiedblob")
     );
     const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      testPollerProperties
     );
     await poller.cancelOperation();
     try {
@@ -119,7 +120,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       {
         onProgress(_) {
           onProgressCalled = true;
-        }
+        },
+        ...testPollerProperties
       }
     );
 
@@ -133,7 +135,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
 
     const poller1 = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      testPollerProperties
     );
 
     poller1.stopPolling();
@@ -143,7 +146,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller2 = await newBlobClient.beginCopyFromURL(
       "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
       {
-        resumeFrom: state
+        resumeFrom: state,
+        ...testPollerProperties
       }
     );
     const result = await poller2.pollUntilDone();

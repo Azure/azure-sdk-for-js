@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient, DeletedSecret } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -37,7 +37,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "value");
-    const poller = await client.beginDeleteSecret(secretName);
+    const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending deleted secret can be obtained this way:
@@ -58,7 +58,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "value");
-    const poller = await client.beginDeleteSecret(secretName);
+    const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
@@ -74,7 +74,8 @@ describe("Secrets client - Long Running Operations - delete", () => {
     const serialized = poller.toString();
 
     const resumePoller = await client.beginDeleteSecret(secretName, {
-      resumeFrom: serialized
+      resumeFrom: serialized,
+      ...testPollerProperties
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);

@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient, SecretProperties } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -38,10 +38,10 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     );
     await client.setSecret(secretName, "value");
 
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedSecret(secretName);
+    const poller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending secret properties can be obtained this way:
@@ -62,10 +62,10 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "value");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedSecret(secretName);
+    const poller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e: PollerStoppedError | Error) => {
@@ -83,7 +83,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     const serialized = poller.toString();
 
     const resumePoller = await client.beginRecoverDeletedSecret(secretName, {
-      resumeFrom: serialized
+      resumeFrom: serialized,
+      ...testPollerProperties
     });
 
     assert.ok(poller.getOperationState().isStarted);
@@ -102,10 +103,13 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "value");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     await deletePoller.pollUntilDone();
     await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, { requestOptions: { timeout: 1 } });
+      await client.beginRecoverDeletedSecret(secretName, {
+        requestOptions: { timeout: 1 },
+        ...testPollerProperties
+      });
     });
   });
 });

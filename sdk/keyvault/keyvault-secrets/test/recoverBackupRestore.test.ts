@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -37,7 +37,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.equal(
       deletePoller.getResult()!.name,
       secretName,
@@ -52,7 +52,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       "Unexpected secret name in result from getSecret()."
     );
 
-    const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+    const recoverPoller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
     const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
       secretProperties.name,
@@ -68,7 +68,10 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
     let error;
     try {
-      const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+      const recoverPoller = await client.beginRecoverDeletedSecret(
+        secretName,
+        testPollerProperties
+      );
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
@@ -85,13 +88,14 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     await deletePoller.pollUntilDone();
     await assertThrowsAbortError(async () => {
       await client.beginRecoverDeletedSecret(secretName, {
         requestOptions: {
           timeout: 1
-        }
+        },
+        ...testPollerProperties
       });
     });
   });
