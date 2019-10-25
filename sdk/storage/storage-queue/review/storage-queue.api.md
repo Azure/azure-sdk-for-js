@@ -23,6 +23,7 @@ import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -689,18 +690,6 @@ export interface StoragePipelineOptions {
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
-}
-
-// @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: UserAgentOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
-    }
-
-// @public
-export interface UserAgentOptions {
-    userAgentPrefix?: string;
 }
 
 export { WebResource }

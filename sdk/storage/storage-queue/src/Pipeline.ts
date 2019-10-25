@@ -23,13 +23,14 @@ import {
   ProxyOptions,
   KeepAliveOptions,
   keepAlivePolicy,
-  generateClientRequestIdPolicy
+  generateClientRequestIdPolicy,
+  UserAgentOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { UserAgentOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
