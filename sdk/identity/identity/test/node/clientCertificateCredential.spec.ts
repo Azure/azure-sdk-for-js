@@ -44,7 +44,7 @@ describe("ClientCertificateCredential", function() {
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope");
@@ -91,7 +91,7 @@ describe("ClientCertificateCredential", function() {
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope", {

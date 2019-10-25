@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenResponse, IdentityClientOptions } from "../client/identityClient";
+import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
@@ -82,7 +82,7 @@ export class DeviceCodeCredential implements TokenCredential {
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
