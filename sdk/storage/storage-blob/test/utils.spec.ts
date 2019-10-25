@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { HttpHeaders } from "../src";
+import { HttpHeaders } from "@azure/core-http";
 import {
   sanitizeHeaders,
   sanitizeURL,

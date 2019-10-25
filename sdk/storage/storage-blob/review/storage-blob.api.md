@@ -7,14 +7,10 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
-import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
-import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { Readable } from 'stream';
@@ -160,8 +156,6 @@ export interface AppendPositionAccessConditions {
     appendPosition?: number;
     maxSize?: number;
 }
-
-export { BaseRequestPolicy }
 
 // @public (undocumented)
 export interface BatchSubRequest {
@@ -1102,8 +1096,6 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 // @public
 export type DeleteSnapshotsOptionType = 'include' | 'only';
 
-export { deserializationPolicy }
-
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
 
@@ -1112,18 +1104,6 @@ export function generateBlobSASQueryParameters(blobSASSignatureValues: BlobSASSi
 
 // @public
 export function generateBlobSASQueryParameters(blobSASSignatureValues: BlobSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
-
-export { HttpHeaders }
-
-export { HttpOperationResponse }
-
-export { HttpPipelineLogLevel }
-
-export { HttpRequestBody }
-
-export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public (undocumented)
 export interface Lease {
@@ -1202,9 +1182,6 @@ export interface ModifiedAccessConditions {
     ifNoneMatch?: string;
     ifUnmodifiedSince?: Date;
 }
-
-// @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: PipelineOptions): ServiceClientOptions;
 
 // @public
 export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -1452,12 +1429,6 @@ export interface Range {
 // @public
 export type RehydratePriority = 'High' | 'Standard';
 
-export { RequestPolicy }
-
-export { RequestPolicyFactory }
-
-export { RequestPolicyOptions }
-
 export { RestError }
 
 // @public
@@ -1667,9 +1638,6 @@ export interface SignedIdentifierModel {
 }
 
 // @public (undocumented)
-export const StorageOAuthScopes: string | string[];
-
-// @public (undocumented)
 export interface UserDelegationKey {
     signedExpiry: Date;
     signedObjectId: string;
@@ -1690,8 +1658,6 @@ export interface UserDelegationKeyModel {
     signedVersion: string;
     value: string;
 }
-
-export { WebResource }
 
 
 // (No @packageDocumentation comment for this package)

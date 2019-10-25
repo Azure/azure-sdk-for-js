@@ -2,19 +2,8 @@
 // Licensed under the MIT License.
 
 import {
-  BaseRequestPolicy,
-  deserializationPolicy,
-  HttpClient as IHttpClient,
-  HttpHeaders,
-  HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
-  HttpRequestBody,
-  RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource,
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
@@ -33,24 +22,6 @@ import {
   StorageBlobLoggingAllowedQueryParameters,
   SDK_VERSION
 } from "./utils/constants";
-
-// Export following interfaces and types for customers who want to implement their
-// own RequestPolicy or HTTPClient
-export {
-  BaseRequestPolicy,
-  StorageOAuthScopes,
-  deserializationPolicy,
-  IHttpClient,
-  IHttpPipelineLogger,
-  HttpHeaders,
-  HttpPipelineLogLevel,
-  HttpRequestBody,
-  HttpOperationResponse,
-  WebResource,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions
-};
 
 /**
  * Creates a ServiceClientOptions object with Credential provided.

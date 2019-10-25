@@ -1,4 +1,4 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "../../src";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import { InjectorPolicy, Injector } from "./InjectorPolicy";
 
 /**

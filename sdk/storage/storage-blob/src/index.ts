@@ -27,7 +27,6 @@ export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export * from "./BlobLeaseClient";
 export { BlockBlobTier, PremiumPageBlobTier } from "./models";
-export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./policies/SharedKeyCredentialPolicy";

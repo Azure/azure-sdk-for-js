@@ -5,7 +5,7 @@ import {
   RequestPolicyOptions,
   WebResource,
   RestError
-} from "../../src";
+} from "@azure/core-http";
 
 export interface NextInjectErrorHolder {
   nextInjectError?: RestError;

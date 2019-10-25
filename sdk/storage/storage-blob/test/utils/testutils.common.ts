@@ -1,4 +1,4 @@
-import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
+import { HttpPipelineLogLevel, HttpPipelineLogger } from "@azure/core-http";
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 
@@ -67,7 +67,7 @@ export function base64decode(encodedString: string): string {
   return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
-export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
+export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
   constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
   public log(logLevel: HttpPipelineLogLevel, message: string): void {
     const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
