@@ -48,7 +48,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.userAgentPrefix.replace(" ", "");
+        const telemetryString = (telemetry.userAgentPrefix || "").replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
