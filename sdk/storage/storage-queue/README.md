@@ -72,13 +72,13 @@ npm install @azure/storage-queue@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-queue";
+import * as AzureStorageQueue from "@azure/storage-queue";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-queue");
+const AzureStorageQueue = require("@azure/storage-queue");
 ```
 
 ### JavaScript bundle
@@ -187,46 +187,41 @@ console.log(
 
 ### Send a message to the queue
 
-Send messages using a `MessageClient` instance which can be obtained by calling
-`QueueClient.getMessagesClient()`. The returned response contains data about
-the enqueued message, include a `messageId`, and a `popReceipt` that can be used
-to update the message later.
+Use `sendMessage()` to add a message to the queue:
 
 ```javascript
-// Enqueue a message into the queue using the enqueue method.
-const messagesClient = queueClient.getMessagesClient();
-const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
+// Send a message into the queue using the sendMessage method.
+const sendMessageResponse = await queueClient.sendMessage("Hello World!");
 console.log(
-  `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+  `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`
 );
 ```
 
 ### Peek a message
 
-`MessagesClient.peek()` allows looking at one or more messages in front of the queue. This call
+`QueueClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
-const peekQueueResponse = await messagesClient.peek();
-console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
+const peekMessagesResponse = await queueClient.peekMessages();
+console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
 ```
 
 ### Processing a message
 
 Messages are processed in two steps.
 
-- First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
-- When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- When processing of a message is done, call `queueClient.deleteMessage()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
-const dequeueResponse = await messagesClient.dequeue();
-if (dequeueResponse.dequeuedMessageItems.length == 1) {
-  const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-  console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-  const messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
-  const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
+const response = await queueClient.receiveMessages();
+if (response.receivedMessageItems.length == 1) {
+  const receivedMessageItem = response.receivedMessageItems[0];
+  console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
+  const deleteMessageResponse = await queueClient.deleteMessage(receivedMessageItem.messageId, receivedMessageItem.popReceipt);
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );

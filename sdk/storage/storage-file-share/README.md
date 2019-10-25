@@ -83,13 +83,13 @@ npm install @azure/storage-file-share@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-file-share";
+import * as AzureStorageFileShare from "@azure/storage-file-share";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-file-share");
+const AzureStorageFileShare = require("@azure/storage-file-share");
 ```
 
 ### JavaScript bundle

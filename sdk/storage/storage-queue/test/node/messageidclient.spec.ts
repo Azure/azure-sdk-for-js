@@ -5,7 +5,7 @@ import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 
-describe("MessageIdClient Node.js only", () => {
+describe("QueueClient messageId methods, Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
