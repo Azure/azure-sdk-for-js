@@ -13,6 +13,8 @@ import {
   ProxySettings
 } from "@azure/core-http";
 
+import { parseConnectionString } from "@azure/amqp-common";
+
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
 import * as log from "./log";
@@ -258,9 +260,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param options ServiceBusAtomManagementClientOptions
    */
   constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions) {
-    const connectionStringObj = ServiceBusAtomManagementClient.parseConnectionString(
-      connectionString
-    );
+    const connectionStringObj: any = parseConnectionString(connectionString);
 
     if (connectionStringObj.Endpoint == undefined) {
       throw new Error("Endpoint must be supplied in the connection string");
@@ -814,38 +814,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     }
 
     return requestUrl.toString();
-  }
-
-  private static parseConnectionString(connectionString: string): { [key: string]: string } {
-    const output: { [key: string]: string } = {};
-    const parts = connectionString.trim().split(";");
-
-    for (let part of parts) {
-      part = part.trim();
-
-      if (part === "") {
-        // parts can be empty
-        continue;
-      }
-
-      const splitIndex = part.indexOf("=");
-      if (splitIndex === -1) {
-        throw new Error(
-          "Connection string malformed: each part of the connection string must have an `=` assignment."
-        );
-      }
-
-      const key = part.substring(0, splitIndex).trim();
-      if (key === "") {
-        throw new Error("Connection string malformed: missing key for assignment");
-      }
-
-      const value = part.substring(splitIndex + 1).trim();
-
-      output[key] = value;
-    }
-
-    return output;
   }
 
   private getSubscriptionPath(topicName: string, subscriptionName: string): string {
