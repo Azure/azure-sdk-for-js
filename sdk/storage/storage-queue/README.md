@@ -187,17 +187,13 @@ console.log(
 
 ### Send a message to the queue
 
-Send messages using a `MessageClient` instance which can be obtained by calling
-`QueueClient.getMessagesClient()`. The returned response contains data about
-the enqueued message, include a `messageId`, and a `popReceipt` that can be used
-to update the message later.
+Use `sendMessage()` to add a message to the queue:
 
 ```javascript
-// Enqueue a message into the queue using the enqueue method.
-const messagesClient = queueClient.getMessagesClient();
-const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
+// Send a message into the queue using the sendMessage method.
+const enqueueQueueResponse = await queueClient.sendMessage("Hello World!");
 console.log(
-  `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+  `Sent message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
 );
 ```
 
@@ -215,19 +211,19 @@ console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].me
 
 Messages are processed in two steps.
 
-- First call `MessagesClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
-- When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- When processing of a message is done, call `queueClient.deleteMessage()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
 // Receiving a message is also commonly known as dequeueing a message.
-const response = await messagesClient.receiveMessages();
+const response = await queueClient.receiveMessages();
 if (response.receivedMessageItems.length == 1) {
   const receivedMessageItem = response.receivedMessageItems[0];
   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
-  const messageIdClient = messagesClient.getMessageIdClient(receivedMessageItem.messageId);
-  const deleteMessageResponse = await messageIdClient.delete(receivedMessageItem.popReceipt);
+  const messageIdClient = queueClient.getMessageIdClient(receivedMessageItem.messageId);
+  const deleteMessageResponse = await messageIdClient.deleteMessage(receivedMessageItem.popReceipt);
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );
@@ -237,7 +233,7 @@ if (response.receivedMessageItems.length == 1) {
 ### Delete a queue
 
 ```javascript
-const deleteQueueResponse = await queueClient.deleteMessage();
+const deleteQueueResponse = await queueClient.delete();
 console.log(
   `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
 );

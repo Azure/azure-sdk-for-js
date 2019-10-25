@@ -20,7 +20,7 @@ describe("Emulator Tests", () => {
     await queueClient.create();
   });
 
-  it("MessagesClient can be created with a connection string and a queue name", async () => {
+  it("QueueClient can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
     const eResult = await newClient.sendMessage(messageContent);
