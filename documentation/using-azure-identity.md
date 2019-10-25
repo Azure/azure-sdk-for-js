@@ -13,7 +13,7 @@ access to Azure services.
 - [Getting Started](#getting-started)
 - [Understanding the Credential Types](#understanding-the-credential-types)
 - [Choosing a Credential Type](#choosing-a-credential-type)
-- [Credential Types in @azure/identity](#credential-types-in-@azure/identity)
+- [Credential Types in @azure/identity](#credential-types-in-azureidentity)
 
 ## Getting Started
 
