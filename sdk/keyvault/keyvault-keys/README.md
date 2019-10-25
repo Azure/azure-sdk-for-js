@@ -130,16 +130,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   already created in the Key Vault. More about this client in the
   [Cryptography](#cryptography) section.
 
-## Authenticating the client
+## Authenticating with @azure/identity
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeyClient, which will connect to the key vault.
+This library supports the use of [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) which provides a variety of credential types that your application can use to authenticate users and services with the Key Vault service.  For more information on how to use these credentials, read [Using @azure/identity with Microsoft Identity Platform](documentation/using-azure-identity.md).
+
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and KeyClient, which will connect to the key vault.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 ```
 
-Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
+Once these are imported, we can next connect to the Key Vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -393,7 +395,7 @@ async function main() {
 
   // You can use the deleted key immediately:
   let deletedKey = poller.getDeletedKey();
-  
+
   await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
   console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
 
