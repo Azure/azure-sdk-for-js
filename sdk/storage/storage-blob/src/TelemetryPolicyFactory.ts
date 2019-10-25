@@ -25,7 +25,7 @@ export interface UserAgentOptions {
    * @type {string}
    * @memberof TelemetryOptions
    */
-  userAgentPrefix: string;
+  userAgentPrefix?: string;
 }
 
 /**
