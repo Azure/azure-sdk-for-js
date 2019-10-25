@@ -22,6 +22,7 @@ import {
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
+import { EventHubConsumerClientFacade } from '../src/eventHubConsumerClientFacade';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -30,6 +31,7 @@ describe("Event Processor", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   let client: EventHubClient;
+  let facadeClient: EventHubConsumerClientFacade;
   before("validate environment", async function(): Promise<void> {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -43,13 +45,19 @@ describe("Event Processor", function(): void {
 
   beforeEach("create the client", function() {
     client = new EventHubClient(service.connectionString, service.path);
+    facadeClient = new EventHubConsumerClientFacade({
+      connectionString: service.connectionString,
+      eventHubName: service.path
+    },
+      EventHubClient.defaultConsumerGroupName);
   });
 
   afterEach("close the connection", async function(): Promise<void> {
     await client.close();
+    await facadeClient.close();
   });
 
-  it("should expose an id #RunnableInBrowser", async function(): Promise<void> {
+  it("should expose an id #RunnableInBrowser", async function (): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -101,7 +109,7 @@ describe("Event Processor", function(): void {
     partitionProcessorInfo[2].should.equals(EventHubClient.defaultConsumerGroupName);
   });
 
-  it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<void> {
+  it.only("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
     // ensure we have at least 2 partitions
@@ -109,40 +117,62 @@ describe("Event Processor", function(): void {
 
     const partitionResultsMap = new Map<
       string,
-      { events: string[]; initialized: boolean; closeReason?: CloseReason }
+      { events: string[]; closeReason?: CloseReason }
     >();
-    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
+    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [] }));
     let didError = false;
     const partitionOwnerShip = new Set();
 
     // The partitionProcess will need to add events to the partitionResultsMap as they are received
     class FooPartitionProcessor extends PartitionProcessor {
-      async initialize() {
-        partitionResultsMap.get(this.partitionId)!.initialized = true;
-      }
+      // async initialize() {
+      //   partitionResultsMap.get(this.partitionId)!.initialized = true;
+      // }
       async close(reason: CloseReason) {
         partitionResultsMap.get(this.partitionId)!.closeReason = reason;
       }
       async processEvents(events: ReceivedEventData[]) {
-        partitionOwnerShip.add(this.partitionId);
-        const existingEvents = partitionResultsMap.get(this.partitionId)!.events;
+
+        const partitionId = events[0].partitionId;
+
+        partitionOwnerShip.add(partitionId);
+        const existingEvents = partitionResultsMap.get(partitionId)!.events;
         events.forEach((event) => existingEvents.push(event.body));
       }
-      async processError() {
+      async processError(err: Error) {
         didError = true;
       }
     }
 
-    const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
-      client,
-      FooPartitionProcessor,
-      new InMemoryPartitionManager()
+    
+
+    // const processor = new EventProcessor(
+    //   EventHubClient.defaultConsumerGroupName,
+    //   client,
+    //   FooPartitionProcessor,
+    //   new InMemoryPartitionManager()
+    // );
+
+    // processor.start();
+    // processor.start();
+    // processor.start();
+
+    const processor = new FooPartitionProcessor();
+
+    const processor1 = await facadeClient.subscribe(
+      (events) => processor.processEvents(events),
+      (err) => processor.processError(err)
     );
 
-    processor.start();
-    processor.start();
-    processor.start();
+    const processor2 = await facadeClient.subscribe(
+      (events) => processor.processEvents(events),
+      (err) => processor.processError(err)
+    );
+
+    const processor3 = await facadeClient.subscribe(
+      (events) => processor.processEvents(events),
+      (err) => processor.processError(err)
+    );
 
     // create messages
     const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
@@ -170,8 +200,13 @@ describe("Event Processor", function(): void {
         break;
       }
     }
+
+    processor1.stop();
+    // processor2.stop();
+    // processor3.stop();  
+
     // shutdown the processor
-    await processor.stop();
+    // await processor.stop();
 
     didError.should.be.false;
     // validate correct events captured for each partition
@@ -179,7 +214,9 @@ describe("Event Processor", function(): void {
       const results = partitionResultsMap.get(partitionId)!;
       const events = results.events;
       events.length.should.gte(1);
-      results.initialized.should.be.true;
+      
+      // results.initialized.should.be.true;
+
       (results.closeReason === CloseReason.Shutdown).should.be.true;
     }
   });

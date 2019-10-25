@@ -228,7 +228,7 @@ export class EventHubReceiver extends LinkEntity {
       // TODO: fill these out.
       consumerGroupName: "",
       eventHubName: "",
-      partitionId: ""
+      partitionId: this.partitionId!
     };
 
     this._checkpoint = receivedEventData.sequenceNumber;

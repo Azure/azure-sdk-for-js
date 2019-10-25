@@ -8,7 +8,7 @@ import { MessagingError } from "@azure/core-amqp";
 import { GreedyPartitionLoadBalancer } from './partitionLoadBalancer';
 
 
-interface HostAndCredential {
+interface HostAndTokenCredential {
   host: string;
   credential: TokenCredential;
   eventHubName: string;
@@ -36,7 +36,7 @@ export class EventHubConsumerClientFacade {
   private _eventHubClient: EventHubClient;
 
   constructor(
-    connectionInfo: EventHubConnectionString | HostAndCredential,
+    connectionInfo: EventHubConnectionString | HostAndTokenCredential,
     private consumerGroupName: string,
     options?: EventHubClientOptions
   ) {
@@ -47,11 +47,15 @@ export class EventHubConsumerClientFacade {
     );
   }
 
+  close() {
+    this._eventHubClient.close();
+  }
+
   private static createEventHubClient(
-    connectionInfo: EventHubConnectionString | HostAndCredential,
+    connectionInfo: EventHubConnectionString | HostAndTokenCredential,
     options?: EventHubClientOptions
   ) {
-    if (EventHubConsumerClientFacade.isHostAndCredential(connectionInfo)) {
+    if (EventHubConsumerClientFacade.isHostAndTokenCredential(connectionInfo)) {
       return new EventHubClient(
         connectionInfo.host,
         connectionInfo.eventHubName,
@@ -85,6 +89,10 @@ export class EventHubConsumerClientFacade {
     onError: (error: MessagingError | Error) => Promise<void>
   ): Subscription {
     class DefaultPartitionProcessor extends PartitionProcessor {
+      constructor() {
+        super();
+      }
+      
       async processEvents(events: ReceivedEventData[]): Promise<void> {
         await onReceivedEvents(events);
       }
@@ -126,6 +134,10 @@ export class EventHubConsumerClientFacade {
     onError: (error: MessagingError | Error) => Promise<void>
   ): Subscription {
     class DefaultPartitionProcessor extends PartitionProcessor {
+      constructor() {
+        super();
+      }
+
       async processEvents(events: ReceivedEventData[]): Promise<void> {
         await onReceivedEvents(events);
       }
@@ -192,9 +204,9 @@ export class EventHubConsumerClientFacade {
     };
   }
 
-  private static isHostAndCredential(
-    connectionInfo: EventHubConnectionString | HostAndCredential
-  ): connectionInfo is HostAndCredential {
-    return typeof connectionInfo !== "string";
+  private static isHostAndTokenCredential(
+    connectionInfo: EventHubConnectionString | HostAndTokenCredential
+  ): connectionInfo is HostAndTokenCredential {
+    return !(connectionInfo as EventHubConnectionString).connectionString;
   }
 }
