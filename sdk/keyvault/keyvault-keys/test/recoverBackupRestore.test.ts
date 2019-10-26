@@ -79,15 +79,13 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can generate a backup of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    await assertThrowsAbortError(async () => {
-      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can generate a backup of a key with requestOptions timeout", async function() {
+      await assertThrowsAbortError(async () => {
+        await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
+      });
     });
-  });
+  }
 
   it("fails to generate a backup of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -112,20 +110,18 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can restore a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const backup = await client.backupKey(keyName);
-    await testClient.flushKey(keyName);
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can restore a key with requestOptions timeout", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      await client.createKey(keyName, "RSA");
+      const backup = await client.backupKey(keyName);
+      await testClient.flushKey(keyName);
 
-    await assertThrowsAbortError(async () => {
-      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
+      await assertThrowsAbortError(async () => {
+        await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
+      });
     });
-  });
+  }
 
   it("fails to restore a key with a malformed backup", async function() {
     const backup = new Uint8Array(8693);

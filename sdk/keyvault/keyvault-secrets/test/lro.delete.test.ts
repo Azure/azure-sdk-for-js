@@ -86,16 +86,15 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  it("can attempt to delete a secret with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip();
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "value");
-    await assertThrowsAbortError(async () => {
-      await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can attempt to delete a secret with requestOptions timeout", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "value");
+      await assertThrowsAbortError(async () => {
+        await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
+      });
     });
-  });
+	}
 });
