@@ -77,6 +77,10 @@ export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
     client: SecretClientInterface;
     name: string;
@@ -119,7 +123,7 @@ export interface SecretClientInterface {
     deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
     getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
+    recoverDeletedSecret(secretName: string, options?: RecoverDeletedSecretOptions): Promise<SecretProperties>;
 }
 
 // @public

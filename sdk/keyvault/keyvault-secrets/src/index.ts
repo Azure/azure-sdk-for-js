@@ -53,6 +53,7 @@ import {
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
   RestoreSecretBackupOptions,
+  RecoverDeletedSecretOptions,
   ListOperationOptions,
   SecretProperties
 } from "./secretsModels";
@@ -70,6 +71,7 @@ export {
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
   RestoreSecretBackupOptions,
+  RecoverDeletedSecretOptions,
   ListOperationOptions,
   PagedAsyncIterableIterator,
   PageSettings,
@@ -591,9 +593,10 @@ export class SecretClient {
 
   private async recoverDeletedSecret(
     secretName: string,
-    options: RequestOptionsBase = {}
+    options: RecoverDeletedSecretOptions = {}
   ): Promise<SecretProperties> {
-    const span = this.createSpan("recoverDeletedSecret", options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("recoverDeletedSecret", requestOptions);
 
     let properties: SecretProperties;
 
@@ -601,7 +604,7 @@ export class SecretClient {
       const response = await this.client.recoverDeletedSecret(
         this.vaultUrl,
         secretName,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
       properties = this.getSecretFromSecretBundle(response).properties;
     } finally {

@@ -58,7 +58,7 @@ async function update(
       state.isCompleted = true;
     } catch (_) {}
     if (!state.isCompleted) {
-      state.result = await client.recoverDeletedSecret(name, requestOptions);
+      state.result = await client.recoverDeletedSecret(name, { requestOptions });
       state.isStarted = true;
     }
   }
