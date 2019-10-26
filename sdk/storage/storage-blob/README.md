@@ -84,13 +84,13 @@ npm install @azure/storage-blob@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-blob";
+import * as AzureStorageBlob from "@azure/storage-blob";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-blob");
+const AzureStorageBlob = require("@azure/storage-blob");
 ```
 
 ### JavaScript bundle
@@ -295,17 +295,17 @@ async function streamToString(readableStream) {
 ### Download a blob and convert it to a string (Browsers)
 
 ```javascript
-  // Get blob content from position 0 to the end
-  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobClient.download();
-  const downloaded = await blobToString(downloadBlockBlobResponse.blobBody);
-  console.log(
-    "Downloaded blob content",
-    downloaded
-  );
+// Get blob content from position 0 to the end
+// In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+const downloadBlockBlobResponse = await blobClient.download();
+const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
+console.log(
+  "Downloaded blob content",
+  downloaded
+);
 
 // [Browsers only] A helper method used to convert a browser Blob into string.
-export async function blobToString(blob: Blob): Promise<string> {
+async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();
   return new Promise<string>((resolve, reject) => {
     fileReader.onloadend = (ev: any) => {

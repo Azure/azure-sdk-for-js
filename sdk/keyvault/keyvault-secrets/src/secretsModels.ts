@@ -9,12 +9,26 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the secret client. For internal use.
  */
 export interface SecretClientInterface {
+  /**
+   * Recovers the deleted secret in the specified vault.
+   */
   recoverDeletedSecret(
     secretName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SecretProperties>;
+  /**
+   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
+   * the secrets/get permission.
+   */
   getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+  /**
+   * Deletes a secret stored in Azure Key Vault.
+   */
   deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
+  /**
+   * The getDeletedSecret method returns the specified deleted secret along with its attributes.
+   * This operation requires the secrets/get permission.
+   */
   getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
 }
 

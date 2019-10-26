@@ -512,12 +512,9 @@ async function main() {
   // Create or retrieve a key from the keyvault
   let myKey = await keysClient.createKey("MyKey", "RSA");
 
-  // Lastly, create our cryptography client and connect to the service
-  // This example uses the URL that is part of the key we created (called key ID or kid)
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
-}
-
-main();
+// Lastly, create our cryptography client and connect to the service
+// This example uses the URL that is part of the key we created (called key ID)
+const cryptographyClient = new CryptographyClient(myKey.id, credential);
 ```
 
 ### Encrypt
@@ -537,7 +534,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const encryptResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
   console.log("encrypt result: ", encryptResult.result);
@@ -563,7 +560,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const decryptResult = await cryptographyClient.decrypt("RSA1_5", encryptResult.result);
   console.log("decrypt result: ", decryptResult.result.toString());
@@ -589,7 +586,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const signatureValue = "MySignature";
   let hash = crypto.createHash("sha256");
@@ -621,7 +618,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const signResult = await cryptographyClient.sign("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
@@ -647,7 +644,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const signResult = await cryptographyClient.sign("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
@@ -676,7 +673,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const buffer = Buffer.from("My Message");
 
@@ -707,7 +704,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);
@@ -733,7 +730,7 @@ const keysClient = new KeyClient(url, credential);
 
 async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, credential);
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
   console.log("wrap result:", wrapResult.result);

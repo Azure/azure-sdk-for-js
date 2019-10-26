@@ -31,11 +31,8 @@ export interface DeletedSecret {
 
 // @public
 export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    // (undocumented)
     client: SecretClientInterface;
-    // (undocumented)
     name: string;
-    // (undocumented)
     requestOptions?: RequestOptionsBase;
 }
 
@@ -69,13 +66,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
 export { PipelineOptions }
 
 export { PollerLike }
@@ -83,22 +73,13 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
-
-// @public
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
 export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
-    // (undocumented)
     client: SecretClientInterface;
-    // (undocumented)
     name: string;
-    // (undocumented)
     requestOptions?: RequestOptionsBase;
 }
 
@@ -115,7 +96,7 @@ export interface RetryOptions {
 
 // @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
@@ -135,13 +116,9 @@ export class SecretClient {
 
 // @public
 export interface SecretClientInterface {
-    // (undocumented)
     deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
     getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    // (undocumented)
     recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
 }
 
@@ -180,12 +157,6 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
 }
 
 // @public

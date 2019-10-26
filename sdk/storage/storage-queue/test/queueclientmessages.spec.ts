@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
-describe("MessagesClient", () => {
+describe("QueueClient message methods", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
