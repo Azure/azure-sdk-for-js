@@ -10,7 +10,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -89,13 +88,6 @@ export interface DeletedKey {
         readonly scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
-}
-
-// @public
-export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
-    client: KeyClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -257,13 +249,6 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
-    client: KeyClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public

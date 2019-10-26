@@ -47,8 +47,6 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
-import { DeleteKeyPollOperationState } from "./lro/delete/operation";
-import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
 
 import {
   BackupKeyOptions,
@@ -100,7 +98,6 @@ export {
   CryptographyOptions,
   DecryptOptions,
   DecryptResult,
-  DeleteKeyPollOperationState,
   DeletedKey,
   DeletionRecoveryLevel,
   EncryptOptions,
@@ -127,7 +124,6 @@ export {
   PollerLike,
   PurgeDeletedKeyOptions,
   RecoverDeletedKeyOptions,
-  RecoverDeletedKeyPollOperationState,
   RestoreKeyBackupOptions,
   SignOptions,
   SignResult,
