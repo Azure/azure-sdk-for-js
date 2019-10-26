@@ -8,6 +8,7 @@ import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader } from "../headerUtils";
+import { emptyGroup } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -44,7 +45,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
     // If it exists, process it via aggreatators
     if (result) {
-      const grouping = result.groupByItems ? await hashObject(result.groupByItems) : "";
+      const grouping = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
       const aggergator = this.aggergators[grouping];
       const payload = result.payload ? result.payload : result;
       if (!aggergator) {

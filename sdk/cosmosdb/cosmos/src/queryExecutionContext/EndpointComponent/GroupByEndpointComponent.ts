@@ -8,6 +8,7 @@ import { QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader } from "../headerUtils";
+import { emptyGroup } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -18,9 +19,6 @@ interface GroupByResult {
   groupByItems: any[];
   payload: any;
 }
-
-// The empty group is used for aggregates without a GROUP BY clause
-const emptyGroup = "__empty__";
 
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
