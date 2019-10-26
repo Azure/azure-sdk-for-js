@@ -184,14 +184,6 @@ export class KeyClient {
 }
 
 // @public
-export interface KeyClientInterface {
-    deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
-    getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
-    getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
-}
-
-// @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;

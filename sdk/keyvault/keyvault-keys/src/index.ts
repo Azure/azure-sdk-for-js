@@ -109,7 +109,6 @@ export {
   JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyType,
-  KeyClientInterface,
   KeyPollerOptions,
   KeyProperties,
   KeySignatureAlgorithm,
