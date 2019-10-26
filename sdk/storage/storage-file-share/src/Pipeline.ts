@@ -7,8 +7,6 @@ import {
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
@@ -40,9 +38,7 @@ import {
 export {
   deserializationPolicy,
   IHttpClient,
-  IHttpPipelineLogger,
   HttpHeaders,
-  HttpPipelineLogLevel,
   HttpOperationResponse,
   HttpRequestBody,
   WebResource,
@@ -59,13 +55,6 @@ export {
  * @interface PipelineOptions
  */
 export interface PipelineOptions {
-  /**
-   * Optional. Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof PipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
@@ -123,7 +112,6 @@ export class Pipeline {
   public toServiceClientOptions(): ServiceClientOptions {
     return {
       httpClient: this.options.httpClient,
-      httpPipelineLogger: this.options.logger,
       requestPolicyFactories: this.factories
     };
   }
@@ -158,13 +146,6 @@ export interface StoragePipelineOptions {
    * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
-  /**
-   * Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof StoragePipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
@@ -218,7 +199,6 @@ export function newPipeline(
   factories.push(credential);
 
   return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient,
-    logger: pipelineOptions.logger
+    httpClient: pipelineOptions.httpClient
   });
 }

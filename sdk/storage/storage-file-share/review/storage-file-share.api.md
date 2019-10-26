@@ -10,11 +10,9 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { Readable } from 'stream';
@@ -669,13 +667,9 @@ export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
@@ -697,7 +691,6 @@ export class Pipeline {
 // @public
 export interface PipelineOptions {
     httpClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
 }
 
 // @public
@@ -1207,7 +1200,6 @@ export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
     // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
     // (undocumented)
     proxy?: ProxySettings | string;
     retryOptions?: RetryOptions;
