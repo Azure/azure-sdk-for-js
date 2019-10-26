@@ -1207,13 +1207,6 @@ export interface StoragePipelineOptions {
 }
 
 // @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: UserAgentOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
-    }
-
-// @public
 export type TimeNowType = "now";
 
 // @public
