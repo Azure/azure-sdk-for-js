@@ -10,7 +10,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -89,13 +88,6 @@ export interface DeletedKey {
         readonly scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
-}
-
-// @public
-export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
-    client: KeyClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -192,14 +184,6 @@ export class KeyClient {
 }
 
 // @public
-export interface KeyClientInterface {
-    deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
-    getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
-    getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
-}
-
-// @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
@@ -260,21 +244,7 @@ export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
-    client: KeyClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
-}
-
-// @public
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
 }
 
 // @public
