@@ -21,7 +21,7 @@ const banner = [
   " * Licensed under the MIT License. See License.txt in the project root for",
   " * license information.",
   " * ",
-  ` * Azure Core Lro SDK for JavaScript - ${version}`,
+  ` * Azure Core LRO SDK for JavaScript - ${version}`,
   " */"
 ].join("\n");
 
