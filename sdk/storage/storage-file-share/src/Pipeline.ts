@@ -72,7 +72,7 @@ export interface PipelineOptions {
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HttpClient?: IHttpClient;
+  httpClient?: IHttpClient;
 }
 
 /**
@@ -122,7 +122,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HttpClient,
+      httpClient: this.options.httpClient,
       httpPipelineLogger: this.options.logger,
       requestPolicyFactories: this.factories
     };
@@ -218,7 +218,7 @@ export function newPipeline(
   factories.push(credential);
 
   return new Pipeline(factories, {
-    HttpClient: pipelineOptions.httpClient,
+    httpClient: pipelineOptions.httpClient,
     logger: pipelineOptions.logger
   });
 }
