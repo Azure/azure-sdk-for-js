@@ -23,7 +23,6 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
 export * from "./TelemetryPolicyFactory";
-export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export { CommonOptions } from "./StorageClient";

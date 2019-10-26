@@ -18,7 +18,10 @@ import {
   tracingPolicy,
   logPolicy,
   ProxyOptions,
-  UserAgentOptions
+  UserAgentOptions,
+  KeepAliveOptions,
+  keepAlivePolicy,
+  generateClientRequestIdPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -26,8 +29,6 @@ import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters
@@ -176,9 +177,9 @@ export function newPipeline(
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
-    new UniqueRequestIDPolicyFactory(),
+    generateClientRequestIdPolicy(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),

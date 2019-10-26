@@ -13,6 +13,7 @@ import { HttpOperationResponse } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
@@ -1199,7 +1200,6 @@ export interface SourceModifiedAccessConditions {
 // @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
@@ -1218,12 +1218,6 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-}
 
 export { WebResource }
 
