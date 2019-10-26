@@ -38,7 +38,7 @@
     "README.md"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-core-lro.js",
+    "./dist/index.js": "./browser/azure-core-lro.min.js",
     "os": false,
     "process": false
   },
@@ -96,6 +96,7 @@
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/core-http": "1.0.0-preview.6",
+    "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
