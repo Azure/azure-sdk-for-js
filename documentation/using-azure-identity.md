@@ -178,14 +178,39 @@ application to learn how to configure environment variables for your deployment.
 ### ManagedIdentityCredential
 
 The `ManagedIdentityCredential` takes advantage of authentication endpoints that
-are hosted within the virtual network of applications deployed to Azure on
-virtual machines, App Services, Functions, Container Services, [and
-more](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview#how-can-i-use-managed-identities-for-azure-resources).
+are hosted within the virtual network of applications deployed to Azure virtual
+machines, App Services, Functions, Container Services, [and
+more](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities).
+
+One primary difference with this credential compared to the others is that it
+_does not require an app registration_.  This authentication scheme relates to
+the actual Azure resources to which your code is deployed rather than the
+application itself.
+
+To enable your application to authenticate with these endpoints, you will need
+to grant one of two types of managed identity to the resource that runs your
+code:
+
+- A [system-assigned
+  identity](https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity#adding-a-system-assigned-identity)
+  which uniquely identifies your resource
+- A [user-assigned
+  identity](https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity#adding-a-user-assigned-identity)
+  which can be assigned to your application (and others)
+
+Once your application has an identity assigned, that identity can be granted
+access to Azure resources through role assignments.  If you are using a
+system-assigned identity, you can just create an instance of
+`ManagedIdentityCredential` without any configuration.  For user-assigned
+identities, you must provide the `clientId` of the managed identity you wish to
+use for authentication.
 
 More information on configuring and using managed identities can be found in the
 [Managed identities for Azure
 resources](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)
-documentation.
+documentation.  There is also a [list of Azure
+services](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-services-that-support-azure-ad-authentication)
+that have been tested to confirm support for managed identity authentication.
 
 ### InteractiveBrowserCredential
 
