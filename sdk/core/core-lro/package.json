@@ -35,7 +35,8 @@
     "dist-esm/",
     "src/",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "ThirdPartyNotices.txt"
   ],
   "browser": {
     "./dist/index.js": "./browser/azure-core-lro.min.js",

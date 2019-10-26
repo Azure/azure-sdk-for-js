@@ -39,7 +39,8 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "types/core-auth.d.ts"
+    "types/core-auth.d.ts",
+    "ThirdPartyNotices.txt"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
