@@ -38,8 +38,7 @@
     "es/lib/**/*.d.ts.map",
     "lib/**/*.ts",
     "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-arm",
