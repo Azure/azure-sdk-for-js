@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
 import { record, testPollerProperties } from "./utils/recorder";
+import { env } from "./utils/testutils.common";
 import {
   BlobClient,
   BlockBlobClient,
@@ -93,41 +94,45 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.deepStrictEqual(properties2.copySource, blobClient.url);
   });
 
-  it("supports cancellation of the copy", async () => {
-    const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.getUniqueName("copiedblob")
-    );
-    const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
-      testPollerProperties
-    );
-    await poller.cancelOperation();
-    try {
-      await poller.pollUntilDone();
-      throw new Error("Test failure");
-    } catch (err) {
-      assert.equal(err.name, "PollerCancelledError");
-    }
-  });
-
-  it("supports updating on progress events", async () => {
-    const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.getUniqueName("copiedblob")
-    );
-    let onProgressCalled = false;
-    const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
-      {
-        onProgress(_) {
-          onProgressCalled = true;
-        },
-        ...testPollerProperties
+  // These tests depend on the service not returning 'success' as soon as
+  // the copy is initiated. Since this can't be guaranteed in the live tests,
+  // these tests will only run with the unit tests with pre-recorded service responses.
+  if (env.TEST_MODE === "playback") {
+    it("supports cancellation of the copy", async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const poller = await newBlobClient.beginCopyFromURL(
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+        testPollerProperties
+      );
+      await poller.cancelOperation();
+      try {
+        await poller.pollUntilDone();
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.equal(err.name, "PollerCancelledError");
       }
-    );
+    });
 
-    await poller.pollUntilDone();
-    assert.equal(onProgressCalled, true, "onProgress handler was not called.");
-  });
+    it("supports updating on progress events", async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      let onProgressCalled = false;
+      const poller = await newBlobClient.beginCopyFromURL(
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+        {
+          onProgress(_) {
+            onProgressCalled = true;
+          },
+          ...testPollerProperties
+        }
+      );
+      await poller.pollUntilDone();
+      assert.equal(onProgressCalled, true, "onProgress handler was not called.");
+    });
+  }
 
   it("supports restoring poller state from another poller", async () => {
     const newBlobClient = destinationContainerClient.getBlobClient(
