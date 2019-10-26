@@ -27,6 +27,7 @@
   "files": [
     "LICENSE.txt",
     "README.md",
+    "ThirdPartyNotices.txt",
     "types/keyvault-keys.d.ts",
     "browser/",
     "dist/",
