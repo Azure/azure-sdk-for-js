@@ -56,11 +56,11 @@ personal Microsoft accounts if it was created without that option set.
 
 ## Understanding the Credential Types
 
-Microsoft identity platform provides a variety of different authentication flows
-that serve different use cases and application types.  A primary differentiator
-between these flows is whether the "client" that initiates the flow is
-running on a user device or on a system managed by the application developer
-(like a web server).  The [Microsoft Authentication
+Microsoft identity platform provides a variety of authentication flows that
+serve different use cases and application types.  A primary differentiator
+between these flows is whether the "client" that initiates the flow is running
+on a user device or on a system managed by the application developer (like a web
+server).  The [Microsoft Authentication
 Library](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-applications)
 documentation describes this distinction as _public_ versus _confidential_
 clients.
@@ -120,7 +120,7 @@ in the "Certificates & secrets" page for your app registration. Using a
 certificate to authenticate is recommended as it is generally more secure than
 using a client secret.
 
-> NOTE: At this time, @azure/identity only supports PEM files that are not
+> NOTE: At this time, @azure/identity only supports PEM files that are **not**
 > password protected.
 
 For both of these credentials, `tenantId` and `clientId` are required parameters.
@@ -135,7 +135,7 @@ to authenticate public or confidential clients.  To use this credential, you
 will need the `tenantId` and `clientId` of your app and a `username` and
 `password` of the user you are authenticating.
 
-This credential type supports multi-tenant app registrations and you may pass
+This credential type supports multi-tenant app registrations so you may pass
 `organizations` as the `tenantId` to enable users from any organizational tenant
 to authenticate.
 
