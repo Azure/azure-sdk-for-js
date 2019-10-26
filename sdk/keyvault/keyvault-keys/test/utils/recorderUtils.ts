@@ -22,5 +22,5 @@ export function uniqueString(): string {
 }
 
 export const testPollerProperties = {
-  intervalInMs: isPlayback ? 0 : 2000
+  intervalInMs: isPlayingBack ? 0 : 2000
 };
