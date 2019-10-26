@@ -69,7 +69,7 @@ jobs:
           SourceDirectory: $(Build.SourcesDirectory)
 
       - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/docfx_project/*" -Destination "$(Build.ArtifactStagingDirectory)/docfx_project/" -Recurse -Force
+          Copy-Item "$(Build.SourcesDirectory)/docfx_project/*" -Destination "$(Build.ArtifactStagingDirectory)/docfx_project/" -Recurse
         displayName: Copy HTML to Artifacts Directory
 
       - task: PublishPipelineArtifact@0
