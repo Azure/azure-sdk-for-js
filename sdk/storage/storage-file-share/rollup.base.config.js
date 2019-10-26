@@ -87,7 +87,7 @@ export function browserConfig(test = false, production = false) {
       file: "browser/azure-storage-file-share.js",
       banner: banner,
       format: "umd",
-      name: "azfile",
+      name: "azfileshare",
       sourcemap: true
     },
     preserveSymlinks: false,
