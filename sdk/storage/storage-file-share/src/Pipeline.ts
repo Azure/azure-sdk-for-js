@@ -17,14 +17,15 @@ import {
   isNode,
   tracingPolicy,
   logPolicy,
-  ProxyOptions
+  ProxyOptions,
+  UserAgentOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
 import {
@@ -128,12 +129,12 @@ export interface StoragePipelineOptions {
    */
   proxyOptions?: ProxyOptions;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options for adding user agent details to outgoing requests.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
@@ -176,7 +177,7 @@ export function newPipeline(
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     new UniqueRequestIDPolicyFactory(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
