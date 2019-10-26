@@ -30,6 +30,9 @@ import {
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { createSpan } from "./utils/tracing";
 
+/**
+ * A request associated with a batch operation.
+ */
 export interface BatchSubRequest {
   /**
    * The URL of the resource to request operation.

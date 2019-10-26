@@ -328,6 +328,12 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   conditions?: ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Upload Pages From URL operation.
+ *
+ * @export
+ * @interface PageBlobUploadPagesFromURLOptions
+ */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.

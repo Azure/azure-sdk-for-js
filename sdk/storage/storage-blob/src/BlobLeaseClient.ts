@@ -11,6 +11,9 @@ import { StorageClientContext } from "./generated/src/storageClient";
 import { BlobClient, CommonOptions } from "./internal";
 import { createSpan } from "./utils/tracing";
 
+/**
+ * The details for a specific lease.
+ */
 export interface Lease {
   /**
    * @member {string} [etag] The ETag contains a value that you can use to
@@ -56,6 +59,9 @@ export interface Lease {
   errorCode?: string;
 }
 
+/**
+ * Contains the response data for operations that create, modify, or delete a lease.
+ */
 export type LeaseOperationResponse = Lease & {
   /**
    * The underlying HTTP response.

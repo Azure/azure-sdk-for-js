@@ -5,6 +5,7 @@ import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azur
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
 export { RetryPolicyType } from "./policies/RetryPolicy";
+export { RetryPolicy };
 
 /**
  * Retry options interface.
@@ -95,6 +96,14 @@ export class RetryPolicyFactory implements RequestPolicyFactory {
     this.retryOptions = retryOptions;
   }
 
+  /**
+   * Creates a RetryPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {RetryPolicy}
+   * @memberof RetryPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
     return new RetryPolicy(nextPolicy, options, this.retryOptions);
   }

@@ -3,6 +3,7 @@
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import { BrowserPolicy } from "./policies/BrowserPolicy";
+export { BrowserPolicy };
 
 /**
  * BrowserPolicyFactory is a factory class helping generating BrowserPolicy objects.

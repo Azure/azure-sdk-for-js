@@ -86,7 +86,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Optiosn to confgiure the Append Blob - Append Block operation.
+ * Options to confgiure the Append Blob - Append Block operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -142,6 +142,12 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to confgiure the Append Blob - Append Block From URL operation.
+ *
+ * @export
+ * @interface AppendBlobAppendBlockFromURLOptions
+ */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.

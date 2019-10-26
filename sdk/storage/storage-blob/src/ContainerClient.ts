@@ -238,6 +238,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the getAccessPolicy operation.
+ */
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
@@ -500,6 +503,10 @@ export class ContainerClient extends StorageClient {
   private containerContext: Container;
 
   private _containerName: string;
+
+  /**
+   * The name of the container.
+   */
   public get containerName(): string {
     return this._containerName;
   }
