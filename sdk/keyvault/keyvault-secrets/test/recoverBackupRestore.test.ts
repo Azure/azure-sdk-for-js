@@ -161,22 +161,21 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
   });
 
-  it("can timeout deleting a secret", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "RSA");
-    const backup = await client.backupSecret(secretName);
-    await testClient.flushSecret(secretName);
-    await assertThrowsAbortError(async () => {
-      await client.restoreSecretBackup(backup as Uint8Array, {
-        requestOptions: {
-          timeout: 1
-        }
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can timeout deleting a secret", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const backup = await client.backupSecret(secretName);
+      await testClient.flushSecret(secretName);
+      await assertThrowsAbortError(async () => {
+        await client.restoreSecretBackup(backup as Uint8Array, {
+          requestOptions: {
+            timeout: 1
+          }
+        });
       });
     });
-  });
+  }
 });

@@ -95,21 +95,20 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip();
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "value");
-    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, {
-        requestOptions: { timeout: 1 },
-        ...testPollerProperties
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "value");
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await assertThrowsAbortError(async () => {
+        await client.beginRecoverDeletedSecret(secretName, {
+          requestOptions: { timeout: 1 },
+          ...testPollerProperties
+        });
       });
     });
-  });
+  }
 });

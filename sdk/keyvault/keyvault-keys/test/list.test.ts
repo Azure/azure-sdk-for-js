@@ -62,18 +62,16 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can get the versions of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
-      requestOptions: { timeout: 1 }
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can get the versions of a key with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
+  }
 
   it("can get the versions of a key (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -144,17 +142,15 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("can get several inserted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can get several inserted keys with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
 
-    await assertThrowsAbortError(async () => {
-      await iter.next();
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-  });
+  }
 
   it("can get several inserted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -209,16 +205,14 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("list deleted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("list deleted keys with requestOptions timeout", async function() {
+      const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-  });
+  }
 
   it("list deleted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
