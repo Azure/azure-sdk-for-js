@@ -1,8 +1,12 @@
-# Azure Storage client library for JavaScript - File
+# Azure Storage client library for JavaScript - File Share
 
 Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) protocol. Azure file shares can be mounted concurrently by cloud or on-premises deployments of Windows, Linux, and macOS. Additionally, Azure file shares can be cached on Windows Servers with Azure File Sync for fast access near where the data is being used.
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure File Storage service.
+
+> Note: This package was previously published under the name `@azure/storage-file`.
+It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
+for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
 
 Version: 12.0.0-preview.5
 
@@ -60,15 +64,15 @@ There are differences between Node.js and browsers runtime. When getting started
   - `generateAccountSASQueryParameters()`
   - `generateFileSASQueryParameters()`
 - Parallel uploading and downloading
-  - `FileClient.uploadFile()`
-  - `FileClient.uploadStream()`
-  - `FileClient.downloadToBuffer()`
-  - `FileClient.downloadToFile()`
+  - `ShareFileClient.uploadFile()`
+  - `ShareFileClient.uploadStream()`
+  - `ShareFileClient.downloadToBuffer()`
+  - `ShareFileClient.downloadToFile()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `FileClient.uploadBrowserData()`
+  - `ShareFileClient.uploadBrowserData()`
 
 ## Getting started
 
@@ -77,7 +81,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-file-share@12.0.0-preview.5
+npm install @azure/storage-file-share
 ```
 
 In your TypeScript or JavaScript file, import via following:
@@ -128,13 +132,13 @@ You can use the `const Azure = require("@azure/storage-file-share");` shown abov
 Or you can selectively import certain types,
 
 ```javascript
-const { FileServiceClient, SharedKeyCredential } = require("@azure/storage-file-share");
+const { ShareServiceClient, SharedKeyCredential } = require("@azure/storage-file-share");
 );
 ```
 
 ### Create the file service client
 
-Use the constructor to create a instance of `FileServiceClient`, passing in the credential.
+Use the constructor to create a instance of `ShareServiceClient`, passing in the credential.
 
 ```javascript
 // Enter your storage account name and shared key
@@ -144,7 +148,7 @@ const accountKey = "";
 // Use SharedKeyCredential with storage account and account key
 // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
 const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-const serviceClient = new FileServiceClient(
+const serviceClient = new ShareServiceClient(
   // When using AnonymousCredential, following url should include a valid SAS
   `https://${account}.file.core.windows.net`,
   sharedKeyCredential
@@ -320,10 +324,10 @@ class ConsoleHttpPipelineLogger {
 }
 ```
 
-Then when creating the `FileServiceClient` instance, pass the logger in the options
+Then when creating the `ShareServiceClient` instance, pass the logger in the options
 
 ```javascript
-const fileServiceClient = new FileServiceClient(
+const serviceClient = new ShareServiceClient(
   `https://${account}.file.core.windows.net`,
   sharedKeyCredential,
   {
@@ -336,8 +340,8 @@ const fileServiceClient = new FileServiceClient(
 
 More code samples
 
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
+- [File Share Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
+- [File Share Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
 
 ## Contributing
 
