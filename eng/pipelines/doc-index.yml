@@ -1,3 +1,11 @@
+resources:
+  repositories:
+    - repository: azure-sdk-tools
+      type: github
+      name: azure/azure-sdk-tools
+      ref: refs/heads/master
+      endpoint: azure
+
 jobs:
   - job: "Build"
     variables:
