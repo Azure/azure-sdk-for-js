@@ -38,8 +38,6 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
-import { DeleteSecretPollOperationState } from "./lro/delete/operation";
-import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation";
 
 import {
   KeyVaultSecret,
@@ -61,8 +59,6 @@ import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core
 import { RetryOptions } from "./core";
 
 export {
-  DeleteSecretPollOperationState,
-  RecoverDeletedSecretPollOperationState,
   DeletedSecret,
   DeletionRecoveryLevel,
   GetSecretOptions,
@@ -78,7 +74,6 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
-  SecretClientInterface,
   SecretProperties,
   SecretPollerOptions,
   SetSecretOptions,
