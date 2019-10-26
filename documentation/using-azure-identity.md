@@ -182,12 +182,12 @@ are hosted within the virtual network of applications deployed to Azure virtual
 machines, App Services, Functions, Container Services, [and
 more](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities).
 
-One primary difference with this credential compared to the others is that it
+One important distinction of this credential compared to the others is that it
 _does not require an app registration_.  This authentication scheme relates to
 the actual Azure resources to which your code is deployed rather than the
 application itself.
 
-To enable your application to authenticate with these endpoints, you will need
+To enable your application to authenticate with this credential, you will need
 to grant one of two types of managed identity to the resource that runs your
 code:
 
@@ -196,14 +196,15 @@ code:
   which uniquely identifies your resource
 - A [user-assigned
   identity](https://docs.microsoft.com/en-us/azure/app-service/overview-managed-identity#adding-a-user-assigned-identity)
-  which can be assigned to your application (and others)
+  which can be assigned to your resource (and others)
 
-Once your application has an identity assigned, that identity can be granted
-access to Azure resources through role assignments.  If you are using a
-system-assigned identity, you can just create an instance of
-`ManagedIdentityCredential` without any configuration.  For user-assigned
-identities, you must provide the `clientId` of the managed identity you wish to
-use for authentication.
+Once your resource has an identity assigned, that identity can be granted access
+to other Azure services through role assignments.
+
+If you have configured your resource to use a system-assigned identity, you can
+just create an instance of `ManagedIdentityCredential` without any
+configuration.  For user-assigned identities, you must provide the `clientId` of
+the managed identity you wish to use for authentication.
 
 More information on configuring and using managed identities can be found in the
 [Managed identities for Azure
