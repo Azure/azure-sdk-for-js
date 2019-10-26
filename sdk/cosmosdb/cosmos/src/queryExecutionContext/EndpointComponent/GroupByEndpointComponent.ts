@@ -8,7 +8,7 @@ import { QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader } from "../headerUtils";
-import { emptyGroup } from "./emptyGroup";
+import { emptyGroup, extractAggergateResult } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -44,9 +44,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       if (aggergators) {
         // Iterator over all results in the payload
         Object.keys(payload).map((key) => {
-          // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
-          // Aggregatior code should use item2 when available
-          const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
+          const aggregateResult = extractAggergateResult(payload[key]);
           aggergators[key].aggregate(aggregateResult);
         });
       } else {
@@ -58,10 +56,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
           // Create a new aggregator for this specific aggregate field
           this.groupings[group][key] = createAggregator(aggregateType);
           // Aggregate the first value
-          // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
-          // Aggregatior code should use item2 when available
           if (typeof payload[key] === "object") {
-            const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
+            const aggregateResult = extractAggergateResult(payload[key]);
             this.groupings[group][key].aggregate(aggregateResult);
           } else {
             this.groupings[group][key].aggregate(payload[key]);

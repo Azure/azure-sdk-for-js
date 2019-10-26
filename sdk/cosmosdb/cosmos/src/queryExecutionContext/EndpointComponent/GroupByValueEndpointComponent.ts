@@ -4,11 +4,10 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
-// import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader } from "../headerUtils";
-import { emptyGroup } from "./emptyGroup";
+import { emptyGroup, extractAggergateResult } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -54,7 +53,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       }
       // Iterator over all results in the payload
       if (Array.isArray(payload)) {
-        const aggregateResult = payload[0].item2 ? payload[0].item2 : payload[0].item;
+        const aggregateResult = extractAggergateResult(payload);
         this.aggergators[grouping].aggregate(aggregateResult);
       } else {
         this.aggergators[grouping].aggregate(payload);
