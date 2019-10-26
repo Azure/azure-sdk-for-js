@@ -68,9 +68,13 @@ jobs:
         parameters:
           SourceDirectory: $(Build.SourcesDirectory)
 
-      - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/docfx_project/*" -Destination "$(Build.ArtifactStagingDirectory)/docfx_project/" -Recursive -Force
+      - task: CopyFiles@2
         displayName: Copy HTML to Artifacts Directory
+        inputs:
+          sourceFolder: $(Build.SourcesDirectory)/docfx_project/
+          content: '**\*'
+          targetFolder: $(Build.ArtifactStagingDirectory)/docfx_project
+          overWrite: true
 
       - task: PublishPipelineArtifact@0
         condition: succeeded()
