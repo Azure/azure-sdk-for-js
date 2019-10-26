@@ -39,8 +39,8 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
         }
       }
 
-      // e.g. azsdk-js-storageblob/10.0.0
-      const libInfo = `azsdk-js-storageblob/${SDK_VERSION}`;
+      // e.g. azsdk-js-storagequeue/11.0.0
+      const libInfo = `azsdk-js-storagequeue/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }
