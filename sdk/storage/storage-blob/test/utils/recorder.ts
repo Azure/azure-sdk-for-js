@@ -571,5 +571,5 @@ export function record(testContext: any) {
 }
 
 export const testPollerProperties = {
-  intervalInMs: isRecording ? 2000 : 0
+  intervalInMs: isPlayingBack ? 0 : 2000
 }
