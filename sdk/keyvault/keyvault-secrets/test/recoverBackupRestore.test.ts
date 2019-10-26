@@ -80,25 +80,24 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can recover a deleted a secret with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, {
-        requestOptions: {
-          timeout: 1
-        },
-        ...testPollerProperties
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can recover a deleted a secret with requestOptions timeout", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await assertThrowsAbortError(async () => {
+        await client.beginRecoverDeletedSecret(secretName, {
+          requestOptions: {
+            timeout: 1
+          },
+          ...testPollerProperties
+        });
       });
     });
-  });
+  }
 
   it("can backup a secret", async function() {
     const secretName = testClient.formatName(
