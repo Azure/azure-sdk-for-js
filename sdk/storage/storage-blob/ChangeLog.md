@@ -1,6 +1,18 @@
 # Changelog
 
-## 2019.11 12.0.0-preview.5
+## 2019.11 12.0.0-preview.6
+
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
+Below are the entities that now have the Storage prefix
+   - BrowserPolicy
+   - BrowserPolicyFactory
+   - RetryPolicy
+   - RetryPolicyType
+   - RetryOptions
+   - RetryPolicyFactory
+
+## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - Created new interface `CommonOptions`. This interface is for standard options that apply to all methods that invoke remote operations. This interface currently contains options that enable client-side tracing of the SDK. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)

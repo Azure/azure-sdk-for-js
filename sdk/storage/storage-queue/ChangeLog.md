@@ -1,6 +1,18 @@
 # Changelog
 
-## 2019.11 12.0.0-preview.5
+## 2019.11 12.0.0-preview.6
+
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
+Below are the entities that now have the Storage prefix
+   - BrowserPolicy
+   - BrowserPolicyFactory
+   - RetryPolicy
+   - RetryPolicyType
+   - RetryOptions
+   - RetryPolicyFactory
+
+## 2019.10 12.0.0-preview.5
 
 - [Breaking] Major API changes for the `@azure/storage-queue` package.
   - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MesagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)
