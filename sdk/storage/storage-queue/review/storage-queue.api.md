@@ -27,6 +27,13 @@ import { TokenCredential } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AccessPolicy {
+    expiry: string;
+    permissions: string;
+    start: string;
+}
+
+// @public
 export class AccountSASPermissions {
     add: boolean;
     create: boolean;
@@ -89,6 +96,15 @@ export interface CommonOptions {
 }
 
 // @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
+}
+
+// @public
 export abstract class Credential implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
@@ -130,6 +146,15 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
 
+// @public
+export interface GeoReplication {
+    lastSyncOn: Date;
+    status: GeoReplicationStatusType;
+}
+
+// @public
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -164,8 +189,26 @@ export interface ListQueuesSegmentResponse {
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface Logging {
+    deleteProperty: boolean;
+    read: boolean;
+    // (undocumented)
+    retentionPolicy: RetentionPolicy;
+    version: string;
+    write: boolean;
+}
+
+// @public
+export interface MessageIdDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -173,8 +216,18 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdUpdateHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessageIdUpdateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    nextVisibleOn?: Date;
+    popReceipt?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -182,8 +235,16 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessagesClearHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessagesClearHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessagesClearResponse = MessagesClearHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -247,6 +308,15 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
 // @public
 export interface Metadata {
     [propertyName: string]: string;
+}
+
+// @public
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    // (undocumented)
+    retentionPolicy?: RetentionPolicy;
+    version?: string;
 }
 
 // @public
@@ -318,19 +388,37 @@ export class QueueClient extends StorageClient {
 }
 
 // @public
+export interface QueueCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueCreateResponse = QueueCreateHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: QueueCreateHeaders;
     };
 };
+
+// @public
+export interface QueueDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
@@ -345,8 +433,6 @@ export interface QueueDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueDeleteResponse = QueueDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -381,12 +467,25 @@ export type QueueGetAccessPolicyResponse = {
 };
 
 // @public
+export interface QueueGetPropertiesHeaders {
+    approximateMessagesCount?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -490,13 +589,25 @@ export class QueueServiceClient extends StorageClient {
 
 // @public
 export interface QueueServiceProperties {
-    // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
-    // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
     queueAnalyticsLogging?: Logging;
+}
+
+// @public
+export interface QueueServiceStatistics {
+    geoReplication?: GeoReplication;
+}
+
+// @public
+export interface QueueSetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -504,8 +615,6 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -514,12 +623,20 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
 };
 
 // @public
+export interface QueueSetMetadataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -547,6 +664,12 @@ export { RequestPolicyOptions }
 export { RestError }
 
 // @public
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
+}
+
+// @public
 export interface RetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly maxTries?: number;
@@ -557,9 +680,16 @@ export interface RetryOptions {
 }
 
 // @public
+export class RetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: RetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
 export class RetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: RetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "RetryPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
     }
 
@@ -599,12 +729,19 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -615,13 +752,20 @@ export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPr
 };
 
 // @public
+export interface ServiceGetStatisticsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueServiceStatistics" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -638,8 +782,16 @@ export interface ServiceListQueuesOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceListQueuesSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ServiceListQueuesSegmentHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & ServiceListQueuesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -650,12 +802,19 @@ export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & Servi
 };
 
 // @public
+export interface ServiceSetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -689,7 +848,6 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
-    // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
     accessPolicy: AccessPolicy;
     id: string;
 }
