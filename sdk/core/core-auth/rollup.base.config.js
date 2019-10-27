@@ -77,10 +77,12 @@ export function browserConfig(test = false, production = false) {
         }
       }),
       nodeResolve({
-        mainFields: ["module", "browser"],
+        mainFields: ['module', 'browser'],
         preferBuiltins: false
       }),
-      cjs(),
+      cjs({
+        namedExports: { events: ["EventEmitter"] }
+      }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
   };

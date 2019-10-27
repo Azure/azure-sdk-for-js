@@ -66,24 +66,29 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
+    external: ["ms-rest-js"],
     output: {
       file: "browser/index.js",
       format: "umd",
       name: "Aborter",
-      sourcemap: true
+      sourcemap: true,
+      globals: { "ms-rest-js": "msRest" }
     },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
-      replace({
-        delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
+      replace(
+        // ms-rest-js is externalized so users must include it prior to using this bundle.
+        {
+          delimiters: ["", ""],
+          values: {
+            // replace dynamic checks with if (false) since this is for
+            // browser only. Rollup's dead code elimination will remove
+            // any code guarded by if (isNode) { ... }
+            "if (isNode)": "if (false)"
+          }
         }
-      }),
+      ),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
