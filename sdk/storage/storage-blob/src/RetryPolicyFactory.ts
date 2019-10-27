@@ -19,8 +19,8 @@ export interface StorageRetryOptions {
   /**
    * Optional. StorageRetryPolicyType, default is exponential retry policy.
    *
-   * @type {RetryPolicyType}
-   * @memberof RetryOptions
+   * @type {StorageRetryPolicyType}
+   * @memberof StorageRetryOptions
    */
   readonly retryPolicyType?: StorageRetryPolicyType;
 
@@ -30,7 +30,7 @@ export interface StorageRetryOptions {
    * A value smaller than 1 means default retry number of attempts.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly maxTries?: number;
 
@@ -42,7 +42,7 @@ export interface StorageRetryOptions {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly tryTimeoutInMs?: number;
 
@@ -52,7 +52,7 @@ export interface StorageRetryOptions {
    * maxRetryDelayInMs. If you specify 0, then you must also specify 0 for maxRetryDelayInMs.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly retryDelayInMs?: number;
 
@@ -61,7 +61,7 @@ export interface StorageRetryOptions {
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 
@@ -74,13 +74,13 @@ export interface StorageRetryOptions {
    * {@link https://docs.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
    *
    * @type {string}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly secondaryHost?: string;
 }
 
 /**
- * RetryPolicyFactory is a factory class helping generating StorageRetryPolicy objects.
+ * StorageRetryPolicyFactory is a factory class helping generating StorageRetryPolicy objects.
  *
  * @export
  * @class StorageRetryPolicyFactory
