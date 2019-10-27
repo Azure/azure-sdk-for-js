@@ -2,24 +2,30 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
+import {
+  RetryPolicy as StorageBlobRetryPolicy,
+  RetryPolicyType as StorageBlobRetryPolicyType
+} from "./policies/RetryPolicy";
 
-export { RetryPolicyType } from "./policies/RetryPolicy";
+export {
+  RetryPolicyType as StorageBlobRetryPolicyType,
+  RetryPolicy as StorageBlobRetryPolicy
+} from "./policies/RetryPolicy";
 
 /**
- * Retry options interface.
+ * Storage Blob retry options interface.
  *
  * @export
- * @interface RetryOptions
+ * @interface StorageBlobRetryOptions
  */
-export interface RetryOptions {
+export interface StorageBlobRetryOptions {
   /**
-   * Optional. RetryPolicyType, default is exponential retry policy.
+   * Optional. StorageBlobRetryPolicyType, default is exponential retry policy.
    *
    * @type {RetryPolicyType}
    * @memberof RetryOptions
    */
-  readonly retryPolicyType?: RetryPolicyType;
+  readonly retryPolicyType?: StorageBlobRetryPolicyType;
 
   /**
    * Optional. Max try number of attempts, default is 4.
@@ -77,25 +83,33 @@ export interface RetryOptions {
 }
 
 /**
- * RetryPolicyFactory is a factory class helping generating RetryPolicy objects.
+ * RetryPolicyFactory is a factory class helping generating StorageBlobRetryPolicy objects.
  *
  * @export
- * @class RetryPolicyFactory
+ * @class StorageBlobRetryPolicyFactory
  * @implements {RequestPolicyFactory}
  */
-export class RetryPolicyFactory implements RequestPolicyFactory {
-  private retryOptions?: RetryOptions;
+export class StorageBlobRetryPolicyFactory implements RequestPolicyFactory {
+  private retryOptions?: StorageBlobRetryOptions;
 
   /**
-   * Creates an instance of RetryPolicyFactory.
-   * @param {RetryOptions} [retryOptions]
-   * @memberof RetryPolicyFactory
+   * Creates an instance of StorageBlobRetryPolicyFactory.
+   * @param {StorageBlobRetryOptions} [retryOptions]
+   * @memberof StorageBlobRetryPolicyFactory
    */
-  constructor(retryOptions?: RetryOptions) {
+  constructor(retryOptions?: StorageBlobRetryOptions) {
     this.retryOptions = retryOptions;
   }
 
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
-    return new RetryPolicy(nextPolicy, options, this.retryOptions);
+  /**
+   * Creates a StorageBlobRetryPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {StorageBlobRetryPolicy}
+   * @memberof StorageBlobRetryPolicyFactory
+   */
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBlobRetryPolicy {
+    return new StorageBlobRetryPolicy(nextPolicy, options, this.retryOptions);
   }
 }
