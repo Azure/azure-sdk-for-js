@@ -27,7 +27,7 @@ import {
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { StorageBlobBrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { StorageBlobRetryOptions, StorageBlobRetryPolicyFactory } from "./RetryPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -184,7 +184,7 @@ export function newPipeline(
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     generateClientRequestIdPolicy(),
-    new StorageBlobBrowserPolicyFactory(),
+    new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new StorageBlobRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
