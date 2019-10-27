@@ -203,7 +203,6 @@ export interface ListBlobsFlatSegmentResponse {
   prefix?: string;
   marker?: string;
   maxPageSize?: number;
-  delimiter?: string;
   segment: BlobFlatListSegment;
   continuationToken?: string;
 }
@@ -2101,6 +2100,11 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Indicates the tier to be set on the page blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80'
+   */
+  tier?: PremiumPageBlobAccessTier;
+  /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
    * destination blob. If one or more name-value pairs are specified, the destination blob is
@@ -2121,11 +2125,6 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
-  /**
-   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
-   */
-  tier?: AccessTier;
   /**
    * Additional parameters for the operation
    */
@@ -2237,7 +2236,7 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentCrc64?: Uint8Array;
+  sourceContentcrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2532,7 +2531,7 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentCrc64?: Uint8Array;
+  sourceContentcrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2580,6 +2579,10 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Specify the transactional md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2666,7 +2669,7 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentCrc64?: Uint8Array;
+  sourceContentcrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2936,11 +2939,6 @@ export interface ServiceGetAccountInfoHeaders {
  * Defines headers for SubmitBatch operation.
  */
 export interface ServiceSubmitBatchHeaders {
-  /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
   /**
    * The media type of the body of the response. For batch requests, this is multipart/mixed;
    * boundary=batchresponse_GUID
@@ -5320,8 +5318,8 @@ export interface PageBlobUploadPagesFromURLHeaders {
    */
   isServerEncrypted?: boolean;
   /**
-   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
-   * when the pages were encrypted with a customer-provided key.
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
   errorCode?: string;
@@ -5670,6 +5668,11 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
   errorCode?: string;
 }
 
@@ -5772,11 +5775,14 @@ export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
  * 'PreviousSnapshotOperationNotSupported', 'SequenceNumberConditionNotMet',
  * 'SequenceNumberIncrementTooLarge', 'SnapshotCountExceeded', 'SnaphotOperationRateExceeded',
  * 'SnapshotsPresent', 'SourceConditionNotMet', 'SystemInUse', 'TargetConditionNotMet',
- * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived'
+ * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived',
+ * 'AuthorizationSourceIPMismatch', 'AuthorizationProtocolMismatch',
+ * 'AuthorizationPermissionMismatch', 'AuthorizationServiceMismatch',
+ * 'AuthorizationResourceTypeMismatch'
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch';
 
 /**
  * Defines values for GeoReplicationStatusType.
@@ -5785,6 +5791,15 @@ export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 
  * @enum {string}
  */
 export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+
+/**
+ * Defines values for PremiumPageBlobAccessTier.
+ * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
+ * 'P80'
+ * @readonly
+ * @enum {string}
+ */
+export type PremiumPageBlobAccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80';
 
 /**
  * Defines values for RehydratePriority.

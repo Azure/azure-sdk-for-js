@@ -229,6 +229,7 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds
   ],
   headerParameters: [
+    Parameters.transactionalContentMD5,
     Parameters.contentLength,
     Parameters.metadata,
     Parameters.tier0,
@@ -336,7 +337,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
-    Parameters.sourceContentCrc64,
+    Parameters.sourceContentcrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.encryptionKey,

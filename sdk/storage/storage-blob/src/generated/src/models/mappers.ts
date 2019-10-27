@@ -578,13 +578,6 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      delimiter: {
-        xmlName: "Delimiter",
-        serializedName: "Delimiter",
-        type: {
-          name: "String"
-        }
-      },
       segment: {
         xmlName: "Blobs",
         required: true,
@@ -1981,12 +1974,6 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceSubmitBatchHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       contentType: {
         serializedName: "content-type",
         type: {
@@ -5747,6 +5734,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-encryption-key-sha256",
         type: {
           name: "String"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {

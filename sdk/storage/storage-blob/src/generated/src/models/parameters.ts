@@ -1254,10 +1254,10 @@ export const snapshot: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const sourceContentCrc64: coreHttp.OperationParameter = {
+export const sourceContentcrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "sourceContentCrc64"
+    "sourceContentcrc64"
   ],
   mapper: {
     serializedName: "x-ms-source-content-crc64",

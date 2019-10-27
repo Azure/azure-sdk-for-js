@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./blob-storage-2019-02-02.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-02-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -251,19 +251,21 @@ directive:
 ```
 
 ### Rename eTag -> etag
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..responses..headers["ETag"]
-  transform: >
-    $["x-ms-client-name"] = "etag";
+  - from: swagger-document
+    where: $["x-ms-paths"]..responses..headers["ETag"]
+    transform: >
+      $["x-ms-client-name"] = "etag";
 ```
 
 ### Fix comment for BlobGetPropertiesHeaders Content-Length
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
-  transform: >
-    $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
+    transform: >
+      $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
 ```
