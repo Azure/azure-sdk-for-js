@@ -28,7 +28,7 @@ import {
 
 import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageBlobRetryOptions, StorageBlobRetryPolicyFactory } from "./RetryPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
@@ -141,10 +141,10 @@ export interface StoragePipelineOptions {
   /**
    * Configures the built-in retry policy behavior.
    *
-   * @type {RetryOptions}
+   * @type {StorageBlobRetryOptions}
    * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageBlobRetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
@@ -186,7 +186,7 @@ export function newPipeline(
     generateClientRequestIdPolicy(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageBlobRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,

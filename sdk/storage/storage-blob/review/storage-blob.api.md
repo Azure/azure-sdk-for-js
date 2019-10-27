@@ -2085,36 +2085,6 @@ export interface RetentionPolicy {
 }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: RetryPolicyType;
-    readonly secondaryHost?: string;
-    readonly tryTimeoutInMs?: number;
-}
-
-// @public
-export class RetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: RetryOptions);
-    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
-}
-
-// @public
-export class RetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: RetryOptions);
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
-    }
-
-// @public
-export enum RetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
-}
-
-// @public
 export interface SasIPRange {
     end?: string;
     start: string;
@@ -2366,6 +2336,36 @@ export interface StaticWebsite {
 }
 
 // @public
+export interface StorageBlobRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageBlobRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
+}
+
+// @public
+export class StorageBlobRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageBlobRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
+export class StorageBlobRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageBlobRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBlobRetryPolicy;
+    }
+
+// @public
+export enum StorageBlobRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
+
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public
@@ -2374,7 +2374,7 @@ export interface StoragePipelineOptions {
     keepAliveOptions?: KeepAliveOptions;
     // (undocumented)
     proxyOptions?: ProxyOptions;
-    retryOptions?: RetryOptions;
+    retryOptions?: StorageBlobRetryOptions;
     // Warning: (ae-forgotten-export) The symbol "UserAgentOptions" needs to be exported by the entry point index.d.ts
     userAgentOptions?: UserAgentOptions;
 }
