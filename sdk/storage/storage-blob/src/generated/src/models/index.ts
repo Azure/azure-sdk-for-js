@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -23,7 +24,7 @@ export interface KeyInfo {
 }
 
 /**
- * A user delegation key.
+ * A user delegation key
  */
 export interface UserDelegationKey {
   /**
@@ -117,63 +118,19 @@ export interface AccessPolicy {
  * Properties of a blob
  */
 export interface BlobProperties {
-  /**
-   * Returns the date and time the blob was created.
-   */
   createdOn?: Date;
-  /**
-   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
-   * including an update of the blob's metadata or properties, changes the last-modified time of
-   * the blob.
-   */
   lastModified: Date;
-  /**
-   * The ETag contains a value that you can use to perform operations conditionally. If the request
-   * version is 2011-08-18 or newer, the ETag value will be in quotes.
-   */
   etag: string;
   /**
-   * The size of the blob in bytes. For a page blob, this header returns the value of the
-   * x-ms-blob-content-length header that is stored with the blob.
+   * Size in bytes
    */
   contentLength?: number;
-  /**
-   * The content type specified for the blob. The default content type is
-   * 'application/octet-stream'
-   */
   contentType?: string;
-  /**
-   * This header returns the value that was specified for the Content-Encoding request header
-   */
   contentEncoding?: string;
-  /**
-   * This header returns the value that was specified for the Content-Language request header.
-   */
-
   contentLanguage?: string;
-  /**
-   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
-   * is returned so that the client can check for message content integrity.
-   */
   contentMD5?: Uint8Array;
-  /**
-   * This header returns the value that was specified for the 'x-ms-blob-content-disposition'
-   * header. The Content-Disposition response header field conveys additional information about how
-   * to process the response payload, and also can be used to attach additional metadata. For
-   * example, if set to attachment, it indicates that the user-agent should not display the
-   * response, but instead show a Save As dialog with a filename other than the blob name
-   * specified.
-   */
   contentDisposition?: string;
-  /**
-   * This header is returned if it was previously specified for the blob.
-   */
-
   cacheControl?: string;
-  /**
-   * The current sequence number for a page blob. This header is not returned for block blobs or
-   * append blobs.
-   */
   blobSequenceNumber?: number;
   /**
    * Possible values include: 'BlockBlob', 'PageBlob', 'AppendBlob'
@@ -191,120 +148,42 @@ export interface BlobProperties {
    * Possible values include: 'infinite', 'fixed'
    */
   leaseDuration?: LeaseDurationType;
-  /**
-   * String identifier for this copy operation. Use with Get Blob Properties to check the status of
-   * this copy operation, or pass to Abort Copy Blob to abort a pending copy.
-   */
   copyId?: string;
   /**
    * Possible values include: 'pending', 'success', 'aborted', 'failed'
    */
   copyStatus?: CopyStatusType;
-  /**
-   * URL up to 2 KB in length that specifies the source blob or file used in the last attempted
-   * Copy Blob operation where this blob was the destination blob. This header does not appear if
-   * this blob has never been the destination in a Copy Blob operation, or if this blob has been
-   * modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put
-   * Block List.
-   */
   copySource?: string;
-  /**
-   * Contains the number of bytes copied and the total bytes in the source in the last attempted
-   * Copy Blob operation where this blob was the destination blob. Can show between 0 and
-   * Content-Length bytes copied. This header does not appear if this blob has never been the
-   * destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy
-   * Blob operation using Set Blob Properties, Put Blob, or Put Block List.
-   */
   copyProgress?: string;
-  /**
-   * Conclusion time of the last attempted Copy Blob operation where this blob was the destination
-   * blob. This value can specify the time of a completed, aborted, or failed copy attempt. This
-   * header does not appear if a copy is pending, if this blob has never been the destination in a
-   * Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation
-   * using Set Blob Properties, Put Blob, or Put Block List.
-   */
   copyCompletedOn?: Date;
-  /**
-   * Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal
-   * or non-fatal copy operation failure. This header does not appear if this blob has never been
-   * the destination in a Copy Blob operation, or if this blob has been modified after a concluded
-   * Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List
-   */
-
   copyStatusDescription?: string;
-  /**
-   * Set to true if the blob and application metadata are completely encrypted.
-   * Available in version 2015-12-11 and above.
-   */
   serverEncrypted?: boolean;
-  /**
-   * Included if the blob is incremental copy blob.
-   */
   incrementalCopy?: boolean;
-  /**
-   * Included if the blob is incremental copy blob or incremental copy snapshot, if
-   * x-ms-copy-status is success. Snapshot time of the last successful incremental copy snapshot
-   * for this blob.
-   */
   destinationSnapshot?: string;
-  /**
-   * The date and time the blob was soft-deleted.
-   */
   deletedOn?: Date;
-  /**
-   * The number of days after which the soft deleted blob will be permanently deleted by the service.
-   */
   remainingRetentionDays?: number;
   /**
    * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
    * 'P80', 'Hot', 'Cool', 'Archive'
    */
   accessTier?: AccessTier;
-  /**
-   * For page blobs on a premium storage account only. If the access tier is not explicitly set on
-   * the blob, the tier is inferred based on its content length and this header will be returned
-   * with true value.
-   */
   accessTierInferred?: boolean;
   /**
    * Possible values include: 'rehydrate-pending-to-hot', 'rehydrate-pending-to-cool'
    */
   archiveStatus?: ArchiveStatus;
-  /**
-   * Present if the blob is encrypted with a customer-provided key.
-   * Available in version 2019-02-02 and above.
-   */
   customerProvidedKeySha256?: string;
-  /**
-   * The time the tier was changed on the object. This is only returned if the tier on the block
-   * blob was ever set.
-   */
   accessTierChangedOn?: Date;
 }
 
 /**
- * An Azure Storage blob.
+ * An Azure Storage blob
  */
 export interface BlobItem {
-  /**
-   * The name of the blob.
-   */
   name: string;
-  /**
-   * Indicates whether the blob has been softly deleted.
-   */
   deleted: boolean;
-  /**
-   * An opaque DateTime value that specifies the retrieved blob snapshot.
-   */
   snapshot: string;
-  /**
-   * Properies of a blob.
-   */
   properties: BlobProperties;
-  /**
-   * The user-defined metadata that is set on the blob.
-   */
   metadata?: { [propertyName: string]: string };
 }
 
@@ -312,59 +191,20 @@ export interface BlobItem {
  * An interface representing BlobFlatListSegment.
  */
 export interface BlobFlatListSegment {
-  /**
-   * A list of blobs.
-   */
   blobItems: BlobItem[];
 }
 
 /**
- * An enumeration of blobs.
+ * An enumeration of blobs
  */
 export interface ListBlobsFlatSegmentResponse {
-  /**
-   * Specifies the blob endpoint.
-   */
   serviceEndpoint: string;
-  /**
-   * Specifies the name of the container.
-   */
   containerName: string;
-  /**
-   * The blob prefix that matches the blobs.
-   * Present if a prefix was specified on the request.
-   */
   prefix?: string;
-  /**
-   * A string value that identifies the portion of the list of blobs to be returned with the
-   * next listing operation. The operation returns the continuationToken value within the response
-   * body if the listing operation did not return all blobs remaining to be listed with the
-   * current page. The continuationToken value can be used as the value for the marker parameter in
-   * a subsequent call to request the next page of list items. The marker value is opaque to the
-   * client.
-   */
   marker?: string;
-  /**
-   * Specifies the maximum number of blobs to return.
-   */
   maxPageSize?: number;
-  /**
-   * May be a single character or a string.
-   * When included in a request, the operation returns a prefix element
-   * that acts as a placeholder for all blobs whose names begin with the
-   * same substring up to the appearance of the delimiter character.
-   */
   delimiter?: string;
-  /**
-   * The BlobFlatListSegment that contains a list of blobs.
-   */
   segment: BlobFlatListSegment;
-  /**
-   * A string value that can be used as the value for the marker parameter in a subsequent call
-   * to request the next page of list items.
-   * This is present when the listing operation did not return all blobs remaining to be listed
-   * with the current page.
-   */
   continuationToken?: string;
 }
 
@@ -372,9 +212,6 @@ export interface ListBlobsFlatSegmentResponse {
  * An interface representing BlobPrefix.
  */
 export interface BlobPrefix {
-  /**
-   * The blob prefix that can be used to filter blobs to those that start with this name.
-   */
   name: string;
 }
 
@@ -382,63 +219,21 @@ export interface BlobPrefix {
  * An interface representing BlobHierarchyListSegment.
  */
 export interface BlobHierarchyListSegment {
-  /**
-   * A list of blob prefixes.
-   */
   blobPrefixes?: BlobPrefix[];
-  /**
-   * A list of blobs.
-   */
   blobItems: BlobItem[];
 }
 
 /**
- * An enumeration of blobs.
+ * An enumeration of blobs
  */
 export interface ListBlobsHierarchySegmentResponse {
-  /**
-   * Specifies the blob endpoint.
-   */
   serviceEndpoint: string;
-  /**
-   * Specifies the name of the container.
-   */
   containerName: string;
-  /**
-   * The blob prefix that matches the blobs.
-   * Present if a prefix was specified on the request.
-   */
   prefix?: string;
-  /**
-   * A string value that identifies the portion of the list of blobs to be returned with the
-   * next listing operation. The operation returns the continuationToken value within the response
-   * body if the listing operation did not return all blobs remaining to be listed with the
-   * current page. The continuationToken value can be used as the value for the marker parameter in
-   * a subsequent call to request the next page of list items. The marker value is opaque to the
-   * client.
-   */
   marker?: string;
-  /**
-   * Specifies the maximum number of blobs to return.
-   */
   maxPageSize?: number;
-  /**
-   * May be a single character or a string.
-   * When included in a request, the operation returns a prefix element
-   * that acts as a placeholder for all blobs whose names begin with the
-   * same substring up to the appearance of the delimiter character.
-   */
   delimiter?: string;
-  /**
-   * The BlobHierarchyListSegment that contains a list of blobs and blob prefixes.
-   */
   segment: BlobHierarchyListSegment;
-  /**
-   * A string value that can be used as the value for the marker parameter in a subsequent call
-   * to request the next page of list items.
-   * This is present when the listing operation did not return all blobs remaining to be listed
-   * with the current page.
-   */
   continuationToken?: string;
 }
 
@@ -460,14 +255,7 @@ export interface Block {
  * An interface representing BlockList.
  */
 export interface BlockList {
-/**
- * The list of blocks that have been successfully committed to a given blob.
- */
   committedBlocks?: Block[];
-  /**
-   * The list of blocks that have been uploaded for a blob, but have not yet been committed.
-   * These blocks are stored in Azure in association with a blob, but do not yet form part of the blob.
-   */
   uncommittedBlocks?: Block[];
 }
 
@@ -484,15 +272,7 @@ export interface BlockLookupList {
  * Properties of a container
  */
 export interface ContainerProperties {
-  /**
-   * The date and time the container was last modified.
-   * Any operation that modifies the container or its properties or metadata
-   * updates the last modified time.
-   */
   lastModified: Date;
-  /**
-   * The entity tag for the container.
-   */
   etag: string;
   /**
    * Possible values include: 'locked', 'unlocked'
@@ -510,13 +290,7 @@ export interface ContainerProperties {
    * Possible values include: 'container', 'blob'
    */
   publicAccess?: PublicAccessType;
-  /**
-   * Indicates whether the container has an immutability policy set on it.
-   */
   hasImmutabilityPolicy?: boolean;
-  /**
-   * Indicates whether the container has a legal hold.
-   */
   hasLegalHold?: boolean;
 }
 
@@ -524,17 +298,8 @@ export interface ContainerProperties {
  * An Azure Storage container
  */
 export interface ContainerItem {
-  /**
-   * The name of the container.
-   */
   name: string;
-  /**
-   * The system properties for the container.
-   */
   properties: ContainerProperties;
-  /**
-   * The user-defined metadata for the container.
-   */
   metadata?: { [propertyName: string]: string };
 }
 
@@ -542,43 +307,11 @@ export interface ContainerItem {
  * An enumeration of containers
  */
 export interface ListContainersSegmentResponse {
-  /**
-   * Specifies the container endpoint.
-   */
   serviceEndpoint: string;
-  /**
-   * The container prefix that matches the containers.
-   * Present if a prefix was specified on the request.
-   */
   prefix?: string;
-/**
- * A string value that identifies the portion of the list of containers to be returned with the
- * next listing operation. The operation returns the continuationToken value within the response
- * body if the listing operation did not return all containers remaining to be listed with the
- * current page. The continuationToken value can be used as the value for the marker parameter in
- * a subsequent call to request the next page of list items. The marker value is opaque to the
- * client.
- */
   marker?: string;
-/**
- * Specifies the maximum number of containers to return. If not specified,
- * or specifies a value greater than 5000, the server will return up to 5000 items.
- * Note that if the listing operation crosses a partition boundary, then the service will return
- * a continuation token for retrieving the remainder of the results. For this reason, it is
- * possible that the service will return fewer results than specified by maxPageSize, or than the
- * default of 5000.
- */
   maxPageSize?: number;
-  /**
-   * List of containers.
-   */
   containerItems: ContainerItem[];
-/**
- * A string value that can be used as the value for the marker parameter in a subsequent call
- * to request the next page of list items.
- * This is present when the listing operation did not return all containers remaining to be listed
- * with the current page.
- */
   continuationToken?: string;
 }
 
@@ -668,9 +401,6 @@ export interface Logging {
    * Indicates whether all write requests should be logged.
    */
   write: boolean;
-  /**
-   * Details about the metrics or logging retention policy.
-   */
   retentionPolicy: RetentionPolicy;
 }
 
@@ -690,9 +420,6 @@ export interface Metrics {
    * Indicates whether metrics should generate summary statistics for called API operations.
    */
   includeAPIs?: boolean;
-  /**
-   * Details about the retention policy which determines how long the associated data should persist.
-   */
   retentionPolicy?: RetentionPolicy;
 }
 
@@ -728,9 +455,6 @@ export interface SignedIdentifier {
    * a unique id
    */
   id: string;
-  /**
-   * An access policy.
-   */
   accessPolicy: AccessPolicy;
 }
 
@@ -756,19 +480,8 @@ export interface StaticWebsite {
  * Storage Service Properties.
  */
 export interface BlobServiceProperties {
-  /**
-   * Blob analytics logging settings.
-   */
   blobAnalyticsLogging?: Logging;
-  /**
-   * Provides a summary of request statistics grouped by API in hourly
-   * aggregates for blobs.
-   */
   hourMetrics?: Metrics;
-/**
- * Provides a summary of request statistics grouped by API in minute
- * aggregates for blobs.
- */
   minuteMetrics?: Metrics;
   /**
    * The set of CORS rules.
@@ -779,13 +492,7 @@ export interface BlobServiceProperties {
    * is not specified. Possible values include version 2008-10-27 and all more recent versions
    */
   defaultServiceVersion?: string;
-  /**
-   * Groups the Azure Delete settings.
-   */
   deleteRetentionPolicy?: RetentionPolicy;
-  /**
-   * groups the static website settings.
-   */
   staticWebsite?: StaticWebsite;
 }
 
@@ -793,9 +500,6 @@ export interface BlobServiceProperties {
  * Stats for the storage service.
  */
 export interface BlobServiceStatistics {
-  /**
-   * Groups geo-replication statistics.
-   */
   geoReplication?: GeoReplication;
 }
 
@@ -1455,8 +1159,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
 /**
  * Optional Parameters.
  */
-export interface ContainerListBlobHierarchySegmentOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only containers whose name begins with the specified prefix.
    */
@@ -3092,9 +2795,6 @@ export interface ServiceSetPropertiesHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3117,9 +2817,6 @@ export interface ServiceGetPropertiesHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3147,9 +2844,6 @@ export interface ServiceGetStatisticsHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3172,9 +2866,6 @@ export interface ServiceListContainersSegmentHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3202,9 +2893,6 @@ export interface ServiceGetUserDelegationKeyHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3241,9 +2929,6 @@ export interface ServiceGetAccountInfoHeaders {
    * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
    */
   accountKind?: AccountKind;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3271,9 +2956,6 @@ export interface ServiceSubmitBatchHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3312,9 +2994,6 @@ export interface ContainerCreateHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3322,9 +3001,6 @@ export interface ContainerCreateHeaders {
  * Defines headers for GetProperties operation.
  */
 export interface ContainerGetPropertiesHeaders {
-  /**
-   * The user-defined metadata for the container.
-   */
   metadata?: { [propertyName: string]: string };
   /**
    * The ETag contains a value that you can use to perform operations conditionally. If the request
@@ -3384,9 +3060,6 @@ export interface ContainerGetPropertiesHeaders {
    * Indicates whether the container has a legal hold.
    */
   hasLegalHold?: boolean;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3414,9 +3087,6 @@ export interface ContainerDeleteHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3455,9 +3125,6 @@ export interface ContainerSetMetadataHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3501,9 +3168,6 @@ export interface ContainerGetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3542,9 +3206,6 @@ export interface ContainerSetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3587,9 +3248,6 @@ export interface ContainerAcquireLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3628,9 +3286,6 @@ export interface ContainerReleaseLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3673,9 +3328,6 @@ export interface ContainerRenewLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3718,9 +3370,6 @@ export interface ContainerBreakLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3763,9 +3412,6 @@ export interface ContainerChangeLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3797,9 +3443,6 @@ export interface ContainerListBlobFlatSegmentHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3831,9 +3474,6 @@ export interface ContainerListBlobHierarchySegmentHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -3870,9 +3510,6 @@ export interface ContainerGetAccountInfoHeaders {
    * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
    */
   accountKind?: AccountKind;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4086,9 +3723,6 @@ export interface BlobDownloadHeaders {
    * of the blob.
    */
   lastModified?: Date;
-  /**
-   * The user-defined metadata that is set on this blob.
-   */
   metadata?: { [propertyName: string]: string };
   /**
    * The number of bytes present in the response body.
@@ -4253,9 +3887,6 @@ export interface BlobDownloadHeaders {
    * specified in the same request, it will fail with 400(Bad Request)
    */
   contentCrc64?: Uint8Array;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4273,9 +3904,6 @@ export interface BlobGetPropertiesHeaders {
    * Returns the date and time the blob was created.
    */
   createdOn?: Date;
-  /**
-   * The user-defined metadata set on the blob.
-   */
   metadata?: { [propertyName: string]: string };
   /**
    * The blob's type. Possible values include: 'BlockBlob', 'PageBlob', 'AppendBlob'
@@ -4457,9 +4085,6 @@ export interface BlobGetPropertiesHeaders {
    * blob was ever set.
    */
   accessTierChangedOn?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4487,9 +4112,6 @@ export interface BlobDeleteHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4666,9 +4288,6 @@ export interface PageBlobCreateHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4722,9 +4341,6 @@ export interface AppendBlobCreateHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4778,9 +4394,6 @@ export interface BlockBlobUploadHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4808,9 +4421,6 @@ export interface BlobUndeleteHeaders {
    * initiated.
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4854,9 +4464,6 @@ export interface BlobSetHTTPHeadersHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4905,9 +4512,6 @@ export interface BlobSetMetadataHeaders {
    * returned when the metadata was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4950,9 +4554,6 @@ export interface BlobAcquireLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -4991,9 +4592,6 @@ export interface BlobReleaseLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5036,9 +4634,6 @@ export interface BlobRenewLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5081,9 +4676,6 @@ export interface BlobChangeLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5126,9 +4718,6 @@ export interface BlobBreakLeaseHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5178,9 +4767,6 @@ export interface BlobCreateSnapshotHeaders {
    * provided in the request and encrypted with a customer-provided key.
    */
   isServerEncrypted?: boolean;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5229,9 +4815,6 @@ export interface BlobStartCopyFromURLHeaders {
    * 'success', 'aborted', 'failed'
    */
   copyStatus?: CopyStatusType;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5278,9 +4861,6 @@ export interface BlobCopyFromURLHeaders {
    * State of the copy operation identified by x-ms-copy-id. Possible values include: 'success'
    */
   copyStatus?: SyncCopyStatusType;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5308,9 +4888,6 @@ export interface BlobAbortCopyFromURLHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5333,9 +4910,6 @@ export interface BlobSetTierHeaders {
    * for requests made against version 2009-09-19 and newer.
    */
   version?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5372,9 +4946,6 @@ export interface BlobGetAccountInfoHeaders {
    * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
    */
   accountKind?: AccountKind;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5424,9 +4995,6 @@ export interface BlockBlobStageBlockHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5476,9 +5044,6 @@ export interface BlockBlobStageBlockFromURLHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5539,9 +5104,6 @@ export interface BlockBlobCommitBlockListHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5588,9 +5150,6 @@ export interface BlockBlobGetBlockListHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5654,9 +5213,6 @@ export interface PageBlobUploadPagesHeaders {
    * when the pages were encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5710,9 +5266,6 @@ export interface PageBlobClearPagesHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5771,9 +5324,6 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * when the pages were encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5816,9 +5366,6 @@ export interface PageBlobGetPageRangesHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5861,9 +5408,6 @@ export interface PageBlobGetPageRangesDiffHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5907,9 +5451,6 @@ export interface PageBlobResizeHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -5953,9 +5494,6 @@ export interface PageBlobUpdateSequenceNumberHeaders {
    * initiated
    */
   date?: Date;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -6004,9 +5542,6 @@ export interface PageBlobCopyIncrementalHeaders {
    * 'success', 'aborted', 'failed'
    */
   copyStatus?: CopyStatusType;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -6076,9 +5611,6 @@ export interface AppendBlobAppendBlockHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -6138,9 +5670,6 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
-  /**
-   * The error code returned by the service.
-   */
   errorCode?: string;
 }
 
@@ -6150,7 +5679,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
  * @readonly
  * @enum {string}
  */
-export type PublicAccessType = "container" | "blob";
+export type PublicAccessType = 'container' | 'blob';
 
 /**
  * Defines values for CopyStatusType.
@@ -6158,7 +5687,7 @@ export type PublicAccessType = "container" | "blob";
  * @readonly
  * @enum {string}
  */
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for LeaseDurationType.
@@ -6166,7 +5695,7 @@ export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
  * @readonly
  * @enum {string}
  */
-export type LeaseDurationType = "infinite" | "fixed";
+export type LeaseDurationType = 'infinite' | 'fixed';
 
 /**
  * Defines values for LeaseStateType.
@@ -6174,7 +5703,7 @@ export type LeaseDurationType = "infinite" | "fixed";
  * @readonly
  * @enum {string}
  */
-export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
 
 /**
  * Defines values for LeaseStatusType.
@@ -6182,7 +5711,7 @@ export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "
  * @readonly
  * @enum {string}
  */
-export type LeaseStatusType = "locked" | "unlocked";
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 /**
  * Defines values for AccessTier.
@@ -6191,21 +5720,7 @@ export type LeaseStatusType = "locked" | "unlocked";
  * @readonly
  * @enum {string}
  */
-export type AccessTier =
-  | "P4"
-  | "P6"
-  | "P10"
-  | "P15"
-  | "P20"
-  | "P30"
-  | "P40"
-  | "P50"
-  | "P60"
-  | "P70"
-  | "P80"
-  | "Hot"
-  | "Cool"
-  | "Archive";
+export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
 
 /**
  * Defines values for ArchiveStatus.
@@ -6213,7 +5728,7 @@ export type AccessTier =
  * @readonly
  * @enum {string}
  */
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
 
 /**
  * Defines values for BlobType.
@@ -6221,7 +5736,7 @@ export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-c
  * @readonly
  * @enum {string}
  */
-export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 /**
  * Defines values for StorageErrorCode.
@@ -6261,112 +5776,7 @@ export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode =
-  | "AccountAlreadyExists"
-  | "AccountBeingCreated"
-  | "AccountIsDisabled"
-  | "AuthenticationFailed"
-  | "AuthorizationFailure"
-  | "ConditionHeadersNotSupported"
-  | "ConditionNotMet"
-  | "EmptyMetadataKey"
-  | "InsufficientAccountPermissions"
-  | "InternalError"
-  | "InvalidAuthenticationInfo"
-  | "InvalidHeaderValue"
-  | "InvalidHttpVerb"
-  | "InvalidInput"
-  | "InvalidMd5"
-  | "InvalidMetadata"
-  | "InvalidQueryParameterValue"
-  | "InvalidRange"
-  | "InvalidResourceName"
-  | "InvalidUri"
-  | "InvalidXmlDocument"
-  | "InvalidXmlNodeValue"
-  | "Md5Mismatch"
-  | "MetadataTooLarge"
-  | "MissingContentLengthHeader"
-  | "MissingRequiredQueryParameter"
-  | "MissingRequiredHeader"
-  | "MissingRequiredXmlNode"
-  | "MultipleConditionHeadersNotSupported"
-  | "OperationTimedOut"
-  | "OutOfRangeInput"
-  | "OutOfRangeQueryParameterValue"
-  | "RequestBodyTooLarge"
-  | "ResourceTypeMismatch"
-  | "RequestUrlFailedToParse"
-  | "ResourceAlreadyExists"
-  | "ResourceNotFound"
-  | "ServerBusy"
-  | "UnsupportedHeader"
-  | "UnsupportedXmlNode"
-  | "UnsupportedQueryParameter"
-  | "UnsupportedHttpVerb"
-  | "AppendPositionConditionNotMet"
-  | "BlobAlreadyExists"
-  | "BlobNotFound"
-  | "BlobOverwritten"
-  | "BlobTierInadequateForContentLength"
-  | "BlockCountExceedsLimit"
-  | "BlockListTooLong"
-  | "CannotChangeToLowerTier"
-  | "CannotVerifyCopySource"
-  | "ContainerAlreadyExists"
-  | "ContainerBeingDeleted"
-  | "ContainerDisabled"
-  | "ContainerNotFound"
-  | "ContentLengthLargerThanTierLimit"
-  | "CopyAcrossAccountsNotSupported"
-  | "CopyIdMismatch"
-  | "FeatureVersionMismatch"
-  | "IncrementalCopyBlobMismatch"
-  | "IncrementalCopyOfEralierVersionSnapshotNotAllowed"
-  | "IncrementalCopySourceMustBeSnapshot"
-  | "InfiniteLeaseDurationRequired"
-  | "InvalidBlobOrBlock"
-  | "InvalidBlobTier"
-  | "InvalidBlobType"
-  | "InvalidBlockId"
-  | "InvalidBlockList"
-  | "InvalidOperation"
-  | "InvalidPageRange"
-  | "InvalidSourceBlobType"
-  | "InvalidSourceBlobUrl"
-  | "InvalidVersionForPageBlobOperation"
-  | "LeaseAlreadyPresent"
-  | "LeaseAlreadyBroken"
-  | "LeaseIdMismatchWithBlobOperation"
-  | "LeaseIdMismatchWithContainerOperation"
-  | "LeaseIdMismatchWithLeaseOperation"
-  | "LeaseIdMissing"
-  | "LeaseIsBreakingAndCannotBeAcquired"
-  | "LeaseIsBreakingAndCannotBeChanged"
-  | "LeaseIsBrokenAndCannotBeRenewed"
-  | "LeaseLost"
-  | "LeaseNotPresentWithBlobOperation"
-  | "LeaseNotPresentWithContainerOperation"
-  | "LeaseNotPresentWithLeaseOperation"
-  | "MaxBlobSizeConditionNotMet"
-  | "NoPendingCopyOperation"
-  | "OperationNotAllowedOnIncrementalCopyBlob"
-  | "PendingCopyOperation"
-  | "PreviousSnapshotCannotBeNewer"
-  | "PreviousSnapshotNotFound"
-  | "PreviousSnapshotOperationNotSupported"
-  | "SequenceNumberConditionNotMet"
-  | "SequenceNumberIncrementTooLarge"
-  | "SnapshotCountExceeded"
-  | "SnaphotOperationRateExceeded"
-  | "SnapshotsPresent"
-  | "SourceConditionNotMet"
-  | "SystemInUse"
-  | "TargetConditionNotMet"
-  | "UnauthorizedBlobOverwrite"
-  | "BlobBeingRehydrated"
-  | "BlobArchived"
-  | "BlobNotArchived";
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
 
 /**
  * Defines values for GeoReplicationStatusType.
@@ -6374,7 +5784,7 @@ export type StorageErrorCode =
  * @readonly
  * @enum {string}
  */
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 /**
  * Defines values for RehydratePriority.
@@ -6382,7 +5792,7 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  * @readonly
  * @enum {string}
  */
-export type RehydratePriority = "High" | "Standard";
+export type RehydratePriority = 'High' | 'Standard';
 
 /**
  * Defines values for BlockListType.
@@ -6390,7 +5800,7 @@ export type RehydratePriority = "High" | "Standard";
  * @readonly
  * @enum {string}
  */
-export type BlockListType = "committed" | "uncommitted" | "all";
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -6398,7 +5808,7 @@ export type BlockListType = "committed" | "uncommitted" | "all";
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = "include" | "only";
+export type DeleteSnapshotsOptionType = 'include' | 'only';
 
 /**
  * Defines values for EncryptionAlgorithmType.
@@ -6406,7 +5816,7 @@ export type DeleteSnapshotsOptionType = "include" | "only";
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithmType = "AES256";
+export type EncryptionAlgorithmType = 'AES256';
 
 /**
  * Defines values for ListBlobsIncludeItem.
@@ -6414,12 +5824,7 @@ export type EncryptionAlgorithmType = "AES256";
  * @readonly
  * @enum {string}
  */
-export type ListBlobsIncludeItem =
-  | "copy"
-  | "deleted"
-  | "metadata"
-  | "snapshots"
-  | "uncommittedblobs";
+export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs';
 
 /**
  * Defines values for ListContainersIncludeType.
@@ -6427,7 +5832,7 @@ export type ListBlobsIncludeItem =
  * @readonly
  * @enum {string}
  */
-export type ListContainersIncludeType = "metadata";
+export type ListContainersIncludeType = 'metadata';
 
 /**
  * Defines values for PathRenameMode.
@@ -6435,7 +5840,7 @@ export type ListContainersIncludeType = "metadata";
  * @readonly
  * @enum {string}
  */
-export type PathRenameMode = "legacy" | "posix";
+export type PathRenameMode = 'legacy' | 'posix';
 
 /**
  * Defines values for SequenceNumberActionType.
@@ -6443,7 +5848,7 @@ export type PathRenameMode = "legacy" | "posix";
  * @readonly
  * @enum {string}
  */
-export type SequenceNumberActionType = "max" | "update" | "increment";
+export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 /**
  * Defines values for SkuName.
@@ -6452,12 +5857,7 @@ export type SequenceNumberActionType = "max" | "update" | "increment";
  * @readonly
  * @enum {string}
  */
-export type SkuName =
-  | "Standard_LRS"
-  | "Standard_GRS"
-  | "Standard_RAGRS"
-  | "Standard_ZRS"
-  | "Premium_LRS";
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for AccountKind.
@@ -6465,7 +5865,7 @@ export type SkuName =
  * @readonly
  * @enum {string}
  */
-export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 /**
  * Defines values for SyncCopyStatusType.
@@ -6473,7 +5873,7 @@ export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
  * @readonly
  * @enum {string}
  */
-export type SyncCopyStatusType = "success";
+export type SyncCopyStatusType = 'success';
 
 /**
  * Contains response data for the setProperties operation.
@@ -6493,106 +5893,102 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = BlobServiceProperties &
-  ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = BlobServiceProperties & ServiceGetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceGetPropertiesHeaders;
+    parsedHeaders: ServiceGetPropertiesHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BlobServiceProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BlobServiceProperties;
   };
+};
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = BlobServiceStatistics &
-  ServiceGetStatisticsHeaders & {
+export type ServiceGetStatisticsResponse = BlobServiceStatistics & ServiceGetStatisticsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceGetStatisticsHeaders;
+    parsedHeaders: ServiceGetStatisticsHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BlobServiceStatistics;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BlobServiceStatistics;
   };
+};
 
 /**
  * Contains response data for the listContainersSegment operation.
  */
-export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse &
-  ServiceListContainersSegmentHeaders & {
+export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse & ServiceListContainersSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceListContainersSegmentHeaders;
+    parsedHeaders: ServiceListContainersSegmentHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListContainersSegmentResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListContainersSegmentResponse;
   };
+};
 
 /**
  * Contains response data for the getUserDelegationKey operation.
  */
-export type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  ServiceGetUserDelegationKeyHeaders & {
+export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGetUserDelegationKeyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceGetUserDelegationKeyHeaders;
+    parsedHeaders: ServiceGetUserDelegationKeyHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserDelegationKey;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserDelegationKey;
   };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -6703,28 +6099,27 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> &
-  ContainerGetAccessPolicyHeaders & {
+export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerGetAccessPolicyHeaders;
+    parsedHeaders: ContainerGetAccessPolicyHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifier[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifier[];
   };
+};
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -6819,54 +6214,52 @@ export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders & {
 /**
  * Contains response data for the listBlobFlatSegment operation.
  */
-export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse &
-  ContainerListBlobFlatSegmentHeaders & {
+export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerListBlobFlatSegmentHeaders;
+    parsedHeaders: ContainerListBlobFlatSegmentHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListBlobsFlatSegmentResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListBlobsFlatSegmentResponse;
   };
+};
 
 /**
  * Contains response data for the listBlobHierarchySegment operation.
  */
-export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse &
-  ContainerListBlobHierarchySegmentHeaders & {
+export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerListBlobHierarchySegmentHeaders;
+    parsedHeaders: ContainerListBlobHierarchySegmentHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListBlobsHierarchySegmentResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListBlobsHierarchySegmentResponse;
   };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -7337,54 +6730,52 @@ export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeade
 /**
  * Contains response data for the getPageRanges operation.
  */
-export type PageBlobGetPageRangesResponse = PageList &
-  PageBlobGetPageRangesHeaders & {
+export type PageBlobGetPageRangesResponse = PageList & PageBlobGetPageRangesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PageBlobGetPageRangesHeaders;
+    parsedHeaders: PageBlobGetPageRangesHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PageList;
   };
+};
 
 /**
  * Contains response data for the getPageRangesDiff operation.
  */
-export type PageBlobGetPageRangesDiffResponse = PageList &
-  PageBlobGetPageRangesDiffHeaders & {
+export type PageBlobGetPageRangesDiffResponse = PageList & PageBlobGetPageRangesDiffHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PageBlobGetPageRangesDiffHeaders;
+    parsedHeaders: PageBlobGetPageRangesDiffHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PageList;
   };
+};
 
 /**
  * Contains response data for the resize operation.
@@ -7539,25 +6930,24 @@ export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders &
 /**
  * Contains response data for the getBlockList operation.
  */
-export type BlockBlobGetBlockListResponse = BlockList &
-  BlockBlobGetBlockListHeaders & {
+export type BlockBlobGetBlockListResponse = BlockList & BlockBlobGetBlockListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BlockBlobGetBlockListHeaders;
+    parsedHeaders: BlockBlobGetBlockListHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BlockList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BlockList;
   };
+};

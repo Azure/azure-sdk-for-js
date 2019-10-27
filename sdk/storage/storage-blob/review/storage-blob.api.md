@@ -37,10 +37,10 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive";
+export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
 
 // @public
-export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 // @public
 export class AccountSASPermissions {
@@ -104,6 +104,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -137,6 +138,7 @@ export interface AppendBlobAppendBlockHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -180,6 +182,7 @@ export interface AppendBlobCreateHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -215,7 +218,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
 
 export { BaseRequestPolicy }
 
@@ -239,6 +242,7 @@ export interface BatchSubResponse {
 export interface BlobAbortCopyFromURLHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -374,6 +378,7 @@ export interface BlobCopyFromURLHeaders {
     copyId?: string;
     copyStatus?: SyncCopyStatusType;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -392,6 +397,7 @@ export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders & {
 export interface BlobCreateSnapshotHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -420,6 +426,7 @@ export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders & {
 export interface BlobDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -465,6 +472,7 @@ export interface BlobDownloadHeaders {
     copyStatusDescription?: string;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -472,6 +480,7 @@ export interface BlobDownloadHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -531,6 +540,7 @@ export interface BlobExistsOptions extends CommonOptions {
 
 // @public
 export interface BlobFlatListSegment {
+    // (undocumented)
     blobItems: BlobItem[];
 }
 
@@ -562,6 +572,7 @@ export interface BlobGetPropertiesHeaders {
     date?: Date;
     destinationSnapshot?: string;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isIncrementalCopy?: boolean;
@@ -570,6 +581,7 @@ export interface BlobGetPropertiesHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -593,7 +605,9 @@ export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
 
 // @public
 export interface BlobHierarchyListSegment {
+    // (undocumented)
     blobItems: BlobItem[];
+    // (undocumented)
     blobPrefixes?: BlobPrefix[];
 }
 
@@ -609,12 +623,17 @@ export interface BlobHTTPHeaders {
 
 // @public
 export interface BlobItem {
+    // (undocumented)
     deleted: boolean;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
+    // (undocumented)
     name: string;
+    // (undocumented)
     properties: BlobProperties;
+    // (undocumented)
     snapshot: string;
 }
 
@@ -632,41 +651,65 @@ export class BlobLeaseClient {
 
 // @public
 export interface BlobPrefix {
+    // (undocumented)
     name: string;
 }
 
 // @public
 export interface BlobProperties {
     accessTier?: AccessTier;
+    // (undocumented)
     accessTierChangedOn?: Date;
+    // (undocumented)
     accessTierInferred?: boolean;
     archiveStatus?: ArchiveStatus;
+    // (undocumented)
     blobSequenceNumber?: number;
     blobType?: BlobType;
+    // (undocumented)
     cacheControl?: string;
+    // (undocumented)
     contentDisposition?: string;
+    // (undocumented)
     contentEncoding?: string;
+    // (undocumented)
     contentLanguage?: string;
     contentLength?: number;
+    // (undocumented)
     contentMD5?: Uint8Array;
+    // (undocumented)
     contentType?: string;
+    // (undocumented)
     copyCompletedOn?: Date;
+    // (undocumented)
     copyId?: string;
+    // (undocumented)
     copyProgress?: string;
+    // (undocumented)
     copySource?: string;
     copyStatus?: CopyStatusType;
+    // (undocumented)
     copyStatusDescription?: string;
+    // (undocumented)
     createdOn?: Date;
+    // (undocumented)
     customerProvidedKeySha256?: string;
+    // (undocumented)
     deletedOn?: Date;
+    // (undocumented)
     destinationSnapshot?: string;
+    // (undocumented)
     etag: string;
+    // (undocumented)
     incrementalCopy?: boolean;
+    // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
     remainingRetentionDays?: number;
+    // (undocumented)
     serverEncrypted?: boolean;
 }
 
@@ -738,17 +781,23 @@ export class BlobServiceClient extends StorageClient {
 
 // @public
 export interface BlobServiceProperties {
+    // (undocumented)
     blobAnalyticsLogging?: Logging;
     cors?: CorsRule[];
     defaultServiceVersion?: string;
+    // (undocumented)
     deleteRetentionPolicy?: RetentionPolicy;
+    // (undocumented)
     hourMetrics?: Metrics;
+    // (undocumented)
     minuteMetrics?: Metrics;
+    // (undocumented)
     staticWebsite?: StaticWebsite;
 }
 
 // @public
 export interface BlobServiceStatistics {
+    // (undocumented)
     geoReplication?: GeoReplication;
 }
 
@@ -757,6 +806,7 @@ export interface BlobSetHTTPHeadersHeaders {
     blobSequenceNumber?: number;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -783,6 +833,7 @@ export interface BlobSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -808,6 +859,7 @@ export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
 // @public
 export interface BlobSetTierHeaders {
     clientRequestId?: string;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -833,6 +885,7 @@ export interface BlobStartCopyFromURLHeaders {
     copyId?: string;
     copyStatus?: CopyStatusType;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -866,12 +919,13 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 // @public
 export interface BlobUndeleteHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -923,6 +977,7 @@ export interface BlockBlobCommitBlockListHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -955,6 +1010,7 @@ export interface BlockBlobGetBlockListHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -997,6 +1053,7 @@ export interface BlockBlobStageBlockFromURLHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     isServerEncrypted?: boolean;
     requestId?: string;
@@ -1027,6 +1084,7 @@ export interface BlockBlobStageBlockHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     isServerEncrypted?: boolean;
     requestId?: string;
@@ -1064,6 +1122,7 @@ export interface BlockBlobUploadHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -1103,12 +1162,14 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
 // @public
 export interface BlockList {
+    // (undocumented)
     committedBlocks?: Block[];
+    // (undocumented)
     uncommittedBlocks?: Block[];
 }
 
 // @public
-export type BlockListType = "committed" | "uncommitted" | "all";
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 // @public
 export class BrowserPolicy extends BaseRequestPolicy {
@@ -1187,6 +1248,7 @@ export class ContainerClient extends StorageClient {
 export interface ContainerCreateHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1212,6 +1274,7 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
 export interface ContainerDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1240,6 +1303,7 @@ export interface ContainerGetAccessPolicyHeaders {
     blobPublicAccess?: PublicAccessType;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1269,6 +1333,7 @@ export interface ContainerGetPropertiesHeaders {
     blobPublicAccess?: PublicAccessType;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     hasImmutabilityPolicy?: boolean;
@@ -1277,6 +1342,7 @@ export interface ContainerGetPropertiesHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1299,10 +1365,13 @@ export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders & {
 
 // @public
 export interface ContainerItem {
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
+    // (undocumented)
     name: string;
+    // (undocumented)
     properties: ContainerProperties;
 }
 
@@ -1311,6 +1380,7 @@ export interface ContainerListBlobFlatSegmentHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1330,6 +1400,7 @@ export interface ContainerListBlobHierarchySegmentHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1357,9 +1428,13 @@ export interface ContainerListBlobsOptions extends CommonOptions {
 
 // @public
 export interface ContainerProperties {
+    // (undocumented)
     etag: string;
+    // (undocumented)
     hasImmutabilityPolicy?: boolean;
+    // (undocumented)
     hasLegalHold?: boolean;
+    // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -1395,6 +1470,7 @@ export class ContainerSASPermissions {
 export interface ContainerSetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1419,6 +1495,7 @@ export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders &
 export interface ContainerSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1445,7 +1522,7 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
 };
 
 // @public
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 // @public
 export interface CorsRule {
@@ -1478,12 +1555,12 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = "include" | "only";
+export type DeleteSnapshotsOptionType = 'include' | 'only';
 
 export { deserializationPolicy }
 
 // @public
-export type EncryptionAlgorithmType = "AES256";
+export type EncryptionAlgorithmType = 'AES256';
 
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
@@ -1501,7 +1578,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 export { HttpHeaders }
 
@@ -1529,7 +1606,7 @@ export interface LeaseAccessConditions {
 }
 
 // @public
-export type LeaseDurationType = "infinite" | "fixed";
+export type LeaseDurationType = 'infinite' | 'fixed';
 
 // @public
 export interface LeaseOperationOptions extends CommonOptions {
@@ -1545,48 +1622,70 @@ export type LeaseOperationResponse = Lease & {
 };
 
 // @public
-export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
 
 // @public
-export type LeaseStatusType = "locked" | "unlocked";
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 // @public
 export interface ListBlobsFlatSegmentResponse {
+    // (undocumented)
     containerName: string;
+    // (undocumented)
     continuationToken?: string;
+    // (undocumented)
     delimiter?: string;
+    // (undocumented)
     marker?: string;
+    // (undocumented)
     maxPageSize?: number;
+    // (undocumented)
     prefix?: string;
+    // (undocumented)
     segment: BlobFlatListSegment;
+    // (undocumented)
     serviceEndpoint: string;
 }
 
 // @public
 export interface ListBlobsHierarchySegmentResponse {
+    // (undocumented)
     containerName: string;
+    // (undocumented)
     continuationToken?: string;
+    // (undocumented)
     delimiter?: string;
+    // (undocumented)
     marker?: string;
+    // (undocumented)
     maxPageSize?: number;
+    // (undocumented)
     prefix?: string;
+    // (undocumented)
     segment: BlobHierarchyListSegment;
+    // (undocumented)
     serviceEndpoint: string;
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs";
+export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs';
 
 // @public
-export type ListContainersIncludeType = "metadata";
+export type ListContainersIncludeType = 'metadata';
 
 // @public
 export interface ListContainersSegmentResponse {
+    // (undocumented)
     containerItems: ContainerItem[];
+    // (undocumented)
     continuationToken?: string;
+    // (undocumented)
     marker?: string;
+    // (undocumented)
     maxPageSize?: number;
+    // (undocumented)
     prefix?: string;
+    // (undocumented)
     serviceEndpoint: string;
 }
 
@@ -1597,6 +1696,7 @@ export const logger: import("@azure/logger").AzureLogger;
 export interface Logging {
     deleteProperty: boolean;
     read: boolean;
+    // (undocumented)
     retentionPolicy: RetentionPolicy;
     version: string;
     write: boolean;
@@ -1611,6 +1711,7 @@ export interface Metadata {
 export interface Metrics {
     enabled: boolean;
     includeAPIs?: boolean;
+    // (undocumented)
     retentionPolicy?: RetentionPolicy;
     version?: string;
 }
@@ -1632,6 +1733,7 @@ export interface PageBlobClearPagesHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1677,6 +1779,7 @@ export interface PageBlobCopyIncrementalHeaders {
     copyId?: string;
     copyStatus?: CopyStatusType;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1697,6 +1800,7 @@ export interface PageBlobCreateHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -1728,6 +1832,7 @@ export interface PageBlobGetPageRangesDiffHeaders {
     blobContentLength?: number;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1756,6 +1861,7 @@ export interface PageBlobGetPageRangesHeaders {
     blobContentLength?: number;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1787,6 +1893,7 @@ export interface PageBlobResizeHeaders {
     blobSequenceNumber?: number;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1818,6 +1925,7 @@ export interface PageBlobUpdateSequenceNumberHeaders {
     blobSequenceNumber?: number;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1844,6 +1952,7 @@ export interface PageBlobUploadPagesFromURLHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -1877,6 +1986,7 @@ export interface PageBlobUploadPagesHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -1949,7 +2059,7 @@ export enum PremiumPageBlobTier {
 }
 
 // @public
-export type PublicAccessType = "container" | "blob";
+export type PublicAccessType = 'container' | 'blob';
 
 // @public
 export interface Range {
@@ -1958,7 +2068,7 @@ export interface Range {
 }
 
 // @public
-export type RehydratePriority = "High" | "Standard";
+export type RehydratePriority = 'High' | 'Standard';
 
 export { RequestPolicy }
 
@@ -2046,13 +2156,14 @@ export interface SequenceNumberAccessConditions {
 }
 
 // @public
-export type SequenceNumberActionType = "max" | "update" | "increment";
+export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 // @public
 export interface ServiceGetAccountInfoHeaders {
     accountKind?: AccountKind;
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     skuName?: SkuName;
@@ -2074,6 +2185,7 @@ export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders & {
 // @public
 export interface ServiceGetPropertiesHeaders {
     clientRequestId?: string;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2097,6 +2209,7 @@ export type ServiceGetPropertiesResponse = BlobServiceProperties & ServiceGetPro
 export interface ServiceGetStatisticsHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2120,6 +2233,7 @@ export type ServiceGetStatisticsResponse = BlobServiceStatistics & ServiceGetSta
 export interface ServiceGetUserDelegationKeyHeaders {
     clientRequestId?: string;
     date?: Date;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2149,6 +2263,7 @@ export interface ServiceListContainersOptions extends CommonOptions {
 // @public
 export interface ServiceListContainersSegmentHeaders {
     clientRequestId?: string;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2166,6 +2281,7 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
 // @public
 export interface ServiceSetPropertiesHeaders {
     clientRequestId?: string;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2187,6 +2303,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 export interface ServiceSubmitBatchHeaders {
     clientRequestId?: string;
     contentType?: string;
+    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -2233,12 +2350,13 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
+    // (undocumented)
     accessPolicy: AccessPolicy;
     id: string;
 }
 
 // @public
-export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS";
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 // @public
 export interface StaticWebsite {
@@ -2262,7 +2380,7 @@ export interface StoragePipelineOptions {
 }
 
 // @public
-export type SyncCopyStatusType = "success";
+export type SyncCopyStatusType = 'success';
 
 // @public
 export interface UserDelegationKey {
