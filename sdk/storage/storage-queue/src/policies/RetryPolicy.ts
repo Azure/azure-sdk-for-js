@@ -15,7 +15,7 @@ import {
   WebResource
 } from "@azure/core-http";
 
-import { RetryOptions } from "../RetryPolicyFactory";
+import { StorageQueueRetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 
@@ -26,7 +26,9 @@ import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
  * @param {RetryOptions} retryOptions
  * @returns {RequestPolicyFactory}
  */
-export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
+export function NewRetryPolicyFactory(
+  retryOptions?: StorageQueueRetryOptions
+): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
       return new RetryPolicy(nextPolicy, options, retryOptions);
@@ -52,7 +54,7 @@ export enum RetryPolicyType {
 }
 
 // Default values of RetryOptions
-const DEFAULT_RETRY_OPTIONS: RetryOptions = {
+const DEFAULT_RETRY_OPTIONS: StorageQueueRetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
@@ -77,7 +79,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @type {RetryOptions}
    * @memberof RetryPolicy
    */
-  private readonly retryOptions: RetryOptions;
+  private readonly retryOptions: StorageQueueRetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
@@ -90,7 +92,7 @@ export class RetryPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: StorageQueueRetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 

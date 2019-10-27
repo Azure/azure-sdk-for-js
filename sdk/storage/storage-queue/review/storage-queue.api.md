@@ -330,7 +330,7 @@ export interface NewPipelineOptions {
     logger?: IHttpPipelineLogger;
     // (undocumented)
     proxy?: ProxySettings | string;
-    retryOptions?: RetryOptions;
+    retryOptions?: StorageQueueRetryOptions;
     telemetry?: TelemetryOptions;
 }
 
@@ -670,36 +670,6 @@ export interface RetentionPolicy {
 }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: RetryPolicyType;
-    readonly secondaryHost?: string;
-    readonly tryTimeoutInMs?: number;
-}
-
-// @public
-export class RetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: RetryOptions);
-    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
-}
-
-// @public
-export class RetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: RetryOptions);
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
-    }
-
-// @public
-export enum RetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
-}
-
-// @public
 export interface SasIPRange {
     end?: string;
     start: string;
@@ -854,6 +824,36 @@ export interface SignedIdentifierModel {
 
 // @public
 export const StorageOAuthScopes: string | string[];
+
+// @public
+export interface StorageQueueRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageQueueRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
+}
+
+// @public
+export class StorageQueueRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageQueueRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
+export class StorageQueueRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageQueueRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageQueueRetryPolicy;
+    }
+
+// @public
+export enum StorageQueueRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
 
 // @public
 export interface TelemetryOptions {

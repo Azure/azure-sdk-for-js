@@ -2,9 +2,15 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
+import {
+  RetryPolicy as StorageQueueRetryPolicy,
+  RetryPolicyType as StorageQueueRetryPolicyType
+} from "./policies/RetryPolicy";
 
-export { RetryPolicyType, RetryPolicy } from "./policies/RetryPolicy";
+export {
+  RetryPolicyType as StorageQueueRetryPolicyType,
+  RetryPolicy as StorageQueueRetryPolicy
+} from "./policies/RetryPolicy";
 
 /**
  * Retry options interface.
@@ -12,14 +18,14 @@ export { RetryPolicyType, RetryPolicy } from "./policies/RetryPolicy";
  * @export
  * @interface RetryOptions
  */
-export interface RetryOptions {
+export interface StorageQueueRetryOptions {
   /**
    * Optional. RetryPolicyType, default is exponential retry policy.
    *
    * @type {RetryPolicyType}
    * @memberof RetryOptions
    */
-  readonly retryPolicyType?: RetryPolicyType;
+  readonly retryPolicyType?: StorageQueueRetryPolicyType;
 
   /**
    * Optional. Max try number of attempts, default is 4.
@@ -82,15 +88,15 @@ export interface RetryOptions {
  * @class RetryPolicyFactory
  * @implements {RequestPolicyFactory}
  */
-export class RetryPolicyFactory implements RequestPolicyFactory {
-  private retryOptions?: RetryOptions;
+export class StorageQueueRetryPolicyFactory implements RequestPolicyFactory {
+  private retryOptions?: StorageQueueRetryOptions;
 
   /**
    * Creates an instance of RetryPolicyFactory.
    * @param {RetryOptions} [retryOptions]
    * @memberof RetryPolicyFactory
    */
-  constructor(retryOptions?: RetryOptions) {
+  constructor(retryOptions?: StorageQueueRetryOptions) {
     this.retryOptions = retryOptions;
   }
 
@@ -102,7 +108,7 @@ export class RetryPolicyFactory implements RequestPolicyFactory {
    * @returns {RetryPolicy}
    * @memberof RetryPolicyFactory
    */
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
-    return new RetryPolicy(nextPolicy, options, this.retryOptions);
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageQueueRetryPolicy {
+    return new StorageQueueRetryPolicy(nextPolicy, options, this.retryOptions);
   }
 }
