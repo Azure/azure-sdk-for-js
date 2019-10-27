@@ -15,8 +15,7 @@ const items = [
     age: 11,
     gender: "M",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "02",
@@ -24,8 +23,7 @@ const items = [
     age: 15,
     gender: "F",
     team: "C",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [52, 13, 94, 31]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "03",
@@ -33,8 +31,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "A",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "04",
@@ -42,8 +39,7 @@ const items = [
     age: 18,
     gender: "F",
     team: "D",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "05",
@@ -51,8 +47,7 @@ const items = [
     age: 17,
     gender: "M",
     team: "C",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "06",
@@ -60,8 +55,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "07",
@@ -69,8 +63,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [52, 13, 94, 31]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "08",
@@ -78,8 +71,7 @@ const items = [
     age: 12,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "09",
@@ -87,8 +79,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "D",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "10",
@@ -96,8 +87,7 @@ const items = [
     age: 18,
     gender: "F",
     team: "A",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "11",
@@ -105,8 +95,7 @@ const items = [
     age: 18,
     gender: "M",
     team: "D",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "12",
@@ -114,8 +103,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "C",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "13",
@@ -123,8 +111,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "14",
@@ -132,8 +119,7 @@ const items = [
     age: 16,
     gender: "F",
     team: "B",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "15",
@@ -141,8 +127,7 @@ const items = [
     age: 18,
     gender: "F",
     team: "D",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "16",
@@ -150,8 +135,7 @@ const items = [
     age: 17,
     gender: "M",
     team: "C",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [52, 13, 94, 31]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "17",
@@ -159,8 +143,7 @@ const items = [
     age: 18,
     gender: "F",
     team: "C",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "18",
@@ -168,8 +151,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "19",
@@ -177,8 +159,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "20",
@@ -186,8 +167,7 @@ const items = [
     age: 11,
     gender: "M",
     team: "C",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "21",
@@ -195,8 +175,7 @@ const items = [
     age: 14,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "22",
@@ -204,8 +183,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "23",
@@ -213,8 +191,7 @@ const items = [
     age: 14,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "24",
@@ -222,8 +199,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "A",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "25",
@@ -231,8 +207,7 @@ const items = [
     age: 11,
     gender: "F",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "26",
@@ -240,8 +215,7 @@ const items = [
     age: 11,
     gender: "F",
     team: "D",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "27",
@@ -249,8 +223,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "B",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "28",
@@ -258,8 +231,7 @@ const items = [
     age: 13,
     gender: "F",
     team: "C",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "29",
@@ -267,8 +239,7 @@ const items = [
     age: 14,
     gender: "F",
     team: "B",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "30",
@@ -276,8 +247,7 @@ const items = [
     age: 14,
     gender: "F",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "31",
@@ -285,8 +255,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "A",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "32",
@@ -294,8 +263,7 @@ const items = [
     age: 11,
     gender: "M",
     team: "B",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "33",
@@ -303,8 +271,7 @@ const items = [
     age: 12,
     gender: "F",
     team: "C",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "34",
@@ -312,8 +279,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "D",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "35",
@@ -321,8 +287,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "D",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "36",
@@ -330,8 +295,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "D",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "37",
@@ -339,8 +303,7 @@ const items = [
     age: 14,
     gender: "F",
     team: "A",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "38",
@@ -348,8 +311,7 @@ const items = [
     age: 11,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "39",
@@ -357,8 +319,7 @@ const items = [
     age: 15,
     gender: "M",
     team: "B",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "40",
@@ -366,8 +327,7 @@ const items = [
     age: 11,
     gender: "M",
     team: "B",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "41",
@@ -375,8 +335,7 @@ const items = [
     age: 12,
     gender: "M",
     team: "B",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "42",
@@ -384,8 +343,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "B",
-    address: { city: "Chicago", state: "IL", zip: 60291 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Chicago", state: "IL", zip: 60291 }
   },
   {
     id: "43",
@@ -393,8 +351,7 @@ const items = [
     age: 12,
     gender: "F",
     team: "D",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "44",
@@ -402,8 +359,7 @@ const items = [
     age: 14,
     gender: "F",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "45",
@@ -411,8 +367,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "D",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [88, 88, 88, 88]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "46",
@@ -420,8 +375,7 @@ const items = [
     age: 17,
     gender: "M",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "47",
@@ -429,8 +383,7 @@ const items = [
     age: 18,
     gender: "M",
     team: "B",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "48",
@@ -438,8 +391,7 @@ const items = [
     age: 15,
     gender: "F",
     team: "C",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [23, 11, 11, 66]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "49",
@@ -447,8 +399,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "A",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [90, 45, 62, 21]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "50",
@@ -456,8 +407,7 @@ const items = [
     age: 17,
     gender: "M",
     team: "C",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "51",
@@ -465,8 +415,7 @@ const items = [
     age: 11,
     gender: "F",
     team: "D",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "52",
@@ -474,8 +423,7 @@ const items = [
     age: 13,
     gender: "M",
     team: "A",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "53",
@@ -483,8 +431,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "D",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "54",
@@ -492,8 +439,7 @@ const items = [
     age: 12,
     gender: "F",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "55",
@@ -501,8 +447,7 @@ const items = [
     age: 16,
     gender: "F",
     team: "A",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "56",
@@ -510,8 +455,7 @@ const items = [
     age: 12,
     gender: "M",
     team: "B",
-    address: { city: "Chicago", state: "IL", zip: 60292 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Chicago", state: "IL", zip: 60292 }
   },
   {
     id: "57",
@@ -519,8 +463,7 @@ const items = [
     age: 12,
     gender: "F",
     team: "B",
-    address: { city: "Seattle", state: "WA", zip: 98102 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Seattle", state: "WA", zip: 98102 }
   },
   {
     id: "58",
@@ -528,8 +471,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "C",
-    address: { city: "Orlando", state: "FL", zip: 32801 },
-    scores: [38, 66, 54, 25]
+    address: { city: "Orlando", state: "FL", zip: 32801 }
   },
   {
     id: "59",
@@ -537,8 +479,7 @@ const items = [
     age: 15,
     gender: "F",
     team: "A",
-    address: { city: "Seattle", state: "WA", zip: 98101 },
-    scores: [52, 13, 94, 31]
+    address: { city: "Seattle", state: "WA", zip: 98101 }
   },
   {
     id: "60",
@@ -546,8 +487,7 @@ const items = [
     age: 16,
     gender: "M",
     team: "D",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "61",
@@ -555,8 +495,7 @@ const items = [
     age: 17,
     gender: "F",
     team: "B",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [12, 10, 12, 10]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   },
   {
     id: "62",
@@ -564,8 +503,7 @@ const items = [
     age: 12,
     gender: "F",
     team: "C",
-    address: { city: "Atlanta", state: "GA", zip: 30302 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Atlanta", state: "GA", zip: 30302 }
   },
   {
     id: "63",
@@ -573,8 +511,7 @@ const items = [
     age: 14,
     gender: "F",
     team: "B",
-    address: { city: "Orlando", state: "FL", zip: 32802 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Orlando", state: "FL", zip: 32802 }
   },
   {
     id: "64",
@@ -582,8 +519,7 @@ const items = [
     age: 14,
     gender: "M",
     team: "C",
-    address: { city: "Atlanta", state: "GA", zip: 30301 },
-    scores: [88, 47, 90, 76]
+    address: { city: "Atlanta", state: "GA", zip: 30301 }
   }
 ];
 
@@ -677,7 +613,7 @@ describe("Cross partition GROUP BY", () => {
     snapshot(result.resources.sort((a, b) => a.name.localeCompare(b.name)));
   });
 
-  it("with single aggregate", async () => {
+  it("with AVG", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, AVG(c.age) AS min_age FROM c GROUP BY c.name",
       options
@@ -741,6 +677,24 @@ describe("Cross partition GROUP BY", () => {
         SUM(c.doesNotExist) as undefined_sum
       FROM c
       GROUP BY c.age`,
+      options
+    );
+    const result = await queryIterator.fetchAll();
+    snapshot(result.resources.sort((a, b) => a.age - b.age));
+  });
+
+  it("with missing aggregate field", async () => {
+    const queryIterator = container.items.query(
+      'SELECT AVG("asdf") as avg_asdf FROM c GROUP BY c.age',
+      options
+    );
+    const result = await queryIterator.fetchAll();
+    snapshot(result.resources.sort((a, b) => a.age - b.age));
+  });
+
+  it("with missing GROUP BY projection", async () => {
+    const queryIterator = container.items.query(
+      "SELECT c.age, c.doesNotExist FROM c GROUP BY c.age, c.doesNotExist",
       options
     );
     const result = await queryIterator.fetchAll();

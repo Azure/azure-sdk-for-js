@@ -4,7 +4,6 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { QueryInfo } from "../../request/ErrorResponse";
-// import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader } from "../headerUtils";
@@ -24,13 +23,18 @@ interface GroupByResult {
 export class GroupByEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
 
-  private groupings: { [key: string]: { [key: string]: Aggregator } } = {};
-  private aggreateResultArray: any[] = [];
+  private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
+  private readonly aggreateResultArray: any[] = [];
+  private completed: boolean = false;
 
   public async nextItem(): Promise<Response<any>> {
     // If we have a full result set, begin returning results
     if (this.aggreateResultArray.length > 0) {
       return { result: this.aggreateResultArray.pop(), headers: getInitialHeader() };
+    }
+
+    if (this.completed) {
+      return { result: undefined, headers: getInitialHeader() };
     }
 
     // Grab the next result
@@ -39,28 +43,29 @@ export class GroupByEndpointComponent implements ExecutionContext {
     // If it exists, process it via aggreatators
     if (result) {
       const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
-      const aggergators = this.groupings[group];
+      const aggergators = this.groupings.get(group);
       const payload = result.payload;
       if (aggergators) {
         // Iterator over all results in the payload
         Object.keys(payload).map((key) => {
           const aggregateResult = extractAggergateResult(payload[key]);
-          aggergators[key].aggregate(aggregateResult);
+          aggergators.get(key).aggregate(aggregateResult);
         });
       } else {
         // This is the first time we have seen a grouping. Setup the initial result without aggregate values
-        this.groupings[group] = {};
+        const grouping = new Map();
+        this.groupings.set(group, grouping);
         // Iterator over all results in the payload
         Object.keys(payload).map((key) => {
           const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
           // Create a new aggregator for this specific aggregate field
-          this.groupings[group][key] = createAggregator(aggregateType);
-          // Aggregate the first value
-          if (typeof payload[key] === "object") {
+          const aggreatator = createAggregator(aggregateType);
+          grouping.set(key, aggreatator);
+          if (aggregateType) {
             const aggregateResult = extractAggergateResult(payload[key]);
-            this.groupings[group][key].aggregate(aggregateResult);
+            aggreatator.aggregate(aggregateResult);
           } else {
-            this.groupings[group][key].aggregate(payload[key]);
+            aggreatator.aggregate(payload[key]);
           }
         });
       }
@@ -68,13 +73,14 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     // It no results are left in the underling execution context, convert our results set to an array
     if (!this.executionContext.hasMoreResults()) {
-      this.aggreateResultArray = Object.keys(this.groupings).map((group) => {
+      for (const grouping of this.groupings.values()) {
         const groupResult: any = {};
-        Object.keys(this.groupings[group]).map((aggregate) => {
-          groupResult[aggregate] = this.groupings[group][aggregate].getResult();
-        });
-        return groupResult;
-      });
+        for (const [aggregateKey, aggregator] of grouping.entries()) {
+          groupResult[aggregateKey] = aggregator.getResult();
+        }
+        this.aggreateResultArray.push(groupResult);
+      }
+      this.completed = true;
       return { result: this.aggreateResultArray.pop(), headers };
     }
 
@@ -87,9 +93,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
   }
 
   public hasMoreResults() {
-    return (
-      this.executionContext.hasMoreResults() ||
-      (this.aggreateResultArray && this.aggreateResultArray.length > 0)
-    );
+    return this.executionContext.hasMoreResults() || this.aggreateResultArray.length > 0;
   }
 }

@@ -21,12 +21,13 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByValueEndpointComponent implements ExecutionContext {
-  private aggergators: { [key: string]: Aggregator } = {};
-  private aggreateResultArray: any[] = [];
+  private readonly aggergators: Map<string, Aggregator> = new Map();
+  private readonly aggreateResultArray: any[] = [];
   private aggregateType: AggregateType;
   private completed: boolean = false;
 
   constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {
+    // VALUE queries will only every have a single grouping
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
@@ -44,27 +45,35 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
     // If it exists, process it via aggreatators
     if (result) {
-      const grouping = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
-      const aggergator = this.aggergators[grouping];
-      const payload = result.payload ? result.payload : result;
+      let grouping: string = emptyGroup;
+      let payload: any = result;
+      if (result.groupByItems) {
+        // If the query contains a GROUP BY clause, it will have a payload property and groupByItems
+        payload = result.payload;
+        grouping = await hashObject(result.groupByItems);
+      }
+
+      const aggergator = this.aggergators.get(grouping);
       if (!aggergator) {
         // This is the first time we have seen a grouping so create a new aggregator
-        this.aggergators[grouping] = createAggregator(this.aggregateType);
+        this.aggergators.set(grouping, createAggregator(this.aggregateType));
       }
-      // Iterator over all results in the payload
-      if (Array.isArray(payload)) {
-        const aggregateResult = extractAggergateResult(payload);
-        this.aggergators[grouping].aggregate(aggregateResult);
+
+      if (this.aggregateType) {
+        const aggregateResult = extractAggergateResult(payload[0]);
+        this.aggergators.get(grouping).aggregate(aggregateResult);
       } else {
-        this.aggergators[grouping].aggregate(payload);
+        // Queries with no aggregates pass the payload directly to the aggregator
+        // Example: SELECT VALUE c.team FROM c GROUP BY c.team
+        this.aggergators.get(grouping).aggregate(payload);
       }
     }
 
     // It no results are left in the underling execution context, convert our aggregate results to an array
     if (!this.executionContext.hasMoreResults()) {
-      this.aggreateResultArray = Object.values(this.aggergators).map((aggergator) => {
-        return aggergator.getResult();
-      });
+      for (const aggergator of this.aggergators.values()) {
+        this.aggreateResultArray.push(aggergator.getResult());
+      }
       this.completed = true;
       return { result: this.aggreateResultArray.pop(), headers };
     }
@@ -77,9 +86,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   }
 
   public hasMoreResults() {
-    return (
-      this.executionContext.hasMoreResults() ||
-      (this.aggreateResultArray && this.aggreateResultArray.length > 0)
-    );
+    return this.executionContext.hasMoreResults() || this.aggreateResultArray.length > 0;
   }
 }
