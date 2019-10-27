@@ -2,29 +2,26 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { BrowserPolicy as StorageBlobBrowserPolicy } from "./policies/BrowserPolicy";
-export { StorageBlobBrowserPolicy };
+import { BrowserPolicy as StorageBrowserPolicy } from "./policies/BrowserPolicy";
+export { StorageBrowserPolicy };
 
 /**
- * StorageblobBrowserPolicyFactory is a factory class helping generating StorageBlobBrowserPolicy objects.
+ * StorageBrowserPolicyFactory is a factory class helping generating StorageBrowserPolicy objects.
  *
  * @export
- * @class StorageBlobBrowserPolicyFactory
+ * @class StorageBrowserPolicyFactory
  * @implements {RequestPolicyFactory}
  */
-export class StorageBlobBrowserPolicyFactory implements RequestPolicyFactory {
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
   /**
-   * Creates a StorageBlobBrowserPolicyFactory object.
+   * Creates a StorageBrowserPolicyFactory object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @returns {StorageBlobBrowserPolicy}
-   * @memberof StorageBlobBrowserPolicyFactory
+   * @returns {StorageBrowserPolicy}
+   * @memberof StorageBrowserPolicyFactory
    */
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): StorageBlobBrowserPolicy {
-    return new StorageBlobBrowserPolicy(nextPolicy, options);
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy {
+    return new StorageBrowserPolicy(nextPolicy, options);
   }
 }
