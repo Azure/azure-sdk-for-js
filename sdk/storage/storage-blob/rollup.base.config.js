@@ -87,7 +87,7 @@ export function browserConfig(test = false, production = false) {
       file: "browser/azure-storage-blob.js",
       banner: banner,
       format: "umd",
-      name: "azblob",
+      name: "azstorageblob",
       sourcemap: true
     },
     preserveSymlinks: false,

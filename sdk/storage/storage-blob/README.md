@@ -103,7 +103,7 @@ To use the library with JS bundle in the browsers, simply add a script tag to yo
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-- `azblob`
+- `azstorageblob`
 
 #### Download
 

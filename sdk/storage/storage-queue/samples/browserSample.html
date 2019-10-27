@@ -17,7 +17,7 @@ and replace code in the below script tag to try them out.
 <script>
   const account = "";
   const accountSas = "";
-  const queueServiceClient = new azqueue.QueueServiceClient(
+  const queueServiceClient = new azstoragequeue.QueueServiceClient(
     "https://" + account + ".queue.core.windows.net" + accountSas
   );
 

@@ -17,7 +17,7 @@ and replace code in the below script tag to try them out.
 <script>
   const account = "";
   const accountSas = "";
-  const blobServiceClient = new azblob.BlobServiceClient(
+  const blobServiceClient = new azstorageblob.BlobServiceClient(
     "https://" + account + ".blob.core.windows.net" + accountSas
   );
 

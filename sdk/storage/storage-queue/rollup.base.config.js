@@ -79,7 +79,7 @@ export function browserConfig(test = false, production = false) {
       file: "browser/azure-storage-queue.js",
       banner: banner,
       format: "umd",
-      name: "azqueue",
+      name: "azstoragequeue",
       sourcemap: true
     },
     preserveSymlinks: false,

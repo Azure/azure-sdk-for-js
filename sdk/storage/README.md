@@ -124,9 +124,9 @@ To use the client libraries with JS bundle in the browsers, simply add a script 
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-- `azblob`
-- `azfileshare`
-- `azqueue`
+- `azstorageblob`
+- `azstoragefileshare`
+- `azstoragequeue`
 
 #### Download
 
