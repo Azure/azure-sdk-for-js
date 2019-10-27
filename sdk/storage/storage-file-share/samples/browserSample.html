@@ -17,7 +17,7 @@ and replace code in the below script tag to try them out.
 <script>
   const account = "";
   const accountSas = "";
-  const serviceClient = new azfile.ShareServiceClient(
+  const serviceClient = new azfileshare.ShareServiceClient(
     "https://" + account + ".file.core.windows.net" + accountSas
   );
 

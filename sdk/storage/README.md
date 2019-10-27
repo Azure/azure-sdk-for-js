@@ -125,7 +125,7 @@ To use the client libraries with JS bundle in the browsers, simply add a script 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
 - `azblob`
-- `azfile`
+- `azfileshare`
 - `azqueue`
 
 #### Download
@@ -259,7 +259,9 @@ async function main() {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
   // Passing the continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
+  iterator = containerClient
+    .listBlobsFlat()
+    .byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {
