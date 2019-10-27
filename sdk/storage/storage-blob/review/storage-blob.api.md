@@ -1172,17 +1172,6 @@ export interface BlockList {
 export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 // @public
-export class BrowserPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-}
-
-// @public
-export class BrowserPolicyFactory implements RequestPolicyFactory {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BrowserPolicy;
-}
-
-// @public
 export interface CommonOptions {
     spanOptions?: SpanOptions;
 }
@@ -2333,6 +2322,17 @@ export interface StaticWebsite {
     enabled: boolean;
     errorDocument404Path?: string;
     indexDocument?: string;
+}
+
+// @public
+export class StorageBlobBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+}
+
+// @public
+export class StorageBlobBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBlobBrowserPolicy;
 }
 
 // @public
