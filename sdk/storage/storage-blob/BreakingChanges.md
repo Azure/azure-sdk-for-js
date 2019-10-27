@@ -3,14 +3,14 @@
 ## 2019.11 12.0.0-preview.6
 
 - The custom browser and retry policies that are specific to the Storage libraries have been
-renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
-Below are the entities that now have the Storage prefix
-   - BrowserPolicy
-   - BrowserPolicyFactory
-   - RetryPolicy
-   - RetryPolicyType
-   - RetryOptions
-   - RetryPolicyFactory
+  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
+  Below are the entities that now have the Storage prefix
+  - BrowserPolicy
+  - BrowserPolicyFactory
+  - RetryPolicy
+  - RetryPolicyType
+  - RetryOptions
+  - RetryPolicyFactory
 - `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - The properties in the StoragePipelineOptions interface have been updated as below
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
@@ -25,8 +25,9 @@ Below are the entities that now have the Storage prefix
 - Updates to `BlockBlobClient.uploadStream`
   - `maxBuffers` attribute of is renamed to `maxConcurrency`
 - Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
+- The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle.
 
-## 2019.10 12.0.0-preview.5
+## 2019.11 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported. In the case where convenience layer already defined a type with conflicting name, the model type is aliased with `Model` suffix. [PR #5567](https://github.com/Azure/azure-sdk-for-js/pull/5567)
