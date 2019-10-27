@@ -15,7 +15,7 @@ import {
   WebResource
 } from "@azure/core-http";
 
-import { StorageBlobRetryOptions } from "../RetryPolicyFactory";
+import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 
@@ -23,12 +23,10 @@ import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {StorageBlobRetryOptions} retryOptions
+ * @param {RetryOptions} retryOptions
  * @returns
  */
-export function NewRetryPolicyFactory(
-  retryOptions?: StorageBlobRetryOptions
-): RequestPolicyFactory {
+export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
       return new RetryPolicy(nextPolicy, options, retryOptions);
@@ -53,8 +51,8 @@ export enum RetryPolicyType {
   FIXED
 }
 
-// Default values of StorageBlobRetryOptions
-const DEFAULT_RETRY_OPTIONS: StorageBlobRetryOptions = {
+// Default values of RetryOptions
+const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
@@ -76,23 +74,23 @@ export class RetryPolicy extends BaseRequestPolicy {
    * RetryOptions.
    *
    * @private
-   * @type {StorageBlobRetryOptions}
+   * @type {RetryOptions}
    * @memberof RetryPolicy
    */
-  private readonly retryOptions: StorageBlobRetryOptions;
+  private readonly retryOptions: RetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {StorageBlobRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @param {RetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
    * @memberof RetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: StorageBlobRetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 
