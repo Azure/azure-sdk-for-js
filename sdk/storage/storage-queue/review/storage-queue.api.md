@@ -85,7 +85,6 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // (undocumented)
     spanOptions?: SpanOptions;
 }
 
@@ -245,9 +244,8 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
     timeoutInSeconds?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface Metadata {
-    // (undocumented)
     [propertyName: string]: string;
 }
 
@@ -294,7 +292,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -310,7 +308,6 @@ export class QueueClient extends StorageClient {
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    // (undocumented)
     readonly name: string;
     peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
@@ -340,7 +337,7 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueDeleteMessageResponse = MessageIdDeleteResponse;
 
 // @public
@@ -372,7 +369,7 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueGetAccessPolicyResponse = {
     signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -410,7 +407,7 @@ export interface QueueItem {
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueuePeekMessagesResponse = {
     peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -425,7 +422,7 @@ export type QueuePeekMessagesResponse = {
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueReceiveMessageResponse = {
     receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -462,7 +459,7 @@ export interface QueueSASSignatureValues {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueSendMessageResponse = {
     messageId: string;
     popReceipt: string;
@@ -535,10 +532,10 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 
-// @public (undocumented)
+// @public
 export type ReceivedMessageItem = DequeuedMessageItem;
 
 export { RequestPolicy }
@@ -697,7 +694,7 @@ export interface SignedIdentifierModel {
     id: string;
 }
 
-// @public (undocumented)
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public

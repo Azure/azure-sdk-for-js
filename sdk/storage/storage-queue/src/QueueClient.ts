@@ -182,6 +182,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the getAccessPolicy operation.
+ */
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -248,6 +251,9 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
+/**
+ * Contains the response data for the sendMessage operation.
+ */
 export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the sent Message.
@@ -294,8 +300,14 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+/**
+ * The object returned in the queueMessageList array when calling Get Messages on a Queue.
+ */
 export declare type ReceivedMessageItem = DequeuedMessageItem;
 
+/**
+ * Contains the response data for the receiveMessage operation.
+ */
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -318,6 +330,9 @@ export declare type QueueReceiveMessageResponse = {
     };
   };
 
+/**
+ * Contains the response data for the peekMessages operation.
+ */
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -357,8 +372,19 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the updateMessage operation.
+ */
 export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+/**
+ * Contains response data for the deleteMessage operation.
+ */
 export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+
+/**
+ * Contains response data for the clearMessages operation.
+ */
 export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
@@ -403,6 +429,10 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
   private _name: string;
   private _messagesUrl: string;
+
+  /**
+   * The name of the queue.
+   */
   public get name(): string {
     return this._name;
   }

@@ -10,6 +10,9 @@ import { SpanOptions } from "@azure/core-tracing";
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
+  /**
+   * Options used to create a span when tracing is enabled.
+   */
   spanOptions?: SpanOptions;
 }
 
