@@ -29,7 +29,7 @@ import {
 import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { StorageQueueRetryOptions, StorageQueueRetryPolicyFactory } from "./RetryPolicyFactory";
+import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -156,7 +156,7 @@ export interface NewPipelineOptions {
    * @type {RetryOptions}
    * @memberof NewPipelineOptions
    */
-  retryOptions?: StorageQueueRetryOptions;
+  retryOptions?: RetryOptions;
 
   /**
    * Keep alive configurations. Default keep-alive is enabled.
@@ -207,7 +207,7 @@ export function newPipeline(
     new UniqueRequestIDPolicyFactory(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new StorageQueueRetryPolicyFactory(pipelineOptions.retryOptions),
+    new RetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageQueueLoggingAllowedHeaderNames,
