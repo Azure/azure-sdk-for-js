@@ -27,16 +27,13 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "ThirdPartyNotices.txt",
     "types/keyvault-keys.d.ts",
-    "browser/",
     "dist/",
     "dist-esm/",
     "src/",
     "tsconfig.json"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-keyvault-keys.min.js",
     "os": false,
     "process": false
   },

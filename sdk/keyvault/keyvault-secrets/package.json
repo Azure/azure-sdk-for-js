@@ -27,16 +27,13 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "ThirdPartyNotices.txt",
     "types/keyvault-secrets.d.ts",
-    "browser/",
     "dist/",
     "dist-esm/",
     "src/",
     "tsconfig.json"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-keyvault-secrets.min.js",
     "os": false,
     "process": false
   },
@@ -76,7 +73,8 @@
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/core-tracing": "1.0.0-preview.5",
     "@azure/logger": "1.0.0-preview.1",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
@@ -133,7 +131,6 @@
     "rollup-plugin-visualizer": "^2.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "^3.2.2",
-    "uglify-js": "^3.4.9",
-    "url": "^0.11.0"
+    "uglify-js": "^3.4.9"
   }
 }
