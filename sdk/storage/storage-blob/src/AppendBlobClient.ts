@@ -86,7 +86,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure the Append Blob - Append Block operation.
+ * Options to configure the Append Blob - Append Block operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -143,7 +143,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure the Append Blob - Append Block From URL operation.
+ * Options to configure the Append Blob - Append Block From URL operation.
  *
  * @export
  * @interface AppendBlobAppendBlockFromURLOptions

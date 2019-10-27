@@ -291,7 +291,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure Blob - Undelete operation.
  *
  * @export
  * @interface BlobUndeleteOptions
