@@ -35,7 +35,6 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
-    "browser/*.js*",
     "dist/",
     "dist-esm/src/",
     "src/",
