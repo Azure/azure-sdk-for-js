@@ -3,6 +3,7 @@
 ## 2019.11 12.0.0-preview.6
 
 - Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
+- [Breaking] JS bundle in the browsers - Global variable for the package has been renamed from `azfile` to `azstoragefileshare`.
 
 ## 2019.10 12.0.0-preview.5
 

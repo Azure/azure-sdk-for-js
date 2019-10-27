@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.11 12.0.0-preview.6
+
+- [Breaking] JS bundle in the browsers - Global variable for the package has been renamed from `azblob` to `azstorageblob`.
+
 ## 2019.11 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)

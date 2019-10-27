@@ -1,5 +1,9 @@
 # Breaking Changes
 
+## 2019.11 12.0.0-preview.6
+
+- JS bundle in the browsers - Global variable for the package has been renamed from `azfile` to `azstoragefileshare`.
+
 ## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)

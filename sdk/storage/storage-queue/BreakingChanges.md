@@ -1,5 +1,9 @@
 # Breaking Changes
 
+## 2019.11 12.0.0-preview.6
+
+- JS bundle in the browsers - Global variable for the package has been renamed from `azqueue` to `azstoragequeue`.
+
 ## 2019.11 12.0.0-preview.5
 
 - [Breaking] Major API changes for the `@azure/storage-queue` package.
