@@ -15,6 +15,7 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
+export * from "./BrowserPolicyFactory";
 export { Metadata } from "./models";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";

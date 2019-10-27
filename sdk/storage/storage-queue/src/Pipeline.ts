@@ -28,7 +28,7 @@ import {
 
 import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
@@ -205,7 +205,7 @@ export function newPipeline(
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.telemetry),
     new UniqueRequestIDPolicyFactory(),
-    new BrowserPolicyFactory(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
