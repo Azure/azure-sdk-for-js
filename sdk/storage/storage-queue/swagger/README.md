@@ -195,3 +195,12 @@ directive:
     transform: >
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
+
+### Update service version from "2018-03-28" to "2019-02-02"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2019-02-02" ];
+```
