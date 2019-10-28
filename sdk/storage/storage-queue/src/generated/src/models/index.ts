@@ -681,6 +681,11 @@ export interface ServiceSetPropertiesHeaders {
    * returned for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -698,6 +703,11 @@ export interface ServiceGetPropertiesHeaders {
    * returned for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -720,6 +730,11 @@ export interface ServiceGetStatisticsHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -742,6 +757,11 @@ export interface ServiceListQueuesSegmentHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -764,6 +784,11 @@ export interface QueueCreateHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -786,6 +811,11 @@ export interface QueueDeleteHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -814,6 +844,11 @@ export interface QueueGetPropertiesHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -836,6 +871,11 @@ export interface QueueSetMetadataHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -858,6 +898,11 @@ export interface QueueGetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -880,6 +925,11 @@ export interface QueueSetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -902,6 +952,11 @@ export interface MessagesDequeueHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -924,6 +979,11 @@ export interface MessagesClearHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -946,6 +1006,11 @@ export interface MessagesEnqueueHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -968,6 +1033,11 @@ export interface MessagesPeekHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -998,6 +1068,11 @@ export interface MessageIdUpdateHeaders {
    * A UTC date/time value that represents when the message will be visible on the queue.
    */
   nextVisibleOn?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -1020,6 +1095,11 @@ export interface MessageIdDeleteHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
