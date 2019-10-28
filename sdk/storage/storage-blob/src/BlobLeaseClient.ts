@@ -168,7 +168,7 @@ export class BlobLeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-acquireLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-acquireLease", options.tracingOptions);
     try {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
@@ -203,7 +203,7 @@ export class BlobLeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.tracingOptions);
     try {
       const response = await this._containerOrBlobOperation.changeLease(
         this._leaseId,
@@ -239,7 +239,7 @@ export class BlobLeaseClient {
    * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-releaseLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-releaseLease", options.tracingOptions);
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -268,7 +268,7 @@ export class BlobLeaseClient {
    * @memberof BlobLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -303,7 +303,7 @@ export class BlobLeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.tracingOptions);
     try {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
