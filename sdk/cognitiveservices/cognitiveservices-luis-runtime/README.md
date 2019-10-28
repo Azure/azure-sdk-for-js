@@ -51,7 +51,7 @@ const predictionRequest = {
       entityName: "testentityName",
       startIndex: 1,
       entityLength: 1,
-	  score: 0.86,
+	    score: 0.86,
       resolution: {}
     }
   ],
@@ -124,7 +124,7 @@ client.prediction
             entityName: "testentityName",
             startIndex: 1,
             entityLength: 1,
-			score: 0.9,
+			      score: 0.9,
             resolution: {}
           }
         ],

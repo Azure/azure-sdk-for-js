@@ -31,7 +31,7 @@ describe("Predections Tests", () => {
             entityName: "simple",
             startIndex: 26,
             entityLength: 4,
-            score = 0.86,
+            score : 0.86,
             resolution: externalResolution
           }],
           dynamicLists: [{
