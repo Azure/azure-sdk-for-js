@@ -14,7 +14,7 @@ export interface SecretClientInterface {
    */
   recoverDeletedSecret(
     secretName: string,
-    options?: coreHttp.OperationOptions
+    options?: RecoverDeletedSecretOptions
   ): Promise<SecretProperties>;
   /**
    * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
@@ -282,6 +282,12 @@ export interface BackupSecretOptions extends coreHttp.OperationOptions {}
  */
 export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
+/**
+ * @interface
+ * An interface representing optional parameters for the recoverDeletedSecret method (internal)
+ */
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
+ 
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.

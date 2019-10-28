@@ -10,7 +10,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -27,13 +26,6 @@ export interface DeletedSecret {
         deletedOn?: Date;
     };
     value?: string;
-}
-
-// @public
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    client: SecretClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -77,21 +69,11 @@ export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
-    client: SecretClientInterface;
-    name: string;
-    requestOptions?: RequestOptionsBase;
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
 export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
 }
 
 // @public
@@ -112,14 +94,6 @@ export class SecretClient {
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface SecretClientInterface {
-    deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
 }
 
 // @public
