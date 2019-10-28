@@ -35,7 +35,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.getKey();
    * ```
    * @param {GetKeyOptions} [options] Options for retrieving key.
@@ -65,7 +65,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
    * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
@@ -145,7 +145,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
    * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
@@ -183,7 +183,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.wrapKey("RSA1_5", keyToWrap);
    * ```
    * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
@@ -263,7 +263,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
    * ```
    * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
@@ -300,7 +300,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.sign("RS256", digest);
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
@@ -337,7 +337,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verify("RS256", signedDigest, signature);
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
@@ -377,7 +377,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.signData("RS256", message);
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
@@ -443,7 +443,7 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verifyData("RS256", signedMessage, signature);
    * ```
    * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
@@ -644,9 +644,9 @@ export class CryptographyClient {
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let client = new CryptographyClient(keyVaultKey.id, credentials);
    * // or
-   * let client = new CryptographyClient(url, jsonWebKey, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
    * @param key The key to use during cryptography tasks.
    * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]]).
