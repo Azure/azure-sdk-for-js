@@ -74,7 +74,7 @@
     "@azure/core-http": "^1.0.0",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
-    "@azure/core-tracing": "^1.0.0-preview.5",
+    "@azure/core-tracing": "1.0.0-preview.5",
     "@azure/logger": "^1.0.0",
     "tslib": "^1.9.3"
   },
