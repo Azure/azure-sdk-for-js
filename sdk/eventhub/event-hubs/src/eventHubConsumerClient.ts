@@ -215,7 +215,7 @@ export function createPartitionProcessorType(
 
     async initialize() {
       if (options.onInitialize) {
-        options.onInitialize({
+        await options.onInitialize({
           partitionId: this.partitionId,
           consumerGroupName: this.consumerGroupName,
           eventHubName: this.eventHubName
@@ -225,7 +225,7 @@ export function createPartitionProcessorType(
 
     async close(reason: CloseReason) {
       if (options.onClose) {
-        options.onClose(reason, {
+        await options.onClose(reason, {
           partitionId: this.partitionId,
           consumerGroupName: this.consumerGroupName,
           eventHubName: this.eventHubName
