@@ -5,8 +5,8 @@
 - `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - The properties in the StoragePipelineOptions interface have been updated as below
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
-    will be of type `ProxyOptions`. The helper function `getDefaultProxySettings()` can be used to
-    convert a proxy url to `ProxyOptions`.
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
   - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
     type `UserAgentOptions`.
   - The `logger` is no longer a property available to configure. To enable logging, please see the
