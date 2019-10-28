@@ -37,7 +37,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
-   * @param kty The type of key to create. For valid values, see KeyType. Possible values
+   * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
    * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateKeyResponse>
@@ -45,28 +45,28 @@ class KeyVaultClient extends KeyVaultClientContext {
   createKey(
     vaultBaseUrl: string,
     keyName: string,
-    kty: Models.KeyType,
+    kty: Models.JsonWebKeyType,
     options?: Models.KeyVaultClientCreateKeyOptionalParams
   ): Promise<Models.CreateKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
-   * @param kty The type of key to create. For valid values, see KeyType. Possible values
+   * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
    * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param callback The callback
    */
   createKey(
     vaultBaseUrl: string,
     keyName: string,
-    kty: Models.KeyType,
+    kty: Models.JsonWebKeyType,
     callback: coreHttp.ServiceCallback<Models.KeyBundle>
   ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
-   * @param kty The type of key to create. For valid values, see KeyType. Possible values
+   * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
    * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param options The optional parameters
    * @param callback The callback
@@ -74,14 +74,14 @@ class KeyVaultClient extends KeyVaultClientContext {
   createKey(
     vaultBaseUrl: string,
     keyName: string,
-    kty: Models.KeyType,
+    kty: Models.JsonWebKeyType,
     options: Models.KeyVaultClientCreateKeyOptionalParams,
     callback: coreHttp.ServiceCallback<Models.KeyBundle>
   ): void;
   createKey(
     vaultBaseUrl: string,
     keyName: string,
-    kty: Models.KeyType,
+    kty: Models.JsonWebKeyType,
     options?:
       | Models.KeyVaultClientCreateKeyOptionalParams
       | coreHttp.ServiceCallback<Models.KeyBundle>,
@@ -593,7 +593,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.EncryptResponse>;
@@ -610,7 +610,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
@@ -628,7 +628,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -637,7 +637,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -677,7 +677,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.DecryptResponse>;
@@ -694,7 +694,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
@@ -712,7 +712,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -721,7 +721,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -749,7 +749,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm identifier. For more information on possible
-   * algorithm types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384',
+   * algorithm types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384',
    * 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param value
    * @param [options] The optional parameters
@@ -759,7 +759,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.SignResponse>;
@@ -768,7 +768,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm identifier. For more information on possible
-   * algorithm types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384',
+   * algorithm types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384',
    * 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param value
    * @param callback The callback
@@ -777,7 +777,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
@@ -786,7 +786,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm identifier. For more information on possible
-   * algorithm types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384',
+   * algorithm types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384',
    * 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param value
    * @param options The optional parameters
@@ -796,7 +796,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
     options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -805,7 +805,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -835,7 +835,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm. For more information on possible algorithm
-   * types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
+   * types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
    * 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param digest The digest used for signing.
    * @param signature The signature to be verified.
@@ -846,7 +846,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options?: coreHttp.RequestOptionsBase
@@ -856,7 +856,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm. For more information on possible algorithm
-   * types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
+   * types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
    * 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param digest The digest used for signing.
    * @param signature The signature to be verified.
@@ -866,7 +866,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyVerifyResult>
@@ -876,7 +876,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm The signing/verification algorithm. For more information on possible algorithm
-   * types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
+   * types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
    * 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    * @param digest The digest used for signing.
    * @param signature The signature to be verified.
@@ -887,7 +887,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options: coreHttp.RequestOptionsBase,
@@ -897,7 +897,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.SignatureAlgorithm,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyVerifyResult>,
@@ -939,7 +939,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.WrapKeyResponse>;
@@ -956,7 +956,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
@@ -974,7 +974,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -983,7 +983,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -1022,7 +1022,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Models.UnwrapKeyResponse>;
@@ -1039,7 +1039,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
@@ -1057,7 +1057,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
@@ -1066,7 +1066,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    algorithm: Models.EncryptionAlgorithm,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
     options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>

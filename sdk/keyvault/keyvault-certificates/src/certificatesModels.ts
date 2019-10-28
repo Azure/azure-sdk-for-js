@@ -4,8 +4,8 @@ import {
   SecretProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
-  KeyType,
-  KeyCurveName,
+  JsonWebKeyType,
+  JsonWebKeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
@@ -77,7 +77,7 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: KeyType;
+  keyType?: JsonWebKeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
@@ -87,10 +87,10 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
    */
   reuseKey?: boolean;
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  keyCurveType?: KeyCurveName;
+  keyCurveType?: JsonWebKeyCurveName;
   /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */

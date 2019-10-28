@@ -45,11 +45,11 @@ export interface JsonWebKey {
    */
   kid?: string;
   /**
-   * KeyType (kty), as defined in
+   * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  kty?: KeyType;
+  kty?: JsonWebKeyType;
   keyOps?: string[];
   /**
    * RSA modulus.
@@ -92,10 +92,10 @@ export interface JsonWebKey {
    */
   t?: Uint8Array;
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  crv?: KeyCurveName;
+  crv?: JsonWebKeyCurveName;
   /**
    * X component of an EC public key.
    */
@@ -413,7 +413,7 @@ export interface KeyProperties {
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: KeyType;
+  keyType?: JsonWebKeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
@@ -423,10 +423,10 @@ export interface KeyProperties {
    */
   reuseKey?: boolean;
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curve?: KeyCurveName;
+  curve?: JsonWebKeyCurveName;
 }
 
 /**
@@ -863,25 +863,25 @@ export interface Contacts {
  */
 export interface KeyCreateParameters {
   /**
-   * The type of key to create. For valid values, see KeyType. Possible values include:
+   * The type of key to create. For valid values, see JsonWebKeyType. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  kty: KeyType;
+  kty: JsonWebKeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
-  keyOps?: KeyOperation[];
+  keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curve?: KeyCurveName;
+  curve?: JsonWebKeyCurveName;
 }
 
 /**
@@ -913,7 +913,7 @@ export interface KeyOperationsParameters {
   /**
    * algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
    */
-  algorithm: EncryptionAlgorithm;
+  algorithm: JsonWebKeyEncryptionAlgorithm;
   value: Uint8Array;
 }
 
@@ -923,10 +923,10 @@ export interface KeyOperationsParameters {
 export interface KeySignParameters {
   /**
    * The signing/verification algorithm identifier. For more information on possible algorithm
-   * types, see SignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
+   * types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
    * 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    */
-  algorithm: SignatureAlgorithm;
+  algorithm: JsonWebKeySignatureAlgorithm;
   value: Uint8Array;
 }
 
@@ -936,10 +936,10 @@ export interface KeySignParameters {
 export interface KeyVerifyParameters {
   /**
    * The signing/verification algorithm. For more information on possible algorithm types, see
-   * SignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512', 'RS256',
+   * JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512', 'RS256',
    * 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
    */
-  algorithm: SignatureAlgorithm;
+  algorithm: JsonWebKeySignatureAlgorithm;
   /**
    * The digest used for signing.
    */
@@ -956,9 +956,9 @@ export interface KeyVerifyParameters {
 export interface KeyUpdateParameters {
   /**
    * Json web key operations. For more information on possible key operations, see
-   * KeyOperation.
+   * JsonWebKeyOperation.
    */
-  keyOps?: KeyOperation[];
+  keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
    * Application specific metadata in the form of key-value pairs.
@@ -1845,17 +1845,17 @@ export interface KeyVaultClientCreateKeyOptionalParams extends coreHttp.RequestO
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
-  keyOps?: KeyOperation[];
+  keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curve?: KeyCurveName;
+  curve?: JsonWebKeyCurveName;
 }
 
 /**
@@ -1882,9 +1882,9 @@ export interface KeyVaultClientImportKeyOptionalParams extends coreHttp.RequestO
 export interface KeyVaultClientUpdateKeyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Json web key operations. For more information on possible key operations, see
-   * KeyOperation.
+   * JsonWebKeyOperation.
    */
-  keyOps?: KeyOperation[];
+  keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
    * Application specific metadata in the form of key-value pairs.
@@ -2299,20 +2299,20 @@ export interface KeyVaultClientUpdateSasDefinitionOptionalParams
 }
 
 /**
- * Defines values for KeyType.
+ * Defines values for JsonWebKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
- * Defines values for KeyCurveName.
+ * Defines values for JsonWebKeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
  * @readonly
  * @enum {string}
  */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for DeletionRecoveryLevel.
@@ -2354,12 +2354,12 @@ export type KeyUsageType =
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 /**
- * Defines values for WebKeyOperation.
+ * Defines values for JsonWebKeyOperation.
  * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
  * @readonly
  * @enum {string}
  */
-export type KeyOperation =
+export type JsonWebKeyOperation =
   | "encrypt"
   | "decrypt"
   | "sign"
@@ -2368,21 +2368,21 @@ export type KeyOperation =
   | "unwrapKey";
 
 /**
- * Defines values for EncryptionAlgorithm.
+ * Defines values for JsonWebKeyEncryptionAlgorithm.
  * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
- * Defines values for SignatureAlgorithm.
+ * Defines values for JsonWebKeySignatureAlgorithm.
  * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL',
  * 'ES256', 'ES384', 'ES512', 'ES256K'
  * @readonly
  * @enum {string}
  */
-export type SignatureAlgorithm =
+export type JsonWebKeySignatureAlgorithm =
   | "PS256"
   | "PS384"
   | "PS512"
