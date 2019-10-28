@@ -230,22 +230,25 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `JSON` value from given input,
- * or undefined if not passed in. Treats empty string as invalid JSON
+ * Helper utility to check for and return JSON like object,
+ * or undefined if not passed in. Treats empty string as `undefined`.
  * @param value
  */
-export function getJSONOrUndefined(value: any): any | undefined {
-  if (value == undefined || (typeof value === "string" && value.trim() == "")) {
-    return undefined;
+export function getJSObjectOrUndefined(value: any): any | undefined {
+  if (value == undefined) return undefined;
+
+  if (typeof value === "string" && value.trim() === "") return undefined;
+
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    typeof value === "symbol"
+  ) {
+    throw new TypeError(`${String(value)} expected to be in proper JSON like format, or undefined`);
   }
 
-  const formattedStringValue = JSON.stringify(value).trim();
-  if (!formattedStringValue.startsWith("{") && !formattedStringValue.startsWith("[")) {
-    throw new TypeError(
-      `${formattedStringValue} expected to be in proper JSON format, or undefined`
-    );
-  }
-  return JSON.parse(formattedStringValue);
+  return value;
 }
 
 /**
@@ -255,7 +258,7 @@ export function getJSONOrUndefined(value: any): any | undefined {
  * @param value
  */
 export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
-  const jsonValue: any = getJSONOrUndefined(value);
+  const jsonValue: any = getJSObjectOrUndefined(value);
   if (jsonValue != undefined) {
     return {
       activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]) || 0,
@@ -300,7 +303,7 @@ export type AuthorizationRule = {
  */
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
-  const jsonValue: any = getJSONOrUndefined(value);
+  const jsonValue: any = getJSObjectOrUndefined(value);
   if (jsonValue == undefined) {
     return undefined;
   }
