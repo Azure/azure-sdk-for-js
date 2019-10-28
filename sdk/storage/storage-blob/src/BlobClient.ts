@@ -336,7 +336,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure Blob - Undelete operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -816,10 +816,16 @@ export class BlobClient extends StorageClient {
   private _name: string;
   private _containerName: string;
 
+  /**
+   * The name of the blob.
+   */
   public get name(): string {
     return this._name;
   }
 
+  /**
+   * The name of the storage container the blob is associated with.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -1404,6 +1410,7 @@ export class BlobClient extends StorageClient {
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that attempting to cancel a completed copy will result in an error being thrown.
    *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
@@ -1961,7 +1968,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Optiosn to confgiure the Append Blob - Append Block operation.
+ * Options to configure the Append Blob - Append Block operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -2017,6 +2024,12 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the Append Blob - Append Block From URL operation.
+ * 
+ * @export
+ * @interface AppendBlobAppendBlockFromURLOptions
+ */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -3926,6 +3939,12 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   conditions?: ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Upload Pages From URL operation.
+ * 
+ * @export
+ * @interface PageBlobUploadPagesFromURLOptions
+ */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.

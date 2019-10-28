@@ -189,6 +189,9 @@ export interface ServiceListContainersOptions extends CommonOptions {
   includeMetadata?: boolean;
 }
 
+/**
+ * A user delegation key.
+ */
 export interface UserDelegationKey {
   /**
    * The Azure Active Directory object ID in GUID format.
@@ -241,6 +244,9 @@ export interface UserDelegationKey {
   value: string;
 }
 
+/**
+ * Contains response data for the getUserDelegationKey operation.
+ */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
     /**
