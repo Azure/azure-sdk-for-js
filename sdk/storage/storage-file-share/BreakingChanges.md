@@ -1,5 +1,12 @@
 # Breaking Changes
 
+## 2019.11 12.0.0-preview.6
+
+- `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
+
 ## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
