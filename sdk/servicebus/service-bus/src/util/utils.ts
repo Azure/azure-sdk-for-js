@@ -235,16 +235,17 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * @param value
  */
 export function getJSONOrUndefined(value: any): any | undefined {
-  if (value == undefined || (typeof value === "string" && !value)) {
+  if (value == undefined || (typeof value === "string" && value.trim() == "")) {
     return undefined;
   }
-  try {
-    return JSON.parse(JSON.stringify(value));
-  } catch (err) {
+
+  const formattedStringValue = JSON.stringify(value).trim();
+  if (!formattedStringValue.startsWith("{") && !formattedStringValue.startsWith("[")) {
     throw new TypeError(
-      `${JSON.stringify(value, undefined, 2)} expected to be in proper JSON format, or undefined`
+      `${formattedStringValue} expected to be in proper JSON format, or undefined`
     );
   }
+  return JSON.parse(formattedStringValue);
 }
 
 /**
