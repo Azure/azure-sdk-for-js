@@ -1,5 +1,5 @@
 import {
-  BlobServiceClient,
+  blockBlobClient,
   AnonymousCredential,
   BaseRequestPolicy,
   newPipeline
