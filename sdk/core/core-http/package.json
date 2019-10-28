@@ -30,16 +30,15 @@
   "module": "./es/lib/coreHttp.js",
   "types": "./es/lib/coreHttp.d.ts",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
+    "dist/**/*.node.js",
+    "dist/**/*.node.js.map",
     "es/lib/**/*.js",
     "es/lib/**/*.js.map",
     "es/lib/**/*.d.ts",
     "es/lib/**/*.d.ts.map",
     "lib/**/*.ts",
     "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
