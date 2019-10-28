@@ -9,6 +9,7 @@ export { SasIPRange } from "./SasIPRange";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
+export * from "./StorageBrowserPolicyFactory";
 export * from "./RetryPolicyFactory";
 export { Metadata } from "./models";
 export * from "./TelemetryPolicyFactory";

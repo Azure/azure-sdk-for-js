@@ -27,7 +27,7 @@ import {
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";

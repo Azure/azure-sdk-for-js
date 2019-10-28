@@ -13,7 +13,7 @@ export * from "./PageBlobClient";
 export * from "./BlobBatch";
 export * from "./BlobBatchClient";
 export * from "./BatchResponse";
-export * from "./BrowserPolicyFactory";
+export * from "./StorageBrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export { SasIPRange } from "./SasIPRange";

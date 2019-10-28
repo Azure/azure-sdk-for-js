@@ -20,7 +20,7 @@ export * from "./BlobBatchClient";
 export * from "./BatchResponse";
 export * from "./BlobSASPermissions";
 export * from "./BlobSASSignatureValues";
-export * from "./BrowserPolicyFactory";
+export * from "./StorageBrowserPolicyFactory";
 export * from "./ContainerSASPermissions";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";

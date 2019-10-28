@@ -33,7 +33,7 @@ export * from "./RetryPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
-export * from "./BrowserPolicyFactory";
+export * from "./StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";

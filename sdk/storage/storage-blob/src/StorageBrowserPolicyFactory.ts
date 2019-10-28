@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { BrowserPolicy as StorageBrowserPolicy } from "./policies/BrowserPolicy";
+import { StorageBrowserPolicy } from "./policies/StorageBrowserPolicy";
 export { StorageBrowserPolicy };
 
 /**

@@ -24,7 +24,7 @@ import {
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";

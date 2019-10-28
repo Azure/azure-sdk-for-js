@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { BrowserPolicy as StorageBrowserPolicy } from "./policies/BrowserPolicy";
+import { StorageBrowserPolicy } from "./policies/StorageBrowserPolicy";
 export { StorageBrowserPolicy };
 
 /**
- * StorageBrowserPolicyFactory is a factory class helping generating StorageBrowserPolicy objects.
+ * StorageBrowserPolicyFactory is a factory class helping generating BrowserPolicy objects.
  *
  * @export
  * @class StorageBrowserPolicyFactory
