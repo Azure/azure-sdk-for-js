@@ -22,28 +22,27 @@ platform needs two things: a tenant and an app registration created for that
 tenant.
 
 A "tenant" is basically instance of Azure Active Directory associated with your
-Azure account.  You can follow the instructions on [this quickstart
-guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
+Azure account.  You can follow the instructions on [this quick start guide for
+setting up a
+tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
 to check if you have AAD tenant already or, if not, create one.
 
 Once you have a tenant, you can create an app registration by following [this
-quickstart
-guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app).
+quickstart guide for app
+registrations](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app).
 Your app registration holds the configuration for how your application will
-authenticate users and services, so it's very important to make sure that you
-have it set up correctly before using any of the credential types below.  The
-section on each credential will indicate which configuration settings it needs
-and how to use them.
+authenticate users and services, so it's very important to it set up correctly
+before using any of the credential types below.  The section on each credential
+will indicate which configuration settings it needs and how to use them.
 
 ### Should my App be Single or Multi Tenant?
 
-One decision you will need to make up front when creating an app registration is
-whether your application will be single or multi-tenant, and more importantly,
-if the multi-tenant app registration also supports personal Microsoft accounts.
-
-The primary deciding factor is whether your application will be used only by
-users and services inside of your AAD tenant or if it's valuable to other
-organizations and individuals as well.
+One decision you will need to make up front when registering your app is whether
+it will be single or multi-tenant, and more importantly, if the multi-tenant app
+registration also supports personal Microsoft accounts. The primary deciding
+factor is whether your application will be used only by users and services
+inside of your AAD tenant or if you'd like other organizations and individuals
+to use it.
 
 The [app registration quickstart
 guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#register-a-new-application-using-the-azure-portal)
@@ -52,7 +51,7 @@ account types" documentation.
 
 You can easily change your application from single to multi-tenant and vice
 versa after it is created, but you cannot currently change it to support
-personal Microsoft accounts if it was created without that option set.
+personal Microsoft accounts after it's already created.
 
 ## Understanding the Credential Types
 
@@ -120,8 +119,8 @@ in the "Certificates & secrets" page for your app registration. Using a
 certificate to authenticate is recommended as it is generally more secure than
 using a client secret.
 
-> NOTE: At this time, @azure/identity only supports PEM files that are **not**
-> password protected.
+> NOTE: At this time, @azure/identity only supports PEM certificates that are
+> **not** password protected.
 
 For both of these credentials, `tenantId` and `clientId` are required parameters.
 The `clientSecret` or `certificatePath` parameters are also required depending
