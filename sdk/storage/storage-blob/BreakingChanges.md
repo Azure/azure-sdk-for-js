@@ -2,6 +2,15 @@
 
 ## 2019.11 12.0.0-preview.6
 
+- The custom browser and retry policies that are specific to the Storage libraries have been
+renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
+Below are the entities that now have the Storage prefix
+   - BrowserPolicy
+   - BrowserPolicyFactory
+   - RetryPolicy
+   - RetryPolicyType
+   - RetryOptions
+   - RetryPolicyFactory
 - `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - The properties in the StoragePipelineOptions interface have been updated as below
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and

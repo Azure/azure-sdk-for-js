@@ -2,24 +2,27 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
+import {
+  StorageRetryPolicy,
+  StorageRetryPolicyType
+} from "./policies/StorageRetryPolicy";
 
-export { RetryPolicyType } from "./policies/RetryPolicy";
+export { StorageRetryPolicyType, StorageRetryPolicy };
 
 /**
- * Retry options interface.
+ * Storage Blob retry options interface.
  *
  * @export
- * @interface RetryOptions
+ * @interface StorageRetryOptions
  */
-export interface RetryOptions {
+export interface StorageRetryOptions {
   /**
-   * Optional. RetryPolicyType, default is exponential retry policy.
+   * Optional. StorageRetryPolicyType, default is exponential retry policy.
    *
-   * @type {RetryPolicyType}
-   * @memberof RetryOptions
+   * @type {StorageRetryPolicyType}
+   * @memberof StorageRetryOptions
    */
-  readonly retryPolicyType?: RetryPolicyType;
+  readonly retryPolicyType?: StorageRetryPolicyType;
 
   /**
    * Optional. Max try number of attempts, default is 4.
@@ -27,18 +30,19 @@ export interface RetryOptions {
    * A value smaller than 1 means default retry number of attempts.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly maxTries?: number;
 
   /**
    * Optional. Indicates the maximum time in ms allowed for any single try of an HTTP request.
-   * A value of zero or undefined means that you accept our default timeout, 30s or 30 * 1000ms.
+   * A value of zero or undefined means no default timeout on SDK client, Azure
+   * Storage server's default timeout policy will be used.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly tryTimeoutInMs?: number;
 
@@ -48,7 +52,7 @@ export interface RetryOptions {
    * maxRetryDelayInMs. If you specify 0, then you must also specify 0 for maxRetryDelayInMs.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly retryDelayInMs?: number;
 
@@ -57,7 +61,7 @@ export interface RetryOptions {
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
    *
    * @type {number}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 
@@ -70,39 +74,39 @@ export interface RetryOptions {
    * {@link https://docs.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
    *
    * @type {string}
-   * @memberof RetryOptions
+   * @memberof StorageRetryOptions
    */
   readonly secondaryHost?: string;
 }
 
 /**
- * RetryPolicyFactory is a factory class helping generating RetryPolicy objects.
+ * StorageRetryPolicyFactory is a factory class helping generating StorageRetryPolicy objects.
  *
  * @export
- * @class RetryPolicyFactory
+ * @class StorageRetryPolicyFactory
  * @implements {RequestPolicyFactory}
  */
-export class RetryPolicyFactory implements RequestPolicyFactory {
-  private retryOptions?: RetryOptions;
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+  private retryOptions?: StorageRetryOptions;
 
   /**
-   * Creates an instance of RetryPolicyFactory.
-   * @param {RetryOptions} [retryOptions]
-   * @memberof RetryPolicyFactory
+   * Creates an instance of StorageRetryPolicyFactory.
+   * @param {StorageRetryOptions} [retryOptions]
+   * @memberof StorageRetryPolicyFactory
    */
-  constructor(retryOptions?: RetryOptions) {
+  constructor(retryOptions?: StorageRetryOptions) {
     this.retryOptions = retryOptions;
   }
 
   /**
-   * Creates a RetryPolicy object.
+   * Creates a StorageRetryPolicy object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @returns {RetryPolicy}
-   * @memberof RetryPolicyFactory
+   * @returns {StorageRetryPolicy}
+   * @memberof StorageRetryPolicyFactory
    */
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
-    return new RetryPolicy(nextPolicy, options, this.retryOptions);
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy {
+    return new StorageRetryPolicy(nextPolicy, options, this.retryOptions);
   }
 }
