@@ -1,6 +1,24 @@
 # Changelog
 
-## 2019.11 12.0.0-preview.5
+## 2019.11 12.0.0-preview.6
+
+- [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`.
+- [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. The helper function `getDefaultProxySettings()` can be used to
+    convert a proxy url to `ProxyOptions`.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`.
+  - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-queue/README.md#troubleshooting) section of our readme.
+  - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+    corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- `beginCopyFromURL` is added to the `BlobClient`, it returns a poller that can be used to watch the status of a copy operation. It also supports cancelling a pending copy.
+- Updates to `BlockBlobClient.uploadStream`
+  - [Breaking] `maxBuffers` attribute of is renamed to `maxConcurrency`
+  - Added default values for parameters, bufferSize = `8MB` and maxConcurrency = `5`
+
+## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - Created new interface `CommonOptions`. This interface is for standard options that apply to all methods that invoke remote operations. This interface currently contains options that enable client-side tracing of the SDK. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
