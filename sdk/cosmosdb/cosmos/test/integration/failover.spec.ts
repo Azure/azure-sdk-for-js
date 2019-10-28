@@ -148,7 +148,7 @@ const responses = [
   readResponse
 ];
 
-describe.only("Region Failover", () => {
+describe("Region Failover", () => {
   let container: Container;
 
   before(async function() {
