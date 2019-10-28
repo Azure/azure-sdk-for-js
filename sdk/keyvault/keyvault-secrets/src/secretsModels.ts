@@ -287,7 +287,7 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
  * An interface representing optional parameters for the recoverDeletedSecret method (internal)
  */
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
- 
+
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.

@@ -71,7 +71,8 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can get secret properties with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfSecrets({
         requestOptions: { timeout: 1 }
@@ -109,7 +110,8 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can get the deleted secrets with requestOptions timeout", async function() {
       const iter = client.listDeletedSecrets({
         requestOptions: { timeout: 1 }
@@ -151,7 +153,8 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can get versions of a secret with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
         requestOptions: { timeout: 1 }
