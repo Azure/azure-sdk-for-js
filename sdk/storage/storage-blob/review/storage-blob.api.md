@@ -32,9 +32,9 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
-    expiry: string;
+    expiresOn: string;
     permissions: string;
-    start: string;
+    startsOn: string;
 }
 
 // @public
