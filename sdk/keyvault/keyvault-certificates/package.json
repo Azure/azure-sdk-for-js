@@ -26,7 +26,6 @@
   },
   "files": [
     "LICENSE.txt",
-    "ThirdPartyNotices.txt",
     "README.md",
     "types/keyvault-certificates.d.ts",
     "lib/",
@@ -36,7 +35,6 @@
     "tsconfig.json"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-keyvault-certificates.min.js",
     "os": false,
     "process": false
   },
