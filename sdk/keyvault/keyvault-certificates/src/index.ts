@@ -19,7 +19,8 @@ import {
   CertificatePolicy,
   CertificateProperties,
   CreateCertificateOptions,
-  SubjectAlternativeNames
+  SubjectAlternativeNames,
+  CertificateTags
 } from "./certificatesModels";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -71,7 +72,18 @@ import {
   RestoreCertificateResponse,
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
-  SubjectAlternativeNames as CoreSubjectAlternativeNames
+  SubjectAlternativeNames as CoreSubjectAlternativeNames,
+  CertificateAttributes,
+  KeyCurveName,
+  KeyType,
+  KeyUsageType,
+  Action,
+  Trigger,
+  AdministratorDetails,
+  ActionType,
+  Attributes,
+  DeletionRecoveryLevel,
+  KeyVaultClientCreateCertificateOptionalParams
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
@@ -82,18 +94,35 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 export {
+  Action,
+  ActionType,
+  AdministratorDetails,
+  Attributes,
+  BackupCertificateResult,
+  Certificate,
+  CertificateAttributes,
+  CertificateContentType,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
   CertificatePolicy,
+  CertificateTags,
+  CoreCertificatePolicy,
+  CoreSubjectAlternativeNames,
   Contact,
   Contacts,
+  CreateCertificateOptions,
   DeletedCertificate,
+  DeletionRecoveryLevel,
   ErrorModel,
   IssuerAttributes,
   IssuerCredentials,
   IssuerParameters,
+  KeyCurveName,
   KeyProperties,
+  KeyType,
+  KeyUsageType,
+  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
@@ -101,10 +130,12 @@ export {
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateOptionalParams,
   LifetimeAction,
-  PipelineOptions,
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
+  PipelineOptions,
   SecretProperties,
+  SubjectAlternativeNames,
+  Trigger,
   X509CertificateProperties,
   logger
 };
