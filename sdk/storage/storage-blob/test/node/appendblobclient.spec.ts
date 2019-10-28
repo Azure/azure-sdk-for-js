@@ -125,7 +125,7 @@ describe("AppendBlobClient Node.js only", () => {
 
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")
@@ -159,7 +159,7 @@ describe("AppendBlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")

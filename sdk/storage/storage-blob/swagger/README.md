@@ -228,6 +228,8 @@ directive:
     transform: >
       $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
 ### Add missing x-ms-parameter-location for PathRenameMode
@@ -266,4 +268,28 @@ directive:
   where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
   transform: >
     $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
+```
+
+### Rename AccessPolicy start -> startsOn and expiry to expiresOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
+```
+
+### Rename KeyInfo start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyInfo.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
 ```

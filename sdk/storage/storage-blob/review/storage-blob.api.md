@@ -78,13 +78,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -750,13 +750,13 @@ export interface BlobSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
-    expiryTime?: Date;
+    expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: BlobSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -775,7 +775,7 @@ export class BlobServiceClient extends StorageClient {
     getContainerClient(containerName: string): ContainerClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
-    getUserDelegationKey(start: Date, expiry: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
@@ -2089,13 +2089,13 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
-    readonly expiryTime?: Date;
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -2104,7 +2104,7 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
 }
@@ -2288,8 +2288,8 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start?: Date;
-        expiry?: Date;
+        startsOn?: Date;
+        expiresOn?: Date;
         permissions: string;
     };
     id: string;
@@ -2384,10 +2384,10 @@ export type SyncCopyStatusType = 'success';
 
 // @public
 export interface UserDelegationKey {
-    signedExpiry: Date;
+    signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;
-    signedStart: Date;
+    signedStartsOn: Date;
     signedTenantId: string;
     signedVersion: string;
     value: string;
@@ -2395,10 +2395,10 @@ export interface UserDelegationKey {
 
 // @public
 export interface UserDelegationKeyModel {
-    signedExpiry: string;
+    signedExpiresOn: string;
     signedObjectId: string;
     signedService: string;
-    signedStart: string;
+    signedStartsOn: string;
     signedTenantId: string;
     signedVersion: string;
     value: string;

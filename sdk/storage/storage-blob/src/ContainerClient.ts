@@ -48,7 +48,14 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { BlobClient, AppendBlobClient, BlockBlobClient, PageBlobClient, BlockBlobUploadOptions, BlobDeleteOptions } from "./BlobClient";
+import {
+  BlobClient,
+  AppendBlobClient,
+  BlockBlobClient,
+  PageBlobClient,
+  BlockBlobUploadOptions,
+  BlobDeleteOptions
+} from "./BlobClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -215,13 +222,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start Optional. The date-time the policy is active
+     * @member {Date} startsOn Optional. The date-time the policy is active
      */
-    start?: Date;
+    startsOn?: Date;
     /**
-     * @member {Date} expiry Optional. The date-time the policy expires
+     * @member {Date} expiresOn Optional. The date-time the policy expires
      */
-    expiry?: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
@@ -894,7 +901,7 @@ export class ContainerClient extends StorageClient {
    * Gets the permissions for the specified container. The permissions indicate
    * whether container data may be accessed publicly.
    *
-   * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
+   * WARNING: JavaScript Date will potential lost precision when parsing startsOn and expiresOn string.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
@@ -940,12 +947,12 @@ export class ContainerClient extends StorageClient {
           permissions: identifier.accessPolicy.permissions
         };
 
-        if (identifier.accessPolicy.expiry) {
-          accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+        if (identifier.accessPolicy.expiresOn) {
+          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
         }
 
-        if (identifier.accessPolicy.start) {
-          accessPolicy.start = new Date(identifier.accessPolicy.start);
+        if (identifier.accessPolicy.startsOn) {
+          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
         }
 
         res.signedIdentifiers.push({
@@ -996,12 +1003,12 @@ export class ContainerClient extends StorageClient {
       for (const identifier of containerAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: identifier.accessPolicy.expiry
-              ? truncatedISO8061Date(identifier.accessPolicy.expiry)
+            expiresOn: identifier.accessPolicy.expiresOn
+              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
               : "",
             permissions: identifier.accessPolicy.permissions,
-            start: identifier.accessPolicy.start
-              ? truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: identifier.accessPolicy.startsOn
+              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
               : ""
           },
           id: identifier.id
