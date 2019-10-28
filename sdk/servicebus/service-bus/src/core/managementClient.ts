@@ -282,7 +282,7 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * Evaluates the `associatedLinkName` to use for given operation.
+   * Helper function to retrieve active receiver name, if it exists.
    * @param clientEntityContext The `ClientEntityContext` associated with given Service Bus entity client
    * @param sessionId `sessionId` if applicable
    */
