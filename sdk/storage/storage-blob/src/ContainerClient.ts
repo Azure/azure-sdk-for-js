@@ -41,22 +41,14 @@ import {
   extractConnectionStringParts,
   getValueInConnString
 } from "./utils/utils.common";
-import {
-  AppendBlobClient,
-  BlobClient,
-  BlockBlobClient,
-  PageBlobClient,
-  StorageClient,
-  BlockBlobUploadOptions,
-  BlobDeleteOptions,
-  CommonOptions
-} from "./internal";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { BlobClient, AppendBlobClient, BlockBlobClient, PageBlobClient, BlockBlobUploadOptions, BlobDeleteOptions } from "./BlobClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -645,7 +637,7 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
@@ -676,9 +668,12 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.tracingOptions);
     try {
-      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
@@ -767,7 +762,10 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-getProperties",
+      options.tracingOptions
+    );
     try {
       return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
@@ -811,7 +809,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
 
     try {
       return this.containerContext.deleteMethod({
@@ -864,7 +862,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
 
     try {
       return this.containerContext.setMetadata({
@@ -907,7 +905,7 @@ export class ContainerClient extends StorageClient {
 
     const { span, spanOptions } = createSpan(
       "ContainerClient-getAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
@@ -984,7 +982,7 @@ export class ContainerClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "ContainerClient-setAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const acl: SignedIdentifierModel[] = [];
@@ -1064,13 +1062,13 @@ export class ContainerClient extends StorageClient {
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-uploadBlockBlob",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, {
         ...options,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
       return {
         blockBlobClient,
@@ -1103,10 +1101,13 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options: BlobDeleteOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
     try {
       const blobClient = this.getBlobClient(blobName);
-      return await blobClient.delete({ ...options, spanOptions });
+      return await blobClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1136,7 +1137,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobFlatSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobFlatSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobFlatSegment({
@@ -1175,7 +1176,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobHierarchySegment(delimiter, {

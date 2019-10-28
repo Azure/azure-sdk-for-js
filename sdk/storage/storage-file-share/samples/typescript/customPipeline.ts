@@ -2,36 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import {
-  newPipeline,
-  ShareServiceClient,
-  SharedKeyCredential,
-  HttpPipelineLogLevel
-} from "../../src"; // Change to "@azure/storage-file-share" in your package
-
-class ConsoleHttpPipelineLogger {
-  minimumLogLevel: any;
-  constructor(minimumLogLevel: any) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel: number, message: any) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
-    }
-  }
-}
+import { newPipeline, ShareServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -45,10 +16,8 @@ async function main() {
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "AdvancedSample V1.0.0" } // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" } // Customized telemetry string
   });
 
   // List shares

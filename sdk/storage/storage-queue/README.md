@@ -93,10 +93,6 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 
 - `azqueue`
 
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases).
-
 ### CORS
 
 You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
@@ -241,40 +237,12 @@ A complete example of basic scenarios is at [samples/basic.ts](https://github.co
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        console.log(logMessage);
-        break;
-    }
-  }
-}
-```
+import { setLogLevel } from "@azure/logger";
 
-Then when creating the `QueueServiceClient` instance, pass the logger in the options
-
-```javascript
-const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net`,
-  sharedKeyCredential,
-  {
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  }
-);
+setLogLevel("info");
 ```
 
 ## Authenticating with Azure Active Directory

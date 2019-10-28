@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -228,11 +228,7 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: any): error is ErrorResponse {
-    return (
-      error.code === StatusCodes.BadRequest &&
-      error.substatus &&
-      error.substatus === SubStatusCodes.CrossPartitionQueryNotServable
-    );
+    return error.code === StatusCodes.BadRequest;
   }
 
   private initPromise: Promise<void>;

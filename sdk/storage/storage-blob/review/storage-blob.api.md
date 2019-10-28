@@ -10,15 +10,14 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
@@ -28,6 +27,7 @@ import { ServiceClientOptions } from '@azure/core-http';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -206,8 +206,8 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
 // @public
 export class BlobBatch {
     constructor();
-    deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
     deleteBlob(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
+    deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
     getHttpRequestBody(): string;
     getMultiPartContentType(): string;
     getSubRequests(): Map<number, BatchSubRequest>;
@@ -292,8 +292,8 @@ export class BlobClient extends StorageClient {
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -551,8 +551,8 @@ export interface BlobSASSignatureValues {
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
         containerCreateResponse: ContainerCreateResponse;
@@ -694,9 +694,9 @@ export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
 
 // @public
 export class BlockBlobClient extends BlobClient {
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
@@ -704,7 +704,7 @@ export class BlockBlobClient extends BlobClient {
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
-    uploadStream(stream: Readable, bufferSize: number, maxBuffers: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
+    uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
 
@@ -862,8 +862,10 @@ export class BrowserPolicyFactory implements RequestPolicyFactory {
 
 // @public
 export interface CommonOptions {
+    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
+    // 
     // (undocumented)
-    spanOptions?: SpanOptions;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -1155,13 +1157,9 @@ export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public (undocumented)
 export interface Lease {
@@ -1263,9 +1261,9 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 
 // @public
 export class PageBlobClient extends BlobClient {
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
@@ -1463,15 +1461,14 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HTTPClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
 export { PollerLike }
 
 export { PollOperationState }
 
-// @public (undocumented)
+// @public
 export enum PremiumPageBlobTier {
     // (undocumented)
     P10 = "P10",
@@ -1754,31 +1751,10 @@ export const StorageOAuthScopes: string | string[];
 // @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
+    proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
-// @public
-export interface TelemetryOptions {
-    value: string;
-}
-
-// @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
-    }
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public (undocumented)

@@ -11,7 +11,6 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { CommonOptions, BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./internal";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
@@ -19,6 +18,8 @@ import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { CommonOptions } from "./StorageClient";
+import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 
@@ -288,7 +289,7 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.tracingOptions);
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 

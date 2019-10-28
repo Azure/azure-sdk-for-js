@@ -1,4 +1,4 @@
-import { BlockBlobClient } from "../src/BlockBlobClient";
+import { BlockBlobClient } from "../src";
 import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
