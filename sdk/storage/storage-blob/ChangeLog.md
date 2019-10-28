@@ -2,7 +2,7 @@
 
 ## 2019.11 12.0.0-preview.6
 
-- [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`.
+- [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
     will be of type `ProxyOptions`. The helper function `getDefaultProxySettings()` can be used to
@@ -17,6 +17,7 @@
 - Updates to `BlockBlobClient.uploadStream`
   - [Breaking] `maxBuffers` attribute of is renamed to `maxConcurrency`
   - Added default values for parameters, bufferSize = `8MB` and maxConcurrency = `5`
+- Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the account has no blob containers. The issue is fixed in this new release.
 
 ## 2019.10 12.0.0-preview.5
 
