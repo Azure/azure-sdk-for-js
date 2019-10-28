@@ -2071,7 +2071,7 @@ export class AppendBlobClient extends BlobClient {
    * appendBlobsContext provided by protocol layer.
    *
    * @private
-   * @type {AppendBlobs}
+   * @type {AppendBlob}
    * @memberof AppendBlobClient
    */
   private appendBlobContext: AppendBlob;
@@ -2250,7 +2250,7 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<AppendBlobsCreateResponse>}
+   * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
@@ -2286,7 +2286,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<AppendBlobsAppendBlockResponse>}
+   * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(
@@ -3699,6 +3699,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of upload pages operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof PageBlobUploadPagesOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
