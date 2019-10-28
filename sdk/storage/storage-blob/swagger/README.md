@@ -269,3 +269,20 @@ directive:
     transform: >
       $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
 ```
+
+### Batch returns a 202
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"].post.responses
+    transform: >
+      const response = $["200"];
+      if (response) {
+        delete $["200"];
+        $["202"] = response;
+        $["202"]["x-az-public"] = false;
+        $["202"]["x-az-response-name"] = "BlobBatchResult";
+        $["202"]["x-az-response-schema-name"] = "Content";
+      }
+```

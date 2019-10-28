@@ -436,7 +436,7 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   },
   contentType: "application/xml; charset=utf-8",
   responses: {
-    200: {
+    202: {
       bodyMapper: {
         serializedName: "parsedResponse",
         type: {
