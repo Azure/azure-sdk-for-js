@@ -23,7 +23,7 @@ export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
-export * from "./RetryPolicyFactory";
+export * from "./StorageRetryPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";

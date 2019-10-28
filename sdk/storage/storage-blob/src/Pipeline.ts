@@ -28,7 +28,7 @@ import {
 
 import { logger } from "./log";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {

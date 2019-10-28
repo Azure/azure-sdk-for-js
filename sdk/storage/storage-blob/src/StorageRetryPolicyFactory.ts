@@ -3,14 +3,14 @@
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import {
-  RetryPolicy as StorageRetryPolicy,
-  RetryPolicyType as StorageRetryPolicyType
-} from "./policies/RetryPolicy";
+  StorageRetryPolicy,
+  StorageRetryPolicyType
+} from "./policies/StorageRetryPolicy";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 
 /**
- * Storage Queue retry options interface.
+ * Storage Blob retry options interface.
  *
  * @export
  * @interface StorageRetryOptions
@@ -36,9 +36,10 @@ export interface StorageRetryOptions {
 
   /**
    * Optional. Indicates the maximum time in ms allowed for any single try of an HTTP request.
-   * A value of zero or undefined means that you accept our default timeout, 30s or 30 * 1000ms.
+   * A value of zero or undefined means no default timeout on SDK client, Azure
+   * Storage server's default timeout policy will be used.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    *
    * @type {number}
    * @memberof StorageRetryOptions

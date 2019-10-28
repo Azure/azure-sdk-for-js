@@ -29,7 +29,7 @@ import {
 import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";

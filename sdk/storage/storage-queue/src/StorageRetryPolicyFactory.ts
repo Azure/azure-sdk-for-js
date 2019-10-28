@@ -3,14 +3,14 @@
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import {
-  RetryPolicy as StorageRetryPolicy,
-  RetryPolicyType as StorageRetryPolicyType
-} from "./policies/RetryPolicy";
+  StorageRetryPolicy,
+  StorageRetryPolicyType
+} from "./policies/StorageRetryPolicy";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 
 /**
- * Retry options interface.
+ * Storage Queue retry options interface.
  *
  * @export
  * @interface StorageRetryOptions
@@ -36,12 +36,9 @@ export interface StorageRetryOptions {
 
   /**
    * Optional. Indicates the maximum time in ms allowed for any single try of an HTTP request.
-   * A value of zero or undefined means that you accept our default timeout, 60s or 60 * 1000ms.
+   * A value of zero or undefined means that you accept our default timeout, 30s or 30 * 1000ms.
    *
-   * NOTE: When transferring large amounts of data, the default TryTimeout will probably
-   * not be sufficient. You should override this value based on the bandwidth available to
-   * the host machine and proximity to the Storage service. A good starting point may be something
-   * like (60 seconds per MB of anticipated-payload-size)
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
    *
    * @type {number}
    * @memberof StorageRetryOptions
@@ -66,6 +63,19 @@ export interface StorageRetryOptions {
    * @memberof StorageRetryOptions
    */
   readonly maxRetryDelayInMs?: number;
+
+  /**
+   * If a secondaryHost is specified, retries will be tried against this host. If secondaryHost is undefined
+   * (the default) then operations are not retried against another host.
+   *
+   * NOTE: Before setting this field, make sure you understand the issues around
+   * reading stale and potentially-inconsistent data at
+   * {@link https://docs.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
+   *
+   * @type {string}
+   * @memberof StorageRetryOptions
+   */
+  readonly secondaryHost?: string;
 }
 
 /**
@@ -89,6 +99,7 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates a StorageRetryPolicy object.
+   *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
    * @returns {StorageRetryPolicy}

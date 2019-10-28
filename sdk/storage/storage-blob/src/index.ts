@@ -32,7 +32,7 @@ export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
-export * from "./RetryPolicyFactory";
+export * from "./StorageRetryPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";

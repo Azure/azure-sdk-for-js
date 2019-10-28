@@ -26,7 +26,7 @@ import {
 import { logger } from "./log";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
