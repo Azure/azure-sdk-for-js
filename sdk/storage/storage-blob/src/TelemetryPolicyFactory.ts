@@ -5,28 +5,13 @@ import {
   isNode,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
+  UserAgentOptions
 } from "@azure/core-http";
 import * as os from "os";
 
 import { TelemetryPolicy } from "./policies/TelemetryPolicy";
 import { SDK_VERSION } from "./utils/constants";
-
-/**
- * Interface of TelemetryPolicy options.
- *
- * @export
- * @interface UserAgentOptions
- */
-export interface UserAgentOptions {
-  /**
-   * Configues the custom string that is pre-pended to the user agent string.
-   *
-   * @type {string}
-   * @memberof TelemetryOptions
-   */
-  userAgentPrefix?: string;
-}
 
 /**
  * TelemetryPolicyFactory is a factory class helping generating TelemetryPolicy objects.
