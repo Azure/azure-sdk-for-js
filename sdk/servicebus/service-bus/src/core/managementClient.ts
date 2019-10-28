@@ -842,7 +842,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.updateDisposition
         }
       };
-      const associatedLinkName = this._getAssociatedReceiverName(this._context);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, options.sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
