@@ -79,11 +79,11 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
     exportable?: boolean;
     readonly id?: string;
     issuerName?: string;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyCurveName" needs to be exported by the entry point index.d.ts
-    keyCurveType?: JsonWebKeyCurveName;
+    // Warning: (ae-forgotten-export) The symbol "KeyCurveName" needs to be exported by the entry point index.d.ts
+    keyCurveType?: KeyCurveName;
     keySize?: number;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
-    keyType?: JsonWebKeyType;
+    // Warning: (ae-forgotten-export) The symbol "KeyType" needs to be exported by the entry point index.d.ts
+    keyType?: KeyType;
     // Warning: (ae-forgotten-export) The symbol "KeyUsageType" needs to be exported by the entry point index.d.ts
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
@@ -156,10 +156,10 @@ export interface IssuerParameters {
 
 // @public
 export interface KeyProperties {
-    curve?: JsonWebKeyCurveName;
+    curve?: KeyCurveName;
     exportable?: boolean;
     keySize?: number;
-    keyType?: JsonWebKeyType;
+    keyType?: KeyType;
     reuseKey?: boolean;
 }
 

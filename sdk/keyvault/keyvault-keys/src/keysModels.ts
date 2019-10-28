@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import { JsonWebKeyOperation, JsonWebKeyCurveName, JsonWebKeyType } from "./core/models";
+import { KeyOperation, KeyCurveName, KeyType } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
@@ -41,16 +41,16 @@ export interface JsonWebKey {
    */
   kid?: string;
   /**
-   * JsonWebKey Key Type (kty), as defined in
+   * KeyType (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  kty?: JsonWebKeyType;
+  kty?: KeyType;
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * @member {KeyOperation[]} [keyOps] Json web key operations. For more
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * RSA modulus.
    */
@@ -92,10 +92,10 @@ export interface JsonWebKey {
    */
   t?: Uint8Array;
   /**
-   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  crv?: JsonWebKeyCurveName;
+  crv?: KeyCurveName;
   /**
    * X component of an EC public key.
    */
@@ -124,15 +124,15 @@ export interface KeyVaultKey {
    */
   id?: string;
   /**
-   * JsonWebKey Key Type (kty), as defined in
+   * KeyType (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: JsonWebKeyType;
+  keyType?: KeyType;
   /**
    * Operations allowed on this key
    */
-  keyOperations?: JsonWebKeyOperation[];
+  keyOperations?: KeyOperation[];
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */
@@ -221,15 +221,15 @@ export interface DeletedKey {
    */
   id?: string;
   /**
-   * JsonWebKey Key Type (kty), as defined in
+   * KeyType (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: JsonWebKeyType;
+  keyType?: KeyType;
   /**
    * Operations allowed on this key
    */
-  keyOperations?: JsonWebKeyOperation[];
+  keyOperations?: KeyOperation[];
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */
@@ -267,10 +267,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * @member {KeyOperation[]} [keyOps] Json web key operations. For more
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -312,11 +312,11 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
-   * @member {JsonWebKeyCurveName} [curve] Elliptic curve name. For valid
-   * values, see JsonWebKeyCurveName. Possible values include: 'P-256',
+   * @member {KeyCurveName} [curve] Elliptic curve name. For valid
+   * values, see KeyCurveName. Possible values include: 'P-256',
    * 'P-384', 'P-521', 'P-256K'
    */
-  curve?: JsonWebKeyCurveName;
+  curve?: KeyCurveName;
   /**
    * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
    * software key.
@@ -378,10 +378,10 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * @member {KeyOperation[]} [keyOps] Json web key operations. For more
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */

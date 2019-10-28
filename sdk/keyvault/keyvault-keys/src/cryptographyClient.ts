@@ -1,5 +1,5 @@
 import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
-import { JsonWebKeyEncryptionAlgorithm } from "./core/models";
+import { EncryptionAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials,
   TokenCredential,
@@ -73,7 +73,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async encrypt(
-    algorithm: JsonWebKeyEncryptionAlgorithm,
+    algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
@@ -154,7 +154,7 @@ export class CryptographyClient {
    */
 
   public async decrypt(
-    algorithm: JsonWebKeyEncryptionAlgorithm,
+    algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
@@ -308,7 +308,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async sign(
-    algorithm: KeySignatureAlgorithm,
+    algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
@@ -346,7 +346,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async verify(
-    algorithm: KeySignatureAlgorithm,
+    algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
@@ -385,7 +385,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async signData(
-    algorithm: KeySignatureAlgorithm,
+    algorithm: SignatureAlgorithm,
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
@@ -452,7 +452,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async verifyData(
-    algorithm: KeySignatureAlgorithm,
+    algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
@@ -705,7 +705,9 @@ export class CryptographyClient {
       parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
       this.hasTriedToGetKey = true;
     } else {
-      throw new Error("The provided key is malformed as it does not have a value for the `key` property.");
+      throw new Error(
+        "The provided key is malformed as it does not have a value for the `key` property."
+      );
     }
 
     if (parsed.name == "") {
@@ -884,13 +886,13 @@ async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> 
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
- * Defines values for JsonWebKeySignatureAlgorithm.
+ * Defines values for SignatureAlgorithm.
  * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512',
  * 'ES256', 'ES384', 'ES512', 'ES256K'
  * @readonly
  * @enum {string}
  */
-export type KeySignatureAlgorithm =
+export type SignatureAlgorithm =
   | "PS256"
   | "PS384"
   | "PS512"
@@ -947,7 +949,7 @@ export interface DecryptResult {
   /**
    * Algorithm used
    */
-  algorithm: JsonWebKeyEncryptionAlgorithm;
+  algorithm: EncryptionAlgorithm;
 }
 
 /**
@@ -961,7 +963,7 @@ export interface EncryptResult {
   /**
    * Algorithm used
    */
-  algorithm: JsonWebKeyEncryptionAlgorithm;
+  algorithm: EncryptionAlgorithm;
   /**
    * Id of the key
    */
@@ -983,7 +985,7 @@ export interface SignResult {
   /**
    * Algorithm used
    */
-  algorithm: KeySignatureAlgorithm;
+  algorithm: SignatureAlgorithm;
 }
 
 /**
