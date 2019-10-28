@@ -1,3 +1,3 @@
-export function getUserAgent(): string {
+export function userAgent(): string {
   return navigator.userAgent;
 }
