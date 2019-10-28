@@ -426,7 +426,9 @@ describe("BlobClient", () => {
     const rootSpan = tracer.startSpan("root");
 
     const result = await blobClient.download(undefined, undefined, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 

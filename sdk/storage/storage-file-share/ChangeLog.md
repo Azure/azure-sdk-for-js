@@ -2,6 +2,10 @@
 
 ## 2019.11 12.0.0-preview.6
 
+- [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
 - Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
 renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
@@ -22,6 +26,7 @@ Below are the entities that now have the Storage prefix
 [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-queue/README.md#troubleshooting) section of our readme.
 - [Breaking] The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
  corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 
 ## 2019.10 12.0.0-preview.5
 

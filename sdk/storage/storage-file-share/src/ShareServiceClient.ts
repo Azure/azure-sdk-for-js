@@ -265,10 +265,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-createShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-createShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      const shareCreateResponse = await shareClient.create({ ...options, spanOptions });
+      const shareCreateResponse = await shareClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         shareCreateResponse,
         shareClient
@@ -296,10 +302,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-deleteShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-deleteShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      return await shareClient.delete({ ...options, spanOptions });
+      return await shareClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -325,7 +337,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getProperties({
@@ -359,7 +371,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.setProperties(properties, {
@@ -554,7 +566,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceListSharesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-listSharesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.listSharesSegment({

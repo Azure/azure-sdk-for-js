@@ -2,6 +2,10 @@
 
 ## 2019.11 12.0.0-preview.6
 
+- `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
 renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
 Below are the entities that now have the Storage prefix
@@ -11,8 +15,7 @@ Below are the entities that now have the Storage prefix
    - RetryPolicyType
    - RetryOptions
    - RetryPolicyFactory
-
-- [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
+- The properties in the StoragePipelineOptions interface have been updated as below:
    - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
  will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
  and `port` then pass it as a json object.

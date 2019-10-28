@@ -12,6 +12,23 @@ Below are the entities that now have the Storage prefix
    - RetryPolicyType
    - RetryOptions
    - RetryPolicyFactory
+- [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
+- [Breaking] The properties in the `StoragePipelineOptions` interface have been updated as below:
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`.
+  - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-blob/README.md#troubleshooting) section of our readme.
+  - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+    corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- `beginCopyFromURL` is added to the `BlobClient`, it returns a poller that can be used to watch the status of a copy operation. It also supports cancelling a pending copy.
+- Updates to `BlockBlobClient.uploadStream`
+  - [Breaking] `maxBuffers` attribute of is renamed to `maxConcurrency`
+  - Added default values for parameters, bufferSize = `8MB` and maxConcurrency = `5`
+- [Breaking] Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
+- `BlobClient.downloadToBuffer()` helper method has a new overload where it is not required to pass the `Buffer`. Attributes `offset` and `count` are optional, downloads the entire blob if they are not provided.
 
 ## 2019.10 12.0.0-preview.5
 

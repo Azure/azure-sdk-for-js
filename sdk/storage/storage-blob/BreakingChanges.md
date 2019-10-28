@@ -2,7 +2,7 @@
 
 ## 2019.11 12.0.0-preview.6
 
-- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+- The custom browser and retry policies that are specific to the Storage libraries have been
 renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
 Below are the entities that now have the Storage prefix
    - BrowserPolicy
@@ -11,7 +11,21 @@ Below are the entities that now have the Storage prefix
    - RetryPolicyType
    - RetryOptions
    - RetryPolicyFactory
-   
+- `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
+- The properties in the StoragePipelineOptions interface have been updated as below
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`.
+  - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-blob/README.md#troubleshooting) section of our readme.
+  - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+    corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Updates to `BlockBlobClient.uploadStream`
+  - `maxBuffers` attribute of is renamed to `maxConcurrency`
+- Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
+
 ## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
