@@ -280,7 +280,7 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceListQueuesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-listQueuesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.listQueuesSegment({
@@ -467,7 +467,7 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getProperties({
@@ -501,7 +501,7 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.setProperties(properties, {
@@ -534,7 +534,7 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getStatistics",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getStatistics({
