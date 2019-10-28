@@ -1,3 +1,15 @@
+/**
+ * This sample creates a global function called `upload` that will upload
+ * data from a file upload form. For example, the following HTML will create
+ * such a form and download it:
+ *
+ * <form><input type="file" id="file" /></form>
+ * <button id="upload" onclick="upload()">Upload</button>
+ *
+ * For instructions on building this sample for the browser, refer to
+ * "Building for Browsers" in the readme.
+ */
+
 import {
   blockBlobClient,
   AnonymousCredential,
