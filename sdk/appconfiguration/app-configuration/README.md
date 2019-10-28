@@ -3,13 +3,18 @@
 Azure App Configuration is a managed service that helps developers
 centralize their application configurations, simply and securely.
 
-This client library lets you create, retrieve, update, and delete 
-settings within Azure App Configuration.
+Use the App Configuration client library to:
 
-* [Azure App Configuration documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
-* [NPM](https://www.npmjs.com/package/@azure/app-configuration)
-* [Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/)
-* [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+* create App Configuration settings
+* retrieve the value of a setting for a given key
+* update the value of a setting for a given key
+* delete settings within an App Configuration
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
+[API reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
 
@@ -17,7 +22,10 @@ settings within Azure App Configuration.
 
 - Node.js version 8.x.x or higher
 
-### How to Install
+### Install the Package
+
+**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) to use this package. This package currently
+only supports NodeJS versions higher than 8.0.0.
 
 ```bash
 npm install @azure/app-configuration
@@ -25,9 +33,7 @@ npm install @azure/app-configuration
 
 ## Examples
 
-#### nodejs - Create and get a setting in JavaScript
-
-##### Sample code
+#### Create and get a setting
 
 ```javascript
 const appConfig = require("@azure/app-configuration");
@@ -52,8 +58,6 @@ async function run() {
 run().catch(err => console.log("ERROR:", err));
 ```
 
-More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on GitHub.
-
 ## Next steps
 
 Use these samples for a more in-depth demonstration of Azure App Configuration.
@@ -64,17 +68,21 @@ Use these samples for a more in-depth demonstration of Azure App Configuration.
 * [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/setReadOnlySample.ts) - marking settings as read-only to prevent modification
 * [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/getSettingOnlyIfChanged.ts) - get a setting only if it changed from the last time you got it
 
-View more samples on [GitHub](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+View all samples in [the samples folder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <https://cla.microsoft.com.>
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
