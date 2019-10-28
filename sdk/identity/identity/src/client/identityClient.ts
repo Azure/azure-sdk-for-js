@@ -123,7 +123,7 @@ export class IdentityClient extends ServiceClient {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        spanOptions: newOptions.spanOptions,
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
         abortSignal: options && options.abortSignal
       });
 
