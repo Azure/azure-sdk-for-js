@@ -4,24 +4,24 @@
 import { createHmac } from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
 
-import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";
+import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy";
 import { Credential } from "./Credential";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * SharedKeyCredential for account key authorization of Azure Storage service.
+ * StorageSharedKeyCredential for account key authorization of Azure Storage service.
  *
  * @export
- * @class SharedKeyCredential
+ * @class StorageSharedKeyCredential
  * @extends {Credential}
  */
-export class SharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential {
   /**
    * Azure Storage account name; readonly.
    *
    * @type {string}
-   * @memberof SharedKeyCredential
+   * @memberof StorageSharedKeyCredential
    */
   public readonly accountName: string;
 
@@ -29,15 +29,15 @@ export class SharedKeyCredential extends Credential {
    * Azure Storage account key; readonly.
    *
    * @type {Buffer}
-   * @memberof SharedKeyCredential
+   * @memberof StorageSharedKeyCredential
    */
   private readonly accountKey: Buffer;
 
   /**
-   * Creates an instance of SharedKeyCredential.
+   * Creates an instance of StorageSharedKeyCredential.
    * @param {string} accountName
    * @param {string} accountKey
-   * @memberof SharedKeyCredential
+   * @memberof StorageSharedKeyCredential
    */
   constructor(accountName: string, accountKey: string) {
     super();
@@ -46,18 +46,18 @@ export class SharedKeyCredential extends Credential {
   }
 
   /**
-   * Creates a SharedKeyCredentialPolicy object.
+   * Creates a StorageSharedKeyCredentialPolicy object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @returns {SharedKeyCredentialPolicy}
-   * @memberof SharedKeyCredential
+   * @returns {StorageSharedKeyCredentialPolicy}
+   * @memberof StorageSharedKeyCredential
    */
   public create(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions
-  ): SharedKeyCredentialPolicy {
-    return new SharedKeyCredentialPolicy(nextPolicy, options, this);
+  ): StorageSharedKeyCredentialPolicy {
+    return new StorageSharedKeyCredentialPolicy(nextPolicy, options, this);
   }
 
   /**
@@ -65,7 +65,7 @@ export class SharedKeyCredential extends Credential {
    *
    * @param {string} stringToSign
    * @returns {string}
-   * @memberof SharedKeyCredential
+   * @memberof StorageSharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey)

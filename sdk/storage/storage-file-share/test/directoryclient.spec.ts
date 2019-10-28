@@ -575,22 +575,25 @@ describe("DirectoryClient", () => {
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     const spanOptions = { parent: rootSpan };
+    const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
-      spanOptions
+      tracingOptions
     });
     const fileName = recorder.getUniqueName("file");
     const metadata = { key: "value" };
     const { fileClient } = await subDirClient.createFile(fileName, 256, {
       metadata,
-      spanOptions
+      tracingOptions
     });
-    const result = await fileClient.getProperties({ spanOptions });
+    const result = await fileClient.getProperties({
+      tracingOptions
+    });
     assert.deepEqual(result.metadata, metadata);
 
-    await subDirClient.deleteFile(fileName, { spanOptions });
+    await subDirClient.deleteFile(fileName, { tracingOptions });
     try {
-      await fileClient.getProperties({ spanOptions });
+      await fileClient.getProperties({ tracingOptions });
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
@@ -602,7 +605,7 @@ describe("DirectoryClient", () => {
         "Error does not contain details property"
       );
     }
-    await subDirClient.delete({ spanOptions });
+    await subDirClient.delete({ tracingOptions });
 
     rootSpan.end();
 

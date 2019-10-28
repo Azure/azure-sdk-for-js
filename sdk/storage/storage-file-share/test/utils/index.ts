@@ -2,7 +2,7 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName } from "./testutils.common";
@@ -36,7 +36,7 @@ export function getGenericBSU(
     );
   }
 
-  const credentials = new SharedKeyCredential(accountName, accountKey);
+  const credentials = new StorageSharedKeyCredential(accountName, accountKey);
   const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
@@ -149,7 +149,7 @@ export function getSASConnectionStringFromEnvironment(): string {
       startTime: now,
       version: "2016-05-31"
     },
-    sharedKeyCredential as SharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential
   ).toString();
 
   const fileEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;

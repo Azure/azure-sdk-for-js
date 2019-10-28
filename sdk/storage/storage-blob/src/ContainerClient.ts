@@ -41,22 +41,14 @@ import {
   extractConnectionStringParts,
   getValueInConnString
 } from "./utils/utils.common";
-import {
-  AppendBlobClient,
-  BlobClient,
-  BlockBlobClient,
-  PageBlobClient,
-  StorageClient,
-  BlockBlobUploadOptions,
-  BlobDeleteOptions,
-  CommonOptions
-} from "./internal";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { BlobClient, AppendBlobClient, BlockBlobClient, PageBlobClient, BlockBlobUploadOptions, BlobDeleteOptions } from "./BlobClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -539,7 +531,7 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -547,7 +539,7 @@ export class ContainerClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -574,7 +566,7 @@ export class ContainerClient extends StorageClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -588,18 +580,18 @@ export class ContainerClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -613,7 +605,7 @@ export class ContainerClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -652,7 +644,7 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
@@ -683,9 +675,12 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.tracingOptions);
     try {
-      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
@@ -774,7 +769,10 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-getProperties",
+      options.tracingOptions
+    );
     try {
       return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
@@ -818,7 +816,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
 
     try {
       return this.containerContext.deleteMethod({
@@ -871,7 +869,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
 
     try {
       return this.containerContext.setMetadata({
@@ -914,7 +912,7 @@ export class ContainerClient extends StorageClient {
 
     const { span, spanOptions } = createSpan(
       "ContainerClient-getAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
@@ -991,7 +989,7 @@ export class ContainerClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "ContainerClient-setAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const acl: SignedIdentifierModel[] = [];
@@ -1071,13 +1069,13 @@ export class ContainerClient extends StorageClient {
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-uploadBlockBlob",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, {
         ...options,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
       return {
         blockBlobClient,
@@ -1110,10 +1108,13 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options: BlobDeleteOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
     try {
       const blobClient = this.getBlobClient(blobName);
-      return await blobClient.delete({ ...options, spanOptions });
+      return await blobClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1143,7 +1144,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobFlatSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobFlatSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobFlatSegment({
@@ -1182,7 +1183,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobHierarchySegment(delimiter, {

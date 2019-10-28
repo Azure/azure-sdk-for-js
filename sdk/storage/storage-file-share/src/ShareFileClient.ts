@@ -698,7 +698,7 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareFileClient
@@ -753,7 +753,7 @@ export class ShareFileClient extends StorageClient {
    * @memberof ShareFileClient
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-create", options.tracingOptions);
     try {
       if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
@@ -813,7 +813,7 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("ShareFileClient-download", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-download", options.tracingOptions);
     try {
       if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
@@ -901,7 +901,10 @@ export class ShareFileClient extends StorageClient {
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<FileGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-getProperties",
+      options.tracingOptions
+    );
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -932,7 +935,7 @@ export class ShareFileClient extends StorageClient {
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-setProperties",
-      properties.spanOptions
+      properties.tracingOptions
     );
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
@@ -981,7 +984,7 @@ export class ShareFileClient extends StorageClient {
    * @memberof ShareFileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-delete", options.tracingOptions);
     try {
       return this.context.deleteMethod({
         abortSignal: options.abortSignal,
@@ -1015,7 +1018,10 @@ export class ShareFileClient extends StorageClient {
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-setHTTPHeaders", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-setHTTPHeaders",
+      options.tracingOptions
+    );
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
@@ -1058,7 +1064,7 @@ export class ShareFileClient extends StorageClient {
     length: number,
     options: FileResizeOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-resize", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-resize", options.tracingOptions);
     try {
       if (length < 0) {
         throw new RangeError(`Size cannot less than 0 when resizing file.`);
@@ -1105,7 +1111,7 @@ export class ShareFileClient extends StorageClient {
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
   ): Promise<FileSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-setMetadata", options.tracingOptions);
     try {
       return this.context.setMetadata({
         abortSignal: options.abortSignal,
@@ -1142,7 +1148,7 @@ export class ShareFileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadRange", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadRange", options.tracingOptions);
     try {
       if (offset < 0) {
         throw new RangeError(`offset must be >= 0`);
@@ -1200,7 +1206,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileUploadRangeFromURLResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-uploadRangeFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (sourceOffset < 0 || destOffset < 0) {
@@ -1248,7 +1254,7 @@ export class ShareFileClient extends StorageClient {
     contentLength: number,
     options: FileClearRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-clearRange", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-clearRange", options.tracingOptions);
     try {
       if (offset < 0 || contentLength <= 0) {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
@@ -1279,7 +1285,10 @@ export class ShareFileClient extends StorageClient {
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-getRangeList", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-getRangeList",
+      options.tracingOptions
+    );
     try {
       const originalResponse = await this.context.getRangeList({
         abortSignal: options.abortSignal,
@@ -1330,7 +1339,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileStartCopyResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-startCopyFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.context.startCopy(copySource, {
@@ -1365,7 +1374,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileAbortCopyResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-abortCopyFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.context.abortCopy(copyId, {
@@ -1400,7 +1409,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-uploadBrowserData",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const browserBlob = new Blob([browserData]);
@@ -1409,7 +1418,7 @@ export class ShareFileClient extends StorageClient {
           return browserBlob.slice(offset, offset + size);
         },
         browserBlob.size,
-        { ...options, spanOptions }
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
     } catch (e) {
       span.setStatus({
@@ -1440,7 +1449,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-UploadSeekableBlob",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (!options.rangeSize) {
@@ -1466,7 +1475,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
@@ -1481,7 +1490,7 @@ export class ShareFileClient extends StorageClient {
             const contentLength = end - start;
             await this.uploadRange(blobFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
-              spanOptions
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
@@ -1518,7 +1527,7 @@ export class ShareFileClient extends StorageClient {
     filePath: string,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
       return this.uploadResetableStream(
@@ -1529,7 +1538,7 @@ export class ShareFileClient extends StorageClient {
             start: offset
           }),
         size,
-        { ...options, spanOptions }
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
     } catch (e) {
       span.setStatus({
@@ -1564,7 +1573,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-uploadResetableStream",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (!options.rangeSize) {
@@ -1590,7 +1599,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
@@ -1609,7 +1618,7 @@ export class ShareFileClient extends StorageClient {
               contentLength,
               {
                 abortSignal: options.abortSignal,
-                spanOptions
+                tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1652,7 +1661,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-downloadToBuffer",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (!options.rangeSize) {
@@ -1681,7 +1690,7 @@ export class ShareFileClient extends StorageClient {
       if (!count) {
         const response = await this.getProperties({
           abortSignal: options.abortSignal,
-          spanOptions
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -1709,7 +1718,7 @@ export class ShareFileClient extends StorageClient {
           const response = await this.download(off, chunkEnd - off, {
             abortSignal: options.abortSignal,
             maxRetryRequests: options.maxRetryRequestsPerRange,
-            spanOptions
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
@@ -1763,7 +1772,10 @@ export class ShareFileClient extends StorageClient {
     maxBuffers: number,
     options: FileUploadStreamOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadStream", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-uploadStream",
+      options.tracingOptions
+    );
     try {
       if (!options.fileHttpHeaders) {
         options.fileHttpHeaders = {};
@@ -1782,7 +1794,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
       let transferProgress: number = 0;
@@ -1800,7 +1812,7 @@ export class ShareFileClient extends StorageClient {
 
           await this.uploadRange(buffer, offset!, buffer.length, {
             abortSignal: options.abortSignal,
-            spanOptions
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1850,9 +1862,15 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("ShareFileClient-downloadToFile", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-downloadToFile",
+      options.tracingOptions
+    );
     try {
-      const response = await this.download(offset, count, { ...options, spanOptions });
+      const response = await this.download(offset, count, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
       }
@@ -1890,7 +1908,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileListHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-listHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
@@ -2026,7 +2044,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-forceCloseHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
@@ -2057,7 +2075,7 @@ export class ShareFileClient extends StorageClient {
   public async forceCloseAllHandles(options: FileForceCloseHandlesOptions = {}): Promise<number> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-forceCloseAllHandles",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       let handlesClosed = 0;
@@ -2066,7 +2084,7 @@ export class ShareFileClient extends StorageClient {
       do {
         const response: FileForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
           marker,
-          { spanOptions }
+          { tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
         marker = response.marker;
         response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
@@ -2100,7 +2118,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-forceCloseHandle",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (handleId === "*") {
