@@ -15,9 +15,9 @@ export class ChainedTokenCredential implements TokenCredential {
 
   /**
    * Create a ChainedTokenCredential with the given TokenCredential sources
-   * 
+   *
    * @param sources {@link TokenCredential} implementations to be tried in order
-   * 
+   *
    * Example usage:
    * ```javascript
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
