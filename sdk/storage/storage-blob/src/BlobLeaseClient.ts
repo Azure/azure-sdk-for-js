@@ -12,6 +12,9 @@ import { createSpan } from "./utils/tracing";
 import { CommonOptions } from "./StorageClient";
 import { BlobClient } from "./BlobClient";
 
+/**
+ * The details for a specific lease.
+ */
 export interface Lease {
   /**
    * @member {string} [etag] The ETag contains a value that you can use to
@@ -57,6 +60,9 @@ export interface Lease {
   errorCode?: string;
 }
 
+/**
+ * Contains the response data for operations that create, modify, or delete a lease.
+ */
 export type LeaseOperationResponse = Lease & {
   /**
    * The underlying HTTP response.

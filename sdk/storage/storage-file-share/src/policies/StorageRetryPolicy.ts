@@ -15,7 +15,7 @@ import {
 
 import { AbortError } from "@azure/abort-controller";
 
-import { RetryOptions } from "../RetryPolicyFactory";
+import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLParameter } from "../utils/utils.common";
 
@@ -23,13 +23,15 @@ import { delay, setURLParameter } from "../utils/utils.common";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {RetryOptions} retryOptions
+ * @param {StorageRetryOptions} retryOptions
  * @returns
  */
-export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
+export function NewStorageRetryPolicyFactory(
+  retryOptions?: StorageRetryOptions
+): RequestPolicyFactory {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
-      return new RetryPolicy(nextPolicy, options, retryOptions);
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy => {
+      return new StorageRetryPolicy(nextPolicy, options, retryOptions);
     }
   };
 }
@@ -40,7 +42,7 @@ export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolic
  * @export
  * @enum {number}
  */
-export enum RetryPolicyType {
+export enum StorageRetryPolicyType {
   /**
    * Exponential retry. Retry time delay grows exponentially.
    */
@@ -52,11 +54,11 @@ export enum RetryPolicyType {
 }
 
 // Default values of RetryOptions
-const DEFAULT_RETRY_OPTIONS: RetryOptions = {
+const DEFAULT_RETRY_OPTIONS: StorageRetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
-  retryPolicyType: RetryPolicyType.EXPONENTIAL,
+  retryPolicyType: StorageRetryPolicyType.EXPONENTIAL,
   tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
 
@@ -68,28 +70,28 @@ const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
  * @class RetryPolicy
  * @extends {BaseRequestPolicy}
  */
-export class RetryPolicy extends BaseRequestPolicy {
+export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * RetryOptions.
    *
    * @private
    * @type {RetryOptions}
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
-  private readonly retryOptions: RetryOptions;
+  private readonly retryOptions: StorageRetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {RetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
-   * @memberof RetryPolicy
+   * @param {StorageRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @memberof StorageRetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: StorageRetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 
@@ -131,7 +133,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    *
    * @param {WebResource} request
    * @returns {Promise<HttpOperationResponse>}
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this.attemptSendRequest(request, false, 1);
@@ -149,7 +151,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @param {number} attempt           How many retries has been attempted to performed, starting from 1, which includes
    *                                   the attempt will be performed by this method call.
    * @returns {Promise<HttpOperationResponse>}
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
   protected async attemptSendRequest(
     request: WebResource,
@@ -204,7 +206,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @param {HttpOperationResponse} [response]
    * @param {RestError} [err]
    * @returns {boolean}
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
   protected shouldRetry(
     isPrimaryRetry: boolean,
@@ -283,7 +285,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @private
    * @param {HttpPipelineLogLevel} level
    * @param {string} message
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
   // tslint:disable-next-line:variable-name
   private logf(_level: HttpPipelineLogLevel, _message: string) {
@@ -298,20 +300,20 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @param {number} attempt
    * @param {AbortSignalLike} [abortSignal]
    * @returns
-   * @memberof RetryPolicy
+   * @memberof StorageRetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {
       switch (this.retryOptions.retryPolicyType) {
-        case RetryPolicyType.EXPONENTIAL:
+        case StorageRetryPolicyType.EXPONENTIAL:
           delayTimeInMs = Math.min(
             (Math.pow(2, attempt - 1) - 1) * this.retryOptions.retryDelayInMs!,
             this.retryOptions.maxRetryDelayInMs!
           );
           break;
-        case RetryPolicyType.FIXED:
+        case StorageRetryPolicyType.FIXED:
           delayTimeInMs = this.retryOptions.retryDelayInMs!;
           break;
       }
