@@ -23,7 +23,8 @@ import {
   ProxyOptions,
   keepAlivePolicy,
   KeepAliveOptions,
-  generateClientRequestIdPolicy
+  generateClientRequestIdPolicy,
+  UserAgentOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -36,7 +37,7 @@ import {
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters
 } from "./utils/constants";
-import { TelemetryPolicyFactory, UserAgentOptions } from "./TelemetryPolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -130,9 +131,12 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
+  /**
+   * Options to configure a proxy for outgoing requests.
+   */
   proxyOptions?: ProxyOptions;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options for adding user agent details to outgoing requests.
    *
    * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions

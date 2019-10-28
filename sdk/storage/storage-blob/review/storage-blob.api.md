@@ -27,6 +27,7 @@ import { ServiceClientOptions } from '@azure/core-http';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public

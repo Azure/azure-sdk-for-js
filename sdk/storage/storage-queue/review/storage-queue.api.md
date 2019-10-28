@@ -10,13 +10,12 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -24,6 +23,7 @@ import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -135,13 +135,9 @@ export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public
 export type ListQueuesIncludeType = 'metadata';
@@ -252,19 +248,7 @@ export interface Metadata {
 }
 
 // @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: NewPipelineOptions): Pipeline;
-
-// @public
-export interface NewPipelineOptions {
-    httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
-    keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
-    retryOptions?: StorageRetryOptions;
-    telemetry?: TelemetryOptions;
-}
+export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -285,8 +269,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HttpClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
 // @public
@@ -301,8 +284,8 @@ export type QueueClearMessagesResponse = MessagesClearResponse;
 // 
 // @public
 export class QueueClient extends StorageClient {
-    constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
@@ -479,11 +462,11 @@ export type QueueSendMessageResponse = {
 
 // @public
 export class QueueServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -734,6 +717,12 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
     // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
+export interface StoragePipelineOptions {
+    httpClient?: IHttpClient;
+    keepAliveOptions?: KeepAliveOptions;
+    proxyOptions?: ProxyOptions;
+    retryOptions?: RetryOptions;
+    userAgentOptions?: UserAgentOptions;
 }
 
 export { WebResource }

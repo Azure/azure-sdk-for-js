@@ -26,6 +26,8 @@ import { SessionContext } from "./session/SessionContext";
 /** @hidden */
 const log = logger("ClientContext");
 
+const QueryJsonContentType = "application/query+json";
+
 /**
  * @hidden
  * @ignore
@@ -133,7 +135,7 @@ export class ClientContext {
     request.headers = await this.buildHeaders(request);
     if (query !== undefined) {
       request.headers[Constants.HttpHeaders.IsQuery] = "true";
-      request.headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
+      request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
       if (typeof query === "string") {
         request.body = { query }; // Converts query text to query object.
       }
@@ -180,8 +182,8 @@ export class ClientContext {
     request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
     request.headers[Constants.HttpHeaders.QueryVersion] = "1.4";
     request.headers[Constants.HttpHeaders.SupportedQueryFeatures] =
-      "Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate";
-    request.headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
+      "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy, MultipleAggregates";
+    request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }

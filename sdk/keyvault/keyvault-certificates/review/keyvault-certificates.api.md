@@ -13,7 +13,7 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class CertificateClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
@@ -70,7 +70,7 @@ export interface CertificateOperation {
 }
 
 // Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
-//
+// 
 // @public
 export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
     certificateTransparency?: boolean;
