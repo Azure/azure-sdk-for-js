@@ -6,6 +6,16 @@
   - `FileServiceClient` becomes `ShareServiceClient`
   - `DirectoryClient` becomes `ShareDirectoryClient`
   - `FileClient` becomes `ShareFileClient`
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
+Below are the entities that now have the Storage prefix
+   - BrowserPolicy
+   - BrowserPolicyFactory
+   - RetryPolicy
+   - RetryPolicyType
+   - RetryOptions
+   - RetryPolicyFactory
 - [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
    - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
  will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
