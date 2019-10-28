@@ -2,38 +2,38 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/core-http";
-import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
 import { CredentialPolicy } from "./CredentialPolicy";
 
 /**
- * SharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
+ * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  *
  * @export
- * @class SharedKeyCredentialPolicy
+ * @class StorageSharedKeyCredentialPolicy
  * @extends {CredentialPolicy}
  */
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   /**
-   * Reference to SharedKeyCredential which generates SharedKeyCredentialPolicy
+   * Reference to StorageSharedKeyCredential which generates StorageSharedKeyCredentialPolicy
    *
-   * @type {SharedKeyCredential}
-   * @memberof SharedKeyCredentialPolicy
+   * @type {StorageSharedKeyCredential}
+   * @memberof StorageSharedKeyCredentialPolicy
    */
-  private readonly factory: SharedKeyCredential;
+  private readonly factory: StorageSharedKeyCredential;
 
   /**
-   * Creates an instance of SharedKeyCredentialPolicy.
+   * Creates an instance of StorageSharedKeyCredentialPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {SharedKeyCredential} factory
-   * @memberof SharedKeyCredentialPolicy
+   * @param {StorageSharedKeyCredential} factory
+   * @memberof StorageSharedKeyCredentialPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    factory: SharedKeyCredential
+    factory: StorageSharedKeyCredential
   ) {
     super(nextPolicy, options);
     this.factory = factory;
@@ -45,7 +45,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @protected
    * @param {WebResource} request
    * @returns {WebResource}
-   * @memberof SharedKeyCredentialPolicy
+   * @memberof StorageSharedKeyCredentialPolicy
    */
   protected signRequest(request: WebResource): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -101,7 +101,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @param {WebResource} request
    * @param {string} headerName
    * @returns {string}
-   * @memberof SharedKeyCredentialPolicy
+   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getHeaderValueToSign(request: WebResource, headerName: string): string {
     const value = request.headers.get(headerName);
@@ -134,7 +134,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @private
    * @param {WebResource} request
    * @returns {string}
-   * @memberof SharedKeyCredentialPolicy
+   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
     let headersArray = request.headers.headersArray().filter((value) => {
@@ -171,7 +171,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @private
    * @param {WebResource} request
    * @returns {string}
-   * @memberof SharedKeyCredentialPolicy
+   * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
     const path = getURLPath(request.url) || "/";

@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 import {
   ShareFileClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ShareClient,
   ShareDirectoryClient,
   generateFileSASQueryParameters,
@@ -91,7 +91,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -112,7 +112,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -137,7 +137,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareFileClient(fileClient.url, pipeline);
 
@@ -158,7 +158,7 @@ describe("FileClient Node.js only", () => {
 
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate();
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateFileSASQueryParameters(

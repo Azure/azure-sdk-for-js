@@ -42,7 +42,7 @@ import {
 } from "./ShareDirectoryClient";
 import { FileCreateOptions, FileDeleteOptions, ShareFileClient } from "./ShareFileClient";
 import { Credential } from "./credentials/Credential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 
@@ -375,7 +375,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
@@ -425,7 +425,7 @@ export class ShareClient extends StorageClient {
       const shareName = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
