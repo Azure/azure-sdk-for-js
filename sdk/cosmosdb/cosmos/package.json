@@ -81,7 +81,6 @@
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^1.9.3",
-    "universal-user-agent": "^4.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
