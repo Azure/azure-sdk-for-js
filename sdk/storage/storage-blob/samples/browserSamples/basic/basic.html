@@ -11,19 +11,18 @@ and replace code in the below script tag to try them out.
 <!-- 
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always"></script>
 -->
-<!-- Import browser bundle `azure-storage-blob.js` or `azure-storage-blob.min.js`-->
-<script src="./azure-storage-blob.js"></script>
+<!--
+  Import the output of your bundler here.
 
-<script>
-  const account = "";
-  const accountSas = "";
-  const blobServiceClient = new azblob.BlobServiceClient(
-    "https://" + account + ".blob.core.windows.net" + accountSas
-  );
+  For example, to use Webpack, run the following:
 
-  // Create a container
-  const containerName = "newcontainer";
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  containerClient.create();
-  console.log(containerName);
-</script>
+  > npm install -D webpack webpack-cli
+
+  With webpack installed, you can build a production bundle with the following:
+  > npx webpack largeFileUploads.js
+
+  This will create dist/main.js which is imported below.
+-->
+<script src="./dist/main.js"></script>
+
+<script></script>
