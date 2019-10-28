@@ -26,7 +26,7 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
@@ -175,7 +175,7 @@ export class QueueServiceClient extends StorageClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
@@ -210,7 +210,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -218,7 +218,7 @@ export class QueueServiceClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -234,14 +234,14 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

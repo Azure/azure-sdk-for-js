@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
@@ -151,12 +151,12 @@ export interface FileSASSignatureValues {
  *
  * @export
  * @param {FileSASSignatureValues} fileSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&

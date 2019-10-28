@@ -4,7 +4,7 @@ import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../uti
 import {
   BlockBlobClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   BlobClient,
   ContainerClient
 } from "../../src";
@@ -66,7 +66,7 @@ describe("BlockBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
 
     const body: string = recorder.getUniqueName("randomstring");
@@ -77,7 +77,7 @@ describe("BlockBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -104,7 +104,7 @@ describe("BlockBlobClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
 

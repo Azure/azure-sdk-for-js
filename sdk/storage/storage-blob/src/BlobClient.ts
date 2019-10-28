@@ -55,7 +55,7 @@ import {
   getValueInConnString
 } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
@@ -854,7 +854,7 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -862,7 +862,7 @@ export class BlobClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -888,7 +888,7 @@ export class BlobClient extends StorageClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -903,11 +903,11 @@ export class BlobClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -915,7 +915,7 @@ export class BlobClient extends StorageClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -932,7 +932,7 @@ export class BlobClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -2111,7 +2111,7 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -2119,7 +2119,7 @@ export class AppendBlobClient extends BlobClient {
    */
   constructor(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -2145,7 +2145,7 @@ export class AppendBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -2162,11 +2162,11 @@ export class AppendBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -2174,7 +2174,7 @@ export class AppendBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -2191,7 +2191,7 @@ export class AppendBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -2833,13 +2833,13 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -2865,7 +2865,7 @@ export class BlockBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -2882,11 +2882,11 @@ export class BlockBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -2894,7 +2894,7 @@ export class BlockBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -2911,7 +2911,7 @@ export class BlockBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -3991,14 +3991,14 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -4021,7 +4021,7 @@ export class PageBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -4038,11 +4038,11 @@ export class PageBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -4050,7 +4050,7 @@ export class PageBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -4067,7 +4067,7 @@ export class PageBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );

@@ -31,7 +31,7 @@ import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
@@ -170,7 +170,7 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+ * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity. If not specified,
  *                                                  AnonymousCredential is used.
  * @param {StoragePipelineOptions} [pipelineOptions] Options.
@@ -178,7 +178,7 @@ export interface StoragePipelineOptions {
  * @memberof Pipeline
  */
 export function newPipeline(
-  credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.

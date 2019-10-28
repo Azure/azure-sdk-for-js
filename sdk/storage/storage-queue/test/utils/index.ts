@@ -1,4 +1,4 @@
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
@@ -40,7 +40,7 @@ export function getGenericQSU(
       );
     }
 
-    const credentials = new SharedKeyCredential(accountName, accountKey);
+    const credentials = new StorageSharedKeyCredential(accountName, accountKey);
     const pipeline = newPipeline(credentials, {
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
@@ -91,7 +91,7 @@ export function getSASConnectionStringFromEnvironment(): string {
       startTime: now,
       version: "2016-05-31"
     },
-    sharedKeyCredential as SharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential
   ).toString();
 
   const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;

@@ -178,7 +178,7 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
+ * @param {Credential} credential Such as AnonymousCredential, StorageSharedKeyCredential.
  * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline

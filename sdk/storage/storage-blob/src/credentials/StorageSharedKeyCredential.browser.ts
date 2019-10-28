@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SharedKeyCredential = undefined;
+export const StorageSharedKeyCredential = undefined;
