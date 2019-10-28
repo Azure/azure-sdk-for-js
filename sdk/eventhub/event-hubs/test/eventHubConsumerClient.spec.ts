@@ -88,8 +88,8 @@ describe("EventHubConsumerClient", () => {
         const tester = new ReceivedMessagesTester(["0"], false);
 
         const subscriber = await client.subscribe(
-          ["0"],
           (events, context) => tester.onReceivedEvents(events, context),
+          ["0"],
           tester
         );
 
@@ -121,14 +121,14 @@ describe("EventHubConsumerClient", () => {
         const tester = new ReceivedMessagesTester(partitionIds, true);
 
         const subscriber1 = await client.subscribe(
-          inMemoryPartitionManager,
           (events, context) => tester.onReceivedEvents(events, context),
+          inMemoryPartitionManager,
           tester          
         );
 
         const subscriber2 = await client.subscribe(
-          inMemoryPartitionManager,
           (events, context) => tester.onReceivedEvents(events, context),
+          inMemoryPartitionManager,
           tester
         );
 

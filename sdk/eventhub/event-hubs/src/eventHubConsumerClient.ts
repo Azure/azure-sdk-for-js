@@ -44,55 +44,50 @@ export class EventHubConsumerClient {
    * Use this overload if you want to read from all partitions and not coordinate with
    * other subscribers.
    *
-   * @param onMessage
-   * @param onError
+   * @param onReceivedEvents Called when new events are received.
+   * @param options Options to handle additional events related to partitions (errors, 
+   *                opening, closing) as well as batch sizing.
    */
+  subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+  /**
+   * Subscribe to all messages from a subset of partitions.
+   *
+   * Use this overload if you want to read from a specific set of partitions and not coordinate with
+   * other subscribers.
+   *
+   * @param onReceivedEvents Called when new events are received.
+   * @param partitionIds An array of partition ids to subscribe to.
+   * @param options Options to handle additional events related to partitions (errors, 
+   *                opening, closing) as well as batch sizing.
+   */  
+  subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
   /**
    * Subscribes to multiple partitions.
    *
-   * Use this overload if you want to read from a subset of partitions and not coordinate with
-   * other subscribers.
+   * Use this overload if you want to coordinate with other subscribers using a `PartitionManager`
    *
-   * @param partitionIds The partitions IDs to subscribe to
+   * @param onReceivedEvents Called when new events are received.
+   *                         This is also a good place to update checkpoints as appropriate.
+   * @param partitionManager A partition manager that manages ownership information and checkpoint details.
+   * @param options Options to handle additional events related to partitions (errors, 
+   *                opening, closing) as well as batch sizing.
    */
-  subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-  subscribe(partitionIds: string[], onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
   subscribe(
-    partitionManager: PartitionManager,
     onReceivedEvents: OnReceivedEvents,
+    partitionManager: PartitionManager,
     options?: SubscriptionOptions
   ): Subscription;
   subscribe(
-    onReceivedEventsOrPartitionIdsOrPartitionManager:
-      | OnReceivedEvents
-      | string[]
-      | PartitionManager,
-    optionsOrOnReceivedEvents: OnReceivedEvents | SubscriptionOptions | undefined,
+    onReceivedEvents: OnReceivedEvents,
+    optionsOrPartitionIdsOrPartitionManager: SubscriptionOptions | undefined | string[] | PartitionManager,
     possibleOptions?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (typeof onReceivedEventsOrPartitionIdsOrPartitionManager === "function") {
-      // 1st constructor - read from all partitions, don't coordinate
+    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager)) {
+      // 2nd subscribe overload (read from specific partition IDs), don't coordinate
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEventsOrPartitionIdsOrPartitionManager as OnReceivedEvents,
-        optionsOrOnReceivedEvents as SubscriptionOptions
-      );
-
-      eventProcessor = new EventProcessor(
-        this._consumerGroupName,
-        this._eventHubClient,
-        partitionProcessorType,
-        new InMemoryPartitionManager(),
-        {
-          ...optionsOrOnReceivedEvents as SubscriptionOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
-        }
-      );
-    } else if (Array.isArray(onReceivedEventsOrPartitionIdsOrPartitionManager)) {
-      // 2nd constructor (read from specific partition IDs), don't coordinate
-      const partitionProcessorType = createPartitionProcessorType(
-        optionsOrOnReceivedEvents as OnReceivedEvents,
+        onReceivedEvents,
         possibleOptions
       );
 
@@ -104,13 +99,13 @@ export class EventHubConsumerClient {
         {
           ...possibleOptions,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(onReceivedEventsOrPartitionIdsOrPartitionManager as string[])
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer(optionsOrPartitionIdsOrPartitionManager as string[])
         }
       );
-    } else if (typeof onReceivedEventsOrPartitionIdsOrPartitionManager === "object") {
-      // 3rd constructor (read from all partitions and coordinate using a partition manager
+    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager)) {
+      // 3rd subscribe overload (read from all partitions and coordinate using a partition manager)
       const partitionProcessorType = createPartitionProcessorType(
-        optionsOrOnReceivedEvents as OnReceivedEvents,
+        onReceivedEvents,
         possibleOptions
       );
 
@@ -118,14 +113,29 @@ export class EventHubConsumerClient {
         this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
-        onReceivedEventsOrPartitionIdsOrPartitionManager as PartitionManager,
+        optionsOrPartitionIdsOrPartitionManager as PartitionManager,
         {
           ...possibleOptions,
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
     } else {
-      throw new Error("Unhandled constructor overload");
+      // 1st subscribe overload - read from all partitions, don't coordinate
+      const partitionProcessorType = createPartitionProcessorType(
+        onReceivedEvents,
+        optionsOrPartitionIdsOrPartitionManager as SubscriptionOptions
+      );
+
+      eventProcessor = new EventProcessor(
+        this._consumerGroupName,
+        this._eventHubClient,
+        partitionProcessorType,
+        new InMemoryPartitionManager(),
+        {
+          ...optionsOrPartitionIdsOrPartitionManager as SubscriptionOptions,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+        }
+      );
     }
 
     eventProcessor.start();
@@ -225,4 +235,12 @@ export function createPartitionProcessorType(
   }
 
   return DefaultPartitionProcessor;
+}
+
+function isPartitionManager(possible: SubscriptionOptions | undefined | string[] | PartitionManager): possible is PartitionManager {
+  const partitionManager = possible as PartitionManager;
+    
+  return partitionManager.claimOwnership != null
+    && partitionManager.listOwnership != null
+    && partitionManager.updateCheckpoint != null;
 }
