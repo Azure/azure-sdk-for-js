@@ -2,6 +2,11 @@
 
 ## 2019.11 12.0.0-preview.6
 
+- `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
+
 - [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
    - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
  will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`

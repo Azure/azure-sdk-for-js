@@ -2,7 +2,10 @@
 
 ## 2019.11 12.0.0-preview.6
 
-- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
+- [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
 - [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
    - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
  will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
@@ -13,6 +16,7 @@
 [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-queue/README.md#troubleshooting) section of our readme.
 - [Breaking] The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
  corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 
 ## 2019.10 12.0.0-preview.5
 
