@@ -105,6 +105,7 @@ export interface AccountSASSignatureValues {
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
+ * @param {AccountSASSignatureValues} accountSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  * @memberof AccountSASSignatureValues

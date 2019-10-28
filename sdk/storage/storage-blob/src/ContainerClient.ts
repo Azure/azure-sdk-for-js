@@ -6,7 +6,8 @@ import {
   HttpResponse,
   TokenCredential,
   isTokenCredential,
-  isNode
+  isNode,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -218,7 +219,7 @@ export interface SignedIdentifier {
      */
     start?: Date;
     /**
-     * @member {string} expiry Optional. The date-time the policy expires
+     * @member {Date} expiry Optional. The date-time the policy expires
      */
     expiry?: Date;
     /**
@@ -602,7 +603,7 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -694,7 +695,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} blobName A blob name
    * @returns {BlobClient} A new BlobClient object for the given blob name.
-   * @memberof BlobClient
+   * @memberof ContainerClient
    */
   public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
@@ -747,7 +748,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
+   * @param {ContainerGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -831,7 +832,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
-   *                               If no value provided the existing metadata will be removed.
+   *                            If no value provided the existing metadata will be removed.
    * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
    * @returns {Promise<ContainerSetMetadataResponse>}
    * @memberof ContainerClient
@@ -1350,6 +1351,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
    *
    * @private
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
@@ -1383,6 +1385,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for BlobPrefixes and BlobItems
    *
    * @private
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
    * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
    * @memberof ContainerClient

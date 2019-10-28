@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
-import { ShareClient, DirectoryClient, FileSystemAttributes } from "../src";
+import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record } from "./utils/recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -13,7 +13,7 @@ describe("DirectoryClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: any;
   let fullDirAttributes = new FileSystemAttributes();
@@ -616,10 +616,10 @@ describe("DirectoryClient", () => {
           name: rootSpan.name,
           children: [
             {
-              name: "Azure.Storage.File.DirectoryClient-createSubdirectory",
+              name: "Azure.Storage.File.ShareDirectoryClient-createSubdirectory",
               children: [
                 {
-                  name: "Azure.Storage.File.DirectoryClient-create",
+                  name: "Azure.Storage.File.ShareDirectoryClient-create",
                   children: [
                     {
                       name: "core-http",
@@ -630,10 +630,10 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-createFile",
+              name: "Azure.Storage.File.ShareDirectoryClient-createFile",
               children: [
                 {
-                  name: "Azure.Storage.File.FileClient-create",
+                  name: "Azure.Storage.File.ShareFileClient-create",
                   children: [
                     {
                       name: "core-http",
@@ -644,7 +644,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.FileClient-getProperties",
+              name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
                   name: "core-http",
@@ -653,10 +653,10 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-deleteFile",
+              name: "Azure.Storage.File.ShareDirectoryClient-deleteFile",
               children: [
                 {
-                  name: "Azure.Storage.File.FileClient-delete",
+                  name: "Azure.Storage.File.ShareFileClient-delete",
                   children: [
                     {
                       name: "core-http",
@@ -667,7 +667,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.FileClient-getProperties",
+              name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
                   name: "core-http",
@@ -676,7 +676,7 @@ describe("DirectoryClient", () => {
               ]
             },
             {
-              name: "Azure.Storage.File.DirectoryClient-delete",
+              name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
                   name: "core-http",
@@ -733,7 +733,7 @@ describe("DirectoryClient", () => {
 
   it("verify shareName and dirPath passed to the client", async () => {
     const accountName = "myaccount";
-    const newClient = new DirectoryClient(
+    const newClient = new ShareDirectoryClient(
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");

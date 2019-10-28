@@ -83,13 +83,13 @@ npm install @azure/storage-file-share@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-file-share";
+import * as AzureStorageFileShare from "@azure/storage-file-share";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-file-share");
+const AzureStorageFileShare = require("@azure/storage-file-share");
 ```
 
 ### JavaScript bundle
@@ -103,10 +103,6 @@ To use the library with JS bundle in the browsers, simply add a script tag to yo
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
 - `azfile`
-
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases).
 
 ### CORS
 

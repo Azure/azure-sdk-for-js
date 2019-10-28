@@ -1,4 +1,4 @@
-import { retry } from "./recorderUtils";
+import { retry, testPollerProperties } from "./recorderUtils";
 import { KeyClient } from "../../src";
 
 export default class TestClient {
@@ -22,7 +22,7 @@ export default class TestClient {
   }
   public async flushKey(keyName: string): Promise<void> {
     const that = this;
-    const poller = await that.client.beginDeleteKey(keyName);
+    const poller = await that.client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeKey(keyName);
   }

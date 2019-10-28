@@ -3,11 +3,11 @@ import { Duplex } from "stream";
 import { bodyToString, getBSU } from "../utils";
 import { Buffer } from "buffer";
 import {
-  FileClient,
+  ShareFileClient,
   newPipeline,
   SharedKeyCredential,
   ShareClient,
-  DirectoryClient,
+  ShareDirectoryClient,
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
@@ -18,9 +18,9 @@ describe("FileClient Node.js only", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let fileName: string;
-  let fileClient: FileClient;
+  let fileClient: ShareFileClient;
   const content = "Hello World";
 
   let recorder: any;
@@ -92,7 +92,7 @@ describe("FileClient Node.js only", () => {
 
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new FileClient(fileClient.url, credential);
+    const newClient = new ShareFileClient(fileClient.url, credential);
 
     const result = await newClient.getProperties();
 
@@ -113,7 +113,7 @@ describe("FileClient Node.js only", () => {
 
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new FileClient(fileClient.url, credential, {
+    const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
         maxTries: 5
       }
@@ -139,7 +139,7 @@ describe("FileClient Node.js only", () => {
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
-    const newClient = new FileClient(fileClient.url, pipeline);
+    const newClient = new ShareFileClient(fileClient.url, pipeline);
 
     const result = await newClient.getProperties();
 

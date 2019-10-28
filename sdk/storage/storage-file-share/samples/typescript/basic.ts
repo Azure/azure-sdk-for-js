@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { ShareServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -17,7 +17,7 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // List shares
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential

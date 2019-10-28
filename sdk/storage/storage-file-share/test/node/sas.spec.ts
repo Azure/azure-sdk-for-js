@@ -5,12 +5,12 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  FileServiceClient,
+  ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
   SharedKeyCredential
 } from "../../src";
-import { FileClient } from "../../src/FileClient";
+import { ShareFileClient } from "../../src/ShareFileClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { newPipeline } from "../../src/Pipeline";
@@ -58,7 +58,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
+    const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
       newPipeline(new AnonymousCredential())
     );
@@ -88,7 +88,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
+    const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
       newPipeline(new AnonymousCredential())
     );
@@ -122,7 +122,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(sasURL);
+    const serviceClientWithSAS = new ShareServiceClient(sasURL);
 
     let error;
     try {
@@ -156,7 +156,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(sasURL);
+    const serviceClientWithSAS = new ShareServiceClient(sasURL);
 
     let error;
     try {
@@ -255,7 +255,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
-    const fileClientwithSAS = new FileClient(sasURL);
+    const fileClientwithSAS = new ShareFileClient(sasURL);
 
     const properties = await fileClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");

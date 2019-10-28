@@ -147,7 +147,6 @@ export class RetryPolicy extends BaseRequestPolicy {
    *
    * @protected
    * @param {WebResource} request
-   * @param {HttpOperationResponse} response
    * @param {boolean} secondaryHas404  If attempt was against the secondary & it returned a StatusNotFound (404), then
    *                                   the resource was not found. This may be due to replication delay. So, in this
    *                                   case, we'll never try the secondary again for this operation.
@@ -294,8 +293,8 @@ export class RetryPolicy extends BaseRequestPolicy {
    * Comment/uncomment as necessary for releasing/debugging.
    *
    * @private
-   * @param {HttpPipelineLogLevel} level
-   * @param {string} message
+   * @param {HttpPipelineLogLevel} _level
+   * @param {string} _message
    * @memberof RetryPolicy
    */
   // tslint:disable-next-line:variable-name
@@ -310,7 +309,6 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
    * @param {AbortSignalLike} [abortSignal]
-   * @returns
    * @memberof RetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

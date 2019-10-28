@@ -5,7 +5,7 @@ import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -71,17 +71,16 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can get secret properties with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const iter = client.listPropertiesOfSecrets({
-      requestOptions: { timeout: 1 }
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can get secret properties with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfSecrets({
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
+  }
 
   it("can list deleted secrets", async function() {
     const secretName = testClient.formatName(
@@ -92,7 +91,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      const deletePoller = await client.beginDeleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
       await deletePoller.pollUntilDone();
     }
 
@@ -110,17 +109,16 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can get the deleted secrets with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const iter = client.listDeletedSecrets({
-      requestOptions: { timeout: 1 }
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can get the deleted secrets with requestOptions timeout", async function() {
+      const iter = client.listDeletedSecrets({
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
+  }
 
   it("can retrieve all versions of a secret", async function() {
     const secretName = testClient.formatName(
@@ -153,17 +151,16 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can get versions of a secret with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
-      requestOptions: { timeout: 1 }
+  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+    it("can get versions of a secret with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
+  }
 
   it("can list secret versions (non existing)", async function() {
     const secretName = testClient.formatName(
@@ -212,7 +209,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      const deletePoller = await client.beginDeleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
       await deletePoller.pollUntilDone();
     }
 

@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import {
-  JsonWebKey,
-  JsonWebKeyOperation,
-  JsonWebKeyCurveName,
-  JsonWebKeyType
-} from "./core/models";
+import { JsonWebKeyOperation, JsonWebKeyCurveName, JsonWebKeyType } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
@@ -15,10 +10,100 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the key client. For internal use.
  */
 export interface KeyClientInterface {
+  /**
+   * Recovers the deleted key in the specified vault. This operation can only be performed on a
+   * soft-delete enabled vault.
+   */
   recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
+  /**
+   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
+   * This operation requires the keys/get permission.
+   */
   getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+  /**
+   * The delete operation applies to any key stored in Azure Key Vault. Individual versions
+   * of a key can not be deleted, only all versions of a given key at once.
+   */
   deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
+  /**
+   * The getDeletedKey method returns the specified deleted key along with its properties.
+   * This operation requires the keys/get permission.
+   */
   getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
+}
+
+/**
+ * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
+ */
+export interface JsonWebKey {
+  /**
+   * Key identifier.
+   */
+  kid?: string;
+  /**
+   * JsonWebKey Key Type (kty), as defined in
+   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   */
+  kty?: JsonWebKeyType;
+  /**
+   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
+   * information on possible key operations, see JsonWebKeyOperation.
+   */
+  keyOps?: JsonWebKeyOperation[];
+  /**
+   * RSA modulus.
+   */
+  n?: Uint8Array;
+  /**
+   * RSA public exponent.
+   */
+  e?: Uint8Array;
+  /**
+   * RSA private exponent, or the D component of an EC private key.
+   */
+  d?: Uint8Array;
+  /**
+   * RSA private key parameter.
+   */
+  dp?: Uint8Array;
+  /**
+   * RSA private key parameter.
+   */
+  dq?: Uint8Array;
+  /**
+   * RSA private key parameter.
+   */
+  qi?: Uint8Array;
+  /**
+   * RSA secret prime.
+   */
+  p?: Uint8Array;
+  /**
+   * RSA secret prime, with p < q.
+   */
+  q?: Uint8Array;
+  /**
+   * Symmetric key.
+   */
+  k?: Uint8Array;
+  /**
+   * HSM Token, used with 'Bring Your Own Key'.
+   */
+  t?: Uint8Array;
+  /**
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  crv?: JsonWebKeyCurveName;
+  /**
+   * X component of an EC public key.
+   */
+  x?: Uint8Array;
+  /**
+   * Y component of an EC public key.
+   */
+  y?: Uint8Array;
 }
 
 /**
@@ -27,7 +112,7 @@ export interface KeyClientInterface {
  */
 export interface KeyVaultKey {
   /**
-   * @member {string} [value] The key value.
+   * @member {string} [key] The key value.
    */
   key?: JsonWebKey;
   /**
@@ -124,7 +209,7 @@ export interface KeyProperties {
  */
 export interface DeletedKey {
   /**
-   * @member {string} [value] The key value.
+   * @member {JsonWebKey} [key] The key value.
    */
   key?: JsonWebKey;
   /**
@@ -182,7 +267,8 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps]
+   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
+   * information on possible key operations, see JsonWebKeyOperation.
    */
   keyOps?: JsonWebKeyOperation[];
   /**

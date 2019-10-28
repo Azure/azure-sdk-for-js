@@ -7,8 +7,6 @@ import {
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
@@ -16,22 +14,21 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions,
+  keepAlivePolicy,
+  KeepAliveOptions,
+  generateClientRequestIdPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
@@ -39,6 +36,7 @@ import {
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters
 } from "./utils/constants";
+import { TelemetryPolicyFactory, UserAgentOptions } from "./TelemetryPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -47,9 +45,7 @@ export {
   StorageOAuthScopes,
   deserializationPolicy,
   IHttpClient,
-  IHttpPipelineLogger,
   HttpHeaders,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   HttpOperationResponse,
   WebResource,
@@ -66,19 +62,12 @@ export {
  */
 export interface PipelineOptions {
   /**
-   * Optional. Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof PipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
-  /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HTTPClient?: IHttpClient;
+  httpClient?: IHttpClient;
 }
 
 /**
@@ -128,8 +117,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HTTPClient,
-      httpPipelineLogger: this.options.logger,
+      httpClient: this.options.httpClient,
       requestPolicyFactories: this.factories
     };
   }
@@ -142,14 +130,14 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxy?: ProxySettings | string;
+  proxyOptions?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
@@ -165,13 +153,6 @@ export interface StoragePipelineOptions {
    */
   keepAliveOptions?: KeepAliveOptions;
 
-  /**
-   * Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof StoragePipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
@@ -197,11 +178,12 @@ export function newPipeline(
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
+
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
-    new UniqueRequestIDPolicyFactory(),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    generateClientRequestIdPolicy(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
@@ -214,13 +196,7 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(
     isTokenCredential(credential)
@@ -229,7 +205,6 @@ export function newPipeline(
   );
 
   return new Pipeline(factories, {
-    HTTPClient: pipelineOptions.httpClient,
-    logger: pipelineOptions.logger
+    httpClient: pipelineOptions.httpClient
   });
 }

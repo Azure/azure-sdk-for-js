@@ -53,7 +53,7 @@ export interface QueueCreateOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -78,7 +78,7 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -95,7 +95,7 @@ export interface QueueDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueDeleteOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -112,7 +112,7 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -129,7 +129,7 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -146,7 +146,7 @@ export interface QueueSetMetadataOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -216,7 +216,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueClearMessagesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -352,7 +352,7 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueDeleteMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -373,7 +373,7 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueUpdateMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -714,7 +714,6 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
    * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
    * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
@@ -929,6 +928,7 @@ export class QueueClient extends StorageClient {
    * Delete permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
+   * @param {string} messageId Id of the message.
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
    * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
@@ -962,6 +962,7 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
+   * @param {string} messageId Id of the message
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {string} message Message to update.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
