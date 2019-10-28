@@ -27,6 +27,13 @@ import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AccessPolicy {
+    expiry: string;
+    permissions: string;
+    start: string;
+}
+
+// @public
 export class AccountSASPermissions {
     add: boolean;
     create: boolean;
@@ -86,9 +93,16 @@ export { BaseRequestPolicy }
 // @public
 export interface CommonOptions {
     // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
 }
 
 // @public
@@ -133,6 +147,15 @@ export function generateAccountSASQueryParameters(accountSASSignatureValues: Acc
 // @public
 export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
+// @public
+export interface GeoReplication {
+    lastSyncOn: Date;
+    status: GeoReplicationStatusType;
+}
+
+// @public
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -163,8 +186,26 @@ export interface ListQueuesSegmentResponse {
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface Logging {
+    deleteProperty: boolean;
+    read: boolean;
+    // (undocumented)
+    retentionPolicy: RetentionPolicy;
+    version: string;
+    write: boolean;
+}
+
+// @public
+export interface MessageIdDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -172,8 +213,18 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdUpdateHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessageIdUpdateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    nextVisibleOn?: Date;
+    popReceipt?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -181,8 +232,16 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessagesClearHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessagesClearHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessagesClearResponse = MessagesClearHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -243,10 +302,18 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
     timeoutInSeconds?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface Metadata {
-    // (undocumented)
     [propertyName: string]: string;
+}
+
+// @public
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    // (undocumented)
+    retentionPolicy?: RetentionPolicy;
+    version?: string;
 }
 
 // @public
@@ -279,7 +346,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -295,7 +362,6 @@ export class QueueClient extends StorageClient {
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    // (undocumented)
     readonly name: string;
     peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
@@ -306,13 +372,21 @@ export class QueueClient extends StorageClient {
 }
 
 // @public
+export interface QueueCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueCreateResponse = QueueCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -321,11 +395,21 @@ export type QueueCreateResponse = QueueCreateHeaders & {
 };
 
 // @public
+export interface QueueDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueDeleteMessageResponse = MessageIdDeleteResponse;
 
 // @public
@@ -333,8 +417,6 @@ export interface QueueDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueDeleteResponse = QueueDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -357,7 +439,7 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueGetAccessPolicyResponse = {
     signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -369,12 +451,25 @@ export type QueueGetAccessPolicyResponse = {
 };
 
 // @public
+export interface QueueGetPropertiesHeaders {
+    approximateMessagesCount?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -395,7 +490,7 @@ export interface QueueItem {
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueuePeekMessagesResponse = {
     peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -410,7 +505,7 @@ export type QueuePeekMessagesResponse = {
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueReceiveMessageResponse = {
     receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -447,7 +542,7 @@ export interface QueueSASSignatureValues {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueSendMessageResponse = {
     messageId: string;
     popReceipt: string;
@@ -478,13 +573,25 @@ export class QueueServiceClient extends StorageClient {
 
 // @public
 export interface QueueServiceProperties {
-    // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
-    // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
     queueAnalyticsLogging?: Logging;
+}
+
+// @public
+export interface QueueServiceStatistics {
+    geoReplication?: GeoReplication;
+}
+
+// @public
+export interface QueueSetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -492,8 +599,6 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -502,12 +607,20 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
 };
 
 // @public
+export interface QueueSetMetadataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -520,10 +633,10 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 
-// @public (undocumented)
+// @public
 export type ReceivedMessageItem = DequeuedMessageItem;
 
 export { RequestPolicy }
@@ -533,6 +646,12 @@ export { RequestPolicyFactory }
 export { RequestPolicyOptions }
 
 export { RestError }
+
+// @public
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
+}
 
 // @public
 export interface SasIPRange {
@@ -564,12 +683,19 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -580,13 +706,20 @@ export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPr
 };
 
 // @public
+export interface ServiceGetStatisticsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueServiceStatistics" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -603,8 +736,16 @@ export interface ServiceListQueuesOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceListQueuesSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ServiceListQueuesSegmentHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & ServiceListQueuesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -615,12 +756,19 @@ export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & Servi
 };
 
 // @public
+export interface ServiceSetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -640,7 +788,6 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
-    // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
     accessPolicy: AccessPolicy;
     id: string;
 }
@@ -656,7 +803,7 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
 }
 
-// @public (undocumented)
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public
