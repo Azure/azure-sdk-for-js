@@ -665,7 +665,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobUploadOptions = {}
   ): Promise<BlockBlobUploadResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.upload(body, contentLength, {
@@ -708,7 +708,7 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<BlockBlobStageBlockResponse> {
-    const { span, spanOptions } = createSpan("BlockBlobClient-stageBlock", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlockBlobClient-stageBlock", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
@@ -762,7 +762,7 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlockBlobStageBlockFromURLResponse> {
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-stageBlockFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -806,7 +806,7 @@ export class BlockBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-commitBlockList",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -849,7 +849,10 @@ export class BlockBlobClient extends BlobClient {
     listType: BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<BlockBlobGetBlockListResponse> {
-    const { span, spanOptions } = createSpan("BlockBlobClient-getBlockList", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-getBlockList",
+      options.tracingOptions
+    );
     try {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
@@ -899,7 +902,7 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlobUploadCommonResponse> {
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-uploadBrowserData",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const browserBlob = new Blob([browserData]);
@@ -908,7 +911,7 @@ export class BlockBlobClient extends BlobClient {
           return browserBlob.slice(offset, offset + size);
         },
         browserBlob.size,
-        { ...options, spanOptions }
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
     } catch (e) {
       span.setStatus({
@@ -982,12 +985,15 @@ export class BlockBlobClient extends BlobClient {
 
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-UploadSeekableBlob",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return this.upload(blobFactory(0, size), size, { ...options, spanOptions });
+        return this.upload(blobFactory(0, size), size, {
+          ...options,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
@@ -1014,7 +1020,7 @@ export class BlockBlobClient extends BlobClient {
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
-              spanOptions
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
@@ -1029,7 +1035,10 @@ export class BlockBlobClient extends BlobClient {
       }
       await batch.do();
 
-      return this.commitBlockList(blockList, { ...options, spanOptions });
+      return this.commitBlockList(blockList, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1058,7 +1067,7 @@ export class BlockBlobClient extends BlobClient {
     filePath: string,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
       return this.uploadResetableStream(
@@ -1069,7 +1078,7 @@ export class BlockBlobClient extends BlobClient {
             start: offset
           }),
         size,
-        { ...options, spanOptions }
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
     } catch (e) {
       span.setStatus({
@@ -1111,7 +1120,10 @@ export class BlockBlobClient extends BlobClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("BlockBlobClient-uploadStream", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-uploadStream",
+      options.tracingOptions
+    );
 
     try {
       let blockNum = 0;
@@ -1130,7 +1142,7 @@ export class BlockBlobClient extends BlobClient {
 
           await this.stageBlock(blockID, buffer, buffer.length, {
             conditions: options.conditions,
-            spanOptions
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1147,7 +1159,10 @@ export class BlockBlobClient extends BlobClient {
       );
       await scheduler.do();
 
-      return this.commitBlockList(blockList, { ...options, spanOptions });
+      return this.commitBlockList(blockList, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1223,12 +1238,15 @@ export class BlockBlobClient extends BlobClient {
 
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-uploadResetableStream",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return this.upload(() => streamFactory(0), size, { ...options, spanOptions });
+        return this.upload(() => streamFactory(0), size, {
+          ...options,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
@@ -1259,7 +1277,7 @@ export class BlockBlobClient extends BlobClient {
               {
                 abortSignal: options.abortSignal,
                 conditions: options.conditions,
-                spanOptions
+                tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1272,7 +1290,10 @@ export class BlockBlobClient extends BlobClient {
       }
       await batch.do();
 
-      return this.commitBlockList(blockList, { ...options, spanOptions });
+      return this.commitBlockList(blockList, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

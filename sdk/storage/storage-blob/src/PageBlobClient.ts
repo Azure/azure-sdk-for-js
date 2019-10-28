@@ -574,7 +574,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobCreateOptions = {}
   ): Promise<PageBlobCreateResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("PageBlobClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("PageBlobClient-create", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.pageBlobContext.create(0, size, {
@@ -617,7 +617,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUploadPagesOptions = {}
   ): Promise<PageBlobUploadPagesResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.spanOptions);
+    const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.pageBlobContext.uploadPages(body, count, {
@@ -667,7 +667,7 @@ export class PageBlobClient extends BlobClient {
     options.sourceConditions = options.sourceConditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-uploadPagesFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -720,7 +720,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobClearPagesOptions = {}
   ): Promise<PageBlobClearPagesResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.spanOptions);
+    const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.tracingOptions);
     try {
       return this.pageBlobContext.clearPages(0, {
         abortSignal: options.abortSignal,
@@ -758,7 +758,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<PageBlobGetPageRangesResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
+    const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.tracingOptions);
     try {
       return this.pageBlobContext
         .getPageRanges({
@@ -800,7 +800,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-getPageRangesDiff",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.pageBlobContext
@@ -838,7 +838,7 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobResizeOptions = {}
   ): Promise<PageBlobResizeResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan("PageBlobClient-resize", options.spanOptions);
+    const { span, spanOptions } = createSpan("PageBlobClient-resize", options.tracingOptions);
     try {
       return this.pageBlobContext.resize(size, {
         abortSignal: options.abortSignal,
@@ -875,7 +875,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-updateSequenceNumber",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
@@ -916,7 +916,7 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobCopyIncrementalResponse> {
     const { span, spanOptions } = createSpan(
       "PageBlobClient-startCopyIncremental",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.pageBlobContext.copyIncremental(copySource, {

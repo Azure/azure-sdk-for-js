@@ -1000,7 +1000,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    const { span, spanOptions } = createSpan("BlobClient-download", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-download", options.tracingOptions);
 
     try {
       const res = await this.blobContext.download({
@@ -1103,13 +1103,16 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("BlobClient-exists", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-exists", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       await this.getProperties({
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
-        spanOptions
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
       });
       return true;
     } catch (e) {
@@ -1142,7 +1145,7 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<BlobGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-getProperties", options.tracingOptions);
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1176,7 +1179,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-delete", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       return this.blobContext.deleteMethod({
@@ -1208,7 +1211,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-undelete", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-undelete", options.tracingOptions);
     try {
       return this.blobContext.undelete({
         abortSignal: options.abortSignal,
@@ -1243,7 +1246,7 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<BlobSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-setHTTPHeaders", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-setHTTPHeaders", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1283,7 +1286,7 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<BlobSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-setMetadata", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1328,7 +1331,7 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<BlobCreateSnapshotResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-createSnapshot", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-createSnapshot", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1457,7 +1460,7 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<BlobAbortCopyFromURLResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-abortCopyFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-abortCopyFromURL", options.tracingOptions);
     try {
       return this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
@@ -1489,7 +1492,7 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
   ): Promise<BlobCopyFromURLResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-syncCopyFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-syncCopyFromURL", options.tracingOptions);
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
 
@@ -1535,7 +1538,7 @@ export class BlobClient extends StorageClient {
     tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
   ): Promise<BlobSetTierResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-setAccessTier", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-setAccessTier", options.tracingOptions);
     try {
       return await this.blobContext.setTier(toAccessTier(tier)!, {
         abortSignal: options.abortSignal,
@@ -1613,7 +1616,7 @@ export class BlobClient extends StorageClient {
       count = typeof param2 === "number" ? param2 : 0;
       options = (param3 as BlobDownloadToBufferOptions) || {};
     }
-    const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.tracingOptions);
 
     try {
       if (!options.blockSize) {
@@ -1642,7 +1645,10 @@ export class BlobClient extends StorageClient {
       if (!count) {
         const response = await this.getProperties({
           ...options,
-          spanOptions
+          tracingOptions: {
+            ...options.tracingOptions,
+            spanOptions
+          }
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -1682,7 +1688,10 @@ export class BlobClient extends StorageClient {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
-            spanOptions
+            tracingOptions: {
+              ...options.tracingOptions,
+              spanOptions
+            }
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -1731,11 +1740,14 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<BlobDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.tracingOptions);
     try {
       const response = await this.download(offset, count, {
         ...options,
-        spanOptions
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
       });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
@@ -1825,7 +1837,7 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<BlobStartCopyFromURLResponse> {
-    const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.tracingOptions);
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
 

@@ -391,7 +391,7 @@ export class AppendBlobClient extends BlobClient {
    * @memberof AppendBlobClient
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
-    const { span, spanOptions } = createSpan("AppendBlobClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("AppendBlobClient-create", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -431,7 +431,7 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<AppendBlobAppendBlockResponse> {
-    const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.spanOptions);
+    const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -482,7 +482,7 @@ export class AppendBlobClient extends BlobClient {
   ): Promise<AppendBlobAppendBlockFromUrlResponse> {
     const { span, spanOptions } = createSpan(
       "AppendBlobClient-appendBlockFromURL",
-      options.spanOptions
+      options.tracingOptions
     );
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};

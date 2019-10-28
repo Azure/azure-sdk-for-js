@@ -288,7 +288,7 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.tracingOptions);
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
