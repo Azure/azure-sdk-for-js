@@ -17,7 +17,7 @@ describe("AuthorizationCodeCredential", function() {
       "secret",
       "authCode",
       redirectUri,
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -47,7 +47,7 @@ describe("AuthorizationCodeCredential", function() {
       "authCode",
       redirectUri,
       {
-        ...mockHttpClient.identityClientOptions
+        ...mockHttpClient.tokenCredentialOptions
       }
     );
 
@@ -93,7 +93,7 @@ describe("AuthorizationCodeCredential", function() {
       "authCode",
       redirectUri,
       {
-        ...mockHttpClient.identityClientOptions
+        ...mockHttpClient.tokenCredentialOptions
       }
     );
 

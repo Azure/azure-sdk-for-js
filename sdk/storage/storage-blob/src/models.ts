@@ -25,12 +25,21 @@ export interface AppendBlobRequestConditions
   extends BlobRequestConditions,
     AppendPositionAccessConditions {}
 
+/**
+ * Represents the access tier on a blob.
+ * For detailed information about block blob level tiering see {@link https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
+ */
 export enum BlockBlobTier {
   Hot = "Hot",
   Cool = "Cool",
   Archive = "Archive"
 }
 
+/**
+ * Specifies the page blob tier to set the blob to. This is only applicable to page blobs on premium storage accounts.
+ * Please see {@link https://docs.microsoft.com/azure/storage/storage-premium-storage#scalability-and-performance-targets|here}
+ * for detailed information on the corresponding IOPS and throughtput per PageBlobTier.
+ */
 export enum PremiumPageBlobTier {
   P4 = "P4",
   P6 = "P6",

@@ -432,13 +432,18 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/storage-file",
-      "projectFolder": "sdk/storage/storage-file",
+      "packageName": "@azure/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share",
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/cognitiveservices-inkrecognizer",
+      "projectFolder": "sdk/cognitiveservices/cognitiveservices-inkrecognizer",
       "versionPolicyName": "client"
     },
     {

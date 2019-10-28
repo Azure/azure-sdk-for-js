@@ -10,7 +10,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -27,16 +26,6 @@ export interface DeletedSecret {
         deletedOn?: Date;
     };
     value?: string;
-}
-
-// @public
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -69,13 +58,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
 export { PipelineOptions }
 
 export { PollerLike }
@@ -83,23 +65,11 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
-
-// @public
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -107,15 +77,8 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
-}
-
-// @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
@@ -130,19 +93,7 @@ export class SecretClient {
     restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
-    readonly vaultEndpoint: string;
-}
-
-// @public
-export interface SecretClientInterface {
-    // (undocumented)
-    deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
-    getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    // (undocumented)
-    recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
+    readonly vaultUrl: string;
 }
 
 // @public
@@ -167,7 +118,7 @@ export interface SecretProperties {
         [propertyName: string]: string;
     };
     readonly updatedOn?: Date;
-    vaultEndpoint: string;
+    vaultUrl: string;
     version?: string;
 }
 
@@ -180,12 +131,6 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
 }
 
 // @public

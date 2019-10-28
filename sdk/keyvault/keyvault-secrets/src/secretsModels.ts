@@ -9,12 +9,26 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the secret client. For internal use.
  */
 export interface SecretClientInterface {
+  /**
+   * Recovers the deleted secret in the specified vault.
+   */
   recoverDeletedSecret(
     secretName: string,
-    options?: coreHttp.OperationOptions
+    options?: RecoverDeletedSecretOptions
   ): Promise<SecretProperties>;
+  /**
+   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
+   * the secrets/get permission.
+   */
   getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+  /**
+   * Deletes a secret stored in Azure Key Vault.
+   */
   deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
+  /**
+   * The getDeletedSecret method returns the specified deleted secret along with its attributes.
+   * This operation requires the secrets/get permission.
+   */
   getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
 }
 
@@ -43,9 +57,9 @@ export interface KeyVaultSecret {
  */
 export interface SecretProperties {
   /**
-   * @member {string} [vaultEndpoint] The vault URI.
+   * @member {string} [vaultUrl] The base URL to the vault.
    */
-  vaultEndpoint: string;
+  vaultUrl: string;
   /**
    * @member {string} [version] The version of key/secret/certificate. May be undefined.
    */
@@ -268,6 +282,12 @@ export interface BackupSecretOptions extends coreHttp.OperationOptions {}
  */
 export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
+/**
+ * @interface
+ * An interface representing optional parameters for the recoverDeletedSecret method (internal)
+ */
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
+ 
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.

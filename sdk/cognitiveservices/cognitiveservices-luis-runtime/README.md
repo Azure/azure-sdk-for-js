@@ -44,13 +44,14 @@ const predictionRequest = {
   query: "testquery",
   options: {
     datetimeReference: new Date(),
-    overridePredictions: true
+    preferExternalEntities: true
   },
   externalEntities: [
     {
       entityName: "testentityName",
       startIndex: 1,
       entityLength: 1,
+	    score: 0.86,
       resolution: {}
     }
   ],
@@ -116,13 +117,14 @@ client.prediction
         query: "testquery",
         options: {
           datetimeReference: new Date(),
-          overridePredictions: true
+          preferExternalEntities: true
         },
         externalEntities: [
           {
             entityName: "testentityName",
             startIndex: 1,
             entityLength: 1,
+			      score: 0.9,
             resolution: {}
           }
         ],

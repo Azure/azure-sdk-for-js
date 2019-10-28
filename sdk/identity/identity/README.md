@@ -68,12 +68,12 @@ Authenticating as a managed identity requires no configuration, but does require
 ```javascript
 // The default credential first checks environment variables for configuration as described above.
 // If environment configuration is incomplete, it will try managed identity.
-const { KeysClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
-const client = new KeysClient(vaultUrl, credential);
+const client = new KeyClient(vaultUrl, credential);
 const getResult = await client.getKey("MyKeyName");
 ```
 

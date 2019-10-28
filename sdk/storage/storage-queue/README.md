@@ -9,9 +9,9 @@ Version: 12.0.0-preview.5
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-queues-introduction)
+- [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
-- [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
+- [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
 
 ## Key concepts
 
@@ -72,13 +72,13 @@ npm install @azure/storage-queue@12.0.0-preview.5
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-queue";
+import * as AzureStorageQueue from "@azure/storage-queue";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-queue");
+const AzureStorageQueue = require("@azure/storage-queue");
 ```
 
 ### JavaScript bundle
@@ -92,10 +92,6 @@ To use the library with JS bundle in the browsers, simply add a script tag to yo
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
 - `azqueue`
-
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases).
 
 ### CORS
 
@@ -146,7 +142,7 @@ const queueServiceClient = new QueueServiceClient(
 
 ### List queues in this account
 
-Use `QueueServiceClient.listContainers()` function to iterate the containers,
+Use `QueueServiceClient.listQueues()` function to iterate the queues,
 with the new `for-await-of` syntax:
 
 ```javascript
@@ -187,46 +183,41 @@ console.log(
 
 ### Send a message to the queue
 
-Send messages using a `MessageClient` instance which can be obtained by calling
-`QueueClient.getMessagesClient()`. The returned response contains data about
-the enqueued message, include a `messageId`, and a `popReceipt` that can be used
-to update the message later.
+Use `sendMessage()` to add a message to the queue:
 
 ```javascript
-// Enqueue a message into the queue using the enqueue method.
-const messagesClient = queueClient.getMessagesClient();
-const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
+// Send a message into the queue using the sendMessage method.
+const sendMessageResponse = await queueClient.sendMessage("Hello World!");
 console.log(
-  `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+  `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`
 );
 ```
 
 ### Peek a message
 
-`MessagesClient.peek()` allows looking at one or more messages in front of the queue. This call
+`QueueClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
-const peekQueueResponse = await messagesClient.peek();
-console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
+const peekMessagesResponse = await queueClient.peekMessages();
+console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
 ```
 
 ### Processing a message
 
 Messages are processed in two steps.
 
-- First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
-- When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- When processing of a message is done, call `queueClient.deleteMessage()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
-const dequeueResponse = await messagesClient.dequeue();
-if (dequeueResponse.dequeuedMessageItems.length == 1) {
-  const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-  console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-  const messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
-  const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
+const response = await queueClient.receiveMessages();
+if (response.receivedMessageItems.length == 1) {
+  const receivedMessageItem = response.receivedMessageItems[0];
+  console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
+  const deleteMessageResponse = await queueClient.deleteMessage(receivedMessageItem.messageId, receivedMessageItem.popReceipt);
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );
@@ -246,45 +237,17 @@ A complete example of basic scenarios is at [samples/basic.ts](https://github.co
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        console.log(logMessage);
-        break;
-    }
-  }
-}
-```
+import { setLogLevel } from "@azure/logger";
 
-Then when creating the `QueueServiceClient` instance, pass the logger in the options
-
-```javascript
-const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net`,
-  sharedKeyCredential,
-  {
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  }
-);
+setLogLevel("info");
 ```
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 

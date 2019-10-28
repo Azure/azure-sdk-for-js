@@ -7,9 +7,6 @@ export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
 export * from "./BlobClient";
-export * from "./AppendBlobClient";
-export * from "./BlockBlobClient";
-export * from "./PageBlobClient";
 export * from "./BlobBatch";
 export * from "./BlobBatchClient";
 export * from "./BatchResponse";
@@ -24,8 +21,6 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
-export * from "./TelemetryPolicyFactory";
-export * from "./UniqueRequestIDPolicyFactory";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };

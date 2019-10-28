@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
-import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
+import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 
@@ -51,7 +51,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -64,7 +64,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -81,7 +81,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 

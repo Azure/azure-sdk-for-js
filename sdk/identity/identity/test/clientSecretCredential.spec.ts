@@ -12,7 +12,7 @@ describe("ClientSecretCredential", function() {
       "tenant",
       "client",
       "secret",
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope");

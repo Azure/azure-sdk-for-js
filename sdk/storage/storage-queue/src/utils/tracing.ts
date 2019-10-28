@@ -2,29 +2,30 @@
 // Licensed under the MIT License.
 
 import { getTracer, Span, SpanOptions, SpanKind } from "@azure/core-tracing";
+import { OperationTracingOptions } from "../StorageClient";
 
 /**
  * Creates a span using the global tracer.
- * @param name The name of the operation being performed.
- * @param options The options for the underlying http request.
+ * @param {string} operationName The name of the operation being performed.
+ * @param {SpanOptions} options The options for the underlying http request.
  */
 export function createSpan(
   operationName: string,
-  options: SpanOptions = {}
+  tracingOptions: OperationTracingOptions = {}
 ): { span: Span; spanOptions: SpanOptions } {
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
-    ...options,
+    ...tracingOptions.spanOptions,
     kind: SpanKind.CLIENT
   };
 
   const span = tracer.startSpan(`Azure.Storage.Queue.${operationName}`, spanOptions);
   span.setAttribute("component", "storage");
 
-  let newOptions = options;
+  let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecordingEvents()) {
     newOptions = {
-      ...options,
+      ...tracingOptions,
       parent: span
     };
   }

@@ -135,6 +135,8 @@ const skip = [
   "node/highlevel/recording_downloadtobuffer_should_abort.js",
   // Size (526MB), Tempfile, UUID (uploadStream)
   "node/highlevel/recording_downloadtobuffer_should_success.js",
+  // Size (4MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_success__without_passing_the_buffer.js",
   // Progress, Size (15MB), Tempfile, UUID (uploadStream)
   "node/highlevel/recording_downloadtobuffer_should_update_progress_event.js",
   // Size (526MB), Tempfile
@@ -160,7 +162,12 @@ const skip = [
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/blobclient/recording_startcopyfromclient.json",
   "node/blockblobclient/recording_can_be_created_with_a_sas_connection_string.js",
-  "browsers/blobclient/recording_startcopyfromurl_with_rehydrate_priority.json",
+  "browsers/blobclient/recording_begincopyfromurl_with_rehydrate_priority.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_automatic_polling_via_polluntildone.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_cancellation_of_the_copy.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_manual_polling_via_poll.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_updating_on_progress_events.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_restoring_poller_state_from_another_poller.json",
   // Skip for random UUID generated for request boundary and changing x-ms-date used for authentication
   "node/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete.js",
@@ -561,4 +568,8 @@ export function record(testContext: any) {
       return date;
     }
   };
+}
+
+export const testPollerProperties = {
+  intervalInMs: isPlayingBack ? 0 : undefined
 }

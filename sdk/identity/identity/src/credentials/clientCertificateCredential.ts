@@ -7,7 +7,7 @@ import uuid from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -52,7 +52,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
