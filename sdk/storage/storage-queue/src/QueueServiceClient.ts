@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import {
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
   ListQueuesIncludeType,
@@ -16,7 +21,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -158,13 +163,13 @@ export class QueueServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ): QueueServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -174,7 +179,7 @@ export class QueueServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxy = extractedCreds.proxyUri;
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {
@@ -208,13 +213,13 @@ export class QueueServiceClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of QueueServiceClient.
@@ -230,7 +235,7 @@ export class QueueServiceClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {

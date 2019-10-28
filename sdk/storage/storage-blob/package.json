@@ -12,6 +12,7 @@
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "./dist-esm/src/BatchUtils.js": "./dist-esm/src/BatchUtils.browser.js",
     "./dist-esm/src/BlobDownloadResponse.js": "./dist-esm/src/BlobDownloadResponse.browser.js",
+    "fs": false,
     "os": false,
     "process": false
   },
