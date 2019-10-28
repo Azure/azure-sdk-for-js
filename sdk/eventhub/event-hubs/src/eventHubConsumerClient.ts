@@ -19,14 +19,15 @@ export type OnReceivedEvents = (
 
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
+  private _consumerGroupName: string;
 
   constructor(
     connectionInfo: EventHubConnectionString | HostAndTokenCredential,
-    private consumerGroupName: string,
+    consumerGroupName: string,
     options?: EventHubClientOptions
   ) {
-    // create the client
     this._eventHubClient = createEventHubClient(connectionInfo, options);
+    this._consumerGroupName = consumerGroupName;
   }
 
   close() {
@@ -79,7 +80,7 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager(),
@@ -96,7 +97,7 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager(),
@@ -114,7 +115,7 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         onReceivedEventsOrPartitionIdsOrPartitionManager as PartitionManager,
@@ -132,7 +133,7 @@ export class EventHubConsumerClient {
     return {
       isReceiverOpen: () => eventProcessor.isRunning(),
       stop: () => eventProcessor.stop(),
-      consumerGroup: () => this.consumerGroupName
+      consumerGroup: () => this._consumerGroupName
     };
   }
 }
