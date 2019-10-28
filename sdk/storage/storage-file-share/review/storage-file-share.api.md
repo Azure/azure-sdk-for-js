@@ -650,10 +650,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
 }
 
 // @public
-export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
-export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
 export interface HandleItem {
@@ -964,20 +964,6 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
 // @public
-export class SharedKeyCredential extends Credential {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
-
-// @public
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
 export class ShareFileClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
@@ -1206,6 +1192,20 @@ export interface StoragePipelineOptions {
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
 }
 
 // @public

@@ -128,10 +128,10 @@ export interface EnqueuedMessage {
 }
 
 // @public
-export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
-export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 export { HttpHeaders }
 
@@ -250,7 +250,7 @@ export interface Metadata {
 }
 
 // @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -287,7 +287,7 @@ export type QueueClearMessagesResponse = MessagesClearResponse;
 // @public
 export class QueueClient extends StorageClient {
     constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
@@ -464,7 +464,7 @@ export type QueueSendMessageResponse = {
 
 // @public
 export class QueueServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -652,20 +652,6 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 };
 
 // @public
-export class SharedKeyCredential extends Credential {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
-
-// @public
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
 export interface SignedIdentifier {
     accessPolicy: {
         start: Date;
@@ -692,6 +678,20 @@ export interface StoragePipelineOptions {
     proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
 }
 
 export { WebResource }

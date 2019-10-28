@@ -4,7 +4,7 @@
 
 const {
   ShareServiceClient,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   newPipeline,
   HttpPipelineLogLevel
 } = require("../.."); // Change to "@azure/storage-file-share" in your package
@@ -37,9 +37,9 @@ async function main() {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {

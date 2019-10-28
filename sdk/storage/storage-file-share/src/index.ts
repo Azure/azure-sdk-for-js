@@ -15,7 +15,7 @@ export * from "./ShareSASPermissions";
 export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./credentials/SharedKeyCredential";
+export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
@@ -30,7 +30,7 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
-export * from "./policies/SharedKeyCredentialPolicy";
+export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./BrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";

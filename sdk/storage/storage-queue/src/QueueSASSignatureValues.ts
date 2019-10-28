@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
@@ -102,12 +102,12 @@ export interface QueueSASSignatureValues {
  *
  * @export
  * @param {QueueSASSignatureValues} queueSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !queueSASSignatureValues.identifier &&
