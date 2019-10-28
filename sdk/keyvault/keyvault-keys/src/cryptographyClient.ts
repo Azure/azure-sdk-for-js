@@ -38,7 +38,7 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, keyUrl, credentials);
    * let result = await client.getKey();
    * ```
-   * @param options Options for retrieving key
+   * @param {GetKeyOptions} [options] Options for retrieving key.
    */
   public async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -68,9 +68,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param algorithm The algorithm to use
-   * @param plaintext The text to encrypt
-   * @param options Additional options
+   * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {Uint8Array} plaintext The text to encrypt.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async encrypt(
     algorithm: EncryptionAlgorithm,
@@ -148,9 +148,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
-   * @param algorithm The algorithm to use
-   * @param ciphertext The ciphertext to decrypt
-   * @param options Additional options
+   * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {Uint8Array} ciphertext The text to decrypt.
+   * @param {EncryptOptions} [options] Additional options.
    */
 
   public async decrypt(
@@ -186,9 +186,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.wrapKey("RSA1_5", keyToWrap);
    * ```
-   * @param algorithm The encryption algorithm to use to wrap the given key
-   * @param key The key to wrap
-   * @param options Additional options
+   * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
+   * @param {Uint8Array} key The key to wrap.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -266,9 +266,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
    * ```
-   * @param algorithm The decryption algorithm to use to unwrap the key
-   * @param encryptedKey The encrypted key to unwrap
-   * @param options Additional options
+   * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
+   * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -303,9 +303,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.sign("RS256", digest);
    * ```
-   * @param algorithm The signing algorithm to use
-   * @param digest The digest of the data to sign
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
+   * @param {Uint8Array} digest The digest of the data to sign.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -340,10 +340,10 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.verify("RS256", signedDigest, signature);
    * ```
-   * @param algorithm The signing algorithm to use to verify with
-   * @param digest The digest to verify
-   * @param signature The signature to verify the digest against
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
+   * @param {Uint8Array} digest The digest to verify.
+   * @param {Uint8Array} signature The signature to verify the digest against.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -380,9 +380,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.signData("RS256", message);
    * ```
-   * @param algorithm The signing algorithm to use
-   * @param data The data to sign
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
+   * @param {Uint8Array} data The data to sign.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -446,10 +446,10 @@ export class CryptographyClient {
    * let client = new CryptographyClient(url, key, credentials);
    * let result = await client.verifyData("RS256", signedMessage, signature);
    * ```
-   * @param algorithm The algorithm to use to verify with
-   * @param data The signed block of data to verify
-   * @param signature The signature to verify the block against
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
+   * @param {Uint8Array} data The signed block of data to verify.
+   * @param {Uint8Array} signature The signature to verify the block against.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
@@ -648,8 +648,8 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(url, jsonWebKey, credentials);
    * ```
-   * @param key The key to use during cryptography tasks
-   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
+   * @param key The key to use during cryptography tasks.
+   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]]).
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
@@ -743,8 +743,8 @@ export class CryptographyClient {
   /**
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
-   * @param span The span for the current operation
-   * @param options The options for the underlying http request
+   * @param span The span for the current operation.
+   * @param options The options for the underlying http request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {

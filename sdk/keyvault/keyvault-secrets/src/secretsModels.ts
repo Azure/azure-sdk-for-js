@@ -38,7 +38,7 @@ export interface SecretClientInterface {
  */
 export interface KeyVaultSecret {
   /**
-   * @member {SecretProperties} [properties] The properties of the secret
+   * @member {SecretProperties} properties The properties of the secret
    */
   properties: SecretProperties;
   /**
@@ -46,7 +46,7 @@ export interface KeyVaultSecret {
    */
   value?: string;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
 }
@@ -57,7 +57,7 @@ export interface KeyVaultSecret {
  */
 export interface SecretProperties {
   /**
-   * @member {string} [vaultUrl] The base URL to the vault.
+   * @member {string} vaultUrl The base URL to the vault.
    */
   vaultUrl: string;
   /**
@@ -65,7 +65,7 @@ export interface SecretProperties {
    */
   version?: string;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
   /**
@@ -140,7 +140,7 @@ export interface SecretProperties {
  */
 export interface DeletedSecret {
   /**
-   * @member {SecretProperties} [properties] The properties of the secret
+   * @member {SecretProperties} properties The properties of the secret
    */
   properties: SecretProperties & {
     /**
@@ -167,7 +167,7 @@ export interface DeletedSecret {
    */
   value?: string;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
 }

@@ -116,7 +116,7 @@ export interface KeyVaultKey {
    */
   key?: JsonWebKey;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
   /**
@@ -134,7 +134,7 @@ export interface KeyVaultKey {
    */
   keyOperations?: JsonWebKeyOperation[];
   /**
-   * @member {KeyProperties} [properties] The properties of the key.
+   * @member {KeyProperties} properties The properties of the key.
    */
   properties: KeyProperties;
 }
@@ -149,11 +149,11 @@ export interface KeyProperties {
    */
   id?: string;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
   /**
-   * @member {string} [vaultUrl] The vault URI.
+   * @member {string} vaultUrl The vault URI.
    */
   vaultUrl: string;
   /**
@@ -213,7 +213,7 @@ export interface DeletedKey {
    */
   key?: JsonWebKey;
   /**
-   * @member {string} [name] The name of key/secret/certificate.
+   * @member {string} name The name of key/secret/certificate.
    */
   name: string;
   /**
@@ -231,7 +231,7 @@ export interface DeletedKey {
    */
   keyOperations?: JsonWebKeyOperation[];
   /**
-   * @member {KeyProperties} [properties] The properties of the key.
+   * @member {KeyProperties} properties The properties of the key.
    */
   properties: KeyProperties & {
     /**
