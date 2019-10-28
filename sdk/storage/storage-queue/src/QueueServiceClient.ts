@@ -38,7 +38,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -55,7 +55,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -72,7 +72,7 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -135,7 +135,7 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {ListQueuesIncludeType} [include] Specifies whether the queue's metadata be returned as part of the response
+   * @member {boolean} [includeMetadata] Specifies whether the queue's metadata be returned as part of the response
    * body.
    */
   includeMetadata?: boolean;
@@ -251,7 +251,9 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates a QueueClient object.
-   * @param queueName
+   * @param {string} queueName
+   * @returns {QueueClient} a new QueueClient
+   * @memberof QueueServiceClient
    */
   public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
@@ -262,12 +264,12 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
    * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of queues to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all queues remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
+   *                        the list of queues to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all queues remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
    * @returns {Promise<ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
@@ -305,12 +307,12 @@ export class QueueServiceClient extends StorageClient {
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of queues to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all queues remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
+   *                        the list of queues to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all queues remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
    * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
@@ -332,7 +334,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * @private
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
+   * @returns {AsyncIterableIterator<QueueItem>}
    * @memberof QueueServiceClient
    */
   private async *listItems(
@@ -554,6 +556,7 @@ export class QueueServiceClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
+   * @param {string} queueName name of the queue to create
    * @param {QueueCreateOptions} [options] Options to Queue create operation.
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueServiceClient
@@ -569,6 +572,7 @@ export class QueueServiceClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
+   * @param {string} queueName name of the queue to delete.
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueServiceClient

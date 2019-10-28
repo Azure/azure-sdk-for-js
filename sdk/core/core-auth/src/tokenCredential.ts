@@ -22,15 +22,19 @@ export interface TokenCredential {
  * Defines options for TokenCredential.getToken.
  */
 export interface GetTokenOptions {
+
   /**
    * An AbortSignalLike implementation that can be used to cancel
    * the token request.
    */
   abortSignal?: AbortSignalLike;
+
   /**
-   * Timeout for pinging services
+   * The amount of time in milliseconds that the credential will poll
+   * for authentication endpoints (e.g. managed service identity).
    */
   timeout?: number;
+
   /**
    * Options to create a span using the tracer if any was set.
    */
@@ -42,12 +46,12 @@ export interface GetTokenOptions {
  */
 export interface AccessToken {
   /**
-   * The access token.
+   * The access token returned by the authentication service.
    */
   token: string;
 
   /**
-   * The access token's expiration timestamp.
+   * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
 }

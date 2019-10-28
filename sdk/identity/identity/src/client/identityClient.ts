@@ -37,7 +37,7 @@ export interface TokenResponse {
 export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
-  constructor(options?: IdentityClientOptions) {
+  constructor(options?: TokenCredentialOptions) {
     options = options || IdentityClient.getDefaultOptions();
     super(undefined, createPipelineFromOptions(options));
 
@@ -158,7 +158,7 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  static getDefaultOptions(): IdentityClientOptions {
+  static getDefaultOptions(): TokenCredentialOptions {
     return {
       authorityHost: DefaultAuthorityHost
     };
@@ -169,7 +169,7 @@ export class IdentityClient extends ServiceClient {
  * Provides options to configure how the Identity library makes authentication
  * requests to Azure Active Directory.
  */
-export interface IdentityClientOptions extends PipelineOptions {
+export interface TokenCredentialOptions extends PipelineOptions {
   /**
    * The authority host to use for authentication requests.  The default is
    * "https://login.microsoftonline.com".

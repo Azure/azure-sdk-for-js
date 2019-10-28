@@ -6,7 +6,8 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  isNode
+  isNode,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
@@ -207,7 +208,7 @@ export class AppendBlobClient extends BlobClient {
    * appendBlobsContext provided by protocol layer.
    *
    * @private
-   * @type {AppendBlobs}
+   * @type {AppendBlob}
    * @memberof AppendBlobClient
    */
   private appendBlobContext: AppendBlob;
@@ -335,7 +336,7 @@ export class AppendBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -386,7 +387,7 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<AppendBlobsCreateResponse>}
+   * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
@@ -422,7 +423,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<AppendBlobsAppendBlockResponse>}
+   * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(

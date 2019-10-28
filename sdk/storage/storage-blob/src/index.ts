@@ -3,6 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
+export { PollerLike, PollOperationState } from "@azure/core-lro";
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
@@ -33,8 +34,6 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
-export * from "./TelemetryPolicyFactory";
-export * from "./UniqueRequestIDPolicyFactory";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
@@ -45,3 +44,7 @@ export {
   PageList
 } from "./PageBlobRangeResponse";
 export { logger } from "./log";
+export {
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient
+} from "./pollers/BlobStartCopyFromUrlPoller";

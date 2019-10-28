@@ -103,7 +103,7 @@ describe("ManagedIdentityCredential", function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
     const credential = new ManagedIdentityCredential(
       "client",
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     // Run getToken twice and verify that an auth request is only
@@ -184,8 +184,8 @@ describe("ManagedIdentityCredential", function() {
   ): Promise<AuthRequestDetails> {
     const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
     const credential = clientId
-      ? new ManagedIdentityCredential(clientId, { ...mockHttpClient.identityClientOptions })
-      : new ManagedIdentityCredential({ ...mockHttpClient.identityClientOptions });
+      ? new ManagedIdentityCredential(clientId, { ...mockHttpClient.tokenCredentialOptions })
+      : new ManagedIdentityCredential({ ...mockHttpClient.tokenCredentialOptions });
 
     const token = await credential.getToken(scopes, { timeout });
     return {

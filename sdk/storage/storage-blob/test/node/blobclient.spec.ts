@@ -211,18 +211,6 @@ describe("BlobClient Node.js only", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
-    assert.ok(result.copyId);
-
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobClient.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
-  });
-
   it("syncCopyFromURL", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 
@@ -254,12 +242,12 @@ describe("BlobClient Node.js only", () => {
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
+    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
     try {
-      await newBlobClient.startCopyFromURL(result.copyId!);
+      await newBlobClient.beginCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );

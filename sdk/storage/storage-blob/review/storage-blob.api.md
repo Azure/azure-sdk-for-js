@@ -16,6 +16,8 @@ import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { ProxySettings } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
@@ -204,8 +206,8 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
 // @public
 export class BlobBatch {
     constructor();
-    deleteBlob(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
     deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
+    deleteBlob(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
     getHttpRequestBody(): string;
     getMultiPartContentType(): string;
     getSubRequests(): Map<number, BatchSubRequest>;
@@ -245,6 +247,26 @@ export type BlobBatchSubmitBatchResponse = ParsedBatchResponse & ServiceSubmitBa
 };
 
 // @public
+export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
+    intervalInMs?: number;
+    onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
+    resumeFrom?: string;
+}
+
+// @public
+export interface BlobBeginCopyFromUrlPollState extends PollOperationState<BlobBeginCopyFromURLResponse> {
+    readonly blobClient: CopyPollerBlobClient;
+    copyId?: string;
+    copyProgress?: string;
+    copySource: string;
+    readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
+}
+
+// @public
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {
+}
+
+// @public
 export interface BlobBreakLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
@@ -264,12 +286,14 @@ export class BlobClient extends StorageClient {
     constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     // (undocumented)
     readonly containerName: string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -282,7 +306,6 @@ export class BlobClient extends StorageClient {
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
-    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobStartCopyFromURLResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
@@ -528,8 +551,8 @@ export interface BlobSASSignatureValues {
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
         containerCreateResponse: ContainerCreateResponse;
@@ -671,9 +694,9 @@ export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
 
 // @public
 export class BlockBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
@@ -774,7 +797,7 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export enum BlockBlobTier {
     // (undocumented)
     Archive = "Archive",
@@ -1085,6 +1108,11 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
 };
 
 // @public
+export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
+    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobBeginCopyFromURLResponse>;
+};
+
+// @public
 export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 // @public
@@ -1235,9 +1263,9 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 
 // @public
 export class PageBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
@@ -1438,6 +1466,10 @@ export interface PipelineOptions {
     HTTPClient?: IHttpClient;
     logger?: IHttpPipelineLogger;
 }
+
+export { PollerLike }
+
+export { PollOperationState }
 
 // @public (undocumented)
 export enum PremiumPageBlobTier {

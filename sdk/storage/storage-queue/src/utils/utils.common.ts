@@ -141,6 +141,12 @@ function getProxyUriFromDevConnString(connectionString: string): string {
   return proxyUri;
 }
 
+/**
+ *
+ * @param {string} connectionString Account connection string.
+ * @param {string} argument property to get value from the connection string.
+ * @returns {string} Value of the property specified in argument.
+ */
 export function getValueInConnString(
   connectionString: string,
   argument:
@@ -150,7 +156,7 @@ export function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -325,6 +331,11 @@ export function padStart(
   }
 }
 
+/**
+ * Sanitizes a url by removing the Signature parameter
+ * @param {string} url to sanitize
+ * @returns {string} sanitized string
+ */
 export function sanitizeURL(url: string): string {
   let safeURL: string = url;
   if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
@@ -334,6 +345,11 @@ export function sanitizeURL(url: string): string {
   return safeURL;
 }
 
+/**
+ * Sanitize headers by removing sensitive values such as AUTHORIZATION and X_MS_COPY_SOURCE
+ * @param {HttpHeaders} originalHeader original headers
+ * @returns {HttpHeaders} sanitized headers
+ */
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   const headers: HttpHeaders = new HttpHeaders();
   for (const header of originalHeader.headersArray()) {
@@ -349,6 +365,11 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+/**
+ * Extracts account name from the url
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
+ */
 export function getAccountNameFromUrl(url: string): string {
   if (url.startsWith("http://127.0.0.1:10000")) {
     // Dev Conn String
@@ -370,6 +391,12 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
+/**
+ * Gets a new StorageClientContext
+ * @param {string} url Url used for the StorageClientContext
+ * @param {url} pipeline a pipeline containing HTTP request policies
+ * @returns {StorageClientContext} new StorageClientContext
+ */
 export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
   const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
 

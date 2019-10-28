@@ -53,7 +53,7 @@ describe("IdentityClient", function () {
       "tenant",
       "client",
       "secret",
-      mockHttp.identityClientOptions
+      mockHttp.tokenCredentialOptions
     );
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
       assert.strictEqual(error.name, "AuthenticationError");
@@ -90,7 +90,7 @@ describe("IdentityClient", function () {
       "tenant",
       "client",
       "secret",
-      mockHttp.identityClientOptions
+      mockHttp.tokenCredentialOptions
     );
 
     await assertRejects(
@@ -110,7 +110,7 @@ describe("IdentityClient", function () {
       }
     });
 
-    const client = new IdentityClient(mockHttp.identityClientOptions);
+    const client = new IdentityClient(mockHttp.tokenCredentialOptions);
     const tokenResponse = await client.refreshAccessToken(
       "tenant",
       "client",
@@ -148,7 +148,7 @@ describe("IdentityClient", function () {
       }
     });
 
-    const client = new IdentityClient(mockHttp.identityClientOptions);
+    const client = new IdentityClient(mockHttp.tokenCredentialOptions);
     await assertRejects(
       client.refreshAccessToken("tenant", "client", "scopes", "token", undefined),
       isExpectedError("invalid_client")

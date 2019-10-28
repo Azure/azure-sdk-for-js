@@ -7,7 +7,7 @@ import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { newPipeline } from "../../src";
 
-describe("MessagesClient Node.js only", () => {
+describe("QueueClient message methods, Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
