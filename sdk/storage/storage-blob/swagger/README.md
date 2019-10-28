@@ -286,3 +286,13 @@ directive:
         $["202"]["x-az-response-schema-name"] = "Content";
       }
 ```
+
+### Rename sourceContentcrc64 -> sourceContentCrc64
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.SourceContentCRC64
+    transform: >
+      $["x-ms-client-name"] = "sourceContentCrc64";
+```
