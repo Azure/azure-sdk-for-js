@@ -62,8 +62,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/event-hubs": "^5.0.0-preview.6",
-    "@azure/storage-blob": "^12.0.0-preview.5",
+    "@azure/event-hubs": "5.0.0-preview.6",
+    "@azure/storage-blob": "12.0.0-preview.3",
     "debug": "^4.1.1",
     "events": "^3.0.0",
     "tslib": "^1.9.3"

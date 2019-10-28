@@ -100,7 +100,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/core-arm": "^1.0.0",
+    "@azure/core-arm": "^1.0.0-preview.7",
     "@azure/identity": "^1.0.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
