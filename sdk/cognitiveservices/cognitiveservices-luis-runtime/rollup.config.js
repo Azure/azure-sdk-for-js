@@ -7,7 +7,10 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  */
 const config = {
   input: "./esm/lUISRuntimeClient.js",
-  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
+  external: [
+    "@azure/ms-rest-js",
+    "@azure/ms-rest-azure-js"
+  ],
   output: {
     file: "./dist/cognitiveservices-luis-runtime.js",
     format: "umd",
@@ -27,7 +30,10 @@ const config = {
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */`
   },
-  plugins: [nodeResolve({ module: true }), sourcemaps()]
+  plugins: [
+    nodeResolve({ mainFields: ['module', 'main'] }),
+    sourcemaps()
+  ]
 };
 
 export default config;

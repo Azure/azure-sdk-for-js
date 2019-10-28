@@ -378,7 +378,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @memberof ShareDirectoryClient
    */
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.tracingOptions);
     try {
       if (!options.fileAttributes) {
         options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
@@ -425,7 +425,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectorySetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-setProperties",
-      properties.spanOptions
+      properties.tracingOptions
     );
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
@@ -484,11 +484,14 @@ export class ShareDirectoryClient extends StorageClient {
   }> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createSubdirectory",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      const directoryCreateResponse = await directoryClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         directoryClient,
         directoryCreateResponse
@@ -520,11 +523,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-deleteSubdirectory",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({ ...options, spanOptions });
+      return await directoryClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -553,11 +559,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createFile",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const fileClient = this.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      const fileCreateResponse = await fileClient.create(size, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         fileClient,
         fileCreateResponse
@@ -598,11 +607,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<FileDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-deleteFile",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const fileClient = this.getFileClient(fileName);
-      return await fileClient.delete({ ...options, spanOptions });
+      return await fileClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -643,7 +655,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.context.getProperties({
@@ -671,7 +683,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @memberof ShareDirectoryClient
    */
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.tracingOptions);
     try {
       return this.context.deleteMethod({
         abortSignal: options.abortSignal,
@@ -703,7 +715,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectorySetMetadataResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-setMetadata",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.context.setMetadata({
@@ -908,7 +920,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.context.listFilesAndDirectoriesSegment({
@@ -1096,7 +1108,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryListHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-listHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
@@ -1142,7 +1154,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
@@ -1175,7 +1187,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<number> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseAllHandles",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       let handlesClosed = 0;
@@ -1184,7 +1196,7 @@ export class ShareDirectoryClient extends StorageClient {
       do {
         const response: DirectoryForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
           marker,
-          { spanOptions }
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
         marker = response.marker;
         response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
@@ -1220,7 +1232,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseHandle",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (handleId === "*") {

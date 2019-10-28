@@ -554,7 +554,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-create", options.tracingOptions);
     try {
       return this.queueContext.create({
         ...options,
@@ -581,7 +581,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
     try {
       return this.queueContext.deleteMethod({
         abortSignal: options.abortSignal,
@@ -610,7 +610,7 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<QueueGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.tracingOptions);
     try {
       return this.queueContext.getProperties({
         abortSignal: options.abortSignal,
@@ -643,7 +643,7 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<QueueSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.tracingOptions);
     try {
       return this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
@@ -676,7 +676,7 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
@@ -729,7 +729,7 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<QueueSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.tracingOptions);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of queueAcl || []) {
@@ -770,7 +770,7 @@ export class QueueClient extends StorageClient {
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
   ): Promise<QueueClearMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.tracingOptions);
     try {
       return this.messagesContext.clear({
         abortSignal: options.abortSignal,
@@ -803,7 +803,7 @@ export class QueueClient extends StorageClient {
     messageText: string,
     options: QueueSendMessageOptions = {}
   ): Promise<QueueSendMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.tracingOptions);
     try {
       const response = await this.messagesContext.enqueue(
         {
@@ -851,7 +851,7 @@ export class QueueClient extends StorageClient {
   public async receiveMessages(
     options: QueueReceiveMessageOptions = {}
   ): Promise<QueueReceiveMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.dequeue({
         abortSignal: options.abortSignal,
@@ -896,7 +896,7 @@ export class QueueClient extends StorageClient {
   public async peekMessages(
     options: QueuePeekMessagesOptions = {}
   ): Promise<QueuePeekMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.peek({
         abortSignal: options.abortSignal,
@@ -945,7 +945,7 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     options: QueueDeleteMessageOptions = {}
   ): Promise<QueueDeleteMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
     try {
       return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
         abortSignal: options.abortSignal,
@@ -987,7 +987,7 @@ export class QueueClient extends StorageClient {
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
     try {
       return this.getMessageIdContext(messageId).update(
         {

@@ -479,7 +479,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
       return this.context.create({
         ...options,
@@ -538,10 +538,13 @@ export class ShareClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
-    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.tracingOptions);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      const directoryCreateResponse = await directoryClient.create({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
       return {
         directoryClient,
         directoryCreateResponse
@@ -571,10 +574,13 @@ export class ShareClient extends StorageClient {
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.tracingOptions);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({ ...options, spanOptions });
+      return await directoryClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -602,11 +608,14 @@ export class ShareClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {}
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, spanOptions } = createSpan("ShareClient-createFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createFile", options.tracingOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      const fileCreateResponse = await fileClient.create(size, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
       return {
         fileClient,
         fileCreateResponse
@@ -646,11 +655,14 @@ export class ShareClient extends StorageClient {
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.tracingOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      return await fileClient.delete({ ...options, spanOptions });
+      return await fileClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -673,7 +685,7 @@ export class ShareClient extends StorageClient {
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<ShareGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -700,7 +712,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-delete", options.tracingOptions);
     try {
       return this.context.deleteMethod({
         ...options,
@@ -733,7 +745,7 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<ShareSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
     try {
       return this.context.setMetadata({
         abortSignal: options.abortSignal,
@@ -767,7 +779,7 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.context.getAccessPolicy({
         abortSignal: options.abortSignal,
@@ -825,7 +837,7 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<ShareSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.tracingOptions);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of shareAcl || []) {
@@ -865,7 +877,7 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<ShareCreateSnapshotResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.tracingOptions);
     try {
       return this.context.createSnapshot({
         abortSignal: options.abortSignal,
@@ -895,7 +907,7 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<ShareSetQuotaResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.tracingOptions);
     try {
       if (quotaInGB <= 0 || quotaInGB > 5120) {
         throw new RangeError(
@@ -928,7 +940,7 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.tracingOptions);
     try {
       const response = await this.context.getStatistics({
         abortSignal: options.abortSignal,
@@ -960,7 +972,10 @@ export class ShareClient extends StorageClient {
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
   ): Promise<ShareCreatePermissionResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-createPermission", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareClient-createPermission",
+      options.tracingOptions
+    );
     try {
       return this.context.createPermission(
         {
@@ -994,7 +1009,7 @@ export class ShareClient extends StorageClient {
     filePermissionKey: string,
     options: ShareGetPermissionOptions = {}
   ): Promise<ShareGetPermissionResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
     try {
       return this.context.getPermission(filePermissionKey, {
         aborterSignal: options.abortSignal,
