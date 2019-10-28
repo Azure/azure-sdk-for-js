@@ -7,8 +7,6 @@ import {
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
@@ -16,20 +14,21 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions,
+  UserAgentOptions,
+  KeepAliveOptions,
+  keepAlivePolicy,
+  generateClientRequestIdPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters
@@ -40,9 +39,7 @@ import {
 export {
   deserializationPolicy,
   IHttpClient,
-  IHttpPipelineLogger,
   HttpHeaders,
-  HttpPipelineLogLevel,
   HttpOperationResponse,
   HttpRequestBody,
   WebResource,
@@ -60,19 +57,12 @@ export {
  */
 export interface PipelineOptions {
   /**
-   * Optional. Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof PipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
-  /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HttpClient?: IHttpClient;
+  httpClient?: IHttpClient;
 }
 
 /**
@@ -122,8 +112,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HttpClient,
-      httpPipelineLogger: this.options.logger,
+      httpClient: this.options.httpClient,
       requestPolicyFactories: this.factories
     };
   }
@@ -136,14 +125,17 @@ export class Pipeline {
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxy?: ProxySettings | string;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options to configure a proxy for outgoing requests.
+   */
+  proxyOptions?: ProxyOptions;
+  /**
+   * Options for adding user agent details to outgoing requests.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
@@ -158,13 +150,6 @@ export interface StoragePipelineOptions {
    * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
-  /**
-   * Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof StoragePipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
@@ -192,9 +177,9 @@ export function newPipeline(
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
-    new UniqueRequestIDPolicyFactory(),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    generateClientRequestIdPolicy(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
@@ -207,18 +192,11 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(credential);
 
   return new Pipeline(factories, {
-    HttpClient: pipelineOptions.httpClient,
-    logger: pipelineOptions.logger
+    httpClient: pipelineOptions.httpClient
   });
 }
