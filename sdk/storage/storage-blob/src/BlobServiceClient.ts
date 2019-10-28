@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { TokenCredential, isTokenCredential, isNode, HttpResponse, getDefaultProxySettings } from "@azure/core-http";
+import {
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  HttpResponse,
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -25,14 +31,14 @@ import {
   ContainerDeleteMethodOptions
 } from "./ContainerClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient, CommonOptions } from "./internal";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { CommonOptions, StorageClient } from "./StorageClient";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -293,7 +299,7 @@ export class BlobServiceClient extends StorageClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
@@ -319,7 +325,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -327,7 +333,7 @@ export class BlobServiceClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -343,14 +349,14 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
@@ -394,11 +400,14 @@ export class BlobServiceClient extends StorageClient {
   }> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-createContainer",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      const containerCreateResponse = await containerClient.create({ ...options, spanOptions });
+      const containerCreateResponse = await containerClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         containerClient,
         containerCreateResponse
@@ -428,11 +437,14 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ContainerDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-deleteContainer",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      return await containerClient.delete({ ...options, spanOptions });
+      return await containerClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -458,7 +470,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getProperties({
@@ -492,7 +504,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.setProperties(properties, {
@@ -525,7 +537,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getStatistics",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getStatistics({
@@ -559,7 +571,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetAccountInfoResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getAccountInfo",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getAccountInfo({
@@ -598,7 +610,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceListContainersSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-listContainersSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.listContainersSegment({
@@ -792,7 +804,7 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getUserDelegationKey",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const response = await this.serviceContext.getUserDelegationKey(

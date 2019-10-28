@@ -18,7 +18,7 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -181,7 +181,7 @@ export class ShareServiceClient extends StorageClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
@@ -206,7 +206,7 @@ export class ShareServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareServiceClient
@@ -265,10 +265,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-createShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-createShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      const shareCreateResponse = await shareClient.create({ ...options, spanOptions });
+      const shareCreateResponse = await shareClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         shareCreateResponse,
         shareClient
@@ -296,10 +302,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-deleteShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-deleteShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      return await shareClient.delete({ ...options, spanOptions });
+      return await shareClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -325,7 +337,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.getProperties({
@@ -359,7 +371,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.setProperties(properties, {
@@ -554,7 +566,7 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceListSharesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-listSharesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.serviceContext.listSharesSegment({

@@ -8,7 +8,7 @@ import {
   ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
-  SharedKeyCredential
+  StorageSharedKeyCredential
 } from "../../src";
 import { ShareFileClient } from "../../src/ShareFileClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
@@ -54,7 +54,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -84,7 +84,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -118,7 +118,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btq").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -152,7 +152,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -193,7 +193,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2018-03-28"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
@@ -251,7 +251,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
@@ -311,7 +311,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         identifier: id,
         shareName
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;

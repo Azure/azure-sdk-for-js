@@ -8,10 +8,11 @@
   "browser": {
     "./dist/index.js": "./browser/azure-storage-blob.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
-    "./dist-esm/src/credentials/SharedKeyCredential.js": "./dist-esm/src/credentials/SharedKeyCredential.browser.js",
+    "./dist-esm/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "./dist-esm/src/BatchUtils.js": "./dist-esm/src/BatchUtils.browser.js",
     "./dist-esm/src/BlobDownloadResponse.js": "./dist-esm/src/BlobDownloadResponse.browser.js",
+    "fs": false,
     "os": false,
     "process": false
   },

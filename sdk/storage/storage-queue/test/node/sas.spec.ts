@@ -10,7 +10,7 @@ import {
   generateAccountSASQueryParameters,
   generateQueueSASQueryParameters,
   QueueServiceClient,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
@@ -52,7 +52,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${queueServiceClient.url}?${sas}`;
@@ -79,7 +79,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${queueServiceClient.url}?${sas}`;
@@ -113,7 +113,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("b").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${queueServiceClient.url}?${sas}`;
@@ -150,7 +150,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${queueServiceClient.url}?${sas}`;
@@ -194,7 +194,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${queueClient.url}?${queueSAS}`;
@@ -229,7 +229,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startTime: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const messageContent = "Hello World!";
@@ -287,7 +287,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         queueName: queueClient.name,
         identifier: id
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${queueClient.url}?${queueSAS}`;

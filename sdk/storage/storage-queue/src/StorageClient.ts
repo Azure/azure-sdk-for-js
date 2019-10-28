@@ -11,7 +11,14 @@ import { SpanOptions } from "@azure/core-tracing";
  */
 export interface CommonOptions {
   /**
-   * Options used to create a span when tracing is enabled.
+   * Options to configure spans created when tracing is enabled.
+   */
+  tracingOptions?: OperationTracingOptions;
+}
+
+export interface OperationTracingOptions {
+  /**
+   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
 }
