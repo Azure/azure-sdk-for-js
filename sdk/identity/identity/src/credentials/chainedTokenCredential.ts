@@ -13,6 +13,18 @@ import { CanonicalCode } from "@azure/core-tracing";
 export class ChainedTokenCredential implements TokenCredential {
   private _sources: TokenCredential[] = [];
 
+  /**
+   * Create a ChainedTokenCredential with the given TokenCredential sources
+   * 
+   * @param sources {@link TokenCredential} implementations to be tried in order
+   * 
+   * Example usage:
+   * ```javascript
+   * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+   * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+   * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
+   * ```
+   */
   constructor(...sources: TokenCredential[]) {
     this._sources = sources;
   }
