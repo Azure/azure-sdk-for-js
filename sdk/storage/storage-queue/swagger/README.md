@@ -204,3 +204,18 @@ directive:
     where: $.parameters.ApiVersionParameter
     transform: $.enum = [ "2019-02-02" ];
 ```
+
+### Add ClientRequestId from "2019-02-02"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"][*]..responses..headers
+    transform: >
+      if (!$["x-ms-client-request-id"]) {
+        $["x-ms-client-request-id"] = {};
+        $["x-ms-client-request-id"]["x-ms-client-name"] = "ClientRequestId";
+        $["x-ms-client-request-id"].type = "string";
+        $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
+      }
+```
