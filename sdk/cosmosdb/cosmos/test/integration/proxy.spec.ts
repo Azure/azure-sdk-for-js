@@ -29,7 +29,7 @@ if (!isBrowser()) {
     });
 
     const proxyPort = 8989;
-    const agent = new ProxyAgent(`http://127.0.0.1:${8989}`);
+    const agent = new ProxyAgent(`http://127.0.0.1:${8989}`) as any;
 
     it("nativeApi Client Should successfully execute request", async function() {
       return new Promise((resolve, reject) => {

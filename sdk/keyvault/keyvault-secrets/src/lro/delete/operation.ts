@@ -11,8 +11,17 @@ import { DeletedSecret, SecretClientInterface } from "../../secretsModels";
  * An interface representing the state of a delete secret's poll operation
  */
 export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
+  /**
+   * @member {string} [name] The name of the secret.
+   */
   name: string;
+  /**
+   * @member {RequestOptionsBase} [requestOptions] Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * @member {SecretClientInterface} [client] An interface representing a SecretClient. For internal use.
+   */
   client: SecretClientInterface;
 }
 

@@ -4,20 +4,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 export const Constants = {
-  MediaTypes: {
-    Any: "*/*",
-    ImageJpeg: "image/jpeg",
-    ImagePng: "image/png",
-    Javascript: "application/x-javascript",
-    Json: "application/json",
-    OctetStream: "application/octet-stream",
-    QueryJson: "application/query+json",
-    SQL: "application/sql",
-    TextHtml: "text/html",
-    TextPlain: "text/plain",
-    Xml: "application/xml"
-  },
-
   HttpHeaders: {
     Authorization: "authorization",
     ETag: "etag",
@@ -160,8 +146,6 @@ export const Constants = {
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
-  Name: "name",
-  DatabaseAccountEndpoint: "databaseAccountEndpoint",
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -177,23 +161,6 @@ export const Constants = {
 
   SDKName: "azure-cosmos-js",
   SDKVersion: "REPLACE_SDK_VERSION",
-
-  DefaultPrecisions: {
-    DefaultNumberHashPrecision: 3,
-    DefaultNumberRangePrecision: -1,
-    DefaultStringHashPrecision: 3,
-    DefaultStringRangePrecision: -1
-  },
-
-  ConsistentHashRing: {
-    DefaultVirtualNodesPerCollection: 128
-  },
-
-  RegularExpressions: {
-    TrimLeftSlashes: new RegExp("^[/]+"),
-    TrimRightSlashes: new RegExp("[/]+$"),
-    IllegalResourceIdCharacters: new RegExp("[/\\\\?#]")
-  },
 
   Quota: {
     CollectionSize: "collectionSize"

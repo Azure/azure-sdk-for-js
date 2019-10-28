@@ -1,5 +1,5 @@
-import { GetKeyOptions, CryptographyOptions } from "./keysModels";
-import { JsonWebKey, JsonWebKeyEncryptionAlgorithm } from "./core/models";
+import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
+import { JsonWebKeyEncryptionAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials,
   TokenCredential,
@@ -648,7 +648,6 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(url, jsonWebKey, credentials);
    * ```
-   * @param url The base URL to the vault
    * @param key The key to use during cryptography tasks
    * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
@@ -656,12 +655,10 @@ export class CryptographyClient {
    * @memberof CryptographyClient
    */
   constructor(
-    vaultUrl: string,
-    key: string | JsonWebKey, // keyUrl or JsonWebKey
+    key: string | KeyVaultKey, // keyUrl or KeyVaultKey
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultUrl = vaultUrl;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
@@ -698,15 +695,17 @@ export class CryptographyClient {
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
 
-    this.key = key;
-
     let parsed;
-    if (typeof this.key === "string") {
+    if (typeof key === "string") {
+      this.key = key;
       parsed = parseKeyvaultIdentifier("keys", this.key);
       this.hasTriedToGetKey = false;
-    } else {
+    } else if (key.key) {
+      this.key = key.key;
       parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
       this.hasTriedToGetKey = true;
+    } else {
+      throw new Error("The provided key is malformed as it does not have a value for the `key` property.");
     }
 
     if (parsed.name == "") {
@@ -717,6 +716,11 @@ export class CryptographyClient {
       throw new Error("Could not find 'version' of key in key URL");
     }
 
+    if (!parsed.vaultUrl || parsed.vaultUrl == "") {
+      throw new Error("Could not find 'vaultUrl' of key in key URL");
+    }
+
+    this.vaultUrl = parsed.vaultUrl;
     this.name = parsed.name;
     this.version = parsed.version;
   }

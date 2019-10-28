@@ -22,8 +22,7 @@
     "types/*.d.ts",
     "dist-esm/**/*.js",
     "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-paging",
