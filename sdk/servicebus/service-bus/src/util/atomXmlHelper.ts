@@ -338,7 +338,7 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
       Object.keys(errorProperties).forEach((property: string) => {
         let value = errorProperties[property];
         if (property === Constants.ODATA_ERROR_MESSAGE && typeof value !== "string") {
-          if (value[Constants.ODATA_ERROR_MESSAGE_VALUE]) {
+          if (value && value[Constants.ODATA_ERROR_MESSAGE_VALUE]) {
             value = value[Constants.ODATA_ERROR_MESSAGE_VALUE];
           } else {
             value = "missing value in the message property of the odata error format";

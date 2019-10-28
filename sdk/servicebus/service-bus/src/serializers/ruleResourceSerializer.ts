@@ -36,7 +36,7 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * @param rawRule
  */
 export function buildRule(rawRule: any): Rule | undefined {
-  if (rawRule == undefined || rawRule == {}) {
+  if (rawRule == undefined) {
     return undefined;
   }
   return {

@@ -234,7 +234,7 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * or undefined if not passed in. Treats empty string as invalid JSON
  * @param value
  */
-export function getJSONOrUndefined(value: any): number | undefined {
+export function getJSONOrUndefined(value: any): any | undefined {
   if (value == undefined || (typeof value === "string" && !value)) {
     return undefined;
   }
