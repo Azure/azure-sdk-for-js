@@ -672,6 +672,15 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
 export const StorageOAuthScopes: string | string[];
 
 // @public
+export interface StoragePipelineOptions {
+    httpClient?: IHttpClient;
+    keepAliveOptions?: KeepAliveOptions;
+    proxyOptions?: ProxyOptions;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentOptions;
+}
+
+// @public
 export interface StorageRetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly maxTries?: number;
@@ -699,30 +708,6 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
 export enum StorageRetryPolicyType {
     EXPONENTIAL = 0,
     FIXED = 1
-}
-
-// @public
-export interface TelemetryOptions {
-    value: string;
-}
-
-// @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
-    }
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-export interface StoragePipelineOptions {
-    httpClient?: IHttpClient;
-    keepAliveOptions?: KeepAliveOptions;
-    proxyOptions?: ProxyOptions;
-    retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
 }
 
 export { WebResource }
