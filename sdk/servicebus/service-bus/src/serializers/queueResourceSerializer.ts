@@ -51,7 +51,8 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 
 /**
  * @ignore
- * Builds the queue object
+ * Builds the queue object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawQueue
  */
 export function buildQueue(rawQueue: any): QueueDetails | undefined {
