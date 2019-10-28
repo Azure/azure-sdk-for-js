@@ -19,7 +19,7 @@ export function createSpan(
     kind: SpanKind.CLIENT
   };
 
-  const span = tracer.startSpan(`Azure.Storage.Blob.${operationName}`, spanOptions);
+  const span = tracer.startSpan(`Azure.Storage.Queue.${operationName}`, spanOptions);
   span.setAttribute("component", "storage");
 
   let newOptions = tracingOptions.spanOptions || {};
