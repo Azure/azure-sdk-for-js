@@ -41,7 +41,7 @@ describe("NodeJS CRUD Tests", function() {
             const items = obj.split("=");
             map[items[0]] = items[1];
             return map;
-          }, {})[Constants.Quota.CollectionSize]
+          }, {}).collectionSize
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 

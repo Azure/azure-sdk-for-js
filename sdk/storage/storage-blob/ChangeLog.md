@@ -2,11 +2,12 @@
 
 ## 2019.11 12.0.0-preview.6
 
+- Bug Fix - Previous versions of `@azure/storage-blob` preview library failed for React apps because of the usage of `fs.stat` method which is not available in browsers and due to the presence of some circular dependencies.  Both of these issues are fixed in this new release.
 - [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - [Breaking] The properties in the `StoragePipelineOptions` interface have been updated as below:
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
-    will be of type `ProxyOptions`. The helper function `getDefaultProxySettings()` can be used to
-    convert a proxy url to `ProxyOptions`.
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
   - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
     type `UserAgentOptions`.
   - The `logger` is no longer a property available to configure. To enable logging, please see the

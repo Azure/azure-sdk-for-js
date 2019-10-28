@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { digest } from "../../utils/digest";
-import stableStringify from "fast-json-stable-stringify";
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
+import { hashObject } from "../../utils/hashObject";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -15,8 +14,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   public async nextItem(): Promise<Response<any>> {
     const { headers, result } = await this.executionContext.nextItem();
     if (result) {
-      const stringifiedResult = stableStringify(result);
-      const hashedResult = await digest(stringifiedResult);
+      const hashedResult = await hashObject(result);
       if (this.hashedResults.has(hashedResult)) {
         return { result: undefined, headers };
       }

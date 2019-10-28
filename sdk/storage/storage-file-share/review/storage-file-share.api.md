@@ -10,13 +10,12 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
@@ -25,6 +24,7 @@ import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { SpanOptions } from '@azure/core-tracing';
 import { TransferProgressEvent } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -92,8 +92,10 @@ export class BrowserPolicyFactory implements RequestPolicyFactory {
 
 // @public
 export interface CommonOptions {
+    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
+    // 
     // (undocumented)
-    spanOptions?: SpanOptions;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -669,13 +671,9 @@ export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
@@ -696,8 +694,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HttpClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
 // @public
@@ -1205,38 +1202,17 @@ export interface SourceModifiedAccessConditions {
 // @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
+    proxyOptions?: ProxyOptions;
     retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
+    userAgentOptions?: UserAgentOptions;
 }
-
-// @public
-export interface TelemetryOptions {
-    value: string;
-}
-
-// @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
-    }
 
 // @public
 export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-}
 
 export { WebResource }
 
