@@ -521,7 +521,9 @@ describe("FileClient", () => {
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     rootSpan.end();
 
