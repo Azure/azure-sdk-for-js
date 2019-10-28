@@ -82,7 +82,7 @@ describe("EventHubConsumerClient", () => {
         eventHubClient.close();
       });
 
-      it.only("Receive from a single partition #RunnableInBrowser", async function (): Promise<
+      it("Receive from a single partition #RunnableInBrowser", async function (): Promise<
         void
       > {
         const expectedMessageBodies: string[] = await produceMessagesForTest(["0"], eventHubClient);
