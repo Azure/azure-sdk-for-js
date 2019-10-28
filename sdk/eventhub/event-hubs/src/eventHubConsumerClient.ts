@@ -115,8 +115,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         optionsOrPartitionIdsOrPartitionManager as PartitionManager,
         {
-          ...possibleOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          ...possibleOptions
         }
       );
     } else {
