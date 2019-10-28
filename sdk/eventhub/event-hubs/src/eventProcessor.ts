@@ -167,6 +167,17 @@ export interface EventProcessorOptions {
    */
   trackLastEnqueuedEventInfo?: boolean;
 
+  /**
+   * The event position to use when claiming a partition if not already
+   * initialized.
+   * 
+   * Defaults to EventPosition.earliest()
+   */
+  defaultEventPosition?: EventPosition;
+
+  /**
+   * A load balancer to use
+   */
   partitionLoadBalancer?: PartitionLoadBalancer
 }
 
@@ -240,7 +251,7 @@ export class EventProcessor {
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
-    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
+    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
     this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
@@ -308,7 +319,7 @@ export class EventProcessor {
 
       const eventPosition = ownershipRequest.sequenceNumber
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : EventPosition.earliest();
+        : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -356,7 +367,6 @@ export class EventProcessor {
             partitionIds
           );
           if (partitionToClaims) {
-
             for (const partitionToClaim of partitionToClaims) {
               await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
             }

@@ -85,9 +85,7 @@ describe("EventHubConsumerClient", () => {
       it("Receive from a single partition #RunnableInBrowser", async function (): Promise<
         void
       > {
-        const expectedMessageBodies: string[] = await produceMessagesForTest(["0"], eventHubClient);
-
-        const tester = new ReceivedMessagesTester(partitionIds, expectedMessageBodies, false);
+        const tester = new ReceivedMessagesTester(["0"], false);
 
         const subscriber = await client.subscribe(
           ["0"],
@@ -95,45 +93,37 @@ describe("EventHubConsumerClient", () => {
           tester
         );
 
-        await tester.poll();
+        await tester.runTestAndPoll(eventHubClient);
         await subscriber.stop();
       });
 
       it("Receive from all partitions with no coordination #RunnableInBrowser", async function (): Promise<
         void
       > {
-        const expectedMessageBodies: string[] = await produceMessagesForTest(
-          partitionIds,
-          eventHubClient
-        );
-
-        const tester = new ReceivedMessagesTester(partitionIds, expectedMessageBodies, false);
+        const tester = new ReceivedMessagesTester(partitionIds, false);
 
         const subscriber = await client.subscribe(
           (events, context) => tester.onReceivedEvents(events, context),
           tester
         );
 
-        await tester.poll();
+        await tester.runTestAndPoll(eventHubClient);
         await subscriber.stop();
       });
 
       it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function (): Promise<
         void
-      > {
-        const expectedMessageBodies: string[] = await produceMessagesForTest(
-          partitionIds,
-          eventHubClient
-        );
-
-        const tester = new ReceivedMessagesTester(partitionIds, expectedMessageBodies, true);
-
+        > {
+        // fast forward our partition manager so it starts reading from the latest offset
+        // instead of the beginning of time.
         const inMemoryPartitionManager = new InMemoryPartitionManager();
+
+        const tester = new ReceivedMessagesTester(partitionIds, true);
 
         const subscriber1 = await client.subscribe(
           inMemoryPartitionManager,
           (events, context) => tester.onReceivedEvents(events, context),
-          tester
+          tester          
         );
 
         const subscriber2 = await client.subscribe(
@@ -142,23 +132,9 @@ describe("EventHubConsumerClient", () => {
           tester
         );
 
-        await tester.poll();
+        await tester.runTestAndPoll(eventHubClient);
         await subscriber1.stop();
         await subscriber2.stop();
       });
     });
-  });
-
-async function produceMessagesForTest(partitionIds: string[], eventHubClient: EventHubClient) {
-  const expectedMessagePrefix = `EventHubConsumerClient test - Receive from multiple partitions - ${Date.now().toString()}`;
-  const expectedMessageBodies: string[] = [];
-
-  for (const partitionId of partitionIds) {
-    const producer = eventHubClient.createProducer({ partitionId });
-    const body = `${expectedMessagePrefix}-${partitionId}`;
-    await producer.send({ body: body });
-    await producer.close();
-    expectedMessageBodies.push(body);
-  }
-  return expectedMessageBodies;
-}
+});

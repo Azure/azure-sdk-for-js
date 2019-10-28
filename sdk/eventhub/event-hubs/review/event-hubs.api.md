@@ -188,11 +188,9 @@ export class EventProcessor {
 
 // @public
 export interface EventProcessorOptions {
+    defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
-    // Warning: (ae-forgotten-export) The symbol "PartitionLoadBalancer" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
     partitionLoadBalancer?: PartitionLoadBalancer;
     trackLastEnqueuedEventInfo?: boolean;
 }
@@ -238,6 +236,12 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 // @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
+}
+
+// @public (undocumented)
+export interface PartitionLoadBalancer {
+    // (undocumented)
+    loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[];
 }
 
 // @public

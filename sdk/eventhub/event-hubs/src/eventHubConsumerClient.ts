@@ -82,7 +82,11 @@ export class EventHubConsumerClient {
         this.consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
-        new InMemoryPartitionManager()
+        new InMemoryPartitionManager(),
+        {
+          ...optionsOrOnReceivedEvents as SubscriptionOptions,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+        }
       );
     } else if (Array.isArray(onReceivedEventsOrPartitionIdsOrPartitionManager)) {
       // 2nd constructor (read from specific partition IDs), don't coordinate
@@ -97,6 +101,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
+          ...possibleOptions,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer(onReceivedEventsOrPartitionIdsOrPartitionManager as string[])
         }
@@ -114,6 +119,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         onReceivedEventsOrPartitionIdsOrPartitionManager as PartitionManager,
         {
+          ...possibleOptions,
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
