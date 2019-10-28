@@ -481,7 +481,7 @@ export class ShareClient extends StorageClient {
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
-      return this.context.create({
+      return await this.context.create({
         ...options,
         spanOptions
       });
@@ -687,7 +687,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -714,7 +714,7 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         ...options,
         spanOptions
       });
@@ -747,7 +747,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetMetadataResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -851,7 +851,7 @@ export class ShareClient extends StorageClient {
         });
       }
 
-      return this.context.setAccessPolicy({
+      return await this.context.setAccessPolicy({
         abortSignal: options.abortSignal,
         shareAcl: acl,
         spanOptions
@@ -879,7 +879,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareCreateSnapshotResponse> {
     const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.tracingOptions);
     try {
-      return this.context.createSnapshot({
+      return await this.context.createSnapshot({
         abortSignal: options.abortSignal,
         ...options,
         spanOptions
@@ -914,7 +914,7 @@ export class ShareClient extends StorageClient {
           `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
         );
       }
-      return this.context.setQuota({
+      return await this.context.setQuota({
         abortSignal: options.abortSignal,
         quota: quotaInGB,
         spanOptions
@@ -977,7 +977,7 @@ export class ShareClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.createPermission(
+      return await this.context.createPermission(
         {
           permission: filePermission
         },
@@ -1011,7 +1011,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPermissionResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
     try {
-      return this.context.getPermission(filePermissionKey, {
+      return await this.context.getPermission(filePermissionKey, {
         aborterSignal: options.abortSignal,
         spanOptions
       });

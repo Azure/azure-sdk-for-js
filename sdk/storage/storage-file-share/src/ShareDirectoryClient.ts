@@ -388,7 +388,7 @@ export class ShareDirectoryClient extends StorageClient {
         options.fileAttributes = attributes;
       }
 
-      return this.context.create(
+      return await this.context.create(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -430,7 +430,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
-      return this.context.setProperties(
+      return await this.context.setProperties(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -658,7 +658,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -685,7 +685,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -718,7 +718,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -923,7 +923,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.listFilesAndDirectoriesSegment({
+      return await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
         spanOptions
@@ -1158,7 +1158,7 @@ export class ShareDirectoryClient extends StorageClient {
     );
     try {
       marker = marker === "" ? undefined : marker;
-      return this.context.forceCloseHandles("*", {
+      return await this.context.forceCloseHandles("*", {
         marker,
         ...options,
         spanOptions
@@ -1241,7 +1241,7 @@ export class ShareDirectoryClient extends StorageClient {
         );
       }
 
-      return this.context.forceCloseHandles(handleId, {
+      return await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         spanOptions
       });

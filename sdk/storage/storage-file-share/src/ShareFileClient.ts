@@ -769,7 +769,7 @@ export class ShareFileClient extends StorageClient {
 
       options.fileHttpHeaders = options.fileHttpHeaders || {};
 
-      return this.context.create(
+      return await this.context.create(
         size,
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
@@ -942,7 +942,7 @@ export class ShareFileClient extends StorageClient {
 
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
-      return this.context.setHTTPHeaders(
+      return await this.context.setHTTPHeaders(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -986,7 +986,7 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareFileClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -1025,7 +1025,7 @@ export class ShareFileClient extends StorageClient {
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
-      return this.context.setHTTPHeaders(
+      return await this.context.setHTTPHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -1072,7 +1072,7 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return this.context.setHTTPHeaders(
+      return await this.context.setHTTPHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -1113,7 +1113,7 @@ export class ShareFileClient extends StorageClient {
   ): Promise<FileSetMetadataResponse> {
     const { span, spanOptions } = createSpan("ShareFileClient-setMetadata", options.tracingOptions);
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -1162,7 +1162,7 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
       }
 
-      return this.context.uploadRange(
+      return await this.context.uploadRange(
         rangeToString({ count: contentLength, offset }),
         "update",
         contentLength,
@@ -1217,7 +1217,7 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
       }
 
-      return this.context.uploadRangeFromURL(
+      return await this.context.uploadRangeFromURL(
         rangeToString({ offset: destOffset, count }),
         sourceURL,
         rangeToString({ offset: sourceOffset, count }),
@@ -1260,10 +1260,15 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
       }
 
-      return this.context.uploadRange(rangeToString({ count: contentLength, offset }), "clear", 0, {
-        abortSignal: options.abortSignal,
-        spanOptions
-      });
+      return await this.context.uploadRange(
+        rangeToString({ count: contentLength, offset }),
+        "clear",
+        0,
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1342,7 +1347,7 @@ export class ShareFileClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.startCopy(copySource, {
+      return await this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         spanOptions
@@ -1377,7 +1382,7 @@ export class ShareFileClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.abortCopy(copyId, {
+      return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -1413,7 +1418,7 @@ export class ShareFileClient extends StorageClient {
     );
     try {
       const browserBlob = new Blob([browserData]);
-      return this.uploadSeekableBlob(
+      return await this.uploadSeekableBlob(
         (offset: number, size: number): Blob => {
           return browserBlob.slice(offset, offset + size);
         },
@@ -1501,7 +1506,7 @@ export class ShareFileClient extends StorageClient {
           }
         );
       }
-      return batch.do();
+      return await batch.do();
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1530,7 +1535,7 @@ export class ShareFileClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
-      return this.uploadResetableStream(
+      return await this.uploadResetableStream(
         (offset, count) =>
           fs.createReadStream(filePath, {
             autoClose: true,
@@ -1629,7 +1634,7 @@ export class ShareFileClient extends StorageClient {
           }
         );
       }
-      return batch.do();
+      return await batch.do();
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1827,7 +1832,7 @@ export class ShareFileClient extends StorageClient {
         // Outgoing queue shouldn't be empty.
         Math.ceil((maxBuffers / 4) * 3)
       );
-      return scheduler.do();
+      return await scheduler.do();
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -2048,7 +2053,7 @@ export class ShareFileClient extends StorageClient {
     );
     try {
       marker = marker === "" ? undefined : marker;
-      return this.context.forceCloseHandles("*", {
+      return await this.context.forceCloseHandles("*", {
         abortSignal: options.abortSignal,
         marker,
         spanOptions
@@ -2127,7 +2132,7 @@ export class ShareFileClient extends StorageClient {
         );
       }
 
-      return this.context.forceCloseHandles(handleId, {
+      return await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         spanOptions
       });

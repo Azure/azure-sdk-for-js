@@ -234,7 +234,11 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -475,7 +479,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -509,7 +513,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -542,7 +546,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
