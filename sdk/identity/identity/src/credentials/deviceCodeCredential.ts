@@ -70,8 +70,7 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
-   * @param The Azure Active Directory tenant (directory) ID or name.
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantId The Azure Active Directory tenant (directory) ID or name. 
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
@@ -220,7 +219,7 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
