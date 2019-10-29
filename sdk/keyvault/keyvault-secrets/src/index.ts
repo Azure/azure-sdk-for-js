@@ -85,10 +85,10 @@ export {
 const SERVICE_API_VERSION = "7.0";
 
 /**
- * The SecretClient provides methods to manage KeyVaultSecret in
+ * The SecretClient provides methods to manage {@link KeyVaultSecret} in
  * the Azure Key Vault. The client supports creating, retrieving, updating,
  * deleting, purging, backing up, restoring and listing KeyVaultSecrets. The
- * client also supports listing DeletedSecret for a soft-delete enabled Azure
+ * client also supports listing {@link DeletedSecret} for a soft-delete enabled Azure
  * Key Vault.
  */
 export class SecretClient {

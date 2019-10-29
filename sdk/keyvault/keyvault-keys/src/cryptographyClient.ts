@@ -68,7 +68,7 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
    * @param {Uint8Array} plaintext The text to encrypt.
    * @param {EncryptOptions} [options] Additional options.
    */
@@ -148,7 +148,7 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
-   * @param {JsonWebKeyEncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
    * @param {Uint8Array} ciphertext The text to decrypt.
    * @param {EncryptOptions} [options] Additional options.
    */
@@ -974,11 +974,11 @@ export interface DecryptResult {
    */
   result: Uint8Array;
   /**
-   * The ID of the KeyVault Key used to decrypt.
+   * The ID of the KeyVault Key used to decrypt the encrypted data.
    */
   keyID?: string;
   /**
-   * The {@link EncryptionAlgorithm} used to decrypt.
+   * The {@link EncryptionAlgorithm} used to decrypt the encrypted data.
    */
   algorithm: EncryptionAlgorithm;
 }
@@ -989,15 +989,15 @@ export interface DecryptResult {
  */
 export interface EncryptResult {
   /**
-   * Result of the operation
+   * Result of the {@link encrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to encrypt the data.
    */
   algorithm: EncryptionAlgorithm;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to encrypt the data.
    */
   keyID?: string;
 }
@@ -1008,15 +1008,15 @@ export interface EncryptResult {
  */
 export interface SignResult {
   /**
-   * Result of the operation
+   * Result of the {@link sign} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to sign the data.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to sign the data.
    */
   algorithm: SignatureAlgorithm;
 }
@@ -1027,11 +1027,11 @@ export interface SignResult {
  */
 export interface VerifyResult {
   /**
-   * Result of the operation
+   * Result of the {@link verify} operation in bytes.
    */
   result: boolean;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to verify the data.
    */
   keyID?: string;
 }
@@ -1042,15 +1042,15 @@ export interface VerifyResult {
  */
 export interface WrapResult {
   /**
-   * Result of the operation
+   * Result of the {@link wrap} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to wrap the data.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to wrap the data.
    */
   algorithm: KeyWrapAlgorithm;
 }
@@ -1061,11 +1061,11 @@ export interface WrapResult {
  */
 export interface UnwrapResult {
   /**
-   * Result of the operation
+   * Result of the {@link unwrap} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to unwrap the data.
    */
   keyID?: string;
 }
