@@ -266,11 +266,7 @@ export function getJSObjectOrUndefined(value: any): any | undefined {
  * @param value
  */
 function isJSONLikeObject(value: any): boolean {
-  const formattedStringValue = JSON.stringify(value);
-  if (typeof value === "object" && formattedStringValue.startsWith("{")) {
-    return true;
-  }
-  return false;
+  return typeof value === "object" && !(value instanceof Number) && !(value instanceof String);
 }
 
 /**
