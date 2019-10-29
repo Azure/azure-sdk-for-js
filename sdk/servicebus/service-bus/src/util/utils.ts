@@ -229,30 +229,48 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 }
 
 /**
- *  @ignore
- * Helper utility to check for and return JSON like object,
- * or undefined if not passed in. Treats empty string as `undefined`.
+ * @ignore
+ * Helper utility to check for and return valid JSON like object i.e.,
+ * a single JSON like object or array of JSON like objects.
  * @param value
  */
-export function getJSONOrUndefined(value: any): any | undefined {
-  if (value == undefined || (typeof value === "string" && value.trim() === "")) {
+export function getJSObjectOrUndefined(value: any): any | undefined {
+  if (value == undefined) {
     return undefined;
   }
 
-  const formattedStringValue = JSON.stringify(value);
-  if (!formattedStringValue.startsWith("{") && !formattedStringValue.startsWith("[")) {
-    throw new TypeError(
-      `${formattedStringValue} expected to be in proper JSON format, or undefined`
-    );
+  let isValidJSObject = true;
+
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      if (!isJSONLikeObject(value[i])) {
+        isValidJSObject = false;
+        break;
+      }
+    }
+  } else {
+    if (!isJSONLikeObject(value)) {
+      isValidJSObject = false;
+    }
   }
 
-  try {
-    return JSON.parse(formattedStringValue);
-  } catch (err) {
-    throw new TypeError(
-      `Error parsing JSON - ${JSON.stringify(value, undefined, 2)} : ${err.message} `
-    );
+  if (!isValidJSObject) {
+    throw new TypeError(`${value} expected to be in proper JSON format, or undefined`);
   }
+
+  return value;
+}
+
+/**
+ * Returns `true` if given input is a JSON like object.
+ * @param value
+ */
+function isJSONLikeObject(value: any): boolean {
+  const formattedStringValue = JSON.stringify(value);
+  if (typeof value === "object" && formattedStringValue.startsWith("{")) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -262,15 +280,14 @@ export function getJSONOrUndefined(value: any): any | undefined {
  * @param value
  */
 export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
-  const jsonValue: any = getJSONOrUndefined(value);
-  if (jsonValue != undefined) {
+  const jsObject: any = getJSObjectOrUndefined(value);
+  if (jsObject != undefined) {
     return {
-      activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]) || 0,
-      deadLetterMessageCount: parseInt(jsonValue["d2p1:DeadLetterMessageCount"]) || 0,
-      scheduledMessageCount: parseInt(jsonValue["d2p1:ScheduledMessageCount"]) || 0,
-      transferMessageCount: parseInt(jsonValue["d2p1:TransferMessageCount"]) || 0,
-      transferDeadLetterMessageCount:
-        parseInt(jsonValue["d2p1:TransferDeadLetterMessageCount"]) || 0
+      activeMessageCount: parseInt(jsObject["d2p1:ActiveMessageCount"]) || 0,
+      deadLetterMessageCount: parseInt(jsObject["d2p1:DeadLetterMessageCount"]) || 0,
+      scheduledMessageCount: parseInt(jsObject["d2p1:ScheduledMessageCount"]) || 0,
+      transferMessageCount: parseInt(jsObject["d2p1:TransferMessageCount"]) || 0,
+      transferDeadLetterMessageCount: parseInt(jsObject["d2p1:TransferDeadLetterMessageCount"]) || 0
     };
   }
   return undefined;
@@ -307,12 +324,18 @@ export type AuthorizationRule = {
  */
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
-  const jsonValue: any = getJSONOrUndefined(value);
-  if (jsonValue == undefined) {
+
+  // Ignore special case as Service Bus treats "" as a valid value for authorization rules
+  if (typeof value === "string" && value.trim() === "") {
+    return undefined;
+  }
+
+  const jsObject: any = getJSObjectOrUndefined(value);
+  if (jsObject == undefined) {
     return undefined;
   }
   try {
-    const rawAuthorizationRules = jsonValue.AuthorizationRule;
+    const rawAuthorizationRules = jsObject.AuthorizationRule;
     if (Array.isArray(rawAuthorizationRules)) {
       for (let i = 0; i < rawAuthorizationRules.length; i++) {
         authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
@@ -323,7 +346,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return authorizationRules;
   } catch (err) {
     throw new TypeError(
-      `${jsonValue} expected to be in expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
+      `${jsObject} expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
     );
   }
 }

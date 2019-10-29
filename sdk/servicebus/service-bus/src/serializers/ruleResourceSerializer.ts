@@ -10,7 +10,7 @@ import {
 } from "../util/atomXmlHelper";
 import {
   getIntegerOrUndefined,
-  getJSONOrUndefined,
+  getJSObjectOrUndefined,
   getStringOrUndefined,
   getBooleanOrUndefined
 } from "../util/utils";
@@ -318,13 +318,13 @@ type RawSqlParameter = {
  */
 export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
   const parameters: SqlParameter[] = [];
-  const jsonValue: any = getJSONOrUndefined(value);
-  if (jsonValue == undefined) {
+  const jsObject: any = getJSObjectOrUndefined(value);
+  if (jsObject == undefined) {
     return undefined;
   }
 
   try {
-    let rawParameters = jsonValue["KeyValueOfstringanyType"];
+    let rawParameters = jsObject["KeyValueOfstringanyType"];
     if (rawParameters && rawParameters.length && rawParameters.length > 0) {
       for (let i = 0; i < rawParameters.length; i++) {
         parameters.push(buildSqlParameter(rawParameters[i]));
@@ -336,12 +336,10 @@ export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefi
   } catch (err) {
     throw new TypeError(
       `${JSON.stringify(
-        jsonValue,
+        jsObject,
         undefined,
         2
-      )} expected to be in expected to be an array of Parameter instances, or undefined :: ${
-        err.message
-      }`
+      )} expected to be an array of Parameter instances, or undefined :: ${err.message}`
     );
   }
 }
