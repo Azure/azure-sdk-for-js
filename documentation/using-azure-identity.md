@@ -14,6 +14,7 @@ Azure services.
 - [Getting Started](#getting-started)
 - [Understanding the Credential Types](#understanding-the-credential-types)
 - [Choosing a Credential Type](#choosing-a-credential-type)
+- [Permissions and Consent](#permissions-and-consent)
 - [Credential Types in @azure/identity](#credential-types-in-azureidentity)
 
 ## Getting Started
@@ -178,6 +179,10 @@ to authenticate public or confidential clients.  To use this credential, you
 will need the `tenantId` and `clientId` of your app and a `username` and
 `password` of the user you are authenticating.
 
+Since this credential uses a user account to authenticate, the user or an
+administrator will need to grant consent to your application before they can
+successfully authenticate.
+
 This credential type supports multi-tenant app registrations so you may pass
 `organizations` as the `tenantId` to enable users from any organizational tenant
 to authenticate.
@@ -264,7 +269,15 @@ which enables authentication for clients that run completely in the browser.  It
 is primarily useful for single-page web applications (SPAs) which need to
 authenticate to access Azure resources and APIs directly.
 
-TODO: redirect_uri
+To use this credential successfully, your app registration will need to be
+configured with both the **Access tokens** and **ID tokens** options checked under
+**Implicit grant** in the **Authentication** page.
+
+You will also need to add a redirect URI in the **Redirect URIs** section of the
+**Authentication** page for your app registration.  The redirect URI must point
+to the URI of your web application.  You must also make sure to specify the same
+URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
+creating an `InteractiveBrowserCredential`.
 
 > NOTE: At this time, this credential can only be used in the browser but
 > Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
@@ -277,6 +290,10 @@ which enables input-constrained devices, like TVs or IoT devices, to
 authenticate by having the user enter a provided "device code" into an
 authorization site that the user visits on another device.
 
+This credential is treated as a public client and must have the **Treat
+application as a public client** setting enabled in the **Default client type**
+section of the **Authentication** page of your app registration.
+
 ### AuthenticationCodeCredential
 
 The `AuthenticationCodeCredential` follows the [authorization code
@@ -284,7 +301,16 @@ flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-
 which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
 
-TODO: redirect_uri
+This credential requires that the developer have an HTTP(S) endpoint exposed
+which can receive the authentication response redirect.  The URI at which you
+host this endpoint must be added to the **Redirect URIs** list on the
+**Authentication** page of your app registration.  If you are developing
+locally, you can also add a redirect URI for your development endpoint
+(e.g. `http://localhost:8080/authresponse`).
+
+A complete example of hosting your own authentication response endpoint can be
+found in the [`authorization code
+sample`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples).
 
 ### DefaultAzureCredential
 
