@@ -5798,15 +5798,6 @@ export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 
 export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 /**
- * Defines values for PremiumPageBlobAccessTier.
- * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
- * 'P80'
- * @readonly
- * @enum {string}
- */
-export type PremiumPageBlobAccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80';
-
-/**
  * Defines values for RehydratePriority.
  * Possible values include: 'High', 'Standard'
  * @readonly

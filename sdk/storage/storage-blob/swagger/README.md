@@ -311,6 +311,19 @@ directive:
       }
 ```
 
+### Remove PremiumPageBlobAccessTierOptional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      const response = $["PremiumPageBlobAccessTierOptional"];
+      if (response) {
+        delete $["PremiumPageBlobAccessTierOptional"];
+      }
+```
+
 ### Add ClientRequestId attribute to the `BlobBatchSubmitBatchResponse` (missing in the unified swagger)
 
 ```yaml
