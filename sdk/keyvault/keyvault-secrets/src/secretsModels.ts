@@ -40,7 +40,7 @@ export interface SecretClientInterface {
  */
 export interface KeyVaultSecret {
   /**
-	 * @member {SecretProperties} properties The properties of the {@link KeyVaultSecret}.
+   * @member {SecretProperties} properties The properties of the {@link KeyVaultSecret}.
    */
   properties: SecretProperties;
   /**
