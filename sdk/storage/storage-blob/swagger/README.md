@@ -296,3 +296,17 @@ directive:
     transform: >
       $["x-ms-client-name"] = "sourceContentCrc64";
 ```
+
+### Change tier type - PremiumPageBlobAccessTierOptional -> AccessTierOptional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?PageBlob"]
+    transform: >
+      const param = $.put.parameters[2];
+      if (param && param["$ref"] && param["$ref"].endsWith("PremiumPageBlobAccessTierOptional")) {
+          const path = param["$ref"].replace(/[#].*$/, "#/parameters/AccessTierOptional");
+          $.put.parameters[2] = { "$ref": path };
+      }
+```

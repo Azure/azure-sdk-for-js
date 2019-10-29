@@ -2100,10 +2100,10 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   timeoutInSeconds?: number;
   /**
-   * Optional. Indicates the tier to be set on the page blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80'
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    */
-  tier?: PremiumPageBlobAccessTier;
+  tier?: AccessTier;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
