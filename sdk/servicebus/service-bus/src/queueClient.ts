@@ -17,7 +17,6 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
-import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
@@ -206,8 +205,7 @@ export class QueueClient implements Client {
     );
 
     return this._context.managementClient!.peek(
-      maxMessageCount,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 
@@ -233,9 +231,7 @@ export class QueueClient implements Client {
 
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount,
-      undefined,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 
