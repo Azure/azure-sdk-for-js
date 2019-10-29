@@ -83,14 +83,14 @@ credential for your application:
 
   - **Do the Azure services you want to use support authentication with managed identities?**
 
-    - If so, use the `ManagedIdentityCredential`.
+    - If so, use the `ManagedIdentityCredential`
 
-    - If not, use the `EnvironmentCredential`.
+    - If not, use the `EnvironmentCredential`
 
   - **Do you want your application to pick the appropriate credential type based on the
 environment?**
 
-    - Use the `DefaultAzureCredential`.
+    - Use the `DefaultAzureCredential`
 
 - **Is the application deployed to a user device or running in the browser?**
 
@@ -98,9 +98,9 @@ environment?**
     or web control?**
 
     - If so, use the `AuthorizationCodeCredential` or
-      `InteractiveBrowserCredential`.
+      `InteractiveBrowserCredential`
 
-    - If not, use the `DeviceCodeCredential`.
+    - If not, use the `DeviceCodeCredential`
 
 ## Permissions and Consent
 
