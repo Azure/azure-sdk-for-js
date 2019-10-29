@@ -212,18 +212,6 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 
       if (givenFilter.sqlExpression != undefined) {
         isSqlFilter = true;
-      } else if (
-        !givenFilter.correlationId ||
-        !givenFilter.label ||
-        !givenFilter.to ||
-        !givenFilter.replyTo ||
-        !givenFilter.replyToSessionId ||
-        !givenFilter.contentType ||
-        !givenFilter.sessionId ||
-        !givenFilter.messageId ||
-        !givenFilter.userProperties
-      ) {
-        isSqlFilter = false;
       }
 
       if (isSqlFilter) {
