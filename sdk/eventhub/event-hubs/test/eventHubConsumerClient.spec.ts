@@ -1,7 +1,5 @@
 import { EventHubClient, InMemoryPartitionManager } from "../src";
-import { EventHubConsumerClient, isHostAndTokenCredential } from "../src/eventHubConsumerClient";
-import { TokenCredential } from "@azure/identity";
-import * as assert from "assert";
+import { EventHubConsumerClient } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
@@ -10,37 +8,6 @@ const should = chai.should();
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", () => {
-    describe("unit tests", () => {
-      it("identity token or connection string credentials", () => {
-        const fakeCredential: TokenCredential = {
-          getToken: async () => {
-            return null;
-          }
-        };
-
-        assert.ok(
-          isHostAndTokenCredential({
-            host: "hello",
-            credential: fakeCredential,
-            eventHubName: ""
-          })
-        );
-
-        assert.ok(
-          !isHostAndTokenCredential({
-            connectionString: "hello"
-          })
-        );
-
-        assert.ok(
-          !isHostAndTokenCredential({
-            connectionString: "hello",
-            eventHubName: ""
-          })
-        );
-      });
-    });
-
     describe("functional tests", () => {
       const service = {
         connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -62,11 +29,9 @@ describe("EventHubConsumerClient", () => {
         );
 
         client = new EventHubConsumerClient(
-          {
-            connectionString: service.connectionString!,
-            eventHubName: service.path
-          },
-          EventHubClient.defaultConsumerGroupName
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path
         );
 
         eventHubClient = new EventHubClient(service.connectionString!, service.path!, {});

@@ -10,7 +10,7 @@ import {
   SubscriptionOptions,
   Subscription
 } from "./eventHubConsumerClientModels";
-import { isTokenCredential } from "../../../core/core-auth/types/core-auth";
+import { isTokenCredential } from '@azure/core-amqp';
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],

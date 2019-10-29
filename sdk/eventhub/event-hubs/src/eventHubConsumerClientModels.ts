@@ -1,5 +1,5 @@
 
-import { CloseReason, PartitionContext } from './eventProcessor';
+import { CloseReason, PartitionContext, EventProcessorOptions } from './eventProcessor';
 
 /**
  * Optional event handlers that provide more context when subscribing to events.
