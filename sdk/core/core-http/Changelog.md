@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0-preview - 2019-10-29
+## 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/core-http` package.
 - Removed the browser bundle. A browser-compatible library can still be created through the use of a bundler such as rollup or webpack.

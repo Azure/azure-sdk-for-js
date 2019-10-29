@@ -1,4 +1,4 @@
-## 1.0.0-preview - 2019-10-29
+## 1.0.0 - 2019-10-29
 
 This release marks the general availability of the `@azure/abort-controller` package.
 
