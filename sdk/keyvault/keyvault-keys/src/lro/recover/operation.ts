@@ -4,15 +4,24 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { Key, KeyClientInterface } from "../../keysModels";
+import { KeyVaultKey, KeyClientInterface } from "../../keysModels";
 
 /**
  * @interface
  * An interface representing the state of a delete key's poll operation
  */
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
+  /**
+   * @member {string} [name] The name of the key.
+   */
   name: string;
+  /**
+   * @member {RequestOptionsBase} [requestOptions] Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * @member {KeyClientInterface} [client] An interface representing a KeyClient. For internal use.
+   */
   client: KeyClientInterface;
 }
 
@@ -21,7 +30,7 @@ export interface RecoverDeletedKeyPollOperationState extends PollOperationState<
  * An interface representing a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperation
-  extends PollOperation<RecoverDeletedKeyPollOperationState, Key> {}
+  extends PollOperation<RecoverDeletedKeyPollOperationState, KeyVaultKey> {}
 
 /**
  * @summary Reaches to the service and updates the delete key's poll operation.

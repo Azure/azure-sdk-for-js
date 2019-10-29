@@ -17,6 +17,8 @@
 /sdk/core/core-auth/ @daviwil
 /sdk/core/core-http/ @daviwil
 /sdk/core/core-paging/ @daviwil
+/sdk/core/core-tracing/ @xirzec
+/sdk/core/logger @xirzec
 
 # Service teams
 /sdk/batch/ @xingwu1 @matthchr @bgklein

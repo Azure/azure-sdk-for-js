@@ -55,7 +55,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     const accessToken = await credential.getToken("scope");
@@ -92,7 +92,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -136,7 +136,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions, }
+      { ...mockHttpClient.tokenCredentialOptions, }
     );
 
     await credential.getToken("scope");
@@ -169,7 +169,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -198,7 +198,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -221,7 +221,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -252,7 +252,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -283,7 +283,7 @@ describe("DeviceCodeCredential", function() {
         "tenant",
         "client",
         (details) => assert.equal(details.message, deviceCodeResponse.message),
-        { ...mockHttpClient.identityClientOptions }
+        { ...mockHttpClient.tokenCredentialOptions }
       );
 
       const abortController = new AbortController();
@@ -321,12 +321,14 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -346,11 +348,35 @@ describe("DeviceCodeCredential", function() {
               children: [
                 {
                   name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 },
                 {
                   name: "Azure.Identity.DeviceCodeCredential-pollForToken",
-                  children: []
+                  children: [
+                    // We see 4 traces from core-http here because the client in
+                    // this test polls 4 times for the authorization code.
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 }
               ]
             }

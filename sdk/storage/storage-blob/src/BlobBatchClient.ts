@@ -11,14 +11,17 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { CommonOptions, BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./internal";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { CommonOptions } from "./StorageClient";
+import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
+import { StorageClientContext } from "./generated/src/storageClientContext";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -39,6 +42,9 @@ export interface BlobBatchSubmitBatchOptionalParams
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for blob batch operations.
+ */
 export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   ServiceSubmitBatchHeaders & {
     /**
@@ -52,7 +58,14 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
     };
   };
 
+/**
+ * Contains response data for the deleteBlobs operation.
+ */
 export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
+
+/**
+ * Contains response data for the setBlobsAccessTier operation.
+ */
 export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 /**
@@ -63,10 +76,58 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
 export class BlobBatchClient {
   private _serviceContext: Service;
 
-  constructor(service: Service) {
-    this._serviceContext = service;
+  /**
+   * Creates an instance of BlobBatchClient.
+   *
+   * @param {string} url A url pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof BlobBatchClient
+   */
+  constructor(
+    url: string,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
+  );
+  /**
+   * Creates an instance of BlobBatchClient.
+   *
+   * @param {string} url A url pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
+   * @memberof BlobBatchClient
+   */
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    options?: StoragePipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (!credentialOrPipeline) {
+      // no credential provided
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    }
+
+    const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+
+    this._serviceContext = new Service(storageClientContext);
   }
 
+  /**
+   * Creates a BlobBatch.
+   * A BlobBatch represents an aggregated set of operations on blobs.
+   */
   public createBatch(): BlobBatch {
     return new BlobBatch();
   }
@@ -79,14 +140,14 @@ export class BlobBatchClient {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string[]} urls The urls of the blob resources to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     urls: string[],
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -110,7 +171,7 @@ export class BlobBatchClient {
   public async deleteBlobs(
     urlsOrBlobClients: string[] | BlobClient[],
     credentialOrOptions:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | BlobDeleteOptions
@@ -140,7 +201,7 @@ export class BlobBatchClient {
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string[]} urls The urls of the blob resource to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
@@ -148,7 +209,7 @@ export class BlobBatchClient {
    */
   public async setBlobsAccessTier(
     urls: string[],
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
@@ -178,7 +239,7 @@ export class BlobBatchClient {
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
-    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
@@ -242,7 +303,7 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.tracingOptions);
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 

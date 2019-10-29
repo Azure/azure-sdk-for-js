@@ -122,16 +122,10 @@ export class Sender {
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
 
-    let senderName;
-    if (this._context.sender) {
-      senderName = this._context.sender.name;
-    }
-
     const messages = [message];
     const result = await this._context.managementClient!.scheduleMessages(
       scheduledEnqueueTimeUtc,
-      messages,
-      senderName
+      messages
     );
     return result[0];
   }
@@ -161,16 +155,7 @@ export class Sender {
       messages = [messages];
     }
 
-    let senderName;
-    if (this._context.sender) {
-      senderName = this._context.sender.name;
-    }
-
-    return this._context.managementClient!.scheduleMessages(
-      scheduledEnqueueTimeUtc,
-      messages,
-      senderName
-    );
+    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
   }
 
   /**
@@ -191,12 +176,7 @@ export class Sender {
       sequenceNumber
     );
 
-    let senderName;
-    if (this._context.sender) {
-      senderName = this._context.sender.name;
-    }
-
-    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], senderName);
+    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
   /**
@@ -220,12 +200,7 @@ export class Sender {
       sequenceNumbers
     );
 
-    let senderName;
-    if (this._context.sender) {
-      senderName = this._context.sender.name;
-    }
-
-    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, senderName);
+    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
   /**

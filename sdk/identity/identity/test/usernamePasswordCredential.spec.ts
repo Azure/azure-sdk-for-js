@@ -14,7 +14,7 @@ describe("UsernamePasswordCredential", function() {
       "client",
       "user@domain.com",
       "p4s$w0rd",
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope");

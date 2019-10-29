@@ -17,7 +17,7 @@ describe("AuthorizationCodeCredential", function() {
       "secret",
       "authCode",
       redirectUri,
-      { ...mockHttpClient.identityClientOptions }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -47,7 +47,7 @@ describe("AuthorizationCodeCredential", function() {
       "authCode",
       redirectUri,
       {
-        ...mockHttpClient.identityClientOptions
+        ...mockHttpClient.tokenCredentialOptions
       }
     );
 
@@ -86,20 +86,22 @@ describe("AuthorizationCodeCredential", function() {
 
     const rootSpan = tracer.startSpan("root");
 
-    const credential = new AuthorizationCodeCredential(      
+    const credential = new AuthorizationCodeCredential(
       "tenant",
       "client",
       "secret",
       "authCode",
       redirectUri,
       {
-        ...mockHttpClient.identityClientOptions
+        ...mockHttpClient.tokenCredentialOptions
       }
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -116,7 +118,12 @@ describe("AuthorizationCodeCredential", function() {
           children: [
             {
               name: "Azure.Identity.AuthorizationCodeCredential-getToken",
-              children: []
+              children: [
+                {
+                  children: [],
+                  name: "core-http"
+                }
+              ]
             }
           ]
         }

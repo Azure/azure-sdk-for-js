@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import { HttpClient } from "./httpClient";
-import { RetryOptions } from './policies/exponentialRetryPolicy';
-import { KeepAliveOptions } from './policies/keepAlivePolicy';
-import { RedirectOptions } from './policies/redirectPolicy';
-import { ProxyOptions } from './serviceClient';
-import { UserAgentOptions } from './policies/userAgentPolicy';
-import { DeserializationOptions } from './policies/deserializationPolicy';
-import { LoggingOptions } from './policies/logPolicy';
-import { RequestPolicyFactory } from './policies/requestPolicy';
+import { RetryOptions } from "./policies/exponentialRetryPolicy";
+import { KeepAliveOptions } from "./policies/keepAlivePolicy";
+import { RedirectOptions } from "./policies/redirectPolicy";
+import { ProxyOptions } from "./serviceClient";
+import { UserAgentOptions } from "./policies/userAgentPolicy";
+import { DeserializationOptions } from "./policies/deserializationPolicy";
+import { LogPolicyOptions } from "./policies/logPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -47,15 +46,6 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
-
-  /**
-   * A function that accepts the array of RequestPolicyFactory created for
-   * this PipelineOptions instance and can return modified list of policies.
-   * This is useful for adding, inserting, or removing policies in special
-   * case scenarios. If the function does not modify the array of
-   * RequestPolicyFactory, it must return the original array it was given.
-   */
-  updatePipelinePolicies?: (requestPolicyFactories: RequestPolicyFactory[]) => RequestPolicyFactory[];
 }
 
 /**
@@ -71,5 +61,5 @@ export interface InternalPipelineOptions extends PipelineOptions {
   /**
    * Options to configure request/response logging.
    */
-  loggingOptions?: LoggingOptions;
+  loggingOptions?: LogPolicyOptions;
 }

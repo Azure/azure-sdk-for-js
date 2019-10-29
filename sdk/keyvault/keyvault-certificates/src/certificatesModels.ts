@@ -130,7 +130,7 @@ export interface SubjectAlternativeNames {
   /**
    * The subject type, either emails, DNS names or UPNs
    */
-  subjectType: 'emails' | 'dnsNames' | 'upns';
+  subjectType: "emails" | "dnsNames" | "upns";
   /**
    * The subject values
    */
@@ -204,8 +204,7 @@ export interface DeletedCertificate extends Certificate {
 
 /**
  * @interface
- * An interface representing options for creating a certificate.
- * Optional Parameters.
+ * An interface representing options for creating a certificate that can passed to {@link createCertificate}.
  */
 export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
   /**
@@ -222,10 +221,7 @@ export type CertificateTags = { [propertyName: string]: string };
 
 /**
  * @interface
- * An interface representing KeyVaultClientUpdateCertificateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
+ * An interface representing options that can be passed to {@link updateCertificate}.
  */
 export interface UpdateCertificateOptions {
   /**

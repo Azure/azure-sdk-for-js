@@ -27,9 +27,12 @@ import {
   HTTP_LINE_ENDING,
   StorageOAuthScopes
 } from "./utils/constants";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { createSpan } from "./utils/tracing";
 
+/**
+ * A request associated with a batch operation.
+ */
 export interface BatchSubRequest {
   /**
    * The URL of the resource to request operation.
@@ -42,10 +45,10 @@ export interface BatchSubRequest {
   /**
    * The credential used for sub request.
    *
-   * @type {SharedKeyCredential | AnonymousCredential | TokenCredential}
+   * @type {StorageSharedKeyCredential | AnonymousCredential | TokenCredential}
    * @memberof BatchSubRequest
    */
-  credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 }
 
 /**
@@ -124,14 +127,14 @@ export class BlobBatch {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BlobBatch
    */
   public async deleteBlob(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
   ): Promise<void>;
 
@@ -155,7 +158,7 @@ export class BlobBatch {
   public async deleteBlob(
     urlOrBlobClient: string | BlobClient,
     credentialOrOptions:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | BlobDeleteOptions
@@ -163,11 +166,11 @@ export class BlobBatch {
     options?: BlobDeleteOptions
   ): Promise<void> {
     let url: string;
-    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+    let credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrOptions instanceof SharedKeyCredential) ||
+      ((isNode && credentialOrOptions instanceof StorageSharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -191,7 +194,7 @@ export class BlobBatch {
 
     const { span, spanOptions } = createSpan(
       "BatchDeleteRequest-addSubRequest",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
@@ -204,7 +207,7 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
             ...options,
-            spanOptions
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
         }
       );
@@ -232,7 +235,7 @@ export class BlobBatch {
    * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
@@ -240,7 +243,7 @@ export class BlobBatch {
    */
   public async setBlobAccessTier(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
@@ -271,23 +274,23 @@ export class BlobBatch {
 
   public async setBlobAccessTier(
     urlOrBlobClient: string | BlobClient,
-    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<void> {
     let url: string;
-    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+    let credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
     let tier: AccessTier;
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrTier instanceof SharedKeyCredential) ||
+      ((isNode && credentialOrTier instanceof StorageSharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {
       // First overload
       url = urlOrBlobClient;
-      credential = credentialOrTier as SharedKeyCredential | AnonymousCredential | TokenCredential;
+      credential = credentialOrTier as StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
       tier = tierOrOptions as AccessTier;
     } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
@@ -307,7 +310,7 @@ export class BlobBatch {
 
     const { span, spanOptions } = createSpan(
       "BatchSetTierRequest-addSubRequest",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
@@ -320,7 +323,7 @@ export class BlobBatch {
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
             tier,
-            { ...options, spanOptions }
+            { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
           );
         }
       );
@@ -377,7 +380,7 @@ class InnerBatchRequest {
    * @param credential
    */
   public createPipeline(
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
     const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]

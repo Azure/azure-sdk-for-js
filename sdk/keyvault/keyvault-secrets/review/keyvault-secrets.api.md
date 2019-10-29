@@ -10,39 +10,45 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface DeletedSecret {
-    properties: SecretProperties & {
-        recoveryId?: string;
-        readonly scheduledPurgeDate?: Date;
-        readonly deletedDate?: Date;
-    };
-    value?: string;
+export interface BackupSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    // Warning: (ae-forgotten-export) The symbol "SecretClientInterface" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
+export interface DeletedSecret {
     name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
+    properties: SecretProperties & {
+        recoveryId?: string;
+        scheduledPurgeDate?: Date;
+        deletedOn?: Date;
+    };
+    value?: string;
 }
 
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
-export interface GetSecretOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetSecretOptions extends coreHttp.OperationOptions {
     version?: string;
+}
+
+// @public
+export interface KeyVaultSecret {
+    name: string;
+    properties: SecretProperties;
+    value?: string;
+}
+
+// @public
+export interface ListOperationOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -52,13 +58,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
 export { PipelineOptions }
 
 export { PollerLike }
@@ -66,108 +65,80 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
+export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RequestOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
-}
-
-// @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
-}
-
-// @public
-export interface Secret {
-    properties: SecretProperties;
-    value?: string;
+export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
-    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     protected readonly credential: TokenCredential;
-    getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    listDeletedSecrets(options?: RequestOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listSecrets(options?: RequestOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listSecretVersions(secretName: string, options?: RequestOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
+    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+    listDeletedSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
+    listPropertiesOfSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listPropertiesOfSecretVersions(secretName: string, options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
     readonly pipeline: ServiceClientOptions;
-    purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
-    restoreSecret(secretBundleBackup: Uint8Array, options?: RequestOptionsBase): Promise<Secret>;
-    setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<Secret>;
-    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretOptions): Promise<Secret>;
-    readonly vaultEndpoint: string;
+    purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
+    restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
+    setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
+    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
+    readonly vaultUrl: string;
 }
 
 // @public
-export interface SecretPollerOptions {
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
-    requestOptions?: coreHttp.RequestOptionsBase;
     resumeFrom?: string;
 }
 
 // @public
-export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
+export interface SecretProperties {
     contentType?: string;
-    readonly created?: Date;
+    readonly createdOn?: Date;
     enabled?: boolean;
-    expires?: Date;
+    readonly expiresOn?: Date;
     id?: string;
     readonly keyId?: URL;
     readonly managed?: boolean;
-    notBefore?: Date;
+    name: string;
+    readonly notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly updated?: Date;
+    readonly updatedOn?: Date;
+    vaultUrl: string;
+    version?: string;
 }
 
 // @public
-export interface SetSecretOptions {
+export interface SetSecretOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
-    expires?: Date;
-    notBefore?: Date;
-    requestOptions?: coreHttp.RequestOptionsBase;
+    readonly expiresOn?: Date;
+    readonly notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
-}
-
 // @public
-export interface UpdateSecretOptions {
+export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
-    expires?: Date;
-    notBefore?: Date;
-    requestOptions?: coreHttp.RequestOptionsBase;
+    readonly expiresOn?: Date;
+    readonly notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
     };

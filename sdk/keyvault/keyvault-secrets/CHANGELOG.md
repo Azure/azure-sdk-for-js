@@ -1,10 +1,16 @@
 # Release History
 
-## 4.0.0-preview.9 (2019-10-31)
+## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
   Use `beginDeleteSecret` and `beginRecoverDeletedSecret` instead.
   They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
+- Renamed `Secret` to `KeyVaultSecret`.
+- Renamed most of the date properties to end in the `On` suffix.
+- All options should match the method's name.
+- All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
+- Flattened all the options bag to extend the `RequestOptionsBase` interface.
+- Renamed `restoreSecret` to `restoreSecretBackup`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

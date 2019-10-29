@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenResponse, IdentityClientOptions } from "../client/identityClient";
+import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
@@ -70,7 +70,6 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
-   * @param The Azure Active Directory tenant (directory) ID or name.
    * @param tenantId The Azure Active Directory tenant (directory) ID or name. 
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
@@ -82,7 +81,7 @@ export class DeviceCodeCredential implements TokenCredential {
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
@@ -113,7 +112,7 @@ export class DeviceCodeCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.spanOptions
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
       logger.info("DeviceCodeCredential: sending devicecode request");
@@ -129,13 +128,13 @@ export class DeviceCodeCredential implements TokenCredential {
         err.name === AuthenticationErrorName
           ? CanonicalCode.UNAUTHENTICATED
           : CanonicalCode.UNKNOWN;
-      
+
       if (err.name === AuthenticationErrorName) {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`);
       } else {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
       }
-      
+
       span.setStatus({
         code,
         message: err.message
@@ -169,7 +168,7 @@ export class DeviceCodeCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.spanOptions
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
       while (tokenResponse === null) {
@@ -220,7 +219,7 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

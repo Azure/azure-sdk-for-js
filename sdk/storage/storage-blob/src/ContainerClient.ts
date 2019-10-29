@@ -6,7 +6,8 @@ import {
   HttpResponse,
   TokenCredential,
   isTokenCredential,
-  isNode
+  isNode,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -40,22 +41,21 @@ import {
   extractConnectionStringParts,
   getValueInConnString
 } from "./utils/utils.common";
-import {
-  AppendBlobClient,
-  BlobClient,
-  BlockBlobClient,
-  PageBlobClient,
-  StorageClient,
-  BlockBlobUploadOptions,
-  BlobDeleteOptions,
-  CommonOptions
-} from "./internal";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { LeaseClient } from "./LeaseClient";
+import { BlobLeaseClient } from "./BlobLeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import {
+  BlobClient,
+  AppendBlobClient,
+  BlockBlobClient,
+  PageBlobClient,
+  BlockBlobUploadOptions,
+  BlobDeleteOptions
+} from "./BlobClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -222,13 +222,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start Optional. The date-time the policy is active
+     * @member {Date} startsOn Optional. The date-time the policy is active
      */
-    start?: Date;
+    startsOn?: Date;
     /**
-     * @member {string} expiry Optional. The date-time the policy expires
+     * @member {Date} expiresOn Optional. The date-time the policy expires
      */
-    expiry?: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
@@ -237,6 +237,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the getAccessPolicy operation.
+ */
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
@@ -499,6 +502,10 @@ export class ContainerClient extends StorageClient {
   private containerContext: Container;
 
   private _containerName: string;
+
+  /**
+   * The name of the container.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -531,7 +538,7 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -539,7 +546,7 @@ export class ContainerClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -566,7 +573,7 @@ export class ContainerClient extends StorageClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -580,18 +587,18 @@ export class ContainerClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -605,12 +612,12 @@ export class ContainerClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -644,7 +651,7 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
@@ -675,9 +682,12 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.tracingOptions);
     try {
-      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
@@ -702,7 +712,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} blobName A blob name
    * @returns {BlobClient} A new BlobClient object for the given blob name.
-   * @memberof BlobClient
+   * @memberof ContainerClient
    */
   public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
@@ -755,7 +765,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
+   * @param {ContainerGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -766,7 +776,10 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-getProperties",
+      options.tracingOptions
+    );
     try {
       return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
@@ -810,7 +823,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
 
     try {
       return this.containerContext.deleteMethod({
@@ -839,7 +852,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
-   *                               If no value provided the existing metadata will be removed.
+   *                            If no value provided the existing metadata will be removed.
    * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
    * @returns {Promise<ContainerSetMetadataResponse>}
    * @memberof ContainerClient
@@ -863,7 +876,7 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
 
     try {
       return this.containerContext.setMetadata({
@@ -888,7 +901,7 @@ export class ContainerClient extends StorageClient {
    * Gets the permissions for the specified container. The permissions indicate
    * whether container data may be accessed publicly.
    *
-   * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
+   * WARNING: JavaScript Date will potential lost precision when parsing startsOn and expiresOn string.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
@@ -906,7 +919,7 @@ export class ContainerClient extends StorageClient {
 
     const { span, spanOptions } = createSpan(
       "ContainerClient-getAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
 
     try {
@@ -934,12 +947,12 @@ export class ContainerClient extends StorageClient {
           permissions: identifier.accessPolicy.permissions
         };
 
-        if (identifier.accessPolicy.expiry) {
-          accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+        if (identifier.accessPolicy.expiresOn) {
+          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
         }
 
-        if (identifier.accessPolicy.start) {
-          accessPolicy.start = new Date(identifier.accessPolicy.start);
+        if (identifier.accessPolicy.startsOn) {
+          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
         }
 
         res.signedIdentifiers.push({
@@ -983,19 +996,19 @@ export class ContainerClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "ContainerClient-setAccessPolicy",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: identifier.accessPolicy.expiry
-              ? truncatedISO8061Date(identifier.accessPolicy.expiry)
+            expiresOn: identifier.accessPolicy.expiresOn
+              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
               : "",
             permissions: identifier.accessPolicy.permissions,
-            start: identifier.accessPolicy.start
-              ? truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: identifier.accessPolicy.startsOn
+              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
               : ""
           },
           id: identifier.id
@@ -1022,14 +1035,14 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Get a LeaseClient that manages leases on the container.
+   * Get a BlobLeaseClient that manages leases on the container.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {LeaseClient} A new LeaseClient object for managing leases on the container.
+   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
-  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
-    return new LeaseClient(this, proposeLeaseId);
+  public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
+    return new BlobLeaseClient(this, proposeLeaseId);
   }
 
   /**
@@ -1063,13 +1076,13 @@ export class ContainerClient extends StorageClient {
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-uploadBlockBlob",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, {
         ...options,
-        spanOptions
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
       return {
         blockBlobClient,
@@ -1102,10 +1115,13 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options: BlobDeleteOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.spanOptions);
+    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
     try {
       const blobClient = this.getBlobClient(blobName);
-      return await blobClient.delete({ ...options, spanOptions });
+      return await blobClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1135,7 +1151,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobFlatSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobFlatSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobFlatSegment({
@@ -1174,7 +1190,7 @@ export class ContainerClient extends StorageClient {
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       return this.containerContext.listBlobHierarchySegment(delimiter, {
@@ -1358,6 +1374,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
    *
    * @private
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
@@ -1391,6 +1408,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for BlobPrefixes and BlobItems
    *
    * @private
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
    * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
    * @memberof ContainerClient

@@ -5,7 +5,7 @@ import qs from "qs";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenResponse, IdentityClientOptions } from "../client/identityClient";
+import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
 
 /**
@@ -53,7 +53,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   );
     /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -81,8 +81,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: IdentityClientOptions
-  ); 
+    options?: TokenCredentialOptions
+  );
   /**
    * @ignore
    * @internal
@@ -92,12 +92,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
-    redirectUriOrOptions: string | IdentityClientOptions | undefined,
-    options?: IdentityClientOptions
+    redirectUriOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
   ) {
     this.clientId = clientId;
     this.tenantId = tenantId;
-    
+
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
       this.clientSecret = clientSecretOrAuthorizationCode;
@@ -108,15 +108,15 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // clientId only
       this.clientSecret = undefined;
       this.authorizationCode = clientSecretOrAuthorizationCode;
-      this.redirectUri = authorizationCodeOrRedirectUri as string;      
-      options = redirectUriOrOptions as IdentityClientOptions;
+      this.redirectUri = authorizationCodeOrRedirectUri as string;
+      options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
-    this.identityClient = new IdentityClient(options);    
+    this.identityClient = new IdentityClient(options);
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
@@ -172,7 +172,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.spanOptions
+          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);
