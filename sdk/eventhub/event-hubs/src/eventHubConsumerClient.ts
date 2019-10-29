@@ -190,10 +190,6 @@ export function createPartitionProcessorType(
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
-    constructor() {
-      super();
-    }
-
     async processEvents(events: ReceivedEventData[]): Promise<void> {
       await onReceivedEvents(events, {
         partitionId: this.partitionId,
