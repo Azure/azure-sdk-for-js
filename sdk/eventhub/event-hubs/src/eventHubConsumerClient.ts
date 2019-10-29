@@ -39,7 +39,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions);
+  constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
    * @param consumerGroupName The name of the consumer group from which you want to process events.
@@ -59,7 +59,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+  constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);    // #2
   /**
    * @constructor
    * @param consumerGroupName The name of the consumer group from which you want to process events.
@@ -85,35 +85,35 @@ export class EventHubConsumerClient {
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
-  );
+  );    // #3
   constructor(
-    consumerGroupName: string,
-    hostOrConnectionString: string,
-    eventHubNameOrOptions?: string | EventHubClientOptions,
-    credentialOrOptions?: TokenCredential | EventHubClientOptions,
-    options?: EventHubClientOptions
+    consumerGroupName1: string,
+    hostOrConnectionString2: string,
+    eventHubNameOrOptions3?: string | EventHubClientOptions,
+    credentialOrOptions4?: TokenCredential | EventHubClientOptions,
+    options5?: EventHubClientOptions
   ) {
 
-    this._consumerGroupName = consumerGroupName;
+    this._consumerGroupName = consumerGroupName1;
 
-    if (isTokenCredential(credentialOrOptions)) {
+    if (isTokenCredential(credentialOrOptions4)) {
       // #3
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString,
-        eventHubNameOrOptions as string,
-        credentialOrOptions as TokenCredential,
-        options
+        hostOrConnectionString2,
+        eventHubNameOrOptions3 as string,
+        credentialOrOptions4 as TokenCredential,
+        options5
       );
-    } else if (typeof eventHubNameOrOptions === "string") {
+    } else if (typeof eventHubNameOrOptions3 === "string") {
       // #2
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString,
-        eventHubNameOrOptions as string,
-        credentialOrOptions as EventHubClientOptions
+        hostOrConnectionString2,
+        eventHubNameOrOptions3 as string,
+        credentialOrOptions4 as EventHubClientOptions
       );
     } else {
       // #1
-      this._eventHubClient = new EventHubClient(hostOrConnectionString, options);
+      this._eventHubClient = new EventHubClient(hostOrConnectionString2, eventHubNameOrOptions3 as EventHubClientOptions);
     }
   }
 
@@ -135,7 +135,7 @@ export class EventHubConsumerClient {
    * @param options Options to handle additional events related to partitions (errors, 
    *                opening, closing) as well as batch sizing.
    */
-  subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+  subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;   // #1
   /**
    * Subscribe to all messages from a subset of partitions.
    *
@@ -147,7 +147,7 @@ export class EventHubConsumerClient {
    * @param options Options to handle additional events related to partitions (errors, 
    *                opening, closing) as well as batch sizing.
    */  
-  subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
+  subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;   // #2
   /**
    * Subscribes to multiple partitions.
    *
@@ -163,19 +163,19 @@ export class EventHubConsumerClient {
     onReceivedEvents: OnReceivedEvents,
     partitionManager: PartitionManager,
     options?: SubscriptionOptions
-  ): Subscription;
+  ): Subscription;      // #3
   subscribe(
-    onReceivedEvents: OnReceivedEvents,
-    optionsOrPartitionIdsOrPartitionManager: SubscriptionOptions | undefined | string[] | PartitionManager,
-    possibleOptions?: SubscriptionOptions
+    onReceivedEvents1: OnReceivedEvents,
+    optionsOrPartitionIdsOrPartitionManager2: SubscriptionOptions | undefined | string[] | PartitionManager,
+    possibleOptions3?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager)) {
-      // 2nd subscribe overload (read from specific partition IDs), don't coordinate
+    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager2)) {
+      // #2: subscribe overload (read from specific partition IDs), don't coordinate
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents,
-        possibleOptions
+        onReceivedEvents1,
+        possibleOptions3
       );
 
       eventProcessor = new EventProcessor(
@@ -184,30 +184,30 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
-          ...possibleOptions,
+          ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(optionsOrPartitionIdsOrPartitionManager as string[])
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer(optionsOrPartitionIdsOrPartitionManager2 as string[])
         }
       );
-    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager)) {
-      // 3rd subscribe overload (read from all partitions and coordinate using a partition manager)
+    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager2)) {
+      // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents,
-        possibleOptions
+        onReceivedEvents1,
+        possibleOptions3
       );
 
       eventProcessor = new EventProcessor(
         this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
-        optionsOrPartitionIdsOrPartitionManager as PartitionManager,
-        possibleOptions
+        optionsOrPartitionIdsOrPartitionManager2 as PartitionManager,
+        possibleOptions3
       );
     } else {
-      // 1st subscribe overload - read from all partitions, don't coordinate
+      // #1: subscribe overload - read from all partitions, don't coordinate
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents,
-        optionsOrPartitionIdsOrPartitionManager as SubscriptionOptions
+        onReceivedEvents1,
+        optionsOrPartitionIdsOrPartitionManager2 as SubscriptionOptions
       );
 
       eventProcessor = new EventProcessor(
@@ -216,7 +216,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
-          ...optionsOrPartitionIdsOrPartitionManager as SubscriptionOptions,
+          ...optionsOrPartitionIdsOrPartitionManager2 as SubscriptionOptions,
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
