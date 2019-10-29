@@ -16,11 +16,11 @@ export interface KeyInfo {
   /**
    * The date-time the key is active in ISO 8601 UTC time
    */
-  start: string;
+  startsOn: string;
   /**
    * The date-time the key expires in ISO 8601 UTC time
    */
-  expiry: string;
+  expiresOn: string;
 }
 
 /**
@@ -40,13 +40,13 @@ export interface UserDelegationKey {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedStart: string;
+  signedStartsOn: string;
   /**
    * The date-time the key expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedExpiry: string;
+  signedExpiresOn: string;
   /**
    * Abbreviation of the Azure Storage service that accepts the key
    */
@@ -101,13 +101,13 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start: string;
+  startsOn: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry: string;
+  expiresOn: string;
   /**
    * the permissions for the acl policy
    */

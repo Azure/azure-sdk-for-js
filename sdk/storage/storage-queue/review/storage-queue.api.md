@@ -28,9 +28,9 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
-    expiry: string;
+    expiresOn: string;
     permissions: string;
-    start: string;
+    startsOn: string;
 }
 
 // @public
@@ -68,13 +68,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -528,13 +528,13 @@ export class QueueSASPermissions {
 
 // @public
 export interface QueueSASSignatureValues {
-    expiryTime?: Date;
+    expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: QueueSASPermissions;
     protocol?: SASProtocol;
     queueName: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -667,8 +667,8 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
-    readonly expiryTime?: Date;
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -677,7 +677,7 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
 }
@@ -779,8 +779,8 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start: Date;
-        expiry: Date;
+        startsOn: Date;
+        expiresOn: Date;
         permissions: string;
     };
     id: string;

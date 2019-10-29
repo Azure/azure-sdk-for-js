@@ -1,6 +1,8 @@
-## 1.0.0-preview.2 - TBD
+## 1.0.0 - 2019-10-29
 
-- PollOperation was too permissively typed by mistake.
+This release marks the general availability of the `@azure/core-lro` package.
+
+- Updated PollOperation to be more strictly typed.
 
 ## 1.0.0-preview.1 - 2019-10-22
 

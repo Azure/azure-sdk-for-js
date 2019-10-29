@@ -141,5 +141,13 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.2.2",
     "ws": "^7.1.1"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
   }
 }

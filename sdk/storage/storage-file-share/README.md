@@ -129,7 +129,6 @@ Or you can selectively import certain types,
 
 ```javascript
 const { ShareServiceClient, SharedKeyCredential } = require("@azure/storage-file-share");
-);
 ```
 
 ### Create the file service client

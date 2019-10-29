@@ -279,7 +279,6 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
-            this.name,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
