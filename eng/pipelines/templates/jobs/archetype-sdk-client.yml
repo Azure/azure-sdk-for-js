@@ -49,6 +49,12 @@ jobs:
       - template: ../steps/common.yml
 
         - pwsh: |
+          $folder = "${{parameters.ServiceDirectory}}"
+          if ($folder -eq "*") { $folder = "" }
+          echo "##vso[task.setvariable variable=folder]$folder"
+        displayName: "Set folder variable for readme links"
+
+        - pwsh: |
           $setDailyDevBuild = "false"
           if (('$(Build.Reason)' -eq 'Schedule') -and ('$(System.TeamProject)' -eq 'internal')) {
             $setDailyDevBuild = "true"
@@ -57,7 +63,7 @@ jobs:
         displayName: "Setup Versioning Properties"
 
       - script: |
-          node eng/tools/generate-dev-builds.js "$(Build.BuildNumber)"
+          node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service ""
           node common/scripts/install-run-rush.js update
         condition: eq(variables['DevBuildRun'],'true')
         displayName: "Update package versions for dev build"
@@ -66,12 +72,6 @@ jobs:
           node common/scripts/install-run-rush.js install
         condition: ne(variables['DevBuildRun'],'true')
         displayName: "Install dependencies"
-
-      - pwsh: |
-          $folder = "${{parameters.ServiceDirectory}}"
-          if ($folder -eq "*") { $folder = "" }
-          echo "##vso[task.setvariable variable=folder]$folder"
-        displayName: "Set folder variable for readme links"
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
         parameters:
