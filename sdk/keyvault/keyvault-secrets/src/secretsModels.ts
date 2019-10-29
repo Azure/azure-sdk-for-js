@@ -28,7 +28,7 @@ export interface SecretClientInterface {
    */
   deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
   /**
-   * The getDeletedSecret method returns the specified deleted secret along with its attributes.
+   * The getDeletedSecret method returns the specified deleted secret along with its properties.
    * This operation requires the secrets/get permission.
    */
   getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
@@ -36,11 +36,11 @@ export interface SecretClientInterface {
 
 /**
  * @interface
- * An interface representing a complete KeyVault Secret.
+ * An interface representing a KeyVault Secret, with its name, value and {@link SecretProperties}.
  */
 export interface KeyVaultSecret {
   /**
-   * @member {SecretProperties} properties The properties of the secret
+	 * @member {SecretProperties} properties The properties of the {@link KeyVaultSecret}.
    */
   properties: SecretProperties;
   /**
@@ -48,14 +48,14 @@ export interface KeyVaultSecret {
    */
   value?: string;
   /**
-   * @member {string} name The name of key/secret/certificate.
+   * @member {string} name The name of the KeyVault Secret.
    */
   name: string;
 }
 
 /**
  * @interface
- * An interface representing the a KeyVault Secret's attributes.
+ * An interface representing the properties of a {@link KeyVaultSecret}.
  */
 export interface SecretProperties {
   /**

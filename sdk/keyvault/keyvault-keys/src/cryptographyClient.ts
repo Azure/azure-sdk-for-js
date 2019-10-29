@@ -31,7 +31,7 @@ const SERVICE_API_VERSION = "7.0";
  */
 export class CryptographyClient {
   /**
-   * Retrieves the complete key from the key vault
+   * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
    * ```ts
@@ -630,7 +630,8 @@ export class CryptographyClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * If the key is a string, it's a URL, and we'll pass it to the service API directly.
+   * A reference to the key used for the cryptographic operations.
+   * It can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
    */
   public key: string | JsonWebKey;
 
@@ -904,7 +905,7 @@ async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> 
 }
 
 /**
- * Allow algorithms for key wrapping/unwrapping
+ * Supported algorithms for key wrapping/unwrapping
  */
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
@@ -969,15 +970,15 @@ export interface UnwrapKeyOptions extends CryptographyOptions {}
  */
 export interface DecryptResult {
   /**
-   * Result of the operation
+   * Result of the {@link decrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to decrypt.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to decrypt.
    */
   algorithm: EncryptionAlgorithm;
 }

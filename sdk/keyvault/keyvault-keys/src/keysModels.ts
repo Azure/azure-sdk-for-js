@@ -110,7 +110,7 @@ export interface JsonWebKey {
 
 /**
  * @interface
- * An interface representing a complete KeyVault Key.
+ * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -118,7 +118,7 @@ export interface KeyVaultKey {
    */
   key?: JsonWebKey;
   /**
-   * @member {string} name The name of key/secret/certificate.
+   * @member {string} name The name of the KeyVault Key.
    */
   name: string;
   /**
@@ -136,14 +136,14 @@ export interface KeyVaultKey {
    */
   keyOperations?: JsonWebKeyOperation[];
   /**
-   * @member {KeyProperties} properties The properties of the key.
+   * @member {KeyProperties} properties The properties of the {@link KeyVaultKey}.
    */
   properties: KeyProperties;
 }
 
 /**
  * @interface
- * An interface representing the Properties of a KeyVault Key
+ * An interface representing the Properties of {@link KeyVaultKey}
  */
 export interface KeyProperties {
   /**
@@ -376,7 +376,7 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to {@link updateKey}.
+ * An interface representing optional parameters that can be passed to {@link updateKeyProperties}.
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**

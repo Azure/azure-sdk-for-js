@@ -589,7 +589,7 @@ export class KeyClient {
         }
       };
 
-      const span = this.createSpan("updateKey", unflattenedOptions);
+      const span = this.createSpan("updateKeyProperties", unflattenedOptions);
 
       let response: UpdateKeyResponse;
 
@@ -1004,7 +1004,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeys", requestOptions);
     const updatedOptions: ListKeysOptions = {
-      ...options,
+      ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
 
