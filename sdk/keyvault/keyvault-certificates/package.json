@@ -133,5 +133,17 @@
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/core/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/core/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   }
 }

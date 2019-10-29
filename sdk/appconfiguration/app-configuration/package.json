@@ -89,5 +89,13 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/src/appConfigurationContext.ts",
+        "prefix": "packageVersion"
+      }
+    ]
   }
 }
