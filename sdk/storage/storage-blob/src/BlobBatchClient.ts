@@ -16,7 +16,7 @@ import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { CommonOptions } from "./StorageClient";
 import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
@@ -42,6 +42,9 @@ export interface BlobBatchSubmitBatchOptionalParams
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for blob batch operations.
+ */
 export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   ServiceSubmitBatchHeaders & {
     /**
@@ -55,7 +58,14 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
     };
   };
 
+/**
+ * Contains response data for the deleteBlobs operation.
+ */
 export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
+
+/**
+ * Contains response data for the setBlobsAccessTier operation.
+ */
 export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 /**
@@ -72,7 +82,7 @@ export class BlobBatchClient {
    * @param {string} url A url pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -80,7 +90,7 @@ export class BlobBatchClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -96,7 +106,7 @@ export class BlobBatchClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -114,6 +124,10 @@ export class BlobBatchClient {
     this._serviceContext = new Service(storageClientContext);
   }
 
+  /**
+   * Creates a BlobBatch.
+   * A BlobBatch represents an aggregated set of operations on blobs.
+   */
   public createBatch(): BlobBatch {
     return new BlobBatch();
   }
@@ -126,14 +140,14 @@ export class BlobBatchClient {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string[]} urls The urls of the blob resources to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     urls: string[],
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
@@ -157,7 +171,7 @@ export class BlobBatchClient {
   public async deleteBlobs(
     urlsOrBlobClients: string[] | BlobClient[],
     credentialOrOptions:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | BlobDeleteOptions
@@ -187,7 +201,7 @@ export class BlobBatchClient {
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string[]} urls The urls of the blob resource to delete.
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
@@ -195,7 +209,7 @@ export class BlobBatchClient {
    */
   public async setBlobsAccessTier(
     urls: string[],
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
@@ -225,7 +239,7 @@ export class BlobBatchClient {
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
-    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {

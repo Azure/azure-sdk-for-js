@@ -31,7 +31,7 @@ import {
   ContainerDeleteMethodOptions
 } from "./ContainerClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -189,6 +189,9 @@ export interface ServiceListContainersOptions extends CommonOptions {
   includeMetadata?: boolean;
 }
 
+/**
+ * A user delegation key.
+ */
 export interface UserDelegationKey {
   /**
    * The Azure Active Directory object ID in GUID format.
@@ -241,6 +244,9 @@ export interface UserDelegationKey {
   value: string;
 }
 
+/**
+ * Contains response data for the getUserDelegationKey operation.
+ */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
     /**
@@ -299,7 +305,7 @@ export class BlobServiceClient extends StorageClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
@@ -325,7 +331,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -333,7 +339,7 @@ export class BlobServiceClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -349,14 +355,14 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

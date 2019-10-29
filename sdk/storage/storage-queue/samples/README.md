@@ -54,3 +54,25 @@ ts-node sample.ts
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-queue/samples/README.png)
+
+## Browser sample
+
+Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
+
+First, install webpack and webpack-cli.
+
+```bash
+npm install --save-dev webpack webpack-cli
+```
+
+Next, run webpack on the sample code to produce an optimized browser bundle.
+
+```bash
+npx webpack sample.js
+```
+
+This will produce `dist/main.js`. Reference this file in an HTML file script tag and open the file in a browser to run the sample.
+
+```html
+<script src="./dist/main.js"></script>
+```

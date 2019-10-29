@@ -20,7 +20,7 @@ const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
 /**
  * An internal type used to communicate details of a token request's
- * response that should not be sent back as part of the AccessToken.
+ * response that should not be sent back as part of the access token.
  */
 export interface TokenResponse {
   /**
@@ -123,7 +123,7 @@ export class IdentityClient extends ServiceClient {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        spanOptions: newOptions.spanOptions,
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
         abortSignal: options && options.abortSignal
       });
 

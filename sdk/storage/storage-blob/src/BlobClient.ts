@@ -46,7 +46,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DevelopmentConnectionString
+  DevelopmentConnectionString,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -55,7 +56,7 @@ import {
   getValueInConnString
 } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
@@ -211,6 +212,7 @@ export interface BlobDownloadOptions extends CommonOptions {
   /**
    * Call back to receive events on the progress of download operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -252,14 +254,14 @@ export interface BlobExistsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlobGetPropertiesOptions
+   * @memberof BlobExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlobSetHTTPHeadersOptions
+   * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -336,7 +338,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure Blob - Undelete operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -769,13 +771,14 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Default value is 5, please set a larger value when in poor network.
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   maxRetryRequestsPerBlock?: number;
 
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -816,10 +819,16 @@ export class BlobClient extends StorageClient {
   private _name: string;
   private _containerName: string;
 
+  /**
+   * The name of the blob.
+   */
   public get name(): string {
     return this._name;
   }
 
+  /**
+   * The name of the storage container the blob is associated with.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -854,7 +863,7 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -862,7 +871,7 @@ export class BlobClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -888,7 +897,7 @@ export class BlobClient extends StorageClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -903,11 +912,11 @@ export class BlobClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -915,7 +924,7 @@ export class BlobClient extends StorageClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -932,7 +941,7 @@ export class BlobClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -1404,6 +1413,7 @@ export class BlobClient extends StorageClient {
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that attempting to cancel a completed copy will result in an error being thrown.
    *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
@@ -1961,7 +1971,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Optiosn to confgiure the Append Blob - Append Block operation.
+ * Options to configure the Append Blob - Append Block operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -1984,7 +1994,8 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   conditions?: AppendBlobRequestConditions;
   /**
    * Callback to receive events on the progress of append block operation.
-   *
+   * 
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof AppendBlobAppendBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2017,6 +2028,12 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the Append Blob - Append Block From URL operation.
+ * 
+ * @export
+ * @interface AppendBlobAppendBlockFromURLOptions
+ */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -2123,7 +2140,7 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -2131,7 +2148,7 @@ export class AppendBlobClient extends BlobClient {
    */
   constructor(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -2157,7 +2174,7 @@ export class AppendBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -2174,11 +2191,11 @@ export class AppendBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -2186,7 +2203,7 @@ export class AppendBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -2203,7 +2220,7 @@ export class AppendBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -2435,6 +2452,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of upload operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2481,6 +2499,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of stage block operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobStageBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2509,7 +2528,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -2592,12 +2611,6 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when committing the block list.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobCommitBlockListOptions
-   */
-  /**
-   * Conditions to meet when committing block list.
    *
    * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
@@ -2702,6 +2715,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2744,6 +2758,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2848,13 +2863,13 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -2880,7 +2895,7 @@ export class BlockBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -2897,11 +2912,11 @@ export class BlockBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -2909,7 +2924,7 @@ export class BlockBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -2926,7 +2941,7 @@ export class BlockBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -3237,6 +3252,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
    * @param {BlockBlobParallelUploadOptions} [options] Options to upload browser data.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
@@ -3280,6 +3296,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size size of the data to upload.
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
@@ -3404,6 +3421,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {string} filePath Full path of local file
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadFile(
     filePath: string,
@@ -3443,17 +3461,17 @@ export class BlockBlobClient extends BlobClient {
    *    parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream
-   * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
-   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
-   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
-   *                            with max uploading concurrency
+   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
+   * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
+   *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadStream(
     stream: Readable,
-    bufferSize: number,
-    maxBuffers: number,
+    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+    maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blobHTTPHeaders) {
@@ -3477,7 +3495,7 @@ export class BlockBlobClient extends BlobClient {
       const scheduler = new BufferScheduler(
         stream,
         bufferSize,
-        maxBuffers,
+        maxConcurrency,
         async (buffer: Buffer) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
@@ -3494,11 +3512,11 @@ export class BlockBlobClient extends BlobClient {
             options.onProgress({ loadedBytes: transferProgress });
           }
         },
-        // concurrency should set a smaller value than maxBuffers, which is helpful to
+        // concurrency should set a smaller value than maxConcurrency, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
-        Math.ceil((maxBuffers / 4) * 3)
+        Math.ceil((maxConcurrency / 4) * 3)
       );
       await scheduler.do();
 
@@ -3534,6 +3552,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size Size of the block blob
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
@@ -3926,6 +3945,12 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   conditions?: ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Upload Pages From URL operation.
+ * 
+ * @export
+ * @interface PageBlobUploadPagesFromURLOptions
+ */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -4027,14 +4052,14 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
     url: string,
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -4057,7 +4082,7 @@ export class PageBlobClient extends BlobClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
       | string
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
@@ -4074,11 +4099,11 @@ export class PageBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
@@ -4086,7 +4111,7 @@ export class PageBlobClient extends BlobClient {
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -4103,7 +4128,7 @@ export class PageBlobClient extends BlobClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );

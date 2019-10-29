@@ -41,7 +41,7 @@ import {
   getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { DevelopmentConnectionString } from "./utils/constants";
@@ -188,6 +188,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the getAccessPolicy operation.
+ */
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -254,6 +257,9 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
+/**
+ * Contains the response data for the sendMessage operation.
+ */
 export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the sent Message.
@@ -300,8 +306,14 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+/**
+ * The object returned in the queueMessageList array when calling Get Messages on a Queue.
+ */
 export declare type ReceivedMessageItem = DequeuedMessageItem;
 
+/**
+ * Contains the response data for the receiveMessage operation.
+ */
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -324,6 +336,9 @@ export declare type QueueReceiveMessageResponse = {
     };
   };
 
+/**
+ * Contains the response data for the peekMessages operation.
+ */
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -363,8 +378,19 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the updateMessage operation.
+ */
 export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+/**
+ * Contains response data for the deleteMessage operation.
+ */
 export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+
+/**
+ * Contains response data for the clearMessages operation.
+ */
 export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
@@ -409,6 +435,10 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
   private _name: string;
   private _messagesUrl: string;
+
+  /**
+   * The name of the queue.
+   */
   public get name(): string {
     return this._name;
   }
@@ -434,7 +464,7 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -442,7 +472,7 @@ export class QueueClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -460,7 +490,7 @@ export class QueueClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline
@@ -475,18 +505,18 @@ export class QueueClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrQueueName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -499,7 +529,7 @@ export class QueueClient extends StorageClient {
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const queueName = credentialOrPipelineOrQueueName;
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName,
             extractedCreds.accountKey
           );

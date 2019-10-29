@@ -28,9 +28,9 @@ import {
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
@@ -145,10 +145,10 @@ export interface StoragePipelineOptions {
   /**
    * Configures the built-in retry policy behavior.
    *
-   * @type {RetryOptions}
+   * @type {StorageRetryOptions}
    * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageRetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
@@ -170,13 +170,13 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+ * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
  * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -188,9 +188,9 @@ export function newPipeline(
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     generateClientRequestIdPolicy(),
-    new BrowserPolicyFactory(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,

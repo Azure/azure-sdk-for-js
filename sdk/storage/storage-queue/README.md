@@ -61,8 +61,6 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ## Getting started
 
-### NPM
-
 The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
@@ -80,18 +78,6 @@ Or
 ```javascript
 const AzureStorageQueue = require("@azure/storage-queue");
 ```
-
-### JavaScript bundle
-
-To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azqueue`
 
 ### CORS
 
@@ -217,7 +203,10 @@ const response = await queueClient.receiveMessages();
 if (response.receivedMessageItems.length == 1) {
   const receivedMessageItem = response.receivedMessageItems[0];
   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
-  const deleteMessageResponse = await queueClient.deleteMessage(receivedMessageItem.messageId, receivedMessageItem.popReceipt);
+  const deleteMessageResponse = await queueClient.deleteMessage(
+    receivedMessageItem.messageId,
+    receivedMessageItem.popReceipt
+  );
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );

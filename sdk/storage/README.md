@@ -90,8 +90,6 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ## Getting Started
 
-### NPM
-
 The preferred way to install the Azure Storage client libraries for JavaScript is to use the npm package manager. Take "@azure/storage-blob" for example.
 
 Simply type the following into a terminal window:
@@ -111,22 +109,6 @@ Or
 ```JavaScript
 conss AzureStorageBlob = require("@azure/storage-blob");
 ```
-
-### JavaScript Bundle
-
-To use the client libraries with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-blob.min.js"></script>
-<script src="https://mydomain/azure-storage-file-share.min.js"></script>
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azblob`
-- `azfile`
-- `azqueue`
 
 ### CORS
 
@@ -255,7 +237,9 @@ async function main() {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
   // Passing the continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
+  iterator = containerClient
+    .listBlobsFlat()
+    .byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {

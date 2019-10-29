@@ -27,16 +27,13 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "ThirdPartyNotices.txt",
     "types/keyvault-keys.d.ts",
-    "browser/",
     "dist/",
     "dist-esm/",
     "src/",
     "tsconfig.json"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-keyvault-keys.min.js",
     "os": false,
     "process": false
   },
@@ -70,18 +67,18 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "1.0.0-preview.6",
-    "@azure/core-lro": "1.0.0-preview.2",
-    "@azure/core-paging": "1.0.0-preview.2",
+    "@azure/core-http": "^1.0.0",
+    "@azure/core-lro": "^1.0.0",
+    "@azure/core-paging": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.5",
-    "@azure/logger": "1.0.0-preview.1",
+    "@azure/logger": "^1.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/abort-controller": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "1.0.0-preview.6",
-    "@azure/test-utils-recorder": "1.0.0",
+    "@azure/identity": "^1.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",

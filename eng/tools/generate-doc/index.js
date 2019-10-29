@@ -184,9 +184,45 @@ const executeTypedoc = async (
                     indexPackageList.push(eachPackage);
                   }
                 } else {
-                  console.log(
-                    "...SKIPPING Since src folder could not be found....."
-                  );
+                  if(eachPackage === "core-http" || eachPackage === "core-tracing"){
+                    if (argv.docGenOutput === "dg") {
+                      docOutputFolder =
+                        "--out ../../../docGen/" +
+                        eachPackage +
+                        "/" +
+                        checks.version +
+                        " ./lib";
+                    }
+
+                    let typedocProcess;
+                    let commandRun = [];
+                    commandRun.push("typedoc");
+                    commandRun.push({
+                      cwd: eachPackagePath,
+                      shell: true
+                    });
+
+                      commandRun.push([
+                        '--theme "../../../eng/tools/generate-doc/theme/default"',
+                        "--excludePrivate",
+                        "--excludeNotExported",
+                        '--exclude "node_modules/**/*"',
+                        "--ignoreCompilerErrors",
+                        "--mode file",
+                        docOutputFolder
+                      ]);
+
+                    commandList.push(commandRun);
+                    if (generateIndexWithTemplate) {
+                      /* Adding package to packageList for the template index generation */
+                      indexPackageList.push(eachPackage);
+                    }
+                  }
+                  else{
+                    console.log(
+                      "...SKIPPING Since src folder could not be found....."
+                    );
+                  }
                 }
               } else {
                 //console.log("...SKIPPING Since package is either not sdkType client");

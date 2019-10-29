@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0-preview.6",
+  "version": "1.0.0",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -30,16 +30,15 @@
   "module": "./es/lib/coreHttp.js",
   "types": "./es/lib/coreHttp.d.ts",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
+    "dist/**/*.node.js",
+    "dist/**/*.node.js.map",
     "es/lib/**/*.js",
     "es/lib/**/*.js.map",
     "es/lib/**/*.d.ts",
     "es/lib/**/*.d.ts.map",
     "lib/**/*.ts",
     "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
@@ -110,10 +109,10 @@
     "all": true
   },
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-auth": "1.0.0-preview.4",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-auth": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.5",
-    "@azure/logger": "1.0.0-preview.1",
+    "@azure/logger": "^1.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
     "form-data": "^2.5.0",

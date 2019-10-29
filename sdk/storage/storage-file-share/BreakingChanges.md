@@ -6,8 +6,16 @@
   - `FileServiceClient` becomes `ShareServiceClient`
   - `DirectoryClient` becomes `ShareDirectoryClient`
   - `FileClient` becomes `ShareFileClient`
-
-- [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 
+Below are the entities that now have the Storage prefix
+   - BrowserPolicy
+   - BrowserPolicyFactory
+   - RetryPolicy
+   - RetryPolicyType
+   - RetryOptions
+   - RetryPolicyFactory
+- The properties in the StoragePipelineOptions interface have been updated as below:
    - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
  will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
  and `port` then pass it as a json object.

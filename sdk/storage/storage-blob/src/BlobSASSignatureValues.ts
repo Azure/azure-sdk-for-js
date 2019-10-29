@@ -3,7 +3,7 @@
 
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
@@ -171,7 +171,7 @@ export interface BlobSASSignatureValues {
  *     protocol: SASProtocol.HTTPSandHTTP, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential
  * ).toString();
  * ```
  *
@@ -196,7 +196,7 @@ export interface BlobSASSignatureValues {
  *     containerName, // Required
  *     identifier // Required
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential
  * ).toString();
  * ```
  *
@@ -218,18 +218,18 @@ export interface BlobSASSignatureValues {
  *     protocol: SASProtocol.HTTPSandHTTP, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential
  * ).toString();
  * ```
  *
  * @export
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters;
 
 /**
@@ -270,13 +270,13 @@ export function generateBlobSASQueryParameters(
 
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredentialOrUserDelegationKey: SharedKeyCredential | UserDelegationKey,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string
 ): SASQueryParameters {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
 
   const sharedKeyCredential =
-    sharedKeyCredentialOrUserDelegationKey instanceof SharedKeyCredential
+    sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
       ? sharedKeyCredentialOrUserDelegationKey
       : undefined;
   let userDelegationKeyCredential: UserDelegationKeyCredential | undefined;
@@ -332,12 +332,12 @@ export function generateBlobSASQueryParameters(
  * this constructor.
  *
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&
@@ -431,12 +431,12 @@ function generateBlobSASQueryParameters20150405(
  * this constructor.
  *
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&

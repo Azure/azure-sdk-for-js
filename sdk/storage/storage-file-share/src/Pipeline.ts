@@ -25,9 +25,9 @@ import {
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
@@ -139,10 +139,10 @@ export interface StoragePipelineOptions {
   /**
    * Configures the built-in retry policy behavior.
    *
-   * @type {RetryOptions}
+   * @type {StorageRetryOptions}
    * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageRetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
@@ -163,7 +163,7 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
+ * @param {Credential} credential Such as AnonymousCredential, StorageSharedKeyCredential.
  * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
@@ -180,9 +180,9 @@ export function newPipeline(
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     generateClientRequestIdPolicy(),
-    new BrowserPolicyFactory(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageFileLoggingAllowedHeaderNames,

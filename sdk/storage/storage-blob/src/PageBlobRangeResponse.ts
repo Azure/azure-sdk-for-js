@@ -7,11 +7,24 @@ import {
 } from "./generatedModels";
 import { Range } from "./Range";
 
+/**
+ * List of page ranges for a blob.
+ */
 export interface PageList {
+  /**
+   * Valid non-overlapping page ranges.
+   */
   pageRange?: Range[];
+  /**
+   * Present if the prevSnapshot parameter was specified and there were cleared
+   * pages between the previous snapshot and the target snapshot.
+   */
   clearRange?: Range[];
 }
 
+/**
+ * Contains response data for the getPageRanges operation.
+ */
 export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
   /**
    * The underlying HTTP response.
