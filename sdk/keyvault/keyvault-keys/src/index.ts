@@ -157,6 +157,12 @@ export class KeyClient {
    * The authentication credentials
    */
   protected readonly credential: TokenCredential;
+
+  /**
+   * @internal
+   * @ignore
+   * A reference to the auto-generated KeyVault HTTP client.
+	 */
   private readonly client: KeyVaultClient;
 
   /**
@@ -232,6 +238,14 @@ export class KeyClient {
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Sends a delete request for the given KeyVault Key's name to the KeyVault service.
+	 * Since the KeyVault Key won't be immediately deleted, we have {@link beginDeleteKey}.
+	 * @param {string} name The name of the KeyVault Key.
+	 * @param {GetDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
+   */
   private async deleteKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("deleteKey", requestOptions);
@@ -250,6 +264,14 @@ export class KeyClient {
     return this.getKeyFromKeyBundle(response);
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Sends a request to recover a deleted KeyVault Key based on the given name.
+	 * Since the KeyVault Key won't be immediately recover the deleted key, we have {@link beginRecoverDeletedKey}.
+	 * @param {string} name The name of the KeyVault Key.
+	 * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
+   */
   private async recoverDeletedKey(
     name: string,
     options: RecoverDeletedKeyOptions = {}
@@ -799,6 +821,14 @@ export class KeyClient {
     return this.getKeyFromKeyBundle(response);
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
+	 * @param {string} name The name of the KeyVault Key.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listPropertiesOfKeyVersionsPage(
     name: string,
     continuationState: PageSettings,
@@ -834,6 +864,13 @@ export class KeyClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
+	 * @param {string} name The name of the KeyVault Key.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listPropertiesOfKeyVersionsAll(
     name: string,
     options?: ListKeysOptions
@@ -888,6 +925,13 @@ export class KeyClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listPropertiesOfKeys}.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listPropertiesOfKeysPage(
     continuationState: PageSettings,
     options?: ListKeysOptions
@@ -917,6 +961,12 @@ export class KeyClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listPropertiesOfKeys}.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listPropertiesOfKeysAll(
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyProperties> {
@@ -969,6 +1019,13 @@ export class KeyClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listDeletedKeys}.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listDeletedKeysPage(
     continuationState: PageSettings,
     options?: ListKeysOptions
@@ -998,6 +1055,12 @@ export class KeyClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listDeletedKeys}.
+	 * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   */
   private async *listDeletedKeysAll(options?: ListKeysOptions): AsyncIterableIterator<DeletedKey> {
     const f = {};
 
@@ -1048,6 +1111,11 @@ export class KeyClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Shapes the exposed {@link KeyVaultKey} based on either a received key bundle or deleted key bundle.
+   */
   private getKeyFromKeyBundle(bundle: KeyBundle | DeletedKeyBundle): KeyVaultKey {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
@@ -1100,6 +1168,11 @@ export class KeyClient {
     return resultObject;
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
+   */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
@@ -1139,6 +1212,11 @@ export class KeyClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Shapes the exposed {@link KeyPropertn} based on a received KeyItem.
+   */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
@@ -1166,7 +1244,9 @@ export class KeyClient {
   /**
    * @internal
    * @ignore
-   * Creates a span using the tracer that was set by the user
+   * Creates a span using the tracer that was set by the user.
+	 * @param {string} methodName The name of the method creating the span.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
@@ -1178,6 +1258,8 @@ export class KeyClient {
    * @ignore
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
+	 * @param {Span} span The span for the current operation.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {

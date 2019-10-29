@@ -6,8 +6,10 @@ import { JsonWebKeyOperation, JsonWebKeyCurveName, JsonWebKeyType } from "./core
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
+ * @internal
+ * @ignore
  * @interface
- * An interface representing the key client. For internal use.
+ * An interface representing the KeyClient. For internal use.
  */
 export interface KeyClientInterface {
   /**
@@ -108,7 +110,7 @@ export interface JsonWebKey {
 
 /**
  * @interface
- * An interface representing the complete key with value
+ * An interface representing a complete KeyVault Key.
  */
 export interface KeyVaultKey {
   /**
@@ -141,7 +143,7 @@ export interface KeyVaultKey {
 
 /**
  * @interface
- * An interface representing the Properties of a key
+ * An interface representing the Properties of a KeyVault Key
  */
 export interface KeyProperties {
   /**
@@ -205,7 +207,7 @@ export interface KeyProperties {
 
 /**
  * @interface
- * An interface representing a deleted key.
+ * An interface representing a deleted KeyVault Key.
  */
 export interface DeletedKey {
   /**
@@ -292,7 +294,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteKey}
+ * passed to {@link beginDeleteKey} and {@link beginRecoverDeletedKey}
  */
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
   /**
@@ -421,36 +423,38 @@ export interface ListKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing the options of the getDeletedKey method
+ * An interface representing the optional parameters that can be passed to {@link getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing the options of the purgeDeletedKey method
+ * An interface representing the optional parameters that can be passed to {@link purgeDeletedKey}.
  */
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
+ * @internal
+ * @ignore
  * @interface
- * An interface representing the options of the recoverDeletedKey method
+ * An interface representing the optional parameters that can be passed to {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing the options of the backupKey method
+ * An interface representing the optional parameters that can be passed to {@link backupKey}.
  */
 export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing the options of the restoreKeyBackup method
+ * An interface representing the optional parameters that can be passed to {@link restoreKeyBackup}.
  */
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing the options of the cryptography API methods
+ * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
 export interface CryptographyOptions extends coreHttp.OperationOptions {}

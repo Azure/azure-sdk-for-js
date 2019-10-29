@@ -102,9 +102,17 @@ export class SecretClient {
    * The authentication credentials
    */
   protected readonly credential: TokenCredential;
+
+  /**
+   * @internal
+   * @ignore
+   * A reference to the auto-generated KeyVault HTTP client.
+	 */
   private readonly client: KeyVaultClient;
 
   /**
+   * @internal
+   * @ignore
    * A self reference that bypasses private methods, for the pollers.
    */
   private readonly pollerClient: SecretClientInterface = {
@@ -563,6 +571,14 @@ export class SecretClient {
     return this.getSecretFromSecretBundle(response).properties;
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Sends a delete request for the given KeyVault Secret's name to the KeyVault service.
+	 * Since the KeyVault Secret won't be immediately deleted, we have {@link beginDeleteSecret}.
+	 * @param {string} name The name of the KeyVault Secret.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async deleteSecret(
     secretName: string,
     options: RequestOptionsBase = {}
@@ -583,6 +599,14 @@ export class SecretClient {
     return this.getSecretFromSecretBundle(response);
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Sends a request to recover a deleted KeyVault Secret based on the given name.
+	 * Since the KeyVault Secret won't be immediately recover the deleted secret, we have {@link beginRecoverDeletedSecret}.
+	 * @param {string} name The name of the KeyVault Secret.
+	 * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
+   */
   private async recoverDeletedSecret(
     secretName: string,
     options: RecoverDeletedSecretOptions = {}
@@ -606,6 +630,14 @@ export class SecretClient {
     return properties;
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
+	 * @param {string} name The name of the KeyVault Secret.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
     continuationState: PageSettings,
@@ -645,6 +677,13 @@ export class SecretClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
+	 * @param {string} name The name of the KeyVault Secret.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
     options: RequestOptionsBase = {}
@@ -699,6 +738,13 @@ export class SecretClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listPropertiesOfSecrets}.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
@@ -732,6 +778,12 @@ export class SecretClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listPropertiesOfSecretsAll(
     options: ListOperationOptions = {}
   ): AsyncIterableIterator<SecretProperties> {
@@ -784,6 +836,13 @@ export class SecretClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the pagination of {@link listDeletedSecrets}.
+	 * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
@@ -816,6 +875,12 @@ export class SecretClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
+	 * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   */
   private async *listDeletedSecretsAll(
     options: ListOperationOptions = {}
   ): AsyncIterableIterator<DeletedSecret> {
@@ -867,6 +932,11 @@ export class SecretClient {
     };
   }
 
+  /**
+   * @internal
+   * @ignore
+	 * Shapes the exposed {@link KeyVaultSecret} based on either a received secret bundle or deleted secret bundle.
+   */
   private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
     const secretBundle = bundle as SecretBundle;
     const deletedSecretBundle = bundle as DeletedSecretBundle;
@@ -916,9 +986,11 @@ export class SecretClient {
   }
 
   /**
+   * @internal
+   * @ignore
    * Creates a span using the tracer that was set by the user
-   * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request.
+	 * @param {string} methodName The name of the method creating the span.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
@@ -926,10 +998,12 @@ export class SecretClient {
   }
 
   /**
+   * @internal
+   * @ignore
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
-   * @param span The span for the current operation.
-   * @param options The options for the underlying http request.
+	 * @param {Span} span The span for the current operation.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {

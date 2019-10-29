@@ -576,6 +576,11 @@ export class CryptographyClient {
     return { result: result.value!, keyID: this.getKeyID() };
   }
 
+  /**
+   * @internal
+   * @ignore
+   * Attempts to fetch the key from the service.
+   */
   private async fetchFullKeyIfPossible() {
     if (!this.hasTriedToGetKey) {
       try {
@@ -586,6 +591,11 @@ export class CryptographyClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+   * Attempts to retrieve the ID of the key.
+   */
   private getKeyID(): string | undefined {
     let kid;
     if (typeof this.key !== "string") {
@@ -611,6 +621,12 @@ export class CryptographyClient {
    * The authentication credentials
    */
   protected readonly credential: ServiceClientCredentials | TokenCredential;
+
+  /**
+   * @internal
+   * @ignore
+   * A reference to the auto-generated KeyVault HTTP client.
+	 */
   private readonly client: KeyVaultClient;
 
   /**
@@ -731,9 +747,11 @@ export class CryptographyClient {
   }
 
   /**
-   * Creates a span using the tracer that was set by the user
-   * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request.
+   * @internal
+   * @ignore
+   * Creates a span using the tracer that was set by the user.
+	 * @param {string} methodName The name of the method creating the span.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
@@ -744,10 +762,12 @@ export class CryptographyClient {
   }
 
   /**
+   * @internal
+   * @ignore
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
-   * @param span The span for the current operation.
-   * @param options The options for the underlying http request.
+	 * @param {Span} span The span for the current operation.
+	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {
@@ -908,37 +928,44 @@ export type SignatureAlgorithm =
   | "ES256K";
 
 /**
- * Options for the encrypt call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * Options for the decrypt call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * Options for the sign call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * Options for the verify call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * Options for the wrapKey call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * Options for the unwrap call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
- * Result of a decrypt operation
+ * @interface
+ * Result of the {@link decrypt} operation.
  */
 export interface DecryptResult {
   /**
@@ -956,7 +983,8 @@ export interface DecryptResult {
 }
 
 /**
- * Reuslt of an encrypt operation
+ * @interface
+ * Result of the {@link encrypt} operation.
  */
 export interface EncryptResult {
   /**
@@ -974,7 +1002,8 @@ export interface EncryptResult {
 }
 
 /**
- * Result of a sign operation
+ * @interface
+ * Result of the {@link sign} operation.
  */
 export interface SignResult {
   /**
@@ -992,7 +1021,8 @@ export interface SignResult {
 }
 
 /**
- * Result of a verify operation
+ * @interface
+ * Result of the {@link verify} operation.
  */
 export interface VerifyResult {
   /**
@@ -1006,7 +1036,8 @@ export interface VerifyResult {
 }
 
 /**
- * Result of a wrap operation
+ * @interface
+ * Result of the {@link wrap} operation.
  */
 export interface WrapResult {
   /**
@@ -1024,7 +1055,8 @@ export interface WrapResult {
 }
 
 /**
- * Result of an unwrap operation
+ * @interface
+ * Result of the {@link unwrap} operation.
  */
 export interface UnwrapResult {
   /**
