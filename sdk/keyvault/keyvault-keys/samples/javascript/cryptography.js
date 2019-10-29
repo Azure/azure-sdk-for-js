@@ -1,4 +1,4 @@
-const { KeysClient, CryptographyClient } = require("../../src");
+const { KeyClient, CryptographyClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 const crypto = require("crypto");
 
@@ -13,7 +13,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
 
   // Connection to Azure Key Vault
-  const client = new KeysClient(url, credential);
+  const client = new KeyClient(url, credential);
 
   let keyName = "localWorkKey11241";
 
