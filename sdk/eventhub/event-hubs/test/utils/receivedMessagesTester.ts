@@ -1,4 +1,4 @@
-import { CloseReason, ReceivedEventData, delay } from "../../src/";
+import { CloseReason, ReceivedEventData, delay, EventHubClient, EventPosition } from "../../src/";
 import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
@@ -15,10 +15,11 @@ interface ReceivedMessages {
  * all been received at least once.
  */
 export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
-  public Data: Map<string, ReceivedMessages>;
+  private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
-
   public done: boolean;
+
+  public defaultEventPosition: EventPosition = EventPosition.latest();
 
   /**
    * Creates a ReceivedMessagesTester
@@ -32,11 +33,10 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
    */
   constructor(
     private expectedPartitions: string[],
-    expectedMessageBodies: string[],
     private multipleConsumers: boolean
   ) {
-    this.Data = new Map<string, ReceivedMessages>();
-    this.expectedMessageBodies = new Set(expectedMessageBodies);
+    this.data = new Map<string, ReceivedMessages>();
+    this.expectedMessageBodies = new Set();
     this.done = false;
   }
 
@@ -81,10 +81,10 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
       // So it's okay that initialize is called more than once per partition
       // in that case since the consumers, for a short time, can overlap as 
       // load balancing occurs.
-      this.Data.has(context.partitionId).should.not.be.ok;
+      this.data.has(context.partitionId).should.not.be.ok;
     }
 
-    this.Data.set(context.partitionId, {
+    this.data.set(context.partitionId, {
       closeReason: undefined,
       errors: []
     });
@@ -100,12 +100,17 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
   /**
    * Polls until all messages have been received (or until first error)
    */
-  async poll(): Promise<void> {
-    let lastExpectedMessageCount = this.expectedMessageBodies.size;
-    const totalExpected = this.expectedMessageBodies.size;
+  async runTestAndPoll(client: EventHubClient): Promise<void> {
+
+    // wait until all the partitions have been claimed
+    while (this.data.size !== this.expectedPartitions.length) {
+      await delay(1000); 
+    }
+
+    let lastExpectedMessageCount = await this.produceMessages(client);
 
     while (!this.done) {
-      for (const data of this.Data) {
+      for (const data of this.data) {
         if (data[1].errors.length > 0) {
           throw data[1].errors[0];
         }
@@ -113,8 +118,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
 
       if (lastExpectedMessageCount !== this.expectedMessageBodies.size) {
         console.log(
-          `Receieved [${totalExpected -
-            this.expectedMessageBodies.size}/${totalExpected}]. Still waiting for these messages:`
+          `Still waiting for these messages:`
         );
 
         for (const body of this.expectedMessageBodies) {
@@ -128,15 +132,38 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     }
 
     if (this.expectedMessageBodies.size > 0) {
-      throw new Error(`Never got these messages: ${this.expectedMessageBodies}`);
+      throw new Error(`Never got these messages: ${Array.from(this.expectedMessageBodies)}`);
     }
 
     console.log("All messages received");
   }
 
+  private async produceMessages(client: EventHubClient) {
+    const expectedMessagePrefix = `EventHubConsumerClient test - ${Date.now().toString()}`;
+    const messagesToSend = [];
+
+    for (const partitionId of this.expectedPartitions) {
+      const body = `${expectedMessagePrefix} - ${partitionId}`;
+      this.expectedMessageBodies.add(body);
+      messagesToSend.push({
+        body,
+        partitionId
+      });
+    }
+
+    let lastExpectedMessageCount = this.expectedMessageBodies.size;
+
+    for (const messageToSend of messagesToSend) {
+      const producer = await client.createProducer({ partitionId: messageToSend.partitionId });
+      await producer.send({ body: messageToSend.body });
+      await producer.close();
+    }
+    return lastExpectedMessageCount;
+  }
+
   private get(partitionId: string): ReceivedMessages {
-    this.Data.has(partitionId).should.be.ok;
-    const receivedData = this.Data.get(partitionId)!;
+    this.data.has(partitionId).should.be.ok;
+    const receivedData = this.data.get(partitionId)!;
     return receivedData;
   }
 

@@ -12,9 +12,9 @@ export interface OptionalEventHandlers {
 }
 
 /**
- * 
+ * Options for subscribe.
  */
-export interface SubscriptionOptions extends OptionalEventHandlers{
+export interface SubscriptionOptions extends OptionalEventHandlers, Pick<EventProcessorOptions, Exclude<keyof EventProcessorOptions, 'partitionLoadBalancer'>> {
 }
 
 /**

@@ -32,6 +32,9 @@ export {
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
+export {
+  PartitionLoadBalancer
+} from "./partitionLoadBalancer";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
