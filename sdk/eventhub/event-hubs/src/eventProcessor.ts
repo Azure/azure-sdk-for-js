@@ -362,12 +362,12 @@ export class EventProcessor {
         }
 
         if (partitionIds.length > 0) {
-          const partitionToClaims = this._partitionLoadBalancer.loadBalance(
+          const partitionsToClaim = this._partitionLoadBalancer.loadBalance(
             partitionOwnershipMap,
             partitionIds
           );
-          if (partitionToClaims) {
-            for (const partitionToClaim of partitionToClaims) {
+          if (partitionsToClaim) {
+            for (const partitionToClaim of partitionsToClaim) {
               await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
             }
           }
