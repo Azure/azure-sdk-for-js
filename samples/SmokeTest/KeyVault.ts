@@ -71,7 +71,8 @@ export class KeyVaultSecrets {
 
   private static async deleteSecret() {
     console.log("Deleting that secret...");
-    await KeyVaultSecrets.client.deleteSecret(KeyVaultSecrets.secretName);
+    const deletePoller = await KeyVaultSecrets.client.beginDeleteSecret(KeyVaultSecrets.secretName);
+    await deletePoller.pollUntilDone();
     console.log("\tdone");
   }
 
