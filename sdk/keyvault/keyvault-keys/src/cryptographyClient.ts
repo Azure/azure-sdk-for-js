@@ -626,7 +626,7 @@ export class CryptographyClient {
    * @internal
    * @ignore
    * A reference to the auto-generated KeyVault HTTP client.
-	 */
+   */
   private readonly client: KeyVaultClient;
 
   /**
@@ -751,8 +751,8 @@ export class CryptographyClient {
    * @internal
    * @ignore
    * Creates a span using the tracer that was set by the user.
-	 * @param {string} methodName The name of the method creating the span.
-	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
+   * @param {string} methodName The name of the method creating the span.
+   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
@@ -767,8 +767,8 @@ export class CryptographyClient {
    * @ignore
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
-	 * @param {Span} span The span for the current operation.
-	 * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
+   * @param {Span} span The span for the current operation.
+   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {
