@@ -31,7 +31,7 @@ export interface SecretClientInterface {
    * The getDeletedSecret method returns the specified deleted secret along with its properties.
    * This operation requires the secrets/get permission.
    */
-  getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
+  getDeletedSecret(secretName: string, options?: DeleteSecretOptions): Promise<DeletedSecret>;
 }
 
 /**
@@ -289,7 +289,27 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
+ * @internal
+ * @ignore
  * @interface
- * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecretVersions}, {@link listPropertiesOfSecrets} and {@link listDeletedSecrets}.
+ * An interface representing the optional parameters that can be passed to {@link deleteSecret}.
  */
-export interface ListOperationOptions extends coreHttp.OperationOptions {}
+export interface DeleteSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecretVersions}.
+ */
+export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecrets}.
+ */
+export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listDeletedSecrets}.
+ */
+export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {}

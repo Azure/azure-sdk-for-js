@@ -16,7 +16,7 @@ export interface KeyClientInterface {
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault.
    */
-  recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
+  recoverDeletedKey(name: string, options?: RecoverDeletedKeyOptions): Promise<KeyVaultKey>;
   /**
    * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
@@ -26,7 +26,7 @@ export interface KeyClientInterface {
    * The delete operation applies to any key stored in Azure Key Vault. Individual versions
    * of a key can not be deleted, only all versions of a given key at once.
    */
-  deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
+  deleteKey(name: string, options?: DeleteKeyOptions): Promise<DeletedKey>;
   /**
    * The getDeletedKey method returns the specified deleted key along with its properties.
    * This operation requires the keys/get permission.
@@ -412,6 +412,24 @@ export interface ListKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeys}.
+ */
+export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeyVersions}.
+ */
+export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listDeletedKeys}.
+ */
+export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
  * An interface representing the optional parameters that can be passed to {@link getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
@@ -429,6 +447,14 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
  * An interface representing the optional parameters that can be passed to {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @internal
+ * @ignore
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link deleteKey}.
+ */
+export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface

@@ -10,7 +10,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -48,7 +47,15 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface ListOperationOptions extends coreHttp.OperationOptions {
+export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -68,12 +75,6 @@ export { PollOperationState }
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
-// Warning: (ae-internal-missing-underscore) The name "RecoverDeletedSecretOptions" should be prefixed with an underscore because the declaration is marked as @internal
-// 
-// @internal
-export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
-}
-
 // @public
 export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 }
@@ -84,13 +85,11 @@ export class SecretClient {
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
-    protected readonly credential: TokenCredential;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    listDeletedSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
-    listPropertiesOfSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listPropertiesOfSecretVersions(secretName: string, options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    readonly pipeline: ServiceClientOptions;
+    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
+    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
     purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
     restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;

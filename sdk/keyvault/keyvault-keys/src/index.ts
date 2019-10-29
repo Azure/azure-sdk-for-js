@@ -5,7 +5,6 @@
 import {
   PipelineOptions,
   RequestOptionsBase,
-  ServiceClientOptions as Pipeline,
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
@@ -54,6 +53,7 @@ import {
   CreateRsaKeyOptions,
   CryptographyOptions,
   DeletedKey,
+  DeleteKeyOptions,
   GetDeletedKeyOptions,
   GetKeyOptions,
   ImportKeyOptions,
@@ -62,7 +62,9 @@ import {
   KeyPollerOptions,
   KeyProperties,
   KeyVaultKey,
-  ListKeysOptions,
+  ListPropertiesOfKeysOptions,
+  ListPropertiesOfKeyVersionsOptions,
+  ListDeletedKeysOptions,
   PurgeDeletedKeyOptions,
   RecoverDeletedKeyOptions,
   RestoreKeyBackupOptions,
@@ -114,14 +116,15 @@ export {
   SignatureAlgorithm,
   KeyVaultKey,
   KeyWrapAlgorithm,
-  ListKeysOptions as GetKeysOptions,
+  ListPropertiesOfKeysOptions,
+  ListPropertiesOfKeyVersionsOptions,
+  ListDeletedKeysOptions,
   PageSettings,
   PagedAsyncIterableIterator,
   PipelineOptions,
   PollOperationState,
   PollerLike,
   PurgeDeletedKeyOptions,
-  RecoverDeletedKeyOptions,
   RestoreKeyBackupOptions,
   SignOptions,
   SignResult,
@@ -151,16 +154,6 @@ export class KeyClient {
    * The base URL to the vault
    */
   public readonly vaultUrl: string;
-
-  /**
-   * The options to create the connection to the service
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: TokenCredential;
 
   /**
    * @internal
@@ -205,7 +198,6 @@ export class KeyClient {
     pipelineOptions: PipelineOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
-    this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
@@ -238,8 +230,8 @@ export class KeyClient {
       }
     };
 
-    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
   }
 
   /**
@@ -248,9 +240,9 @@ export class KeyClient {
    * Sends a delete request for the given KeyVault Key's name to the KeyVault service.
    * Since the KeyVault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    * @param {string} name The name of the KeyVault Key.
-   * @param {GetDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param {DeleteKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
-  private async deleteKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
+  private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("deleteKey", requestOptions);
 
@@ -831,12 +823,12 @@ export class KeyClient {
    * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
    * @param {string} name The name of the KeyVault Key.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeyVersionsPage(
     name: string,
     continuationState: PageSettings,
-    options?: ListKeysOptions
+    options?: ListPropertiesOfKeyVersionsOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
@@ -873,11 +865,11 @@ export class KeyClient {
    * @ignore
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
    * @param {string} name The name of the KeyVault Key.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeyVersionsAll(
     name: string,
-    options?: ListKeysOptions
+    options?: ListPropertiesOfKeyVersionsOptions
   ): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
@@ -901,15 +893,15 @@ export class KeyClient {
    * }
    * ```
    * @param {string} name Name of the key to fetch versions for
-   * @param {ListKeysOptions} [options] The optional parameters.
+   * @param {ListPropertiesOfKeyVersionsOptions} [options] The optional parameters.
    */
   public listPropertiesOfKeyVersions(
     name: string,
-    options: ListKeysOptions = {}
+    options: ListPropertiesOfKeyVersionsOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeyVersions", requestOptions);
-    const updatedOptions: ListKeysOptions = {
+    const updatedOptions: ListPropertiesOfKeyVersionsOptions = {
       ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
@@ -934,11 +926,11 @@ export class KeyClient {
    * @ignore
    * Deals with the pagination of {@link listPropertiesOfKeys}.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListPropertiesOfKeysOptions} [options] Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeysPage(
     continuationState: PageSettings,
-    options?: ListKeysOptions
+    options?: ListPropertiesOfKeysOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
@@ -969,10 +961,10 @@ export class KeyClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeys}.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListPropertiesOfKeysOptions} [options] Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeysAll(
-    options?: ListKeysOptions
+    options?: ListPropertiesOfKeysOptions
   ): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
@@ -996,14 +988,14 @@ export class KeyClient {
    * }
    * ```
    * @summary List all keys in the vault
-   * @param {ListKeysOptions} [options] The optional parameters.
+   * @param {ListPropertiesOfKeysOptions} [options] The optional parameters.
    */
   public listPropertiesOfKeys(
-    options: ListKeysOptions = {}
+    options: ListPropertiesOfKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeys", requestOptions);
-    const updatedOptions: ListKeysOptions = {
+    const updatedOptions: ListPropertiesOfKeysOptions = {
       ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
@@ -1028,11 +1020,11 @@ export class KeyClient {
    * @ignore
    * Deals with the pagination of {@link listDeletedKeys}.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListDeletedKeysOptions} [options] Common options for the iterative endpoints.
    */
   private async *listDeletedKeysPage(
     continuationState: PageSettings,
-    options?: ListKeysOptions
+    options?: ListDeletedKeysOptions
   ): AsyncIterableIterator<DeletedKey[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
@@ -1063,9 +1055,11 @@ export class KeyClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listDeletedKeys}.
-   * @param {ListKeysOptions} [options] Common options for the iterative endpoints.
+   * @param {ListDeletedKeysOptions} [options] Common options for the iterative endpoints.
    */
-  private async *listDeletedKeysAll(options?: ListKeysOptions): AsyncIterableIterator<DeletedKey> {
+  private async *listDeletedKeysAll(
+    options?: ListDeletedKeysOptions
+  ): AsyncIterableIterator<DeletedKey> {
     const f = {};
 
     for await (const page of this.listDeletedKeysPage(f, options)) {
@@ -1088,15 +1082,15 @@ export class KeyClient {
    * }
    * ```
    * @summary List all keys in the vault
-   * @param {ListKeysOptions} [options] The optional parameters.
+   * @param {ListDeletedKeysOptions} [options] The optional parameters.
    */
   public listDeletedKeys(
-    options: ListKeysOptions = {}
+    options: ListDeletedKeysOptions = {}
   ): PagedAsyncIterableIterator<DeletedKey, DeletedKey[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedKeys", requestOptions);
 
-    const updatedOptions: ListKeysOptions = {
+    const updatedOptions: ListDeletedKeysOptions = {
       ...options,
       ...this.setParentSpan(span, requestOptions)
     };

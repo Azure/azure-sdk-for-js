@@ -9,8 +9,7 @@ import {
   RequestOptionsBase,
   operationOptionsToRequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions,
-  ServiceClientOptions as Pipeline
+  createPipelineFromOptions
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
@@ -42,6 +41,7 @@ import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
 import {
   KeyVaultSecret,
   DeletedSecret,
+  DeleteSecretOptions,
   SecretClientInterface,
   SecretPollerOptions,
   SetSecretOptions,
@@ -52,7 +52,9 @@ import {
   BackupSecretOptions,
   RestoreSecretBackupOptions,
   RecoverDeletedSecretOptions,
-  ListOperationOptions,
+  ListPropertiesOfSecretVersionsOptions,
+  ListPropertiesOfSecretsOptions,
+  ListDeletedSecretsOptions,
   SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
@@ -66,8 +68,9 @@ export {
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
   RestoreSecretBackupOptions,
-  RecoverDeletedSecretOptions,
-  ListOperationOptions,
+  ListPropertiesOfSecretVersionsOptions,
+  ListPropertiesOfSecretsOptions,
+  ListDeletedSecretsOptions,
   PagedAsyncIterableIterator,
   PageSettings,
   PollerLike,
@@ -96,16 +99,6 @@ export class SecretClient {
    * The base URL to the vault
    */
   public readonly vaultUrl: string;
-
-  /**
-   * The options to create the connection to the service
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: TokenCredential;
 
   /**
    * @internal
@@ -151,7 +144,6 @@ export class SecretClient {
     pipelineOptions: PipelineOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
-    this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
@@ -184,8 +176,8 @@ export class SecretClient {
       }
     };
 
-    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
   }
 
   /**
@@ -585,16 +577,17 @@ export class SecretClient {
    */
   private async deleteSecret(
     secretName: string,
-    options: RequestOptionsBase = {}
+    options: DeleteSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const span = this.createSpan("deleteSecret", options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("deleteSecret", requestOptions);
 
     let response: DeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
         this.vaultUrl,
         secretName,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -640,12 +633,12 @@ export class SecretClient {
    * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
    * @param {string} name The name of the KeyVault Secret.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
     continuationState: PageSettings,
-    options: RequestOptionsBase = {}
+    options: ListPropertiesOfSecretVersionsOptions = {}
   ): AsyncIterableIterator<SecretProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
@@ -686,11 +679,11 @@ export class SecretClient {
    * @ignore
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
    * @param {string} name The name of the KeyVault Secret.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
-    options: RequestOptionsBase = {}
+    options: ListPropertiesOfSecretVersionsOptions = {}
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
@@ -714,15 +707,15 @@ export class SecretClient {
    * }
    * ```
    * @param {string} secretName Name of the secret to fetch versions for.
-   * @param {ListOperationOptions} [options] The optional parameters.
+   * @param {ListPropertiesOfSecretVersionsOptions} [options] The optional parameters.
    */
   public listPropertiesOfSecretVersions(
     secretName: string,
-    options: ListOperationOptions = {}
+    options: ListPropertiesOfSecretVersionsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecretVersions", requestOptions);
-    const updatedOptions: ListOperationOptions = {
+    const updatedOptions: ListPropertiesOfSecretVersionsOptions = {
       ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
@@ -747,11 +740,11 @@ export class SecretClient {
    * @ignore
    * Deals with the pagination of {@link listPropertiesOfSecrets}.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
-    options: RequestOptionsBase = {}
+    options: ListPropertiesOfSecretsOptions = {}
   ): AsyncIterableIterator<SecretProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
@@ -786,10 +779,10 @@ export class SecretClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsAll(
-    options: ListOperationOptions = {}
+    options: ListPropertiesOfSecretsOptions = {}
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
@@ -813,14 +806,14 @@ export class SecretClient {
    * }
    * ```
    * @summary List all secrets in the vault.
-   * @param {ListOperationOptions} [options] The optional parameters.
+   * @param {ListPropertiesOfSecretsOptions} [options] The optional parameters.
    */
   public listPropertiesOfSecrets(
-    options: ListOperationOptions = {}
+    options: ListPropertiesOfSecretsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecrets", requestOptions);
-    const updatedOptions: ListOperationOptions = {
+    const updatedOptions: ListPropertiesOfSecretsOptions = {
       ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
@@ -845,11 +838,11 @@ export class SecretClient {
    * @ignore
    * Deals with the pagination of {@link listDeletedSecrets}.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
-    options: RequestOptionsBase = {}
+    options: ListDeletedSecretsOptions = {}
   ): AsyncIterableIterator<DeletedSecret[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
@@ -883,10 +876,10 @@ export class SecretClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
-   * @param {RequestOptionsBase} [options] Optional parameters for the underlying HTTP request.
+   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsAll(
-    options: ListOperationOptions = {}
+    options: ListDeletedSecretsOptions = {}
   ): AsyncIterableIterator<DeletedSecret> {
     const f = {};
 
@@ -910,14 +903,14 @@ export class SecretClient {
    * }
    * ```
    * @summary List all secrets in the vault.
-   * @param {ListOperationOptions} [options] The optional parameters.
+   * @param {ListDeletedSecretsOptions} [options] The optional parameters.
    */
   public listDeletedSecrets(
-    options: ListOperationOptions = {}
+    options: ListDeletedSecretsOptions = {}
   ): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedSecrets", requestOptions);
-    const updatedOptions: ListOperationOptions = {
+    const updatedOptions: ListDeletedSecretsOptions = {
       ...requestOptions,
       ...this.setParentSpan(span, requestOptions)
     };
