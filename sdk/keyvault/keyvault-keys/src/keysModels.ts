@@ -215,7 +215,7 @@ export interface DeletedKey {
    */
   key?: JsonWebKey;
   /**
-   * @member {string} name The name of key/secret/certificate.
+   * @member {string} name The name of key.
    */
   name: string;
   /**
