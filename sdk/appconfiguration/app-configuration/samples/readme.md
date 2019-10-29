@@ -7,7 +7,10 @@ Use the client library for App Configuration to:
 * Tag keys with labels
 * Replay settings from any point in time
 
-[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-app-configuration/1.0.0-preview.6/index.html#azure-app-configuration-client-library-for-js) | [Product Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) | [Samples][samples]
+[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | 
+[NPM](https://www.npmjs.com/package/@azure/app-configuration) | 
+[API Reference documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-app-configuration/1.0.0-preview.6/index.html#azure-app-configuration-client-library-for-js) | 
+[Product Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) | [Samples][samples]
 
 ## Getting started
 
