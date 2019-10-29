@@ -108,6 +108,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -1624,8 +1625,6 @@ export interface ListBlobsFlatSegmentResponse {
     containerName: string;
     // (undocumented)
     continuationToken?: string;
-    // (undocumented)
-    delimiter?: string;
     // (undocumented)
     marker?: string;
     // (undocumented)

@@ -229,6 +229,7 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds
   ],
   headerParameters: [
+    Parameters.transactionalContentMD5,
     Parameters.contentLength,
     Parameters.metadata,
     Parameters.tier0,
