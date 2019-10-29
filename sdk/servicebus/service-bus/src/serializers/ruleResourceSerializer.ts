@@ -259,7 +259,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       }
     }
 
-    if (rule.action == undefined) {
+    if (rule.action == undefined || rule.action.sqlExpression == undefined) {
       // Defaults to creating an empty rule action instance if none specified
       resource.Action = {};
       resource.Action[Constants.XML_METADATA_MARKER] = {
