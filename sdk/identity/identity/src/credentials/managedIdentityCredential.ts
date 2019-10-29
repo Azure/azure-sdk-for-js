@@ -36,30 +36,30 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   /**
    * Creates an instance of ManagedIdentityCredential with a client ID
-   * 
+   *
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
-   * 
+   *
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
-   * @ignore   
+   * @ignore
    */
   constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
 
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options); 
+      this.identityClient = new IdentityClient(options);
     } else {
       // options only constructor
-      this.identityClient = new IdentityClient(clientIdOrOptions); 
+      this.identityClient = new IdentityClient(clientIdOrOptions);
     }
   }
 
@@ -169,14 +169,14 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = options.spanOptions;
+    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = this.identityClient.createWebResource(request);
-      webResource.timeout = options.timeout || 500;
+      webResource.timeout = options.requestOptions && options.requestOptions.timeout || 500;
 
       try {
         logger.info(`ManagedIdentityCredential: pinging IMDS endpoint`);
@@ -260,7 +260,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
         abortSignal: options.abortSignal,
-        spanOptions: options.spanOptions,
+        spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
         ...authRequestOptions
       });
 

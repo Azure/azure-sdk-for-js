@@ -77,7 +77,7 @@ export class ClientSecretCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.spanOptions
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

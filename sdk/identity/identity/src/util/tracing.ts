@@ -14,21 +14,30 @@ export function createSpan(
   options: GetTokenOptions = {}
 ): { span: Span; options: GetTokenOptions } {
   const tracer = getTracer();
-  const spanOptions: SpanOptions = {
-    ...options.spanOptions,
+
+  const tracingOptions = {
+    spanOptions: {},
+    ...options.tracingOptions
+  };
+
+  tracingOptions.spanOptions = {
+    ...tracingOptions.spanOptions,
     kind: SpanKind.CLIENT
   };
 
-  const span = tracer.startSpan(`Azure.Identity.${operationName}`, spanOptions);
+  const span = tracer.startSpan(`Azure.Identity.${operationName}`, tracingOptions.spanOptions);
   span.setAttribute("component", "identity");
 
   let newOptions = options;
   if (span.isRecordingEvents()) {
     newOptions = {
       ...options,
-      spanOptions: {
-        ...options.spanOptions,
-        parent: span
+      tracingOptions: {
+        ...tracingOptions,
+        spanOptions: {
+          ...tracingOptions.spanOptions,
+          parent: span
+        }
       }
     };
   }

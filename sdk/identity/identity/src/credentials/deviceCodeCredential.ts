@@ -71,7 +71,7 @@ export class DeviceCodeCredential implements TokenCredential {
    * to initiate the device code authorization flow with Azure Active Directory.
    *
    * @param The Azure Active Directory tenant (directory) ID or name.
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name. 
+   * @param tenantId The Azure Active Directory tenant (directory) ID or name.
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
@@ -113,7 +113,7 @@ export class DeviceCodeCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.spanOptions
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
       logger.info("DeviceCodeCredential: sending devicecode request");
@@ -129,13 +129,13 @@ export class DeviceCodeCredential implements TokenCredential {
         err.name === AuthenticationErrorName
           ? CanonicalCode.UNAUTHENTICATED
           : CanonicalCode.UNKNOWN;
-      
+
       if (err.name === AuthenticationErrorName) {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`);
       } else {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
       }
-      
+
       span.setStatus({
         code,
         message: err.message
@@ -169,7 +169,7 @@ export class DeviceCodeCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.spanOptions
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
       while (tokenResponse === null) {

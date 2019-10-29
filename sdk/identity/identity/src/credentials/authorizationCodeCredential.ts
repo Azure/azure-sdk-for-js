@@ -82,7 +82,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     authorizationCode: string,
     redirectUri: string,
     options?: TokenCredentialOptions
-  ); 
+  );
   /**
    * @ignore
    * @internal
@@ -97,7 +97,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   ) {
     this.clientId = clientId;
     this.tenantId = tenantId;
-    
+
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
       this.clientSecret = clientSecretOrAuthorizationCode;
@@ -108,11 +108,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // clientId only
       this.clientSecret = undefined;
       this.authorizationCode = clientSecretOrAuthorizationCode;
-      this.redirectUri = authorizationCodeOrRedirectUri as string;      
+      this.redirectUri = authorizationCodeOrRedirectUri as string;
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
-    this.identityClient = new IdentityClient(options);    
+    this.identityClient = new IdentityClient(options);
   }
 
   /**
@@ -172,7 +172,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.spanOptions
+          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);
