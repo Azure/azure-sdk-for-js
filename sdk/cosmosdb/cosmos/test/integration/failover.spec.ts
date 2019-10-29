@@ -2,15 +2,8 @@
 // Licensed under the MIT license.
 import { Container } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import {
-  Constants,
-  CosmosClient,
-  PluginOn,
-  CosmosClientOptions,
-  PluginConfig
-} from "../../dist-esm";
+import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
 import { masterKey, endpoint } from "../common/_testConfig";
-import { SubStatusCodes } from "../../dist-esm/common";
 import assert from "assert";
 
 const generateDocuments = function(docSize: number) {
@@ -134,22 +127,20 @@ const readResponse = {
   code: 200
 };
 
-const errorResponse = {
+const dnsErrorResponse = {
   code: "ENOTFOUND" as any,
   headers: {}
 };
 
-const responses = [
-  databaseAccountResponse,
-  collectionResponse,
-  readResponse,
-  errorResponse,
-  databaseAccountResponse,
-  readResponse
-];
+const DatabaseAccountNotFoundResponse = {
+  code: 403,
+  substatus: 1008,
+  headers: {}
+};
 
 describe("Region Failover", () => {
   let container: Container;
+  let responses: any[];
 
   before(async function() {
     await removeAllDatabases();
@@ -157,9 +148,17 @@ describe("Region Failover", () => {
     await bulkInsertItems(container, documentDefinitions);
   });
 
-  it("fails over to a second region", async () => {
+  it("on ENOTFOUND / DNS", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
+    responses = [
+      databaseAccountResponse,
+      collectionResponse,
+      readResponse,
+      dnsErrorResponse,
+      databaseAccountResponse,
+      readResponse
+    ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
       {
@@ -170,6 +169,49 @@ describe("Region Failover", () => {
           lastEndpointCalled = context.endpoint;
           requestIndex++;
           if (response.code > 500 || response.code === "ENOTFOUND") {
+            throw response;
+          }
+          return response;
+        }
+      }
+    ];
+    const client = new CosmosClient({
+      ...options,
+      plugins
+    } as any);
+    const containerRef = client.database(container.database.id).container(container.id);
+    const { resource } = await containerRef.item(documentDefinitions[0].id, undefined).read();
+    assert.strictEqual(lastEndpointCalled, "https://failovertest-eastus.documents.azure.com:443/");
+    const { resource: resource2 } = await containerRef
+      .item(documentDefinitions[0].id, undefined)
+      .read();
+    assert.strictEqual(
+      lastEndpointCalled,
+      "https://failovertest-australiaeast.documents.azure.com:443/"
+    );
+  });
+
+  it("on 403 response", async () => {
+    let requestIndex = 0;
+    let lastEndpointCalled = "";
+    responses = [
+      databaseAccountResponse,
+      collectionResponse,
+      readResponse,
+      DatabaseAccountNotFoundResponse,
+      databaseAccountResponse,
+      readResponse
+    ];
+    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, next) => {
+          console.log(requestIndex);
+          const response = responses[requestIndex];
+          lastEndpointCalled = context.endpoint;
+          requestIndex++;
+          if (response.code > 400 || response.code === "ENOTFOUND") {
             throw response;
           }
           return response;

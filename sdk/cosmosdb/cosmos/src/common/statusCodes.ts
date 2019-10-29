@@ -50,5 +50,6 @@ export const SubStatusCodes = {
   ReadSessionNotAvailable: 1002 as 1002,
 
   // 403: Forbidden Substatus
-  WriteForbidden: 3 as 3
+  WriteForbidden: 3 as 3,
+  DoesNDatabaseAccountNotFound: 1008 as 1008
 };
