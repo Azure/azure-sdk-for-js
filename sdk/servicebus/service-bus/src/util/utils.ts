@@ -6,7 +6,6 @@ import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
-import { ClientEntityContext } from "../../src/clientEntityContext";
 import * as Constants from "../util/constants";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -161,26 +160,6 @@ export function toBuffer(input: any): Buffer {
   }
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
-}
-/**
- * @internal
- * Helper function to retrieve active receiver name, if it exists.
- */
-export function getAssociatedReceiverName(
-  clientEntityContext: ClientEntityContext,
-  sessionId?: string
-): string | undefined {
-  let receiverName: string | undefined;
-  if (sessionId != undefined) {
-    if (clientEntityContext.messageSessions[sessionId]) {
-      receiverName = clientEntityContext.messageSessions[sessionId].name;
-    }
-  } else if (clientEntityContext.batchingReceiver) {
-    receiverName = clientEntityContext.batchingReceiver.name;
-  } else if (clientEntityContext.streamingReceiver) {
-    receiverName = clientEntityContext.streamingReceiver.name;
-  }
-  return receiverName;
 }
 
 /**
