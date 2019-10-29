@@ -1,4 +1,5 @@
-import { EventHubClient, InMemoryPartitionManager } from "../src";
+import { InMemoryPartitionManager } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";

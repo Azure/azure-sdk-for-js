@@ -10,7 +10,6 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
 import {
   EventPosition,
-  EventHubClient,
   EventData,
   MessagingError,
   ReceivedEventData,
@@ -18,6 +17,7 @@ import {
   delay,
   ReceiveHandler
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();

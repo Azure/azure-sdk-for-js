@@ -4,7 +4,7 @@ import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-amqp";
 import * as log from "./log";
 
 import {

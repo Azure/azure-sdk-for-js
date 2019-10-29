@@ -1,5 +1,5 @@
 
-import { CloseReason, PartitionContext, EventProcessorOptions } from './eventProcessor';
+import { CloseReason, PartitionContext, EventProcessorCommonOptions } from './eventProcessor';
 
 /**
  * Optional event handlers that provide more context when subscribing to events.
@@ -14,7 +14,7 @@ export interface OptionalEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends OptionalEventHandlers, Pick<EventProcessorOptions, Exclude<keyof EventProcessorOptions, 'partitionLoadBalancer'>> {
+export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorCommonOptions {
 }
 
 /**

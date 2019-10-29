@@ -9,7 +9,6 @@ export { OnMessage, OnError, LastEnqueuedEventInfo } from "./eventHubReceiver";
 export { ReceiveHandler } from "./receiveHandler";
 export {
   AbortSignalOptions,
-  EventHubClient,
   EventHubClientOptions,
   EventHubConsumerOptions,
   EventHubProducerOptions,
@@ -20,6 +19,7 @@ export {
   GetPropertiesOptions,
   ParentSpanOptions
 } from "./eventHubClient";
+export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";

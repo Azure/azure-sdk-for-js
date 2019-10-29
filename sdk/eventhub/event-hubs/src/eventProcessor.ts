@@ -131,21 +131,10 @@ export interface PartitionManager {
 }
 
 /**
- * A set of options to pass to the constructor of `EventProcessor`.
- * You can specify
- * - `maxBatchSize`: The max size of the batch of events passed each time to user code for processing.
- * - `maxWaitTimeInSeconds`: The maximum amount of time to wait to build up the requested message count before
- * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
- *
- * Example usage with default values:
- * ```ts
- * {
- *     maxBatchSize: 1,
- *     maxWaitTimeInSeconds: 60
- * }
- * ```
+ * Common options for configuring `EventProcessor`, minus options that are only 
+ * used internally (like `partitionLoadBalancer`)
  */
-export interface EventProcessorOptions {
+export interface EventProcessorCommonOptions {
   /**
    * The max size of the batch of events passed each time to user code for processing.
    */
@@ -173,12 +162,30 @@ export interface EventProcessorOptions {
    * 
    * Defaults to EventPosition.earliest()
    */
-  defaultEventPosition?: EventPosition;
+  defaultEventPosition?: EventPosition;  
+}
 
+
+/**
+ * A set of options to pass to the constructor of `EventProcessor`.
+ * You can specify
+ * - `maxBatchSize`: The max size of the batch of events passed each time to user code for processing.
+ * - `maxWaitTimeInSeconds`: The maximum amount of time to wait to build up the requested message count before
+ * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+ *
+ * Example usage with default values:
+ * ```ts
+ * {
+  *     maxBatchSize: 1,
+  *     maxWaitTimeInSeconds: 60
+  * }
+  * ```
+  */
+export interface EventProcessorOptions extends EventProcessorCommonOptions {
   /**
    * A load balancer to use
    */
-  partitionLoadBalancer?: PartitionLoadBalancer
+  partitionLoadBalancer ?: PartitionLoadBalancer
 }
 
 /**

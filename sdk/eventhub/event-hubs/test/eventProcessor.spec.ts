@@ -8,7 +8,6 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventHubClient,
   EventData,
   EventProcessor,
   delay,
@@ -20,6 +19,7 @@ import {
   PartitionProcessor,
   LastEnqueuedEventInfo
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 const env = getEnvVars();

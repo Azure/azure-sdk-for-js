@@ -1,4 +1,5 @@
-import { CloseReason, ReceivedEventData, delay, EventHubClient, EventPosition } from "../../src/";
+import { CloseReason, ReceivedEventData, delay, EventPosition } from "../../src/";
+import { EventHubClient } from "../../src/eventHubClient";
 import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";

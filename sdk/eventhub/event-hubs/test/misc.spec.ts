@@ -11,12 +11,12 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import {
   EventPosition,
-  EventHubClient,
   EventData,
   EventHubProperties,
   EventHubConsumer,
   ReceivedEventData
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,

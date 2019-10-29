@@ -84,22 +84,6 @@ export class EventDataBatch {
 }
 
 // @public
-export class EventHubClient {
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    close(): Promise<void>;
-    createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
-    createProducer(options?: EventHubProducerOptions): EventHubProducer;
-    static defaultConsumerGroupName: string;
-    readonly eventHubName: string;
-    readonly fullyQualifiedNamespace: string;
-    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
-    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-}
-
-// @public
 export interface EventHubClientOptions {
     dataTransformer?: DataTransformer;
     retryOptions?: RetryOptions;
@@ -123,6 +107,23 @@ export class EventHubConsumer {
     receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
     receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
     }
+
+// @public (undocumented)
+export class EventHubConsumerClient {
+    constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions);
+    constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(consumerGroupName: string, host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    // (undocumented)
+    close(): void;
+    // (undocumented)
+    getPartitionIds(): Promise<string[]>;
+    // Warning: (ae-forgotten-export) The symbol "OnReceivedEvents" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SubscriptionOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+    subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+    subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
+    subscribe(onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
+}
 
 // @public
 export interface EventHubConsumerOptions {
@@ -178,6 +179,7 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
+    // Warning: (ae-forgotten-export) The symbol "EventHubClient" needs to be exported by the entry point index.d.ts
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
     // (undocumented)
@@ -186,13 +188,11 @@ export class EventProcessor {
     stop(): Promise<void>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "EventProcessorCommonOptions" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface EventProcessorOptions {
-    defaultEventPosition?: EventPosition;
-    maxBatchSize?: number;
-    maxWaitTimeInSeconds?: number;
+export interface EventProcessorOptions extends EventProcessorCommonOptions {
     partitionLoadBalancer?: PartitionLoadBalancer;
-    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public

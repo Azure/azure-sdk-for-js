@@ -11,12 +11,12 @@ chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
 import {
-  EventHubClient,
   EventPosition,
   TokenCredential,
   EventHubProducer,
   EventHubConsumer
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
