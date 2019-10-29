@@ -15,7 +15,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyInfo",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -23,7 +23,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -57,7 +57,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedStart: {
+      signedStartsOn: {
         xmlName: "SignedStart",
         required: true,
         serializedName: "SignedStart",
@@ -65,7 +65,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedExpiry: {
+      signedExpiresOn: {
         xmlName: "SignedExpiry",
         required: true,
         serializedName: "SignedExpiry",
@@ -166,7 +166,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -174,7 +174,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",

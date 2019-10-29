@@ -228,6 +228,8 @@ directive:
     transform: >
       $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
 ### Add missing x-ms-parameter-location for PathRenameMode
@@ -337,4 +339,28 @@ directive:
         $["x-ms-client-request-id"].type = "string";
         $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
       }
+```
+
+### Rename AccessPolicy start -> startsOn and expiry to expiresOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
+```
+
+### Rename KeyInfo start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyInfo.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
 ```
