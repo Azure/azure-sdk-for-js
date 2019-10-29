@@ -1219,7 +1219,7 @@ export class KeyClient {
   /**
    * @internal
    * @ignore
-   * Shapes the exposed {@link KeyPropertn} based on a received KeyItem.
+   * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
