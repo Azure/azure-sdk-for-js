@@ -311,7 +311,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
 
   try {
     let rawParameters = jsObject["KeyValueOfstringanyType"];
-    if (rawParameters && rawParameters.length) {
+    if (Array.isArray(rawParameters)) {
       for (let i = 0; i < rawParameters.length; i++) {
         parameters.push(buildSqlParameter(rawParameters[i]));
       }
