@@ -7,18 +7,20 @@ Use the client library for App Configuration to:
 * Tag keys with labels
 * Replay settings from any point in time
 
-[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://azure.github.io/azure-sdk-for-js/app-configuration/) | [Samples][samples]
+[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-app-configuration/1.0.0-preview.6/index.html#azure-app-configuration-client-library-for-js) | [Product Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) | [Samples][samples]
 
 ## Getting started
+
+**Prerequisites**: You must have the following to work with this package:
+* [Node.js](https://nodejs.org/en/download) 8.x.x (or higher)
+* An [Azure subscription][azure_sub]
+* An App Configuration resource
 
 ### 1. Install the `@azure/app-configuration` package
 
 ```bash
 npm install @azure/app-configuration
 ```
-
-**Note**: This package supports Node.js 8.x.x (or higher).
-
 
 ### 2. Create an App Configuration resource
 
@@ -29,61 +31,76 @@ Example (Azure CLI):
 az appconfig create --name <app-configuration-resource-name> --resource-group <resource-group-name> --location eastus
 ```
 
-**Prerequisites**: You must have an [Azure subscription][azure_sub] to create an App Configuration resource.
+## Running the samples
 
-### 3. Create and authenticate an `AppConfigurationClient`
+### 1. Create a new Node project in an empty **folder**
 
-App Configuration uses connection strings for authentication. 
+```bash
+npm init -y
+```
 
-To get the Primary **connection string** for an App Configuration resource you can use this Azure CLI command:
+### 2. Install `@azure/app-configuration` and additional useful packages
 
+```bash
+npm install @azure/app-configuration typescript ts-node
+```
+
+### 3. Copy samples
+
+Copy the files from the [`samples` on GitHub](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) 
+into the local **folder** you created above.
+
+### 4. Make your sample a console application
+
+Near the top of your sample file you will need to replace 
+the old import with a proper package import.
+
+Old:
+```typescript
+// NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
+// in a standalone project
+import { AppConfigurationClient } from "../src";
+```
+
+New:
+```typescript
+import { AppConfigurationClient } from "@azure/app-configuration";
+```
+
+Also, at the bottom these we'll need to uncomment some lines:
+
+Old:
+```typescript
+// If you want to run this sample from a console
+// uncomment these lines so run() will get called
+// run().catch(err => {
+//     console.log(`ERROR: ${err}`);
+// });
+```
+
+New:
+```typescript
+run().catch(err => {
+  console.log(`ERROR: ${err}`);
+});
+```
+
+### 5. Set the App Configuration connection string in your environment
+
+Set `AZ_CONFIG_CONNECTION` to the **connection string** for your App Configuration resource.
+
+You can use this Azure CLI command to get the Primary **connection string**:
 ```
 az appconfig credential list -g <resource-group-name> -n <app-configuration-resource-name> --query "([?name=='Primary'].connectionString)[0]"
 ```
 
-And in code you can now create your App Configuration client with the **connection string** you got from the Azure CLI:
+### 6. Run the sample file
 
-```typescript
-const client = new AppConfigurationClient("<connection string>");
+Now you can run each sample, by either compiling it to Javascript or using `ts-node`
+which will compile and run the sample in a single step.
+
 ```
-
-## Key concepts
-
-The [`AppConfigurationClient`](https://azure.github.io/azure-sdk-for-js/app-configuration/classes/appconfigurationclient.html) has some terminology changes from App Configuration in the portal. 
-
-* Key/Value pairs are represented as [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) objects
-* Locking and unlocking a setting is renamed to `readOnly`, which you can toggle using the `setReadOnly` and `clearReadOnly` methods.
-
-The client follows a simple design methodology - [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) can be passed into any method that takes a [`ConfigurationSettingParam`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingparam.html) or [`ConfigurationSettingId`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingid.html). 
-
-This means this pattern works:
-
-```typescript
-const setting = await client.getConfigurationSetting({
-  key: "hello"
-});
-
-setting.value = "new value!";
-await client.setConfigurationSetting(setting);
-
-// fields unrelated to just identifying the setting are simply 
-// ignored (for instance, the `value` field)
-await client.setReadOnly(setting);
-
-// delete just needs to identify the setting so other fields are
-// just ignored
-await client.deleteConfigurationSetting(setting);
-```
-
-or, for example, re-getting a setting:
-
-```typescript
-let setting = await client.getConfigurationSetting({
-  key: "hello"
-});
-
-// re-get the setting
-setting = await.getConfigurationSetting(setting); 
+npx ts-node <name of sample file>
 ```
 
 ## Samples
