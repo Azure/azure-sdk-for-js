@@ -206,15 +206,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
         "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
       };
     } else {
-      let isSqlFilter: boolean = false;
-
-      const givenFilter: any = rule.filter as any;
-
-      if (givenFilter.sqlExpression != undefined) {
-        isSqlFilter = true;
-      }
-
-      if (isSqlFilter) {
+      if (rule.filter.hasOwnProperty("sqlExpression")) {
         const sqlFilter: SqlFilter = rule.filter as SqlFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
@@ -304,7 +296,7 @@ type RawSqlParameter = {
  * or undefined if not passed in.
  * @param value
  */
-export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
+function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
   const parameters: SqlParameter[] = [];
 
   // Ignore special case as Service Bus treats "" as a valid value for SQL parameters
@@ -319,7 +311,7 @@ export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefi
 
   try {
     let rawParameters = jsObject["KeyValueOfstringanyType"];
-    if (rawParameters && rawParameters.length && rawParameters.length > 0) {
+    if (rawParameters && rawParameters.length) {
       for (let i = 0; i < rawParameters.length; i++) {
         parameters.push(buildSqlParameter(rawParameters[i]));
       }
@@ -376,16 +368,12 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
  * @param value
  */
 export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any {
-  if (parameters == undefined || (parameters && parameters.length && parameters.length == 0)) {
+  if (!Array.isArray(parameters)) {
     return undefined;
   }
   const rawParameters: RawSqlParameter[] = [];
-  if (parameters.length == 1) {
-    rawParameters.push(buildRawSqlParameter(parameters[0]));
-  } else {
-    for (let i = 0; i < parameters.length; i++) {
-      rawParameters.push(buildRawSqlParameter(parameters[i]));
-    }
+  for (let i = 0; i < parameters.length; i++) {
+    rawParameters.push(buildRawSqlParameter(parameters[i]));
   }
   return { KeyValueOfstringanyType: rawParameters };
 }
