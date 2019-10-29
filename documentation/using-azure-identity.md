@@ -81,26 +81,26 @@ credential for your application:
 
 - **Is the application deployed to a server?**
 
-  - **Do you want to avoid entering credentials directly in your code or
-    environment variables?**
+  - **Do the Azure services you want to use support authentication with managed identities?**
 
     - If so, use the `ManagedIdentityCredential`.
 
-    - If this isn't a concern, use the `EnvironmentCredential`.
+    - If not, use the `EnvironmentCredential`.
+
+  - **Do you want your application to pick the appropriate credential type based on the
+environment?**
+
+    - Use the `DefaultAzureCredential`.
 
 - **Is the application deployed to a user device or running in the browser?**
 
   - **Can the user's device display an authentication site in a browser window
     or web control?**
 
-    - If so, use the `AuthenticationCodeCredential` or
+    - If so, use the `AuthorizationCodeCredential` or
       `InteractiveBrowserCredential`.
 
     - If not, use the `DeviceCodeCredential`.
-
-- **Are you developing an application on your local machine?**
-
-  - Use the `DefaultAzureCredential`.
 
 ## Permissions and Consent
 
@@ -140,7 +140,7 @@ documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v
 
 There are some cases where a user may not be allowed to grant consent to an
 application.  When this occurs, the user may have to speak with an administrator
-to have the permissions granted on their behalf.  The [use consent
+to have the permissions granted on their behalf.  The [user consent
 troubleshooting
 page](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error)
 provides more details on the consent errors a user might encounter.
@@ -294,9 +294,9 @@ This credential is treated as a public client and must have the **Treat
 application as a public client** setting enabled in the **Default client type**
 section of the **Authentication** page of your app registration.
 
-### AuthenticationCodeCredential
+### AuthorizationCodeCredential
 
-The `AuthenticationCodeCredential` follows the [authorization code
+The `AuthorizationCodeCredential` follows the [authorization code
 flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
 which enables server-hosted web applications, native desktop and mobile
 applications, and web APIs to access resources on the user's behalf.
@@ -310,16 +310,21 @@ locally, you can also add a redirect URI for your development endpoint
 
 A complete example of hosting your own authentication response endpoint can be
 found in the [`authorization code
-sample`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples).
+sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts).
 
 ### DefaultAzureCredential
 
-The `DefaultAzureCredential` is meant to be used by developers who are writing
-applications on their local machine.  It is a specialization of the
-`ChainedTokenCredential` which tries each of the following credential types in
-order until one of them succeeds:
+The `DefaultAzureCredential` is a specialization of the `ChainedTokenCredential`
+which tries each of the following credential types in order until one of them
+succeeds:
 
 - `EnvironmentCredential`
 - `ManagedIdentityCredential`
 
-More credential types will be added to this list in the future.
+This credential type is ideal when one of these credential types should work in
+the current environment, whether it's your local development or a production
+server.
+
+When you use this credential you will need to make sure that you've
+properly configured your deployment environment to support one of the chained
+credential types above otherwise authentication will fail.
