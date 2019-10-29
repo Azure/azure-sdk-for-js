@@ -235,11 +235,11 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * @param value
  */
 export function getJSONOrUndefined(value: any): any | undefined {
-  if (value == undefined || (typeof value === "string" && value.trim() == "")) {
+  if (value == undefined || (typeof value === "string" && value.trim() === "")) {
     return undefined;
   }
 
-  const formattedStringValue = JSON.stringify(value).trim();
+  const formattedStringValue = JSON.stringify(value);
   if (!formattedStringValue.startsWith("{") && !formattedStringValue.startsWith("[")) {
     throw new TypeError(
       `${formattedStringValue} expected to be in proper JSON format, or undefined`
