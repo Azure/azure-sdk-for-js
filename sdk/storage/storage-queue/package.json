@@ -6,7 +6,6 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/azure-storage-queue.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
@@ -49,8 +48,6 @@
   },
   "files": [
     "BreakingChanges.md",
-    "ThirdPartyNotices.txt",
-    "browser/*.min.js*",
     "dist/",
     "dist-esm/src/",
     "LICENSE",
