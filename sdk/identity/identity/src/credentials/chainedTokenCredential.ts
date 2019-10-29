@@ -7,16 +7,16 @@ import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
 
 /**
- * Enables multiple TokenCredential implementations to be tried in order
+ * Enables multiple `TokenCredential` implementations to be tried in order
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
   private _sources: TokenCredential[] = [];
 
   /**
-   * Create a ChainedTokenCredential with the given TokenCredential sources
+   * Creates an instance of ChainedTokenCredential using the given credentials.
    *
-   * @param sources TokenCredential implementations to be tried in order
+   * @param sources `TokenCredential` implementations to be tried in order.
    *
    * Example usage:
    * ```javascript
@@ -31,13 +31,13 @@ export class ChainedTokenCredential implements TokenCredential {
 
   /**
    * Returns the first access token returned by one of the chained
-   * TokenCredential implementations.  Throws an {@link AggregateAuthenticationError}
+   * `TokenCredential` implementations.  Throws an {@link AggregateAuthenticationError}
    * when one or more credentials throws an {@link AuthenticationError} and
    * no credentials have returned an access token.
    *
    * @param scopes The list of scopes for which the token will have access.
    * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
+   *                `TokenCredential` implementation might make.
    */
   async getToken(
     scopes: string | string[],
