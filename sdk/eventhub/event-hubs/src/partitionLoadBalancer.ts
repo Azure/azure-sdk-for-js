@@ -28,7 +28,8 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
 
   loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
     if (this.partitionsToClaim) {
-      return partitionsToAdd.filter(part => this.partitionsToClaim!.has(part));
+      const partitionsToClaim = this.partitionsToClaim;
+      return partitionsToAdd.filter(part => partitionsToClaim.has(part));
     }
 
     return partitionsToAdd;
