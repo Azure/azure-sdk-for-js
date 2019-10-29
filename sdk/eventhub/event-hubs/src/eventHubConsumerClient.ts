@@ -4,13 +4,13 @@ import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
+import { TokenCredential } from "@azure/identity";
 
 import {
-  HostAndTokenCredential,
-  EventHubConnectionString,
   SubscriptionOptions,
   Subscription
 } from "./eventHubConsumerClientModels";
+import { isTokenCredential } from "../../../core/core-auth/types/core-auth";
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
@@ -19,14 +19,102 @@ export type OnReceivedEvents = (
 
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
+  private _consumerGroupName: string;
 
+  /**
+   * @constructor
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
+   * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   */
+  constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions);
+  /**
+   * @constructor
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
+   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
+   * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   */
+  constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+  /**
+   * @constructor
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
+   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
+   * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   */
   constructor(
-    connectionInfo: EventHubConnectionString | HostAndTokenCredential,
-    private consumerGroupName: string,
+    consumerGroupName: string,
+    host: string,
+    eventHubName: string,
+    credential: TokenCredential,
+    options?: EventHubClientOptions
+  );
+  constructor(
+    consumerGroupName: string,
+    hostOrConnectionString: string,
+    eventHubNameOrOptions?: string | EventHubClientOptions,
+    credentialOrOptions?: TokenCredential | EventHubClientOptions,
     options?: EventHubClientOptions
   ) {
-    // create the client
-    this._eventHubClient = createEventHubClient(connectionInfo, options);
+
+    this._consumerGroupName = consumerGroupName;
+
+    if (isTokenCredential(credentialOrOptions)) {
+      // #3
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString,
+        eventHubNameOrOptions as string,
+        credentialOrOptions as TokenCredential,
+        options
+      );
+    } else if (typeof eventHubNameOrOptions === "string") {
+      // #2
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString,
+        eventHubNameOrOptions as string,
+        credentialOrOptions as EventHubClientOptions
+      );
+    } else {
+      // #1
+      this._eventHubClient = new EventHubClient(hostOrConnectionString, options);
+    }
   }
 
   close() {
@@ -55,7 +143,11 @@ export class EventHubConsumerClient {
    * @param partitionIds The partitions IDs to subscribe to
    */
   subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-  subscribe(partitionIds: string[], onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+  subscribe(
+    partitionIds: string[],
+    onReceivedEvents: OnReceivedEvents,
+    options?: SubscriptionOptions
+  ): Subscription;
   subscribe(
     partitionManager: PartitionManager,
     onReceivedEvents: OnReceivedEvents,
@@ -79,7 +171,7 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager()
@@ -92,13 +184,15 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(onReceivedEventsOrPartitionIdsOrPartitionManager as string[])
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer(
+            onReceivedEventsOrPartitionIdsOrPartitionManager as string[]
+          )
         }
       );
     } else if (typeof onReceivedEventsOrPartitionIdsOrPartitionManager === "object") {
@@ -109,7 +203,7 @@ export class EventHubConsumerClient {
       );
 
       eventProcessor = new EventProcessor(
-        this.consumerGroupName,
+        this._consumerGroupName,
         this._eventHubClient,
         partitionProcessorType,
         onReceivedEventsOrPartitionIdsOrPartitionManager as PartitionManager,
@@ -126,41 +220,9 @@ export class EventHubConsumerClient {
     return {
       isReceiverOpen: () => eventProcessor.isRunning(),
       stop: () => eventProcessor.stop(),
-      consumerGroup: () => this.consumerGroupName
+      consumerGroup: () => this._consumerGroupName
     };
   }
-}
-
-/**
- * @ignore
- */
-export function createEventHubClient(
-  connectionInfo: EventHubConnectionString | HostAndTokenCredential,
-  options?: EventHubClientOptions
-) {
-  if (isHostAndTokenCredential(connectionInfo)) {
-    return new EventHubClient(
-      connectionInfo.host,
-      connectionInfo.eventHubName,
-      connectionInfo.credential,
-      options
-    );
-  } else {
-    if (connectionInfo.eventHubName) {
-      return new EventHubClient(connectionInfo.connectionString, connectionInfo.eventHubName, options);
-    } else {
-      return new EventHubClient(connectionInfo.connectionString, options);
-    }
-  }
-}
-
-/**
- * @ignore
- */
-export function isHostAndTokenCredential(
-  connectionInfo: EventHubConnectionString | HostAndTokenCredential
-): connectionInfo is HostAndTokenCredential {
-  return !(connectionInfo as EventHubConnectionString).connectionString;
 }
 
 /**

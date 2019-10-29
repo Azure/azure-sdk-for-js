@@ -1,23 +1,9 @@
-import { TokenCredential } from "@azure/identity";
+
 import { CloseReason, PartitionContext } from './eventProcessor';
 
 /**
- * 
+ * Optional event handlers that provide more context when subscribing to events.
  */
-export interface HostAndTokenCredential {
-  host: string;
-  credential: TokenCredential;
-  eventHubName: string;
-}
-
-/**
- * 
- */
-export interface EventHubConnectionString {
-  connectionString: string;
-  eventHubName?: string;
-}
-
 export interface OptionalEventHandlers {
   onError?: (error: Error, context: PartitionContext) => Promise<void>;
   onInitialize?: (context: PartitionContext) => Promise<void>;
