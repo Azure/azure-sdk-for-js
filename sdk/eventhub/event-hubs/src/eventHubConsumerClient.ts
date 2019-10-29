@@ -5,6 +5,7 @@ import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential } from "@azure/identity";
+import * as log from "./log";
 
 import {
   SubscriptionOptions,
@@ -98,6 +99,8 @@ export class EventHubConsumerClient {
 
     if (isTokenCredential(credentialOrOptions4)) {
       // #3
+      log.consumerClient("Creating client with TokenCredential");
+
       this._eventHubClient = new EventHubClient(
         hostOrConnectionString2,
         eventHubNameOrOptions3 as string,
@@ -106,6 +109,8 @@ export class EventHubConsumerClient {
       );
     } else if (typeof eventHubNameOrOptions3 === "string") {
       // #2
+      log.consumerClient("Creating client with connection string and event hub name");
+
       this._eventHubClient = new EventHubClient(
         hostOrConnectionString2,
         eventHubNameOrOptions3 as string,
@@ -113,6 +118,8 @@ export class EventHubConsumerClient {
       );
     } else {
       // #1
+      log.consumerClient("Creating client with connection string");
+
       this._eventHubClient = new EventHubClient(hostOrConnectionString2, eventHubNameOrOptions3 as EventHubClientOptions);
     }
   }
@@ -173,6 +180,9 @@ export class EventHubConsumerClient {
 
     if (Array.isArray(optionsOrPartitionIdsOrPartitionManager2)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
+      const partitionIds = optionsOrPartitionIdsOrPartitionManager2 as string[];
+      log.consumerClient(`Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`);
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents1,
         possibleOptions3
@@ -186,11 +196,13 @@ export class EventHubConsumerClient {
         {
           ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(optionsOrPartitionIdsOrPartitionManager2 as string[])
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer(partitionIds)
         }
       );
     } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager2)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
+      log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents1,
         possibleOptions3
@@ -205,6 +217,8 @@ export class EventHubConsumerClient {
       );
     } else {
       // #1: subscribe overload - read from all partitions, don't coordinate
+      log.consumerClient("Subscribing to all partitions, don't coordinate.");
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents1,
         optionsOrPartitionIdsOrPartitionManager2 as SubscriptionOptions
@@ -285,9 +299,18 @@ export function createPartitionProcessorType(
   return DefaultPartitionProcessor;
 }
 
-function isPartitionManager(possible: SubscriptionOptions | undefined | string[] | PartitionManager): possible is PartitionManager {
+/**
+ * @internal
+ * @ignore
+ */
+export function isPartitionManager(possible: SubscriptionOptions | undefined | string[] | PartitionManager): possible is PartitionManager {
+
+  if (!possible) {
+    return false;
+  }
+
   const partitionManager = possible as PartitionManager;
-    
+
   return partitionManager.claimOwnership != null
     && partitionManager.listOwnership != null
     && partitionManager.updateCheckpoint != null;
