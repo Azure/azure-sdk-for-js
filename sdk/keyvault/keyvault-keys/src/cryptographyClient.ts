@@ -631,7 +631,7 @@ export class CryptographyClient {
 
   /**
    * A reference to the key used for the cryptographic operations.
-   * It can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
+   * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
    */
   public key: string | JsonWebKey;
 
