@@ -48,19 +48,19 @@ jobs:
 
       - template: ../steps/common.yml
 
-        - pwsh: |
-          $folder = "${{parameters.ServiceDirectory}}"
-          if ($folder -eq "*") { $folder = "" }
-          echo "##vso[task.setvariable variable=folder]$folder"
-        displayName: "Set folder variable for readme links"
+      - pwsh: |
+        $folder = "${{parameters.ServiceDirectory}}"
+        if ($folder -eq "*") { $folder = "" }
+        echo "##vso[task.setvariable variable=folder]$folder"
+      displayName: "Set folder variable for readme links"
 
-        - pwsh: |
-          $setDailyDevBuild = "false"
-          if (('$(Build.Reason)' -eq 'Schedule') -and ('$(System.TeamProject)' -eq 'internal')) {
-            $setDailyDevBuild = "true"
-          }
-          echo "##vso[task.setvariable variable=DevBuildRun]$setDailyDevBuild"
-        displayName: "Setup Versioning Properties"
+      - pwsh: |
+        $setDailyDevBuild = "false"
+        if (('$(Build.Reason)' -eq 'Schedule') -and ('$(System.TeamProject)' -eq 'internal')) {
+          $setDailyDevBuild = "true"
+        }
+        echo "##vso[task.setvariable variable=DevBuildRun]$setDailyDevBuild"
+      displayName: "Setup Versioning Properties"
 
       - script: |
           node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
