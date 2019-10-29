@@ -205,6 +205,17 @@ directive:
     transform: $.enum = [ "2019-02-02" ];
 ```
 
+### Rename AccessPolicy start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+```
+
 ### Add ClientRequestId from "2019-02-02"
 
 ```yaml

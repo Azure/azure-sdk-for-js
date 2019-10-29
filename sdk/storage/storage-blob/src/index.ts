@@ -34,6 +34,12 @@ export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
+export {
+  AppendBlobRequestConditions,
+  BlobRequestConditions,
+  Metadata,
+  PageBlobRequestConditions
+} from "./models";
 export { RestError };
 export {
   PageBlobGetPageRangesDiffResponse,

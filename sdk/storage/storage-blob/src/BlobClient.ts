@@ -46,7 +46,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DevelopmentConnectionString
+  DevelopmentConnectionString,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -211,6 +212,7 @@ export interface BlobDownloadOptions extends CommonOptions {
   /**
    * Call back to receive events on the progress of download operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -252,14 +254,14 @@ export interface BlobExistsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlobGetPropertiesOptions
+   * @memberof BlobExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlobSetHTTPHeadersOptions
+   * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -336,7 +338,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure Blob - Undelete operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -769,13 +771,14 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Default value is 5, please set a larger value when in poor network.
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   maxRetryRequestsPerBlock?: number;
 
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -816,10 +819,16 @@ export class BlobClient extends StorageClient {
   private _name: string;
   private _containerName: string;
 
+  /**
+   * The name of the blob.
+   */
   public get name(): string {
     return this._name;
   }
 
+  /**
+   * The name of the storage container the blob is associated with.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -1404,6 +1413,7 @@ export class BlobClient extends StorageClient {
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that attempting to cancel a completed copy will result in an error being thrown.
    *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
@@ -1961,7 +1971,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Optiosn to confgiure the Append Blob - Append Block operation.
+ * Options to configure the Append Blob - Append Block operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -1984,7 +1994,8 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   conditions?: AppendBlobRequestConditions;
   /**
    * Callback to receive events on the progress of append block operation.
-   *
+   * 
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof AppendBlobAppendBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2017,6 +2028,12 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the Append Blob - Append Block From URL operation.
+ * 
+ * @export
+ * @interface AppendBlobAppendBlockFromURLOptions
+ */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -2435,6 +2452,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of upload operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2481,6 +2499,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of stage block operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobStageBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2509,7 +2528,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -2592,12 +2611,6 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when committing the block list.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobCommitBlockListOptions
-   */
-  /**
-   * Conditions to meet when committing block list.
    *
    * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
@@ -2702,6 +2715,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2744,6 +2758,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -3237,6 +3252,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
    * @param {BlockBlobParallelUploadOptions} [options] Options to upload browser data.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
@@ -3280,6 +3296,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size size of the data to upload.
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
@@ -3404,6 +3421,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {string} filePath Full path of local file
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadFile(
     filePath: string,
@@ -3443,17 +3461,17 @@ export class BlockBlobClient extends BlobClient {
    *    parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream
-   * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
-   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
-   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
-   *                            with max uploading concurrency
+   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
+   * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
+   *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadStream(
     stream: Readable,
-    bufferSize: number,
-    maxBuffers: number,
+    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+    maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blobHTTPHeaders) {
@@ -3477,7 +3495,7 @@ export class BlockBlobClient extends BlobClient {
       const scheduler = new BufferScheduler(
         stream,
         bufferSize,
-        maxBuffers,
+        maxConcurrency,
         async (buffer: Buffer) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
@@ -3494,11 +3512,11 @@ export class BlockBlobClient extends BlobClient {
             options.onProgress({ loadedBytes: transferProgress });
           }
         },
-        // concurrency should set a smaller value than maxBuffers, which is helpful to
+        // concurrency should set a smaller value than maxConcurrency, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
-        Math.ceil((maxBuffers / 4) * 3)
+        Math.ceil((maxConcurrency / 4) * 3)
       );
       await scheduler.do();
 
@@ -3534,6 +3552,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size Size of the block blob
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
@@ -3926,6 +3945,12 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   conditions?: ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Upload Pages From URL operation.
+ * 
+ * @export
+ * @interface PageBlobUploadPagesFromURLOptions
+ */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.

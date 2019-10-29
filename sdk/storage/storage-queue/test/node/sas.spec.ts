@@ -43,13 +43,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
       sharedKeyCredential as StorageSharedKeyCredential
@@ -74,7 +74,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
@@ -108,7 +108,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("b").toString()
@@ -142,7 +142,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
@@ -187,11 +187,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const queueSAS = generateQueueSASQueryParameters(
       {
         queueName: queueClient.name,
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: QueueSASPermissions.parse("raup"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
       sharedKeyCredential as StorageSharedKeyCredential
@@ -222,11 +222,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const queueSAS = generateQueueSASQueryParameters(
       {
         queueName: queueClient.name,
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: QueueSASPermissions.parse("raup"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
       sharedKeyCredential as StorageSharedKeyCredential
@@ -274,9 +274,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await queueClient.setAccessPolicy([
       {
         accessPolicy: {
-          expiry: tmr,
+          expiresOn: tmr,
           permissions: QueueSASPermissions.parse("raup").toString(),
-          start: now
+          startsOn: now
         },
         id
       }

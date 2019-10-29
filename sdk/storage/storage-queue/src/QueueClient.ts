@@ -173,13 +173,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
-    start: Date;
+    startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
-    expiry: Date;
+    expiresOn: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
@@ -188,6 +188,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the getAccessPolicy operation.
+ */
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -254,6 +257,9 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
+/**
+ * Contains the response data for the sendMessage operation.
+ */
 export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the sent Message.
@@ -300,8 +306,14 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+/**
+ * The object returned in the queueMessageList array when calling Get Messages on a Queue.
+ */
 export declare type ReceivedMessageItem = DequeuedMessageItem;
 
+/**
+ * Contains the response data for the receiveMessage operation.
+ */
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -324,6 +336,9 @@ export declare type QueueReceiveMessageResponse = {
     };
   };
 
+/**
+ * Contains the response data for the peekMessages operation.
+ */
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -363,8 +378,19 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the updateMessage operation.
+ */
 export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+/**
+ * Contains response data for the deleteMessage operation.
+ */
 export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+
+/**
+ * Contains response data for the clearMessages operation.
+ */
 export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
@@ -409,6 +435,10 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
   private _name: string;
   private _messagesUrl: string;
+
+  /**
+   * The name of the queue.
+   */
   public get name(): string {
     return this._name;
   }
@@ -696,9 +726,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiry: new Date(identifier.accessPolicy.expiry),
+            expiresOn: new Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: new Date(identifier.accessPolicy.start)
+            startsOn: new Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
@@ -735,9 +765,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });

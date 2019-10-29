@@ -42,6 +42,9 @@ export interface BlobBatchSubmitBatchOptionalParams
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for blob batch operations.
+ */
 export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   ServiceSubmitBatchHeaders & {
     /**
@@ -55,7 +58,14 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
     };
   };
 
+/**
+ * Contains response data for the deleteBlobs operation.
+ */
 export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
+
+/**
+ * Contains response data for the setBlobsAccessTier operation.
+ */
 export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 /**
@@ -114,6 +124,10 @@ export class BlobBatchClient {
     this._serviceContext = new Service(storageClientContext);
   }
 
+  /**
+   * Creates a BlobBatch.
+   * A BlobBatch represents an aggregated set of operations on blobs.
+   */
   public createBatch(): BlobBatch {
     return new BlobBatch();
   }

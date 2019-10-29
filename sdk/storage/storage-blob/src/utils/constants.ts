@@ -10,6 +10,9 @@ export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const DEFAULT_BLOCK_BUFFER_SIZE_BYTES: number = 8 * 1024 * 1024; // 8MB
 export const DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
+/**
+ * The OAuth scope to use with Azure Storage.
+ */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const URLConstants = {

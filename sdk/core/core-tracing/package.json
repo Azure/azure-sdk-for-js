@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/lib/index.js",
   "browser": {
-    "./dist/index.js": "./browser/core-tracing.js",
     "./dist-esm/lib/utils/global.js": "./dist-esm/lib/utils/global.browser.js"
   },
   "types": "types/core-tracing.d.ts",
@@ -36,7 +35,6 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
-    "browser/*.js*",
     "dist/",
     "dist-esm/lib/",
     "src/",

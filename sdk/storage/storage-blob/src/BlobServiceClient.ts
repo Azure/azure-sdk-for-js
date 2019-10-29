@@ -189,6 +189,9 @@ export interface ServiceListContainersOptions extends CommonOptions {
   includeMetadata?: boolean;
 }
 
+/**
+ * A user delegation key.
+ */
 export interface UserDelegationKey {
   /**
    * The Azure Active Directory object ID in GUID format.
@@ -210,14 +213,14 @@ export interface UserDelegationKey {
    * @type {Date}
    * @memberof UserDelegationKey
    */
-  signedStart: Date;
+  signedStartsOn: Date;
   /**
    * The date-time the key expires.
    *
    * @type {Date}
    * @memberof UserDelegationKey
    */
-  signedExpiry: Date;
+  signedExpiresOn: Date;
   /**
    * Abbreviation of the Azure Storage service that accepts the key.
    *
@@ -241,6 +244,9 @@ export interface UserDelegationKey {
   value: string;
 }
 
+/**
+ * Contains response data for the getUserDelegationKey operation.
+ */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
     /**
@@ -349,7 +355,11 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -792,14 +802,14 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
-   * @param {Date} start      The start time for the user delegation SAS. Must be within 7 days of the current time
-   * @param {Date} expiry     The end time for the user delegation SAS. Must be within 7 days of the current time
+   * @param {Date} startsOn      The start time for the user delegation SAS. Must be within 7 days of the current time
+   * @param {Date} expiresOn     The end time for the user delegation SAS. Must be within 7 days of the current time
    * @returns {Promise<ServiceGetUserDelegationKeyResponse>}
    * @memberof BlobServiceClient
    */
   public async getUserDelegationKey(
-    start: Date,
-    expiry: Date,
+    startsOn: Date,
+    expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     const { span, spanOptions } = createSpan(
@@ -809,8 +819,8 @@ export class BlobServiceClient extends StorageClient {
     try {
       const response = await this.serviceContext.getUserDelegationKey(
         {
-          start: truncatedISO8061Date(start, false),
-          expiry: truncatedISO8061Date(expiry, false)
+          startsOn: truncatedISO8061Date(startsOn, false),
+          expiresOn: truncatedISO8061Date(expiresOn, false)
         },
         {
           abortSignal: options.abortSignal,
@@ -821,8 +831,8 @@ export class BlobServiceClient extends StorageClient {
       const userDelegationKey = {
         signedObjectId: response.signedObjectId,
         signedTenantId: response.signedTenantId,
-        signedStart: new Date(response.signedStart),
-        signedExpiry: new Date(response.signedExpiry),
+        signedStartsOn: new Date(response.signedStartsOn),
+        signedExpiresOn: new Date(response.signedExpiresOn),
         signedService: response.signedService,
         signedVersion: response.signedVersion,
         value: response.value
