@@ -318,6 +318,12 @@ type RawSqlParameter = {
  */
 export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
   const parameters: SqlParameter[] = [];
+
+  // Ignore special case as Service Bus treats "" as a valid value for SQL parameters
+  if (typeof value === "string" && value.trim() === "") {
+    return undefined;
+  }
+
   const jsObject: any = getJSObjectOrUndefined(value);
   if (jsObject == undefined) {
     return undefined;

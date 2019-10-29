@@ -47,360 +47,364 @@ const alwaysBeDeletedSubscription = "alwaysbedeletedsubscription";
 const alwaysBeExistingRule = "alwaysbeexistingrule";
 const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
-[EntityType.QUEUE].forEach((entityType) => {
-  describe(`Atom management - Basic CRUD on "${entityType}" entities #RunInBrowser`, function(): void {
-    it(`Creates a non-existent ${entityType} entity successfully`, async () => {
-      let response;
+[EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
+  (entityType) => {
+    describe(`Atom management - Basic CRUD on "${entityType}" entities #RunInBrowser`, function(): void {
+      it(`Creates a non-existent ${entityType} entity successfully`, async () => {
+        let response;
 
-      switch (entityType) {
-        case EntityType.QUEUE:
-          try {
-            await deleteEntity(entityType, alwaysBeExistingQueue);
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await createEntity(entityType, alwaysBeExistingQueue);
-          ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
-          break;
-        case EntityType.TOPIC:
-          try {
-            await deleteEntity(entityType, alwaysBeExistingTopic);
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await createEntity(entityType, alwaysBeExistingTopic);
-          should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
-          break;
-        case EntityType.SUBSCRIPTION:
-          response = await createEntity(
-            entityType,
-            alwaysBeExistingSubscription,
-            alwaysBeExistingTopic
-          );
-          should.equal(
-            response.subscriptionName,
-            alwaysBeExistingSubscription,
-            "Subscription name mismatch"
-          );
-          break;
-        case EntityType.RULE:
-          try {
-            response = await deleteEntity(
-              entityType,
-              alwaysBeExistingRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
+        switch (entityType) {
+          case EntityType.QUEUE:
+            try {
+              await deleteEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
+            response = await createEntity(entityType, alwaysBeExistingQueue);
+            ServiceBusClient.createFromConnectionString(
+              env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
             );
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await createEntity(
-            entityType,
-            alwaysBeExistingRule,
-            alwaysBeExistingTopic,
-            alwaysBeExistingSubscription
-          );
-          should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
-          break;
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-    });
-
-    it(`Creating an existent ${entityType} entity throws an error`, async () => {
-      let response;
-      switch (entityType) {
-        case EntityType.QUEUE:
-          try {
-            await createEntity(entityType, alwaysBeExistingQueue);
-          } catch (err) {
-            response = err;
-          }
-          break;
-
-        case EntityType.TOPIC:
-          try {
+            break;
+          case EntityType.TOPIC:
+            try {
+              await deleteEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await createEntity(entityType, alwaysBeExistingTopic);
-          } catch (err) {
-            response = err;
-          }
-
-          break;
-
-        case EntityType.SUBSCRIPTION:
-          try {
+            should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
+            break;
+          case EntityType.SUBSCRIPTION:
             response = await createEntity(
               entityType,
               alwaysBeExistingSubscription,
               alwaysBeExistingTopic
             );
-          } catch (err) {
-            response = err;
-          }
-
-          break;
-
-        case EntityType.RULE:
-          try {
+            should.equal(
+              response.subscriptionName,
+              alwaysBeExistingSubscription,
+              "Subscription name mismatch"
+            );
+            break;
+          case EntityType.RULE:
+            try {
+              response = await deleteEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await createEntity(
               entityType,
               alwaysBeExistingRule,
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-          } catch (err) {
-            response = err;
-          }
+            should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
 
-          break;
+      it(`Creating an existent ${entityType} entity throws an error`, async () => {
+        let response;
+        switch (entityType) {
+          case EntityType.QUEUE:
+            try {
+              await createEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              response = err;
+            }
+            break;
 
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
+          case EntityType.TOPIC:
+            try {
+              response = await createEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              response = err;
+            }
 
-      should.equal(response.statusCode, 409, "Error must not be undefined");
-    });
+            break;
 
-    it(`Lists available ${entityType} entities successfully`, async () => {
-      let response;
+          case EntityType.SUBSCRIPTION:
+            try {
+              response = await createEntity(
+                entityType,
+                alwaysBeExistingSubscription,
+                alwaysBeExistingTopic
+              );
+            } catch (err) {
+              response = err;
+            }
 
-      switch (entityType) {
-        case EntityType.QUEUE:
-        case EntityType.TOPIC:
-          response = await listEntities(entityType);
-          break;
+            break;
 
-        case EntityType.SUBSCRIPTION:
-          response = await listEntities(entityType, alwaysBeExistingTopic);
-          break;
+          case EntityType.RULE:
+            try {
+              response = await createEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              response = err;
+            }
 
-        case EntityType.RULE:
-          response = await listEntities(
-            entityType,
-            alwaysBeExistingTopic,
-            alwaysBeExistingSubscription
-          );
-          break;
+            break;
 
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
-    });
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
 
-    it(`Updates an existent ${entityType} entity successfully`, async () => {
-      let response: any;
-      switch (entityType) {
-        case EntityType.QUEUE:
-          response = await updateEntity(entityType, alwaysBeExistingQueue);
-          should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
-          break;
-        case EntityType.TOPIC:
-          response = await updateEntity(entityType, alwaysBeExistingTopic);
-          should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
-          break;
-        case EntityType.SUBSCRIPTION:
-          response = await updateEntity(
-            entityType,
-            alwaysBeExistingSubscription,
-            alwaysBeExistingTopic
-          );
-          should.equal(
-            response.subscriptionName,
-            alwaysBeExistingSubscription,
-            "Subscription name mismatch"
-          );
-          break;
-        case EntityType.RULE:
-          response = await updateEntity(
-            entityType,
-            alwaysBeExistingRule,
-            alwaysBeExistingTopic,
-            alwaysBeExistingSubscription
-          );
-          should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
-          break;
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-    });
+        should.equal(response.statusCode, 409, "Error must not be undefined");
+      });
 
-    it(`Gets an existent ${entityType} entity successfully`, async () => {
-      let response;
-      switch (entityType) {
-        case EntityType.QUEUE:
-          response = await getEntity(entityType, alwaysBeExistingQueue);
-          should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
-          break;
-        case EntityType.TOPIC:
-          response = await getEntity(entityType, alwaysBeExistingTopic);
-          should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
-          break;
-        case EntityType.SUBSCRIPTION:
-          response = await getEntity(
-            entityType,
-            alwaysBeExistingSubscription,
-            alwaysBeExistingTopic
-          );
-          should.equal(
-            response.subscriptionName,
-            alwaysBeExistingSubscription,
-            "Subscription name mismatch"
-          );
-          break;
-        case EntityType.RULE:
-          response = await getEntity(
-            entityType,
-            alwaysBeExistingRule,
-            alwaysBeExistingTopic,
-            alwaysBeExistingSubscription
-          );
-          should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
-          break;
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-    });
+      it(`Lists available ${entityType} entities successfully`, async () => {
+        let response;
 
-    it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
-      let response;
-      switch (entityType) {
-        case EntityType.QUEUE:
-        case EntityType.TOPIC:
-          try {
-            response = await deleteEntity(entityType, "notexisting");
-          } catch (err) {
-            response = err;
-          }
-          break;
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            response = await listEntities(entityType);
+            break;
 
-        case EntityType.SUBSCRIPTION:
-          try {
-            response = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
-          } catch (err) {
-            response = err;
-          }
-          break;
+          case EntityType.SUBSCRIPTION:
+            response = await listEntities(entityType, alwaysBeExistingTopic);
+            break;
 
-        case EntityType.RULE:
-          try {
-            response = await deleteEntity(
+          case EntityType.RULE:
+            response = await listEntities(
               entityType,
-              "notexisting",
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-          } catch (err) {
-            response = err;
-          }
-          break;
+            break;
 
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-      should.equal(response.statusCode, 404);
-    });
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+        should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+      });
 
-    it(`Deletes an existent ${entityType} entity successfully`, async () => {
-      let response;
-      switch (entityType) {
-        case EntityType.QUEUE:
-          try {
-            await createEntity(entityType, alwaysBeDeletedQueue);
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await deleteEntity(entityType, alwaysBeDeletedQueue);
-          break;
+      it(`Updates an existent ${entityType} entity successfully`, async () => {
+        let response: any;
+        switch (entityType) {
+          case EntityType.QUEUE:
+            response = await updateEntity(entityType, alwaysBeExistingQueue);
+            should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+            break;
+          case EntityType.TOPIC:
+            response = await updateEntity(entityType, alwaysBeExistingTopic);
+            should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
+            break;
+          case EntityType.SUBSCRIPTION:
+            response = await updateEntity(
+              entityType,
+              alwaysBeExistingSubscription,
+              alwaysBeExistingTopic
+            );
+            should.equal(
+              response.subscriptionName,
+              alwaysBeExistingSubscription,
+              "Subscription name mismatch"
+            );
+            break;
+          case EntityType.RULE:
+            response = await updateEntity(
+              entityType,
+              alwaysBeExistingRule,
+              alwaysBeExistingTopic,
+              alwaysBeExistingSubscription
+            );
+            should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
 
-        case EntityType.TOPIC:
-          try {
-            await createEntity(entityType, alwaysBeDeletedTopic);
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await deleteEntity(entityType, alwaysBeDeletedTopic);
-          break;
+      it(`Gets an existent ${entityType} entity successfully`, async () => {
+        let response;
+        switch (entityType) {
+          case EntityType.QUEUE:
+            response = await getEntity(entityType, alwaysBeExistingQueue);
+            should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+            break;
+          case EntityType.TOPIC:
+            response = await getEntity(entityType, alwaysBeExistingTopic);
+            should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
+            break;
+          case EntityType.SUBSCRIPTION:
+            response = await getEntity(
+              entityType,
+              alwaysBeExistingSubscription,
+              alwaysBeExistingTopic
+            );
+            should.equal(
+              response.subscriptionName,
+              alwaysBeExistingSubscription,
+              "Subscription name mismatch"
+            );
+            break;
+          case EntityType.RULE:
+            response = await getEntity(
+              entityType,
+              alwaysBeExistingRule,
+              alwaysBeExistingTopic,
+              alwaysBeExistingSubscription
+            );
+            should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
 
-        case EntityType.SUBSCRIPTION:
-          try {
-            await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await deleteEntity(
-            entityType,
-            alwaysBeDeletedSubscription,
-            alwaysBeExistingTopic
-          );
-          break;
+      it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
+        let response;
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            try {
+              response = await deleteEntity(entityType, "notexisting");
+            } catch (err) {
+              response = err;
+            }
+            break;
 
-        case EntityType.RULE:
-          try {
-            await createEntity(
+          case EntityType.SUBSCRIPTION:
+            try {
+              response = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            } catch (err) {
+              response = err;
+            }
+            break;
+
+          case EntityType.RULE:
+            try {
+              response = await deleteEntity(
+                entityType,
+                "notexisting",
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              response = err;
+            }
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+        should.equal(response.statusCode, 404);
+      });
+
+      it(`Deletes an existent ${entityType} entity successfully`, async () => {
+        let response;
+        switch (entityType) {
+          case EntityType.QUEUE:
+            try {
+              await createEntity(entityType, alwaysBeDeletedQueue);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
+            response = await deleteEntity(entityType, alwaysBeDeletedQueue);
+            break;
+
+          case EntityType.TOPIC:
+            try {
+              await createEntity(entityType, alwaysBeDeletedTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
+            response = await deleteEntity(entityType, alwaysBeDeletedTopic);
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            try {
+              await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
+            response = await deleteEntity(
+              entityType,
+              alwaysBeDeletedSubscription,
+              alwaysBeExistingTopic
+            );
+            break;
+
+          case EntityType.RULE:
+            try {
+              await createEntity(
+                entityType,
+                alwaysBeDeletedRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
+            response = await deleteEntity(
               entityType,
               alwaysBeDeletedRule,
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-          } catch (err) {
-            console.log("Ignoring clean up step");
-          }
-          response = await deleteEntity(
-            entityType,
-            alwaysBeDeletedRule,
-            alwaysBeExistingTopic,
-            alwaysBeExistingSubscription
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+        should.equal(response._response.status, 200);
+      });
+
+      it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
+        let response;
+
+        let skipTest = false;
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            response = await getEntity(entityType, "notexisting");
+
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            skipTest = true;
+            // response = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            break;
+
+          case EntityType.RULE:
+            skipTest = true;
+            // response = await getEntity(
+            //   entityType,
+            //   "notexisting",
+            //   alwaysBeExistingTopic,
+            //   alwaysBeExistingSubscription
+            // );
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+
+        if (!skipTest) {
+          should.equal(
+            response.createdAt,
+            undefined,
+            "Should receive empty result and just the raw response"
           );
-          break;
-
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-      should.equal(response._response.status, 200);
+        }
+        // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
+      });
     });
-
-    it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
-      let response;
-
-      let skipTest = false;
-      switch (entityType) {
-        case EntityType.QUEUE:
-        case EntityType.TOPIC:
-          response = await getEntity(entityType, "notexisting");
-
-          break;
-
-        case EntityType.SUBSCRIPTION:
-          skipTest = true;
-          // response = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
-          break;
-
-        case EntityType.RULE:
-          skipTest = true;
-          // response = await getEntity(
-          //   entityType,
-          //   "notexisting",
-          //   alwaysBeExistingTopic,
-          //   alwaysBeExistingSubscription
-          // );
-          break;
-
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-
-      if (!skipTest) {
-        should.equal(
-          response.createdAt,
-          undefined,
-          "Should receive empty result and just the raw response"
-        );
-      }
-      // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
-    });
-  });
-});
+  }
+);
 
 // Queue tests
 [
