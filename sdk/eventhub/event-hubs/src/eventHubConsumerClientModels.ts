@@ -18,12 +18,24 @@ export interface SubscriptionOptions extends OptionalEventHandlers, Pick<EventPr
 }
 
 /**
- * 
+ * Represents the status of a subscribe() call and can be used to stop a subscription.
  */
 export interface Subscription {
+  /**
+   * Stops the subscription from receiving more messages.
+   * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   */
   stop(): Promise<void>;
+  /**
+   * @property Indicates whether the receiver is connected/open.
+   * `true` - is open; `false` otherwise.
+   * @readonly
+   */
   isReceiverOpen(): boolean;
-
-  // TODO: why is this a property and not just a plain old field?
+  /**
+   * @property The consumer group from which the handler is receiving events.
+   * @readonly
+   */
   consumerGroup(): string;
 }
