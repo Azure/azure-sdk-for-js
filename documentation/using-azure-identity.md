@@ -4,9 +4,10 @@ This document intends to demystify the configuration and use of [Microsoft
 identity
 platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/),
 also known as Azure Active Directory v2, with the Azure SDK libraries.
-Microsoft identity platform implements the OAuth 2.0 and OpenID Connect
-standards to provide authentication for users and services who may be granted
-access to Azure services.
+Microsoft identity platform implements the [OAuth 2.0 and OpenID Connect
+standards](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols)
+to provide authentication for users and services who may be granted access to
+Azure services.
 
 ## Table of Contents
 
@@ -99,6 +100,49 @@ credential for your application:
 - **Are you developing an application on your local machine?**
 
   - Use the `DefaultAzureCredential`.
+
+## Permissions and Consent
+
+The identity platform provides an authorization model for Azure services with
+[two types of
+permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#troubleshooting-permissions-and-consent):
+
+- **Application permissions** authorize an application to access resources
+  directly.  Administrator consent must be granted to your application.
+- **Delegated permissions** authorize an application to access resources on
+  behalf of a specific user.  The user may grant permission to your application
+  unless the permission requires administrator consent.
+
+If you are only using _confidential credentials_ you should only need to be
+concerned with application permissions.  If you will be authenticating users
+with a _public credential_, you must configure API permissions for the Azure
+service you need to access (Key Vault, Storage, etc) so that user accounts can
+be authorized to use them through your application.  The [quick start guide for
+configuring API
+permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
+explains how to do this in detail.
+
+### User-Granted Consent
+
+When a user is being authenticated to access a service that is configured with
+delegated permissions, they may be presented with a consent screen that asks
+whether they want to grant your application permission to access resources on
+their behalf.  An example of this consent flow can be found in the [consent
+framework documentation
+page](https://docs.microsoft.com/en-us/azure/active-directory/develop/consent-framework).
+
+An administrator can also grant consent for your application on behalf of all
+users.  In this case, users may never see a consent screen.  If you'd like to
+make it easy for an administrator to grant access to all users, follow the
+instructions in the [admin consent endpoint request
+documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#request-the-permissions-from-a-directory-admin).
+
+There are some cases where a user may not be allowed to grant consent to an
+application.  When this occurs, the user may have to speak with an administrator
+to have the permissions granted on their behalf.  The [use consent
+troubleshooting
+page](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error)
+provides more details on the consent errors a user might encounter.
 
 ## Credential Types in @azure/identity
 
@@ -253,7 +297,3 @@ order until one of them succeeds:
 - `ManagedIdentityCredential`
 
 More credential types will be added to this list in the future.
-
-## Access Policies, Roles, and Consent
-
-https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#troubleshooting-permissions-and-consent
