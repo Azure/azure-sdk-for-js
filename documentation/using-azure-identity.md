@@ -142,8 +142,8 @@ Generally speaking, we *do not* recommend using this credential type when other
 more secure credential types are available.  Handling the user's password
 directly is a major security risk.
 
-> NOTE: This credential type does not work with personal Microsoft accounts at
-> this time.  See the
+> NOTE: This credential type does not work with personal Microsoft accounts or
+> multi-factor authentication at this time.  See the
 > [documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
 > for more information.
 
