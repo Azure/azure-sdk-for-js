@@ -1,4 +1,4 @@
-const { SecretsClient } = require("../../src");
+const { SecretClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 
