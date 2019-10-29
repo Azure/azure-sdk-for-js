@@ -122,10 +122,10 @@ export class SecretClient {
    * import { SecretClient } from "@azure/keyvault-secrets";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new SecretClient(url, credentials);
+   * let client = new SecretClient(vaultUrl, credentials);
    * ```
    * @param {string} vaultUrl the base URL to the vault.
    * @param {TokenCredential} The credential to use for API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]]).
@@ -249,7 +249,7 @@ export class SecretClient {
    * const deletePoller = await client.beginDeleteSecret("MySecretName");
    *
    * // Serializing the poller
-   * const serialized = deletePoller.toJSON();
+   * const serialized = deletePoller.toString();
    *
    * // A new poller can be created with:
    * // const newPoller = await client.beginDeleteSecret("MySecretName", { resumeFrom: serialized });
@@ -461,7 +461,7 @@ export class SecretClient {
    * const recoverPoller = await client.recoverDeletedSecret("MySecretName");
    *
    * // Serializing the poller
-   * const serialized = recoverPoller.toJSON();
+   * const serialized = recoverPoller.toString();
    *
    * // A new poller can be created with:
    * // const newPoller = await client.beginRecoverDeletedSecret("MySecretName", { resumeFrom: serialized });
@@ -665,8 +665,8 @@ export class SecretClient {
    * Example usage:
    * ```ts
    * let client = new SecretClient(url, credentials);
-   * for await (const secretAttr of client.listPropertiesOfSecretVersions("MySecretName")) {
-   *   const secret = await client.getSecret(secretAttr.name);
+   * for await (const secretProperties of client.listPropertiesOfSecretVersions("MySecretName")) {
+   *   const secret = await client.getSecret(secretProperties.name);
    *   console.log("secret version: ", secret);
    * }
    * ```
@@ -751,8 +751,8 @@ export class SecretClient {
    * Example usage:
    * ```ts
    * let client = new SecretClient(url, credentials);
-   * for await (const secretAttr of client.listPropertiesOfSecrets()) {
-   *   const secret = await client.getSecret(secretAttr.name);
+   * for await (const secretProperties of client.listPropertiesOfSecrets()) {
+   *   const secret = await client.getSecret(secretProperties.name);
    *   console.log("secret: ", secret);
    * }
    * ```
@@ -835,8 +835,8 @@ export class SecretClient {
    * Example usage:
    * ```ts
    * let client = new SecretClient(url, credentials);
-   * for await (const secretAttr of client.listDeletedSecrets()) {
-   *   const deletedSecret = await client.getSecret(secretAttr.name);
+   * for await (const deletedSecret of client.listDeletedSecrets()) {
+   *   const deletedSecret = await client.getSecret(deletedSecret.name);
    *   console.log("deleted secret: ", deletedSecret);
    * }
    * ```

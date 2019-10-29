@@ -638,11 +638,14 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * import { CryptographyClient } from "@azure/keyvault-keys";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
+   *
+   * let keyClient = new KeyClient(vaultUrl, credentials);
+   * let keyVaultKey = await keyClient.getKey("MyKey");
    *
    * let client = new CryptographyClient(keyVaultKey.id, credentials);
    * // or

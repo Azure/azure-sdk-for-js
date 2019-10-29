@@ -179,10 +179,10 @@ export class KeyClient {
    * import { KeyClient } from "@azure/keyvault-keys";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new KeyClient(url, credentials);
+   * let client = new KeyClient(vaultUrl, credentials);
    * ```
    * @param {string} vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
    * @param {TokenCredential} credential The credential to use for the API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]]).
@@ -498,7 +498,7 @@ export class KeyClient {
    * const poller = await client.beginDeleteKey("MyKey");
    *
    * // Serializing the poller
-   * const serialized = poller.toJSON();
+   * const serialized = poller.toString();
    * // A new poller can be created with:
    * // await client.beginDeleteKey("MyKey", { resumeFrom: serialized });
    *
@@ -699,7 +699,7 @@ export class KeyClient {
    * const poller = await client.beginRecoverDeletedKey("MyKey");
    *
    * // Serializing the poller
-   * const serialized = poller.toJSON();
+   * const serialized = poller.toString();
    * // A new poller can be created with:
    * // await client.beginRecoverDeletedKey("MyKey", { resumeFrom: serialized });
    *
@@ -854,8 +854,8 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(url, credentials);
-   * for await (const keyAttr of client.listPropertiesOfKeyVersions("MyKey")) {
-   *   const key = await client.getKey(keyAttr.name);
+   * for await (const keyProperties of client.listPropertiesOfKeyVersions("MyKey")) {
+   *   const key = await client.getKey(keyProperties.name);
    *   console.log("key version: ", key);
    * }
    * ```
@@ -936,8 +936,8 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(url, credentials);
-   * for await (const keyAttr of client.listPropertiesOfKeys()) {
-   *   const key = await client.getKey(keyAttr.name);
+   * for await (const keyProperties of client.listPropertiesOfKeys()) {
+   *   const key = await client.getKey(keyProperties.name);
    *   console.log("key: ", key);
    * }
    * ```
@@ -1015,8 +1015,8 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(url, credentials);
-   * for await (const keyAttr of client.listDeletedKeys()) {
-   *   const deletedKey = await client.getKey(keyAttr.name);
+   * for await (const deletedKey of client.listDeletedKeys()) {
+   *   const deletedKey = await client.getKey(deletedKey.name);
    *   console.log("deleted key: ", deletedKey);
    * }
    * ```
