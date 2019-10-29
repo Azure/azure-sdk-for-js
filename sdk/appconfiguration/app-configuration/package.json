@@ -60,9 +60,9 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
-    "@azure/core-http": "1.0.0-preview.6",
-    "@azure/core-paging": "1.0.0-preview.2",
+    "@azure/core-asynciterator-polyfill": "^1.0.0",
+    "@azure/core-http": "^1.0.0",
+    "@azure/core-paging": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.5",
     "tslib": "^1.9.3"
   },
