@@ -11,6 +11,7 @@
     "./dist-esm/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "./dist-esm/src/FileDownloadResponse.js": "./dist-esm/src/FileDownloadResponse.browser.js",
+    "fs": false,
     "os": false,
     "process": false
   },
