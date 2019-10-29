@@ -23,6 +23,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
    * @param partitionIds An optional set of partition IDs. undefined means  all partitions.
    */
   constructor(partitionIds?: string[]) {
+    log.partitionLoadBalancer(`GreedyPartitionLoadBalancer created. Watching ${partitionIds ? '(' + partitionIds.join(",") + ')' : "all"}.`);
     this.partitionsToClaim = partitionIds && new Set(partitionIds);
   }
 
@@ -58,6 +59,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
    * assuming the owner of the partition is inactive.
    * */
   constructor(ownerId: string, inactiveTimeLimitInMS: number) {
+    log.partitionLoadBalancer(`FairPartitionLoadBalancer created with owner ID ${ownerId}, inactive time limit: ${inactiveTimeLimitInMS}ms`);
     this._ownerId = ownerId;
     this._inactiveTimeLimitInMS = inactiveTimeLimitInMS;
   }

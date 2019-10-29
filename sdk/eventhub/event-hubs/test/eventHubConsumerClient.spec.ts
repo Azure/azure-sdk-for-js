@@ -48,6 +48,11 @@ describe("EventHubConsumerClient", () => {
         logMessages.push(message);
       };
 
+      log.partitionLoadBalancer.enabled = true;
+      log.partitionLoadBalancer.log = (message) => {
+        logMessages.push(message);
+      };
+
       client = new EventHubConsumerClient(
         EventHubClient.defaultConsumerGroupName,
         service.connectionString!,
@@ -81,6 +86,7 @@ describe("EventHubConsumerClient", () => {
 
       hasLogMessage("Creating client with connection string and event hub name");
       hasLogMessage("Subscribing to specific partitions (0), no coordination.");
+      hasLogMessage("GreedyPartitionLoadBalancer created. Watching (0).");
     });
 
     it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
@@ -97,6 +103,7 @@ describe("EventHubConsumerClient", () => {
       await subscriber.stop();
 
       hasLogMessage("Subscribing to all partitions, don't coordinate.");
+      hasLogMessage("GreedyPartitionLoadBalancer created. Watching all.");
     });
 
     it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function(): Promise<
@@ -125,6 +132,7 @@ describe("EventHubConsumerClient", () => {
       await subscriber2.stop();
 
       hasLogMessage("Subscribing to all partitions, coordinating using a partition manager.");
+      hasLogMessage("FairPartitionLoadBalancer created with owner ID");
     });
 
     function hasLogMessage(message: string) {
