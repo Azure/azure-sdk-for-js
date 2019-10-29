@@ -2,7 +2,7 @@
 
 This release marks the general availability of the `@azure/abort-controller` package.
 
-Removed the browser bundle. A browser-compatible library can still be created through the use of a bundler such as rollup or webpack.
+Removed the browser bundle. A browser-compatible library can still be created through the use of a bundler such as Rollup or Webpack.
 ([#5860](https://github.com/Azure/azure-sdk-for-js/pull/5860))
 
 ## 1.0.0-preview.2 - 2019-09-09
