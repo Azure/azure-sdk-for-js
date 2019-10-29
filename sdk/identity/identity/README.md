@@ -12,8 +12,6 @@ to authenticate API requests. It supports token authentication using an Azure Ac
   - if you don't have one, you can sign up for a [free account](https://azure.microsoft.com/free/)
 - Node.js 8 LTS or higher
 
-**NOTE:** The credential implementations in this library are not yet supported in the browser. We will provide browser-supported implementations for some in a future preview release.
-
 ### Install the package
 
 Install Azure Identity with `npm`:
@@ -24,10 +22,11 @@ npm install --save @azure/identity
 
 ## Key concepts
 
+If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](/documentation/using-azure-identity.md) first.  This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
+
 ### Credentials
 
-Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`)
-do not accept these credentials.
+Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`) do not accept these credentials.
 
 Credentials differ mostly in configuration:
 
@@ -55,11 +54,14 @@ Authenticating as a managed identity requires no configuration, but does require
 
 `DefaultAzureCredential` and `EnvironmentCredential` are configured for service principal authentication with these environment variables:
 
-| variable name         | value                                               |
-| --------------------- | --------------------------------------------------- |
-| `AZURE_CLIENT_ID`     | service principal's app id                          |
-| `AZURE_TENANT_ID`     | id of the principal's Azure Active Directory tenant |
-| `AZURE_CLIENT_SECRET` | one of the service principal's client secrets       |
+| variable name                   | value                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------- |
+| `AZURE_CLIENT_ID`               | service principal's app id                                                            |
+| `AZURE_TENANT_ID`               | id of the principal's Azure Active Directory tenant                                   |
+| `AZURE_CLIENT_SECRET`           | one of the service principal's client secrets (implies `ClientSecretCredential`)      |
+| `AZURE_CLIENT_CERTIFICATE_PATH` | one of the service principal's client secrets (implies `ClientCertificateCredential`) |
+| `AZURE_USERNAME`                | the username of a user in the tenant (implies `UsernamePasswordCredential`)           |
+| `AZURE_PASSWORD`                | the password of the user specified in `AZURE_USERNAME`                                |
 
 ## Examples
 
