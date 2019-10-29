@@ -234,15 +234,24 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * or undefined if not passed in. Treats empty string as `undefined`.
  * @param value
  */
-export function getJSObjectOrUndefined(value: any): any | undefined {
-  if (value == undefined) return undefined;
+export function getJSONOrUndefined(value: any): any | undefined {
+  if (value == undefined || (typeof value === "string" && value.trim() == "")) {
+    return undefined;
+  }
 
-  if (typeof value === "string" && value.trim() === "") return undefined;
+  const formattedStringValue = JSON.stringify(value).trim();
+  if (!formattedStringValue.startsWith("{") && !formattedStringValue.startsWith("[")) {
+    throw new TypeError(
+      `${formattedStringValue} expected to be in proper JSON format, or undefined`
+    );
+  }
 
-  if (typeof value === "object") {
-    return value;
-  } else {
-    throw new TypeError(`${value} expected to be in proper JSON like format, or undefined`);
+  try {
+    return JSON.parse(formattedStringValue);
+  } catch (err) {
+    throw new TypeError(
+      `Error parsing JSON - ${JSON.stringify(value, undefined, 2)} : ${err.message} `
+    );
   }
 }
 
@@ -253,7 +262,7 @@ export function getJSObjectOrUndefined(value: any): any | undefined {
  * @param value
  */
 export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
-  const jsonValue: any = getJSObjectOrUndefined(value);
+  const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue != undefined) {
     return {
       activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]) || 0,
@@ -298,7 +307,7 @@ export type AuthorizationRule = {
  */
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
-  const jsonValue: any = getJSObjectOrUndefined(value);
+  const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue == undefined) {
     return undefined;
   }

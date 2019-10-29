@@ -10,7 +10,7 @@ import {
 } from "../util/atomXmlHelper";
 import {
   getIntegerOrUndefined,
-  getJSObjectOrUndefined,
+  getJSONOrUndefined,
   getStringOrUndefined,
   getBooleanOrUndefined
 } from "../util/utils";
@@ -318,7 +318,7 @@ type RawSqlParameter = {
  */
 export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
   const parameters: SqlParameter[] = [];
-  const jsonValue: any = getJSObjectOrUndefined(value);
+  const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue == undefined) {
     return undefined;
   }
