@@ -20,7 +20,7 @@ const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
 /**
  * An internal type used to communicate details of a token request's
- * response that should not be sent back as part of the AccessToken.
+ * response that should not be sent back as part of the access token.
  */
 export interface TokenResponse {
   /**
