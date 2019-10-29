@@ -63,7 +63,7 @@ jobs:
         displayName: "Setup Versioning Properties"
 
       - script: |
-          node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service ""
+          node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
           node common/scripts/install-run-rush.js update
         condition: eq(variables['DevBuildRun'],'true')
         displayName: "Update package versions for dev build"
