@@ -321,8 +321,8 @@ succeeds:
 - `EnvironmentCredential`
 - `ManagedIdentityCredential`
 
-This credential type is ideal when one of these credential types should work in
-the current environment, whether it's your local development or a production
+This credential type is ideal when one of the chained credential types will work
+in the current environment, whether it's your local development or a production
 server.
 
 When you use this credential you will need to make sure that you've
