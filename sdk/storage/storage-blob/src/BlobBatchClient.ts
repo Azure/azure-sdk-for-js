@@ -59,12 +59,12 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   };
 
 /**
- * Contains response data for the deleteBlobs operation.
+ * Contains response data for the {@link deleteBlobs} operation.
  */
 export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 
 /**
- * Contains response data for the setBlobsAccessTier operation.
+ * Contains response data for the {@link setBlobsAccessTier} operation.
  */
 export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
@@ -106,7 +106,11 @@ export class BlobBatchClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -125,8 +129,8 @@ export class BlobBatchClient {
   }
 
   /**
-   * Creates a BlobBatch.
-   * A BlobBatch represents an aggregated set of operations on blobs.
+   * Creates a {@link BlobBatch}.
+   * A {@link BlobBatch} represents an aggregated set of operations on blobs.
    */
   public createBatch(): BlobBatch {
     return new BlobBatch();
@@ -239,7 +243,11 @@ export class BlobBatchClient {
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
-    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {

@@ -14,10 +14,10 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * AccountSASSignatureValues is used to generate a Shared Access Signature (SAS) for an Azure Storage account. Once
- * all the values here are set appropriately, call generateSASQueryParameters() to obtain a representation of the SAS
- * which can actually be applied to blob urls. Note: that both this class and {@link SASQueryParameters} exist because
- * the former is mutable and a logical representation while the latter is immutable and used to generate actual REST
- * requests.
+ * all the values here are set appropriately, call {@link generateAccountSASQueryParameters} to obtain a representation
+ * of the SAS which can actually be applied to blob urls. Note: that both this class and {@link SASQueryParameters}
+ * exist because the former is mutable and a logical representation while the latter is immutable and used to generate
+ * actual REST requests.
  *
  * @see https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
  * for more conceptual information on SAS

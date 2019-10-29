@@ -14,7 +14,7 @@ import { TelemetryPolicy } from "./policies/TelemetryPolicy";
 import { SDK_VERSION } from "./utils/constants";
 
 /**
- * TelemetryPolicyFactory is a factory class helping generating TelemetryPolicy objects.
+ * TelemetryPolicyFactory is a factory class helping generating {@link TelemetryPolicy} objects.
  *
  * @export
  * @class TelemetryPolicyFactory

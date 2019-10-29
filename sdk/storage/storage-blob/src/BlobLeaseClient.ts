@@ -62,6 +62,8 @@ export interface Lease {
 
 /**
  * Contains the response data for operations that create, modify, or delete a lease.
+ *
+ * See {@link BlobLeaseClient}.
  */
 export type LeaseOperationResponse = Lease & {
   /**
@@ -100,7 +102,7 @@ export interface LeaseOperationOptions extends CommonOptions {
 }
 
 /**
- * A client that manages leases for a ContainerClient or a BlobClient.
+ * A client that manages leases for a {@link ContainerClient} or a {@link BlobClient}.
  *
  * @export
  * @class BlobLeaseClient
@@ -174,7 +176,10 @@ export class BlobLeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-acquireLease", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "BlobLeaseClient-acquireLease",
+      options.tracingOptions
+    );
     try {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
@@ -245,7 +250,10 @@ export class BlobLeaseClient {
    * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("BlobLeaseClient-releaseLease", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "BlobLeaseClient-releaseLease",
+      options.tracingOptions
+    );
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
