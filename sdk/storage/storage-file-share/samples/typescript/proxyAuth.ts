@@ -20,7 +20,7 @@ async function main() {
       // proxy can either be a URL like "http://localhost:3128"
       // or
       // an option bag consisting {host, port, username, password }
-      proxy: { host: "http://localhost", port: 3128, username: "username", password: "password" }
+      proxyOptions: { host: "http://localhost", port: 3128, username: "username", password: "password" }
       // if proxy is undefined, the library tries to load the proxy settings from the environment variables like HTTP_PROXY
     }
   );
