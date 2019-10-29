@@ -239,16 +239,11 @@ export function getJSObjectOrUndefined(value: any): any | undefined {
 
   if (typeof value === "string" && value.trim() === "") return undefined;
 
-  if (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean" ||
-    typeof value === "symbol"
-  ) {
-    throw new TypeError(`${String(value)} expected to be in proper JSON like format, or undefined`);
+  if (typeof value === "object") {
+    return value;
+  } else {
+    throw new TypeError(`${value} expected to be in proper JSON like format, or undefined`);
   }
-
-  return value;
 }
 
 /**
