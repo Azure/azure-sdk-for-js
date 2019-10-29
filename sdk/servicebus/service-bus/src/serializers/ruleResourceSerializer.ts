@@ -195,7 +195,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       Name: rule.name
     };
 
-    if (rule == undefined || rule.filter == undefined) {
+    if (rule.filter == undefined) {
       // Defaults to creating a true filter if none specified
       resource.Filter = {
         SqlExpression: "1=1",
@@ -259,7 +259,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       }
     }
 
-    if (rule == undefined || rule.action == undefined) {
+    if (rule.action == undefined) {
       // Defaults to creating an empty rule action instance if none specified
       resource.Action = {};
       resource.Action[Constants.XML_METADATA_MARKER] = {
