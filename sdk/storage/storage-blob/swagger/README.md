@@ -310,3 +310,18 @@ directive:
           $.put.parameters[2] = { "$ref": path };
       }
 ```
+
+### Add ClientRequestId attribute to the `BlobBatchSubmitBatchResponse` (missing in the unified swagger)
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"]["post"]["responses"]["202"]["headers"]
+    transform: >
+      if (!$["x-ms-client-request-id"]) {
+        $["x-ms-client-request-id"] = {};
+        $["x-ms-client-request-id"]["x-ms-client-name"] = "ClientRequestId";
+        $["x-ms-client-request-id"].type = "string";
+        $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
+      }
+```

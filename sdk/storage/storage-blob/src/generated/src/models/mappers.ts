@@ -1992,6 +1992,12 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
