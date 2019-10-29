@@ -100,7 +100,6 @@ Or you can selectively import certain types,
 
 ```javascript
 const { QueueServiceClient, SharedKeyCredential } = require("@azure/storage-queue");
-);
 ```
 
 ### Create the queue service client
@@ -163,7 +162,7 @@ const queueName = `newqueue${new Date().getTime()}`;
 const queueClient = queueServiceClient.getQueueClient(queueName);
 const createQueueResponse = await queueClient.create();
 console.log(
-  `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+  `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
 );
 ```
 
@@ -193,7 +192,7 @@ console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0]
 
 Messages are processed in two steps.
 
-- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messages from this queue for a default period of 30 seconds.
 - When processing of a message is done, call `queueClient.deleteMessage()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
@@ -218,7 +217,7 @@ if (response.receivedMessageItems.length == 1) {
 ```javascript
 const deleteQueueResponse = await queueClient.delete();
 console.log(
-  `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+  `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
 );
 ```
 
