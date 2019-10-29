@@ -140,7 +140,11 @@ export {
 const SERVICE_API_VERSION = "7.0";
 
 /**
- * The client to interact with the KeyVault keys functionality
+ * The KeyClient provides asynchronous methods to manage KeyVaultKey in the
+ * Azure Key Vault. The client supports creating, retrieving, updating,
+ * deleting, purging, backing up, restoring and listing KeyVaultKeys. The
+ * client also supports listing DeletedKey for a soft-delete enabled Azure Key
+ * Vault.
  */
 export class KeyClient {
   /**

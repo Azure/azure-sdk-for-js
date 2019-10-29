@@ -27,7 +27,7 @@ import * as constants from "constants";
 const SERVICE_API_VERSION = "7.0";
 
 /**
- * The client to interact with the KeyVault cryptography functionality
+ * A client used to perform cryptographic operations with Azure Key Vault keys.
  */
 export class CryptographyClient {
   /**
