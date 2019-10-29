@@ -29,7 +29,7 @@ async function main(): Promise<void> {
   );
   console.log("Created queue: ", createQueueResult.queueName);
 
-  const getQueueResult: GetQueueResponse = await serviceBusAtomManagementClient.getQueue(
+  const getQueueResult: GetQueueResponse = await serviceBusAtomManagementClient.getQueueDetails(
     "testQueue"
   );
   console.log("Retrieved queue: ", getQueueResult);
