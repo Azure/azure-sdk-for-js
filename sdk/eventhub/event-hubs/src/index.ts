@@ -32,6 +32,7 @@ export {
   CloseReason,
   EventProcessorOptions,
   PartitionContext,
+  PartitionCheckpointer,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";

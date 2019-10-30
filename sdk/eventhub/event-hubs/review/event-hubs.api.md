@@ -116,6 +116,8 @@ export class EventHubConsumerClient {
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getPartitionIds(): Promise<string[]>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
@@ -247,8 +249,10 @@ export type OnError = (error: MessagingError | Error) => void;
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
+// Warning: (ae-forgotten-export) The symbol "PartitionCheckpointer" needs to be exported by the entry point index.d.ts
+// 
 // @public (undocumented)
-export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext) => Promise<void>;
+export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext, checkpointer: PartitionCheckpointer) => Promise<void>;
 
 // @public
 export interface OptionalEventHandlers {
@@ -279,10 +283,9 @@ export interface PartitionLoadBalancer {
 }
 
 // @public
-export interface PartitionManager {
+export interface PartitionManager extends PartitionCheckpointer {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public
