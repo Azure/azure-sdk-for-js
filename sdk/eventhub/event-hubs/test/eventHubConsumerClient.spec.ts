@@ -12,7 +12,7 @@ import * as log from "../src/log";
 const should = chai.should();
 const env = getEnvVars();
 
-describe("EventHubConsumerClient", () => {
+describe.only("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
@@ -35,9 +35,12 @@ describe("EventHubConsumerClient", () => {
     let client: EventHubConsumerClient;
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
-    const logMessages: string[] = [];
+    let logMessages: string[] = [];
 
-    before(async () => {
+    let consumerClientWasEnabled: boolean;
+    let partitionLoadBalancerWasEnabled: boolean;
+
+    beforeEach(async () => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -47,11 +50,13 @@ describe("EventHubConsumerClient", () => {
         "define EVENTHUB_NAME in your environment before running integration tests."
       );
 
+      consumerClientWasEnabled = log.consumerClient.enabled;
       log.consumerClient.enabled = true;
       log.consumerClient.log = (message) => {
         logMessages.push(message);
       };
 
+      partitionLoadBalancerWasEnabled = log.partitionLoadBalancer.enabled;
       log.partitionLoadBalancer.enabled = true;
       log.partitionLoadBalancer.log = (message) => {
         logMessages.push(message);
@@ -70,9 +75,19 @@ describe("EventHubConsumerClient", () => {
       partitionIds.length.should.gte(2);
     });
 
-    after(() => {
+    afterEach(() => {
       client.close();
       producerClient.close();
+
+      if (!consumerClientWasEnabled) {
+        log.consumerClient.enabled = false;
+      }
+
+      if (!partitionLoadBalancerWasEnabled) {
+        log.partitionLoadBalancer.enabled = false;
+      }      
+
+      logMessages = [];
     });
 
     it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<void> {
