@@ -2,7 +2,7 @@
 
 An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventProcessor` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/index.html) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhub.html#azure-eventhubs-checkpointstore-blob) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 
 ## Getting started
 
@@ -44,7 +44,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  A [BlobPartitionManager](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/classes/blobpartitionmanager.html) is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
+  A [BlobPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.4/classes/blobpartitionmanager.html) is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
 
 ## Examples
 
@@ -69,7 +69,7 @@ const partitionManager =  new BlobPartitionManager(containerClient);
 
 To checkpoint events received using an EventProcessor to Azure Blob Storage, you will need to pass an instance of the Partition Manager to the Event Processor along with the code to call the `updateCheckpoint()` method.
 
-In this example, we will use a `SamplePartitionProcessor` that extends the [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/partitionprocessor.html) class in order to checkpoint the last event in the batch.
+In this example, we will use a `SamplePartitionProcessor` that extends the [PartitionProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.4/classes/partitionprocessor.html) class in order to checkpoint the last event in the batch.
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",

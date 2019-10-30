@@ -20,8 +20,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let recorder: any;
   let credential: ClientSecretCredential;
   let keyName: string;
-  let key: KeyVaultKey;
-  let keyUrl: string;
+  let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
   before(async function() {
@@ -32,9 +31,8 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     credential = authentication.credential;
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
-    key = await client.createKey(keyName, "RSA");
-    keyUrl = key.key!.kid as string;
-    cryptoClient = new CryptographyClient(key.id!, credential);
+    keyVaultKey = await client.createKey(keyName, "RSA");
+    cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
   });
 
   after(async function() {
@@ -43,17 +41,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   // The tests follow
-
-  it("getKey from client initialized with a key URL", async function() {
-    const getKeyResult = await cryptoClient.getKey();
-    assert.equal(getKeyResult.kid, keyUrl);
-  });
-
-  it("getKey from client initialized with a JWK key", async function() {
-    const jwtKeyClient = new CryptographyClient(key, credential);
-    const getKeyResult = await jwtKeyClient.getKey();
-    assert.equal(getKeyResult.kid, key.key!.kid);
-  });
 
   if (isRecording) {
     it("encrypt & decrypt with RSA1_5", async function() {
@@ -67,8 +54,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     if (isNode) {
       it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
         const text = this.test!.title;
-        const key = await cryptoClient.getKey();
-        const keyPEM = convertJWKtoPEM(key);
+        const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
         const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
         const encrypted = publicEncrypt(padded, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
@@ -88,9 +74,8 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     if (isNode) {
       it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
         const text = this.test!.title;
-        const key = await cryptoClient.getKey();
         // Encrypting outside the client since the client will intentionally
-        const keyPEM = convertJWKtoPEM(key);
+        const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
         const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
         const decryptedText = uint8ArrayToString(decryptResult.result);

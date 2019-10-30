@@ -140,12 +140,12 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -155,7 +155,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListContainersIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -178,12 +178,12 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the container's metadata
+   * Specifies whether the container's metadata
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
@@ -706,7 +706,7 @@ export class BlobServiceClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = blobServiceClient.listContainers();
+   *   const iter = blobServiceClient.listContainers();
    *   let containerItem = await iter.next();
    *   while (!containerItem.done) {
    *     console.log(`Container ${i++}: ${containerItem.value.name}`);

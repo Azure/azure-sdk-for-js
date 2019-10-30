@@ -62,7 +62,8 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can get the versions of a key with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
         requestOptions: { timeout: 1 }
@@ -142,7 +143,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can get several inserted keys with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
 
@@ -205,7 +207,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("list deleted keys with requestOptions timeout", async function() {
       const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
       await assertThrowsAbortError(async () => {

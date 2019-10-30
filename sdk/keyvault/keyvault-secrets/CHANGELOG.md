@@ -11,6 +11,7 @@
 - All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
 - Flattened all the options bag to extend the `RequestOptionsBase` interface.
 - Renamed `restoreSecret` to `restoreSecretBackup`.
+- Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

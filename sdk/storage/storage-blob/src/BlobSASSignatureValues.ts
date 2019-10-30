@@ -159,19 +159,20 @@ export interface BlobSASSignatureValues {
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
+ * Fill in the required details before running the following snippets.
  * @example
  * ```js
  * // Generate service level SAS for a container
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
- *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
+ *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
  *     startsOn: new Date(), // Required
- *     expiresOn: tmr, // Optional. Date type
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
@@ -183,9 +184,9 @@ export interface BlobSASSignatureValues {
  * await containerClient.setAccessPolicy(undefined, [
  *   {
  *     accessPolicy: {
- *       expiresOn: tmr, // Date type
+ *       expiresOn: new Date(new Date().valueOf() + 86400), // Date type
  *       permissions: ContainerSASPermissions.parse("racwdl").toString(),
- *       start: now // Date type
+ *       startsOn: new Date() // Date type
  *     },
  *     id: identifier
  *   }
@@ -196,29 +197,30 @@ export interface BlobSASSignatureValues {
  *     containerName, // Required
  *     identifier // Required
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
+ * // Fill in the required details before running the snippet.
  * @example
  * ```js
  * // Generate service level SAS for a blob
  * const blobSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
  *     blobName, // Required
- *     permissions: BlobSASPermissions.parse("racwd").toString(), // Required
+ *     permissions: BlobSASPermissions.parse("racwd"), // Required
  *     startsOn: new Date(), // Required
- *     expiresOn: tmr, // Optional. Date type
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
  *     cacheControl: "cache-control-override", // Optional
  *     contentDisposition: "content-disposition-override", // Optional
  *     contentEncoding: "content-encoding-override", // Optional
  *     contentLanguage: "content-language-override", // Optional
  *     contentType: "content-type-override", // Optional
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
@@ -241,14 +243,14 @@ export function generateBlobSASQueryParameters(
  * @example
  * ```js
  * // Generate user delegation SAS for a container
- * const userDelegationKey = await blobServiceClient.getUserDelegationKey(aborter, startsOn, expiresOn);
+ * const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
- *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
+ *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
  *     startsOn, // Required. Date type
  *     expiresOn, // Optional. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
  *   },
  *   userDelegationKey, // UserDelegationKey

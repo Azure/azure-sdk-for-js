@@ -245,6 +245,100 @@ export const RegenerateKeyParameters: msRest.CompositeMapper = {
   }
 };
 
+export const ListKeyValueParameters: msRest.CompositeMapper = {
+  serializedName: "ListKeyValueParameters",
+  type: {
+    name: "Composite",
+    className: "ListKeyValueParameters",
+    modelProperties: {
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyValue: msRest.CompositeMapper = {
+  serializedName: "KeyValue",
+  type: {
+    name: "Composite",
+    className: "KeyValue",
+    modelProperties: {
+      key: {
+        readOnly: true,
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        readOnly: true,
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        readOnly: true,
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        readOnly: true,
+        serializedName: "eTag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        readOnly: true,
+        serializedName: "lastModified",
+        type: {
+          name: "DateTime"
+        }
+      },
+      locked: {
+        readOnly: true,
+        serializedName: "locked",
+        type: {
+          name: "Boolean"
+        }
+      },
+      tags: {
+        readOnly: true,
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationDefinitionDisplay: msRest.CompositeMapper = {
   serializedName: "OperationDefinitionDisplay",
   type: {

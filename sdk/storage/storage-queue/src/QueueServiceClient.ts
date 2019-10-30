@@ -32,7 +32,7 @@ import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 
 /**
- * Options to configure Queue Service - Get Properties operation
+ * Options to configure {@link QueueServiceClient.getProperties} operation
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -49,7 +49,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Set Properties operation
+ * Options to configure {@link QueueServiceClient.setProperties} operation
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -66,7 +66,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Get Statistics operation
+ * Options to configure {@link QueueServiceClient.getStatistics} operation
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -85,6 +85,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 /**
  * Options to configure Queue Service - List Queues Segment operation
  *
+ * See:
+ * - {@link QueueServiceClient.listSegments}
+ * - {@link QueueServiceClient.listQueuesSegment}
+ * - {@link QueueServiceClient.listItems}
+ *
  * @interface ServiceListQueuesSegmentOptions
  */
 interface ServiceListQueuesSegmentOptions extends CommonOptions {
@@ -97,12 +102,12 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of queues
+   * Specifies the maximum number of queues
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -112,7 +117,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -120,7 +125,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - List Queues operation
+ * Options to configure {@link QueueServiceClient.listQueues} operation
  *
  * @export
  * @interface ServiceListQueuesOptions
@@ -135,12 +140,12 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the queue's metadata be returned as part of the response
+   * Specifies whether the queue's metadata be returned as part of the response
    * body.
    */
   includeMetadata?: boolean;
@@ -215,6 +220,36 @@ export class QueueServiceClient extends StorageClient {
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
+   *
+   * @example
+   * ```js
+   * const account = "<account>";
+   *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
+   * const credential = new DefaultAzureCredential();
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   credential
+   * }
+   * ```
+   *
+   * @example
+   * ```js
+   * const account = "<account>";
+   *
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   sharedKeyCredential,
+   *   {
+   *     retryOptions: { maxTries: 4 }, // Retry options
+   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
+   *   }
+   * );
+   * ```
    */
   constructor(
     url: string,
@@ -234,7 +269,11 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -255,10 +294,17 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a QueueClient object.
+   * Creates a {@link QueueClient} object.
+   *
    * @param {string} queueName
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
+   *
+   * @example
+   * ```js
+   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * const createQueueResponse = await queueClient.create();
+   * ```
    */
   public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
@@ -308,7 +354,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link ServiceListQueuesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -335,7 +381,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for Queue Items
+   * Returns an AsyncIterableIterator for {@link QueueItem} objects
    *
    * @private
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.

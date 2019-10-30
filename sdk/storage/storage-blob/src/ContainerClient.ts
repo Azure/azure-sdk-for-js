@@ -421,12 +421,12 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -436,7 +436,7 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
+   * Include this parameter to
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
@@ -458,29 +458,29 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
 
   /**
-   * @member {boolean} [includeCopy] Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
+   * Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
    */
   includeCopy?: boolean;
   /**
-   * @member {boolean} [includeDeleted] Specifies whether soft deleted blobs should be included in the response.
+   * Specifies whether soft deleted blobs should be included in the response.
    */
   includeDeleted?: boolean;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether blob metadata be returned in the response.
+   * Specifies whether blob metadata be returned in the response.
    */
   includeMetadata?: boolean;
   /**
-   * @member {boolean} [includeSnapshots] Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
    */
   includeSnapshots?: boolean;
   /**
-   * @member {boolean} [includeUncommitedBlobs] Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
+   * Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
   includeUncommitedBlobs?: boolean;
 }
@@ -1261,6 +1261,8 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
+   * // Get the containerClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
    * @example
    * ```js
    *   let i = 1;
@@ -1273,7 +1275,7 @@ export class ContainerClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = containerClient.listBlobsFlat();
+   *   let iter = containerClient.listBlobsFlat();
    *   let blobItem = await iter.next();
    *   while (!blobItem.done) {
    *     console.log(`Blob ${i++}: ${blobItem.value.name}`);

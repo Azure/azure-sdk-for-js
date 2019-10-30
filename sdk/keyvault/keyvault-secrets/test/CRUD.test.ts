@@ -61,7 +61,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     });
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout adding a secret", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -140,7 +141,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout updating a secret", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -192,7 +194,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout getting a secret", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -294,7 +297,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout deleting a secret", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

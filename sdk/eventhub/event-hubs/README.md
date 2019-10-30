@@ -6,7 +6,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
 [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) |
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/event-hubs/index.html) |
+[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhub.html#azure-event-hubs) |
 [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
@@ -54,7 +54,7 @@ For more concepts and deeper discussion, see: [Event Hubs Features](https://docs
 
 ### Authenticate the client
 
-Interaction with Event Hubs starts with an instance of the [EventHubClient](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#constructor) class. You can instantiate
+Interaction with Event Hubs starts with an instance of the [EventHubClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubclient.html#constructor) class. You can instantiate
 this class using one of the below
 
 ```javascript
@@ -121,7 +121,7 @@ In order to publish events, you'll need to create an `EventHubProducer`. Produce
 
 #### Send a single event or an array of events
 
-Use the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method to send a single event or multiple events using a single call.
+Use the [send](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#send) method to send a single event or multiple events using a single call.
 
 ```javascript
 const { EventHubClient } = require("@azure/event-hubs");
@@ -142,9 +142,9 @@ main();
 
 #### Send a batch of events
 
-Use the [createBatch](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#createbatch) method to create
-an `EventDataBatch` object which can then be sent using the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method.
-Events may be added to the `EventDataBatch` using the [tryAdd](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventdatabatch.html#tryadd)
+Use the [createBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#createbatch) method to create
+an `EventDataBatch` object which can then be sent using the [send](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#send) method.
+Events may be added to the `EventDataBatch` using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventdatabatch.html#tryadd)
 method until the maximum batch size limit in bytes has been reached.
 
 ```javascript
@@ -205,7 +205,7 @@ You can use this consumer in one of 3 ways to receive events:
 
 #### Get an array of events
 
-Use the [receiveBatch](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubconsumer.html#receivebatch) function which returns a promise that resolves to an array of events.
+Use the [receiveBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#receivebatch) function which returns a promise that resolves to an array of events.
 
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
@@ -234,12 +234,12 @@ main();
 
 #### Register event handler
 
-Use the [receive](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubconsumer.html#receive) to set up event handlers and have it running as long as you need.
+Use the [receive](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#receive) to set up event handlers and have it running as long as you need.
 
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
-const { delay, EventHubClient} = require("@azure/event-hubs");
+const { delay, EventHubClient } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubClient("connectionString", "eventHubName");
@@ -272,9 +272,9 @@ main();
 
 #### Use async iterator
 
-Use the [getMessageIterator](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubconsumer.html#geteventiterator) to get an async iterator over events.
+Use the [getMessageIterator](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#geteventiterator) to get an async iterator over events.
 
-This function takes an optional [EventIteratorOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventiteratoroptions.html) parameter that includes `abortSignal` to cancel the current operation.
+This function takes an optional [EventIteratorOptions](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/eventiteratoroptions.html) parameter that includes `abortSignal` to cancel the current operation.
 
 ```javascript
 const { EventHubClient } = require("@azure/event-hubs");
@@ -288,7 +288,7 @@ async function main() {
     EventPosition.latest()
   );
 
-  for await (const events of consumer.getEventIterator()){
+  for await (const events of consumer.getEventIterator()) {
     // your code here
   }
 
@@ -301,7 +301,7 @@ main();
 
 ### Consume events using an Event Processor
 
-[EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html) is a high level construct which internally uses the `EventHubConsumer` which is mentioned in previous examples
+[EventProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventprocessor.html) is a high level construct which internally uses the `EventHubConsumer` which is mentioned in previous examples
 to receive events from multiple partitions at once.
 
 Typically, Event Processor based applications consist of one or more instances of EventProcessor instances which have been
@@ -309,14 +309,14 @@ configured to consume events from the same Event Hub and consumer group. They ba
 workload across different instances by distributing the partitions to be processed among themselves.
 They also allow the user to track progress when events are processed using checkpoints.
 
-The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/partitionprocessor.html)
+The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/partitionprocessor.html)
 that you provide, allowing you to focus on business logic while the `EventProcessor` holds responsibility for managing the underlying consumer
 operations including checkpointing and load balancing.
 
 A checkpoint is meant to represent the last successfully processed event by the user from a particular
 partition of a consumer group in an Event Hub instance. The `EventProcessor` uses an instance of `PartitionManager`
 to update checkpoints and to store the relevant information required by the load balancing algorithm.
-While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library,
+While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library,
 it is recommended to use a peristent store when running in production.
 Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the `PartitionManager` implementation from one such package.
 
@@ -377,7 +377,7 @@ async function main() {
   await client.close();
 }
 
-main()
+main();
 ```
 
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
@@ -414,7 +414,7 @@ async function main() {
 main();
 ```
 
-**Notes:** For scalable and efficient receiving, please take a look at [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html). The EventProcessor, internally uses the batched receiver to receive events.
+**Notes:** For scalable and efficient receiving, please take a look at [EventProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventprocessor.html). The EventProcessor, internally uses the batched receiver to receive events.
 
 ## Troubleshooting
 
@@ -478,7 +478,7 @@ directory for detailed examples of how to use this library to send and receive e
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
