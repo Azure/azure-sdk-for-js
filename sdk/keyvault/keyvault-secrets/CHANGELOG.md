@@ -1,7 +1,8 @@
 # Release History
 
 ## 4.0.0 (2019-10-30)
- 
+
+- This release marks the general availability of the `@azure/keyvault-secrets` package.
 - All of the public API methods now have their custom option types.
 - All of the option types can now receive a `requestOptions` parameter to customize the options sent to the HTTP client.
 - Renamed `restoreSecret` to `restoreSecretBackup`.

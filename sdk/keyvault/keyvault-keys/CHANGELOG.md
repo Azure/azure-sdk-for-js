@@ -2,11 +2,11 @@
 
 ## 4.0.0 (2019-10-30)
 
+- This release marks the general availability of the `@azure/keyvault-keys` package.
 - All of the public API methods now have their custom option types.
 - All of the option types can now receive a `requestOptions` parameter to customize the options sent to the HTTP client.
 - Made the `getKey` method and the `key` property on the `CryptographyClient` private.
 - Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
-- This release marks the general availability of the `@azure/keyvault-keys` package.
 
 ## 4.0.0-preview.9 (2019-10-22)
 
