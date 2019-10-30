@@ -19,7 +19,8 @@ import {
   delay,
   CloseReason,
   PartitionContext,
-  PartitionCheckpointer
+  PartitionCheckpointer,
+  InMemoryPartitionManager
 } from "@azure/event-hubs";
 
 // A Sample event processor that keeps track of the number of events processed.
@@ -74,9 +75,12 @@ async function main() {
   const client = new EventHubConsumerClient(connectionString, eventHubName);
   const processor = new SampleEventProcessor();
 
+  const partitionManager = new InMemoryPartitionManager();
+
   const subscription = await client.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName,
     (events, context, checkpointer) => processor.processEvents(events, context, checkpointer),
+    partitionManager,
     {
       onInitialize: async (context) => { processor.initialize(context) },
       onClose: async (closeReason, context) => { processor.close(closeReason, context) },
@@ -85,7 +89,7 @@ async function main() {
       maxWaitTimeInSeconds: 20
     }
   );
-  
+
   // after 50 seconds, stop processing
   await delay(50000);
 
