@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.0 (2019-10-30)
+
+- This release marks the general availability of the `@azure/keyvault-secrets` package.
+
 ## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteSecret` and `recoverDeletedSecret` are now out of the public API.

@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-queue";
-const packageVersion = "12.0.0-preview.5";
+const packageVersion = "12.0.0";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
