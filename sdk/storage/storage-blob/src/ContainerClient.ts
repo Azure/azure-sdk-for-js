@@ -1261,6 +1261,8 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
+   * // Get the containerClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
    * @example
    * ```js
    *   let i = 1;
@@ -1273,7 +1275,7 @@ export class ContainerClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = containerClient.listBlobsFlat();
+   *   let iter = containerClient.listBlobsFlat();
    *   let blobItem = await iter.next();
    *   while (!blobItem.done) {
    *     console.log(`Blob ${i++}: ${blobItem.value.name}`);

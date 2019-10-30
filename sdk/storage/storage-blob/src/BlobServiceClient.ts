@@ -706,7 +706,7 @@ export class BlobServiceClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = blobServiceClient.listContainers();
+   *   const iter = blobServiceClient.listContainers();
    *   let containerItem = await iter.next();
    *   while (!containerItem.done) {
    *     console.log(`Container ${i++}: ${containerItem.value.name}`);
