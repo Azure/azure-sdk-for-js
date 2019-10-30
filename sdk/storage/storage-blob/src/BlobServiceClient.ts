@@ -413,7 +413,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @example
    * ```js
-   * const containerClient = blobServiceClient.getContainerClient("<container name>);
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * ```
    */
   public getContainerClient(containerName: string): ContainerClient {
