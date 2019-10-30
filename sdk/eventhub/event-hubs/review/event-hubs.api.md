@@ -113,7 +113,7 @@ export class EventHubConsumerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    close(): void;
+    close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getPartitionIds(): Promise<string[]>;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
