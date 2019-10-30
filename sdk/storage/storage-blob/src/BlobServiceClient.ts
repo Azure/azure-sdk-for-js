@@ -351,7 +351,7 @@ export class BlobServiceClient extends StorageClient {
    * @example
    * ```js
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new SharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
    *
    * const blobServiceClient = new BlobServiceClient(
    *   `https://${account}.blob.core.windows.net`,
