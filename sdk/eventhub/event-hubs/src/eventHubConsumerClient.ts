@@ -307,7 +307,7 @@ export class EventHubConsumerClient {
 
     return {
       isRunning: () => eventProcessor.isRunning(),
-      stop: () => eventProcessor.stop()
+      close: () => eventProcessor.stop()
     };
   }
 }

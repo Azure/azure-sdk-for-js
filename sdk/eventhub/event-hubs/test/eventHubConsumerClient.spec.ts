@@ -12,7 +12,7 @@ import * as log from "../src/log";
 const should = chai.should();
 const env = getEnvVars();
 
-describe.only("EventHubConsumerClient", () => {
+describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
@@ -86,7 +86,7 @@ describe.only("EventHubConsumerClient", () => {
       );
 
       await tester.runTestAndPoll(producerClient);
-      await subscriber.stop();
+      await subscriber.close();
 
       hasLogMessage("Creating client with connection string and event hub name");
       hasLogMessage("Subscribing to specific partitions (0), no coordination.");
@@ -105,7 +105,7 @@ describe.only("EventHubConsumerClient", () => {
       );
 
       await tester.runTestAndPoll(producerClient);
-      await subscriber.stop();
+      await subscriber.close();
 
       hasLogMessage("Subscribing to all partitions, don't coordinate.");
       hasLogMessage("GreedyPartitionLoadBalancer created. Watching all.");
@@ -135,8 +135,8 @@ describe.only("EventHubConsumerClient", () => {
       );
 
       await tester.runTestAndPoll(producerClient);
-      await subscriber1.stop();
-      await subscriber2.stop();
+      await subscriber1.close();
+      await subscriber2.close();
 
       hasLogMessage("Subscribing to all partitions, coordinating using a partition manager.");
       hasLogMessage("FairPartitionLoadBalancer created with owner ID");
