@@ -78,7 +78,7 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ### NPM
 
-> Note: This package was previously published under the name `@azure/storage-file`. It has been renamed to `@azure/storage-file-share` which is not published to the npm yet. Please make use of the `@azure/storage-file` package until `@azure/storage-file-share` is published to the npm.
+> Note: This package was previously published under the name `@azure/storage-file`. It has been renamed to `@azure/storage-file-share` which is not published to the npm yet. Please make use of the `@azure/storage-file` package until `@azure/storage-file-share` is published to npm.
 
 The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 ```bash
