@@ -348,7 +348,7 @@ export function isPartitionManager(possible: SubscriptionOptions | undefined | s
 
   const partitionManager = possible as PartitionManager;
 
-  return partitionManager.claimOwnership != null
-    && partitionManager.listOwnership != null
-    && partitionManager.updateCheckpoint != null;
+  return typeof partitionManager.claimOwnership === "function"
+    && typeof partitionManager.listOwnership === "function"
+    && typeof partitionManager.updateCheckpoint === "function";
 }
