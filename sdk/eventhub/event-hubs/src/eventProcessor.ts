@@ -31,6 +31,11 @@ export enum CloseReason {
  */
 export interface PartitionContext {
   /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
    * @property The event hub name
    */
   eventHubName: string;
@@ -51,11 +56,6 @@ export interface PartitionContext {
  * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
  */
 export interface PartitionOwnership extends PartitionContext {
-  /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   */
-  fullyQualifiedNamespace: string;
   /**
    * @property The unique identifier of the event processor.
    */

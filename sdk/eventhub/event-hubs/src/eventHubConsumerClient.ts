@@ -371,7 +371,7 @@ export function createPartitionProcessorType(
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
-    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId);
+    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
     
     async processEvents(events: ReceivedEventData[]): Promise<void> {
       await onReceivedEvents(
@@ -385,7 +385,8 @@ export function createPartitionProcessorType(
         await options.onError(error, {
           partitionId: this.partitionId,
           consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName
+          eventHubName: this.eventHubName,
+          fullyQualifiedNamespace: this.fullyQualifiedNamespace
         });
       }
     }
@@ -395,7 +396,8 @@ export function createPartitionProcessorType(
         await options.onInitialize({
           partitionId: this.partitionId,
           consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName
+          eventHubName: this.eventHubName,
+          fullyQualifiedNamespace: this.fullyQualifiedNamespace
         });
       }
     }
@@ -433,7 +435,7 @@ export function isPartitionManager(
 class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {
   private _eTag: string = "";
 
-  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string) {   }
+  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }
 
   async updateCheckpoint(
     eventData: ReceivedEventData

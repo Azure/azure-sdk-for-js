@@ -258,6 +258,7 @@ export interface PartitionCheckpointer {
 export interface PartitionContext {
     consumerGroupName: string;
     eventHubName: string;
+    fullyQualifiedNamespace: string;
     partitionId: string;
 }
 
@@ -277,7 +278,6 @@ export interface PartitionManager {
 // @public
 export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
-    fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
