@@ -14,6 +14,8 @@
 - Renamed the `vaultUrl` parameters into `vaultEndpoint`.
 - Renamed the Wrap/UnwrapOptions into Wrap/UnwrapKeyOptions.
 - Renamed `UpdatedKey` to `UpdatedKeyProperties`.
+- Made the `getKey` method and the `key` property on the `CryptographyClient` private.
+- Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

@@ -1,12 +1,10 @@
 import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
 import { JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm } from "./core/models";
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isNode,
   PipelineOptions,
   createPipelineFromOptions,
-  ServiceClientOptions as Pipeline,
   isTokenCredential,
   RequestOptionsBase,
   signingPolicy,
@@ -31,6 +29,8 @@ const SERVICE_API_VERSION = "7.0";
  */
 export class CryptographyClient {
   /**
+   * @internal
+   * @ignore
    * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
@@ -40,7 +40,7 @@ export class CryptographyClient {
    * ```
    * @param {GetKeyOptions} [options] Options for retrieving key.
    */
-  public async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
+  private async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getKey", requestOptions);
 
@@ -610,17 +610,7 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultUrl: string;
-
-  /**
-   * The options to create the connection to the service
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  private readonly vaultUrl: string;
 
   /**
    * @internal
@@ -633,7 +623,7 @@ export class CryptographyClient {
    * A reference to the key used for the cryptographic operations.
    * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
    */
-  public key: string | JsonWebKey;
+  private key: string | JsonWebKey;
 
   /**
    * Name of the key the client represents
@@ -679,8 +669,6 @@ export class CryptographyClient {
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.credential = credential;
-
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
@@ -712,8 +700,8 @@ export class CryptographyClient {
       }
     };
 
-    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
 
     let parsed;
     if (typeof key === "string") {
