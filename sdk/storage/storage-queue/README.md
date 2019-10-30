@@ -81,7 +81,7 @@ const AzureStorageQueue = require("@azure/storage-queue");
 
 ### JavaScript Bundle
 
-To use the client libraries in browsers, you will need to configure a bundler. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+To use this client library in the browser, you will need to configure a bundler. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ### CORS
 
