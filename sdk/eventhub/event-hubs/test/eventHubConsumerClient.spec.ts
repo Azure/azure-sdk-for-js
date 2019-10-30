@@ -12,7 +12,7 @@ import * as log from "../src/log";
 const should = chai.should();
 const env = getEnvVars();
 
-describe.only("EventHubConsumerClient", () => {
+describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
