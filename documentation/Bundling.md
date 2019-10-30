@@ -38,7 +38,7 @@ cd example
 Now let's [set up a package.json file](https://docs.npmjs.com/creating-a-package-json-file) to configure npm:
 
 ```
-npm --init
+npm init -y
 ```
 
 Follow the prompts and npm will generate a starter [package.json](https://docs.npmjs.com/files/package.json) for you.
@@ -127,6 +127,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 The last step we need to perform before we can run `webpack` and produce bundled output is set up a basic `webpack.config.js` file:
 
 ```js
+// webpack.config.js
 const path = require("path");
 
 module.exports = {
@@ -187,6 +188,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 Now we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
+// rollup.config.js
 import resolve from "rollup-plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
@@ -247,7 +249,7 @@ This will create a **bundled** version of your code along with the Azure SDK fun
 Now you can use this bundle inside an html page via a script tag:
 
 ```html
-<script src="./dist/main.js"></script>
+<script src="./dist/bundle.js"></script>
 ```
 
 ### Rollup with TypeScript
@@ -284,6 +286,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 Now we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
+// rollup.config.js
 import resolve from "rollup-plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
@@ -435,7 +438,7 @@ Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/doc
     "strict": true,
     "module": "es6",
     "moduleResolution": "node",
-    "target": "es2017"
+    "target": "es6"
   }
 }
 ```
