@@ -142,6 +142,7 @@ To consume events from a single Event Hub partition in a consumer group, create 
 
 ```javascript
 const client = new EventHubConsumerClient("connectionString", "eventHubName");
+const partitionIds = await client.getPartitionIds();
 const subscription = client.subscribe(
   EventHubClient.defaultConsumerGroupName,
   (receivedEvents, context) => { },
