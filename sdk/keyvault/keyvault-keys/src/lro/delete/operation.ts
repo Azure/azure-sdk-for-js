@@ -12,15 +12,15 @@ import { DeletedKey, KeyClientInterface } from "../../keysModels";
  */
 export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
   /**
-   * @member {string} [name] The name of the key.
+   * The name of the key.
    */
   name: string;
   /**
-   * @member {RequestOptionsBase} [requestOptions] Options for the core-http requests.
+   * Options for the core-http requests.
    */
   requestOptions?: RequestOptionsBase;
   /**
-   * @member {KeyClientInterface} [client] An interface representing a KeyClient. For internal use.
+   * An interface representing a KeyClient. For internal use.
    */
   client: KeyClientInterface;
 }

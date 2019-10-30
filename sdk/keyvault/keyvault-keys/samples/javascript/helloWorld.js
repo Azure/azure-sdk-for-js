@@ -1,4 +1,4 @@
-const { KeysClient } = require("../../src");
+const { KeyClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -10,7 +10,7 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new KeysClient(url, credential);
+  const client = new KeyClient(url, credential);
 
   const keyName = "MyKeyName53";
   const ecKeyName = "MyECKeyName53";

@@ -48,10 +48,17 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { BlobClient, AppendBlobClient, BlockBlobClient, PageBlobClient, BlockBlobUploadOptions, BlobDeleteOptions } from "./BlobClient";
+import {
+  BlobClient,
+  AppendBlobClient,
+  BlockBlobClient,
+  PageBlobClient,
+  BlockBlobUploadOptions,
+  BlobDeleteOptions
+} from "./BlobClient";
 
 /**
- * Options to configure Container - Create operation.
+ * Options to configure {@link ContainerClient.create} operation.
  *
  * @export
  * @interface ContainerCreateOptions
@@ -84,7 +91,7 @@ export interface ContainerCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - Get Properties operation.
+ * Options to configure {@link ContainerClient.getProperties} operation.
  *
  * @export
  * @interface ContainerGetPropertiesOptions
@@ -109,7 +116,7 @@ export interface ContainerGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - Delete operation.
+ * Options to configure {@link ContainerClient.delete} operation.
  *
  * @export
  * @interface ContainerDeleteMethodOptions
@@ -133,7 +140,7 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - Exists operation.
+ * Options to configure {@link ContainerClient.exists} operation.
  *
  * @export
  * @interface ContainerExistsOptions
@@ -150,7 +157,7 @@ export interface ContainerExistsOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - Set Metadata operation.
+ * Options to configure {@link ContainerClient.setMetadata} operation.
  *
  * @export
  * @interface ContainerSetMetadataOptions
@@ -175,7 +182,7 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - Get Access Policy operation.
+ * Options to configure {@link ContainerClient.getAccessPolicy} operation.
  *
  * @export
  * @interface ContainerGetAccessPolicyOptions
@@ -215,13 +222,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start Optional. The date-time the policy is active
+     * @member {Date} startsOn Optional. The date-time the policy is active
      */
-    start?: Date;
+    startsOn?: Date;
     /**
-     * @member {Date} expiry Optional. The date-time the policy expires
+     * @member {Date} expiresOn Optional. The date-time the policy expires
      */
-    expiry?: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
@@ -230,6 +237,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the {@link ContainerClient.getAccessPolicy} operation.
+ */
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
@@ -253,7 +263,7 @@ export declare type ContainerGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Container - Set Access Policy operation.
+ * Options to configure {@link ContainerClient.setAccessPolicy} operation.
  *
  * @export
  * @interface ContainerSetAccessPolicyOptions
@@ -397,7 +407,14 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Container - List Blobs Segment operation.
+ * Options to configure Container - List Segment operations.
+ *
+ * See:
+ * - {@link ContainerClient.listSegments}
+ * - {@link ContainerClient.listBlobFlatSegment}
+ * - {@link ContainerClient.listBlobHierarchySegment}
+ * - {@link ContainerClient.listHierarchySegments}
+ * - {@link ContainerClient.listItemsByHierarchy}
  *
  * @interface ContainerListBlobsSegmentOptions
  */
@@ -411,12 +428,12 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -426,14 +443,18 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
+   * Include this parameter to
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
 }
 
 /**
- * Options to configure Container - List Blobs operation.
+ * Options to configure Container - List Blobs operations.
+ *
+ * See:
+ * - {@link ContainerClient.listBlobsFlat}
+ * - {@link ContainerClient.listBlobsByHierarchy}
  *
  * @export
  * @interface ContainerListBlobsOptions
@@ -448,29 +469,29 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
 
   /**
-   * @member {boolean} [includeCopy] Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
+   * Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
    */
   includeCopy?: boolean;
   /**
-   * @member {boolean} [includeDeleted] Specifies whether soft deleted blobs should be included in the response.
+   * Specifies whether soft deleted blobs should be included in the response.
    */
   includeDeleted?: boolean;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether blob metadata be returned in the response.
+   * Specifies whether blob metadata be returned in the response.
    */
   includeMetadata?: boolean;
   /**
-   * @member {boolean} [includeSnapshots] Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
    */
   includeSnapshots?: boolean;
   /**
-   * @member {boolean} [includeUncommitedBlobs] Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
+   * Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
   includeUncommitedBlobs?: boolean;
 }
@@ -492,6 +513,10 @@ export class ContainerClient extends StorageClient {
   private containerContext: Container;
 
   private _containerName: string;
+
+  /**
+   * The name of the container.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -511,7 +536,7 @@ export class ContainerClient extends StorageClient {
    */
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
-   * Creates an instance of PageBlobClient.
+   * Creates an instance of ContainerClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -536,7 +561,7 @@ export class ContainerClient extends StorageClient {
     options?: StoragePipelineOptions
   );
   /**
-   * Creates an instance of PageBlobClient.
+   * Creates an instance of ContainerClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -635,6 +660,13 @@ export class ContainerClient extends StorageClient {
    * @param {ContainerCreateOptions} [options] Options to Container Create operation.
    * @returns {Promise<ContainerCreateResponse>}
    * @memberof ContainerClient
+   *
+   * @example
+   * ```js
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * const createContainerResponse = await containerClient.create();
+   * console.log("Container was created successfully", createContainerResponse.requestId);
+   * ```
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     const { span, spanOptions } = createSpan("ContainerClient-create", options.tracingOptions);
@@ -694,7 +726,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a BlobClient object.
+   * Creates a {@link BlobClient}
    *
    * @param {string} blobName A blob name
    * @returns {BlobClient} A new BlobClient object for the given blob name.
@@ -705,7 +737,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a AppendBlobClient object.
+   * Creates an {@link AppendBlobClient}
    *
    * @param {string} blobName An append blob name
    * @returns {AppendBlobClient}
@@ -719,11 +751,19 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a BlockBlobClient object.
+   * Creates a {@link BlockBlobClient}
    *
    * @param {string} blobName A block blob name
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!";
+   *
+   * const blockBlobClient = containerClient.getBlockBlobClient("<blob name>");
+   * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+   * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
@@ -733,7 +773,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a PageBlobClient object.
+   * Creates a {@link PageBlobClient}
    *
    * @param {string} blobName A page blob name
    * @returns {PageBlobClient}
@@ -887,7 +927,7 @@ export class ContainerClient extends StorageClient {
    * Gets the permissions for the specified container. The permissions indicate
    * whether container data may be accessed publicly.
    *
-   * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
+   * WARNING: JavaScript Date will potentially lose precision when parsing startsOn and expiresOn strings.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
@@ -933,12 +973,12 @@ export class ContainerClient extends StorageClient {
           permissions: identifier.accessPolicy.permissions
         };
 
-        if (identifier.accessPolicy.expiry) {
-          accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+        if (identifier.accessPolicy.expiresOn) {
+          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
         }
 
-        if (identifier.accessPolicy.start) {
-          accessPolicy.start = new Date(identifier.accessPolicy.start);
+        if (identifier.accessPolicy.startsOn) {
+          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
         }
 
         res.signedIdentifiers.push({
@@ -989,12 +1029,12 @@ export class ContainerClient extends StorageClient {
       for (const identifier of containerAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: identifier.accessPolicy.expiry
-              ? truncatedISO8061Date(identifier.accessPolicy.expiry)
+            expiresOn: identifier.accessPolicy.expiresOn
+              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
               : "",
             permissions: identifier.accessPolicy.permissions,
-            start: identifier.accessPolicy.start
-              ? truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: identifier.accessPolicy.startsOn
+              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
               : ""
           },
           id: identifier.id
@@ -1021,7 +1061,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Get a BlobLeaseClient that manages leases on the container.
+   * Get a {@link BlobLeaseClient} that manages leases on the container.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
@@ -1037,11 +1077,11 @@ export class ContainerClient extends StorageClient {
    * Updating an existing block blob overwrites any existing metadata on the blob.
    * Partial updates are not supported; the content of the existing blob is
    * overwritten with the new content. To perform a partial update of a block blob's,
-   * use stageBlock and commitBlockList.
+   * use {@link BlockBlobClient.stageBlock} and {@link BlockBlobClient.commitBlockList}.
    *
-   * This is a non-parallel uploading method, please use BlockBlobClient.uploadFile(),
-   * BlockBlobClient.uploadStream() or BlockBlobClient.uploadBrowserData() for better performance
-   * with concurrency uploading.
+   * This is a non-parallel uploading method, please use {@link BlockBlobClient.uploadFile},
+   * {@link BlockBlobClient.uploadStream} or {@link BlockBlobClient.uploadBrowserData} for better
+   * performance with concurrency uploading.
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
@@ -1122,7 +1162,7 @@ export class ContainerClient extends StorageClient {
   /**
    * listBlobFlatSegment returns a single segment of blobs starting from the
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
-   * After getting a segment, process it, and then call ListBlobsFlatSegment again
+   * After getting a segment, process it, and then call listBlobsFlatSegment again
    * (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
@@ -1159,7 +1199,7 @@ export class ContainerClient extends StorageClient {
   /**
    * listBlobHierarchySegment returns a single segment of blobs starting from
    * the specified Marker. Use an empty Marker to start enumeration from the
-   * beginning. After getting a segment, process it, and then call ListBlobsHierarchicalSegment
+   * beginning. After getting a segment, process it, and then call listBlobsHierarchicalSegment
    * again (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
@@ -1225,7 +1265,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for Blob Items
+   * Returns an AsyncIterableIterator of {@link BlobItem} objects
    *
    * @private
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
@@ -1247,6 +1287,8 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
+   * // Get the containerClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
    * @example
    * ```js
    *   let i = 1;
@@ -1259,7 +1301,7 @@ export class ContainerClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = containerClient.listBlobsFlat();
+   *   let iter = containerClient.listBlobsFlat();
    *   let blobItem = await iter.next();
    *   while (!blobItem.done) {
    *     console.log(`Blob ${i++}: ${blobItem.value.name}`);
@@ -1391,7 +1433,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for BlobPrefixes and BlobItems
+   * Returns an AsyncIterableIterator for {@link BlobPrefix} and {@link BlobItem} objects.
    *
    * @private
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy

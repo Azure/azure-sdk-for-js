@@ -1,4 +1,4 @@
-const { SecretsClient } = require("../../src");
+const { SecretClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -10,7 +10,7 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword151231";
   const storageAccountSecretName = "StorageAccountPassword151231";

@@ -12,7 +12,7 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
+import { reorderLockToken } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
@@ -843,7 +843,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.completed,
-        getAssociatedReceiverName(this._context, this.sessionId),
         {
           sessionId: this.sessionId
         }
@@ -893,7 +892,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.abandoned,
-        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -943,7 +941,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.defered,
-        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -1003,7 +1000,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
-        getAssociatedReceiverName(this._context, this.sessionId),
         {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description,
@@ -1088,7 +1084,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     log.error(
       "[%s] An error occured when settling a message with id '%s'. " +
-      "This message was received using the receiver %s which %s currently open: %O",
+        "This message was received using the receiver %s which %s currently open: %O",
       this._context.namespace.connectionId,
       this.messageId,
       this.delivery.link.name,

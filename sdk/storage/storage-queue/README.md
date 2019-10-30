@@ -8,7 +8,7 @@ Version: 12.0.0-preview.5
 
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
-- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-queue)
 - [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
@@ -61,8 +61,6 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ## Getting started
 
-### NPM
-
 The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
@@ -80,18 +78,6 @@ Or
 ```javascript
 const AzureStorageQueue = require("@azure/storage-queue");
 ```
-
-### JavaScript bundle
-
-To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azqueue`
 
 ### CORS
 
@@ -114,7 +100,6 @@ Or you can selectively import certain types,
 
 ```javascript
 const { QueueServiceClient, SharedKeyCredential } = require("@azure/storage-queue");
-);
 ```
 
 ### Create the queue service client
@@ -177,7 +162,7 @@ const queueName = `newqueue${new Date().getTime()}`;
 const queueClient = queueServiceClient.getQueueClient(queueName);
 const createQueueResponse = await queueClient.create();
 console.log(
-  `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+  `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
 );
 ```
 
@@ -207,7 +192,7 @@ console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0]
 
 Messages are processed in two steps.
 
-- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- First call `queueClient.receiveMessages()`. This makes the messages invisible to other code reading messages from this queue for a default period of 30 seconds.
 - When processing of a message is done, call `queueClient.deleteMessage()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
@@ -217,7 +202,10 @@ const response = await queueClient.receiveMessages();
 if (response.receivedMessageItems.length == 1) {
   const receivedMessageItem = response.receivedMessageItems[0];
   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
-  const deleteMessageResponse = await queueClient.deleteMessage(receivedMessageItem.messageId, receivedMessageItem.popReceipt);
+  const deleteMessageResponse = await queueClient.deleteMessage(
+    receivedMessageItem.messageId,
+    receivedMessageItem.popReceipt
+  );
   console.log(
     `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
   );
@@ -229,7 +217,7 @@ if (response.receivedMessageItems.length == 1) {
 ```javascript
 const deleteQueueResponse = await queueClient.delete();
 console.log(
-  `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+  `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
 );
 ```
 
@@ -247,7 +235,9 @@ setLogLevel("info");
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
+The Azure Queue Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the `@azure/identity` library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 

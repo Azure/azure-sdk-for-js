@@ -13,6 +13,9 @@ import { SpanOptions } from "@azure/core-tracing";
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
+  /**
+   * Options to configure spans created when tracing is enabled.
+   */
   tracingOptions?: OperationTracingOptions;
 }
 
@@ -24,7 +27,8 @@ export interface OperationTracingOptions {
 }
 
 /**
- * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
+ * A StorageClient represents a based URL class for {@link BlobServiceClient}, {@link ContainerClient}
+ * and etc.
  *
  * @export
  * @class StorageClient

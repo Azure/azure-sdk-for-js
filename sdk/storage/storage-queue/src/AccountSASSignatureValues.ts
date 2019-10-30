@@ -51,7 +51,7 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * The time after which the SAS will no longer work.
@@ -59,7 +59,7 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  expiryTime: Date;
+  expiresOn: Date;
 
   /**
    * Specifies which operations the SAS user may perform. Please refer to {@link AccountSASPermissions} for help
@@ -131,10 +131,10 @@ export function generateAccountSASQueryParameters(
     parsedPermissions,
     parsedServices,
     parsedResourceTypes,
-    accountSASSignatureValues.startTime
-      ? truncatedISO8061Date(accountSASSignatureValues.startTime, false)
+    accountSASSignatureValues.startsOn
+      ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
       : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiryTime, false),
+    truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
     accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
     accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
     version,
@@ -150,8 +150,8 @@ export function generateAccountSASQueryParameters(
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,
-    accountSASSignatureValues.startTime,
-    accountSASSignatureValues.expiryTime,
+    accountSASSignatureValues.startsOn,
+    accountSASSignatureValues.expiresOn,
     accountSASSignatureValues.ipRange
   );
 }

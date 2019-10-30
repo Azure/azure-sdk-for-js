@@ -1,11 +1,11 @@
 /*
- Setup: Enter your storage account name and shared key in main()
+ Setup: Enter your storage account name and SAS in main()
 */
 
 const { QueueServiceClient, AnonymousCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
-  // Enter your storage account name and shared key
+  // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
 
