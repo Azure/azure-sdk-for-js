@@ -225,6 +225,8 @@ export class QueueServiceClient extends StorageClient {
    * ```js
    * const account = "<account>";
    *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
@@ -237,7 +239,7 @@ export class QueueServiceClient extends StorageClient {
    * ```js
    * const account = "<account>";
    *
-   * const sharedKeyCredential = new SharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
