@@ -326,7 +326,7 @@ export function createPartitionProcessorType(
         partitionId: this.partitionId,
         consumerGroupName: this.consumerGroupName,
         eventHubName: this.eventHubName
-      }, this.partitionManager);
+      }, partitionManager);
     }
 
     async processError(error: Error): Promise<void> {
