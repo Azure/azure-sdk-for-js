@@ -371,12 +371,12 @@ export function createPartitionProcessorType(
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
-    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
-    
+    private _partitionCheckpointer?: SimplePartitionCheckpointer;
+
     async processEvents(events: ReceivedEventData[]): Promise<void> {
       await onReceivedEvents(
         events,
-        this._partitionCheckpointer
+        this._partitionCheckpointer!
       );
     }
 
@@ -392,6 +392,8 @@ export function createPartitionProcessorType(
     }
 
     async initialize() {
+      this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
+
       if (options.onInitialize) {
         await options.onInitialize({
           partitionId: this.partitionId,
@@ -404,7 +406,7 @@ export function createPartitionProcessorType(
 
     async close(reason: CloseReason) {
       if (options.onClose) {
-        await options.onClose(reason, this._partitionCheckpointer);
+        await options.onClose(reason, this._partitionCheckpointer!);
       }
     }
   }

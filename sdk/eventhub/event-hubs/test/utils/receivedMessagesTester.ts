@@ -171,6 +171,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     context.partitionId.should.be.ok;
     context.consumerGroupName.should.be.ok;
     context.eventHubName.should.be.ok;
+    context.fullyQualifiedNamespace.should.be.ok;
 
     // if we start getting messages for other partitions
     // we should immediately error out)
