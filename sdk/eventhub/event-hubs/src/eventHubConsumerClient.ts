@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubClientOptions, EventHubClient, GetPartitionPropertiesOptions, GetPropertiesOptions } from "./eventHubClient";
-import { PartitionProcessor } from "./partitionProcessor";
+import {
+  EventHubClientOptions,
+  EventHubClient,
+  GetPartitionPropertiesOptions,
+  GetPropertiesOptions
+} from "./eventHubClient";
+import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, CloseReason, PartitionContext, PartitionCheckpointer } from "./eventProcessor";
+import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
-import {
-  SubscriptionOptions,
-  Subscription
-} from "./eventHubConsumerClientModels";
-import { isTokenCredential } from '@azure/core-amqp';
-import { PartitionProperties, EventHubProperties } from './managementClient';
+import { SubscriptionOptions, Subscription } from "./eventHubConsumerClientModels";
+import { isTokenCredential } from "@azure/core-amqp";
+import { PartitionProperties, EventHubProperties } from "./managementClient";
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
@@ -23,6 +25,36 @@ export type OnReceivedEvents = (
   checkpointer: PartitionCheckpointer
 ) => Promise<void>;
 
+/**
+ * Allow for checkpointing
+ */
+export interface PartitionCheckpointer {
+  /**
+   * Updates the checkpoint using the event data.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
+   * @return Promise<void>
+   */
+  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+  /**
+   * Updates the checkpoint using the given offset and sequence number.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
+   * @param offset The offset of the event that you want to update the checkpoint with.
+   * @return  Promise<void>.
+   */
+  updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+  updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void>;
+}
 
 /**
  * @class
@@ -80,7 +112,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);    // #2
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
   /**
    * @constructor
    * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
@@ -104,7 +136,7 @@ export class EventHubConsumerClient {
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
-  );    // #3
+  ); // #3
   constructor(
     hostOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
@@ -134,7 +166,10 @@ export class EventHubConsumerClient {
       // #1
       log.consumerClient("Creating client with connection string");
 
-      this._eventHubClient = new EventHubClient(hostOrConnectionString1, eventHubNameOrOptions2 as EventHubClientOptions);
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString1,
+        eventHubNameOrOptions2 as EventHubClientOptions
+      );
     }
   }
 
@@ -144,7 +179,7 @@ export class EventHubConsumerClient {
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  close() : Promise<void> {
+  close(): Promise<void> {
     return this._eventHubClient.close();
   }
 
@@ -159,7 +194,7 @@ export class EventHubConsumerClient {
     return this._eventHubClient.getPartitionIds();
   }
 
-   /**
+  /**
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
    * @param [options] The set of options to apply to the operation call.
@@ -174,7 +209,7 @@ export class EventHubConsumerClient {
     return this._eventHubClient.getPartitionProperties(partitionId, options);
   }
 
- /**
+  /**
    * Provides the Event Hub runtime information.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
@@ -182,7 +217,7 @@ export class EventHubConsumerClient {
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._eventHubClient.getProperties(options);  
+    return this._eventHubClient.getProperties(options);
   }
 
   /**
@@ -193,10 +228,14 @@ export class EventHubConsumerClient {
    *
    * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
-   * @param options Options to handle additional events related to partitions (errors, 
+   * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
-  subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;   // #1
+  subscribe(
+    consumerGroupName: string,
+    onReceivedEvents: OnReceivedEvents,
+    options?: SubscriptionOptions
+  ): Subscription; // #1
   /**
    * Subscribe to all messages from a subset of partitions.
    *
@@ -206,10 +245,16 @@ export class EventHubConsumerClient {
    * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
    * @param partitionIds An array of partition ids to subscribe to.
-   * @param options Options to handle additional events related to partitions (errors, 
+   * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
-   */  
-  subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;   // #2
+   */
+
+  subscribe(
+    consumerGroupName: string,
+    onReceivedEvents: OnReceivedEvents,
+    partitionIds: string[],
+    options?: SubscriptionOptions
+  ): Subscription; // #2
   /**
    * Subscribes to multiple partitions.
    *
@@ -219,7 +264,7 @@ export class EventHubConsumerClient {
    * @param onReceivedEvents Called when new events are received.
    *                         This is also a good place to update checkpoints as appropriate.
    * @param partitionManager A partition manager that manages ownership information and checkpoint details.
-   * @param options Options to handle additional events related to partitions (errors, 
+   * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
@@ -227,11 +272,15 @@ export class EventHubConsumerClient {
     onReceivedEvents: OnReceivedEvents,
     partitionManager: PartitionManager,
     options?: SubscriptionOptions
-  ): Subscription;      // #3
+  ): Subscription; // #3
   subscribe(
     consumerGroupName1: string,
     onReceivedEvents2: OnReceivedEvents,
-    optionsOrPartitionIdsOrPartitionManager3: SubscriptionOptions | undefined | string[] | PartitionManager,
+    optionsOrPartitionIdsOrPartitionManager3:
+      | SubscriptionOptions
+      | undefined
+      | string[]
+      | PartitionManager,
     possibleOptions4?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
@@ -239,14 +288,16 @@ export class EventHubConsumerClient {
     if (Array.isArray(optionsOrPartitionIdsOrPartitionManager3)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
       const partitionIds = optionsOrPartitionIdsOrPartitionManager3;
-      log.consumerClient(`Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`);
+      log.consumerClient(
+        `Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`
+      );
 
       const partitionManager = new InMemoryPartitionManager();
 
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        possibleOptions4        
+        possibleOptions4
       );
 
       eventProcessor = new EventProcessor(
@@ -284,7 +335,7 @@ export class EventHubConsumerClient {
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 
       const partitionManager = new InMemoryPartitionManager();
-      
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
@@ -297,7 +348,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         partitionManager,
         {
-          ...optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions,
+          ...(optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -321,12 +372,18 @@ export function createPartitionProcessorType(
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
+    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this);
+    
     async processEvents(events: ReceivedEventData[]): Promise<void> {
-      await onReceivedEvents(events, {
-        partitionId: this.partitionId,
-        consumerGroupName: this.consumerGroupName,
-        eventHubName: this.eventHubName
-      }, partitionManager);
+      await onReceivedEvents(
+        events,
+        {
+          partitionId: this.partitionId,
+          consumerGroupName: this.consumerGroupName,
+          eventHubName: this.eventHubName
+        },
+        this._partitionCheckpointer
+      );
     }
 
     async processError(error: Error): Promise<void> {
@@ -367,15 +424,55 @@ export function createPartitionProcessorType(
  * @internal
  * @ignore
  */
-export function isPartitionManager(possible: SubscriptionOptions | undefined | string[] | PartitionManager): possible is PartitionManager {
-
+export function isPartitionManager(
+  possible: SubscriptionOptions | undefined | string[] | PartitionManager
+): possible is PartitionManager {
   if (!possible) {
     return false;
   }
 
   const partitionManager = possible as PartitionManager;
 
-  return typeof partitionManager.claimOwnership === "function"
-    && typeof partitionManager.listOwnership === "function"
-    && typeof partitionManager.updateCheckpoint === "function";
+  return (
+    typeof partitionManager.claimOwnership === "function" &&
+    typeof partitionManager.listOwnership === "function" &&
+    typeof partitionManager.updateCheckpoint === "function"
+  );
+}
+
+class SimplePartitionCheckpointer implements PartitionCheckpointer {
+  private _eTag: string = "";
+
+  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor) {   }
+
+  async updateCheckpoint(
+    eventData: ReceivedEventData
+  ): Promise<void>;
+  async updateCheckpoint(
+    sequenceNumber: number,
+    offset: number
+  ): Promise<void>;
+  async updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void> {
+    const checkpoint: Checkpoint = {
+      fullyQualifiedNamespace: this._processor.fullyQualifiedNamespace!,
+      eventHubName: this._processor.eventHubName!,
+      consumerGroupName: this._processor.consumerGroupName!,
+      ownerId: this._processor.eventProcessorId!,
+      partitionId: this._processor.partitionId!,
+      sequenceNumber:
+        typeof eventDataOrSequenceNumber === "number"
+          ? eventDataOrSequenceNumber
+          : eventDataOrSequenceNumber.sequenceNumber,
+      offset:
+        typeof offset === "number"
+          ? offset
+          : (eventDataOrSequenceNumber as ReceivedEventData).offset,
+      eTag: this._eTag
+    };
+
+    this._eTag = await this._manager.updateCheckpoint(checkpoint);
+  }
 }

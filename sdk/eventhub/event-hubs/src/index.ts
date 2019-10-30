@@ -19,7 +19,7 @@ export {
   GetPropertiesOptions,
   ParentSpanOptions
 } from "./eventHubClient";
-export { EventHubConsumerClient, OnReceivedEvents } from "./eventHubConsumerClient";
+export { EventHubConsumerClient, OnReceivedEvents, PartitionCheckpointer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export { SubscriptionOptions, Subscription, OptionalEventHandlers } from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
@@ -32,7 +32,6 @@ export {
   CloseReason,
   EventProcessorOptions,
   PartitionContext,
-  PartitionCheckpointer,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";

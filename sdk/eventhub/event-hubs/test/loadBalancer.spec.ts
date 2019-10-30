@@ -4,7 +4,7 @@
 import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { PartitionOwnership } from '../src/eventProcessor';
 
-describe.only("PartitionLoadBalancer", () => {
+describe("PartitionLoadBalancer", () => {
   describe("GreedyPartitionLoadBalancer", () => {
     it("all", () => {
       const m = new Map<string, PartitionOwnership>();
