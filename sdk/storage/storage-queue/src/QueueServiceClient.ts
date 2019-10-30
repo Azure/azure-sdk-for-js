@@ -234,7 +234,11 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
