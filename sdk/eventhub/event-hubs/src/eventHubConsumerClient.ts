@@ -4,7 +4,7 @@ import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
-import { TokenCredential } from "@azure/core-amqp";
+import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
 import {
@@ -21,6 +21,12 @@ export type OnReceivedEvents = (
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
   private _consumerGroupName: string;
+
+  /**
+   * @property
+   * The name of the default consumer group in the Event Hubs service.
+   */
+  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 
   /**
    * @constructor
