@@ -11,7 +11,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubConsumerClient, delay, EventPosition, OnMessages } from "@azure/event-hubs";
+import { EventHubConsumerClient, delay, EventPosition, OnReceivedEvents, PartitionContext } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -22,16 +22,16 @@ async function main(): Promise<void> {
   const partitionIds = await client.getPartitionIds();
   const consumerGroupName = "$Default";
 
-  const onMessagesHandler: OnMessages = async (events, partitionContext, checkpointer) => {
+  const onReceivedEventsHandler: OnReceivedEvents = async (events, partitionContext, checkpointer) => {
     for (const message of events) {
       console.log(`Received event: ${message.body}`);
     }
   };
 
-  const subscription = client.subscribe(consumerGroupName, onMessagesHandler,
+  const subscription = client.subscribe(consumerGroupName, onReceivedEventsHandler,
     // for simplicity we'll just target a single partition for our demo
     [partitionIds[0]], {
-    onError: async (err, partitionContext) => {
+    onError: async (err: Error, partitionContext: PartitionContext) => {
       console.log(`Error occurred in the subscription for ${partitionContext.partitionId}: ${err}`);
     },
     // if this subscription happens tob e the first
