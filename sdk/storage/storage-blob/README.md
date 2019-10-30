@@ -8,7 +8,7 @@ Version: 12.0.0-preview.5
 
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
-- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-blob)
 - [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)

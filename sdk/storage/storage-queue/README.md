@@ -8,7 +8,7 @@ Version: 12.0.0-preview.5
 
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
-- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-queue)
 - [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
