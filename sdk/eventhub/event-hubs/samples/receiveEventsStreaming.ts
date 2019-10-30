@@ -38,8 +38,6 @@ async function main(): Promise<void> {
     defaultEventPosition: EventPosition.earliest()
   });
 
-  // const rcvHandler = consumer.receive(onMessageHandler, onErrorHandler);
-
   // Waiting long enough before closing the consumer to receive event
   await delay(5000);
   await subscription.close();
