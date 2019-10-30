@@ -59,12 +59,12 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   };
 
 /**
- * Contains response data for the deleteBlobs operation.
+ * Contains response data for the {@link deleteBlobs} operation.
  */
 export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 
 /**
- * Contains response data for the setBlobsAccessTier operation.
+ * Contains response data for the {@link setBlobsAccessTier} operation.
  */
 export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
@@ -129,7 +129,7 @@ export class BlobBatchClient {
   }
 
   /**
-   * Creates a BlobBatch.
+   * Creates a {@link BlobBatch}.
    * A BlobBatch represents an aggregated set of operations on blobs.
    */
   public createBatch(): BlobBatch {
