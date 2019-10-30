@@ -49,7 +49,7 @@ export interface JsonWebKey {
    */
   kty?: JsonWebKeyType;
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
+   * Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
    */
   keyOps?: JsonWebKeyOperation[];
@@ -114,11 +114,11 @@ export interface JsonWebKey {
  */
 export interface KeyVaultKey {
   /**
-   * @member {string} [key] The key value.
+   * The key value.
    */
   key?: JsonWebKey;
   /**
-   * @member {string} name The name of the key.
+   * The name of the key.
    */
   name: string;
   /**
@@ -136,7 +136,7 @@ export interface KeyVaultKey {
    */
   keyOperations?: JsonWebKeyOperation[];
   /**
-   * @member {KeyProperties} properties The properties of the key.
+   * The properties of the key.
    */
   properties: KeyProperties;
 }
@@ -151,50 +151,48 @@ export interface KeyProperties {
    */
   id?: string;
   /**
-   * @member {string} name The name of the key.
+   * The name of the key.
    */
   name: string;
   /**
-   * @member {string} vaultUrl The vault URI.
+   * The vault URI.
    */
   vaultUrl: string;
   /**
-   * @member {string} [version] The version of the key. May be undefined.
+   * The version of the key. May be undefined.
    */
   version?: string;
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expiresOn] Expiry date in UTC.
+   * Expiry date in UTC.
    */
   expiresOn?: Date;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {Date} [createdOn] Creation time in UTC.
+   * Creation time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly createdOn?: Date;
   /**
-   * @member {Date} [updatedOn] Last updated time in UTC.
+   * Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly updatedOn?: Date;
   /**
-   * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
-   * recovery level currently in effect for keys in the current vault. If it
-   * contains 'Purgeable' the key can be permanently deleted by a privileged
+   * Reflects the deletion recovery level currently in effect for keys in the current vault.
+   * If it contains 'Purgeable' the key can be permanently deleted by a privileged
    * user; otherwise, only the system can purge the key, at the end of the
    * retention interval. Possible values include: 'Purgeable',
    * 'Recoverable+Purgeable', 'Recoverable',
@@ -211,11 +209,11 @@ export interface KeyProperties {
  */
 export interface DeletedKey {
   /**
-   * @member {JsonWebKey} [key] The key value.
+   * The key value.
    */
   key?: JsonWebKey;
   /**
-   * @member {string} name The name of the key.
+   * The name of the key.
    */
   name: string;
   /**
@@ -233,23 +231,22 @@ export interface DeletedKey {
    */
   keyOperations?: JsonWebKeyOperation[];
   /**
-   * @member {KeyProperties} properties The properties of the key.
+   * The properties of the key.
    */
   properties: KeyProperties & {
     /**
-     * @member {string} [recoveryId] The url of the recovery object, used to
+     * The url of the recovery object, used to
      * identify and recover the deleted key.
      */
     readonly recoveryId?: string;
     /**
-     * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
-     * to be purged, in UTC
+     * The time when the key is scheduled to be purged, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
     readonly scheduledPurgeDate?: Date;
     /**
-     * @member {Date} [deletedOn] The time when the key was deleted, in UTC
+     * The time when the key was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
@@ -264,29 +261,28 @@ export interface DeletedKey {
  */
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
+   * Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
    */
   keyOps?: JsonWebKeyOperation[];
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expiresOn] Expiry date in UTC.
+   * Expiry date in UTC.
    */
   readonly expiresOn?: Date;
   /**
-   * @member {number} [keySize] Size of the key
+   * Size of the key
    */
   keySize?: number;
 }
@@ -298,11 +294,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
  */
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
   /**
-   * @member {number} [intervalInMs] Time between each polling
+   * Time between each polling
    */
   intervalInMs?: number;
   /**
-   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   * A serialized poller, used to resume an existing operation
    */
   resumeFrom?: string;
 }
@@ -314,14 +310,12 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
-   * @member {JsonWebKeyCurveName} [curve] Elliptic curve name. For valid
-   * values, see JsonWebKeyCurveName. Possible values include: 'P-256',
-   * 'P-384', 'P-521', 'P-256K'
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: JsonWebKeyCurveName;
   /**
-   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
-   * software key.
+   * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
 }
@@ -333,13 +327,11 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
-   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
-   * or 4096 for RSA.
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
   /**
-   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
-   * software key.
+   * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
 }
@@ -351,25 +343,23 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
  */
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {boolean} [hardwareProtected] Whether to import as a hardware key (HSM) or
-   * software key.
+   * Whether to import as a hardware key (HSM) or software key.
    */
   hardwareProtected?: boolean;
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expiresOn] Expiry date in UTC.
+   * Expiry date in UTC.
    */
   expiresOn?: Date;
 }
@@ -380,25 +370,24 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
+   * Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
    */
   keyOps?: JsonWebKeyOperation[];
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expiresOn] Expiry date in UTC.
+   * Expiry date in UTC.
    */
   expiresOn?: Date;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
 }
@@ -409,7 +398,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
  */
 export interface GetKeyOptions extends coreHttp.OperationOptions {
   /**
-   * @member {string} [version] The version of the secret to retrieve.  If not
+   * The version of the secret to retrieve. If not
    * specified the latest version of the secret will be retrieved.
    */
   version?: string;
