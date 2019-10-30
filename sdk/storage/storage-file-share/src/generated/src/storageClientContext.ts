@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-file";
-const packageVersion = "12.0.0-preview.5";
+const packageVersion = "12.0.0-preview.6";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   version: string;

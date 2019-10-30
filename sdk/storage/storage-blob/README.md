@@ -4,11 +4,11 @@ Azure Blob storage is Microsoft's object storage solution for the cloud. Blob st
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
 
-Version: 12.0.0-preview.5
+Version: 12.0.0
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
-- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-blob)
 - [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -76,7 +76,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure Blob Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.5
+npm install @azure/storage-blob
 ```
 
 In your TypeScript or JavaScript file, import via following:
@@ -90,6 +90,10 @@ Or
 ```javascript
 const AzureStorageBlob = require("@azure/storage-blob");
 ```
+
+### JavaScript Bundle
+
+To use this client library in the browser, you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ### CORS
 
@@ -313,7 +317,9 @@ setLogLevel("info");
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
+The Azure Blob Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the `@azure/identity` library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 

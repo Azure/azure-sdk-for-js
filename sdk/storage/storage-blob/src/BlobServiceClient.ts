@@ -41,7 +41,7 @@ import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 
 /**
- * Options to configure the Service - Get Properties operation.
+ * Options to configure the {@link BlobServiceClient.getProperties} operation.
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -58,7 +58,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Set Properties operation.
+ * Options to configure the {@link BlobServiceClient.setProperties} operation.
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -75,7 +75,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Account Info operation.
+ * Options to configure the {@link BlobServiceClient.getAccountInfo} operation.
  *
  * @export
  * @interface ServiceGetAccountInfoOptions
@@ -92,7 +92,7 @@ export interface ServiceGetAccountInfoOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Statistics operation.
+ * Options to configure the {@link BlobServiceClient.getStatistics} operation.
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -126,7 +126,7 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Container Segment operation.
+ * Options to configure the {@link BlobServiceClient.listContainerSegment} operation.
  *
  * @interface ServiceListContainersSegmentOptions
  */
@@ -140,12 +140,12 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -155,7 +155,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListContainersIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -163,7 +163,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Containers operation.
+ * Options to configure the {@link BlobServiceClient.listContainers} operation.
  *
  * @export
  * @interface ServiceListContainersOptions
@@ -178,12 +178,12 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the container's metadata
+   * Specifies whether the container's metadata
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
@@ -245,7 +245,7 @@ export interface UserDelegationKey {
 }
 
 /**
- * Contains response data for the getUserDelegationKey operation.
+ * Contains response data for the {@link getUserDelegationKey} operation.
  */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
@@ -331,11 +331,34 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
+   *
+   * @example
+   * ```js
+   * const account = "<storage account name>";
+   *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
+   * const defaultAzureCredential = new DefaultAzureCredential();
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   defaultAzureCredential
+   * );
+   * ```
+   *
+   * @example
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   constructor(
     url: string,
@@ -380,11 +403,16 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a ContainerClient object
+   * Creates a {@link ContainerClient} object
    *
    * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
+   *
+   * @example
+   * ```js
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * ```
    */
   public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
@@ -706,7 +734,7 @@ export class BlobServiceClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = blobServiceClient.listContainers();
+   *   const iter = blobServiceClient.listContainers();
    *   let containerItem = await iter.next();
    *   while (!containerItem.done) {
    *     console.log(`Container ${i++}: ${containerItem.value.name}`);

@@ -13,15 +13,15 @@ import { SecretProperties, SecretClientInterface } from "../../secretsModels";
 export interface RecoverDeletedSecretPollOperationState
   extends PollOperationState<SecretProperties> {
   /**
-   * @member {string} [name] The name of the secret.
+   * The name of the secret.
    */
   name: string;
   /**
-   * @member {RequestOptionsBase} [requestOptions] Options for the core-http requests.
+   * Options for the core-http requests.
    */
   requestOptions?: RequestOptionsBase;
   /**
-   * @member {SecretClientInterface} [client] An interface representing a SecretClient. For internal use.
+   * An interface representing a SecretClient. For internal use.
    */
   client: SecretClientInterface;
 }

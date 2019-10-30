@@ -24,7 +24,7 @@ export interface OperationTracingOptions {
 }
 
 /**
- * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
+ * A StorageClient represents a based client class for {@link QueueServiceClient}, {@link QueueClient} and etc.
  *
  * @export
  * @class StorageClient

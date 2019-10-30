@@ -44,6 +44,8 @@ export interface BatchSubRequest {
 
   /**
    * The credential used for sub request.
+   * Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service.
+   * You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    *
    * @type {StorageSharedKeyCredential | AnonymousCredential | TokenCredential}
    * @memberof BatchSubRequest
@@ -53,7 +55,7 @@ export interface BatchSubRequest {
 
 /**
  * A BlobBatch represents an aggregated set of operations on blobs.
- * Currently, only delete and setAccessTier are supported.
+ * Currently, only `delete` and `setAccessTier` are supported.
  *
  * @export
  * @class BlobBatch
@@ -127,7 +129,7 @@ export class BlobBatch {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BlobBatch
@@ -235,7 +237,7 @@ export class BlobBatch {
    * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
@@ -274,7 +276,11 @@ export class BlobBatch {
 
   public async setBlobAccessTier(
     urlOrBlobClient: string | BlobClient,
-    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<void> {
@@ -290,7 +296,10 @@ export class BlobBatch {
     ) {
       // First overload
       url = urlOrBlobClient;
-      credential = credentialOrTier as StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
+      credential = credentialOrTier as
+        | StorageSharedKeyCredential
+        | AnonymousCredential
+        | TokenCredential;
       tier = tierOrOptions as AccessTier;
     } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
@@ -341,7 +350,7 @@ export class BlobBatch {
 
 /**
  * Inner batch request class which is responsible for assembling and serializing sub requests.
- * See https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how request get assembled.
+ * See https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how requests are assembled.
  */
 class InnerBatchRequest {
   private operationCount: number;
@@ -377,7 +386,7 @@ class InnerBatchRequest {
    * credential and serialization/deserialization components, with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
-   * @param credential
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    */
   public createPipeline(
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential

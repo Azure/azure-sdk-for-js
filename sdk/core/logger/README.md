@@ -15,7 +15,7 @@ Note that AZURE_LOG_LEVEL, if set, takes precedence over DEBUG. Only use DEBUG w
 
 ### Installation
 
-Install this libray using npm as follows
+Install this library using npm as follows
 
 ```
 npm install @azure/logger
@@ -59,7 +59,7 @@ client.getPartitionIds()
 ### Example 2 - redirect log ouput
 
 ```js
-const { AzureLogger, setLogLevel } = require('@azure/logger');
+const { AzureLogger, setLogLevel } = require("@azure/logger");
 
 setLogLevel("verbose");
 

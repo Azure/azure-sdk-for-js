@@ -6,7 +6,7 @@ import { StorageBrowserPolicy } from "./policies/StorageBrowserPolicy";
 export { StorageBrowserPolicy };
 
 /**
- * StorageBrowserPolicyFactory is a factory class helping generating StorageBrowserPolicy objects.
+ * StorageBrowserPolicyFactory is a factory class helping generating {@link StorageBrowserPolicy} objects.
  *
  * @export
  * @class StorageBrowserPolicyFactory

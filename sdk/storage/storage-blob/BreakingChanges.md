@@ -1,6 +1,6 @@
 # Breaking Changes
 
-## 2019.11 12.0.0-preview.6
+## 2019.11 12.0.0
 
 - The custom browser and retry policies that are specific to the Storage libraries have been
   renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
@@ -25,7 +25,7 @@
 - Updates to `BlockBlobClient.uploadStream`
   - `maxBuffers` attribute of is renamed to `maxConcurrency`
 - Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
-- The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle.
+- The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ## 2019.10 12.0.0-preview.5
 

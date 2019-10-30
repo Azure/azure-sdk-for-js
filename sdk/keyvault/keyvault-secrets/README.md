@@ -22,7 +22,7 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 
 **Please Note:** This is a preview version of the Key Vault Secrets library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
 
@@ -114,9 +114,11 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
 
-## Authenticating the client
+## Authenticating with Azure Active Directory
 
-To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretClient, which will connect to the key vault.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
+Here's a quick example. First, import `DefaultAzureCredential` and `SecretClient`:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");

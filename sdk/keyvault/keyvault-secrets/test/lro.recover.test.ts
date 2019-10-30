@@ -95,7 +95,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

@@ -1,5 +1,13 @@
 # Release History
 
+## 4.0.0 (2019-10-31)
+
+- This release marks the general availability of the `@azure/keyvault-keys` package.
+- All of the public API methods now have their custom option types.
+- All of the option types can now receive a `requestOptions` parameter to customize the options sent to the HTTP client.
+- Made the `getKey` method and the `key` property on the `CryptographyClient` private.
+- Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
+
 ## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteKey` and `recoverDeletedKey` are now out of the public API.
@@ -11,9 +19,6 @@
 - All options should match the method's name.
 - All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
 - Flattened all the options bag to extend the `RequestOptionsBase` interface.
-- Renamed the `vaultUrl` parameters into `vaultEndpoint`.
-- Renamed the Wrap/UnwrapOptions into Wrap/UnwrapKeyOptions.
-- Renamed `UpdatedKey` to `UpdatedKeyProperties`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

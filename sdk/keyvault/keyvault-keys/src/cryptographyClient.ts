@@ -1,12 +1,10 @@
 import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
 import { JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm } from "./core/models";
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isNode,
   PipelineOptions,
   createPipelineFromOptions,
-  ServiceClientOptions as Pipeline,
   isTokenCredential,
   RequestOptionsBase,
   signingPolicy,
@@ -27,20 +25,22 @@ import * as constants from "constants";
 const SERVICE_API_VERSION = "7.0";
 
 /**
- * The client to interact with the KeyVault cryptography functionality
+ * A client used to perform cryptographic operations with Azure Key Vault keys.
  */
 export class CryptographyClient {
   /**
-   * Retrieves the complete key from the key vault
+   * @internal
+   * @ignore
+   * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.getKey();
    * ```
-   * @param options Options for retrieving key
+   * @param {GetKeyOptions} [options] Options for retrieving key.
    */
-  public async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
+  private async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getKey", requestOptions);
 
@@ -65,12 +65,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param algorithm The algorithm to use
-   * @param plaintext The text to encrypt
-   * @param options Additional options
+   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {Uint8Array} plaintext The text to encrypt.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async encrypt(
     algorithm: EncryptionAlgorithm,
@@ -145,12 +145,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
-   * @param algorithm The algorithm to use
-   * @param ciphertext The ciphertext to decrypt
-   * @param options Additional options
+   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
+   * @param {Uint8Array} ciphertext The text to decrypt.
+   * @param {EncryptOptions} [options] Additional options.
    */
 
   public async decrypt(
@@ -183,12 +183,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.wrapKey("RSA1_5", keyToWrap);
    * ```
-   * @param algorithm The encryption algorithm to use to wrap the given key
-   * @param key The key to wrap
-   * @param options Additional options
+   * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
+   * @param {Uint8Array} key The key to wrap.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -263,12 +263,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
    * ```
-   * @param algorithm The decryption algorithm to use to unwrap the key
-   * @param encryptedKey The encrypted key to unwrap
-   * @param options Additional options
+   * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
+   * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -300,12 +300,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.sign("RS256", digest);
    * ```
-   * @param algorithm The signing algorithm to use
-   * @param digest The digest of the data to sign
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
+   * @param {Uint8Array} digest The digest of the data to sign.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -337,13 +337,13 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verify("RS256", signedDigest, signature);
    * ```
-   * @param algorithm The signing algorithm to use to verify with
-   * @param digest The digest to verify
-   * @param signature The signature to verify the digest against
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
+   * @param {Uint8Array} digest The digest to verify.
+   * @param {Uint8Array} signature The signature to verify the digest against.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -377,12 +377,12 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.signData("RS256", message);
    * ```
-   * @param algorithm The signing algorithm to use
-   * @param data The data to sign
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
+   * @param {Uint8Array} data The data to sign.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -443,13 +443,13 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CryptographyClient(url, key, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verifyData("RS256", signedMessage, signature);
    * ```
-   * @param algorithm The algorithm to use to verify with
-   * @param data The signed block of data to verify
-   * @param signature The signature to verify the block against
-   * @param options Additional options
+   * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
+   * @param {Uint8Array} data The signed block of data to verify.
+   * @param {Uint8Array} signature The signature to verify the block against.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
@@ -576,6 +576,11 @@ export class CryptographyClient {
     return { result: result.value!, keyID: this.getKeyID() };
   }
 
+  /**
+   * @internal
+   * @ignore
+   * Attempts to fetch the key from the service.
+   */
   private async fetchFullKeyIfPossible() {
     if (!this.hasTriedToGetKey) {
       try {
@@ -586,6 +591,11 @@ export class CryptographyClient {
     }
   }
 
+  /**
+   * @internal
+   * @ignore
+   * Attempts to retrieve the ID of the key.
+   */
   private getKeyID(): string | undefined {
     let kid;
     if (typeof this.key !== "string") {
@@ -600,23 +610,20 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultUrl: string;
+  private readonly vaultUrl: string;
 
   /**
-   * The options to create the connection to the service
+   * @internal
+   * @ignore
+   * A reference to the auto-generated KeyVault HTTP client.
    */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
-   * If the key is a string, it's a URL, and we'll pass it to the service API directly.
+   * A reference to the key used for the cryptographic operations.
+   * Based on what was provided to the CryptographyClient constructor, it can be either a string with the URL of a KeyVault Key, or an already parsed {@link JsonWebKey}.
    */
-  public key: string | JsonWebKey;
+  private key: string | JsonWebKey;
 
   /**
    * Name of the key the client represents
@@ -638,18 +645,21 @@ export class CryptographyClient {
    *
    * Example usage:
    * ```ts
-   * import { CryptographyClient } from "@azure/keyvault-keys";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let keyClient = new KeyClient(vaultUrl, credentials);
+   * let keyVaultKey = await keyClient.getKey("MyKey");
+   *
+   * let client = new CryptographyClient(keyVaultKey.id, credentials);
    * // or
-   * let client = new CryptographyClient(url, jsonWebKey, credentials);
+   * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
-   * @param key The key to use during cryptography tasks
-   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
+   * @param key The key to use during cryptography tasks.
+   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
@@ -659,8 +669,6 @@ export class CryptographyClient {
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.credential = credential;
-
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
@@ -692,8 +700,8 @@ export class CryptographyClient {
       }
     };
 
-    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
 
     let parsed;
     if (typeof key === "string") {
@@ -728,9 +736,11 @@ export class CryptographyClient {
   }
 
   /**
-   * Creates a span using the tracer that was set by the user
-   * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request.
+   * @internal
+   * @ignore
+   * Creates a span using the tracer that was set by the user.
+   * @param {string} methodName The name of the method creating the span.
+   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
@@ -741,10 +751,12 @@ export class CryptographyClient {
   }
 
   /**
+   * @internal
+   * @ignore
    * Returns updated HTTP options with the given span as the parent of future spans,
    * if applicable.
-   * @param span The span for the current operation
-   * @param options The options for the underlying http request
+   * @param {Span} span The span for the current operation.
+   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecordingEvents()) {
@@ -881,7 +893,7 @@ async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> 
 }
 
 /**
- * Allow algorithms for key wrapping/unwrapping
+ * Supported algorithms for key wrapping/unwrapping
  */
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
@@ -905,131 +917,143 @@ export type SignatureAlgorithm =
   | "ES256K";
 
 /**
- * Options for the encrypt call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * Options for the decrypt call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * Options for the sign call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * Options for the verify call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * Options for the wrapKey call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * Options for the unwrap call to the CryptographyClient
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
- * Result of a decrypt operation
+ * @interface
+ * Result of the {@link decrypt} operation.
  */
 export interface DecryptResult {
   /**
-   * Result of the operation
+   * Result of the {@link decrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to decrypt the encrypted data.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to decrypt the encrypted data.
    */
   algorithm: EncryptionAlgorithm;
 }
 
 /**
- * Reuslt of an encrypt operation
+ * @interface
+ * Result of the {@link encrypt} operation.
  */
 export interface EncryptResult {
   /**
-   * Result of the operation
+   * Result of the {@link encrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to encrypt the data.
    */
   algorithm: EncryptionAlgorithm;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to encrypt the data.
    */
   keyID?: string;
 }
 
 /**
- * Result of a sign operation
+ * @interface
+ * Result of the {@link sign} operation.
  */
 export interface SignResult {
   /**
-   * Result of the operation
+   * Result of the {@link sign} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to sign the data.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to sign the data.
    */
   algorithm: SignatureAlgorithm;
 }
 
 /**
- * Result of a verify operation
+ * @interface
+ * Result of the {@link verify} operation.
  */
 export interface VerifyResult {
   /**
-   * Result of the operation
+   * Result of the {@link verify} operation in bytes.
    */
   result: boolean;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to verify the data.
    */
   keyID?: string;
 }
 
 /**
- * Result of a wrap operation
+ * @interface
+ * Result of the {@link wrap} operation.
  */
 export interface WrapResult {
   /**
-   * Result of the operation
+   * Result of the {@link wrap} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to wrap the data.
    */
   keyID?: string;
   /**
-   * Algorithm used
+   * The {@link EncryptionAlgorithm} used to wrap the data.
    */
   algorithm: KeyWrapAlgorithm;
 }
 
 /**
- * Result of an unwrap operation
+ * @interface
+ * Result of the {@link unwrap} operation.
  */
 export interface UnwrapResult {
   /**
-   * Result of the operation
+   * Result of the {@link unwrap} operation in bytes.
    */
   result: Uint8Array;
   /**
-   * Id of the key
+   * The ID of the KeyVault Key used to unwrap the data.
    */
   keyID?: string;
 }

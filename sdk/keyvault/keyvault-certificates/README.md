@@ -21,7 +21,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 **Please Note:** This is a preview version of the Key Vault Certificates library.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 
 ## Getting started
 
@@ -113,9 +113,11 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - A **Certificate backup** can be generated from any created certificate. These backups come as
   binary data, and can only be used to regenerate a previously deleted certificate.
 
-## Authenticating the client
+## Authenticating with Azure Active Directory
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and CertificateClient, which will connect to the key vault.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
+Here's a quick example. First, import `DefaultAzureCredential` and `CertificateClient`:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");

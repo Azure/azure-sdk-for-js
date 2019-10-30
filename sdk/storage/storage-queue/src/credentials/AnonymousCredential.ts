@@ -7,8 +7,8 @@ import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy
 import { Credential } from "./Credential";
 
 /**
- * AnonymousCredential provides a credentialPolicyCreator member used to create
- * AnonymousCredentialPolicy objects. AnonymousCredentialPolicy is used with
+ * AnonymousCredential provides a {@link CredentialPolicyCreator} member used to create
+ * {@link AnonymousCredentialPolicy} objects. {@link AnonymousCredentialPolicy} is used with
  * HTTP(S) requests that read public resources or for use with Shared Access
  * Signatures (SAS).
  *
@@ -18,7 +18,7 @@ import { Credential } from "./Credential";
  */
 export class AnonymousCredential extends Credential {
   /**
-   * Creates an AnonymousCredentialPolicy object.
+   * Creates an {@link AnonymousCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
