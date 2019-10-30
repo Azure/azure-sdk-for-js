@@ -106,7 +106,11 @@ export class BlobBatchClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -239,7 +243,11 @@ export class BlobBatchClient {
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
-    credentialOrTier: StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    credentialOrTier:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
@@ -266,6 +274,8 @@ export class BlobBatchClient {
   /**
    * Submit batch request which consists of multiple subrequests.
    *
+   * Get `blobBatchClient` and other details before running the snippets.
+   * `blobServiceClient.getBlobBatchClient()` gives the `blobBatchClient`
    * @example
    * ```js
    * let batchRequest = new BlobBatch();
@@ -282,7 +292,7 @@ export class BlobBatchClient {
    * let batchRequest = new BlobBatch();
    * await batchRequest.setBlobAccessTier(blockBlobClient0, "Cool");
    * await batchRequest.setBlobAccessTier(blockBlobClient1, "Cool", {
-   *  leaseAccessConditions: { leaseId: leaseId }
+   *  conditions: { leaseId: leaseId }
    * });
    * const batchResp = await blobBatchClient.submitBatch(batchRequest);
    * console.log(batchResp.subResponsesSucceededCount);
