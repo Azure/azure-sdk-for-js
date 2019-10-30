@@ -321,11 +321,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return parameters;
   } catch (err) {
     throw new TypeError(
-      `${JSON.stringify(
-        jsObject,
-        undefined,
-        2
-      )} expected to be an array of Parameter instances, or undefined :: ${err.message}`
+      `${jsObject} expected to be an array of Parameter instances, or undefined :: ${err.message}`
     );
   }
 }
