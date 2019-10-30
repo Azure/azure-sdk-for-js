@@ -116,7 +116,7 @@ export class EventHubConsumerClient {
       this._eventHubClient = new EventHubClient(
         hostOrConnectionString1,
         eventHubNameOrOptions2 as string,
-        credentialOrOptions3 as TokenCredential,
+        credentialOrOptions3,
         options4
       );
     } else if (typeof eventHubNameOrOptions2 === "string") {
@@ -125,7 +125,7 @@ export class EventHubConsumerClient {
 
       this._eventHubClient = new EventHubClient(
         hostOrConnectionString1,
-        eventHubNameOrOptions2 as string,
+        eventHubNameOrOptions2,
         credentialOrOptions3 as EventHubClientOptions
       );
     } else {

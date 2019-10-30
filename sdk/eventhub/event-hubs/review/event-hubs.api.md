@@ -361,8 +361,7 @@ export interface SendOptions {
 
 // @public
 export interface Subscription {
-    consumerGroup(): string;
-    isReceiverOpen(): boolean;
+    isRunning(): boolean;
     stop(): Promise<void>;
 }
 
