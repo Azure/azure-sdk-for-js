@@ -1,4 +1,4 @@
-# Azure Key Vault Secrets client library for JS
+# Azure Key Vault Secret client library for JS
 
 Azure Key Vault is a service that allows you to encrypt authentication keys,
 storage account keys, data encryption keys, .pfx files, and passwords by using
@@ -20,8 +20,6 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 - Get all secrets.
 - Get all deleted secrets.
 
-**Please Note:** This is a preview version of the Key Vault Secrets library
-
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
@@ -36,7 +34,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 ### Install the package
 
-Install the Azure Key Vault Secrets client library using npm:
+Install the Azure Key Vault Secret client library using npm:
 
 `npm install @azure/keyvault-secrets`
 
@@ -98,7 +96,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **Secrets client** is the primary interface to interact with the API methods
+- The **Secret client** is the primary interface to interact with the API methods
   related to secrets in the Azure Key Vault API from a JavaScript application.
   Once initialized, it provides a basic set of methods that can be used to
   create, read, update and delete secrets.
