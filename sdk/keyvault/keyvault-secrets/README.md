@@ -114,9 +114,9 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
 
-## Authenticating the client
+## Authenticating with Azure Active Directory
 
-This library supports the use of [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) which provides a variety of credential types that your application can use to authenticate users and services with the Key Vault service.  For more information on how to use these credentials, read [Using @azure/identity with Microsoft Identity Platform](/documentation/using-azure-identity.md).
+This library supports authentication using [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) which provides a variety of credential types that your application can use to authenticate users and services with the Key Vault service.  The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details about the available credential types and samples to get you started.
 
 To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretClient, which will connect to the key vault.
 
