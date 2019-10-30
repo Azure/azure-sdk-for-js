@@ -95,7 +95,7 @@ The preferred way to install the Azure Storage client libraries for JavaScript i
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.5
+npm install @azure/storage-blob
 ```
 
 In your TypeScript or JavaScript file, import via following:
