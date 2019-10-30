@@ -52,6 +52,8 @@ export interface ServiceBusClientOptions {
  * Describes the client that allows interacting with a Service Bus instance.
  * Holds the AMQP connection to the Service Bus Namespace and is the entry point for using Queues,
  * Topics and Subscriptions.
+ * Each different message operation on any entity involves setting up a new AMQP `LinkEntity`.
+ * There is a limit of a maximum of 1000 such operations to happen simultaneously on a single AMQP connection.
  */
 export class ServiceBusClient {
   /**
