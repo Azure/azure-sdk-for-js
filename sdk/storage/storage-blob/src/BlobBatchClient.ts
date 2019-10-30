@@ -130,7 +130,7 @@ export class BlobBatchClient {
 
   /**
    * Creates a {@link BlobBatch}.
-   * A {@link BlobBatch} represents an aggregated set of operations on blobs.
+   * A BlobBatch represents an aggregated set of operations on blobs.
    */
   public createBatch(): BlobBatch {
     return new BlobBatch();
