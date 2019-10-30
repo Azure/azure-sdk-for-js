@@ -28,14 +28,9 @@ export interface Subscription {
    */
   stop(): Promise<void>;
   /**
-   * @property Indicates whether the receiver is connected/open.
-   * `true` - is open; `false` otherwise.
+   * @property Indicates whether the receiver is running.
+   * `true` - is running; `false` otherwise.
    * @readonly
    */
-  isReceiverOpen(): boolean;
-  /**
-   * @property The consumer group from which the handler is receiving events.
-   * @readonly
-   */
-  consumerGroup(): string;
+  isRunning(): boolean;
 }

@@ -269,9 +269,8 @@ export class EventHubConsumerClient {
     eventProcessor.start();
 
     return {
-      isReceiverOpen: () => eventProcessor.isRunning(),
-      stop: () => eventProcessor.stop(),
-      consumerGroup: () => consumerGroupName1
+      isRunning: () => eventProcessor.isRunning(),
+      stop: () => eventProcessor.stop()
     };
   }
 }
