@@ -13,12 +13,12 @@ import {
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * FileDownloadResponse implements FileDownloadResponseModel interface, and in Node.js runtime it will
- * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
- * trigger retries defined in pipeline retry policy.)
+ * FileDownloadResponse implements the `FileDownloadResponseModel` interface, and in a Node.js runtime it will
+ * automatically retry when its internal read stream unexpectedly ends. (This kind of unexpected end cannot
+ * trigger retries defined in the pipeline retry policy.)
  *
- * The readableStreamBody stream will retry underlayer, you can just use it as a normal Node.js
- * Readable stream.
+ * The {@link readableStreamBody} stream will retry beneath the `ReadableStream` layer, so you can just use it as
+ * a normal Node.js Readable stream.
  *
  * @export
  * @class FileDownloadResponse
