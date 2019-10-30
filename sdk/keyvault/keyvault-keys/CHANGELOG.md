@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2019-10-30)
+## 4.0.0 (2019-10-31)
 
 - This release marks the general availability of the `@azure/keyvault-keys` package.
 - All of the public API methods now have their custom option types.
