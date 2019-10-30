@@ -26,7 +26,7 @@ export interface Subscription {
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  stop(): Promise<void>;
+  close(): Promise<void>;
   /**
    * @property Indicates whether the receiver is running.
    * `true` - is running; `false` otherwise.
