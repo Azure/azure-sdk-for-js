@@ -18,9 +18,20 @@ export type OnReceivedEvents = (
   context: PartitionContext
 ) => Promise<void>;
 
+
+/**
+ * @class
+ * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
+ *
+ * There are multiple ways to create an `EventHubConsumerClient`
+ * - Use the connection string from the SAS policy created for your Event Hub instance.
+ * - Use the connection string from the SAS policy created for your Event Hub namespace,
+ * and the name of the Event Hub instance
+ * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
+ * and a credentials object.
+ */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
-  private _consumerGroupName: string;
 
   /**
    * @property
@@ -30,7 +41,6 @@ export class EventHubConsumerClient {
 
   /**
    * @constructor
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
@@ -46,10 +56,9 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions); // #1
+  constructor(connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
    * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
@@ -66,10 +75,9 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);    // #2
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);    // #2
   /**
    * @constructor
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
@@ -87,53 +95,61 @@ export class EventHubConsumerClient {
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(
-    consumerGroupName: string,
     host: string,
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
   );    // #3
   constructor(
-    consumerGroupName1: string,
-    hostOrConnectionString2: string,
-    eventHubNameOrOptions3?: string | EventHubClientOptions,
-    credentialOrOptions4?: TokenCredential | EventHubClientOptions,
-    options5?: EventHubClientOptions
+    hostOrConnectionString1: string,
+    eventHubNameOrOptions2?: string | EventHubClientOptions,
+    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    options4?: EventHubClientOptions
   ) {
-
-    this._consumerGroupName = consumerGroupName1;
-
-    if (isTokenCredential(credentialOrOptions4)) {
+    if (isTokenCredential(credentialOrOptions3)) {
       // #3
       log.consumerClient("Creating client with TokenCredential");
 
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString2,
-        eventHubNameOrOptions3 as string,
-        credentialOrOptions4 as TokenCredential,
-        options5
+        hostOrConnectionString1,
+        eventHubNameOrOptions2 as string,
+        credentialOrOptions3 as TokenCredential,
+        options4
       );
-    } else if (typeof eventHubNameOrOptions3 === "string") {
+    } else if (typeof eventHubNameOrOptions2 === "string") {
       // #2
       log.consumerClient("Creating client with connection string and event hub name");
 
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString2,
-        eventHubNameOrOptions3 as string,
-        credentialOrOptions4 as EventHubClientOptions
+        hostOrConnectionString1,
+        eventHubNameOrOptions2 as string,
+        credentialOrOptions3 as EventHubClientOptions
       );
     } else {
       // #1
       log.consumerClient("Creating client with connection string");
 
-      this._eventHubClient = new EventHubClient(hostOrConnectionString2, eventHubNameOrOptions3 as EventHubClientOptions);
+      this._eventHubClient = new EventHubClient(hostOrConnectionString1, eventHubNameOrOptions2 as EventHubClientOptions);
     }
   }
 
+  /**
+   * Closes the AMQP connection to the Event Hub instance,
+   * returning a promise that will be resolved when disconnection is completed.
+   * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   */
   close() {
     this._eventHubClient.close();
   }
 
+  /**
+   * Provides an array of partitionIds.
+   * @param [options] The set of options to apply to the operation call.
+   * @returns A promise that resolves with an Array of strings.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
   getPartitionIds(): Promise<string[]> {
     return this._eventHubClient.getPartitionIds();
   }
@@ -144,28 +160,31 @@ export class EventHubConsumerClient {
    * Use this overload if you want to read from all partitions and not coordinate with
    * other subscribers.
    *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
    * @param options Options to handle additional events related to partitions (errors, 
    *                opening, closing) as well as batch sizing.
    */
-  subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;   // #1
+  subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;   // #1
   /**
    * Subscribe to all messages from a subset of partitions.
    *
    * Use this overload if you want to read from a specific set of partitions and not coordinate with
    * other subscribers.
    *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
    * @param partitionIds An array of partition ids to subscribe to.
    * @param options Options to handle additional events related to partitions (errors, 
    *                opening, closing) as well as batch sizing.
    */  
-  subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;   // #2
+  subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;   // #2
   /**
    * Subscribes to multiple partitions.
    *
    * Use this overload if you want to coordinate with other subscribers using a `PartitionManager`
    *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
    *                         This is also a good place to update checkpoints as appropriate.
    * @param partitionManager A partition manager that manages ownership information and checkpoint details.
@@ -173,70 +192,72 @@ export class EventHubConsumerClient {
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
+    consumerGroupName: string,
     onReceivedEvents: OnReceivedEvents,
     partitionManager: PartitionManager,
     options?: SubscriptionOptions
   ): Subscription;      // #3
   subscribe(
-    onReceivedEvents1: OnReceivedEvents,
-    optionsOrPartitionIdsOrPartitionManager2: SubscriptionOptions | undefined | string[] | PartitionManager,
-    possibleOptions3?: SubscriptionOptions
+    consumerGroupName1: string,
+    onReceivedEvents2: OnReceivedEvents,
+    optionsOrPartitionIdsOrPartitionManager3: SubscriptionOptions | undefined | string[] | PartitionManager,
+    possibleOptions4?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager2)) {
+    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager3)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const partitionIds = optionsOrPartitionIdsOrPartitionManager2 as string[];
+      const partitionIds = optionsOrPartitionIdsOrPartitionManager3 as string[];
       log.consumerClient(`Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`);
 
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents1,
-        possibleOptions3
+        onReceivedEvents2,
+        possibleOptions4
       );
 
       eventProcessor = new EventProcessor(
-        this._consumerGroupName,
+        consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
-          ...possibleOptions3,
+          ...possibleOptions4,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer(partitionIds)
         }
       );
-    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager2)) {
+    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager3)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents1,
-        possibleOptions3
+        onReceivedEvents2,
+        possibleOptions4
       );
 
       eventProcessor = new EventProcessor(
-        this._consumerGroupName,
+        consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
-        optionsOrPartitionIdsOrPartitionManager2 as PartitionManager,
-        possibleOptions3
+        optionsOrPartitionIdsOrPartitionManager3 as PartitionManager,
+        possibleOptions4
       );
     } else {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 
       const partitionProcessorType = createPartitionProcessorType(
-        onReceivedEvents1,
-        optionsOrPartitionIdsOrPartitionManager2 as SubscriptionOptions
+        onReceivedEvents2,
+        optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions
       );
 
       eventProcessor = new EventProcessor(
-        this._consumerGroupName,
+        consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
         new InMemoryPartitionManager(),
         {
-          ...optionsOrPartitionIdsOrPartitionManager2 as SubscriptionOptions,
+          ...optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions,
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -247,7 +268,7 @@ export class EventHubConsumerClient {
     return {
       isReceiverOpen: () => eventProcessor.isRunning(),
       stop: () => eventProcessor.stop(),
-      consumerGroup: () => this._consumerGroupName
+      consumerGroup: () => consumerGroupName1
     };
   }
 }

@@ -58,7 +58,6 @@ describe.only("EventHubConsumerClient", () => {
       };
 
       client = new EventHubConsumerClient(
-        EventHubClient.defaultConsumerGroupName,
         service.connectionString!,
         service.path
       );
@@ -80,6 +79,7 @@ describe.only("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(["0"], false);
 
       const subscriber = await client.subscribe(
+        EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         ["0"],
         tester
@@ -99,6 +99,7 @@ describe.only("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
       const subscriber = await client.subscribe(
+        EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         tester
       );
@@ -120,12 +121,14 @@ describe.only("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = await client.subscribe(
+        EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         inMemoryPartitionManager,
         tester
       );
 
       const subscriber2 = await client.subscribe(
+        EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         inMemoryPartitionManager,
         tester

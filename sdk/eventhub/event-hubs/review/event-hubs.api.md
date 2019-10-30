@@ -108,21 +108,17 @@ export class EventHubConsumer {
     receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
     }
 
-// @public (undocumented)
+// @public
 export class EventHubConsumerClient {
-    constructor(consumerGroupName: string, connectionString: string, options?: EventHubClientOptions);
-    constructor(consumerGroupName: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(consumerGroupName: string, host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    // (undocumented)
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): void;
-    // (undocumented)
+    static defaultConsumerGroupName: string;
     getPartitionIds(): Promise<string[]>;
-    // Warning: (ae-forgotten-export) The symbol "OnReceivedEvents" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "SubscriptionOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
-    subscribe(onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-    subscribe(onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
-    subscribe(onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -141,6 +137,24 @@ export class EventHubProducer {
     readonly isClosed: boolean;
     send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
     }
+
+// @public
+export class EventHubProducerClient {
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    close(): Promise<void>;
+    // (undocumented)
+    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
+    // (undocumented)
+    sendBatch(batch: EventDataBatch, options?: SendOptions): Promise<void>;
+    // (undocumented)
+    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptions): Promise<void>;
+}
 
 // @public
 export interface EventHubProducerOptions {
@@ -233,9 +247,29 @@ export type OnError = (error: MessagingError | Error) => void;
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
+// @public (undocumented)
+export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext) => Promise<void>;
+
+// @public
+export interface OptionalEventHandlers {
+    // (undocumented)
+    onClose?: (reason: CloseReason, context: PartitionContext) => Promise<void>;
+    // (undocumented)
+    onError?: (error: Error, context: PartitionContext) => Promise<void>;
+    // (undocumented)
+    onInitialize?: (context: PartitionContext) => Promise<void>;
+}
+
 // @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
+}
+
+// @public
+export interface PartitionContext {
+    consumerGroupName: string;
+    eventHubName: string;
+    partitionId: string;
 }
 
 // @public (undocumented)
@@ -251,8 +285,6 @@ export interface PartitionManager {
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PartitionContext" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
@@ -325,6 +357,17 @@ export interface SendOptions {
     abortSignal?: AbortSignalLike;
     parentSpan?: Span | SpanContext;
     partitionKey?: string | null;
+}
+
+// @public
+export interface Subscription {
+    consumerGroup(): string;
+    isReceiverOpen(): boolean;
+    stop(): Promise<void>;
+}
+
+// @public
+export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorCommonOptions {
 }
 
 export { TokenCredential }
