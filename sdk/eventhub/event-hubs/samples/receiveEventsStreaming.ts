@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const partitionIds = await client.getPartitionIds();
   const consumerGroupName = "$Default";
 
-  const onReceivedEventsHandler: OnReceivedEvents = async (events, partitionContext, checkpointer) => {
+  const onReceivedEventsHandler: OnReceivedEvents = async (events, context) => {
     for (const message of events) {
       console.log(`Received event: ${message.body}`);
     }

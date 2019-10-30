@@ -27,7 +27,7 @@ import {
 class SampleEventProcessor {
   private _messageCount = 0;
 
-  async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext, checkpointer: PartitionCheckpointer) {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) {
     // events can be empty if no events were recevied in the last 60 seconds.
     // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
@@ -36,24 +36,24 @@ class SampleEventProcessor {
 
     for (const event of events) {
       console.log(
-        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`
+        `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
       );
       this._messageCount++;
     }
 
     // checkpoint using the last event in the batch
     const lastEvent = events[events.length - 1];
-    await checkpointer.updateCheckpoint(lastEvent).catch((err) => {
-      console.log(`Error when checkpointing on partition ${partitionContext.partitionId}: `, err);
+    await context.updateCheckpoint(lastEvent).catch((err) => {
+      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
     });
     console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${partitionContext.partitionId}'`
+      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${context.partitionId}'`
     );
   }
 
-  async processError(error: Error, partitionContext: PartitionContext) {
+  async processError(error: Error, context: PartitionContext) {
     console.log(
-      `Encountered an error: ${error.message} when processing partition ${partitionContext.partitionId}`
+      `Encountered an error: ${error.message} when processing partition ${context.partitionId}`
     );
   }
 
@@ -61,7 +61,7 @@ class SampleEventProcessor {
     console.log(`Started processing partition: ${partitionContext.partitionId}`);
   }
 
-  async close(reason: CloseReason, partitionContext: PartitionContext) {
+  async close(reason: CloseReason, partitionContext: PartitionContext & PartitionCheckpointer) {
     console.log(`Stopped processing for reason ${reason}`);
     console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
   }
@@ -79,7 +79,7 @@ async function main() {
 
   const subscription = await client.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName,
-    (events, context, checkpointer) => processor.processEvents(events, context, checkpointer),
+    (events, context) => processor.processEvents(events, context),
     partitionManager,
     {
       onInitialize: async (context) => { processor.initialize(context) },
