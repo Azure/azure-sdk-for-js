@@ -97,12 +97,12 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of queues
+   * Specifies the maximum number of queues
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -112,7 +112,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -135,12 +135,12 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the queue's metadata be returned as part of the response
+   * Specifies whether the queue's metadata be returned as part of the response
    * body.
    */
   includeMetadata?: boolean;
