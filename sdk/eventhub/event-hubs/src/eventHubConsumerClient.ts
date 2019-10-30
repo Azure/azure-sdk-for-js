@@ -21,8 +21,7 @@ import { PartitionProperties, EventHubProperties } from "./managementClient";
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
-  context: PartitionContext,
-  checkpointer: PartitionCheckpointer
+  context: PartitionContext & PartitionCheckpointer
 ) => Promise<void>;
 
 /**
@@ -274,7 +273,7 @@ export class EventHubConsumerClient {
     options?: SubscriptionOptions
   ): Subscription; // #3
   subscribe(
-    consumerGroupName1: string,
+    consumerGroupName1: string, 
     onReceivedEvents2: OnReceivedEvents,
     optionsOrPartitionIdsOrPartitionManager3:
       | SubscriptionOptions
@@ -372,16 +371,11 @@ export function createPartitionProcessorType(
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
-    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this);
+    private _partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId);
     
     async processEvents(events: ReceivedEventData[]): Promise<void> {
       await onReceivedEvents(
         events,
-        {
-          partitionId: this.partitionId,
-          consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName
-        },
         this._partitionCheckpointer
       );
     }
@@ -408,11 +402,7 @@ export function createPartitionProcessorType(
 
     async close(reason: CloseReason) {
       if (options.onClose) {
-        await options.onClose(reason, {
-          partitionId: this.partitionId,
-          consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName
-        });
+        await options.onClose(reason, this._partitionCheckpointer);
       }
     }
   }
@@ -440,10 +430,10 @@ export function isPartitionManager(
   );
 }
 
-class SimplePartitionCheckpointer implements PartitionCheckpointer {
+class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {
   private _eTag: string = "";
 
-  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor) {   }
+  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string) {   }
 
   async updateCheckpoint(
     eventData: ReceivedEventData

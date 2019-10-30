@@ -21,7 +21,7 @@ export {
 } from "./eventHubClient";
 export { EventHubConsumerClient, OnReceivedEvents, PartitionCheckpointer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
-export { SubscriptionOptions, Subscription, OptionalEventHandlers } from "./eventHubConsumerClientModels";
+export { SubscriptionOptions, Subscription, OptionalEventHandlers, OnErrorHandler, OnInitializeHandler, OnCloseHandler } from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";

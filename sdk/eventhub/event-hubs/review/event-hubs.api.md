@@ -222,17 +222,23 @@ export interface LastEnqueuedEventInfo {
 
 export { MessagingError }
 
+// @public
+export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+// @public
+export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
+
 // @public (undocumented)
-export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext, checkpointer: PartitionCheckpointer) => Promise<void>;
+export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export interface OptionalEventHandlers {
-    // (undocumented)
-    onClose?: (reason: CloseReason, context: PartitionContext) => Promise<void>;
-    // (undocumented)
-    onError?: (error: Error, context: PartitionContext) => Promise<void>;
-    // (undocumented)
-    onInitialize?: (context: PartitionContext) => Promise<void>;
+    onClose?: OnCloseHandler;
+    onError?: OnErrorHandler;
+    onInitialize?: OnInitializeHandler;
 }
 
 // @public

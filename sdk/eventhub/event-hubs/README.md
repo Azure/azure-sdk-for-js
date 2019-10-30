@@ -52,13 +52,13 @@ Interaction with Event Hubs starts with an instance of the [EventHubConsumerClie
 this class using one of the below
 
 ```javascript
-const client = new EventHubConsumerClient("my-consumer-group-name", "my-connection-string", "my-event-hub");
+const client = new EventHubConsumerClient("my-connection-string", "my-event-hub");
 ```
 
-- This constructor takes a consumer group, a connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
+- This constructor takes a connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
 ```javascript
-const client = new EventHubConsumerClient("my-consumer-group-name", "my-connection-string-with-entity-path");
+const client = new EventHubConsumerClient("my-connection-string-with-entity-path");
 ```
 
 - The [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) is for the entire Event Hubs namespace and will not contain the path to the desired Event Hub instance which is needed for this constructor overload. In this case, the path can be added manually by adding ";EntityPath=[[ EVENT HUB NAME ]]" to the end of the connection string. For example, ";EntityPath=my-event-hub-name".
@@ -68,7 +68,7 @@ If you have defined a shared access policy directly on the Event Hub itself, the
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const credential = new DefaultAzureCredential();
-const client = new EventHubConsumerClient("my-consumer-group-name", "my-host-name", "my-event-hub", credential);
+const client = new EventHubConsumerClient("my-host-name", "my-event-hub", credential);
 ```
 
 - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
@@ -90,7 +90,7 @@ Because partitions are owned by the Event Hub, their names are assigned at the t
 To understand what partitions are available, you query the Event Hub using the client.
 
 ```javascript
-const client = new EventHubConsumerClient("consumerGroup", "connectionString", "eventHubName");
+const client = new EventHubConsumerClient("connectionString", "eventHubName");
 const partitionIds = await client.getPartitionIds();
 ```
 
@@ -141,8 +141,9 @@ For example: `body: { "message": "Hello World" }`
 To consume events from a single Event Hub partition in a consumer group, create an `EventHubConsumerClient` for that partition and consumer group combination. You will need to provide a position in the event stream from where to begin receiving events; in our example, we will read new events as they are published.
 
 ```javascript
-const client = new EventHubConsumerClient(EventHubClient.defaultConsumerGroupName, "connectionString", "eventHubName");
+const client = new EventHubConsumerClient("connectionString", "eventHubName");
 const subscription = client.subscribe(
+  EventHubClient.defaultConsumerGroupName,
   (receivedEvents, context) => { },
   [ partitionIds[0] ], {
     defaultEventPosition: EventPosition.latest()
@@ -177,7 +178,7 @@ const subscription = consumer.subscribe(myEventHandler, {
 });
 
 // When ready to stop receiving
-await subscription.stop();
+await subscription.close();
 ```
 
 ### Consume events using a partition manager
@@ -205,15 +206,17 @@ In the below example, we create two subscriptions using the same Event Hub and c
 using an `InMemoryPartitionManager`.
 
 ```javascript
-const client = new EventHubConsumerClient("my-consumer-group", "my-connection-string", "my-event-hub");
+const client = new EventHubConsumerClient("my-connection-string", "my-event-hub");
 const partitionManager = new InMemoryPartitionManager();
 
 const subscription1 = client.subscribe(
+  "my-consumer-group",
   (events, context) => { /* code for handling events should go here */ },
   partitionManager
 );
 
 const subscription2 = client.subscribe(
+  "my-consumer-group",
   (events, context) => { /* code for handling events should go here */ },
   partitionManager
 );
@@ -225,8 +228,8 @@ const subscription2 = client.subscribe(
 // In this example, we'll stop processing after thirty seconds.
 await delay(30000);
 
-await subscription1.stop();
-await subscription2.stop();
+await subscription1.close();
+await subscription2.close();
 
 // close the client itself
 await client.close();
@@ -246,7 +249,6 @@ hence sending events is not possible.
 
 ```javascript
 const client = new EventHubConsumerClient(
-  "consumer-group",
   "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 );
 await client.getProperties();

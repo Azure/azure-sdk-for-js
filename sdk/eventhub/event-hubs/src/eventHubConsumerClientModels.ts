@@ -1,13 +1,38 @@
 
 import { CloseReason, PartitionContext, EventProcessorCommonOptions } from './eventProcessor';
+import { PartitionCheckpointer } from './eventHubConsumerClient';
+
+/**
+ * Called when errors occur during event receiving.
+ */
+export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+/**
+ * Called when we first start processing events from a partition.
+ */
+export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
+
+/**
+ * Called when we stop processing events from a partition.
+ */
+export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 /**
  * Optional event handlers that provide more context when subscribing to events.
  */
 export interface OptionalEventHandlers {
-  onError?: (error: Error, context: PartitionContext) => Promise<void>;
-  onInitialize?: (context: PartitionContext) => Promise<void>;
-  onClose?: (reason: CloseReason, context: PartitionContext) => Promise<void>;
+  /**
+   * Called when errors occur during event receiving.
+   */
+  onError?: OnErrorHandler;
+  /**
+   * Called when we first start processing events from a partition.
+   */
+  onInitialize?: OnInitializeHandler;
+  /**
+   * Called when we stop processing events from a partition.
+   */
+  onClose?: OnCloseHandler;
 
 }
 
