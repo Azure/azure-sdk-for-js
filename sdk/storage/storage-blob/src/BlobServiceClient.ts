@@ -41,7 +41,7 @@ import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 
 /**
- * Options to configure the Service - Get Properties operation.
+ * Options to configure the {@link BlobServiceClient.getProperties} operation.
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -58,7 +58,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Set Properties operation.
+ * Options to configure the {@link BlobServiceClient.setProperties} operation.
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -75,7 +75,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Account Info operation.
+ * Options to configure the {@link BlobServiceClient.getAccountInfo} operation.
  *
  * @export
  * @interface ServiceGetAccountInfoOptions
@@ -92,7 +92,7 @@ export interface ServiceGetAccountInfoOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Statistics operation.
+ * Options to configure the {@link BlobServiceClient.getStatistics} operation.
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -126,7 +126,7 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Container Segment operation.
+ * Options to configure the {@link BlobServiceClient.listContainerSegment} operation.
  *
  * @interface ServiceListContainersSegmentOptions
  */
@@ -163,7 +163,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Containers operation.
+ * Options to configure the {@link BlobServiceClient.listContainers} operation.
  *
  * @export
  * @interface ServiceListContainersOptions
@@ -245,7 +245,7 @@ export interface UserDelegationKey {
 }
 
 /**
- * Contains response data for the getUserDelegationKey operation.
+ * Contains response data for the {@link getUserDelegationKey} operation.
  */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
@@ -336,6 +336,31 @@ export class BlobServiceClient extends StorageClient {
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
+   *
+   * @example
+   * ```js
+   * const account = "<storage account name>";
+   *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
+   * const defaultAzureCredential = new DefaultAzureCredential();
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   defaultAzureCredential
+   * );
+   * ```
+   *
+   * @example
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   constructor(
     url: string,
@@ -380,11 +405,16 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a ContainerClient object
+   * Creates a {@link ContainerClient} object
    *
    * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
+   *
+   * @example
+   * ```js
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * ```
    */
   public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
