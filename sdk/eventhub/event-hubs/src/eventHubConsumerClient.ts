@@ -139,8 +139,8 @@ export class EventHubConsumerClient {
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  close() {
-    this._eventHubClient.close();
+  close() : Promise<void> {
+    return this._eventHubClient.close();
   }
 
   /**
