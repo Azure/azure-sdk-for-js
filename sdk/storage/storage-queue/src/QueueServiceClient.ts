@@ -32,7 +32,7 @@ import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 
 /**
- * Options to configure Queue Service - Get Properties operation
+ * Options to configure {@link QueueServiceClient.getProperties} operation
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -49,7 +49,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Set Properties operation
+ * Options to configure {@link QueueServiceClient.setProperties} operation
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -66,7 +66,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Get Statistics operation
+ * Options to configure {@link QueueServiceClient.getStatistics} operation
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -84,6 +84,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 
 /**
  * Options to configure Queue Service - List Queues Segment operation
+ *
+ * See:
+ * - {@link QueueServiceClient.listSegments}
+ * - {@link QueueServiceClient.listQueuesSegment}
+ * - {@link QueueServiceClient.listItems}
  *
  * @interface ServiceListQueuesSegmentOptions
  */
@@ -120,7 +125,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - List Queues operation
+ * Options to configure {@link QueueServiceClient.listQueues} operation
  *
  * @export
  * @interface ServiceListQueuesOptions
@@ -215,6 +220,36 @@ export class QueueServiceClient extends StorageClient {
    *                                                  AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
+   *
+   * @example
+   * ```js
+   * const account = "<account>";
+   *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
+   * const credential = new DefaultAzureCredential();
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   credential
+   * }
+   * ```
+   *
+   * @example
+   * ```js
+   * const account = "<account>";
+   *
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   sharedKeyCredential,
+   *   {
+   *     retryOptions: { maxTries: 4 }, // Retry options
+   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
+   *   }
+   * );
+   * ```
    */
   constructor(
     url: string,
@@ -259,10 +294,17 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a QueueClient object.
+   * Creates a {@link QueueClient} object.
+   *
    * @param {string} queueName
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
+   *
+   * @example
+   * ```js
+   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * const createQueueResponse = await queueClient.create();
+   * ```
    */
   public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
@@ -312,7 +354,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link ServiceListQueuesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -339,7 +381,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for Queue Items
+   * Returns an AsyncIterableIterator for {@link QueueItem} objects
    *
    * @private
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.

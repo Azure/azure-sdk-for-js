@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import {
-  StorageRetryPolicy,
-  StorageRetryPolicyType
-} from "./policies/StorageRetryPolicy";
+import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 
@@ -79,7 +76,7 @@ export interface StorageRetryOptions {
 }
 
 /**
- * StorageRetryPolicyFactory is a factory class helping generating StorageRetryPolicy objects.
+ * StorageRetryPolicyFactory is a factory class helping generating {@link StorageRetryPolicy} objects.
  *
  * @export
  * @class StorageRetryPolicyFactory
@@ -98,7 +95,7 @@ export class StorageRetryPolicyFactory implements RequestPolicyFactory {
   }
 
   /**
-   * Creates a StorageRetryPolicy object.
+   * Creates a {@link StorageRetryPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
