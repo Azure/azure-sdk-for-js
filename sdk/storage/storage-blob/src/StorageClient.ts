@@ -52,9 +52,9 @@ export abstract class StorageClient {
    */
   protected readonly pipeline: Pipeline;
   /**
-   * Credential used for authentication and authorization.
+   * Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    *
-   * @type {string}
+   * @type {StorageSharedKeyCredential | AnonymousCredential | TokenCredential}
    * @memberof StorageClient
    */
   public readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
