@@ -5,8 +5,8 @@ Azure Files offers fully managed file shares in the cloud that are accessible vi
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure File Storage service.
 
 > Note: This package was previously published under the name `@azure/storage-file`.
-It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
-for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
+> It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
+> for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
 
 Version: 12.0.0-preview.6
 
@@ -96,17 +96,9 @@ Or
 const AzureStorageFileShare = require("@azure/storage-file-share");
 ```
 
-### JavaScript bundle
+### JavaScript Bundle
 
-To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-file-share.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azfile`
+To use this client library in the browser, you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 
 ### CORS
 
