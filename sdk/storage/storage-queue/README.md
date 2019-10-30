@@ -38,6 +38,10 @@ The preferred way to install the Azure Storage Queue client library for JavaScri
 npm install @azure/storage-queue
 ```
 
+### Authenticating with Azure Active Directory
+
+The Azure Queue Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
 ### Compatibility
 
 This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
@@ -387,10 +391,6 @@ import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
-
-## Authenticating with Azure Active Directory
-
-If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 
