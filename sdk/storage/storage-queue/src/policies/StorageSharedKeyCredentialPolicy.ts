@@ -16,7 +16,7 @@ import { CredentialPolicy } from "./CredentialPolicy";
  */
 export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   /**
-   * Reference to StorageSharedKeyCredential which generates StorageSharedKeyCredentialPolicy
+   * Reference to {@link StorageSharedKeyCredential} which generates StorageSharedKeyCredentialPolicy
    *
    * @type {StorageSharedKeyCredential}
    * @memberof StorageSharedKeyCredentialPolicy
