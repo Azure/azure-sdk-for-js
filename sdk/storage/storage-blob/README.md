@@ -45,6 +45,10 @@ The preferred way to install the Azure Storage Blob client library for JavaScrip
 npm install @azure/storage-blob
 ```
 
+### Authenticating with Azure Active Directory
+
+The Azure Queue Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
 ### Compatibility
 
 This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
@@ -452,10 +456,6 @@ import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
-
-## Authenticating with Azure Active Directory
-
-The Azure Storage Blob service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
 ## Next steps
 
