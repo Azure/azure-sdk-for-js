@@ -339,7 +339,10 @@ export class BlobServiceClient extends StorageClient {
    *
    * @example
    * ```js
-   * const account = "<storage account name>"
+   * const account = "<storage account name>";
+   *
+   * // Use a TokenCredential implementation from the @azure/identity package.
+   * // In this case, a DefaultAzureCredential (recommended for most users)
    * const defaultAzureCredential = new DefaultAzureCredential();
    *
    * const blobServiceClient = new BlobServiceClient(

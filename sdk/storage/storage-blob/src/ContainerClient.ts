@@ -761,8 +761,7 @@ export class ContainerClient extends StorageClient {
    * ```js
    * const content = "Hello world!";
    *
-   * const blobClient = containerClient.getBlobClient("<blob name>");
-   * const blockBlobClient = blobClient.getBlockBlobClient();
+   * const blockBlobClient = containerClient.getBlockBlobClient("<blob name>");
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
    */
