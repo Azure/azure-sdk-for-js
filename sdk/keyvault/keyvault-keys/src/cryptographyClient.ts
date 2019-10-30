@@ -659,7 +659,7 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
    * @param key The key to use during cryptography tasks.
-   * @param {TokenCredential} credential An object that implements the {@link TokenCredential} interface. Use the @azure/identity package to create a credential that suites your needs.
+   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface. Use the @azure/identity package to create a credential that suites your needs.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient

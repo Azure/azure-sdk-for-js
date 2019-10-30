@@ -192,7 +192,7 @@ export class KeyClient {
    * let client = new KeyClient(vaultUrl, credentials);
    * ```
    * @param {string} vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
-   * @param {TokenCredential} credential An object that implements the {@link TokenCredential} interface. Use the @azure/identity package to create a credential that suites your needs.
+   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface. Use the @azure/identity package to create a credential that suites your needs.
    * @param {PipelineOptions} [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    * @memberof KeyClient
    */
