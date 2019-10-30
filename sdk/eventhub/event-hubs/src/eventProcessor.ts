@@ -84,6 +84,19 @@ export interface PartitionOwnership extends PartitionContext {
 }
 
 /**
+ * Allow for checkpointing
+ */
+export interface PartitionCheckpointer {
+    /**
+   * Updates the checkpoint in the data store for a partition.
+   *
+   * @param checkpoint The checkpoint.
+   * @return The new eTag on successful update.
+   */
+  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
+
+/**
  * A Partition manager stores and retrieves partition ownership information and checkpoint details
  * for each partition in a given consumer group of an event hub instance.
  *
@@ -97,7 +110,7 @@ export interface PartitionOwnership extends PartitionContext {
  *
  * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
-export interface PartitionManager {
+export interface PartitionManager extends PartitionCheckpointer {
   /**
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
@@ -121,13 +134,6 @@ export interface PartitionManager {
    * @return A list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-  /**
-   * Updates the checkpoint in the data store for a partition.
-   *
-   * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update.
-   */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 /**

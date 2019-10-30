@@ -5,7 +5,7 @@ import { EventHubClientOptions, EventHubClient } from "./eventHubClient";
 import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
+import { EventProcessor, PartitionManager, CloseReason, PartitionContext, PartitionCheckpointer } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
@@ -18,7 +18,8 @@ import { isTokenCredential } from '@azure/core-amqp';
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
-  context: PartitionContext
+  context: PartitionContext,
+  checkpointer: PartitionCheckpointer
 ) => Promise<void>;
 
 
@@ -213,16 +214,19 @@ export class EventHubConsumerClient {
       const partitionIds = optionsOrPartitionIdsOrPartitionManager3 as string[];
       log.consumerClient(`Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`);
 
+      const partitionManager = new InMemoryPartitionManager();
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
-        possibleOptions4
+        partitionManager,
+        possibleOptions4        
       );
 
       eventProcessor = new EventProcessor(
         consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
-        new InMemoryPartitionManager(),
+        partitionManager,
         {
           ...possibleOptions4,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
@@ -233,8 +237,11 @@ export class EventHubConsumerClient {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
+      const partitionManager = optionsOrPartitionIdsOrPartitionManager3 as PartitionManager;
+
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
+        partitionManager,
         possibleOptions4
       );
 
@@ -242,15 +249,18 @@ export class EventHubConsumerClient {
         consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
-        optionsOrPartitionIdsOrPartitionManager3 as PartitionManager,
+        partitionManager,
         possibleOptions4
       );
     } else {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 
+      const partitionManager = new InMemoryPartitionManager();
+      
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
+        partitionManager,
         optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions
       );
 
@@ -258,7 +268,7 @@ export class EventHubConsumerClient {
         consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
-        new InMemoryPartitionManager(),
+        partitionManager,
         {
           ...optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions,
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
@@ -279,10 +289,8 @@ export class EventHubConsumerClient {
  * @ignore
  */
 export function createPartitionProcessorType(
-  onReceivedEvents: (
-    receivedEvents: ReceivedEventData[],
-    context: PartitionContext
-  ) => Promise<void>,
+  onReceivedEvents: OnReceivedEvents,
+  partitionManager: PartitionManager,
   options: SubscriptionOptions = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
@@ -291,7 +299,7 @@ export function createPartitionProcessorType(
         partitionId: this.partitionId,
         consumerGroupName: this.consumerGroupName,
         eventHubName: this.eventHubName
-      });
+      }, this.partitionManager);
     }
 
     async processError(error: Error): Promise<void> {
