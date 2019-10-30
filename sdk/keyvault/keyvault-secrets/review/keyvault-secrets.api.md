@@ -16,6 +16,16 @@ import { TokenCredential } from '@azure/core-http';
 export interface BackupSecretOptions extends coreHttp.OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "SecretPollerOptions" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export interface BeginDeleteSecretOptions extends SecretPollerOptions {
+}
+
+// @public
+export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
+}
+
 // @public
 export interface DeletedSecret {
     name: string;
@@ -83,8 +93,8 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 export class SecretClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
-    beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
+    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
     listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
@@ -95,12 +105,6 @@ export class SecretClient {
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface SecretPollerOptions extends coreHttp.OperationOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
 }
 
 // @public

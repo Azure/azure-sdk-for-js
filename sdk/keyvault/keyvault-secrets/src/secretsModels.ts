@@ -192,6 +192,20 @@ export interface SecretPollerOptions extends coreHttp.OperationOptions {
 
 /**
  * @interface
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginDeleteSecret}
+ */
+export interface BeginDeleteSecretOptions extends SecretPollerOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginRecoverDeletedSecret}
+ */
+export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {}
+
+/**
+ * @interface
  * An interface representing the optional parameters that can be passed to {@link setSecret}.
  */
 export interface SetSecretOptions extends coreHttp.OperationOptions {

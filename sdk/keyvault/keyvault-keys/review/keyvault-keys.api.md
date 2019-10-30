@@ -16,6 +16,16 @@ import { TokenCredential } from '@azure/core-http';
 export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "KeyPollerOptions" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export interface BeginDeleteKeyOptions extends KeyPollerOptions {
+}
+
+// @public
+export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
+}
+
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
     curve?: KeyCurveName;
@@ -144,8 +154,8 @@ export interface JsonWebKey {
 export class KeyClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
-    beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
-    beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
+    beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
+    beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
@@ -166,12 +176,6 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
 export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
-
-// @public
-export interface KeyPollerOptions extends coreHttp.OperationOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
-}
 
 // @public
 export interface KeyProperties {

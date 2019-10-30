@@ -43,7 +43,8 @@ import {
   DeletedSecret,
   DeleteSecretOptions,
   SecretClientInterface,
-  SecretPollerOptions,
+  BeginDeleteSecretOptions,
+  BeginRecoverDeletedSecretOptions,
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
   GetSecretOptions,
@@ -77,7 +78,8 @@ export {
   PollOperationState,
   KeyVaultSecret,
   SecretProperties,
-  SecretPollerOptions,
+  BeginDeleteSecretOptions,
+  BeginRecoverDeletedSecretOptions,
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
   logger
@@ -264,11 +266,11 @@ export class SecretClient {
    * ```
    * @summary Deletes a secret from a specified key vault.
    * @param {string} secretName The name of the secret.
-   * @param {SecretPollerOptions} [options] The optional parameters.
+   * @param {BeginDeleteSecretOptions} [options] The optional parameters.
    */
   public async beginDeleteSecret(
     name: string,
-    options: SecretPollerOptions = {}
+    options: BeginDeleteSecretOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteSecretPoller({
@@ -476,11 +478,11 @@ export class SecretClient {
    * ```
    * @summary Recovers the deleted secret to the latest version.
    * @param {string} secretName The name of the deleted secret.
-   * @param {SecretProperties} [options] The optional parameters.
+   * @param {BeginRecoverDeletedSecretOptions} [options] The optional parameters.
    */
   public async beginRecoverDeletedSecret(
     name: string,
-    options: SecretPollerOptions = {}
+    options: BeginRecoverDeletedSecretOptions = {}
   ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 

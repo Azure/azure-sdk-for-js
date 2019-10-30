@@ -59,7 +59,8 @@ import {
   ImportKeyOptions,
   JsonWebKey,
   KeyClientInterface,
-  KeyPollerOptions,
+  BeginDeleteKeyOptions,
+  BeginRecoverDeletedKeyOptions,
   KeyProperties,
   KeyVaultKey,
   ListPropertiesOfKeysOptions,
@@ -111,7 +112,8 @@ export {
   EncryptionAlgorithm,
   KeyOperation,
   KeyType,
-  KeyPollerOptions,
+  BeginDeleteKeyOptions,
+  BeginRecoverDeletedKeyOptions,
   KeyProperties,
   SignatureAlgorithm,
   KeyVaultKey,
@@ -526,11 +528,11 @@ export class KeyClient {
    * ```
    * @summary Deletes a key from a specified key vault.
    * @param {string} name The name of the key.
-   * @param {KeyPollerOptions} [options] The optional parameters.
+   * @param {BeginDeleteKeyOptions} [options] The optional parameters.
    */
   public async beginDeleteKey(
     name: string,
-    options: KeyPollerOptions = {}
+    options: BeginDeleteKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteKeyPoller({
@@ -727,11 +729,11 @@ export class KeyClient {
    * ```
    * @summary Recovers the deleted key to the latest version.
    * @param name The name of the deleted key.
-   * @param {KeyPollerOptions} [options] The optional parameters.
+   * @param {BeginRecoverDeletedKeyOptions} [options] The optional parameters.
    */
   public async beginRecoverDeletedKey(
     name: string,
-    options: KeyPollerOptions = {}
+    options: BeginRecoverDeletedKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 

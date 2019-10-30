@@ -306,6 +306,20 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
+ * passed to {@link beginDeleteKey}
+ */
+export interface BeginDeleteKeyOptions extends KeyPollerOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginRecoverDeletedKey}
+ */
+export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
