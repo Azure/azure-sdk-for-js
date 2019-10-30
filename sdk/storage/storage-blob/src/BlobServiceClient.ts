@@ -339,11 +339,23 @@ export class BlobServiceClient extends StorageClient {
    *
    * @example
    * ```js
+   * const account = "<storage account name>"
    * const defaultAzureCredential = new DefaultAzureCredential();
    *
    * const blobServiceClient = new BlobServiceClient(
-   *   `https://<Storage Account Name>.blob.core.windows.net`,
+   *   `https://${account}.blob.core.windows.net`,
    *   defaultAzureCredential
+   * );
+   * ```
+   *
+   * @example
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new SharedKeyCredential(account, "<account key>");
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential
    * );
    * ```
    */
@@ -398,8 +410,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @example
    * ```js
-   * const containerName = "ExampleContainer";
-   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const containerClient = blobServiceClient.getContainerClient("<container name>);
    * ```
    */
   public getContainerClient(containerName: string): ContainerClient {

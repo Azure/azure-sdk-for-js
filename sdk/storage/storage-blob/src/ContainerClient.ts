@@ -663,8 +663,7 @@ export class ContainerClient extends StorageClient {
    *
    * @example
    * ```js
-   * const containerName = "myNewContainer";
-   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * const createContainerResponse = await containerClient.create();
    * console.log("Container was created successfully", createContainerResponse.requestId);
    * ```
@@ -760,11 +759,11 @@ export class ContainerClient extends StorageClient {
    *
    * @example
    * ```js
-   * const content = "hello";
-   * const blobName = "newblob" + new Date().getTime();
-   * const blobClient = containerClient.getBlobClient(blobName);
+   * const content = "Hello world!";
+   *
+   * const blobClient = containerClient.getBlobClient("<blob name>");
    * const blockBlobClient = blobClient.getBlockBlobClient();
-   * const uploadBlobResponse = await blockBlobClient.upload(content, content.length)
+   * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {

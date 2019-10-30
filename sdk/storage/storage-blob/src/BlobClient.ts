@@ -3062,10 +3062,7 @@ export class BlockBlobClient extends BlobClient {
    *
    * @example
    * ```js
-   * const content = "hello";
-   * const blobName = "newblob" + new Date().getTime();
-   * const blobClient = containerClient.getBlobClient(blobName);
-   * const blockBlobClient = blobClient.getBlockBlobClient();
+   * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
    */
