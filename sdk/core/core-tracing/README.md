@@ -6,7 +6,7 @@ This is the core tracing library that provides low-level interfaces and helper m
 
 ### Installation
 
-Install this libray using npm as follows
+Install this library using npm as follows
 
 ```
 npm install @azure/core-tracing
