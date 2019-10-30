@@ -7,7 +7,7 @@ This project provides a client library in JavaScript that makes it easy to consu
 Use the client libraries in this package to:
 - Get/Set Queue Service Properties
 - Create/List/Delete Queues
-- Enqueue/Dequeue/Peek/Clear/Update/Delete Queue Messages
+- Send/Receive/Peek/Clear/Update/Delete Queue Messages
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5) |
