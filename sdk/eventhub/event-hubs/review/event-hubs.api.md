@@ -249,8 +249,6 @@ export type OnError = (error: MessagingError | Error) => void;
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
-// Warning: (ae-forgotten-export) The symbol "PartitionCheckpointer" needs to be exported by the entry point index.d.ts
-// 
 // @public (undocumented)
 export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext, checkpointer: PartitionCheckpointer) => Promise<void>;
 
@@ -267,6 +265,11 @@ export interface OptionalEventHandlers {
 // @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
+}
+
+// @public
+export interface PartitionCheckpointer {
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public

@@ -238,7 +238,7 @@ export class EventHubConsumerClient {
 
     if (Array.isArray(optionsOrPartitionIdsOrPartitionManager3)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const partitionIds = optionsOrPartitionIdsOrPartitionManager3 as string[];
+      const partitionIds = optionsOrPartitionIdsOrPartitionManager3;
       log.consumerClient(`Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`);
 
       const partitionManager = new InMemoryPartitionManager();
@@ -264,7 +264,7 @@ export class EventHubConsumerClient {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
-      const partitionManager = optionsOrPartitionIdsOrPartitionManager3 as PartitionManager;
+      const partitionManager = optionsOrPartitionIdsOrPartitionManager3;
 
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
