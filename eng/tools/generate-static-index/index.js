@@ -76,7 +76,7 @@ for (const eachService of serviceFolders) {
           );
           console.log("Path: " + eachPackagePath);
           if (!checks.isPrivate) {
-              if (checks.srcPresent) {
+              if (checks.srcPresent || (eachPackage == "core-http") || (eachPackage == "core-tracing")) {
                 if(checks.isClient){
                   clientList.push(eachPackage);
                 }
