@@ -31,8 +31,6 @@ Using the cryptography client available in this library you also have access to
 - Wrapping keys
 - Unwrapping keys
 
-**Please Note:** This is a preview version of the Key Vault Keys library
-
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 
 ## Getting started
