@@ -1,4 +1,7 @@
-import { InMemoryPartitionManager } from "../src";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { InMemoryPartitionManager, EventHubProducerClient } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -9,7 +12,7 @@ import * as log from "../src/log";
 const should = chai.should();
 const env = getEnvVars();
 
-describe("EventHubConsumerClient", () => {
+describe.only("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
@@ -30,7 +33,7 @@ describe("EventHubConsumerClient", () => {
     };
 
     let client: EventHubConsumerClient;
-    let eventHubClient: EventHubClient;
+    let producerClient: EventHubProducerClient;
     let partitionIds: string[];
     const logMessages: string[] = [];
 
@@ -60,7 +63,7 @@ describe("EventHubConsumerClient", () => {
         service.path
       );
 
-      eventHubClient = new EventHubClient(service.connectionString!, service.path!, {});
+      producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
       partitionIds = await client.getPartitionIds();
 
@@ -70,7 +73,7 @@ describe("EventHubConsumerClient", () => {
 
     after(() => {
       client.close();
-      eventHubClient.close();
+      producerClient.close();
     });
 
     it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<void> {
@@ -82,7 +85,7 @@ describe("EventHubConsumerClient", () => {
         tester
       );
 
-      await tester.runTestAndPoll(eventHubClient);
+      await tester.runTestAndPoll(producerClient);
       await subscriber.stop();
 
       hasLogMessage("Creating client with connection string and event hub name");
@@ -100,7 +103,7 @@ describe("EventHubConsumerClient", () => {
         tester
       );
 
-      await tester.runTestAndPoll(eventHubClient);
+      await tester.runTestAndPoll(producerClient);
       await subscriber.stop();
 
       hasLogMessage("Subscribing to all partitions, don't coordinate.");
@@ -128,7 +131,7 @@ describe("EventHubConsumerClient", () => {
         tester
       );
 
-      await tester.runTestAndPoll(eventHubClient);
+      await tester.runTestAndPoll(producerClient);
       await subscriber1.stop();
       await subscriber2.stop();
 

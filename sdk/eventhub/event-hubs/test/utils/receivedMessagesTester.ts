@@ -1,5 +1,4 @@
-import { CloseReason, ReceivedEventData, delay, EventPosition } from "../../src/";
-import { EventHubClient } from "../../src/eventHubClient";
+import { CloseReason, ReceivedEventData, delay, EventPosition, EventHubProducerClient } from "../../src/";
 import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
@@ -101,7 +100,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
   /**
    * Polls until all messages have been received (or until first error)
    */
-  async runTestAndPoll(client: EventHubClient): Promise<void> {
+  async runTestAndPoll(client: EventHubProducerClient): Promise<void> {
 
     // wait until all the partitions have been claimed
     while (this.data.size !== this.expectedPartitions.length) {
@@ -139,7 +138,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     console.log("All messages received");
   }
 
-  private async produceMessages(client: EventHubClient) {
+  private async produceMessages(client: EventHubProducerClient) {
     const expectedMessagePrefix = `EventHubConsumerClient test - ${Date.now().toString()}`;
     const messagesToSend = [];
 
@@ -155,9 +154,9 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     let lastExpectedMessageCount = this.expectedMessageBodies.size;
 
     for (const messageToSend of messagesToSend) {
-      const producer = await client.createProducer({ partitionId: messageToSend.partitionId });
-      await producer.send({ body: messageToSend.body });
-      await producer.close();
+      const batch = await client.createBatch({});
+      batch.tryAdd({ body: messageToSend.body });
+      await client.sendBatch(batch, messageToSend.partitionId);      
     }
     return lastExpectedMessageCount;
   }

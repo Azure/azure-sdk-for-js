@@ -20,6 +20,7 @@ export {
   ParentSpanOptions
 } from "./eventHubClient";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
+export { EventHubProducerClient } from "./eventHubProducerClient";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
