@@ -1,3 +1,7 @@
+### TBD - 1.0.0-preview.4
+
+- Updated to use the latest version of the `@azure/storabe-blob` package.
+
 ### 2019-10-08 1.0.0-preview.3
 
 - Updated to use the latest version of the `@azure/event-hubs` package.
