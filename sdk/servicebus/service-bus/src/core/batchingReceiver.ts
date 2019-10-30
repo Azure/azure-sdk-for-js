@@ -4,7 +4,7 @@
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessage } from "../serviceBusMessage";
 import {
   MessageReceiver,
   ReceiveOptions,
