@@ -93,22 +93,6 @@ export interface EventHubClientOptions {
 }
 
 // @public
-export class EventHubConsumer {
-    // @internal
-    constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
-    close(): Promise<void>;
-    readonly consumerGroup: string;
-    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
-    readonly isClosed: boolean;
-    readonly isReceivingMessages: boolean;
-    readonly lastEnqueuedEventInfo: LastEnqueuedEventInfo;
-    readonly ownerLevel: number | undefined;
-    readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
-    }
-
-// @public
 export class EventHubConsumerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
@@ -194,18 +178,13 @@ export class EventPosition {
     }
 
 // @public
-export class EventProcessor {
-    // Warning: (ae-forgotten-export) The symbol "EventHubClient" needs to be exported by the entry point index.d.ts
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
-    readonly id: string;
-    // (undocumented)
-    isRunning(): boolean;
-    start(): void;
-    stop(): Promise<void>;
+export interface EventProcessorCommonOptions {
+    defaultEventPosition?: EventPosition;
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "EventProcessorCommonOptions" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface EventProcessorOptions extends EventProcessorCommonOptions {
     partitionLoadBalancer?: PartitionLoadBalancer;
@@ -243,12 +222,6 @@ export interface LastEnqueuedEventInfo {
 
 export { MessagingError }
 
-// @public
-export type OnError = (error: MessagingError | Error) => void;
-
-// @public
-export type OnMessage = (eventData: ReceivedEventData) => void;
-
 // @public (undocumented)
 export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext, checkpointer: PartitionCheckpointer) => Promise<void>;
 
@@ -269,7 +242,10 @@ export interface ParentSpanOptions {
 
 // @public
 export interface PartitionCheckpointer {
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+    // (undocumented)
+    updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
 }
 
 // @public
@@ -286,9 +262,10 @@ export interface PartitionLoadBalancer {
 }
 
 // @public
-export interface PartitionManager extends PartitionCheckpointer {
+export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public
@@ -367,8 +344,8 @@ export interface SendOptions {
 
 // @public
 export interface Subscription {
+    close(): Promise<void>;
     isRunning(): boolean;
-    stop(): Promise<void>;
 }
 
 // @public

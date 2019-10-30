@@ -25,12 +25,12 @@ export { SubscriptionOptions, Subscription, OptionalEventHandlers } from "./even
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
-export { EventHubConsumer, EventIteratorOptions } from "./receiver";
+export { EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export {
-  EventProcessor,
   CloseReason,
   EventProcessorOptions,
+  EventProcessorCommonOptions,
   PartitionContext,
   PartitionManager,
   PartitionOwnership

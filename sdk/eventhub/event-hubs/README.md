@@ -201,7 +201,7 @@ coordinate their work, even in the face of shutdowns or restarts.
 Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the
 `PartitionManager` implementation from one such package.
 
-In the below example, we create two instances of EventProcessor against the same Event Hub and consumer group,
+In the below example, we create two subscriptions using the same Event Hub and consumer group,
 using an `InMemoryPartitionManager`.
 
 ```javascript

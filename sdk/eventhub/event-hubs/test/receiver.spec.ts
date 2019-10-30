@@ -13,13 +13,13 @@ import {
   EventData,
   MessagingError,
   ReceivedEventData,
-  EventHubConsumer,
   delay,
   ReceiveHandler
 } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
+import { EventHubConsumer } from '../src/receiver';
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {

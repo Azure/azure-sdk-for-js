@@ -13,7 +13,6 @@ import {
   EventPosition,
   EventData,
   EventHubProperties,
-  EventHubConsumer,
   ReceivedEventData
 } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
@@ -23,6 +22,7 @@ import {
   extractSpanContextFromEventData
 } from "../src/diagnostics/instrumentEventData";
 import { TraceFlags } from "@azure/core-tracing";
+import { EventHubConsumer } from '../src/receiver';
 const env = getEnvVars();
 
 describe("Misc tests #RunnableInBrowser", function(): void {

@@ -9,7 +9,6 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
   EventData,
-  EventProcessor,
   delay,
   InMemoryPartitionManager,
   PartitionOwnership,
@@ -22,6 +21,7 @@ import {
 import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
+import { EventProcessor } from '../src/eventProcessor';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
