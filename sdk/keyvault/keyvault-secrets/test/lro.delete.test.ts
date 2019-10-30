@@ -86,7 +86,8 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can attempt to delete a secret with requestOptions timeout", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -96,5 +97,5 @@ describe("Secrets client - Long Running Operations - delete", () => {
         await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
       });
     });
-	}
+  }
 });

@@ -91,7 +91,8 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can recover a deleted key with requestOptions timeout", async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");

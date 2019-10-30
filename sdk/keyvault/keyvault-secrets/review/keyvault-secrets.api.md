@@ -68,7 +68,9 @@ export { PollOperationState }
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "RecoverDeletedSecretOptions" should be prefixed with an underscore because the declaration is marked as @internal
+// 
+// @internal
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
