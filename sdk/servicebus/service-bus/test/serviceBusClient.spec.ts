@@ -282,6 +282,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
+    errorWasThrown = false;
     const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessage = async (): Promise<never> => {
@@ -505,8 +506,9 @@ describe("Errors after close()", function(): void {
       caughtError = error;
     }
 
-    const expectedErrorMsg = `Failed to ${operation} the message as the AMQP link with which the message was ` +
-    `received is no longer alive.`
+    const expectedErrorMsg =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
     should.equal(caughtError && caughtError.message, expectedErrorMsg);
   }
 
