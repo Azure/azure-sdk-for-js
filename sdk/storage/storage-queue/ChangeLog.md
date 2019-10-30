@@ -24,7 +24,7 @@
 - [Breaking]
   - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
     corresponding policies from the `@azure/core-http` library are meant to be used instead.
-- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## 2019.10 12.0.0-preview.5
 
