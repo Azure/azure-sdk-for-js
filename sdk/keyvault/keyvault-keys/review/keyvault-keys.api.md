@@ -16,8 +16,6 @@ import { TokenCredential } from '@azure/core-http';
 export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "KeyPollerOptions" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface BeginDeleteKeyOptions extends KeyPollerOptions {
 }
@@ -176,6 +174,12 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
 export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+
+// @public
+export interface KeyPollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
 
 // @public
 export interface KeyProperties {

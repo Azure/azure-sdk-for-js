@@ -43,6 +43,7 @@ import {
   DeletedSecret,
   DeleteSecretOptions,
   SecretClientInterface,
+  SecretPollerOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
   SetSecretOptions,
@@ -56,7 +57,7 @@ import {
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
   ListDeletedSecretsOptions,
-  SecretProperties
+  SecretProperties,
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -78,6 +79,7 @@ export {
   PollOperationState,
   KeyVaultSecret,
   SecretProperties,
+  SecretPollerOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
   SetSecretOptions,

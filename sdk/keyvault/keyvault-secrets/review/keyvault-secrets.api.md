@@ -16,8 +16,6 @@ import { TokenCredential } from '@azure/core-http';
 export interface BackupSecretOptions extends coreHttp.OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "SecretPollerOptions" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface BeginDeleteSecretOptions extends SecretPollerOptions {
 }
@@ -105,6 +103,12 @@ export class SecretClient {
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
 }
 
 // @public
