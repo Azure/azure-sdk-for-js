@@ -4,9 +4,9 @@ Azure Queue storage provides cloud messaging between application components. In 
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Queue Storage service.
 
-Version: 12.0.0-preview.5
+Version: 12.0.0
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-queue)
 - [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
@@ -64,7 +64,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-queue@12.0.0-preview.5
+npm install @azure/storage-queue
 ```
 
 In your TypeScript or JavaScript file, import via following:

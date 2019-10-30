@@ -8,9 +8,9 @@ This project provides a client library in JavaScript that makes it easy to consu
 It has been renamed to `@azure/storage-file-share` to better align with the upcoming new package
 for Azure Storage Files DataLake and provide a consistent set of APIs for working with files on Azure.
 
-Version: 12.0.0-preview.5
+Version: 12.0.0-preview.6
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.5)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-file-share)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
