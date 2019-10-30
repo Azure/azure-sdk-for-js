@@ -116,9 +116,9 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating with Azure Active Directory
 
-The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this.  The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
-Here's a quick example.  First, import `DefaultAzureCredential` and `SecretClient`:
+Here's a quick example. First, import `DefaultAzureCredential` and `SecretClient`:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
