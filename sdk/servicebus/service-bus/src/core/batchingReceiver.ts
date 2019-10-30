@@ -4,7 +4,7 @@
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessage } from "../serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import {
   MessageReceiver,
   ReceiveOptions,
@@ -71,7 +71,9 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-    maxMessageCount = maxMessageCount > 2047 ? 2047 : maxMessageCount;
+    if (this.receiveMode == ReceiveMode.peekLock) {
+      maxMessageCount = maxMessageCount > 2047 ? 2047 : maxMessageCount;
+    }
 
     throwErrorIfConnectionClosed(this._context.namespace);
 
