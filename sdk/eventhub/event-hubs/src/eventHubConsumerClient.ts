@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubClientOptions, EventHubClient } from "./eventHubClient";
+import { EventHubClientOptions, EventHubClient, GetPartitionPropertiesOptions, GetPropertiesOptions } from "./eventHubClient";
 import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
@@ -15,6 +15,7 @@ import {
   Subscription
 } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from '@azure/core-amqp';
+import { PartitionProperties, EventHubProperties } from './managementClient';
 
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
@@ -156,6 +157,32 @@ export class EventHubConsumerClient {
    */
   getPartitionIds(): Promise<string[]> {
     return this._eventHubClient.getPartitionIds();
+  }
+
+   /**
+   * Provides information about the specified partition.
+   * @param partitionId Partition ID for which partition information is required.
+   * @param [options] The set of options to apply to the operation call.
+   * @returns A promise that resoloves with PartitionProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
+  getPartitionProperties(
+    partitionId: string,
+    options: GetPartitionPropertiesOptions = {}
+  ): Promise<PartitionProperties> {
+    return this._eventHubClient.getPartitionProperties(partitionId, options);
+  }
+
+ /**
+   * Provides the Event Hub runtime information.
+   * @param [options] The set of options to apply to the operation call.
+   * @returns A promise that resolves with EventHubProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
+  getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
+    return this._eventHubClient.getProperties(options);  
   }
 
   /**
