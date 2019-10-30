@@ -1,4 +1,4 @@
-# Azure Key Vault Keys client library for JS
+# Azure Key Vault Key client library for JS
 
 Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
@@ -45,7 +45,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 ### Install the package
 
-Install the Azure Key Vault Keys client library using npm
+Install the Azure Key Vault Key client library using npm
 
 `npm install @azure/keyvault-keys`
 
@@ -107,7 +107,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **Keys client** is the primary interface to interact with the API methods
+- The **Key client** is the primary interface to interact with the API methods
   related to keys in the Azure Key Vault API from a JavaScript application.
   Once initialized, it provides a basic set of methods that can be used to
   create, read, update and delete keys.
