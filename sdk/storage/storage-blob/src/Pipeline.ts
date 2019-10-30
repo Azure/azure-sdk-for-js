@@ -73,10 +73,11 @@ export interface PipelineOptions {
 
 /**
  * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling newPipeline().
+ * You can create a default Pipeline by calling {@link newPipeline}.
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- * Refer to newPipeline() and provided policies as reference before
- * implementing your customized Pipeline.
+ *
+ * Refer to {@link newPipeline} and provided policies before implementing your
+ * customized Pipeline.
  *
  * @export
  * @class Pipeline
@@ -110,7 +111,7 @@ export class Pipeline {
   }
 
   /**
-   * Transfer Pipeline object to ServiceClientOptions object which required by
+   * Transfer Pipeline object to ServiceClientOptions object which is required by
    * ServiceClient constructor.
    *
    * @returns {ServiceClientOptions} The ServiceClientOptions object from this Pipeline.
@@ -125,7 +126,7 @@ export class Pipeline {
 }
 
 /**
- * Option interface for newPipeline() method.
+ * Options interface for the {@link newPipeline} function.
  *
  * @export
  * @interface StoragePipelineOptions

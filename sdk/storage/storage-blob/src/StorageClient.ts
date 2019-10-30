@@ -27,7 +27,8 @@ export interface OperationTracingOptions {
 }
 
 /**
- * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
+ * A StorageClient represents a based URL class for {@link BlobServiceClient}, {@link ContainerClient}
+ * and etc.
  *
  * @export
  * @class StorageClient

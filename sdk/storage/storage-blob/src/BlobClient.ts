@@ -118,7 +118,7 @@ import {
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
- * Options to configure Blob - Begin Copy from URL operation.
+ * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobBeginCopyFromURLOptions
@@ -153,7 +153,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
 }
 
 /**
- * Contains response data for the beginCopyFromURL operation.
+ * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobBeginCopyFromURLResponse
@@ -161,7 +161,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
 export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
- * Options to configure Blob - Download operation.
+ * Options to configure the {@link BlobClient.download} operation.
  *
  * @export
  * @interface BlobDownloadOptions
@@ -224,7 +224,7 @@ export interface BlobDownloadOptions extends CommonOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileClient.download() request will be made
+   * With this option, every additional retry means an additional `FileClient.download()` request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
@@ -243,7 +243,7 @@ export interface BlobDownloadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Exists operation.
+ * Options to configure the {@link BlobClient.exists} operation.
  *
  * @export
  * @interface BlobExistsOptions
@@ -267,7 +267,7 @@ export interface BlobExistsOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Get Properties operation.
+ * Options to configure the {@link BlobClient.getProperties} operation.
  *
  * @export
  * @interface BlobGetPropertiesOptions
@@ -298,7 +298,7 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Blob - Delete operation.
+ * Options to configure the {@link BlobClient.delete} operation.
  *
  * @export
  * @interface BlobDeleteOptions
@@ -338,7 +338,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Undelete operation.
+ * Options to configure the {@link BlobClient.undelete} operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -362,7 +362,7 @@ export interface BlobUndeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Http Headers operation.
+ * Options to configure the {@link BlobClient.setHTTPHeaders} operation.
  *
  * @export
  * @interface BlobSetHTTPHeadersOptions
@@ -393,7 +393,7 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Metadata operation.
+ * Options to configure the {@link BlobClient.setMetadata} operation.
  *
  * @export
  * @interface BlobSetMetadataOptions
@@ -544,7 +544,7 @@ export interface BlobBreakLeaseOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Create Snapshot operation.
+ * Options to configure the {@link BlobClient.createSnapshot} operation.
  *
  * @export
  * @interface BlobCreateSnapshotOptions
@@ -582,7 +582,7 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Start Copy from URL operation.
+ * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobStartCopyFromURLOptions
@@ -636,7 +636,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Abort Copy from URL operation.
+ * Options to configure the {@link BlobClient.abortCopyFromURL} operation.
  *
  * @export
  * @interface BlobAbortCopyFromURLOptions
@@ -661,7 +661,7 @@ export interface BlobAbortCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - synchronous Copy From URL operation.
+ * Options to configure the {@link BlobClient.syncCopyFromURL} operation.
  *
  * @export
  * @interface BlobSyncCopyFromURLOptions
@@ -699,7 +699,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Tier operation.
+ * Options to configure the {@link BlobClient.setAccessTier} operation.
  *
  * @export
  * @interface BlobSetTierOptions
@@ -732,7 +732,7 @@ export interface BlobSetTierOptions extends CommonOptions {
 }
 
 /**
- * Option interface for BlobClient.downloadToBuffer().
+ * Option interface for the {@link BlobClient.downloadToBuffer} operation.
  *
  * @export
  * @interface BlobDownloadToBufferOptions
@@ -1042,6 +1042,49 @@ export class BlobClient extends StorageClient {
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
+   *
+   * @example
+   * ```js
+   * // Download and convert a blob to a string (Node.js only)
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+   * console.log("Downloaded blob content:", downloaded);
+   *
+   * async function streamToString(readableStream) {
+   *   return new Promise((resolve, reject) => {
+   *     const chunks = [];
+   *     readableStream.on("data", (data) => {
+   *       chunks.push(data.toString());
+   *     });
+   *     readableStream.on("end", () => {
+   *       resolve(chunks.join(""));
+   *     });
+   *     readableStream.on("error", reject);
+   *   });
+   * }
+   * ```
+   *
+   * @example
+   * ```js
+   * // Download and convert a blob to a string (Browser only)
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
+   * console.log(
+   *   "Downloaded blob content",
+   *   downloaded
+   * );
+   *
+   * async function blobToString(blob: Blob): Promise<string> {
+   *   const fileReader = new FileReader();
+   *   return new Promise<string>((resolve, reject) => {
+   *     fileReader.onloadend = (ev: any) => {
+   *       resolve(ev.target!.result);
+   *     };
+   *     fileReader.onerror = reject;
+   *     fileReader.readAsText(blob);
+   *   });
+   * }
+   * ```
    */
   public async download(
     offset: number = 0,
@@ -1362,7 +1405,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Get a BlobLeaseClient that manages leases on the blob.
+   * Get a {@link BlobLeaseClient} that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
@@ -1923,7 +1966,7 @@ export class BlobClient extends StorageClient {
 }
 
 /**
- * Options to configure Append Blob - Create operation.
+ * Options to configure {@link AppendBlobClient.create} operation.
  *
  * @export
  * @interface AppendBlobCreateOptions
@@ -1969,7 +2012,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Append Blob - Append Block operation.
+ * Options to configure the {@link AppendBlobClient.appendBlock} operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -2027,7 +2070,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Append Blob - Append Block From URL operation.
+ * Options to configure the {@link AppendBlobClient.appendBlockFromURL} operation.
  *
  * @export
  * @interface AppendBlobAppendBlockFromURLOptions
@@ -2410,7 +2453,7 @@ export class AppendBlobClient extends BlobClient {
 }
 
 /**
- * Options to configure Block Blob - Upload operation.
+ * Options to configure {@link BlockBlobClient.upload} operation.
  *
  * @export
  * @interface BlockBlobUploadOptions
@@ -2470,7 +2513,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Stage Block operation.
+ * Options to configure {@link BlockBlobClient.stageBlock} operation.
  *
  * @export
  * @interface BlockBlobStageBlockOptions
@@ -2530,7 +2573,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Stage Block from URL operation.
+ * Options to configure {@link BlockBlobClient.stageBlockFromURL} operation.
  *
  * @export
  * @interface BlockBlobStageBlockFromURLOptions
@@ -2591,7 +2634,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Commit Block List operation.
+ * Options to configure {@link BlockBlobClient.commitBlockList} operation.
  *
  * @export
  * @interface BlockBlobCommitBlockListOptions
@@ -2644,7 +2687,7 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Get Block List operation.
+ * Options to configure {@link BlockBlobClient.getBlockList} operation.
  *
  * @export
  * @interface BlockBlobGetBlockListOptions
@@ -2669,7 +2712,7 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
 }
 
 /**
- * Option interface for uploadStream().
+ * Option interface for the {@link BlockBlobClient.uploadStream} operation.
  *
  * @export
  * @interface BlockBlobUploadStreamOptions
@@ -2717,7 +2760,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
 }
 /**
- * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
+ * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
  *
  * @export
  * @interface BlockBlobParallelUploadOptions
@@ -2793,7 +2836,8 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 }
 
 /**
- * Type for BlockBlobClient.uploadFile(), BlockBlobClient.uploadStream() and BlockBlobClient.uploadBrowserDate().
+ * Response type for {@link BlockBlobClient.uploadFile}, {@link BlockBlobClient.uploadStream}, and
+ * {@link BlockBlobClient.uploadBrowserDate}.
  *
  * @export
  */
@@ -2996,10 +3040,10 @@ export class BlockBlobClient extends BlobClient {
    * Updating an existing block blob overwrites any existing metadata on the blob.
    * Partial updates are not supported; the content of the existing blob is
    * overwritten with the new content. To perform a partial update of a block blob's,
-   * use stageBlock and commitBlockList.
+   * use {@link stageBlock} and {@link commitBlockList}.
    *
-   * This is a non-parallel uploading method, please use uploadFile(),
-   * uploadStream() or uploadBrowserData() for better performance
+   * This is a non-parallel uploading method, please use {@link uploadFile},
+   * {@link uploadStream} or {@link uploadBrowserData} for better performance
    * with concurrency uploading.
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
@@ -3011,6 +3055,12 @@ export class BlockBlobClient extends BlobClient {
    * @param {BlockBlobUploadOptions} [options] Options to the Block Blob Upload operation.
    * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!";
+   * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+   * ```
    */
   public async upload(
     body: HttpRequestBody,
@@ -3142,8 +3192,8 @@ export class BlockBlobClient extends BlobClient {
   /**
    * Writes a blob by specifying the list of block IDs that make up the blob.
    * In order to be written as part of a blob, a block must have been successfully written
-   * to the server in a prior stageBlock operation. You can call commitBlockList to update a blob
-   * by uploading only those blocks that have changed, then committing the new and existing
+   * to the server in a prior {@link stageBlock} operation. You can call {@link commitBlockList} to
+   * update a blob by uploading only those blocks that have changed, then committing the new and existing
    * blocks together. Any blocks not specified in the block list and permanently deleted.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
@@ -3241,8 +3291,8 @@ export class BlockBlobClient extends BlobClient {
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
-   * to commit the block list.
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
+   * {@link commitBlockList} to commit the block list.
    *
    * @export
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
@@ -3281,8 +3331,8 @@ export class BlockBlobClient extends BlobClient {
   /**
    * ONLY AVAILABLE IN BROWSERS.
    *
-   * Uploads a browser Blob object to block blob. Requires a blobFactory as the data source,
-   * which need to return a Blob object with the offset and size provided.
+   * Uploads a browser {@link Blob} object to block blob. Requires a blobFactory as the data source,
+   * which need to return a {@link Blob} object with the offset and size provided.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
@@ -3539,7 +3589,7 @@ export class BlockBlobClient extends BlobClient {
    * is the offset in the block blob to be uploaded.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
    * @export
@@ -3665,7 +3715,7 @@ export class BlockBlobClient extends BlobClient {
 }
 
 /**
- * Options to configure Page Blob - Create operation.
+ * Options to configure the {@link PageBlobClient.create} operation.
  *
  * @export
  * @interface PageBlobCreateOptions
@@ -3726,7 +3776,7 @@ export interface PageBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Upload Pages operation.
+ * Options to configure the {@link PageBlobClient.uploadPages} operation.
  *
  * @export
  * @interface PageBlobUploadPagesOptions
@@ -3784,7 +3834,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Clear Pages operation.
+ * Options to configure the {@link PageBlobClient.clearPages} operation.
  *
  * @export
  * @interface PageBlobClearPagesOptions
@@ -3815,7 +3865,7 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Get Page Ranges operation.
+ * Options to configure the {@link PageBlobClient.getPageRanges} operation.
  *
  * @export
  * @interface PageBlobGetPageRangesOptions
@@ -3839,7 +3889,7 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Get Ranges Diff operation.
+ * Options to configure the {@link PageBlobClient.getRangesDiff} operation.
  *
  * @export
  * @interface PageBlobGetPageRangesDiffOptions
@@ -3870,7 +3920,7 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Resize operation.
+ * Options to configure {@link PageBlobClient.resize} operation.
  *
  * @export
  * @interface PageBlobResizeOptions
@@ -3894,7 +3944,7 @@ export interface PageBlobResizeOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Update Sequence Number operation.
+ * Options to configure {@link PageBlobClient.updateSequenceNumber} operation.
  *
  * @export
  * @interface PageBlobUpdateSequenceNumberOptions
@@ -3918,7 +3968,7 @@ export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Start Copy Incremental operation.
+ * Options to configure {@link PageBlobClient.startCopyIncremental} operation.
  *
  * @export
  * @interface PageBlobStartCopyIncrementalOptions
@@ -3942,7 +3992,7 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Upload Pages From URL operation.
+ * Options to configure {@link PageBlobClient.uploadPagesFromURL} operation.
  *
  * @export
  * @interface PageBlobUploadPagesFromURLOptions

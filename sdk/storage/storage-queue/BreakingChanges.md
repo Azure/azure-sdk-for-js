@@ -1,6 +1,6 @@
 # Breaking Changes
 
-## 2019.11 12.0.0-preview.6
+## 2019.11 12.0.0
 
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
 renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862). 

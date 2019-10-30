@@ -55,7 +55,7 @@ export interface BatchSubRequest {
 
 /**
  * A BlobBatch represents an aggregated set of operations on blobs.
- * Currently, only delete and setAccessTier are supported.
+ * Currently, only `delete` and `setAccessTier` are supported.
  *
  * @export
  * @class BlobBatch
@@ -350,7 +350,7 @@ export class BlobBatch {
 
 /**
  * Inner batch request class which is responsible for assembling and serializing sub requests.
- * See https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how request get assembled.
+ * See https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how requests are assembled.
  */
 class InnerBatchRequest {
   private operationCount: number;

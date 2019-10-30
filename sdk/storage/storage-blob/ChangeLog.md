@@ -1,7 +1,8 @@
 # Changelog
 
-## 2019.11 12.0.0-preview.6
+## 2019.11 12.0.0
 
+- This release marks the general availability of the `@azure/storage-blob` package.
 - Bug Fix - Previous versions of `@azure/storage-blob` preview library failed for React apps because of the usage of `fs.stat` method which is not available in browsers and due to the presence of some circular dependencies. Both of these issues are fixed in this new release.
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
   renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
