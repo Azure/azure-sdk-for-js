@@ -236,3 +236,18 @@ directive:
     transform: >
       $.name = "fileHttpHeaders";
 ```
+
+### Add `sourceRange` attribute to the `FileUploadRangeFromURLOptionalParams` (missing in the unified swagger)
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range&fromURL"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      if (!$["x-ms-source-range"]) {
+        $["x-ms-source-range"] = {};
+        $["x-ms-source-range"]["x-ms-client-name"] = "SourceRange";
+        $["x-ms-source-range"].type = "string";
+        $["x-ms-source-range"].description = "Bytes of source data in the specified range.";
+      }
+```
