@@ -3,7 +3,7 @@ import {
   SecretProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
-  JsonWebKeyType as KeyOperation,
+  JsonWebKeyType as KeyType,
   JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
   KeyUsageType
@@ -76,7 +76,7 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: KeyOperation;
+  keyType?: KeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
