@@ -1,6 +1,6 @@
 # App Configuration client library for TypeScript/JavaScript
 
-[Azure App Configuration][appconfig_concepts] is a managed service that helps developers centralize their application and feature settings simply and securely.
+[Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
 Use the client library for App Configuration to:
 
@@ -30,7 +30,7 @@ npm install @azure/app-configuration
 
 ### 2. Create an App Configuration resource
 
-You can use the [Azure Portal][azure_portal] or the [Azure CLI][azure_cli] to create an Azure App Configuration resource.
+You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
 
 Example (Azure CLI):
 ```
@@ -165,17 +165,3 @@ folder for more details.
 - [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/appconfiguration/app-config/README.png)
-
-<!-- LINKS -->
-[appconfig_docs]: https://docs.microsoft.com/en-us/azure/azure-app-configuration/
-[appconfig_rest]: https://github.com/Azure/AppConfiguration#rest-api-reference
-[appconfig_concepts]: https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
-[package]: https://www.npmjs.com/package/@azure/app-configuration
-[nodejs]: https://nodejs.org/en/download/
-[azure_portal]: https://portal.azure.com
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples
-
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
-[style-guide-cloud]: https://worldready.cloudapp.net/Styleguide/Read?id=2696&topicid=25357
