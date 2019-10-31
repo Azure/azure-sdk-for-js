@@ -143,11 +143,6 @@ export interface EventHubProperties {
 }
 
 // @public
-export interface EventIteratorOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export class EventPosition {
     // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
     // 
