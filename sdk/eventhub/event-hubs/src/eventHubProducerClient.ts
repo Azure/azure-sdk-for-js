@@ -9,7 +9,7 @@ import {
   GetPartitionIdsOptions,
   GetPropertiesOptions,
   BatchOptions,
-  SendOptionsBase
+  SendBatchOptions
 } from "./eventHubClient";
 import { EventHubProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
@@ -177,7 +177,7 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
    * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
    */
-  async sendBatch(batch: EventDataBatch, options?: SendOptionsBase): Promise<void>;
+  async sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
   /**
    * Sends a batch of events to the associated Event Hub to a specific partition
    *
@@ -195,11 +195,11 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
    * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
    */
-  async sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptionsBase): Promise<void>;
+  async sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
   async sendBatch(
     batch1: EventDataBatch,
-    partitionIdOrOptions2: string | SendOptionsBase | undefined,
-    options3: SendOptionsBase | undefined = {}
+    partitionIdOrOptions2: string | SendBatchOptions | undefined,
+    options3: SendBatchOptions | undefined = {}
   ): Promise<void> {
     let partitionId = "";
     if (typeof partitionIdOrOptions2 === "string") {

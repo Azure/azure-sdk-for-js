@@ -125,8 +125,8 @@ export class EventHubProducerClient {
     readonly fullyQualifiedNamespace: string;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-    sendBatch(batch: EventDataBatch, options?: SendOptionsBase): Promise<void>;
-    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptionsBase): Promise<void>;
+    sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
 }
 
 // @public
@@ -327,15 +327,10 @@ export class ReceiveHandler {
 
 export { RetryOptions }
 
+// Warning: (ae-forgotten-export) The symbol "SendOptionsBase" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface SendOptions extends SendOptionsBase {
-    partitionKey?: string | null;
-}
-
-// @public
-export interface SendOptionsBase {
-    abortSignal?: AbortSignalLike;
-    parentSpan?: Span | SpanContext;
+export interface SendBatchOptions extends SendOptionsBase {
 }
 
 // @public

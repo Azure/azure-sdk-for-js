@@ -138,6 +138,8 @@ export interface SendOptionsBase {
  *     partitionKey: 'foo'
  * }
  * ```
+ * 
+ * @internal
  */
 export interface SendOptions extends SendOptionsBase {
   /**
@@ -147,6 +149,13 @@ export interface SendOptions extends SendOptionsBase {
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;  
+}
+
+/**
+ * The set of options to configure the `sendBatch` operation on the `EventHubProducerClient`.
+ * - `abortSignal`  : A signal used to cancel the send operation.
+  */
+export interface SendBatchOptions extends SendOptionsBase {  
 }
 
 /**
