@@ -21,11 +21,11 @@ import {
 import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
-import { EventProcessor, EventProcessorOptions } from '../src/eventProcessor';
+import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
-  const defaultOptions : EventProcessorOptions = {
+  const defaultOptions : FullEventProcessorOptions = {
     maxBatchSize: 1,
     maxWaitTimeInSeconds: 60
   };

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { EventProcessorOptions, CloseReason } from "./eventProcessor";
+import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -13,7 +13,7 @@ import { MessagingError } from "@azure/core-amqp";
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
-  private _processorOptions: EventProcessorOptions;
+  private _processorOptions: FullEventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
   private _initialEventPosition: EventPosition;
   private _isReceiving: boolean = false;
@@ -23,7 +23,7 @@ export class PartitionPump {
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
     initialEventPosition: EventPosition,
-    options: EventProcessorOptions
+    options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;

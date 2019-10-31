@@ -29,14 +29,10 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export {
   CloseReason,
   EventProcessorOptions,
-  EventProcessorCommonOptions,
   PartitionContext,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
-export {
-  PartitionLoadBalancer
-} from "./partitionLoadBalancer";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";

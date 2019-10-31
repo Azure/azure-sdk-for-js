@@ -165,16 +165,11 @@ export class EventPosition {
     }
 
 // @public
-export interface EventProcessorCommonOptions {
+export interface EventProcessorOptions {
     defaultEventPosition?: EventPosition;
     maxBatchSize: number;
     maxWaitTimeInSeconds: number;
     trackLastEnqueuedEventInfo?: boolean;
-}
-
-// @public
-export interface EventProcessorOptions extends EventProcessorCommonOptions {
-    partitionLoadBalancer?: PartitionLoadBalancer;
 }
 
 // @public
@@ -247,11 +242,6 @@ export interface PartitionContext {
     eventHubName: string;
     fullyQualifiedNamespace: string;
     partitionId: string;
-}
-
-// @public
-export interface PartitionLoadBalancer {
-    loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[];
 }
 
 // @public
@@ -340,7 +330,7 @@ export interface Subscription {
 }
 
 // @public
-export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorCommonOptions {
+export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorOptions {
 }
 
 export { TokenCredential }

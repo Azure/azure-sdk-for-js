@@ -135,7 +135,7 @@ export interface PartitionManager {
  * Common options for configuring `EventProcessor`, minus options that are only 
  * used internally (like `partitionLoadBalancer`)
  */
-export interface EventProcessorCommonOptions {
+export interface EventProcessorOptions {
   /**
    * The max size of the batch of events passed each time to user code for processing.
    */
@@ -181,8 +181,9 @@ export interface EventProcessorCommonOptions {
   *     maxWaitTimeInSeconds: 60
   * }
   * ```
+  * @internal
   */
-export interface EventProcessorOptions extends EventProcessorCommonOptions {
+export interface FullEventProcessorOptions extends EventProcessorOptions {
   /**
    * A load balancer to use
    */
@@ -223,7 +224,7 @@ export class EventProcessor {
   private _consumerGroupName: string;
   private _eventHubClient: EventHubClient;
   private _partitionProcessorClass: typeof PartitionProcessor;
-  private _processorOptions: EventProcessorOptions;
+  private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string = uuid();
   private _isRunning: boolean = false;
@@ -249,7 +250,7 @@ export class EventProcessor {
     eventHubClient: EventHubClient,
     PartitionProcessorClass: typeof PartitionProcessor,
     partitionManager: PartitionManager,
-    options: EventProcessorOptions
+    options: FullEventProcessorOptions
   ) {
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
