@@ -14,20 +14,20 @@
 */
 
 import {
-  EventHubClient,
+  EventHubConsumerClient,
   ReceivedEventData,
   delay,
-  EventProcessor,
-  InMemoryPartitionManager,
-  PartitionProcessor,
-  CloseReason
+  CloseReason,
+  PartitionContext,
+  PartitionCheckpointer,
+  InMemoryPartitionManager
 } from "@azure/event-hubs";
 
-// A Sample Partition Processor that keeps track of the number of events processed.
-class SamplePartitionProcessor extends PartitionProcessor {
+// A Sample event processor that keeps track of the number of events processed.
+class SampleEventProcessor {
   private _messageCount = 0;
 
-  async processEvents(events: ReceivedEventData[]) {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) {
     // events can be empty if no events were recevied in the last 60 seconds.
     // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
@@ -36,34 +36,34 @@ class SamplePartitionProcessor extends PartitionProcessor {
 
     for (const event of events) {
       console.log(
-        `Received event: '${event.body}' from partition: '${this.partitionId}' and consumer group: '${this.consumerGroupName}'`
+        `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
       );
       this._messageCount++;
     }
 
     // checkpoint using the last event in the batch
     const lastEvent = events[events.length - 1];
-    await this.updateCheckpoint(lastEvent).catch((err) => {
-      console.log(`Error when checkpointing on partition ${this.partitionId}: `, err);
+    await context.updateCheckpoint(lastEvent).catch((err) => {
+      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
     });
     console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${this.partitionId}'`
+      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${context.partitionId}'`
     );
   }
 
-  async processError(error: Error) {
+  async processError(error: Error, context: PartitionContext) {
     console.log(
-      `Encountered an error: ${error.message} when processing partition ${this.partitionId}`
+      `Encountered an error: ${error.message} when processing partition ${context.partitionId}`
     );
   }
 
-  async initialize() {
-    console.log(`Started processing partition: ${this.partitionId}`);
+  async initialize(partitionContext: PartitionContext) {
+    console.log(`Started processing partition: ${partitionContext.partitionId}`);
   }
 
-  async close(reason: CloseReason) {
+  async close(reason: CloseReason, partitionContext: PartitionContext & PartitionCheckpointer) {
     console.log(`Stopped processing for reason ${reason}`);
-    console.log(`Processed ${this._messageCount} from partition ${this.partitionId}.`);
+    console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
   }
 }
 
@@ -72,23 +72,28 @@ const connectionString = "";
 const eventHubName = "";
 
 async function main() {
-  const client = new EventHubClient(connectionString, eventHubName);
+  const client = new EventHubConsumerClient(connectionString, eventHubName);
+  const processor = new SampleEventProcessor();
 
-  const processor = new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    SamplePartitionProcessor,
-    new InMemoryPartitionManager(),
+  const partitionManager = new InMemoryPartitionManager();
+
+  const subscription = await client.subscribe(
+    EventHubConsumerClient.defaultConsumerGroupName,
+    (events, context) => processor.processEvents(events, context),
+    partitionManager,
     {
+      onInitialize: async (context) => { processor.initialize(context) },
+      onClose: async (closeReason, context) => { processor.close(closeReason, context) },
+      onError: async (error, context) => processor.processError(error, context),
       maxBatchSize: 10,
       maxWaitTimeInSeconds: 20
     }
   );
-  processor.start();
+
   // after 50 seconds, stop processing
   await delay(50000);
 
-  await processor.stop();
+  await subscription.close();
   await client.close();
 }
 
