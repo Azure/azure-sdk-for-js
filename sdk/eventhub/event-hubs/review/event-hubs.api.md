@@ -327,10 +327,10 @@ export class ReceiveHandler {
 
 export { RetryOptions }
 
-// Warning: (ae-forgotten-export) The symbol "SendOptionsBase" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export interface SendBatchOptions extends SendOptionsBase {
+export interface SendBatchOptions {
+    abortSignal?: AbortSignalLike;
+    parentSpan?: Span | SpanContext;
 }
 
 // @public

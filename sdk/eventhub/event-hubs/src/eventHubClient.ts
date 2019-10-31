@@ -114,7 +114,7 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
   */
-export interface SendOptionsBase {
+export interface SendBatchOptions {
 /**
    * @property
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -141,7 +141,7 @@ export interface SendOptionsBase {
  * 
  * @internal
  */
-export interface SendOptions extends SendOptionsBase {
+export interface SendOptions extends SendBatchOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
@@ -149,13 +149,6 @@ export interface SendOptions extends SendOptionsBase {
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;  
-}
-
-/**
- * The set of options to configure the `sendBatch` operation on the `EventHubProducerClient`.
- * - `abortSignal`  : A signal used to cancel the send operation.
-  */
-export interface SendBatchOptions extends SendOptionsBase {  
 }
 
 /**
