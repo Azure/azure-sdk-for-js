@@ -13,6 +13,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
+import { EventHubProducer } from '../src/sender';
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {

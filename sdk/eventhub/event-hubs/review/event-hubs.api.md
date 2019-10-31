@@ -115,16 +115,6 @@ export interface EventHubConsumerOptions {
 }
 
 // @public
-export class EventHubProducer {
-    // @internal
-    constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions);
-    close(): Promise<void>;
-    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
-    readonly isClosed: boolean;
-    send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
-    }
-
-// @public
 export class EventHubProducerClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
