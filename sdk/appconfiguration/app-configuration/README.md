@@ -10,7 +10,7 @@ Use the client library for App Configuration to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[API reference documentation](https://azure.github.io/azure-sdk-for-js/appconfiguration.html) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
@@ -20,17 +20,13 @@ Use the client library for App Configuration to:
 
 - Node.js version 8.x.x or higher
 
-### 1. Install the `@azure/app-configuration` package
+**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
 
-**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) to use this package. This package currently
-only supports NodeJS versions higher than 8.0.0.
+### 1. Install the `@azure/app-configuration` package
 
 ```bash
 npm install @azure/app-configuration
 ```
-
-**Note**: This package supports Node.js 8.x.x (or higher).
-
 
 ### 2. Create an App Configuration resource
 
@@ -40,8 +36,6 @@ Example (Azure CLI):
 ```
 az appconfig create --name <app-configuration-resource-name> --resource-group <resource-group-name> --location eastus
 ```
-
-**Prerequisites**: You must have an [Azure subscription][azure_sub] to create an App Configuration resource.
 
 ### 3. Create and authenticate an `AppConfigurationClient`
 

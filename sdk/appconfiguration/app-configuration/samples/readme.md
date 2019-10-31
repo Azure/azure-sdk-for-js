@@ -7,17 +7,19 @@ Use the client library for App Configuration to:
 * Tag keys with labels
 * Replay settings from any point in time
 
-[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | 
-[NPM](https://www.npmjs.com/package/@azure/app-configuration) | 
-[API Reference documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-app-configuration/1.0.0-preview.6/index.html#azure-app-configuration-client-library-for-js) | 
-[Product Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) | [Samples][samples]
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
+[API reference documentation](https://azure.github.io/azure-sdk-for-js/appconfiguration.html) |
+[Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
 
-**Prerequisites**: You must have the following to work with this package:
-* [Node.js](https://nodejs.org/en/download) 8.x.x (or higher)
-* An [Azure subscription][azure_sub]
-* An App Configuration resource
+### Currently supported environments
+
+- Node.js version 8.x.x or higher
+
+**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
 
 ### 1. Install the `@azure/app-configuration` package
 
