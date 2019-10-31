@@ -77,8 +77,8 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/identity": "^1.0.0",
-    "@azure/keyvault-keys": "4.0.0-preview.9",
-    "@azure/keyvault-secrets": "4.0.0-preview.9",
+    "@azure/keyvault-keys": "4.0.0",
+    "@azure/keyvault-secrets": "4.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
