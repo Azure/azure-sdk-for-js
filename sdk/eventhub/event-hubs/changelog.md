@@ -4,13 +4,13 @@
 
 #### Breaking changes
 
-`EventHubsClient` has been split into two separate clients: `EventHubsProducerClient` and `EventHubsConsumerClient`
+`EventHubsClient` has been split into two separate clients: `EventHubProducerClient` and `EventHubConsumerClient`
 
-The `EventHubsConsumerClient` provides several overloads for `subscribe` which all take event handlers rather than 
+The `EventHubConsumerClient` provides several overloads for `subscribe` which all take event handlers rather than 
 requiring an `EventProcessor`. There are no longer any methods that directly return `ReceivedEventData` - all 
 receiving is done via event handlers.
 
-The `EventHubsProducerClient` has standardized on only providing sending via `sendBatch`.
+The `EventHubProducerClient` has standardized on only providing sending via `sendBatch`.
 
 Construction of both objects is the same as it was for the previous client.
 

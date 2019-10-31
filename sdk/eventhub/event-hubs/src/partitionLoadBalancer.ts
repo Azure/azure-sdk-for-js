@@ -4,7 +4,18 @@
 import { PartitionOwnership } from "./eventProcessor";
 import * as log from "./log";
 
+/**
+ * Implements a load balancing algorithm for determining which consumers 
+ * own which partitions.
+ */
 export interface PartitionLoadBalancer {
+  /**
+   * Implements load balancing by taking into account current ownership and
+   * the new set of partitions to add.
+   * @param partitionOwnershipMap The current ownerships for partitions
+   * @param partitionsToAdd New partitions to assign owners to
+   * @returns Partition ids to claim
+   */
   loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]

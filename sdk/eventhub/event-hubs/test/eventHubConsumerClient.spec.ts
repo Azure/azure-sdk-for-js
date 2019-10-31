@@ -96,7 +96,7 @@ describe("EventHubConsumerClient", () => {
       const subscriber = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
-        ["0"],
+        "0",
         tester
       );
 
@@ -104,7 +104,7 @@ describe("EventHubConsumerClient", () => {
       await subscriber.close();
 
       hasLogMessage("Creating client with connection string and event hub name");
-      hasLogMessage("Subscribing to specific partitions (0), no coordination.");
+      hasLogMessage("Subscribing to specific partition (0), no coordination.");
       hasLogMessage("GreedyPartitionLoadBalancer created. Watching (0).");
     });
 

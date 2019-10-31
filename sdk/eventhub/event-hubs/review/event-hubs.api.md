@@ -103,7 +103,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionId: string, options?: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
 }
 
@@ -130,16 +130,13 @@ export class EventHubProducerClient {
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
     close(): Promise<void>;
-    // (undocumented)
     createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-    // (undocumented)
-    sendBatch(batch: EventDataBatch, options?: SendOptions): Promise<void>;
-    // (undocumented)
-    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptions): Promise<void>;
+    sendBatch(batch: EventDataBatch, options?: SendOptionsBase): Promise<void>;
+    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptionsBase): Promise<void>;
 }
 
 // @public
@@ -231,7 +228,7 @@ export type OnErrorHandler = (error: Error, context: PartitionContext) => Promis
 // @public
 export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
 
-// @public (undocumented)
+// @public
 export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
@@ -250,7 +247,7 @@ export interface ParentSpanOptions {
 export interface PartitionCheckpointer {
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-    // (undocumented)
+    // @internal (undocumented)
     updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
 }
 
@@ -262,9 +259,8 @@ export interface PartitionContext {
     partitionId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PartitionLoadBalancer {
-    // (undocumented)
     loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[];
 }
 
@@ -342,10 +338,14 @@ export class ReceiveHandler {
 export { RetryOptions }
 
 // @public
-export interface SendOptions {
+export interface SendOptions extends SendOptionsBase {
+    partitionKey?: string | null;
+}
+
+// @public
+export interface SendOptionsBase {
     abortSignal?: AbortSignalLike;
     parentSpan?: Span | SpanContext;
-    partitionKey?: string | null;
 }
 
 // @public
