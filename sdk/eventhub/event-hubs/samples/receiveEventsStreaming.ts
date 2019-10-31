@@ -2,7 +2,7 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the receive() function can be used to receive events in a stream.
+  This sample demonstrates how the subscribe() function can be used to receive events in a stream.
 
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
@@ -11,31 +11,36 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, OnMessage, OnError, delay, EventPosition } from "@azure/event-hubs";
+import { EventHubConsumerClient, delay, EventPosition, OnReceivedEvents, PartitionContext } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
 const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = new EventHubClient(connectionString, eventHubName);
+  const client = new EventHubConsumerClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   const consumerGroupName = "$Default";
-  const earliestEventPosition = EventPosition.earliest();
-  const consumer = client.createConsumer(consumerGroupName, partitionIds[0], earliestEventPosition);
 
-  const onMessageHandler: OnMessage = (brokeredMessage) => {
-    console.log(`Received event: ${brokeredMessage.body}`);
-  };
-  const onErrorHandler: OnError = (err) => {
-    console.log("Error occurred: ", err);
+  const onReceivedEventsHandler: OnReceivedEvents = async (events, context) => {
+    for (const message of events) {
+      console.log(`Received event: ${message.body}`);
+    }
   };
 
-  const rcvHandler = consumer.receive(onMessageHandler, onErrorHandler);
+  const subscription = client.subscribe(consumerGroupName, onReceivedEventsHandler,
+    // for simplicity we'll just target a single partition for our demo
+    [partitionIds[0]], {
+    onError: async (err: Error, partitionContext: PartitionContext) => {
+      console.log(`Error occurred in the subscription for ${partitionContext.partitionId}: ${err}`);
+    },
+    // if this subscription happens tob e the first
+    defaultEventPosition: EventPosition.earliest()
+  });
 
   // Waiting long enough before closing the consumer to receive event
   await delay(5000);
-  await rcvHandler.stop();
+  await subscription.close();
   await client.close();
 }
 
