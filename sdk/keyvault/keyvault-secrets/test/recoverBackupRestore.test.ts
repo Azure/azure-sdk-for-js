@@ -80,7 +80,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can recover a deleted a secret with requestOptions timeout", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -160,7 +161,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
   });
 
-  if (isNode && !isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout deleting a secret", async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

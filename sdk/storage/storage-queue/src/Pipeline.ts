@@ -22,14 +22,14 @@ import {
   logPolicy,
   ProxyOptions,
   KeepAliveOptions,
-  keepAlivePolicy,
+  UserAgentOptions,
   generateClientRequestIdPolicy,
-  UserAgentOptions
+  keepAlivePolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -148,7 +148,7 @@ export interface StoragePipelineOptions {
    * @type {RetryOptions}
    * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageRetryOptions;
 
   /**
    * Keep alive configurations. Default keep-alive is enabled.
@@ -170,9 +170,7 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
- *                                                  or a TokenCredential from @azure/identity. If not specified,
- *                                                  AnonymousCredential is used.
+ * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
  * @param {StoragePipelineOptions} [pipelineOptions] Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
@@ -189,9 +187,9 @@ export function newPipeline(
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
     generateClientRequestIdPolicy(),
-    new BrowserPolicyFactory(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageQueueLoggingAllowedHeaderNames,

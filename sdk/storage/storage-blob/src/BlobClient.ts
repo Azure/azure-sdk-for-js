@@ -46,7 +46,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DevelopmentConnectionString
+  DevelopmentConnectionString,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -117,7 +118,7 @@ import {
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
- * Options to configure Blob - Begin Copy from URL operation.
+ * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobBeginCopyFromURLOptions
@@ -152,7 +153,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
 }
 
 /**
- * Contains response data for the beginCopyFromURL operation.
+ * Contains response data for the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobBeginCopyFromURLResponse
@@ -160,7 +161,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
 export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
- * Options to configure Blob - Download operation.
+ * Options to configure the {@link BlobClient.download} operation.
  *
  * @export
  * @interface BlobDownloadOptions
@@ -211,6 +212,7 @@ export interface BlobDownloadOptions extends CommonOptions {
   /**
    * Call back to receive events on the progress of download operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -222,7 +224,7 @@ export interface BlobDownloadOptions extends CommonOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileClient.download() request will be made
+   * With this option, every additional retry means an additional `FileClient.download()` request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
@@ -241,7 +243,7 @@ export interface BlobDownloadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Exists operation.
+ * Options to configure the {@link BlobClient.exists} operation.
  *
  * @export
  * @interface BlobExistsOptions
@@ -252,20 +254,20 @@ export interface BlobExistsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlobGetPropertiesOptions
+   * @memberof BlobExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlobSetHTTPHeadersOptions
+   * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
- * Options to configure Blob - Get Properties operation.
+ * Options to configure the {@link BlobClient.getProperties} operation.
  *
  * @export
  * @interface BlobGetPropertiesOptions
@@ -296,7 +298,7 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Blob - Delete operation.
+ * Options to configure the {@link BlobClient.delete} operation.
  *
  * @export
  * @interface BlobDeleteOptions
@@ -336,7 +338,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure the {@link BlobClient.undelete} operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -360,7 +362,7 @@ export interface BlobUndeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Http Headers operation.
+ * Options to configure the {@link BlobClient.setHTTPHeaders} operation.
  *
  * @export
  * @interface BlobSetHTTPHeadersOptions
@@ -391,7 +393,7 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Metadata operation.
+ * Options to configure the {@link BlobClient.setMetadata} operation.
  *
  * @export
  * @interface BlobSetMetadataOptions
@@ -542,7 +544,7 @@ export interface BlobBreakLeaseOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Create Snapshot operation.
+ * Options to configure the {@link BlobClient.createSnapshot} operation.
  *
  * @export
  * @interface BlobCreateSnapshotOptions
@@ -580,7 +582,7 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Start Copy from URL operation.
+ * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  *
  * @export
  * @interface BlobStartCopyFromURLOptions
@@ -634,7 +636,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Abort Copy from URL operation.
+ * Options to configure the {@link BlobClient.abortCopyFromURL} operation.
  *
  * @export
  * @interface BlobAbortCopyFromURLOptions
@@ -659,7 +661,7 @@ export interface BlobAbortCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - synchronous Copy From URL operation.
+ * Options to configure the {@link BlobClient.syncCopyFromURL} operation.
  *
  * @export
  * @interface BlobSyncCopyFromURLOptions
@@ -697,7 +699,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Blob - Set Tier operation.
+ * Options to configure the {@link BlobClient.setAccessTier} operation.
  *
  * @export
  * @interface BlobSetTierOptions
@@ -730,7 +732,7 @@ export interface BlobSetTierOptions extends CommonOptions {
 }
 
 /**
- * Option interface for BlobClient.downloadToBuffer().
+ * Option interface for the {@link BlobClient.downloadToBuffer} operation.
  *
  * @export
  * @interface BlobDownloadToBufferOptions
@@ -769,13 +771,14 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Default value is 5, please set a larger value when in poor network.
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   maxRetryRequestsPerBlock?: number;
 
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlobDownloadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -816,10 +819,16 @@ export class BlobClient extends StorageClient {
   private _name: string;
   private _containerName: string;
 
+  /**
+   * The name of the blob.
+   */
   public get name(): string {
     return this._name;
   }
 
+  /**
+   * The name of the storage container the blob is associated with.
+   */
   public get containerName(): string {
     return this._containerName;
   }
@@ -854,9 +863,7 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
@@ -1035,6 +1042,49 @@ export class BlobClient extends StorageClient {
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
+   *
+   * @example
+   * ```js
+   * // Download and convert a blob to a string (Node.js only)
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+   * console.log("Downloaded blob content:", downloaded);
+   *
+   * async function streamToString(readableStream) {
+   *   return new Promise((resolve, reject) => {
+   *     const chunks = [];
+   *     readableStream.on("data", (data) => {
+   *       chunks.push(data.toString());
+   *     });
+   *     readableStream.on("end", () => {
+   *       resolve(chunks.join(""));
+   *     });
+   *     readableStream.on("error", reject);
+   *   });
+   * }
+   * ```
+   *
+   * @example
+   * ```js
+   * // Download and convert a blob to a string (Browser only)
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
+   * console.log(
+   *   "Downloaded blob content",
+   *   downloaded
+   * );
+   *
+   * async function blobToString(blob: Blob): Promise<string> {
+   *   const fileReader = new FileReader();
+   *   return new Promise<string>((resolve, reject) => {
+   *     fileReader.onloadend = (ev: any) => {
+   *       resolve(ev.target!.result);
+   *     };
+   *     fileReader.onerror = reject;
+   *     fileReader.readAsText(blob);
+   *   });
+   * }
+   * ```
    */
   public async download(
     offset: number = 0,
@@ -1355,7 +1405,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Get a BlobLeaseClient that manages leases on the blob.
+   * Get a {@link BlobLeaseClient} that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
@@ -1404,6 +1454,7 @@ export class BlobClient extends StorageClient {
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that attempting to cancel a completed copy will result in an error being thrown.
    *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
@@ -1915,7 +1966,7 @@ export class BlobClient extends StorageClient {
 }
 
 /**
- * Options to configure Append Blob - Create operation.
+ * Options to configure {@link AppendBlobClient.create} operation.
  *
  * @export
  * @interface AppendBlobCreateOptions
@@ -1961,7 +2012,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Optiosn to confgiure the Append Blob - Append Block operation.
+ * Options to configure the {@link AppendBlobClient.appendBlock} operation.
  *
  * @export
  * @interface AppendBlobAppendBlockOptions
@@ -1985,6 +2036,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of append block operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof AppendBlobAppendBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2017,6 +2069,12 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the {@link AppendBlobClient.appendBlockFromURL} operation.
+ *
+ * @export
+ * @interface AppendBlobAppendBlockFromURLOptions
+ */
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -2123,9 +2181,7 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
@@ -2397,7 +2453,7 @@ export class AppendBlobClient extends BlobClient {
 }
 
 /**
- * Options to configure Block Blob - Upload operation.
+ * Options to configure {@link BlockBlobClient.upload} operation.
  *
  * @export
  * @interface BlockBlobUploadOptions
@@ -2435,6 +2491,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of upload operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2456,7 +2513,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Stage Block operation.
+ * Options to configure {@link BlockBlobClient.stageBlock} operation.
  *
  * @export
  * @interface BlockBlobStageBlockOptions
@@ -2481,6 +2538,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * Callback to receive events on the progress of stage block operation.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobStageBlockOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2509,13 +2567,13 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
 }
 
 /**
- * Options to configure Block Blob - Stage Block from URL operation.
+ * Options to configure {@link BlockBlobClient.stageBlockFromURL} operation.
  *
  * @export
  * @interface BlockBlobStageBlockFromURLOptions
@@ -2576,7 +2634,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Commit Block List operation.
+ * Options to configure {@link BlockBlobClient.commitBlockList} operation.
  *
  * @export
  * @interface BlockBlobCommitBlockListOptions
@@ -2592,12 +2650,6 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when committing the block list.
-   *
-   * @type {BlobRequestConditions}
-   * @memberof BlockBlobCommitBlockListOptions
-   */
-  /**
-   * Conditions to meet when committing block list.
    *
    * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
@@ -2635,7 +2687,7 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Block Blob - Get Block List operation.
+ * Options to configure {@link BlockBlobClient.getBlockList} operation.
  *
  * @export
  * @interface BlockBlobGetBlockListOptions
@@ -2660,7 +2712,7 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
 }
 
 /**
- * Option interface for uploadStream().
+ * Option interface for the {@link BlockBlobClient.uploadStream} operation.
  *
  * @export
  * @interface BlockBlobUploadStreamOptions
@@ -2702,12 +2754,13 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 }
 /**
- * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
+ * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
  *
  * @export
  * @interface BlockBlobParallelUploadOptions
@@ -2744,6 +2797,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * Progress updater.
    *
+   * @type {(progress: TransferProgressEvent) => void}
    * @memberof BlockBlobParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -2782,7 +2836,8 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 }
 
 /**
- * Type for BlockBlobClient.uploadFile(), BlockBlobClient.uploadStream() and BlockBlobClient.uploadBrowserDate().
+ * Response type for {@link BlockBlobClient.uploadFile}, {@link BlockBlobClient.uploadStream}, and
+ * {@link BlockBlobClient.uploadBrowserDate}.
  *
  * @export
  */
@@ -2848,7 +2903,7 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
@@ -2985,10 +3040,10 @@ export class BlockBlobClient extends BlobClient {
    * Updating an existing block blob overwrites any existing metadata on the blob.
    * Partial updates are not supported; the content of the existing blob is
    * overwritten with the new content. To perform a partial update of a block blob's,
-   * use stageBlock and commitBlockList.
+   * use {@link stageBlock} and {@link commitBlockList}.
    *
-   * This is a non-parallel uploading method, please use uploadFile(),
-   * uploadStream() or uploadBrowserData() for better performance
+   * This is a non-parallel uploading method, please use {@link uploadFile},
+   * {@link uploadStream} or {@link uploadBrowserData} for better performance
    * with concurrency uploading.
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
@@ -3000,6 +3055,12 @@ export class BlockBlobClient extends BlobClient {
    * @param {BlockBlobUploadOptions} [options] Options to the Block Blob Upload operation.
    * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!";
+   * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+   * ```
    */
   public async upload(
     body: HttpRequestBody,
@@ -3131,8 +3192,8 @@ export class BlockBlobClient extends BlobClient {
   /**
    * Writes a blob by specifying the list of block IDs that make up the blob.
    * In order to be written as part of a blob, a block must have been successfully written
-   * to the server in a prior stageBlock operation. You can call commitBlockList to update a blob
-   * by uploading only those blocks that have changed, then committing the new and existing
+   * to the server in a prior {@link stageBlock} operation. You can call {@link commitBlockList} to
+   * update a blob by uploading only those blocks that have changed, then committing the new and existing
    * blocks together. Any blocks not specified in the block list and permanently deleted.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
@@ -3230,13 +3291,14 @@ export class BlockBlobClient extends BlobClient {
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
-   * to commit the block list.
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
+   * {@link commitBlockList} to commit the block list.
    *
    * @export
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
    * @param {BlockBlobParallelUploadOptions} [options] Options to upload browser data.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
@@ -3269,8 +3331,8 @@ export class BlockBlobClient extends BlobClient {
   /**
    * ONLY AVAILABLE IN BROWSERS.
    *
-   * Uploads a browser Blob object to block blob. Requires a blobFactory as the data source,
-   * which need to return a Blob object with the offset and size provided.
+   * Uploads a browser {@link Blob} object to block blob. Requires a blobFactory as the data source,
+   * which need to return a {@link Blob} object with the offset and size provided.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
@@ -3280,6 +3342,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size size of the data to upload.
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
@@ -3404,6 +3467,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {string} filePath Full path of local file
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadFile(
     filePath: string,
@@ -3443,17 +3507,17 @@ export class BlockBlobClient extends BlobClient {
    *    parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream
-   * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
-   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
-   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
-   *                            with max uploading concurrency
+   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
+   * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
+   *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   public async uploadStream(
     stream: Readable,
-    bufferSize: number,
-    maxBuffers: number,
+    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+    maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blobHTTPHeaders) {
@@ -3477,7 +3541,7 @@ export class BlockBlobClient extends BlobClient {
       const scheduler = new BufferScheduler(
         stream,
         bufferSize,
-        maxBuffers,
+        maxConcurrency,
         async (buffer: Buffer) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
@@ -3494,11 +3558,11 @@ export class BlockBlobClient extends BlobClient {
             options.onProgress({ loadedBytes: transferProgress });
           }
         },
-        // concurrency should set a smaller value than maxBuffers, which is helpful to
+        // concurrency should set a smaller value than maxConcurrency, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
-        Math.ceil((maxBuffers / 4) * 3)
+        Math.ceil((maxConcurrency / 4) * 3)
       );
       await scheduler.do();
 
@@ -3525,7 +3589,7 @@ export class BlockBlobClient extends BlobClient {
    * is the offset in the block blob to be uploaded.
    *
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
    * @export
@@ -3534,6 +3598,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} size Size of the block blob
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @memberof BlockBlobClient
    */
   private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
@@ -3650,7 +3715,7 @@ export class BlockBlobClient extends BlobClient {
 }
 
 /**
- * Options to configure Page Blob - Create operation.
+ * Options to configure the {@link PageBlobClient.create} operation.
  *
  * @export
  * @interface PageBlobCreateOptions
@@ -3711,7 +3776,7 @@ export interface PageBlobCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Upload Pages operation.
+ * Options to configure the {@link PageBlobClient.uploadPages} operation.
  *
  * @export
  * @interface PageBlobUploadPagesOptions
@@ -3769,7 +3834,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Clear Pages operation.
+ * Options to configure the {@link PageBlobClient.clearPages} operation.
  *
  * @export
  * @interface PageBlobClearPagesOptions
@@ -3800,7 +3865,7 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Get Page Ranges operation.
+ * Options to configure the {@link PageBlobClient.getPageRanges} operation.
  *
  * @export
  * @interface PageBlobGetPageRangesOptions
@@ -3824,7 +3889,7 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Get Ranges Diff operation.
+ * Options to configure the {@link PageBlobClient.getRangesDiff} operation.
  *
  * @export
  * @interface PageBlobGetPageRangesDiffOptions
@@ -3855,7 +3920,7 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Resize operation.
+ * Options to configure {@link PageBlobClient.resize} operation.
  *
  * @export
  * @interface PageBlobResizeOptions
@@ -3879,7 +3944,7 @@ export interface PageBlobResizeOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Update Sequence Number operation.
+ * Options to configure {@link PageBlobClient.updateSequenceNumber} operation.
  *
  * @export
  * @interface PageBlobUpdateSequenceNumberOptions
@@ -3903,7 +3968,7 @@ export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Page Blob - Start Copy Incremental operation.
+ * Options to configure {@link PageBlobClient.startCopyIncremental} operation.
  *
  * @export
  * @interface PageBlobStartCopyIncrementalOptions
@@ -3926,6 +3991,12 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   conditions?: ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure {@link PageBlobClient.uploadPagesFromURL} operation.
+ *
+ * @export
+ * @interface PageBlobUploadPagesFromURLOptions
+ */
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -4027,8 +4098,7 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, StorageSharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */

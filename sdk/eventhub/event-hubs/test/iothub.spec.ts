@@ -7,7 +7,8 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
-import { EventHubClient, EventPosition } from "../src";
+import { EventPosition } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 

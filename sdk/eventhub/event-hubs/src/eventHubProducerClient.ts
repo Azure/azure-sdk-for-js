@@ -114,25 +114,25 @@ export class EventHubProducerClient {
     options?: EventHubClientOptions
   );
   constructor(
-    hostOrConnectionString: string,
-    eventHubNameOrOptions?: string | EventHubClientOptions,
-    credentialOrOptions?: TokenCredential | EventHubClientOptions,
-    options?: EventHubClientOptions
+    hostOrConnectionString1: string,
+    eventHubNameOrOptions2?: string | EventHubClientOptions,
+    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    options4?: EventHubClientOptions
   ) {
-    if (typeof eventHubNameOrOptions !== "string") {
-      this._client = new EventHubClient(hostOrConnectionString, eventHubNameOrOptions);
-    } else if (!isTokenCredential(credentialOrOptions)) {
+    if (typeof eventHubNameOrOptions2 !== "string") {
+      this._client = new EventHubClient(hostOrConnectionString1, eventHubNameOrOptions2);
+    } else if (!isTokenCredential(credentialOrOptions3)) {
       this._client = new EventHubClient(
-        hostOrConnectionString,
-        eventHubNameOrOptions,
-        credentialOrOptions
+        hostOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3
       );
     } else {
       this._client = new EventHubClient(
-        hostOrConnectionString,
-        eventHubNameOrOptions,
-        credentialOrOptions,
-        options
+        hostOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3,
+        options4
       );
     }
 
@@ -151,25 +151,25 @@ export class EventHubProducerClient {
     return producer.createBatch(options);
   }
 
-  async sendBatch(batch: EventDataBatch, options: SendOptions): Promise<void>;
-  async sendBatch(batch: EventDataBatch, partitionId: string, options: SendOptions): Promise<void>;
+  async sendBatch(batch: EventDataBatch, options?: SendOptions): Promise<void>;
+  async sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptions): Promise<void>;
   async sendBatch(
-    batch: EventDataBatch,
-    partitionIdOrOptions: string | SendOptions,
-    options: SendOptions = {}
+    batch1: EventDataBatch,
+    partitionIdOrOptions2: string | SendOptions | undefined,
+    options3: SendOptions | undefined = {}
   ): Promise<void> {
     let partitionId = "";
-    if (typeof partitionIdOrOptions === "string") {
-      partitionId = partitionIdOrOptions;
+    if (typeof partitionIdOrOptions2 === "string") {
+      partitionId = partitionIdOrOptions2;
     } else {
-      options = partitionIdOrOptions;
+      options3 = partitionIdOrOptions2;
     }
     let producer = this._producersMap.get(partitionId);
     if (!producer) {
       producer = this._client.createProducer({ partitionId });
       this._producersMap.set(partitionId, producer);
     }
-    return producer.send(batch, options);
+    return producer.send(batch1, options3);
   }
 
   /**

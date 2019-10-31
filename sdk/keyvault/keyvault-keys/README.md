@@ -1,4 +1,4 @@
-# Azure Key Vault Keys client library for JS
+# Azure Key Vault Key client library for JS
 
 Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
@@ -31,9 +31,7 @@ Using the cryptography client available in this library you also have access to
 - Wrapping keys
 - Unwrapping keys
 
-**Please Note:** This is a preview version of the Key Vault Keys library
-
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 
 ## Getting started
 
@@ -47,7 +45,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 ### Install the package
 
-Install the Azure Key Vault Keys client library using npm
+Install the Azure Key Vault Key client library using npm
 
 `npm install @azure/keyvault-keys`
 
@@ -109,7 +107,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **Keys client** is the primary interface to interact with the API methods
+- The **Key client** is the primary interface to interact with the API methods
   related to keys in the Azure Key Vault API from a JavaScript application.
   Once initialized, it provides a basic set of methods that can be used to
   create, read, update and delete keys.
@@ -130,16 +128,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   already created in the Key Vault. More about this client in the
   [Cryptography](#cryptography) section.
 
-## Authenticating the client
+## Authenticating with Azure Active Directory
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeyClient, which will connect to the key vault.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+
+Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 ```
 
-Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
+Once these are imported, we can next connect to the Key Vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -393,7 +393,7 @@ async function main() {
 
   // You can use the deleted key immediately:
   let deletedKey = poller.getDeletedKey();
-  
+
   await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
   console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
 

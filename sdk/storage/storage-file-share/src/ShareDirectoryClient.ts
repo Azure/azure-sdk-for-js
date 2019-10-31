@@ -324,7 +324,7 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareDirectoryClient
@@ -1006,7 +1006,7 @@ export class ShareDirectoryClient extends StorageClient {
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
-   *   iter = await dirClient.listHandles();
+   *   let iter = await dirClient.listHandles();
    *   let handleItem = await iter.next();
    *   while (!handleItem.done) {
    *     console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
@@ -1032,8 +1032,8 @@ export class ShareDirectoryClient extends StorageClient {
    * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
-   *   iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
-   *   response = await iterator.next();
+   *   let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
+   *   let response = await iterator.next();
    *   // Prints 2 handles
    *   if (response.value.handleList) {
    *     for (const handle of response.value.handleList) {

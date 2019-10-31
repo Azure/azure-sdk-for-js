@@ -375,7 +375,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient

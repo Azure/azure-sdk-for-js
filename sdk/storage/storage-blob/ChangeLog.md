@@ -1,8 +1,18 @@
 # Changelog
 
-## 2019.11 12.0.0-preview.6
+## 2019.11 12.0.0
 
-- Bug Fix - Previous versions of `@azure/storage-blob` preview library failed for React apps because of the usage of `fs.stat` method which is not available in browsers and due to the presence of some circular dependencies.  Both of these issues are fixed in this new release.
+- This release marks the general availability of the `@azure/storage-blob` package.
+- Bug Fix - Previous versions of `@azure/storage-blob` preview library failed for React apps because of the usage of `fs.stat` method which is not available in browsers and due to the presence of some circular dependencies. Both of these issues are fixed in this new release.
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
+  Below are the entities that now have the Storage prefix
+  - BrowserPolicy
+  - BrowserPolicyFactory
+  - RetryPolicy
+  - RetryPolicyType
+  - RetryOptions
+  - RetryPolicyFactory
 - [Breaking] `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
 - [Breaking] The properties in the `StoragePipelineOptions` interface have been updated as below:
   - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
@@ -20,6 +30,7 @@
   - Added default values for parameters, bufferSize = `8MB` and maxConcurrency = `5`
 - [Breaking] Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
 - `BlobClient.downloadToBuffer()` helper method has a new overload where it is not required to pass the `Buffer`. Attributes `offset` and `count` are optional, downloads the entire blob if they are not provided.
+- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## 2019.10 12.0.0-preview.5
 

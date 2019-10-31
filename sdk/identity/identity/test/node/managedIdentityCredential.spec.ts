@@ -187,7 +187,7 @@ describe("ManagedIdentityCredential", function() {
       ? new ManagedIdentityCredential(clientId, { ...mockHttpClient.tokenCredentialOptions })
       : new ManagedIdentityCredential({ ...mockHttpClient.tokenCredentialOptions });
 
-    const token = await credential.getToken(scopes, { timeout });
+    const token = await credential.getToken(scopes, { requestOptions: { timeout } });
     return {
       token,
       requests: mockHttpClient.requests

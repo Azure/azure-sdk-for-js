@@ -698,7 +698,7 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareFileClient

@@ -15,7 +15,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyInfo",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -23,7 +23,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -57,7 +57,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedStart: {
+      signedStartsOn: {
         xmlName: "SignedStart",
         required: true,
         serializedName: "SignedStart",
@@ -65,7 +65,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedExpiry: {
+      signedExpiresOn: {
         xmlName: "SignedExpiry",
         required: true,
         serializedName: "SignedExpiry",
@@ -166,7 +166,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -174,7 +174,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -576,13 +576,6 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
         serializedName: "MaxResults",
         type: {
           name: "Number"
-        }
-      },
-      delimiter: {
-        xmlName: "Delimiter",
-        serializedName: "Delimiter",
-        type: {
-          name: "String"
         }
       },
       segment: {
@@ -1981,12 +1974,6 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceSubmitBatchHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       contentType: {
         serializedName: "content-type",
         type: {
@@ -2001,6 +1988,12 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -5747,6 +5740,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-encryption-key-sha256",
         type: {
           name: "String"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {

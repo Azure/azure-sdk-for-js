@@ -206,7 +206,7 @@ export class ShareServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareServiceClient

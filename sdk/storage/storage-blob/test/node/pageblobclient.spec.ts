@@ -135,7 +135,7 @@ describe("PageBlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")
@@ -256,7 +256,7 @@ describe("PageBlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")
