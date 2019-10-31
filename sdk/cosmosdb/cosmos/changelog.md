@@ -1,7 +1,5 @@
 ## 3.4.0
 
-### Features
-
 - FEATURE: GROUP BY query support (#5749)
 - Update proxy-agent. Remove types folder (#5854)
 - Typo: Fix "an" vs "a" (#5812)
