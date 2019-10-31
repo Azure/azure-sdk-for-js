@@ -5,7 +5,6 @@ import {
   RequestOptionsBase,
   PipelineOptions,
   createPipelineFromOptions,
-  ServiceClientOptions as Pipeline
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
@@ -204,15 +203,6 @@ export class CertificateClient {
    */
   public readonly vaultUrl: string;
 
-  /**
-   * The options to create the connection to the service
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
@@ -229,7 +219,6 @@ export class CertificateClient {
     pipelineOptions: PipelineOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
-    this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
@@ -262,8 +251,8 @@ export class CertificateClient {
       }
     };
 
-    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
   }
 
   private async *listCertificatesPage(

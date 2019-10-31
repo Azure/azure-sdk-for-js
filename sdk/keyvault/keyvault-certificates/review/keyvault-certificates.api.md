@@ -8,7 +8,6 @@ import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -19,7 +18,6 @@ export class CertificateClient {
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
-    protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
@@ -38,7 +36,6 @@ export class CertificateClient {
     listCertificateVersions(name: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
-    readonly pipeline: ServiceClientOptions;
     purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null>;
     recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate>;
     restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
