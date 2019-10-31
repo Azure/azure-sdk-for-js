@@ -51,5 +51,5 @@ export const SubStatusCodes = {
 
   // 403: Forbidden Substatus
   WriteForbidden: 3 as 3,
-  DoesNDatabaseAccountNotFound: 1008 as 1008
+  DatabaseAccountNotFound: 1008 as 1008
 };

@@ -95,9 +95,9 @@ export async function execute({
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
     if (
-      err.code === "ENOTFOUND" ||
-      (err.code === StatusCodes.Forbidden &&
-        err.substatus === SubStatusCodes.DoesNDatabaseAccountNotFound)
+      err.code === StatusCodes.Forbidden &&
+      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+        err.substatus === SubStatusCodes.WriteForbidden)
     ) {
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {

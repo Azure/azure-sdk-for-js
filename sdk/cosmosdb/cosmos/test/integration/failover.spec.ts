@@ -1,20 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Container } from "../../dist-esm/client";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
 import { masterKey, endpoint } from "../common/_testConfig";
 import assert from "assert";
-
-const generateDocuments = function(docSize: number) {
-  const docs = [];
-  for (let i = 0; i < docSize; i++) {
-    docs.push({ id: i.toString() });
-  }
-  return docs;
-};
-
-const documentDefinitions = generateDocuments(1);
 
 const databaseAccountResponse = {
   headers: {
@@ -127,35 +115,29 @@ const readResponse = {
   code: 200
 };
 
-const dnsErrorResponse = {
-  code: "ENOTFOUND" as any,
-  headers: {}
-};
-
 const DatabaseAccountNotFoundResponse = {
   code: 403,
   substatus: 1008,
   headers: {}
 };
 
-describe("Region Failover", () => {
-  let container: Container;
+const WriteForbiddenResponse = {
+  code: 403,
+  substatus: 3,
+  headers: {}
+};
+
+describe.only("Region Failover", () => {
   let responses: any[];
 
-  before(async function() {
-    await removeAllDatabases();
-    container = await getTestContainer("Regional Failover");
-    await bulkInsertItems(container, documentDefinitions);
-  });
-
-  it("on ENOTFOUND / DNS", async () => {
+  it("region write no longer allowed", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     responses = [
       databaseAccountResponse,
       collectionResponse,
       readResponse,
-      dnsErrorResponse,
+      WriteForbiddenResponse,
       databaseAccountResponse,
       readResponse
     ];
@@ -164,11 +146,10 @@ describe("Region Failover", () => {
       {
         on: PluginOn.request,
         plugin: async (context, next) => {
-          console.log(requestIndex);
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
-          if (response.code > 500 || response.code === "ENOTFOUND") {
+          if (response.code > 400) {
             throw response;
           }
           return response;
@@ -179,19 +160,17 @@ describe("Region Failover", () => {
       ...options,
       plugins
     } as any);
-    const containerRef = client.database(container.database.id).container(container.id);
-    const { resource } = await containerRef.item(documentDefinitions[0].id, undefined).read();
+    const containerRef = client.database("any").container("any");
+    const { resource } = await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest-eastus.documents.azure.com:443/");
-    const { resource: resource2 } = await containerRef
-      .item(documentDefinitions[0].id, undefined)
-      .read();
+    const { resource: resource2 } = await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
     );
   });
 
-  it("on 403 response", async () => {
+  it("on database not found, region dropped", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     responses = [
@@ -207,11 +186,10 @@ describe("Region Failover", () => {
       {
         on: PluginOn.request,
         plugin: async (context, next) => {
-          console.log(requestIndex);
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
-          if (response.code > 400 || response.code === "ENOTFOUND") {
+          if (response.code > 400) {
             throw response;
           }
           return response;
@@ -222,12 +200,10 @@ describe("Region Failover", () => {
       ...options,
       plugins
     } as any);
-    const containerRef = client.database(container.database.id).container(container.id);
-    const { resource } = await containerRef.item(documentDefinitions[0].id, undefined).read();
+    const containerRef = client.database("any").container("any");
+    const { resource } = await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest-eastus.documents.azure.com:443/");
-    const { resource: resource2 } = await containerRef
-      .item(documentDefinitions[0].id, undefined)
-      .read();
+    const { resource: resource2 } = await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
