@@ -365,7 +365,7 @@ const client = new SecretClient(url, credential);
 const secretName = "MySecretName";
 
 async function main() {
-  const poller = await client.beginDeleteSecret(certificateName, certificatePolicy);
+  const poller = await client.beginDeleteSecret(secretName);
 
   // You can use the deleted secret immediately:
   let deletedSecret = poller.getResult();
