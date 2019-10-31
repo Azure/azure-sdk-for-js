@@ -303,18 +303,6 @@ export interface ReceivedEventData {
     };
 }
 
-// @public
-export class ReceiveHandler {
-    // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
-    // 
-    // @internal
-    constructor(receiver: EventHubReceiver);
-    readonly consumerGroup: string | undefined;
-    readonly isReceiverOpen: boolean;
-    readonly partitionId: string | undefined;
-    stop(): Promise<void>;
-}
-
 export { RetryOptions }
 
 // @public
