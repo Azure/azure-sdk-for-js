@@ -276,12 +276,11 @@ export interface SignedIdentifier {
 }
 
 /**
- * Permission(a security descriptor) described in the Security Descriptor Definition
- * Language(SDDL).
+ * A permission (a security descriptor) at the share level.
  */
-export interface Permission {
+export interface SharePermission {
   /**
-   * Permission(a security descriptor) described in the SDDL.
+   * The permission in the Security Descriptor Definition Language (SDDL).
    */
   permission: string;
 }
@@ -938,6 +937,10 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Bytes of source data in the specified range.
+   */
+  sourceRange?: string;
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
@@ -2468,11 +2471,14 @@ export interface FileForceCloseHandlesHeaders {
  * 'DirectoryNotEmpty', 'FileLockConflict', 'InvalidFileOrDirectoryPathName', 'ParentNotFound',
  * 'ReadOnlyAttribute', 'ShareAlreadyExists', 'ShareBeingDeleted', 'ShareDisabled',
  * 'ShareNotFound', 'SharingViolation', 'ShareSnapshotInProgress', 'ShareSnapshotCountExceeded',
- * 'ShareSnapshotOperationNotSupported', 'ShareHasSnapshots', 'ContainerQuotaDowngradeNotAllowed'
+ * 'ShareSnapshotOperationNotSupported', 'ShareHasSnapshots', 'ContainerQuotaDowngradeNotAllowed',
+ * 'AuthorizationSourceIPMismatch', 'AuthorizationProtocolMismatch',
+ * 'AuthorizationPermissionMismatch', 'AuthorizationServiceMismatch',
+ * 'AuthorizationResourceTypeMismatch', 'FeatureVersionMismatch'
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch' | 'FeatureVersionMismatch';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -2657,7 +2663,7 @@ export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
 /**
  * Contains response data for the getPermission operation.
  */
-export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
+export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -2675,7 +2681,7 @@ export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Permission;
+      parsedBody: SharePermission;
     };
 };
 

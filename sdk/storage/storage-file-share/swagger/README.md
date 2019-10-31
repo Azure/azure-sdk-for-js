@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./file-storage-2019-02-02.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2019-02-02/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -198,13 +198,15 @@ directive:
 ```
 
 ### Rename eTag -> etag
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..responses..headers["ETag"]
-  transform: >
-    $["x-ms-client-name"] = "etag";
+  - from: swagger-document
+    where: $["x-ms-paths"]..responses..headers["ETag"]
+    transform: >
+      $["x-ms-client-name"] = "etag";
 ```
+
 ### Rename fileHTTPHeaders -> fileHttpHeaders
 
 ```yaml

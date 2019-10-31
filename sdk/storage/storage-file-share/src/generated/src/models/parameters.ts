@@ -339,7 +339,7 @@ export const fileCreatedOn: coreHttp.OperationParameter = {
     required: true,
     serializedName: "x-ms-file-creation-time",
     type: {
-      name: "String"
+      name: "DateTimeRfc1123"
     }
   }
 };
@@ -349,7 +349,7 @@ export const fileLastWriteOn: coreHttp.OperationParameter = {
     required: true,
     serializedName: "x-ms-file-last-write-time",
     type: {
-      name: "String"
+      name: "DateTimeRfc1123"
     }
   }
 };
@@ -663,9 +663,11 @@ export const sourceIfNoneMatchCrc64: coreHttp.OperationParameter = {
   }
 };
 export const sourceRange: coreHttp.OperationParameter = {
-  parameterPath: "sourceRange",
+  parameterPath: [
+    "options",
+    "sourceRange"
+  ],
   mapper: {
-    required: true,
     serializedName: "x-ms-source-range",
     type: {
       name: "String"
