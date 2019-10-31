@@ -15,7 +15,7 @@ import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
-import { SubscriptionOptions, Subscription } from "./eventHubConsumerClientModels";
+import { SubscriptionOptions, Subscription, OptionalEventHandlers } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 
@@ -309,7 +309,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        { ...defaultConsumerClientOptions, ...possibleOptions4 }
+        possibleOptions4
       );
 
       eventProcessor = new EventProcessor(
@@ -333,7 +333,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        { ...defaultConsumerClientOptions, ...possibleOptions4 }
+        possibleOptions4
       );
 
       eventProcessor = new EventProcessor(
@@ -352,7 +352,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        optionsOrPartitionIdOrPartitionManager3 as SubscriptionOptions
+        optionsOrPartitionIdOrPartitionManager3
       );
 
       eventProcessor = new EventProcessor(
@@ -382,7 +382,7 @@ export class EventHubConsumerClient {
 export function createPartitionProcessorType(
   onReceivedEvents: OnReceivedEvents,
   partitionManager: PartitionManager,
-  options: SubscriptionOptions
+  options: OptionalEventHandlers = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
     private _partitionCheckpointer?: SimplePartitionCheckpointer;
