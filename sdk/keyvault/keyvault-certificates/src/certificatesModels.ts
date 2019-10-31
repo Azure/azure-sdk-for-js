@@ -1,5 +1,4 @@
 import * as coreHttp from "@azure/core-http";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   SecretProperties,
   CertificateAttributes,
@@ -126,6 +125,10 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
   validityInMonths?: number;
 }
 
+/**
+ * @interface
+ * An interface representing the alternative names of the subject of a certificate contact.
+ */
 export interface SubjectAlternativeNames {
   /**
    * The subject type, either emails, DNS names or UPNs
@@ -141,7 +144,19 @@ export interface SubjectAlternativeNames {
  * @interface
  * An interface representing the properties of a certificate
  */
-export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
+export interface CertificateProperties {
+  /**
+   * @member {string} [vaultUrl] The vault URI.
+   */
+  vaultUrl: string;
+  /**
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
   /**
    * The certificate id.
    */
@@ -217,6 +232,10 @@ export interface CreateCertificateOptions extends KeyVaultClientCreateCertificat
   requestOptions?: coreHttp.RequestOptionsBase;
 }
 
+/**
+ * @interface
+ * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
+ */
 export type CertificateTags = { [propertyName: string]: string };
 
 /**
