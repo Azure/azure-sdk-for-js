@@ -14,6 +14,7 @@ import {
 
 import * as Constants from "./constants";
 import * as log from "../log";
+import { Buffer } from "buffer";
 
 /**
  * @ignore
