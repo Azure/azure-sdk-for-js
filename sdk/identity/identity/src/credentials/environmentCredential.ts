@@ -86,11 +86,11 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        return this._credential.getToken(scopes, newOptions);
+        return await this._credential.getToken(scopes, newOptions);
       } catch (err) {
         const code =
           err.name === AuthenticationErrorName
