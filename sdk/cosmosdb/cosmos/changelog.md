@@ -30,8 +30,6 @@
 - Fix aggregates bug when query was returning no results (#5184)
 - sideEffects field set to false (#5022)
 
-## Previous Repo
-
 ## 3.2.0
 
 - FEATURE: Endpoint resolution now blocks until initialized (#409)
