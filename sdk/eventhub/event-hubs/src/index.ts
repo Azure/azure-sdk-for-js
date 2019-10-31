@@ -25,6 +25,7 @@ export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
+export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
   EventProcessorOptions,
@@ -33,7 +34,6 @@ export {
   PartitionOwnership
 } from "./eventProcessor";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 export {
   MessagingError,

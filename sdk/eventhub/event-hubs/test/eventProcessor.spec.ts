@@ -12,16 +12,15 @@ import {
   delay,
   InMemoryPartitionManager,
   PartitionOwnership,
-  Checkpoint,
   CloseReason,
   ReceivedEventData,
-  PartitionProcessor,
   LastEnqueuedEventInfo
 } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';
+import { PartitionProcessor, Checkpoint } from '../src/partitionProcessor';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {

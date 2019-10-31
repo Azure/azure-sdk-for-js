@@ -262,23 +262,6 @@ export interface PartitionOwnership extends PartitionContext {
 }
 
 // @public
-export class PartitionProcessor {
-    close(reason: CloseReason): Promise<void>;
-    consumerGroupName: string;
-    eventHubName: string;
-    eventProcessorId: string;
-    fullyQualifiedNamespace: string;
-    initialize(): Promise<void>;
-    lastEnqueuedEventInfo: LastEnqueuedEventInfo;
-    partitionId: string;
-    partitionManager: PartitionManager;
-    processError(error: Error): Promise<void>;
-    processEvents(events: ReceivedEventData[]): Promise<void>;
-    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-}
-
-// @public
 export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubName: string;
