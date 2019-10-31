@@ -82,3 +82,8 @@ export const semaphore = debugModule("azure:service-bus:semaphore");
  * log statements for sessionManager
  */
 export const sessionManager = debugModule("azure:service-bus:sessionManager");
+/**
+ * @internal
+ * log statements for Atom XML management API over HTTP
+ */
+export const httpAtomXml = debugModule("azure:service-bus:atom-xml");
