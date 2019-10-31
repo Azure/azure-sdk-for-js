@@ -1220,10 +1220,10 @@ export class ShareFileClient extends StorageClient {
       return this.context.uploadRangeFromURL(
         rangeToString({ offset: destOffset, count }),
         sourceURL,
-        rangeToString({ offset: sourceOffset, count }),
         0,
         {
           abortSignal: options.abortSignal,
+          sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
           ...options,
           spanOptions

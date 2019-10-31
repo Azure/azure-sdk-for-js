@@ -2683,12 +2683,6 @@ export const FileUploadRangeFromURLHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
-      sourceRange: {
-        serializedName: "x-ms-source-range",
-        type: {
-          name: "String"
-        }
-      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {

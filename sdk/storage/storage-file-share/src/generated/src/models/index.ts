@@ -2300,10 +2300,6 @@ export interface FileUploadRangeFromURLHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
-  /**
-   * Bytes of source data in the specified range.
-   */
-  sourceRange?: string;
   errorCode?: string;
 }
 
