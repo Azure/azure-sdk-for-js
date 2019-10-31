@@ -8,14 +8,13 @@ import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
-    backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
+    backupCertificate(certificateName: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
@@ -30,25 +29,23 @@ export class CertificateClient {
     getCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
     getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<Certificate>;
-    getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
+    getDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
     listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
     listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listCertificateVersions(name: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
-    readonly pipeline: ServiceClientOptions;
-    purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null>;
-    recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate>;
+    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
+    purgeDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<null>;
+    recoverDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
     restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
     setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    readonly vaultUrl: string;
-}
+    }
 
 // @public
 export interface CertificateIssuer {

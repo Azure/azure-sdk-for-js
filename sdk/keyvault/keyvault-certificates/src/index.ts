@@ -202,12 +202,12 @@ export class CertificateClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultUrl: string;
+  private readonly vaultUrl: string;
 
   /**
    * The options to create the connection to the service
    */
-  public readonly pipeline: Pipeline;
+  private readonly pipeline: Pipeline;
 
   /**
    * The authentication credentials
@@ -1225,12 +1225,12 @@ export class CertificateClient {
    * await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
    * ```
    * @summary Merges a signed certificate request into a pending certificate
-   * @param name The name of the certificate
+   * @param certificateName The name of the certificate
    * @param x509Certificates The certificate(s) to merge
    * @param options The optional parameters
    */
   public async mergeCertificate(
-    name: string,
+    certificateName: string,
     x509Certificates: Uint8Array[],
     options?: RequestOptionsBase
   ): Promise<Certificate> {
@@ -1240,7 +1240,7 @@ export class CertificateClient {
     try {
       result = await this.client.mergeCertificate(
         this.vaultUrl,
-        name,
+        certificateName,
         x509Certificates,
         this.setParentSpan(span, options)
       );
@@ -1264,11 +1264,11 @@ export class CertificateClient {
    * const backup = await client.backupCertificate("MyCertificate");
    * ```
    * @summary Generates a backup of a certificate
-   * @param name The name of the certificate
+   * @param certificateName The name of the certificate
    * @param options The optional parameters
    */
   public async backupCertificate(
-    name: string,
+    certificateName: string,
     options?: RequestOptionsBase
   ): Promise<BackupCertificateResult> {
     const span = this.createSpan("backupCertificate", options);
@@ -1277,7 +1277,7 @@ export class CertificateClient {
     try {
       result = await this.client.backupCertificate(
         this.vaultUrl,
-        name,
+        certificateName,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -1423,11 +1423,11 @@ export class CertificateClient {
    * client.getDeletedCertificate("MyDeletedCertificate");
    * ```
    * @summary Gets a deleted certificate
-   * @param name The name of the certificate
+   * @param certificateName The name of the certificate
    * @param options The optional parameters
    */
   public async getDeletedCertificate(
-    name: string,
+    certificateName: string,
     options?: RequestOptionsBase
   ): Promise<DeletedCertificate> {
     const span = this.createSpan("getDeletedCertificate", options);
@@ -1436,7 +1436,7 @@ export class CertificateClient {
     try {
       result = await this.client.getDeletedCertificate(
         this.vaultUrl,
-        name,
+        certificateName,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -1458,16 +1458,16 @@ export class CertificateClient {
    * client.purgeDeletedCertificate("MyCertificate");
    * ```
    * @summary Gets a deleted certificate
-   * @param name The name of the deleted certificate to purge
+   * @param certificateName The name of the deleted certificate to purge
    * @param options The optional parameters
    */
-  public async purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null> {
+  public async purgeDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<null> {
     const span = this.createSpan("purgeDeletedCertificate", options);
 
     try {
       await this.client.purgeDeletedCertificate(
         this.vaultUrl,
-        name,
+        certificateName,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -1489,11 +1489,11 @@ export class CertificateClient {
    * await client.recoverDeletedCertificate("MyCertificate");
    * ```
    * @summary Recovers a deleted cerificate
-   * @param name The name of the deleted certificate
+   * @param certificateName The name of the deleted certificate
    * @param options The optional parameters
    */
   public async recoverDeletedCertificate(
-    name: string,
+    certificateName: string,
     options?: RequestOptionsBase
   ): Promise<Certificate> {
     const span = this.createSpan("recoverDeletedCertificate", options);
@@ -1503,7 +1503,7 @@ export class CertificateClient {
     try {
       result = await this.client.recoverDeletedCertificate(
         this.vaultUrl,
-        name,
+        certificateName,
         this.setParentSpan(span, options)
       );
     } finally {
