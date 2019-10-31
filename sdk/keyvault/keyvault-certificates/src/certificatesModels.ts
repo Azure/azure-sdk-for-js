@@ -4,6 +4,7 @@ import {
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
   JsonWebKeyType as KeyType,
+  JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
