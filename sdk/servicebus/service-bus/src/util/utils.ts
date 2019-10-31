@@ -351,7 +351,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * @param value
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (!authorizationRules || !authorizationRules.length) {
+  if (!Array.isArray(authorizationRules)) {
     return undefined;
   }
   const rawAuthorizationRules: any[] = [];
