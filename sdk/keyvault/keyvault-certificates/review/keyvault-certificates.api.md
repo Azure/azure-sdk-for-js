@@ -18,7 +18,6 @@ export class CertificateClient {
     cancelCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
     createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
-    protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
