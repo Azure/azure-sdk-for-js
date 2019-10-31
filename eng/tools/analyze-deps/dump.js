@@ -6,11 +6,13 @@ const jju = require("jju");
 const yaml = require("js-yaml");
 
 const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
 const appendPackageData = (data, pkgJson) => {
   data[`${pkgJson.name}:${pkgJson.version}`] = {
     name: pkgJson.name,
     version: pkgJson.version,
+    type: 'internal',
     deps: pkgJson.dependencies || {}
   };
 };
@@ -40,11 +42,7 @@ const addUpdateRushPackage = (packages, internalPackages, pnpmLock, pkgId) => {
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
 
   for (const depName of Object.keys(packages[pkgId].deps)) {
-    if (internalPackages.includes(depName)) {
-      // Local linked projects are not listed here, so pull the version from the local package.json
-      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == depName);
-      packages[pkgId].deps[depName] = depInfo.version;
-    } else if (resolvedDeps[depName]) {
+    if (resolvedDeps[depName]) {
       // Replace the version spec with the resolved version
       packages[pkgId].deps[depName] = resolvedDeps[depName];
 
@@ -54,11 +52,14 @@ const addUpdateRushPackage = (packages, internalPackages, pnpmLock, pkgId) => {
         packages[depId] = {
           name: depName,
           version: resolvedDeps[depName],
+          type: internalPackages.includes(depName) ? 'internalbinary' : 'external',
           deps: {}
         };
       }
     } else {
-      console.warn(`Couldn't locate info for dependency ${depName}`);
+      // Local linked projects are not listed here, so pull the version from the local package.json
+      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == depName);
+      packages[pkgId].deps[depName] = depInfo.version;
     }
   }
 }
@@ -67,12 +68,10 @@ const main = async () => {
   const packages = await getRushPackages(path.resolve(`${__dirname}/../../../rush.json`));
   const internalPackages = Object.values(packages).map(pkgInfo => pkgInfo.name);
   const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
-  console.log(JSON.stringify(packages, null, 2));
   for (const pkgId of Object.keys(packages)) {
     addUpdateRushPackage(packages, internalPackages, pnpmLock, pkgId);
   }
-  console.log('----------------');
-  console.log(JSON.stringify(packages, null, 2));
+  await writeFile("data.js", "const data = " + JSON.stringify(packages) + ";");
 };
 
 main();
