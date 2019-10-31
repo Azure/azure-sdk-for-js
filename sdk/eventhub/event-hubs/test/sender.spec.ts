@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient, delay, EventPosition } from "../src";
+import { EventData, EventHubProducerClient, EventHubConsumerClient, delay, EventPosition, SubscriptionOptions } from "../src";
 import { SendOptions, EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
@@ -15,6 +15,11 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from '../src/sender';
 const env = getEnvVars();
+
+const defaultSubscriptionOptions: SubscriptionOptions = {
+  maxBatchSize: 1,
+  maxWaitTimeInSeconds: 60
+};
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
   const service = {
@@ -262,6 +267,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, async (events, context) => {
         receivedEvents = events.map(e => e.body)
       }, "0", {
+          ...defaultSubscriptionOptions,
           onInitialize: async (_) => {
             sendBatch(list);
       }

@@ -24,7 +24,7 @@ export class PumpManager {
   /**
    * @ignore
    */
-  constructor(eventProcessorName: string, eventProcessorOptions: EventProcessorOptions = {}) {
+  constructor(eventProcessorName: string, eventProcessorOptions: EventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
     this._options = eventProcessorOptions;
   }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient } from "../src";
+import { InMemoryPartitionManager, EventHubProducerClient, SubscriptionOptions } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -12,10 +12,18 @@ import * as log from "../src/log";
 const should = chai.should();
 const env = getEnvVars();
 
+// setting these to be really small since our tests deal with a 
+// very low volume of messages.
+const defaultSubscriptionOptions : SubscriptionOptions = {
+  maxBatchSize: 1,
+  maxWaitTimeInSeconds: 10
+};
+
 describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
+        ...defaultSubscriptionOptions,
         onClose: async () => { }
       }).should.not.ok;
 

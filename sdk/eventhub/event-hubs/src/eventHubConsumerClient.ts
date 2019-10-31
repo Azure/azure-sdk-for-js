@@ -63,6 +63,11 @@ export interface PartitionCheckpointer {
   ): Promise<void>;
 }
 
+const defaultConsumerClientOptions : SubscriptionOptions = {
+  maxBatchSize: 10,
+  maxWaitTimeInSeconds: 10
+};
+
 /**
  * @class
  * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
@@ -76,7 +81,7 @@ export interface PartitionCheckpointer {
  */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
-
+  
   /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
@@ -304,7 +309,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        possibleOptions4
+        { ...defaultConsumerClientOptions, ...possibleOptions4 }
       );
 
       eventProcessor = new EventProcessor(
@@ -313,6 +318,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         partitionManager,
         {
+          ...defaultConsumerClientOptions,
           ...possibleOptions4,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId])
@@ -327,7 +333,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        possibleOptions4
+        { ...defaultConsumerClientOptions, ...possibleOptions4 }
       );
 
       eventProcessor = new EventProcessor(
@@ -335,7 +341,7 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        possibleOptions4
+        { ...defaultConsumerClientOptions, ...possibleOptions4 }
       );
     } else {
       // #1: subscribe overload - read from all partitions, don't coordinate
@@ -376,7 +382,7 @@ export class EventHubConsumerClient {
 export function createPartitionProcessorType(
   onReceivedEvents: OnReceivedEvents,
   partitionManager: PartitionManager,
-  options: SubscriptionOptions = {}
+  options: SubscriptionOptions
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
     private _partitionCheckpointer?: SimplePartitionCheckpointer;

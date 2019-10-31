@@ -1,5 +1,5 @@
 import { CloseReason, ReceivedEventData, delay, EventPosition, EventHubProducerClient } from "../../src/";
-import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
+import { OptionalEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
 
@@ -14,12 +14,14 @@ interface ReceivedMessages {
  * A simple tester that lets you easily poll for messages and check that they've
  * all been received at least once.
  */
-export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
+export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, SubscriptionOptions {
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
 
   public defaultEventPosition: EventPosition = EventPosition.latest();
+  public maxBatchSize: number = 1;
+  public maxWaitTimeInSeconds: number = 10;
 
   /**
    * Creates a ReceivedMessagesTester

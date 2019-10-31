@@ -167,8 +167,8 @@ export class EventPosition {
 // @public
 export interface EventProcessorCommonOptions {
     defaultEventPosition?: EventPosition;
-    maxBatchSize?: number;
-    maxWaitTimeInSeconds?: number;
+    maxBatchSize: number;
+    maxWaitTimeInSeconds: number;
     trackLastEnqueuedEventInfo?: boolean;
 }
 

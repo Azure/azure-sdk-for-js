@@ -23,9 +23,8 @@ export class PartitionPump {
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
     initialEventPosition: EventPosition,
-    options?: EventProcessorOptions
+    options: EventProcessorOptions
   ) {
-    if (!options) options = {};
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
     this._initialEventPosition = initialEventPosition;
@@ -62,7 +61,7 @@ export class PartitionPump {
     while (this._isReceiving) {
       try {
         const receivedEvents = await this._receiver.receiveBatch(
-          this._processorOptions.maxBatchSize || 1,
+          this._processorOptions.maxBatchSize,
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
         );

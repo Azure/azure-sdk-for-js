@@ -139,12 +139,12 @@ export interface EventProcessorCommonOptions {
   /**
    * The max size of the batch of events passed each time to user code for processing.
    */
-  maxBatchSize?: number;
+  maxBatchSize: number;
   /**
    * The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
-  maxWaitTimeInSeconds?: number;
+  maxWaitTimeInSeconds: number;
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
@@ -249,10 +249,8 @@ export class EventProcessor {
     eventHubClient: EventHubClient,
     PartitionProcessorClass: typeof PartitionProcessor,
     partitionManager: PartitionManager,
-    options?: EventProcessorOptions
+    options: EventProcessorOptions
   ) {
-    if (!options) options = {};
-
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
     this._partitionProcessorClass = PartitionProcessorClass;
