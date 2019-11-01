@@ -363,7 +363,10 @@ export class EventProcessor {
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
-        const partitionIds = await this._eventHubClient.getPartitionIds();
+        const partitionIds = await this._eventHubClient.getPartitionIds({
+          abortSignal: abortSignal
+        });
+
         if (abortSignal.aborted) {
           return;
         }

@@ -20,8 +20,6 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
   public done: boolean;
 
   public defaultEventPosition: EventPosition = EventPosition.latest();
-  public maxBatchSize: number = 1;
-  public maxWaitTimeInSeconds: number = 10;
 
   /**
    * Creates a ReceivedMessagesTester
@@ -35,7 +33,9 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
    */
   constructor(
     private expectedPartitions: string[],
-    private multipleConsumers: boolean
+    private multipleConsumers: boolean, 
+    public maxBatchSize: number = 1,
+    public maxWaitTimeInSeconds: number = 10
   ) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient, SubscriptionOptions } from "../src";
+import { InMemoryPartitionManager, EventHubProducerClient, SubscriptionOptions, Subscription } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -44,6 +44,7 @@ describe("EventHubConsumerClient", () => {
     let client: EventHubConsumerClient;
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
+    let subscriptions: Subscription[] = [];
 
     beforeEach(async () => {
       should.exist(
@@ -66,6 +67,10 @@ describe("EventHubConsumerClient", () => {
     });
 
     afterEach(async () => {
+      for (const subscription of subscriptions) {
+        await subscription.close();
+      }
+
       await client.close();
       await producerClient.close();
     });
@@ -83,16 +88,16 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(["0"], false);
 
-      const subscriber = await client.subscribe(
+      const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         "0",
         tester
       );
 
-      await tester.runTestAndPoll(producerClient);
-      await subscriber.close();
+      subscriptions.push(subscription);
 
+      await tester.runTestAndPoll(producerClient);
       logTester.assert();
     });
 
@@ -109,53 +114,55 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
-      const subscriber = await client.subscribe(
+      const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
         (events, context) => tester.onReceivedEvents(events, context),
         tester
       );
 
       await tester.runTestAndPoll(producerClient);
-      await subscriber.close();
+      subscriptions.push(subscription);
 
       logTester.assert();
     });
 
-    // it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function(): Promise<
-    //   void
-    // > {
-    //   // fast forward our partition manager so it starts reading from the latest offset
-    //   // instead of the beginning of time.
-    //   const inMemoryPartitionManager = new InMemoryPartitionManager();
+    it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      // fast forward our partition manager so it starts reading from the latest offset
+      // instead of the beginning of time.
+      const inMemoryPartitionManager = new InMemoryPartitionManager();
 
-    //   const logTester = new LogTester([
-    //     "Subscribing to all partitions, coordinating using a partition manager.",
-    //     "FairPartitionLoadBalancer created with owner ID"
-    //   ],
-    //     [log.consumerClient,
-    //     log.partitionLoadBalancer]);
+      const logTester = new LogTester([
+        "Subscribing to all partitions, coordinating using a partition manager.",
+        "FairPartitionLoadBalancer created with owner ID"
+      ],
+        [log.consumerClient,
+        log.partitionLoadBalancer]);
 
-    //   const tester = new ReceivedMessagesTester(partitionIds, true);
+      const tester = new ReceivedMessagesTester(partitionIds, true, 1, 60);
 
-    //   const subscriber1 = await client.subscribe(
-    //     EventHubClient.defaultConsumerGroupName,
-    //     (events, context) => tester.onReceivedEvents(events, context),
-    //     inMemoryPartitionManager,
-    //     tester
-    //   );
+      const subscriber1 = await client.subscribe(
+        EventHubClient.defaultConsumerGroupName,
+        (events, context) => tester.onReceivedEvents(events, context),
+        inMemoryPartitionManager,
+        tester
+      );
 
-    //   // const subscriber2 = await client.subscribe(
-    //   //   EventHubClient.defaultConsumerGroupName,
-    //   //   (events, context) => tester.onReceivedEvents(events, context),
-    //   //   inMemoryPartitionManager,
-    //   //   tester
-    //   // );
+      subscriptions.push(subscriber1);
 
-    //   await tester.runTestAndPoll(producerClient);
-    //   await subscriber1.close();
-    //   // await subscriber2.close();
+      const subscriber2 = await client.subscribe(
+         EventHubClient.defaultConsumerGroupName,
+         (events, context) => tester.onReceivedEvents(events, context),
+         inMemoryPartitionManager,
+         tester
+      );
 
-    //   logTester.assert();
-    // });
+      subscriptions.push(subscriber2);
+
+      await tester.runTestAndPoll(producerClient);
+      
+      logTester.assert();
+    });
   });
 });
