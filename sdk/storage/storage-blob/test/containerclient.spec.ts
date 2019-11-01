@@ -96,6 +96,30 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const result = (await containerClient
+      .listBlobsFlat({ prefix: "" })
+      .byPage()
+      .next()).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("listBlobsFlat with all parameters configured", async () => {
     const blobClients = [];
     const prefix = "blockblob";
@@ -376,6 +400,39 @@ describe("ContainerClient", () => {
     const delimiter = "/";
     const result = (await containerClient
       .listBlobsByHierarchy(delimiter)
+      .byPage()
+      .next()).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
+
+    for (const blob of blobClients) {
+      let i = 0;
+      assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with default parameters - null prefix shouldn't throw error", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(
+        recorder.getUniqueName(`blockblob${i}/${i}`)
+      );
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (await containerClient
+      .listBlobsByHierarchy(delimiter, { prefix: "" })
       .byPage()
       .next()).value;
 
