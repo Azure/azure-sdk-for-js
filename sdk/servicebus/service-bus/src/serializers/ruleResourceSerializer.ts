@@ -362,7 +362,13 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
   }
 
   if (!Array.isArray(parameters)) {
-    throw new TypeError(`SQL parameters must be an array of SqlParameter instances or undefined`);
+    throw new TypeError(
+      `parameters must be an array of SqlParameter objects or undefined, but received ${JSON.stringify(
+        parameters,
+        undefined,
+        2
+      )}`
+    );
   }
 
   const rawParameters: RawSqlParameter[] = [];
@@ -378,7 +384,13 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
  */
 function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
   if (!isJSONLikeObject(parameter)) {
-    throw new TypeError("Expected SQL Parameter input to be a JSON value");
+    throw new TypeError(
+      `Expected SQL parameter input to be a JSON value but received ${JSON.stringify(
+        parameter,
+        undefined,
+        2
+      )}`
+    );
   }
 
   let type: SqlParameterType;

@@ -318,7 +318,11 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 
   if (!Array.isArray(authorizationRules)) {
     throw new TypeError(
-      `authorizationRules must be an array of SqlParameter instances or undefined`
+      `authorizationRules must be an array of AuthorizationRule objects or undefined, but received ${JSON.stringify(
+        authorizationRules,
+        undefined,
+        2
+      )}`
     );
   }
 
@@ -335,7 +339,13 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   if (!isJSONLikeObject(authorizationRule)) {
-    throw new TypeError("Expected authorizationRule input to be a JSON value");
+    throw new TypeError(
+      `Expected authorizationRule input to be a JSON value but received ${JSON.stringify(
+        authorizationRule,
+        undefined,
+        2
+      )}`
+    );
   }
 
   const rawAuthorizationRule: any = {

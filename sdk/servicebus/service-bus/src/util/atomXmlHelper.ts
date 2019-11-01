@@ -66,7 +66,7 @@ export async function executeAtomXmlOperation(
       stripRequest(response.request),
       stripResponse(response)
     );
-    log.error(`Error parsing response body from Service - ${err}`);
+    log.warning("Error parsing response body from Service - %0", err);
     throw error;
   }
 
@@ -118,29 +118,21 @@ export async function deserializeAtomXmlResponse(
     if (errorBody == undefined) {
       const HttpResponseCodes: any = Constants.HttpResponseCodes;
       const statusCode = response.status;
-      if (isKnownResponseCode(statusCode)) {
-        throw new RestError(
-          "Service Error",
-          HttpResponseCodes[statusCode],
-          response.status,
-          stripRequest(response.request),
-          stripResponse(response)
-        );
-      } else {
-        throw new RestError(
-          "Service Error",
-          `UnrecognizedHttpResponseStatus: ${statusCode}`,
-          response.status,
-          stripRequest(response.request),
-          stripResponse(response)
-        );
-      }
+      throw new RestError(
+        "Service Error",
+        isKnownResponseCode(statusCode)
+          ? HttpResponseCodes[statusCode]
+          : `UnrecognizedHttpResponseStatus: ${statusCode}`,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     } else {
       throw buildError(errorBody, response);
     }
   }
 
-  response.parsedBody = parseAtomResult(response, nameProperties);
+  parseAtomResult(response, nameProperties);
 
   return response;
 }
@@ -148,18 +140,17 @@ export async function deserializeAtomXmlResponse(
 /**
  * @ignore
  * Utility to deserialize the given JSON content in response body based on
- * if it's a single `entry` or `feed`
+ * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
  * @param response Response containing the JSON value in `response.parsedBody`
  * @nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */
-function parseAtomResult(
-  response: HttpOperationResponse,
-  nameProperties: string[]
-): object[] | object | undefined {
+function parseAtomResult(response: HttpOperationResponse, nameProperties: string[]): void {
   const atomResponseInJson = response.parsedBody;
+
   let result: any;
   if (!atomResponseInJson) {
+    response.parsedBody = undefined;
     return;
   }
 
@@ -177,11 +168,16 @@ function parseAtomResult(
     } else {
       setName(result, nameProperties);
     }
-    return result;
+    response.parsedBody = result;
+    return;
   }
 
+  log.error(
+    "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
+    atomResponseInJson
+  );
   throw new RestError(
-    "Unrecognized Atom XML result: " + JSON.stringify(atomResponseInJson),
+    "Response from service is in bad format. Expected response to be in Atom XML format and have either feed or entry components",
     RestError.PARSE_ERROR,
     response.status,
     stripRequest(response.request),
