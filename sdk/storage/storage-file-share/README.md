@@ -107,7 +107,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ### Import the package
 
-Tu use the clients, import the package into your file:
+To use the clients, import the package into your file:
 
 ```javascript
 const AzureStorageFileShare = require("@azure/storage-file-share");
@@ -158,9 +158,9 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter1 = serviceClient.listShares();
+  let shareIter = serviceClient.listShares();
   let i = 1;
-  for await (const share of shareIter1) {
+  for await (const share of shareIter) {
     console.log(`Share${i}: ${share.name}`);
     i++;
   }
@@ -184,12 +184,12 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter2 = await serviceClient.listShares();
+  let shareIter = await serviceClient.listShares();
   let i = 1;
-  let shareItem = await shareIter2.next();
+  let shareItem = await shareIter.next();
   while (!shareItem.done) {
     console.log(`Share ${i++}: ${shareItem.value.name}`);
-    shareItem = await shareIter2.next();
+    shareItem = await shareIter.next();
   }
 }
 
@@ -222,7 +222,7 @@ async function main() {
   console.log(`Create directory ${directoryName} successfully`);
 }
 
-main()
+main();
 ```
 
 ### Create an azure file then upload to it
@@ -240,7 +240,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 const shareName = "<share name>";
-const directoryName = "<directory name>"
+const directoryName = "<directory name>";
 
 async function main() {
   const directoryClient = serviceClient
@@ -280,16 +280,16 @@ const serviceClient = new ShareServiceClient(
 );
 
 const shareName = "<share name>";
-const directoryName = "<directory name>"
+const directoryName = "<directory name>";
 
 async function main() {
   const directoryClient = serviceClient
     .getShareClient(shareName)
     .getDirectoryClient(directoryName);
 
-  let dirIter1 = directoryClient.listFilesAndDirectories();
+  let dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
-  for await (const item of dirIter1) {
+  for await (const item of dirIter) {
     if (item.kind === "directory") {
       console.log(`${i} - directory\t: ${item.name}`);
     } else {
@@ -317,23 +317,23 @@ const serviceClient = new ShareServiceClient(
 );
 
 const shareName = "<share name>";
-const directoryName = "<directory name>"
+const directoryName = "<directory name>";
 
 async function main() {
   const directoryClient = serviceClient
     .getShareClient(shareName)
     .getDirectoryClient(directoryName);
 
-  let dirIter2 = await directoryClient.listFilesAndDirectories();
+  let dirIter = await directoryClient.listFilesAndDirectories();
   let i = 1;
-  let item = await dirIter2.next();
+  let item = await dirIter.next();
   while (!item.done) {
     if (item.value.kind === "directory") {
       console.log(`${i} - directory\t: ${item.value.name}`);
     } else {
       console.log(`${i} - file\t: ${item.value.name}`);
     }
-    item = await dirIter2.next();
+    item = await dirIter.next();
   }
 }
 
@@ -357,7 +357,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 const shareName = "<share name>";
-const fileName = "<file name>"
+const fileName = "<file name>";
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
