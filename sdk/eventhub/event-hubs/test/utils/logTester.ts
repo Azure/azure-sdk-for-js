@@ -42,6 +42,7 @@ export class LogTester {
     }
 
     debugModule.enable(this._previousEnabledLoggers);
+    debugModule.disable();
   }
 
   private attach(logger: debugModule.Debugger) {
