@@ -33,6 +33,7 @@ import {
   GetCertificateWithPolicyOptions,
   GetDeletedCertificateOptions,
   CertificateTags,
+	ImportCertificateOptions,
 	ListCertificatesOptions,
 	ListCertificateVersionsOptions,
 	ListCertificateIssuersOptions,
@@ -283,9 +284,9 @@ export class CertificateClient {
 
   /**
    * Creates an instance of CertificateClient.
-   * @param vaultUrl the base URL to the vault.
-   * @param credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
+   * @param {string} vaultUrl the base URL to the vault.
+   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
+   * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CertificateClient
    */
@@ -395,7 +396,7 @@ export class CertificateClient {
    * }
    * ```
    * @summary List all versions of the specified certificate.
-   * @param [options] The optional parameters
+   * @param {ListCertificatesOptions} [options] The optional parameters
    */
   public listCertificates(
     options: ListCertificatesOptions = {}
@@ -486,7 +487,7 @@ export class CertificateClient {
    * ```
    * @summary List the versions of a certificate.
    * @param certificateName The name of the certificate.
-   * @param [options] The optional parameters
+   * @param {ListCertificateVersionsOptions} [options] The optional parameters
    */
   public listCertificateVersions(
     certificateName: string,
@@ -528,7 +529,7 @@ export class CertificateClient {
    * ```
    * @summary Deletes a certificate from a specified key vault.
    * @param certificateName The name of the certificate.
-   * @param [options] The optional parameters
+   * @param {DeleteCertificateOptions} [options] The optional parameters
    */
   public async deleteCertificate(
     certificateName: string,
@@ -566,7 +567,7 @@ export class CertificateClient {
    * await client.deleteCertificateContacts();
    * ```
    * @summary Deletes all of the certificate contacts
-   * @param options The optional parameters
+   * @param {DeleteCertificateContactsOptions} [options] The optional parameters
    */
   public async deleteCertificateContacts(options: DeleteCertificateContactsOptions = {}): Promise<Contacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -601,7 +602,7 @@ export class CertificateClient {
    * ```
    * @summary Sets the certificate contacts.
    * @param contacts The contacts to use
-   * @param options The optional parameters
+   * @param {SetCertificateContactsOptions} [options] The optional parameters
    */
   public async setCertificateContacts(
     contacts: Contact[],
@@ -640,7 +641,7 @@ export class CertificateClient {
    * console.log(getResponse.contactList!);
    * ```
    * @summary Sets the certificate contacts.
-   * @param options The optional parameters
+   * @param {GetCertificateContactsOptions} [options] The optional parameters
    */
   public async getCertificateContacts(options: GetCertificateContactsOptions = {}): Promise<Contacts> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -724,7 +725,7 @@ export class CertificateClient {
    * }
    * ```
    * @summary List the certificate issuers.
-   * @param options The optional parameters
+   * @param {ListCertificateIssuersOptions} [options] The optional parameters
    */
   public listCertificateIssuers(
     options: ListCertificateIssuersOptions = {}
@@ -762,7 +763,7 @@ export class CertificateClient {
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
-   * @param [options] The optional parameters
+   * @param {SetCertificateIssuerOptions} [options] The optional parameters
    */
   public async setCertificateIssuer(
     issuerName: string,
@@ -801,7 +802,7 @@ export class CertificateClient {
    * ```
    * @summary Updates the specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param [options] The optional parameters
+   * @param {UpdateCertificateIssuerOptions} [options] The optional parameters
    */
   public async updateCertificateIssuer(
     issuerName: string,
@@ -839,7 +840,7 @@ export class CertificateClient {
    * ```
    * @summary Gets he specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param [options] The optional parameters
+   * @param {GetCertificateIssuerOptions} [options] The optional parameters
    */
   public async getCertificateIssuer(
     issuerName: string,
@@ -874,7 +875,7 @@ export class CertificateClient {
    * ```
    * @summary Deletes the specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param [options] The optional parameters
+   * @param {DeleteCertificateIssuerOptions} [options] The optional parameters
    */
   public async deleteCertificateIssuer(
     issuerName: string,
@@ -912,7 +913,7 @@ export class CertificateClient {
    * @summary Creates a certificate
    * @param certificateName The name of the certificate
    * @param certificatePolicy The certificate's policy
-   * @param [options] Optional parameters
+   * @param {CreateCertificateOptions} [options] Optional parameters
    */
   public async createCertificate(
     certificateName: string,
@@ -956,7 +957,7 @@ export class CertificateClient {
    * ```
    * @summary Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {GetCertificateWithPolicyOptions} [options] The optional parameters
    */
   public async getCertificateWithPolicy(
     certificateName: string,
@@ -1042,14 +1043,15 @@ export class CertificateClient {
    * @summary Imports a certificate from a certificate's secret value
    * @param certificateName The name of the certificate
    * @param base64EncodedCertificate The base64 encoded certificate to import
-   * @param options The optional parameters
+   * @param {ImportCertificateOptions} [options] The optional parameters
    */
   public async importCertificate(
     certificateName: string,
     base64EncodedCertificate: string,
-    options: KeyVaultClientImportCertificateOptionalParams = {}
+    options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
-    const span = this.createSpan("importCertificate", options);
+		const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("importCertificate", requestOptions);
 
     let result: ImportCertificateResponse;
 
@@ -1058,7 +1060,7 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         base64EncodedCertificate,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -1082,7 +1084,7 @@ export class CertificateClient {
    * ```
    * @summary Gets a certificate's policy
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {GetCertificatePolicyOptions} [options] The optional parameters
    */
   public async getCertificatePolicy(
     certificateName: string,
@@ -1111,7 +1113,7 @@ export class CertificateClient {
    * @summary Gets a certificate's policy
    * @param certificateName The name of the certificate
    * @param policy The certificate policy
-   * @param options The optional parameters
+   * @param {UpdateCertificatePolicyOptions} [options] The optional parameters
    */
   public async updateCertificatePolicy(
     certificateName: string,
@@ -1196,7 +1198,7 @@ export class CertificateClient {
    * @summary Cancels a certificate's operation
    * @param certificateName The name of the certificate
    * @param cancel Whether to cancel the operation or not
-   * @param options The optional parameters
+   * @param {CancelCertificateOperationOptions} [options] The optional parameters
    */
   public async cancelCertificateOperation(
     certificateName: string,
@@ -1235,7 +1237,7 @@ export class CertificateClient {
    * ```
    * @summary Gets a certificate's operation
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {GetCertificateOperationOptions} [options] The optional parameters
    */
   public async getCertificateOperation(
     certificateName: string,
@@ -1275,7 +1277,7 @@ export class CertificateClient {
    * ```
    * @summary Delete a certificate's operation
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {DeleteCertificateOperationOptions} [options] The optional parameters
    */
   public async deleteCertificateOperation(
     certificateName: string,
@@ -1326,7 +1328,7 @@ export class CertificateClient {
    * @summary Merges a signed certificate request into a pending certificate
    * @param certificateName The name of the certificate
    * @param x509Certificates The certificate(s) to merge
-   * @param options The optional parameters
+   * @param {MergeCertificateOptions} [options] The optional parameters
    */
   public async mergeCertificate(
     certificateName: string,
@@ -1365,7 +1367,7 @@ export class CertificateClient {
    * ```
    * @summary Generates a backup of a certificate
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {BackupCertificateOptions} [options] The optional parameters
    */
   public async backupCertificate(
     certificateName: string,
@@ -1405,7 +1407,7 @@ export class CertificateClient {
    * ```
    * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
-   * @param options The optional parameters
+   * @param {RestoreCertificateOptions} [options] The optional parameters
    */
   public async restoreCertificate(
     certificateBackup: Uint8Array,
@@ -1492,7 +1494,7 @@ export class CertificateClient {
    * }
    * ```
    * @summary Lists deleted certificates
-   * @param options The optional parameters
+   * @param {ListDeletedCertificatesOptions} [options] The optional parameters
    */
   public listDeletedCertificates(
     options: ListDeletedCertificatesOptions = {}
@@ -1529,7 +1531,7 @@ export class CertificateClient {
    * ```
    * @summary Gets a deleted certificate
    * @param certificateName The name of the certificate
-   * @param options The optional parameters
+   * @param {GetDeletedCertificateOptions} [options] The optional parameters
    */
   public async getDeletedCertificate(
     certificateName: string,
@@ -1565,7 +1567,7 @@ export class CertificateClient {
    * ```
    * @summary Gets a deleted certificate
    * @param certificateName The name of the deleted certificate to purge
-   * @param options The optional parameters
+   * @param {PurgeDeletedCertificateOptions} [options] The optional parameters
    */
   public async purgeDeletedCertificate(certificateName: string, options: PurgeDeletedCertificateOptions = {}): Promise<null> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -1597,7 +1599,7 @@ export class CertificateClient {
    * ```
    * @summary Recovers a deleted cerificate
    * @param certificateName The name of the deleted certificate
-   * @param options The optional parameters
+   * @param {RecoverDeletedCertificateOptions} [options] The optional parameters
    */
   public async recoverDeletedCertificate(
     certificateName: string,

@@ -6,6 +6,7 @@ import {
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
+  KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateOptionalParams,
@@ -273,6 +274,12 @@ export interface DeleteCertificateContactsOptions extends coreHttp.OperationOpti
 /**
  * @interface
  * An interface representing options that can be passed to {@link deleteCertificateIssuer}.
+ */
+export interface ImportCertificateOptions extends KeyVaultClientImportCertificateOptionalParams, coreHttp.OperationOptions {}
+ 
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link importCertificate}.
  */
 export interface DeleteCertificateIssuerOptions extends coreHttp.OperationOptions {}
  
