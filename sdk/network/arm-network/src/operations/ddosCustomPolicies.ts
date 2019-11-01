@@ -88,13 +88,36 @@ export class DdosCustomPolicies {
    * Update a DDoS custom policy tags.
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
-   * @param parameters Parameters supplied to the update DDoS custom policy resource tags.
+   * @param parameters Parameters supplied to update DDoS custom policy resource tags.
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosCustomPoliciesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.DdosCustomPoliciesUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,ddosCustomPolicyName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param ddosCustomPolicyName The name of the DDoS custom policy.
+   * @param parameters Parameters supplied to update DDoS custom policy resource tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param ddosCustomPolicyName The name of the DDoS custom policy.
+   * @param parameters Parameters supplied to update DDoS custom policy resource tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
+  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosCustomPolicy>, callback?: msRest.ServiceCallback<Models.DdosCustomPolicy>): Promise<Models.DdosCustomPoliciesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        ddosCustomPolicyName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
   }
 
   /**
@@ -134,26 +157,6 @@ export class DdosCustomPolicies {
       beginCreateOrUpdateOperationSpec,
       options);
   }
-
-  /**
-   * Update a DDoS custom policy tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param ddosCustomPolicyName The name of the DDoS custom policy.
-   * @param parameters Parameters supplied to the update DDoS custom policy resource tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        ddosCustomPolicyName,
-        parameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
 }
 
 // Operation Specifications
@@ -172,6 +175,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DdosCustomPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.ddosCustomPolicyName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.DdosCustomPolicy
@@ -234,38 +269,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DdosCustomPolicy
     },
     201: {
-      bodyMapper: Mappers.DdosCustomPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ddosCustomPolicyName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.DdosCustomPolicy
     },
     default: {

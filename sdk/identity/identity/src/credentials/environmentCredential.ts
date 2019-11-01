@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { IdentityClientOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
-import { logger } from '../util/logging';
+import { logger } from "../util/logging";
+import { ClientCertificateCredential } from "./clientCertificateCredential";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -31,19 +33,51 @@ export class EnvironmentCredential implements TokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: IdentityClientOptions) {
+  constructor(options?: TokenCredentialOptions) {
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     if (tenantId && clientId && clientSecret) {
-      logger.info(`EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`);
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`
+      );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
+      return;
+    }
+
+    const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
+    if (tenantId && clientId && certificatePath) {
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, certificatePath: ${certificatePath}`
+      );
+      this._credential = new ClientCertificateCredential(
+        tenantId,
+        clientId,
+        certificatePath,
+        options
+      );
+      return;
+    }
+
+    const username = process.env.AZURE_USERNAME;
+    const password = process.env.AZURE_PASSWORD;
+    if (tenantId && clientId && username && password) {
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, username: ${username}`
+      );
+      this._credential = new UsernamePasswordCredential(
+        tenantId,
+        clientId,
+        username,
+        password,
+        options
+      );
     }
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

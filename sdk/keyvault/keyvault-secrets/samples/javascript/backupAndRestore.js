@@ -1,4 +1,4 @@
-const { SecretsClient } = require("../../src");
+const { SecretClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 
@@ -33,7 +33,7 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const secretName = "StorageAccountPassword19312312";
 
@@ -61,7 +61,7 @@ async function main() {
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  const result = await client.restoreSecret(backupContents);
+  const result = await client.restoreSecretBackup(backupContents);
   console.log("Restored secret: ", result);
 
   // If we don't want to purge the secret later, we don't need to wait until this finishes

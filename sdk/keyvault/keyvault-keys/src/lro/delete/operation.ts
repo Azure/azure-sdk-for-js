@@ -11,8 +11,17 @@ import { DeletedKey, KeyClientInterface } from "../../keysModels";
  * An interface representing the state of a delete key's poll operation
  */
 export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
+  /**
+   * The name of the key.
+   */
   name: string;
+  /**
+   * Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * An interface representing a KeyClient. For internal use.
+   */
   client: KeyClientInterface;
 }
 
@@ -42,26 +51,26 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.started) {
+  if (!state.isStarted) {
     const deletedKey = await client.deleteKey(name, requestOptions);
-    state.started = true;
+    state.isStarted = true;
     state.result = deletedKey;
     if (!deletedKey.properties.recoveryId) {
-      state.completed = true;
+      state.isCompleted = true;
     }
   }
 
-  if (!state.completed) {
+  if (!state.isCompleted) {
     try {
       state.result = await client.getDeletedKey(name, { requestOptions });
-      state.completed = true;
+      state.isCompleted = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.completed = true;
+        state.isCompleted = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.completed = true;
+        state.isCompleted = true;
       }
     }
   }

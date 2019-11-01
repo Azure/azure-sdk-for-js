@@ -10,7 +10,8 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { logger as coreLogger, logger } from "../log";
+import { Debugger } from "@azure/logger";
+import { logger as coreLogger } from "../log";
 
 export interface LogPolicyOptions {
   /**
@@ -26,6 +27,11 @@ export interface LogPolicyOptions {
    * query string values are logged.
    */
   allowedQueryParameters?: string[];
+
+  /**
+   * The Debugger (logger) instance to use for writing pipeline logs.
+   */
+  logger?: Debugger;
 }
 
 const RedactedString = "REDACTED";
@@ -56,23 +62,18 @@ const defaultAllowedHeaderNames = [
   "User-Agent"
 ];
 
-const defaultAllowedQueryParameters: string[] = [
-  "api-version"
-];
+const defaultAllowedQueryParameters: string[] = ["api-version"];
 
-export function logPolicy(
-  logger: any = coreLogger.info.bind(coreLogger),
-  logOptions: LogPolicyOptions = {}
-): RequestPolicyFactory {
+export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new LogPolicy(nextPolicy, options, logger, logOptions);
+      return new LogPolicy(nextPolicy, options, loggingOptions);
     }
   };
 }
 
 export class LogPolicy extends BaseRequestPolicy {
-  logger?: any;
+  logger: Debugger;
 
   public allowedHeaderNames: Set<string>;
   public allowedQueryParameters: Set<string>;
@@ -80,28 +81,29 @@ export class LogPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    logger: any = console.log,
-    { allowedHeaderNames = [], allowedQueryParameters = [] }: LogPolicyOptions = {}
+    {
+      logger = coreLogger.info,
+      allowedHeaderNames = [],
+      allowedQueryParameters = []
+    }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);
     this.logger = logger;
 
-    allowedHeaderNames =
-      allowedHeaderNames && allowedHeaderNames instanceof Array
-        ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
-        : defaultAllowedHeaderNames;
+    allowedHeaderNames = Array.isArray(allowedHeaderNames)
+      ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
+      : defaultAllowedHeaderNames;
 
-    allowedQueryParameters =
-      allowedQueryParameters && allowedQueryParameters instanceof Array
-        ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
-        : defaultAllowedQueryParameters;
+    allowedQueryParameters = Array.isArray(allowedQueryParameters)
+      ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
+      : defaultAllowedQueryParameters;
 
-    this.allowedHeaderNames = new Set(allowedHeaderNames);
-    this.allowedQueryParameters = new Set(allowedQueryParameters);
+    this.allowedHeaderNames = new Set(allowedHeaderNames.map(n => n.toLowerCase()));
+    this.allowedQueryParameters = new Set(allowedQueryParameters.map(p => p.toLowerCase()));
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    if (!logger.info.enabled) return this._nextPolicy.sendRequest(request);
+    if (!this.logger.enabled) return this._nextPolicy.sendRequest(request);
 
     this.logRequest(request);
     return this._nextPolicy.sendRequest(request).then((response) => this.logResponse(response));
@@ -153,7 +155,7 @@ export class LogPolicy extends BaseRequestPolicy {
     const sanitized: { [s: string]: string } = {};
 
     for (const k of Object.keys(value)) {
-      if (allowedKeys.has(k)) {
+      if (allowedKeys.has(k.toLowerCase())) {
         sanitized[k] = accessor(value, k);
       } else {
         sanitized[k] = RedactedString;
@@ -177,7 +179,7 @@ export class LogPolicy extends BaseRequestPolicy {
 
     const query = URLQuery.parse(queryString);
     for (const k of query.keys()) {
-      if (!this.allowedQueryParameters.has(k)) {
+      if (!this.allowedQueryParameters.has(k.toLowerCase())) {
         query.set(k, RedactedString);
       }
     }

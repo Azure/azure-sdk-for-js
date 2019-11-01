@@ -35,7 +35,6 @@
     "tsconfig.json"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-keyvault-certificates.min.js",
     "os": false,
     "process": false
   },
@@ -68,19 +67,19 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.6",
-    "@azure/core-http": "1.0.0-preview.6",
-    "@azure/core-paging": "1.0.0-preview.2",
+    "@azure/core-arm": "1.0.0-preview.7",
+    "@azure/core-http": "^1.0.0",
+    "@azure/core-paging": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.5",
-    "@azure/logger": "1.0.0-preview.1",
+    "@azure/logger": "^1.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "1.0.0-preview.6",
-    "@azure/test-utils-recorder": "1.0.0",
-    "@azure/keyvault-keys": "4.0.0-preview.9",
-    "@azure/keyvault-secrets": "4.0.0-preview.9",
+    "@azure/identity": "^1.0.0",
+    "@azure/keyvault-keys": "^4.0.0",
+    "@azure/keyvault-secrets": "^4.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
@@ -113,7 +112,7 @@
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-coverage": "^0.1.5",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",
     "nyc": "^14.0.0",
@@ -134,5 +133,17 @@
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/core/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/core/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   }
 }

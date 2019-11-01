@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
-describe("MessageIdClient", () => {
+describe("QueueClient messageId methods", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
@@ -203,6 +203,6 @@ describe("MessageIdClient", () => {
     const newClient = new QueueClient(
       extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
     );
-    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });

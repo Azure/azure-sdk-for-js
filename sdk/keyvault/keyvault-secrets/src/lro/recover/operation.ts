@@ -12,8 +12,17 @@ import { SecretProperties, SecretClientInterface } from "../../secretsModels";
  */
 export interface RecoverDeletedSecretPollOperationState
   extends PollOperationState<SecretProperties> {
+  /**
+   * The name of the secret.
+   */
   name: string;
+  /**
+   * Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * An interface representing a SecretClient. For internal use.
+   */
   client: SecretClientInterface;
 }
 
@@ -43,28 +52,28 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.started) {
+  if (!state.isStarted) {
     try {
       state.result = (await client.getSecret(name, { requestOptions })).properties;
-      state.completed = true;
+      state.isCompleted = true;
     } catch (_) {}
-    if (!state.completed) {
+    if (!state.isCompleted) {
       state.result = await client.recoverDeletedSecret(name, { requestOptions });
-      state.started = true;
+      state.isStarted = true;
     }
   }
 
-  if (!state.completed) {
+  if (!state.isCompleted) {
     try {
       state.result = (await client.getSecret(name, { requestOptions })).properties;
-      state.completed = true;
+      state.isCompleted = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.completed = true;
+        state.isCompleted = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.completed = true;
+        state.isCompleted = true;
       }
     }
   }

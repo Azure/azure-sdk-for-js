@@ -122,6 +122,12 @@ describe("AppendBlobClient", () => {
       if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
         exceptionCaught = true;
       }
+
+      assert.equal(
+        err.details.errorCode,
+        "Crc64Mismatch",
+        "Error does not contain details property"
+      );
     }
 
     assert.ok(exceptionCaught);

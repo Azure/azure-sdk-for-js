@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IdentityClientOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
@@ -23,10 +23,10 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(identityClientOptions?: IdentityClientOptions) {
+  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
     super(
-      new EnvironmentCredential(identityClientOptions),
-      new ManagedIdentityCredential(undefined, identityClientOptions)
+      new EnvironmentCredential(tokenCredentialOptions),
+      new ManagedIdentityCredential(tokenCredentialOptions)
     );
   }
 }

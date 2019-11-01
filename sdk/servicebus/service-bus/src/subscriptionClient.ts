@@ -16,7 +16,6 @@ import {
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 import Long from 'long';
-import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
@@ -206,8 +205,7 @@ export class SubscriptionClient implements Client {
     );
 
     return this._context.managementClient!.peek(
-      maxMessageCount,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 
@@ -233,9 +231,7 @@ export class SubscriptionClient implements Client {
 
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount,
-      undefined,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 

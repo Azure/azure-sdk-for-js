@@ -1,15 +1,31 @@
 import { HttpResponse } from "@azure/core-http";
-import * as Models from "./generated/src/models";
+import {
+  PageBlobGetPageRangesHeaders,
+  PageBlobGetPageRangesDiffHeaders,
+  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
+  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
+} from "./generatedModels";
 import { Range } from "./Range";
 
+/**
+ * List of page ranges for a blob.
+ */
 export interface PageList {
+  /**
+   * Valid non-overlapping page ranges.
+   */
   pageRange?: Range[];
+  /**
+   * Present if the prevSnapshot parameter was specified and there were cleared
+   * pages between the previous snapshot and the target snapshot.
+   */
   clearRange?: Range[];
 }
 
-export interface PageBlobGetPageRangesResponse
-  extends PageList,
-    Models.PageBlobGetPageRangesHeaders {
+/**
+ * Contains response data for the {@link BlobClient.getPageRanges} operation.
+ */
+export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
   /**
    * The underlying HTTP response.
    */
@@ -17,7 +33,7 @@ export interface PageBlobGetPageRangesResponse
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Models.PageBlobGetPageRangesHeaders;
+    parsedHeaders: PageBlobGetPageRangesHeaders;
 
     /**
      * The response body as text (string format)
@@ -32,11 +48,11 @@ export interface PageBlobGetPageRangesResponse
 }
 
 /**
- * Contains response data for the getPageRangesDiff operation.
+ * Contains response data for the {@link BlobClient.getPageRangesDiff} operation.
  */
 export interface PageBlobGetPageRangesDiffResponse
   extends PageList,
-    Models.PageBlobGetPageRangesDiffHeaders {
+    PageBlobGetPageRangesDiffHeaders {
   /**
    * The underlying HTTP response.
    */
@@ -44,7 +60,7 @@ export interface PageBlobGetPageRangesDiffResponse
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Models.PageBlobGetPageRangesDiffHeaders;
+    parsedHeaders: PageBlobGetPageRangesDiffHeaders;
 
     /**
      * The response body as text (string format)
@@ -65,7 +81,7 @@ export interface PageBlobGetPageRangesDiffResponse
  * @param response Model PageBlob Range response
  */
 export function rangeResponseFromModel(
-  response: Models.PageBlobGetPageRangesResponse | Models.PageBlobGetPageRangesDiffResponse
+  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,

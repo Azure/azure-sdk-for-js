@@ -44,7 +44,7 @@ describe("ClientCertificateCredential", function() {
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope");
@@ -91,12 +91,14 @@ describe("ClientCertificateCredential", function() {
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -113,7 +115,12 @@ describe("ClientCertificateCredential", function() {
           children: [
             {
               name: "Azure.Identity.ClientCertificateCredential-getToken",
-              children: []
+              children: [
+                {
+                  children: [],
+                  name: "core-http"
+                }
+              ]
             }
           ]
         }

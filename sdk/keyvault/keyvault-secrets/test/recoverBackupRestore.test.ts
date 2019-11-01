@@ -4,10 +4,12 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Secret client - restore secrets and recover backups", () => {
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
@@ -35,9 +37,9 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.equal(
-      deletePoller.getResult()!.properties.name,
+      deletePoller.getResult()!.name,
       secretName,
       "Unexpected secret name in result from deletePoller.getResult()."
     );
@@ -45,12 +47,12 @@ describe("Secret client - restore secrets and recover backups", () => {
     await deletePoller.pollUntilDone();
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
-      getDeletedResult.properties.name,
+      getDeletedResult.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
 
-    const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+    const recoverPoller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
     const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
       secretProperties.name,
@@ -66,7 +68,10 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
     let error;
     try {
-      const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+      const recoverPoller = await client.beginRecoverDeletedSecret(
+        secretName,
+        testPollerProperties
+      );
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
@@ -74,6 +79,26 @@ describe("Secret client - restore secrets and recover backups", () => {
     }
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
+
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can recover a deleted a secret with requestOptions timeout", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await assertThrowsAbortError(async () => {
+        await client.beginRecoverDeletedSecret(secretName, {
+          requestOptions: {
+            timeout: 1
+          },
+          ...testPollerProperties
+        });
+      });
+    });
+  }
 
   it("can backup a secret", async function() {
     const secretName = testClient.formatName(
@@ -114,13 +139,9 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await testClient.flushSecret(secretName);
-    await retry(async () => client.restoreSecret(backup as Uint8Array));
+    await retry(async () => client.restoreSecretBackup(backup as Uint8Array));
     const getResult = await client.getSecret(secretName);
-    assert.equal(
-      getResult.properties.name,
-      secretName,
-      "Unexpected secret name in result from getSecret()."
-    );
+    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);
   });
 
@@ -128,7 +149,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     const backup = new Uint8Array(4728);
     let error;
     try {
-      await client.restoreSecret(backup);
+      await client.restoreSecretBackup(backup);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -136,7 +157,26 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreSecret()"
+      "Unexpected error from restoreSecretBackup()"
     );
   });
+
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can timeout deleting a secret", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const backup = await client.backupSecret(secretName);
+      await testClient.flushSecret(secretName);
+      await assertThrowsAbortError(async () => {
+        await client.restoreSecretBackup(backup as Uint8Array, {
+          requestOptions: {
+            timeout: 1
+          }
+        });
+      });
+    });
+  }
 });

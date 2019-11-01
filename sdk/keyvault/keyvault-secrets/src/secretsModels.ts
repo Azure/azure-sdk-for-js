@@ -3,79 +3,107 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 
 /**
+ * @internal
+ * @ignore
  * @interface
- * An interface representing the secret client. For internal use.
+ * An interface representing the SecretClient. For internal use.
  */
 export interface SecretClientInterface {
+  /**
+   * Recovers the deleted secret in the specified vault.
+   */
   recoverDeletedSecret(
     secretName: string,
-    options?: coreHttp.RequestOptionsBase
+    options?: RecoverDeletedSecretOptions
   ): Promise<SecretProperties>;
-  getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-  deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
-  getDeletedSecret(
-    secretName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<DeletedSecret>;
+  /**
+   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
+   * the secrets/get permission.
+   */
+  getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+  /**
+   * Deletes a secret stored in Azure Key Vault.
+   */
+  deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
+  /**
+   * The getDeletedSecret method returns the specified deleted secret along with its properties.
+   * This operation requires the secrets/get permission.
+   */
+  getDeletedSecret(secretName: string, options?: DeleteSecretOptions): Promise<DeletedSecret>;
 }
 
 /**
  * @interface
- * An interface representing the complete secret.
+ * An interface representing a KeyVault Secret, with its name, value and {@link SecretProperties}.
  */
-export interface Secret {
+export interface KeyVaultSecret {
   /**
-   * @member {SecretProperties} [properties] The properties of the secret
+   * The properties of the secret.
    */
   properties: SecretProperties;
   /**
-   * @member {string} [value] The secret value.
+   * The value of the secret.
    */
   value?: string;
+  /**
+   * The name of the secret.
+   */
+  name: string;
 }
 
 /**
  * @interface
- * An interface representing the a secret's attributes.
+ * An interface representing the properties of a {@link KeyVaultSecret}.
  */
-export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
+export interface SecretProperties {
   /**
-   * @member {string} [id] The secret id.
+   * The base URL to the vault.
+   */
+  vaultUrl: string;
+  /**
+   * The version of the secret. May be undefined.
+   */
+  version?: string;
+  /**
+   * The name of the secret.
+   */
+  name: string;
+  /**
+   * The secret id.
    */
   id?: string;
   /**
-   * @member {string} [contentType] The content type of the secret.
+   * The content type of the secret.
    */
   contentType?: string;
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * Expiry date in UTC.
    */
-  expires?: Date;
+  readonly expiresOn?: Date;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {URL} [keyId] If this is a secret backing a KV certificate, then
+   * If this is a secret backing a KV certificate, then
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly keyId?: URL;
   /**
-   * @member {boolean} [managed] True if the secret's lifetime is managed by
+   * True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be
    * true.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -83,19 +111,19 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
    */
   readonly managed?: boolean;
   /**
-   * @member {Date} [created] Creation time in UTC.
+   * Creation time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created?: Date;
+  readonly createdOn?: Date;
   /**
-   * @member {Date} [updated] Last updated time in UTC.
+   * Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly updated?: Date;
+  readonly updatedOn?: Date;
   /**
-   * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
+   * Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
    * contains 'Purgeable' the key can be permanently deleted by a privileged
    * user; otherwise, only the system can purge the key, at the end of the
@@ -110,147 +138,192 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
 
 /**
  * @interface
- * An interface representing a deleted secret.
+ * An interface representing a deleted KeyVault Secret.
  */
 export interface DeletedSecret {
   /**
-   * @member {SecretProperties} [properties] The properties of the secret
+   * The properties of the secret
    */
   properties: SecretProperties & {
     /**
-     * @member {string} [recoveryId] The url of the recovery object, used to
+     * The url of the recovery object, used to
      * identify and recover the deleted secret.
      */
     recoveryId?: string;
     /**
-     * @member {Date} [scheduledPurgeDate] The time when the secret is scheduled
+     * The time when the secret is scheduled
      * to be purged, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly scheduledPurgeDate?: Date;
+    scheduledPurgeDate?: Date;
     /**
-     * @member {Date} [deletedDate] The time when the secret was deleted, in UTC
+     * The time when the secret was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly deletedDate?: Date;
+    deletedOn?: Date;
   };
   /**
-   * @member {string} [value] The secret value.
+   * The secret value.
    */
   value?: string;
+  /**
+   * The name of the secret.
+   */
+  name: string;
 }
 
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteSecret
+ * passed to {@link beginDeleteSecret} and {@link beginRecoverDeletedKey}.
  */
-export interface SecretPollerOptions {
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
   /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-  /**
-   * @member {number} [intervalInMs] Time between each polling
+   * Time between each polling in milliseconds.
    */
   intervalInMs?: number;
   /**
-   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   * A serialized poller, used to resume an existing operation
    */
   resumeFrom?: string;
 }
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to setSecret.
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginDeleteSecret}
  */
-export interface SetSecretOptions {
+export interface BeginDeleteSecretOptions extends SecretPollerOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginRecoverDeletedSecret}
+ */
+export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link setSecret}.
+ */
+export interface SetSecretOptions extends coreHttp.OperationOptions {
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {string} [contentType] Type of the secret value such as a
-   * password.
+   * Type of the secret value such as a password.
    */
   contentType?: string;
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * Expiry date in UTC.
    */
-  expires?: Date;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
+  readonly expiresOn?: Date;
 }
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to updateSecret.
+ * An interface representing the optional parameters that can be passed to {@link updateSecretProperties}.
  */
-export interface UpdateSecretOptions {
+export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
   /**
-   * @member {string} [contentType] Type of the secret value such as a
-   * password.
+   * Type of the secret value such as a password.
    */
   contentType?: string;
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * Expiry date in UTC.
    */
-  expires?: Date;
+  readonly expiresOn?: Date;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
+   * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to getSecret.
+ * An interface representing the optional parameters that can be passed to {@link getSecret}.
  */
-export interface GetSecretOptions {
+export interface GetSecretOptions extends coreHttp.OperationOptions {
   /**
-   * @member {string} [version] The version of the secret to retrieve.  If not
+   * The version of the secret to retrieve. If not
    * specified the latest version of the secret will be retrieved.
    */
   version?: string;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
- * An interface representing optional parameters for SecretClient paged operations.
+ * An interface representing the optional parameters that can be passed to {@link getDeletedSecret}.
  */
-export interface RequestOptions {
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
+export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link purgeDeletedSecret}.
+ */
+export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link backupSecretOptions}.
+ */
+export interface BackupSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link restoreSecretBackup}.
+ */
+export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @internal
+ * @ignore
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link recoverDeletedSecret}.
+ */
+export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @internal
+ * @ignore
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link deleteSecret}.
+ */
+export interface DeleteSecretOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecretVersions}.
+ */
+export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecrets}.
+ */
+export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be passed to {@link listDeletedSecrets}.
+ */
+export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {}

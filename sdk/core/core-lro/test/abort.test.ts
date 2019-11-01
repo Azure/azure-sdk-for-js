@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import assert from "assert";
 import { delay, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
@@ -64,7 +67,7 @@ describe("Long Running Operations - working with abort signals", function() {
     abortController.abort();
     await delay(50);
 
-    assert.equal(pollError!.message, "The request was aborted");
+    assert.equal(pollError!.message, "The operation was aborted.");
     assert.equal(client.totalSentRequests, 11);
   });
 
@@ -100,8 +103,8 @@ describe("Long Running Operations - working with abort signals", function() {
       pollError = e;
     }
 
-    assert.equal(pollError!.message, "The request was aborted");
-    assert.equal(doneError!.message, "The request was aborted");
+    assert.equal(pollError!.message, "The operation was aborted.");
+    assert.equal(doneError!.message, "The operation was aborted.");
 
     assert.equal(client.totalSentRequests, 2);
     assert.ok(poller.isDone());
@@ -139,7 +142,7 @@ describe("Long Running Operations - working with abort signals", function() {
     }
 
     assert.ok(poller.isStopped());
-    assert.equal(cancelError!.message, "The request was aborted");
+    assert.equal(cancelError!.message, "The operation was aborted.");
   });
 
   it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function() {
@@ -180,7 +183,7 @@ describe("Long Running Operations - working with abort signals", function() {
       cancelError = e;
     }
 
-    assert.equal(cancelError!.message, "The request was aborted");
+    assert.equal(cancelError!.message, "The operation was aborted.");
     poller.stopPolling();
   });
 });

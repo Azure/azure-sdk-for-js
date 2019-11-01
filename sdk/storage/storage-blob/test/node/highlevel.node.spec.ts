@@ -121,7 +121,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -136,7 +136,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -222,7 +222,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -237,6 +237,33 @@ describe("Highlevel", () => {
       }
     });
     assert.ok(eventTriggered);
+  });
+
+  it("downloadToBuffer should success - without passing the buffer", async () => {
+    const rs = fs.createReadStream(tempFileLarge);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    const buf = await blockBlobClient.downloadToBuffer(0, undefined, {
+      blockSize: 4 * 1024 * 1024,
+      maxRetryRequestsPerBlock: 5,
+      concurrency: 20
+    });
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
+    let error;
+    try {
+      await blockBlobClient.downloadToBuffer(undefined, 4 * 1024 * 1024 * 1024);
+    } catch (err) {
+      error = err;
+    }
+    assert.ok(
+      error.message.includes("Unable to allocate the buffer of size:"),
+      "Error is not thrown when the count(size provided in bytes) is too large."
+    );
   });
 
   it("downloadToBuffer should success", async () => {
@@ -301,7 +328,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -336,7 +363,7 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 1,
       onProgress: (ev) => {
@@ -368,7 +395,7 @@ describe("Highlevel", () => {
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -402,7 +429,7 @@ describe("Highlevel", () => {
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, partialSize, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -439,7 +466,7 @@ describe("Highlevel", () => {
     try {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         conditions: {
-          ifMatch: uploadResponse.eTag
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 0,
         onProgress: () => {
@@ -475,7 +502,7 @@ describe("Highlevel", () => {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         abortSignal: aborter.signal,
         conditions: {
-          ifMatch: uploadResponse.eTag
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 3,
         onProgress: () => {

@@ -5,52 +5,91 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
-import { HttpClient } from '@azure/core-http';
-import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export interface Action {
+    actionType?: ActionType;
+}
+
+// @public
+export type ActionType = "EmailContacts" | "AutoRenew";
+
+// @public
+export interface AdministratorDetails {
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+}
+
+// @public
+export interface Attributes {
+    readonly created?: Date;
+    enabled?: boolean;
+    expires?: Date;
+    notBefore?: Date;
+    readonly updated?: Date;
+}
+
+// @public
+export interface BackupCertificateResult {
+    readonly value?: Uint8Array;
+}
+
+// @public
+export interface Certificate {
+    cer?: Uint8Array;
+    contentType?: CertificateContentType;
+    readonly kid?: string;
+    readonly policy?: CertificatePolicy;
+    properties: CertificateProperties;
+    readonly sid?: string;
+}
+
+// @public
+export interface CertificateAttributes extends Attributes {
+    readonly recoveryLevel?: DeletionRecoveryLevel;
+}
+
+// @public
 export class CertificateClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
-    // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
-    backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
-    cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
-    protected readonly credential: TokenCredential;
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    backupCertificate(certificateName: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
+    cancelCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
+    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
-    deleteCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    getCertificate(name: string, version: string, options?: RequestOptionsBase): Promise<Certificate>;
+    deleteCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
+    getCertificate(certificateName: string, version: string, options?: RequestOptionsBase): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
-    getCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<Certificate>;
-    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
-    getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
-    importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
+    getCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
+    getCertificatePolicy(certificateName: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
+    getCertificateWithPolicy(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
+    getDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
+    importCertificate(certificateName: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
     listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
-    // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
     listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
-    listCertificateVersions(name: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
+    listCertificateVersions(certificateName: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
-    readonly pipeline: ServiceClientOptions;
-    purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null>;
-    recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate>;
+    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
+    purgeDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<null>;
+    recoverDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
     restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
     setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
+    updateCertificate(certificateName: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    readonly vaultEndpoint: string;
-}
+    updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
+    }
+
+// @public
+export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
 
 // @public
 export interface CertificateIssuer {
@@ -71,8 +110,6 @@ export interface CertificateOperation {
     target?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
     certificateTransparency?: boolean;
@@ -81,33 +118,36 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
     exportable?: boolean;
     readonly id?: string;
     issuerName?: string;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyCurveName" needs to be exported by the entry point index.d.ts
-    keyCurveType?: JsonWebKeyCurveName;
+    keyCurveType?: KeyCurveName;
     keySize?: number;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
-    keyType?: JsonWebKeyType;
-    // Warning: (ae-forgotten-export) The symbol "KeyUsageType" needs to be exported by the entry point index.d.ts
+    keyType?: KeyType;
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
     reuseKey?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "SubjectAlternativeNames" needs to be exported by the entry point index.d.ts
     subjectAlternativeNames?: SubjectAlternativeNames;
     subjectName?: string;
     validityInMonths?: number;
 }
 
 // @public
-export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
+export interface CertificateProperties {
     readonly created?: Date;
     enabled?: boolean;
     readonly expires?: Date;
     readonly id?: string;
+    name: string;
     readonly notBefore?: Date;
-    // Warning: (ae-forgotten-export) The symbol "CertificateTags" needs to be exported by the entry point index.d.ts
     tags?: CertificateTags;
     readonly updated?: Date;
+    vaultUrl: string;
+    version?: string;
     readonly x509Thumbprint?: Uint8Array;
 }
+
+// @public
+export type CertificateTags = {
+    [propertyName: string]: string;
+};
 
 // @public
 export interface Contact {
@@ -123,11 +163,38 @@ export interface Contacts {
 }
 
 // @public
+export interface CoreCertificatePolicy {
+    attributes?: CertificateAttributes;
+    readonly id?: string;
+    issuerParameters?: IssuerParameters;
+    keyProperties?: KeyProperties;
+    lifetimeActions?: LifetimeAction[];
+    secretProperties?: SecretProperties;
+    x509CertificateProperties?: X509CertificateProperties;
+}
+
+// @public
+export interface CoreSubjectAlternativeNames {
+    dnsNames?: string[];
+    emails?: string[];
+    upns?: string[];
+}
+
+// @public
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
+    enabled?: boolean;
+    requestOptions?: coreHttp.RequestOptionsBase;
+}
+
+// @public
 export interface DeletedCertificate extends Certificate {
     readonly deletedDate?: Date;
     recoveryId?: string;
     readonly scheduledPurgeDate?: Date;
 }
+
+// @public
+export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
 export interface ErrorModel {
@@ -157,12 +224,30 @@ export interface IssuerParameters {
 }
 
 // @public
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+// @public
 export interface KeyProperties {
-    curve?: JsonWebKeyCurveName;
+    curve?: KeyCurveName;
     exportable?: boolean;
     keySize?: number;
-    keyType?: JsonWebKeyType;
+    keyType?: KeyType;
     reuseKey?: boolean;
+}
+
+// @public
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+
+// @public
+export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
+
+// @public
+export interface KeyVaultClientCreateCertificateOptionalParams extends coreHttp.RequestOptionsBase {
+    certificateAttributes?: CertificateAttributes;
+    certificatePolicy?: CoreCertificatePolicy;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -179,8 +264,7 @@ export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends core
 // @public
 export interface KeyVaultClientImportCertificateOptionalParams extends coreHttp.RequestOptionsBase {
     certificateAttributes?: CertificateAttributes;
-    // Warning: (ae-forgotten-export) The symbol "CertificatePolicy" needs to be exported by the entry point index.d.ts
-    certificatePolicy?: CertificatePolicy_2;
+    certificatePolicy?: CoreCertificatePolicy;
     password?: string;
     tags?: {
         [propertyName: string]: string;
@@ -205,7 +289,7 @@ export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends cor
 // @public
 export interface KeyVaultClientUpdateCertificateOptionalParams extends coreHttp.RequestOptionsBase {
     certificateAttributes?: CertificateAttributes;
-    certificatePolicy?: CertificatePolicy_2;
+    certificatePolicy?: CoreCertificatePolicy;
     tags?: {
         [propertyName: string]: string;
     };
@@ -213,9 +297,7 @@ export interface KeyVaultClientUpdateCertificateOptionalParams extends coreHttp.
 
 // @public
 export interface LifetimeAction {
-    // Warning: (ae-forgotten-export) The symbol "Action" needs to be exported by the entry point index.d.ts
     action?: Action;
-    // Warning: (ae-forgotten-export) The symbol "Trigger" needs to be exported by the entry point index.d.ts
     trigger?: Trigger;
 }
 
@@ -223,54 +305,28 @@ export interface LifetimeAction {
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export interface NewPipelineOptions {
-    // (undocumented)
-    HTTPClient?: HttpClient;
-    // (undocumented)
-    logger?: HttpPipelineLogger;
-    // (undocumented)
-    proxyOptions?: ProxyOptions;
-    // (undocumented)
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
-// @public
 export interface OrganizationDetails {
-    // Warning: (ae-forgotten-export) The symbol "AdministratorDetails" needs to be exported by the entry point index.d.ts
     adminDetails?: AdministratorDetails[];
     id?: string;
 }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
-
-// @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
-}
+export { PipelineOptions }
 
 // @public
 export interface SecretProperties {
     contentType?: string;
 }
 
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
+// @public
+export interface SubjectAlternativeNames {
+    subjectType: "emails" | "dnsNames" | "upns";
+    subjectValues: string[];
+}
+
+// @public
+export interface Trigger {
+    daysBeforeExpiry?: number;
+    lifetimePercentage?: number;
 }
 
 // @public
@@ -278,8 +334,7 @@ export interface X509CertificateProperties {
     ekus?: string[];
     keyUsage?: KeyUsageType[];
     subject?: string;
-    // Warning: (ae-forgotten-export) The symbol "SubjectAlternativeNames" needs to be exported by the entry point index.d.ts
-    subjectAlternativeNames?: SubjectAlternativeNames_2;
+    subjectAlternativeNames?: CoreSubjectAlternativeNames;
     validityInMonths?: number;
 }
 

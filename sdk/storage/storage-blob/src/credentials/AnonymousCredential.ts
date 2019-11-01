@@ -18,7 +18,7 @@ import { Credential } from "./Credential";
  */
 export class AnonymousCredential extends Credential {
   /**
-   * Creates an AnonymousCredentialPolicy object.
+   * Creates an {@link AnonymousCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options

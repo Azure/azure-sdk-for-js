@@ -85,16 +85,39 @@ export class ServiceEndpointPolicies {
   }
 
   /**
-   * Updates service Endpoint Policies.
+   * Updates tags of a service endpoint policy.
    * @param resourceGroupName The name of the resource group.
    * @param serviceEndpointPolicyName The name of the service endpoint policy.
    * @param parameters Parameters supplied to update service endpoint policy tags.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceEndpointPoliciesUpdateResponse>
+   * @returns Promise<Models.ServiceEndpointPoliciesUpdateTagsResponse>
    */
-  update(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPoliciesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serviceEndpointPolicyName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServiceEndpointPoliciesUpdateResponse>;
+  updateTags(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPoliciesUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceEndpointPolicyName The name of the service endpoint policy.
+   * @param parameters Parameters supplied to update service endpoint policy tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceEndpointPolicyName The name of the service endpoint policy.
+   * @param parameters Parameters supplied to update service endpoint policy tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): void;
+  updateTags(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicy>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicy>): Promise<Models.ServiceEndpointPoliciesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceEndpointPolicyName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.ServiceEndpointPoliciesUpdateTagsResponse>;
   }
 
   /**
@@ -188,26 +211,6 @@ export class ServiceEndpointPolicies {
   }
 
   /**
-   * Updates service Endpoint Policies.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceEndpointPolicyName The name of the service endpoint policy.
-   * @param parameters Parameters supplied to update service endpoint policy tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdate(resourceGroupName: string, serviceEndpointPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        serviceEndpointPolicyName,
-        parameters,
-        options
-      },
-      beginUpdateOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all the service endpoint policies in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -281,6 +284,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServiceEndpointPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceEndpointPolicyName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ServiceEndpointPolicy
@@ -390,38 +425,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ServiceEndpointPolicy
     },
     201: {
-      bodyMapper: Mappers.ServiceEndpointPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceEndpointPolicyName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.ServiceEndpointPolicy
     },
     default: {

@@ -279,7 +279,6 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
-            this.name,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
@@ -555,9 +554,7 @@ export class MessageSession extends LinkEntity {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
-          sbError.message = `The session lock has expired on the session with id ${
-            this.sessionId
-          }.`;
+          sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
@@ -780,9 +777,7 @@ export class MessageSession extends LinkEntity {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-            `any messages in the last ${
-              this.newMessageWaitTimeoutInSeconds
-            } seconds. Hence closing it.`;
+            `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           if (this.callee === SessionCallee.sessionManager) {
@@ -942,7 +937,7 @@ export class MessageSession extends LinkEntity {
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let totalWaitTimer: NodeJS.Timer | undefined;;
+      let totalWaitTimer: any;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
@@ -1083,9 +1078,7 @@ export class MessageSession extends LinkEntity {
           this._newMessageReceivedTimer = setTimeout(async () => {
             const msg =
               `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-              `any messages in the last ${
-                this.newMessageWaitTimeoutInSeconds
-              } seconds. Hence closing it.`;
+              `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
             log.error("[%s] %s", this._context.namespace.connectionId, msg);
             finalAction();
             if (this.callee === SessionCallee.sessionManager) {

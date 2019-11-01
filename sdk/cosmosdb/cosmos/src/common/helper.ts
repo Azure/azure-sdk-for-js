@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosClientOptions } from "../CosmosClientOptions";
-import { Constants, OperationType, ResourceType } from "./constants";
+import { OperationType, ResourceType } from "./constants";
 
-/** @ignore */
-const Regexes = Constants.RegularExpressions;
+const trimLeftSlashes = new RegExp("^[/]+");
+const trimRightSlashes = new RegExp("[/]+$");
+const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 
 /** @hidden */
 export function jsonStringifyAndEscapeNonASCII(arg: any) {
@@ -102,9 +103,7 @@ export function getContainerLink(link: string) {
  * @ignore
  */
 export function trimSlashes(source: string) {
-  return source
-    .replace(Constants.RegularExpressions.TrimLeftSlashes, "")
-    .replace(Constants.RegularExpressions.TrimRightSlashes, "");
+  return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
@@ -241,7 +240,7 @@ export function trimSlashFromLeftAndRight(inputString: string) {
     throw new Error("invalid input: input is not string");
   }
 
-  return inputString.replace(Regexes.TrimLeftSlashes, "").replace(Regexes.TrimRightSlashes, "");
+  return inputString.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
@@ -259,7 +258,7 @@ export function validateResourceId(resourceId: string) {
   }
 
   // if resource id contains illegal characters throw an error
-  if (Regexes.IllegalResourceIdCharacters.test(resourceId)) {
+  if (illegalResourceIdCharacters.test(resourceId)) {
     throw new Error("Illegal characters ['/', '\\', '?', '#'] cannot be used in resourceId");
   }
 

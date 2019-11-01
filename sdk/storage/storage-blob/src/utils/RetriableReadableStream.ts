@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RestError, TransferProgressEvent } from "@azure/core-http";
+import { TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignal, AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
@@ -48,7 +48,7 @@ export interface RetriableReadableStreamOptions {
   doInjectErrorOnce?: boolean;
 }
 
-const ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { KeyClient, DeletedKey } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `recover${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -33,21 +36,21 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
 
-    const deletePoller = await client.beginDeleteKey(keyName);
+    const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedKey(keyName);
-    assert.ok(poller.getOperationState().started);
+    const poller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
+    assert.ok(poller.getOperationState().isStarted);
 
     // The pending key can be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+    assert.equal(poller.getOperationState().result!.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
-    assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(poller.getOperationState().completed);
+    assert.equal(deletedKey.name, keyName);
+    assert.ok(poller.getOperationState().isCompleted);
 
     // The final key can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+    assert.equal(poller.getOperationState().result!.name, keyName);
 
     await testClient.flushKey(keyName);
   });
@@ -55,11 +58,11 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   it("can resume from a stopped poller", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const deletePoller = await client.beginDeleteKey(keyName);
+    const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedKey(keyName);
-    assert.ok(poller.getOperationState().started);
+    const poller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
+    assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
@@ -71,19 +74,36 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
     poller.stopPolling();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().completed);
+    assert.ok(!poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
     const resumePoller = await client.beginRecoverDeletedKey(keyName, {
-      resumeFrom: serialized
+      resumeFrom: serialized,
+      ...testPollerProperties
     });
 
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
-    assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(resumePoller.getOperationState().completed);
+    assert.equal(deletedKey.name, keyName);
+    assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
   });
+
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can recover a deleted key with requestOptions timeout", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      await client.createKey(keyName, "RSA");
+      const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await assertThrowsAbortError(async () => {
+        await client.beginRecoverDeletedKey(keyName, {
+          requestOptions: { timeout: 1 },
+          ...testPollerProperties
+        });
+      });
+    });
+  }
 });

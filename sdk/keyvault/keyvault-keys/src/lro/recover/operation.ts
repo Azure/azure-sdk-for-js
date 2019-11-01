@@ -4,15 +4,24 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { Key, KeyClientInterface } from "../../keysModels";
+import { KeyVaultKey, KeyClientInterface } from "../../keysModels";
 
 /**
  * @interface
  * An interface representing the state of a delete key's poll operation
  */
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
+  /**
+   * The name of the key.
+   */
   name: string;
+  /**
+   * Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * An interface representing a KeyClient. For internal use.
+   */
   client: KeyClientInterface;
 }
 
@@ -21,7 +30,7 @@ export interface RecoverDeletedKeyPollOperationState extends PollOperationState<
  * An interface representing a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperation
-  extends PollOperation<RecoverDeletedKeyPollOperationState, Key> {}
+  extends PollOperation<RecoverDeletedKeyPollOperationState, KeyVaultKey> {}
 
 /**
  * @summary Reaches to the service and updates the delete key's poll operation.
@@ -42,28 +51,28 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.started) {
+  if (!state.isStarted) {
     try {
       state.result = await client.getKey(name, { requestOptions });
-      state.completed = true;
+      state.isCompleted = true;
     } catch (_) {}
-    if (!state.completed) {
+    if (!state.isCompleted) {
       state.result = await client.recoverDeletedKey(name, { requestOptions });
-      state.started = true;
+      state.isStarted = true;
     }
   }
 
-  if (!state.completed) {
+  if (!state.isCompleted) {
     try {
       state.result = await client.getKey(name, { requestOptions });
-      state.completed = true;
+      state.isCompleted = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.completed = true;
+        state.isCompleted = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.completed = true;
+        state.isCompleted = true;
       }
     }
   }

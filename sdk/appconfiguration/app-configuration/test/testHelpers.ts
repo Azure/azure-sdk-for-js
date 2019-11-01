@@ -12,19 +12,21 @@ import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
 dotenv.config();
 
-export function getConnectionStringFromEnvironment(): (string | undefined) {
+export function getConnectionStringFromEnvironment(): string | undefined {
   return process.env["AZ_CONFIG_CONNECTION"];
 }
 
 let connectionStringNotPresentWarning = false;
 
-export function createAppConfigurationClientForTests(): (AppConfigurationClient|undefined) {
+export function createAppConfigurationClientForTests(): AppConfigurationClient | undefined {
   const connectionString = getConnectionStringFromEnvironment();
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
       connectionStringNotPresentWarning = true;
-      console.log("Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate");
+      console.log(
+        "Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate"
+      );
     }
     return undefined;
   }
@@ -79,7 +81,12 @@ export function assertEqualSettings(
   actual: ConfigurationSetting[]
 ) {
   actual = actual.map((setting) => {
-    return { key: setting.key, label: setting.label, value: setting.value, readOnly: setting.readOnly };
+    return {
+      key: setting.key,
+      label: setting.label,
+      value: setting.value,
+      readOnly: setting.readOnly
+    };
   });
 
   assert.deepEqual(expected, actual);
@@ -101,6 +108,16 @@ export async function assertThrowsRestError(
 
     assert.fail(`${message}: Caught error but wasn't a RestError: ${err}`);
   }
-  
+
   return new Error("We won't reach this - both cases above throw because of assert.fail()");
+}
+
+export async function assertThrowsAbortError(testFunction: () => Promise<any>, message = "") {
+  try {
+    await testFunction();
+    assert.fail(`${message}: No error thrown`);
+  } catch (e) {
+    assert.equal(e.name, "AbortError");
+    return e;
+  }
 }

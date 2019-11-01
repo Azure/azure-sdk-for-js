@@ -23,8 +23,6 @@ import {
   getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
 
-import { getAssociatedReceiverName } from "../src/util/utils";
-
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
@@ -128,7 +126,7 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, onMessage, onError, {
       ...options,
       receiveMode: this._receiveMode
     })
@@ -137,7 +135,7 @@ export class Receiver {
           return;
         }
         if (!this.isClosed) {
-          sReceiver.receive(onMessage, onError);
+          sReceiver.receive();
         } else {
           await sReceiver.close();
         }
@@ -224,10 +222,7 @@ export class Receiver {
         ? String(lockTokenOrMessage.lockToken)
         : String(lockTokenOrMessage);
 
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(
-      lockToken,
-      getAssociatedReceiverName(this._context)
-    );
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
 
     return lockedUntilUtc;
   }
@@ -255,8 +250,7 @@ export class Receiver {
 
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
-      this._receiveMode,
-      getAssociatedReceiverName(this._context)
+      this._receiveMode
     );
     return messages[0];
   }
@@ -287,8 +281,7 @@ export class Receiver {
 
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-      this._receiveMode,
-      getAssociatedReceiverName(this._context)
+      this._receiveMode
     );
   }
 
@@ -508,8 +501,7 @@ export class SessionReceiver {
     await this._createMessageSessionIfDoesntExist();
 
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-      this.sessionId!,
-      this._messageSession!.name
+      this.sessionId!
     );
     return this._messageSession!.sessionLockedUntilUtc!;
   }
@@ -524,8 +516,7 @@ export class SessionReceiver {
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.setSessionState(
       this.sessionId!,
-      state,
-      this._messageSession!.name
+      state
     );
   }
 
@@ -538,8 +529,7 @@ export class SessionReceiver {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.getSessionState(
-      this.sessionId!,
-      this._messageSession!.name
+      this.sessionId!
     );
   }
 
@@ -557,11 +547,7 @@ export class SessionReceiver {
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekMessagesBySession(
-      this.sessionId!,
-      this._messageSession!.name,
-      maxMessageCount
-    );
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
   }
 
   /**
@@ -583,8 +569,7 @@ export class SessionReceiver {
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId,
-      this._messageSession!.name
+      this.sessionId
     );
   }
 
@@ -613,7 +598,6 @@ export class SessionReceiver {
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode,
-      this._messageSession!.name,
       this.sessionId
     );
     return messages[0];
@@ -647,7 +631,6 @@ export class SessionReceiver {
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
-      this._messageSession!.name,
       this.sessionId
     );
   }

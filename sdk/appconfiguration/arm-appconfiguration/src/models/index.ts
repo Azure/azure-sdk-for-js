@@ -156,6 +156,71 @@ export interface RegenerateKeyParameters {
 }
 
 /**
+ * The parameters used to list a configuration store key-value
+ */
+export interface ListKeyValueParameters {
+  /**
+   * The key to retrieve.
+   */
+  key: string;
+  /**
+   * The label of the key.
+   */
+  label?: string;
+}
+
+/**
+ * The result of a request to retrieve a key-value from the specified configuration store.
+ */
+export interface KeyValue {
+  /**
+   * The primary identifier of a key-value.
+   * The key is used in unison with the label to uniquely identify a key-value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly key?: string;
+  /**
+   * A value used to group key-values.
+   * The label is used in unison with the key to uniquely identify a key-value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * The value of the key-value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * The content type of the key-value's value.
+   * Providing a proper content-type can enable transformations of values when they are retrieved
+   * by applications.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contentType?: string;
+  /**
+   * An ETag indicating the state of a key-value within a configuration store.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eTag?: string;
+  /**
+   * The last time a modifying operation was performed on the given key-value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModified?: Date;
+  /**
+   * A value indicating whether the key-value is locked.
+   * A locked key-value may not be modified until it is unlocked.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locked?: boolean;
+  /**
+   * A dictionary of tags that can help identify what a key-value may be applicable for.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tags?: { [propertyName: string]: string };
+}
+
+/**
  * The display information for a configuration store operation.
  */
 export interface OperationDefinitionDisplay {
@@ -442,6 +507,26 @@ export type ConfigurationStoresRegenerateKeyResponse = ApiKey & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ApiKey;
+    };
+};
+
+/**
+ * Contains response data for the listKeyValue operation.
+ */
+export type ConfigurationStoresListKeyValueResponse = KeyValue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KeyValue;
     };
 };
 

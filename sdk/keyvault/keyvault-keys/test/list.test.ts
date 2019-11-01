@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
@@ -31,14 +34,14 @@ describe("Keys client - list keys in various ways", () => {
 
   it("can purge all keys", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const key of client.listKeys()) {
+    for await (const properties of client.listPropertiesOfKeys()) {
       try {
-        await testClient.flushKey(key.name);
+        await testClient.flushKey(properties.name);
       } catch (e) {}
     }
-    for await (const key of client.listDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       try {
-        await testClient.purgeKey(key.name);
+        await testClient.purgeKey(deletedKey.name);
       } catch (e) {}
     }
   });
@@ -47,24 +50,40 @@ describe("Keys client - list keys in various ways", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (const version of client.listKeyVersions(keyName)) {
-      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
+    for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
+      assert.equal(
+        version.name,
+        keyName,
+        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
     await testClient.flushKey(keyName);
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get the versions of a key with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
+
   it("can get the versions of a key (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (const page of client.listKeyVersions(keyName).byPage()) {
+    for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
       for (const version of page) {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions()."
         );
         totalVersions += 1;
       }
@@ -76,8 +95,12 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
-    for await (const version of client.listKeyVersions(keyName)) {
-      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
+    for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
+      assert.equal(
+        version.name,
+        keyName,
+        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
@@ -86,12 +109,12 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
-    for await (const page of client.listKeyVersions(keyName).byPage()) {
+    for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
       for (const version of page) {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions()."
         );
         totalVersions += 1;
       }
@@ -107,9 +130,9 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const key of client.listKeys()) {
+    for await (const properties of client.listPropertiesOfKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(key.name)) continue;
+      if (!keyNames.includes(properties.name)) continue;
       found += 1;
     }
 
@@ -120,6 +143,17 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get several inserted keys with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
+
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
+
   it("can get several inserted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
@@ -128,10 +162,10 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listKeys().byPage()) {
-      for (const key of page) {
+    for await (const page of client.listPropertiesOfKeys().byPage()) {
+      for (const properties of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(key.name)) continue;
+        if (!keyNames.includes(properties.name)) continue;
         found += 1;
       }
     }
@@ -150,7 +184,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 
@@ -160,9 +194,9 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const key of client.listDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(key.name)) continue;
+      if (!keyNames.includes(deletedKey.name)) continue;
       found += 1;
     }
 
@@ -173,6 +207,16 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("list deleted keys with requestOptions timeout", async function() {
+      const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
+
   it("list deleted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
@@ -180,7 +224,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 
@@ -191,9 +235,9 @@ describe("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {
-      for (const key of page) {
+      for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(key.name)) continue;
+        if (!keyNames.includes(deletedKey.name)) continue;
         found += 1;
       }
     }

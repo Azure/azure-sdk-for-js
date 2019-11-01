@@ -84,22 +84,6 @@ export class EventDataBatch {
 }
 
 // @public
-export class EventHubClient {
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    close(): Promise<void>;
-    createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
-    createProducer(options?: EventHubProducerOptions): EventHubProducer;
-    static defaultConsumerGroupName: string;
-    readonly eventHubName: string;
-    readonly fullyQualifiedNamespace: string;
-    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
-    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-}
-
-// @public
 export interface EventHubClientOptions {
     dataTransformer?: DataTransformer;
     retryOptions?: RetryOptions;
@@ -109,20 +93,19 @@ export interface EventHubClientOptions {
 }
 
 // @public
-export class EventHubConsumer {
-    // @internal
-    constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
+export class EventHubConsumerClient {
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
-    readonly consumerGroup: string;
-    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
-    readonly isClosed: boolean;
-    readonly isReceivingMessages: boolean;
-    readonly lastEnqueuedEventInfo: LastEnqueuedEventInfo;
-    readonly ownerLevel: number | undefined;
-    readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
-    }
+    static defaultConsumerGroupName: string;
+    getPartitionIds(): Promise<string[]>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionIds: string[], options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
+}
 
 // @public
 export interface EventHubConsumerOptions {
@@ -140,6 +123,24 @@ export class EventHubProducer {
     readonly isClosed: boolean;
     send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
     }
+
+// @public
+export class EventHubProducerClient {
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    close(): Promise<void>;
+    // (undocumented)
+    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
+    // (undocumented)
+    sendBatch(batch: EventDataBatch, options?: SendOptions): Promise<void>;
+    // (undocumented)
+    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendOptions): Promise<void>;
+}
 
 // @public
 export interface EventHubProducerOptions {
@@ -177,18 +178,16 @@ export class EventPosition {
     }
 
 // @public
-export class EventProcessor {
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
-    readonly id: string;
-    start(): void;
-    stop(): Promise<void>;
-}
-
-// @public
-export interface EventProcessorOptions {
+export interface EventProcessorCommonOptions {
+    defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     trackLastEnqueuedEventInfo?: boolean;
+}
+
+// @public
+export interface EventProcessorOptions extends EventProcessorCommonOptions {
+    partitionLoadBalancer?: PartitionLoadBalancer;
 }
 
 // @public
@@ -224,14 +223,49 @@ export interface LastEnqueuedEventInfo {
 export { MessagingError }
 
 // @public
-export type OnError = (error: MessagingError | Error) => void;
+export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type OnMessage = (eventData: ReceivedEventData) => void;
+export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+// @public
+export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
+
+// @public (undocumented)
+export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export interface OptionalEventHandlers {
+    onClose?: OnCloseHandler;
+    onError?: OnErrorHandler;
+    onInitialize?: OnInitializeHandler;
+}
 
 // @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
+}
+
+// @public
+export interface PartitionCheckpointer {
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+    // (undocumented)
+    updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
+}
+
+// @public
+export interface PartitionContext {
+    consumerGroupName: string;
+    eventHubName: string;
+    fullyQualifiedNamespace: string;
+    partitionId: string;
+}
+
+// @public (undocumented)
+export interface PartitionLoadBalancer {
+    // (undocumented)
+    loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[];
 }
 
 // @public
@@ -242,16 +276,12 @@ export interface PartitionManager {
 }
 
 // @public
-export interface PartitionOwnership {
-    consumerGroupName: string;
+export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
     ownerLevel: number;
-    partitionId: string;
     sequenceNumber?: number;
 }
 
@@ -316,6 +346,16 @@ export interface SendOptions {
     abortSignal?: AbortSignalLike;
     parentSpan?: Span | SpanContext;
     partitionKey?: string | null;
+}
+
+// @public
+export interface Subscription {
+    close(): Promise<void>;
+    isRunning(): boolean;
+}
+
+// @public
+export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorCommonOptions {
 }
 
 export { TokenCredential }

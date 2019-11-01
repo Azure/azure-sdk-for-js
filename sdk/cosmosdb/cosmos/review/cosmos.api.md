@@ -100,19 +100,6 @@ export enum ConsistencyLevel {
 
 // @public (undocumented)
 export const Constants: {
-    MediaTypes: {
-        Any: string;
-        ImageJpeg: string;
-        ImagePng: string;
-        Javascript: string;
-        Json: string;
-        OctetStream: string;
-        QueryJson: string;
-        SQL: string;
-        TextHtml: string;
-        TextPlain: string;
-        Xml: string;
-    };
     HttpHeaders: {
         Authorization: string;
         ETag: string;
@@ -219,8 +206,6 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
-    Name: string;
-    DatabaseAccountEndpoint: string;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -228,20 +213,6 @@ export const Constants: {
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
-    DefaultPrecisions: {
-        DefaultNumberHashPrecision: number;
-        DefaultNumberRangePrecision: number;
-        DefaultStringHashPrecision: number;
-        DefaultStringRangePrecision: number;
-    };
-    ConsistentHashRing: {
-        DefaultVirtualNodesPerCollection: number;
-    };
-    RegularExpressions: {
-        TrimLeftSlashes: RegExp;
-        TrimRightSlashes: RegExp;
-        IllegalResourceIdCharacters: RegExp;
-    };
     Quota: {
         CollectionSize: string;
     };
@@ -578,12 +549,12 @@ export class Items {
     query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
-    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
@@ -664,11 +635,8 @@ export enum OperationType {
     Upsert = "upsert"
 }
 
-// Warning: (ae-forgotten-export) The symbol "Point" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "Range" needs to be exported by the entry point index.d.ts
-// 
 // @public (undocumented)
-export type PartitionKey = PartitionKeyDefinition | Point | Range | {};
+export type PartitionKey = PartitionKeyDefinition | string | number | {};
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {

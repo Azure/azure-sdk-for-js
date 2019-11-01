@@ -16,11 +16,11 @@ export interface KeyInfo {
   /**
    * The date-time the key is active in ISO 8601 UTC time
    */
-  start: string;
+  startsOn: string;
   /**
    * The date-time the key expires in ISO 8601 UTC time
    */
-  expiry: string;
+  expiresOn: string;
 }
 
 /**
@@ -40,13 +40,13 @@ export interface UserDelegationKey {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedStart: string;
+  signedStartsOn: string;
   /**
    * The date-time the key expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedExpiry: string;
+  signedExpiresOn: string;
   /**
    * Abbreviation of the Azure Storage service that accepts the key
    */
@@ -101,13 +101,13 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start: string;
+  startsOn: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry: string;
+  expiresOn: string;
   /**
    * the permissions for the acl policy
    */
@@ -203,7 +203,6 @@ export interface ListBlobsFlatSegmentResponse {
   prefix?: string;
   marker?: string;
   maxPageSize?: number;
-  delimiter?: string;
   segment: BlobFlatListSegment;
   continuationToken?: string;
 }
@@ -2101,6 +2100,11 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
+  /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
    * destination blob. If one or more name-value pairs are specified, the destination blob is
@@ -2121,11 +2125,6 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
-  /**
-   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
-   */
-  tier?: AccessTier;
   /**
    * Additional parameters for the operation
    */
@@ -2581,6 +2580,10 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    */
   timeoutInSeconds?: number;
   /**
+   * Specify the transactional md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
    * destination blob. If one or more name-value pairs are specified, the destination blob is
@@ -2937,11 +2940,6 @@ export interface ServiceGetAccountInfoHeaders {
  */
 export interface ServiceSubmitBatchHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * The media type of the body of the response. For batch requests, this is multipart/mixed;
    * boundary=batchresponse_GUID
    */
@@ -2956,6 +2954,11 @@ export interface ServiceSubmitBatchHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -2967,7 +2970,7 @@ export interface ContainerCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3006,7 +3009,7 @@ export interface ContainerGetPropertiesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3098,7 +3101,7 @@ export interface ContainerSetMetadataHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3141,7 +3144,7 @@ export interface ContainerGetAccessPolicyHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3179,7 +3182,7 @@ export interface ContainerSetAccessPolicyHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3217,7 +3220,7 @@ export interface ContainerAcquireLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3259,7 +3262,7 @@ export interface ContainerReleaseLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3297,7 +3300,7 @@ export interface ContainerRenewLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3339,7 +3342,7 @@ export interface ContainerBreakLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3381,7 +3384,7 @@ export interface ContainerChangeLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3520,7 +3523,7 @@ export interface DirectoryCreateHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3565,7 +3568,7 @@ export interface DirectoryRenameHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3639,7 +3642,7 @@ export interface DirectorySetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3672,7 +3675,7 @@ export interface DirectoryGetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3742,7 +3745,7 @@ export interface BlobDownloadHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -3975,7 +3978,8 @@ export interface BlobGetPropertiesHeaders {
    */
   leaseStatus?: LeaseStatusType;
   /**
-   * The number of bytes present in the response body.
+   * The size of the blob in bytes. For a page blob, this header returns the value of the
+   * x-ms-blob-content-length header that is stored with the blob.
    */
   contentLength?: number;
   /**
@@ -3987,7 +3991,7 @@ export interface BlobGetPropertiesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -4126,7 +4130,7 @@ export interface BlobSetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -4159,7 +4163,7 @@ export interface BlobGetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -4207,7 +4211,7 @@ export interface BlobRenameHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -4245,7 +4249,7 @@ export interface PageBlobCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4298,7 +4302,7 @@ export interface AppendBlobCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4351,7 +4355,7 @@ export interface BlockBlobUploadHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4431,7 +4435,7 @@ export interface BlobSetHTTPHeadersHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4474,7 +4478,7 @@ export interface BlobSetMetadataHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4522,7 +4526,7 @@ export interface BlobAcquireLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4564,7 +4568,7 @@ export interface BlobReleaseLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4602,7 +4606,7 @@ export interface BlobRenewLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4644,7 +4648,7 @@ export interface BlobChangeLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4686,7 +4690,7 @@ export interface BlobBreakLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4733,7 +4737,7 @@ export interface BlobCreateSnapshotHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4777,7 +4781,7 @@ export interface BlobStartCopyFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4825,7 +4829,7 @@ export interface BlobCopyFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5054,7 +5058,7 @@ export interface BlockBlobCommitBlockListHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5120,7 +5124,7 @@ export interface BlockBlobGetBlockListHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The media type of the body of the response. For Get Block List this is 'application/xml'
    */
@@ -5160,7 +5164,7 @@ export interface PageBlobUploadPagesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5223,7 +5227,7 @@ export interface PageBlobClearPagesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5276,7 +5280,7 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5319,8 +5323,8 @@ export interface PageBlobUploadPagesFromURLHeaders {
    */
   isServerEncrypted?: boolean;
   /**
-   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
-   * when the pages were encrypted with a customer-provided key.
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
   errorCode?: string;
@@ -5340,7 +5344,7 @@ export interface PageBlobGetPageRangesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the blob in bytes.
    */
@@ -5382,7 +5386,7 @@ export interface PageBlobGetPageRangesDiffHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the blob in bytes.
    */
@@ -5418,7 +5422,7 @@ export interface PageBlobResizeHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5461,7 +5465,7 @@ export interface PageBlobUpdateSequenceNumberHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5504,7 +5508,7 @@ export interface PageBlobCopyIncrementalHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5552,7 +5556,7 @@ export interface AppendBlobAppendBlockHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5621,7 +5625,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5669,6 +5673,11 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
   errorCode?: string;
 }
 
@@ -5771,11 +5780,14 @@ export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
  * 'PreviousSnapshotOperationNotSupported', 'SequenceNumberConditionNotMet',
  * 'SequenceNumberIncrementTooLarge', 'SnapshotCountExceeded', 'SnaphotOperationRateExceeded',
  * 'SnapshotsPresent', 'SourceConditionNotMet', 'SystemInUse', 'TargetConditionNotMet',
- * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived'
+ * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived',
+ * 'AuthorizationSourceIPMismatch', 'AuthorizationProtocolMismatch',
+ * 'AuthorizationPermissionMismatch', 'AuthorizationServiceMismatch',
+ * 'AuthorizationResourceTypeMismatch'
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch';
 
 /**
  * Defines values for GeoReplicationStatusType.

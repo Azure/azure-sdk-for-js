@@ -4,10 +4,10 @@
 import { assert } from "chai";
 import { HttpHeaders, RawHttpHeaders } from "../lib/httpHeaders";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { LogPolicy } from "../lib/policies/logPolicy";
+import { LogPolicy, LogPolicyOptions } from "../lib/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { WebResource } from "../lib/webResource";
-import { getLogLevel, setLogLevel, AzureLogLevel } from "@azure/logger";
+import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
@@ -31,21 +31,25 @@ function assertLog(
 ): void {
   let output = "";
 
-  const logger = (message: string): void => {
+  const loggerFn = (message: string): void => {
     output += message + "\n";
   };
 
-  const options = {
-    allowedHeaderNames: ["x-ms-safe-header"],
+  const logger: Debugger = Object.assign(loggerFn, {
+    enabled: true,
+    destroy: () => true,
+    namespace: "test",
+    extend: () => logger,
+    log: () => {}
+  });
+
+  const options: LogPolicyOptions = {
+    logger,
+    allowedHeaderNames: ["Capitalized-Header", "x-ms-safe-header"],
     allowedQueryParameters: ["api-version"]
   };
 
-  const lf = new LogPolicy(
-    getNextPolicy(responseHeaders),
-    new RequestPolicyOptions(),
-    logger,
-    options
-  );
+  const lf = new LogPolicy(getNextPolicy(responseHeaders), new RequestPolicyOptions(), options);
 
   lf.sendRequest(request)
     .then(() => {
@@ -120,6 +124,33 @@ Headers: {
       "x-ms-oh-noes": ":-p"
     });
   });
+
+  it("redacts request headers with different casing", (done) => {
+    const expected = `Request: {
+  "url": "https://foo.com",
+  "method": "PUT",
+  "headers": {
+    "_headersMap": {
+      "capitalized-header": "Don't redact me, bro",
+      "x-ms-safe-header": "It me"
+    }
+  },
+  "withCredentials": false,
+  "timeout": 0
+}
+Response status code: 200
+Headers: {
+  "_headersMap": {}
+}
+`;
+
+    const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
+      "Capitalized-Header": "Don't redact me, bro",
+      "x-ms-safe-header": "It me",
+    });
+    assertLog(request, expected, done);
+  });
+
 
   it("redacts query parameters in the query field", (done) => {
     const expected = `Request: {
