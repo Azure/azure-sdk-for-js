@@ -16,9 +16,6 @@ jobs:
       PackageName: "@azure/service-bus"
       # Use a more simple matrix because these tests run for a long time
       Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
