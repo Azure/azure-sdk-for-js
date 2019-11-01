@@ -3,6 +3,7 @@ import {
   SecretProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
+  KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
@@ -438,13 +439,13 @@ export interface IssuerProperties {
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
  */
-export interface ListCertificatesOptions extends coreHttp.OperationOptions {}
+export interface ListCertificatesOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
  */
-export interface ListCertificateVersionsOptions extends coreHttp.OperationOptions {}
+export interface ListCertificateVersionsOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {}
 
 /**
  * @interface
