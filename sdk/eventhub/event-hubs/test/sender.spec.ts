@@ -249,7 +249,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe.only("Create batch", function(): void {
+  describe("Create batch", function(): void {
     it("should be sent successfully", async function(): Promise<void> {
       const list = [
         "Albert",
