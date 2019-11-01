@@ -7,7 +7,7 @@ const should = chai.should();
 
 interface ReceivedMessages {
   closeReason?: CloseReason;
-  errors: Error[];
+  lastError?: Error;
 }
 
 /**
@@ -70,7 +70,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     }
 
     const receivedData = this.get(context.partitionId);
-    receivedData.errors.push(error);
+    receivedData.lastError = error;
   }
 
   async onInitialize(context: PartitionContext): Promise<void> {
@@ -87,8 +87,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     }
 
     this.data.set(context.partitionId, {
-      closeReason: undefined,
-      errors: []
+      closeReason: undefined
     });
   }
 
@@ -113,8 +112,8 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
 
     while (!this.done) {
       for (const data of this.data) {
-        if (data[1].errors.length > 0) {
-          throw data[1].errors[0];
+        if (data[1].lastError) {
+          throw data[1].lastError;
         }
       }
 
