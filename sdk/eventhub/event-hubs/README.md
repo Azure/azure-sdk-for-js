@@ -4,10 +4,10 @@ Azure Event Hubs is a highly scalable publish-subscribe service that can ingest 
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
-[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) |
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhub.html#azure-event-hubs) |
-[Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) | 
+[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) | 
+[API Reference Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/index.html) |
+[Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) | 
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower, then please use the below links instead
@@ -54,21 +54,21 @@ For more concepts and deeper discussion, see: [Event Hubs Features](https://docs
 
 ### Authenticate the client
 
-Interaction with Event Hubs starts with an instance of the [EventHubClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubclient.html#constructor) class. You can instantiate
+Interaction with Event Hubs starts with an instance of the [EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html) class. You can instantiate
 this class using one of the below
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
-const client = new EventHubClient("my-connection-string", "my-event-hub");
+const client = new EventHubConsumerClient("my-connection-string", "my-event-hub");
 ```
 
-- This constructor takes the connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can get the connection string from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
+- This constructor takes a connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
-const client = new EventHubClient("my-connection-string-with-entity-path");
+const client = new EventHubConsumerClient("my-connection-string-with-entity-path");
 ```
 
 - The [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) is for the entire Event Hubs namespace and will not contain the path to the desired Event Hub instance which is needed for this constructor overload. In this case, the path can be added manually by adding ";EntityPath=[[ EVENT HUB NAME ]]" to the end of the connection string. For example, ";EntityPath=my-event-hub-name".
@@ -80,7 +80,7 @@ const { EventHubClient } = require("@azure/event-hubs");
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const credential = new DefaultAzureCredential();
-const client = new EventHubClient("my-host-name", "my-event-hub", credential);
+const client = new EventHubConsumerClient("my-host-name", "my-event-hub", credential);
 ```
 
 - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
@@ -93,7 +93,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub partition](#consume-events-from-an-event-hub-partition)
 - [Consume events using an Event Processor](#consume-events-using-an-event-processor)
-- [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
+- [Use EventHubConsumerClient to work with IotHub](#use-eventHubConsumerClient-to-work-with-IotHub)
 
 ### Inspect an Event Hub
 
@@ -102,10 +102,10 @@ Because partitions are owned by the Event Hub, their names are assigned at the t
 To understand what partitions are available, you query the Event Hub using the client.
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubCLient("connectionString", "eventHubName");
+  const client = new EventHubConsumerClient("connectionString", "eventHubName");
 
   const partitionIds = await client.getPartitionIds();
 
@@ -179,148 +179,82 @@ For example: `body: { "message": "Hello World" }`
 
 ### Consume events from an Event Hub partition
 
-To consume events from a single Event Hub partition in a consumer group, create an `EventHubConsumer` for that partition and consumer group combination. You will need to provide a position in the event stream from where to begin receiving events; in our example, we will read new events as they are published.
+To consume events from a single Event Hub partition in a consumer group, create an `EventHubConsumerClient` for that partition and consumer group combination. You will need to provide a position in the event stream from where to begin receiving events; in our example, we will read new events as they are published.
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
-const client = new EventHubClient("connectionString", "eventHubName");
-
-const consumer = client.createConsumer(
+const client = new EventHubConsumerClient("connectionString", "eventHubName");
+const partitionIds = await client.getPartitionIds();
+const subscription = client.subscribe(
   EventHubClient.defaultConsumerGroupName,
-  partitionIds[0],
-  EventPosition.latest()
+  (receivedEvents, context) => { },
+  [ partitionIds[0] ], {
+    defaultEventPosition: EventPosition.latest()
+  }
 );
 ```
 
 The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids.
 
-The `createConsumer` method takes an optional parameter of type [EventHubConsumerOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventhubconsumeroptions.html) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
+The `subscribe` method takes an optional parameter of type [SubscriptionOptions](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/subscriptionoptions.html) which you can use to specify options like the maxBatchSize (number of events to wait for) and maxWaitTimeInSeconds (amount of time to wait for maxBatchSize events to arrive).
 
 You can use this consumer in one of 3 ways to receive events:
 
 - [Get an array of events](#get-an-array-of-events)
 - [Register event handler](#register-event-handler)
-- [Use async iterator](#use-async-iterator)
 
-#### Get an array of events
+#### Subscribe with an event handler
 
-Use the [receiveBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#receivebatch) function which returns a promise that resolves to an array of events.
-
-This function takes an optional parameter called `abortSignal` to cancel current operation.
-
-```javascript
-const { EventHubClient } = require("@azure/event-hubs");
-
-const maxMessageCount = 10;
-
-async function main() {
-  const client = new EventHubClient("connectionString", "eventHubName");
-
-  const consumer = client.createConsumer(
-    EventHubClient.defaultConsumerGroupName,
-    partitionIds[0],
-    EventPosition.latest()
-  );
-
-  const myEvents = await consumer.receiveBatch(maxMessageCount);
-
-  await consumer.close();
-  await client.close();
-}
-
-main();
-```
-
-#### Register event handler
-
-Use the [receive](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#receive) to set up event handlers and have it running as long as you need.
+Use the [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe) to set up event handlers and have it running as long as you need.
 
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
-const { delay, EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubClient("connectionString", "eventHubName");
-
-  const consumer = client.createConsumer(
-    EventHubClient.defaultConsumerGroupName,
-    partitionIds[0],
-    EventPosition.latest()
-  );
-
-  const myEventHandler = (event) => {
+  const myEventHandler = (events, context) => {
     // your code here
   };
   const myErrorHandler = (error) => {
     // your error handler here
   };
-  const receiveHandler = consumer.receive(myEventHandler, myErrorHandler);
-
-  delay(5000);
+  const subscription = consumer.subscribe(myEventHandler, {
+    onError: myErrorHandler
+  });
 
   // When ready to stop receiving
-  await receiveHandler.stop();
-
-  await consumer.close();
+  await subscription.close();
   await client.close();
 }
 
 main();
 ```
 
-#### Use async iterator
+### Consume events using a partition manager
 
-Use the [getMessageIterator](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumer.html#geteventiterator) to get an async iterator over events.
+[EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html) is a high level construct which allows you to receive events from multiple partitions at once 
+and load balance with other consumers using the same Event Hub and consumer group
 
-This function takes an optional [EventIteratorOptions](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/eventiteratoroptions.html) parameter that includes `abortSignal` to cancel the current operation.
-
-```javascript
-const { EventHubClient } = require("@azure/event-hubs");
-
-async function main() {
-  const client = new EventHubClient("connectionString", "eventHubName");
-
-  const consumer = client.createConsumer(
-    EventHubClient.defaultConsumerGroupName,
-    partitionIds[0],
-    EventPosition.latest()
-  );
-
-  for await (const events of consumer.getEventIterator()) {
-    // your code here
-  }
-
-  await consumer.close();
-  await client.close();
-}
-
-main();
-```
-
-### Consume events using an Event Processor
-
-[EventProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventprocessor.html) is a high level construct which internally uses the `EventHubConsumer` which is mentioned in previous examples
-to receive events from multiple partitions at once.
-
-Typically, Event Processor based applications consist of one or more instances of EventProcessor instances which have been
-configured to consume events from the same Event Hub and consumer group. They balance the
-workload across different instances by distributing the partitions to be processed among themselves.
-They also allow the user to track progress when events are processed using checkpoints.
-
-The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/partitionprocessor.html)
-that you provide, allowing you to focus on business logic while the `EventProcessor` holds responsibility for managing the underlying consumer
-operations including checkpointing and load balancing.
+This also allows the user to track progress when events are processed using checkpoints.
 
 A checkpoint is meant to represent the last successfully processed event by the user from a particular
-partition of a consumer group in an Event Hub instance. The `EventProcessor` uses an instance of `PartitionManager`
+partition of a consumer group in an Event Hub instance. The `EventHubConsumerClient` uses an instance of `PartitionManager`
 to update checkpoints and to store the relevant information required by the load balancing algorithm.
-While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library,
-it is recommended to use a peristent store when running in production.
-Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the `PartitionManager` implementation from one such package.
 
-In the below example, we create two instances of EventProcessor against the same Event Hub and consumer group,
+For early development, we provide the [InMemoryPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/inmemorypartitionmanager.html) which will allow you to bootstrap your project. This implementation
+is not suitable for production usage - it does not persist checkpoints and does not allow separate processes to 
+coordinate with each other.
+
+In production, it is recommended to use a persistent store to allow multiple service instances (or processes) to 
+coordinate their work, even in the face of shutdowns or restarts.
+
+Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the
+`PartitionManager` implementation from one such package.
+
+In the below example, we create two subscriptions using the same Event Hub and consumer group,
 using an `InMemoryPartitionManager`.
 
 ```javascript
@@ -331,62 +265,49 @@ const {
   InMemoryPartitionManager
 } = require("@azure/event-hubs");
 
-// Your Partition Processor where you override the `processEvents` method to include your
-// business logic for processing events.
-// You may choose to also override other methods like `initialize`, `close`, `processError` as you see fit
-class SamplePartitionProcessor extends PartitionProcessor {
-  /**
-   * Gets called for each batch of events that are received.
-   * @param events Array of events recieved
-   * @param partitionContext Instance of class `PartitionContext` that holds information about the current
-   * partition, event hub, consumer group and the method `updateCheckpoint` for you to checkpoint an event.
-   */
-  async processEvents(events, partitionContext) {
-    /* your code here */
-  }
-}
-
 async function main() {
-  const client = new EventHubClient("my-connection-string", "my-event-hub");
+  const client = new EventHubConsumerClient("my-connection-string", "my-event-hub");
   const partitionManager = new InMemoryPartitionManager();
 
-  const processor1 = new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    SamplePartitionProcessor,
-    partitionManager
-  );
-  const processor2 = new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    SamplePartitionProcessor,
+  const subscription1 = client.subscribe(
+    "my-consumer-group",
+    (events, context) => { /* code for handling events should go here */ },
     partitionManager
   );
 
-  await processor1.start();
-  await processor2.start();
-  // At this point, both processors are consuming events from different partitions of the Event Hub and
-  // delegating them to the SamplePartitionProcessor instance created for that partition.
+  const subscription2 = client.subscribe(
+    "my-consumer-group",
+    (events, context) => { /* code for handling events should go here */ },
+    partitionManager
+  );
+
+  // At this point, both subscriptions are consuming events from different partitions of the Event Hub.
+  // The subscribers will load-balance automatically without any intervention.
   // This processing takes place in the background and will not block.
   //
   // In this example, we'll stop processing after thirty seconds.
   await delay(30000);
-  await processor1.stop();
-  await processor2.stop();
+
+  await subscription1.close();
+  await subscription2.close();
 
   await client.close();
 }
 
 main();
+
+await subscription1.close();
+await subscription2.close();
+
+// close the client itself
+await client.close();
 ```
 
-To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
+To control the number of events passed to processEvents, use the options argument for `subscribe`.
 
-**Note**: In this model, you are responsible for closing the `EventHubClient` instance to dispose it.
+### Use EventHubConsumerClient to work with IotHub
 
-### Use EventHubClient to work with IotHub
-
-You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
+You can use `EventHubConsumerClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
 The associated connection string will not have send claims,
 hence sending events is not possible.
 
@@ -395,17 +316,15 @@ hence sending events is not possible.
   e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubClient(
+  const client = new EventHubConsumerClient(
     "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
   );
-
   await client.getProperties();
   // retrieve partitionIds from client.getProperties() or client.getPartitionIds()
   const partitionId = "0";
-
   await client.getPartitionProperties(partitionId);
 
   await client.close();
@@ -413,8 +332,6 @@ async function main() {
 
 main();
 ```
-
-**Notes:** For scalable and efficient receiving, please take a look at [EventProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventprocessor.html). The EventProcessor, internally uses the batched receiver to receive events.
 
 ## Troubleshooting
 

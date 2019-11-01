@@ -1,26 +1,63 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
-  EventHubClient,
   EventHubClientOptions,
-  GetPartitionIdsOptions,
-  GetPropertiesOptions,
-  GetPartitionPropertiesOptions
+  EventHubClient,
+  GetPartitionPropertiesOptions,
+  GetPropertiesOptions
 } from "./eventHubClient";
-import { OnError, OnMessage } from "./eventHubReceiver";
-import { EventPosition } from "./eventPosition";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { ReceiveHandler } from "./receiveHandler";
-import { EventHubConsumer } from "./receiver";
+import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
+import { ReceivedEventData } from "./eventData";
+import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
+import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
+import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
+import { TokenCredential, Constants } from "@azure/core-amqp";
+import * as log from "./log";
+
+import { SubscriptionOptions, Subscription } from "./eventHubConsumerClientModels";
+import { isTokenCredential } from "@azure/core-amqp";
+import { PartitionProperties, EventHubProperties } from "./managementClient";
+
+export type OnReceivedEvents = (
+  receivedEvents: ReceivedEventData[],
+  context: PartitionContext & PartitionCheckpointer
+) => Promise<void>;
+
+/**
+ * Allow for checkpointing
+ */
+export interface PartitionCheckpointer {
+  /**
+   * Updates the checkpoint using the event data.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
+   * @return Promise<void>
+   */
+  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+  /**
+   * Updates the checkpoint using the given offset and sequence number.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
+   * @param offset The offset of the event that you want to update the checkpoint with.
+   * @return  Promise<void>.
+   */
+  updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+  updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void>;
+}
 
 /**
  * @class
- * The client is the main point of interaction with Azure Event Hubs service.
- * It offers connection to a specific Event Hub within the Event Hubs namespace along with
- * operations for receiving event data and inspecting the connected Event Hub.
+ * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
  *
  * There are multiple ways to create an `EventHubConsumerClient`
  * - Use the connection string from the SAS policy created for your Event Hub instance.
@@ -28,31 +65,15 @@ import { EventHubConsumer } from "./receiver";
  * and the name of the Event Hub instance
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
- *
  */
 export class EventHubConsumerClient {
-  private _client: EventHubClient;
-  private _consumerGroupName: string;
-  private _consumersMap: Map<string, EventHubConsumer>;
+  private _eventHubClient: EventHubClient;
 
   /**
    * @property
-   * @readonly
-   * The name of the Event Hub instance for which this client is created.
+   * The name of the default consumer group in the Event Hubs service.
    */
-  get eventHubName(): string {
-    return this._client.eventHubName;
-  }
-
-  /**
-   * @property
-   * @readonly
-   * The fully qualified Event Hubs namespace for which this client is created. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net.
-   */
-  get fullyQualifiedNamespace(): string {
-    return this._client.fullyQualifiedNamespace;
-  }
+  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 
   /**
    * @constructor
@@ -71,7 +92,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(connectionString: string, consumerGroupName: string, options?: EventHubClientOptions);
+  constructor(connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
@@ -90,12 +111,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(
-    connectionString: string,
-    eventHubName: string,
-    consumerGroupName: string,
-    options?: EventHubClientOptions
-  );
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
   /**
    * @constructor
    * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
@@ -117,46 +133,43 @@ export class EventHubConsumerClient {
   constructor(
     host: string,
     eventHubName: string,
-    consumerGroupName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
-  );
+  ); // #3
   constructor(
-    param1: string,
-    param2: string,
-    param3?: string | EventHubClientOptions,
-    param4?: TokenCredential | EventHubClientOptions,
-    options?: EventHubClientOptions
+    hostOrConnectionString1: string,
+    eventHubNameOrOptions2?: string | EventHubClientOptions,
+    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    options4?: EventHubClientOptions
   ) {
-    this._consumersMap = new Map();
-    if (isTokenCredential(param4)) {
-      this._client = new EventHubClient(param1, param2, param4, options);
-      this._consumerGroupName = param3 as string;
-    } else if (typeof param3 === "string") {
-      this._client = new EventHubClient(param1, param2, param4);
-      this._consumerGroupName = param3;
-    } else {
-      this._client = new EventHubClient(param1, param3);
-      this._consumerGroupName = param2;
-    }
-  }
+    if (isTokenCredential(credentialOrOptions3)) {
+      // #3
+      log.consumerClient("Creating client with TokenCredential");
 
-  receive(
-    onMessage: OnMessage,
-    onError: OnError,
-    partitionId: string,
-    abortSignal?: AbortSignalLike
-  ): ReceiveHandler {
-    let consumer = this._consumersMap.get(partitionId);
-    if (!consumer) {
-      consumer = this._client.createConsumer(
-        this._consumerGroupName,
-        partitionId,
-        EventPosition.latest()
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString1,
+        eventHubNameOrOptions2 as string,
+        credentialOrOptions3,
+        options4
       );
-      this._consumersMap.set(partitionId, consumer);
+    } else if (typeof eventHubNameOrOptions2 === "string") {
+      // #2
+      log.consumerClient("Creating client with connection string and event hub name");
+
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3 as EventHubClientOptions
+      );
+    } else {
+      // #1
+      log.consumerClient("Creating client with connection string");
+
+      this._eventHubClient = new EventHubClient(
+        hostOrConnectionString1,
+        eventHubNameOrOptions2 as EventHubClientOptions
+      );
     }
-    return consumer.receive(onMessage, onError, abortSignal);
   }
 
   /**
@@ -165,20 +178,8 @@ export class EventHubConsumerClient {
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  async close(): Promise<void> {
-    await this._client.close();
-    this._consumersMap.clear();
-  }
-
-  /**
-   * Provides the Event Hub runtime information.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resolves with EventHubProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   */
-  async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._client.getProperties(options);
+  close(): Promise<void> {
+    return this._eventHubClient.close();
   }
 
   /**
@@ -188,8 +189,8 @@ export class EventHubConsumerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._client.getPartitionIds(options);
+  getPartitionIds(): Promise<string[]> {
+    return this._eventHubClient.getPartitionIds();
   }
 
   /**
@@ -200,10 +201,272 @@ export class EventHubConsumerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionProperties(
+  getPartitionProperties(
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    return this._client.getPartitionProperties(partitionId, options);
+    return this._eventHubClient.getPartitionProperties(partitionId, options);
+  }
+
+  /**
+   * Provides the Event Hub runtime information.
+   * @param [options] The set of options to apply to the operation call.
+   * @returns A promise that resolves with EventHubProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
+  getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
+    return this._eventHubClient.getProperties(options);
+  }
+
+  /**
+   * Subscribe to all messages from all available partitions.
+   *
+   * Use this overload if you want to read from all partitions and not coordinate with
+   * other subscribers.
+   *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param onReceivedEvents Called when new events are received.
+   * @param options Options to handle additional events related to partitions (errors,
+   *                opening, closing) as well as batch sizing.
+   */
+  subscribe(
+    consumerGroupName: string,
+    onReceivedEvents: OnReceivedEvents,
+    options?: SubscriptionOptions
+  ): Subscription; // #1
+  /**
+   * Subscribe to all messages from a subset of partitions.
+   *
+   * Use this overload if you want to read from a specific set of partitions and not coordinate with
+   * other subscribers.
+   *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param onReceivedEvents Called when new events are received.
+   * @param partitionIds An array of partition ids to subscribe to.
+   * @param options Options to handle additional events related to partitions (errors,
+   *                opening, closing) as well as batch sizing.
+   */
+
+  subscribe(
+    consumerGroupName: string,
+    onReceivedEvents: OnReceivedEvents,
+    partitionIds: string[],
+    options?: SubscriptionOptions
+  ): Subscription; // #2
+  /**
+   * Subscribes to multiple partitions.
+   *
+   * Use this overload if you want to coordinate with other subscribers using a `PartitionManager`
+   *
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param onReceivedEvents Called when new events are received.
+   *                         This is also a good place to update checkpoints as appropriate.
+   * @param partitionManager A partition manager that manages ownership information and checkpoint details.
+   * @param options Options to handle additional events related to partitions (errors,
+   *                opening, closing) as well as batch sizing.
+   */
+  subscribe(
+    consumerGroupName: string,
+    onReceivedEvents: OnReceivedEvents,
+    partitionManager: PartitionManager,
+    options?: SubscriptionOptions
+  ): Subscription; // #3
+  subscribe(
+    consumerGroupName1: string, 
+    onReceivedEvents2: OnReceivedEvents,
+    optionsOrPartitionIdsOrPartitionManager3:
+      | SubscriptionOptions
+      | undefined
+      | string[]
+      | PartitionManager,
+    possibleOptions4?: SubscriptionOptions
+  ): Subscription {
+    let eventProcessor: EventProcessor;
+
+    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager3)) {
+      // #2: subscribe overload (read from specific partition IDs), don't coordinate
+      const partitionIds = optionsOrPartitionIdsOrPartitionManager3;
+      log.consumerClient(
+        `Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`
+      );
+
+      const partitionManager = new InMemoryPartitionManager();
+
+      const partitionProcessorType = createPartitionProcessorType(
+        onReceivedEvents2,
+        partitionManager,
+        possibleOptions4
+      );
+
+      eventProcessor = new EventProcessor(
+        consumerGroupName1,
+        this._eventHubClient,
+        partitionProcessorType,
+        partitionManager,
+        {
+          ...possibleOptions4,
+          // this load balancer will just grab _all_ the partitions, not looking at ownership
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer(partitionIds)
+        }
+      );
+    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager3)) {
+      // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
+      log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
+
+      const partitionManager = optionsOrPartitionIdsOrPartitionManager3;
+
+      const partitionProcessorType = createPartitionProcessorType(
+        onReceivedEvents2,
+        partitionManager,
+        possibleOptions4
+      );
+
+      eventProcessor = new EventProcessor(
+        consumerGroupName1,
+        this._eventHubClient,
+        partitionProcessorType,
+        partitionManager,
+        possibleOptions4
+      );
+    } else {
+      // #1: subscribe overload - read from all partitions, don't coordinate
+      log.consumerClient("Subscribing to all partitions, don't coordinate.");
+
+      const partitionManager = new InMemoryPartitionManager();
+
+      const partitionProcessorType = createPartitionProcessorType(
+        onReceivedEvents2,
+        partitionManager,
+        optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions
+      );
+
+      eventProcessor = new EventProcessor(
+        consumerGroupName1,
+        this._eventHubClient,
+        partitionProcessorType,
+        partitionManager,
+        {
+          ...(optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions),
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+        }
+      );
+    }
+
+    eventProcessor.start();
+
+    return {
+      isRunning: () => eventProcessor.isRunning(),
+      close: () => eventProcessor.stop()
+    };
+  }
+}
+
+/**
+ * @ignore
+ */
+export function createPartitionProcessorType(
+  onReceivedEvents: OnReceivedEvents,
+  partitionManager: PartitionManager,
+  options: SubscriptionOptions = {}
+): typeof PartitionProcessor {
+  class DefaultPartitionProcessor extends PartitionProcessor {
+    private _partitionCheckpointer?: SimplePartitionCheckpointer;
+
+    async processEvents(events: ReceivedEventData[]): Promise<void> {
+      await onReceivedEvents(
+        events,
+        this._partitionCheckpointer!
+      );
+    }
+
+    async processError(error: Error): Promise<void> {
+      if (options.onError) {
+        await options.onError(error, {
+          partitionId: this.partitionId,
+          consumerGroupName: this.consumerGroupName,
+          eventHubName: this.eventHubName,
+          fullyQualifiedNamespace: this.fullyQualifiedNamespace
+        });
+      }
+    }
+
+    async initialize() {
+      this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
+
+      if (options.onInitialize) {
+        await options.onInitialize({
+          partitionId: this.partitionId,
+          consumerGroupName: this.consumerGroupName,
+          eventHubName: this.eventHubName,
+          fullyQualifiedNamespace: this.fullyQualifiedNamespace
+        });
+      }
+    }
+
+    async close(reason: CloseReason) {
+      if (options.onClose) {
+        await options.onClose(reason, this._partitionCheckpointer!);
+      }
+    }
+  }
+
+  return DefaultPartitionProcessor;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isPartitionManager(
+  possible: SubscriptionOptions | undefined | string[] | PartitionManager
+): possible is PartitionManager {
+  if (!possible) {
+    return false;
+  }
+
+  const partitionManager = possible as PartitionManager;
+
+  return (
+    typeof partitionManager.claimOwnership === "function" &&
+    typeof partitionManager.listOwnership === "function" &&
+    typeof partitionManager.updateCheckpoint === "function"
+  );
+}
+
+class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {
+  private _eTag: string = "";
+
+  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }
+
+  async updateCheckpoint(
+    eventData: ReceivedEventData
+  ): Promise<void>;
+  async updateCheckpoint(
+    sequenceNumber: number,
+    offset: number
+  ): Promise<void>;
+  async updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void> {
+    const checkpoint: Checkpoint = {
+      fullyQualifiedNamespace: this._processor.fullyQualifiedNamespace!,
+      eventHubName: this._processor.eventHubName!,
+      consumerGroupName: this._processor.consumerGroupName!,
+      ownerId: this._processor.eventProcessorId!,
+      partitionId: this._processor.partitionId!,
+      sequenceNumber:
+        typeof eventDataOrSequenceNumber === "number"
+          ? eventDataOrSequenceNumber
+          : eventDataOrSequenceNumber.sequenceNumber,
+      offset:
+        typeof offset === "number"
+          ? offset
+          : (eventDataOrSequenceNumber as ReceivedEventData).offset,
+      eTag: this._eTag
+    };
+
+    this._eTag = await this._manager.updateCheckpoint(checkpoint);
   }
 }

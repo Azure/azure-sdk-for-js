@@ -307,6 +307,8 @@ export interface EventHubClientOptions {
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
  *
+ * @internal
+ * @ignore
  */
 export class EventHubClient {
   /**
