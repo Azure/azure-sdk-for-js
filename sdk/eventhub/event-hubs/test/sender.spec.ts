@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient, delay, EventPosition, SubscriptionOptions } from "../src";
+import { EventData, EventHubProducerClient, EventHubConsumerClient, delay, EventPosition } from "../src";
 import { SendOptions, EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
@@ -15,11 +15,6 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from '../src/sender';
 const env = getEnvVars();
-
-const defaultSubscriptionOptions: SubscriptionOptions = {
-  maxBatchSize: 1,
-  maxWaitTimeInSeconds: 60
-};
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
   const service = {
@@ -254,30 +249,45 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("Create batch", function(): void {
+  describe.only("Create batch", function(): void {
     it("should be sent successfully", async function(): Promise<void> {
       const list = [
         "Albert",
         `${Buffer.from("Mike".repeat(1300000))}`,
         "Marie"
       ];
-      
+
+      const batch = await producerClient.createBatch();
+
+      batch.tryAdd({ body: list[0] }).should.be.ok;
+      batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
+      batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
+
       let receivedEvents: string[] = [];
+      let initialized = false;
 
       const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, async (events, context) => {
         receivedEvents = events.map(e => e.body)
       }, "0", {
-          ...defaultSubscriptionOptions,
+          maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
+          maxWaitTimeInSeconds: 60,
+          defaultEventPosition: EventPosition.latest(),
           onInitialize: async (_) => {
-            sendBatch(list);
+            initialized = true;
+          }
+      });
+      
+      while (!initialized) {
+        await delay(1000);
       }
-    });
 
+      await producerClient.sendBatch(batch, "0");
+      
       while (receivedEvents.length === 0) {
         await delay(1000);
       }
 
-      list.should.be.deep.eq(receivedEvents);
+      [list[0], list[2]].should.be.deep.eq(receivedEvents, "Received messages should be equal to our sent messages");
       await subscriber.close();
     });
 
@@ -451,26 +461,33 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
       void
     > {
+      let newClient: EventHubProducerClient = new EventHubProducerClient(service.connectionString, service.path);
+
       try {
-        await producerClient.createBatch({ maxSizeInBytes: 2046528 });
+        await newClient.createBatch({ maxSizeInBytes: 2046528 });
         throw new Error("Test Failure");
       } catch (err) {
-        // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)
         err.message.should.match(
           /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
         );
+      } finally {
+        newClient.close();
       }
     });
 
-    it("should support being cancelled", async function(): Promise<void> {
+    it("should support being cancelled", async function (): Promise<void> {
+      let newClient: EventHubProducerClient = new EventHubProducerClient(service.connectionString, service.path);
+
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
         const abortSignal = AbortController.timeout(0);
-        await sendBatch([], { abortSignal: abortSignal });
+        await newClient.createBatch({ abortSignal: abortSignal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
+      } finally {
+        newClient.close();
       }
     });
 
@@ -479,12 +496,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     > {
       const abortController = new AbortController();
       abortController.abort();
+
+      let newClient: EventHubProducerClient = new EventHubProducerClient(service.connectionString, service.path);
+
       try {
-        await sendBatch([], { abortSignal: abortController.signal });
+        await newClient.createBatch({ abortSignal: abortController.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
+      } finally {
+        newClient.close();
       }
     });
   });
@@ -761,16 +783,22 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   async function sendBatch(bodies: any[], partitionId: string, options?: SendOptions): Promise<void>;
   async function sendBatch(bodies: any[], options?: SendOptions): Promise<void>;
   async function sendBatch(bodies1: any[], partitionIdOrOptions2: string | SendOptions | undefined, options3?: SendOptions): Promise<void> {
-    const batch = await producerClient.createBatch();
+    let sendOptions: SendOptions|undefined = options3;
+
+    if (typeof partitionIdOrOptions2 !== "string") {
+      sendOptions = partitionIdOrOptions2 as SendOptions;
+    }
+    
+    const batch = await producerClient.createBatch({ abortSignal: sendOptions && sendOptions.abortSignal });
 
     for (const body of bodies1) {
-      batch.tryAdd({ body }).should.be.ok;
+      batch.tryAdd({ body }).should.be.ok("Should be able to add messages to the batch");
     }
 
     if (typeof partitionIdOrOptions2 === "string") {
-      await producerClient.sendBatch(batch, partitionIdOrOptions2, options3);
+      await producerClient.sendBatch(batch, partitionIdOrOptions2, sendOptions);
     } else {
-      await producerClient.sendBatch(batch, partitionIdOrOptions2 as SendOptions);
+      await producerClient.sendBatch(batch, sendOptions);
     }
   }
 }).timeout(20000);
