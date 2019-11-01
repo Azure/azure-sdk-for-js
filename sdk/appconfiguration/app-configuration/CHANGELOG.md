@@ -1,6 +1,7 @@
 # 1.0.0-preview.7 (2019-11-01)
 
 - Updated to use the latest versions of the `@azure/core-*` packages
+- Added a listRevisions.ts sample to show how the listRevisions() API works
 
 # 1.0.0-preview.6 (2019-10-22)
 
