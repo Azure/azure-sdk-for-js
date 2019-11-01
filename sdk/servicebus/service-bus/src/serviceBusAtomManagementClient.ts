@@ -10,7 +10,10 @@ import {
   proxyPolicy,
   RequestPolicyFactory,
   URLBuilder,
-  ProxySettings
+  ProxySettings,
+  RestError,
+  stripRequest,
+  stripResponse
 } from "@azure/core-http";
 
 import { parseConnectionString } from "@azure/amqp-common";
@@ -261,7 +264,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const connectionStringObj: any = parseConnectionString(connectionString);
 
     if (connectionStringObj.Endpoint == undefined) {
-      throw new Error("Endpoint must be supplied in the connection string");
+      throw new Error("Missing Endpoint in Connection String.");
     }
 
     const credentials = new SasServiceClientCredentials(
@@ -304,7 +307,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false
     );
 
-    return this.buildQueueResponse(response);
+    return this.buildResponse(this.buildQueueResponse, response);
   }
 
   /**
@@ -317,8 +320,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueName,
       this.queueResourceSerializer
     );
-
-    return this.buildQueueResponse(response);
+    return this.buildResponse(this.buildQueueResponse, response);
   }
 
   /**
@@ -335,7 +337,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildListQueuesResponse(response);
+    return this.buildResponse(this.buildListQueuesResponse, response);
   }
 
   /**
@@ -360,7 +362,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true
     );
 
-    return this.buildQueueResponse(response);
+    return this.buildResponse(this.buildQueueResponse, response);
   }
 
   /**
@@ -374,7 +376,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildQueueResponse(response);
+    return this.buildResponse(this.buildQueueResponse, response);
   }
 
   /**
@@ -394,7 +396,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false
     );
 
-    return this.buildTopicResponse(response);
+    return this.buildResponse(this.buildTopicResponse, response);
   }
 
   /**
@@ -408,7 +410,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildTopicResponse(response);
+    return this.buildResponse(this.buildTopicResponse, response);
   }
 
   /**
@@ -425,7 +427,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildListTopicsResponse(response);
+    return this.buildResponse(this.buildListTopicsResponse, response);
   }
 
   /**
@@ -450,7 +452,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true
     );
 
-    return this.buildTopicResponse(response);
+    return this.buildResponse(this.buildTopicResponse, response);
   }
 
   /**
@@ -464,7 +466,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildTopicResponse(response);
+    return this.buildResponse(this.buildTopicResponse, response);
   }
 
   /**
@@ -490,7 +492,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildResponse(this.buildSubscriptionResponse, response);
   }
 
   /**
@@ -511,7 +513,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildResponse(this.buildSubscriptionResponse, response);
   }
 
   /**
@@ -532,7 +534,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildListSubscriptionsResponse(response);
+    return this.buildResponse(this.buildListSubscriptionsResponse, response);
   }
 
   /**
@@ -563,7 +565,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildResponse(this.buildSubscriptionResponse, response);
   }
 
   /**
@@ -584,7 +586,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildResponse(this.buildSubscriptionResponse, response);
   }
 
   /**
@@ -610,7 +612,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer,
       false
     );
-    return this.buildRuleResponse(response);
+
+    return this.buildResponse(this.buildRuleResponse, response);
   }
 
   /**
@@ -631,7 +634,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildRuleResponse(response);
+    return this.buildResponse(this.buildRuleResponse, response);
   }
 
   /**
@@ -655,7 +658,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildListRulesResponse(response);
+    return this.buildResponse(this.buildListRulesResponse, response);
   }
 
   /**
@@ -683,7 +686,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true
     );
 
-    return this.buildRuleResponse(response);
+    return this.buildResponse(this.buildRuleResponse, response);
   }
 
   /**
@@ -704,7 +707,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildRuleResponse(response);
+    return this.buildResponse(this.buildRuleResponse, response);
   }
 
   /**
@@ -890,5 +893,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const rule = buildRule(response.parsedBody);
     const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
     return ruleResponse;
+  }
+
+  private buildResponse(fn: Function, response: HttpOperationResponse): any {
+    try {
+      return fn(response);
+    } catch (err) {
+      log.error(`Failure parsing response from service - ${err.message}`);
+      throw new RestError(
+        `Response from service is in bad format`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
   }
 }

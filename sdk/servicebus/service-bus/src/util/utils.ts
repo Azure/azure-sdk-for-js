@@ -234,7 +234,7 @@ export function getJSObjectOrUndefined(value: any): any | undefined {
   }
 
   if (!isValidJSObject) {
-    throw new TypeError(`${value} expected to be in proper JSON format, or undefined`);
+    throw new TypeError(`${value} expected to be a JSON value or undefined`);
   }
 
   return value;
@@ -320,9 +320,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     }
     return authorizationRules;
   } catch (err) {
-    throw new TypeError(
-      `${jsObject} expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
-    );
+    throw new Error(`Error in format of AuthorizationRule - ${err.message}`);
   }
 }
 

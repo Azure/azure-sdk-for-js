@@ -17,13 +17,11 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    */
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
     if (typeof sharedAccessKeyName !== "string") {
-      throw new Error(
-        "sharedAccessKeyName cannot be null or undefined and must be of type string."
-      );
+      throw new Error("Missing SharedAccessKeyName in Connection String.");
     }
 
     if (typeof sharedAccessKey !== "string") {
-      throw new Error("sharedAccessKey cannot be null or undefined and must be of type string.");
+      throw new Error("Missing SharedAccessKey in Connection String.");
     }
 
     this.keyName = sharedAccessKeyName;
