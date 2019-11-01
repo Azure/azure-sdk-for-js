@@ -614,7 +614,24 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    return this.getQueueClient(queueName).create(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-createQueue",
+      options.tracingOptions
+    );
+    try {
+      return this.getQueueClient(queueName).create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -630,6 +647,23 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    return this.getQueueClient(queueName).delete(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-deleteQueue",
+      options.tracingOptions
+    );
+    try {
+      return this.getQueueClient(queueName).delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
