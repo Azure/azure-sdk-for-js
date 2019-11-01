@@ -208,43 +208,10 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 }
 
 /**
- * @ignore
- * Helper utility to check for and return valid JSON like object i.e.,
- * a single JSON like object or array of JSON like objects.
- * @param value
- */
-export function getJSObjectOrUndefined(value: any): any | undefined {
-  if (value == undefined) {
-    return undefined;
-  }
-
-  let isValidJSObject = true;
-
-  if (Array.isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      if (!isJSONLikeObject(value[i])) {
-        isValidJSObject = false;
-        break;
-      }
-    }
-  } else {
-    if (!isJSONLikeObject(value)) {
-      isValidJSObject = false;
-    }
-  }
-
-  if (!isValidJSObject) {
-    throw new TypeError(`${value} expected to be a JSON value or undefined`);
-  }
-
-  return value;
-}
-
-/**
  * Returns `true` if given input is a JSON like object.
  * @param value
  */
-function isJSONLikeObject(value: any): boolean {
+export function isJSONLikeObject(value: any): boolean {
   return typeof value === "object" && !(value instanceof Number) && !(value instanceof String);
 }
 
@@ -255,17 +222,16 @@ function isJSONLikeObject(value: any): boolean {
  * @param value
  */
 export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
-  const jsObject: any = getJSObjectOrUndefined(value);
-  if (jsObject != undefined) {
-    return {
-      activeMessageCount: parseInt(jsObject["d2p1:ActiveMessageCount"]) || 0,
-      deadLetterMessageCount: parseInt(jsObject["d2p1:DeadLetterMessageCount"]) || 0,
-      scheduledMessageCount: parseInt(jsObject["d2p1:ScheduledMessageCount"]) || 0,
-      transferMessageCount: parseInt(jsObject["d2p1:TransferMessageCount"]) || 0,
-      transferDeadLetterMessageCount: parseInt(jsObject["d2p1:TransferDeadLetterMessageCount"]) || 0
-    };
+  if (value == undefined) {
+    return undefined;
   }
-  return undefined;
+  return {
+    activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
+    deadLetterMessageCount: parseInt(value["d2p1:DeadLetterMessageCount"]) || 0,
+    scheduledMessageCount: parseInt(value["d2p1:ScheduledMessageCount"]) || 0,
+    transferMessageCount: parseInt(value["d2p1:TransferMessageCount"]) || 0,
+    transferDeadLetterMessageCount: parseInt(value["d2p1:TransferDeadLetterMessageCount"]) || 0
+  };
 }
 
 /**
@@ -305,23 +271,19 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return undefined;
   }
 
-  const jsObject: any = getJSObjectOrUndefined(value);
-  if (jsObject == undefined) {
+  if (value == undefined) {
     return undefined;
   }
-  try {
-    const rawAuthorizationRules = jsObject.AuthorizationRule;
-    if (Array.isArray(rawAuthorizationRules)) {
-      for (let i = 0; i < rawAuthorizationRules.length; i++) {
-        authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
-      }
-    } else {
-      authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
+
+  const rawAuthorizationRules = value.AuthorizationRule;
+  if (Array.isArray(rawAuthorizationRules)) {
+    for (let i = 0; i < rawAuthorizationRules.length; i++) {
+      authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
     }
-    return authorizationRules;
-  } catch (err) {
-    throw new Error(`Error in format of AuthorizationRule - ${err.message}`);
+  } else {
+    authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
   }
+  return authorizationRules;
 }
 
 /**
@@ -349,9 +311,16 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * @param value
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (!Array.isArray(authorizationRules)) {
+  if (authorizationRules == undefined) {
     return undefined;
   }
+
+  if (!Array.isArray(authorizationRules)) {
+    throw new TypeError(
+      `authorizationRules must be an array of SqlParameter instances or undefined`
+    );
+  }
+
   const rawAuthorizationRules: any[] = [];
   for (let i = 0; i < authorizationRules.length; i++) {
     rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[i]));
@@ -364,6 +333,10 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
  * @param authorizationRule parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
+  if (!isJSONLikeObject(authorizationRule)) {
+    throw new TypeError("Expected authorizationRule input to be a JSON value");
+  }
+
   const rawAuthorizationRule: any = {
     ClaimType: authorizationRule.claimType,
     ClaimValue: authorizationRule.claimValue,

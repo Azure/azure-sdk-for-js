@@ -10,9 +10,9 @@ import {
 } from "../util/atomXmlHelper";
 import {
   getIntegerOrUndefined,
-  getJSObjectOrUndefined,
   getStringOrUndefined,
-  getBooleanOrUndefined
+  getBooleanOrUndefined,
+  isJSONLikeObject
 } from "../util/utils";
 import { CorrelationFilter } from "../core/managementClient";
 
@@ -304,26 +304,19 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return undefined;
   }
 
-  const jsObject: any = getJSObjectOrUndefined(value);
-  if (jsObject == undefined) {
+  if (value == undefined) {
     return undefined;
   }
 
-  try {
-    let rawParameters = jsObject["KeyValueOfstringanyType"];
-    if (Array.isArray(rawParameters)) {
-      for (let i = 0; i < rawParameters.length; i++) {
-        parameters.push(buildSqlParameter(rawParameters[i]));
-      }
-    } else {
-      parameters.push(buildSqlParameter(rawParameters));
+  let rawParameters = value["KeyValueOfstringanyType"];
+  if (Array.isArray(rawParameters)) {
+    for (let i = 0; i < rawParameters.length; i++) {
+      parameters.push(buildSqlParameter(rawParameters[i]));
     }
-    return parameters;
-  } catch (err) {
-    throw new TypeError(
-      `${jsObject} expected to be an array of Parameter instances, or undefined :: ${err.message}`
-    );
+  } else {
+    parameters.push(buildSqlParameter(rawParameters));
   }
+  return parameters;
 }
 
 /**
@@ -364,9 +357,14 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
  * @param value
  */
 export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any {
-  if (!Array.isArray(parameters)) {
+  if (parameters == undefined) {
     return undefined;
   }
+
+  if (!Array.isArray(parameters)) {
+    throw new TypeError(`SQL parameters must be an array of SqlParameter instances or undefined`);
+  }
+
   const rawParameters: RawSqlParameter[] = [];
   for (let i = 0; i < parameters.length; i++) {
     rawParameters.push(buildRawSqlParameter(parameters[i]));
@@ -379,6 +377,10 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
  * @param parameter parsed SQL parameter instance
  */
 function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
+  if (!isJSONLikeObject(parameter)) {
+    throw new TypeError("Expected SQL Parameter input to be a JSON value");
+  }
+
   let type: SqlParameterType;
   switch (parameter.type) {
     case "int":
