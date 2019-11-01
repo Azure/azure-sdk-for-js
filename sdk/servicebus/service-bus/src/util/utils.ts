@@ -208,6 +208,7 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 }
 
 /**
+ * @ignore
  * Returns `true` if given input is a JSON like object.
  * @param value
  */
