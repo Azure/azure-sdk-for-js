@@ -134,14 +134,16 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
 
 // @public
 export interface CertificateProperties {
-    readonly created?: Date;
+    readonly createdOn?: Date;
     enabled?: boolean;
-    readonly expires?: Date;
+    readonly expiresOn?: Date;
     readonly id?: string;
+    readonly keyId?: string;
     name: string;
     readonly notBefore?: Date;
+    readonly secretId?: string;
     tags?: CertificateTags;
-    readonly updated?: Date;
+    readonly updatedOn?: Date;
     vaultUrl: string;
     version?: string;
     readonly x509Thumbprint?: Uint8Array;
@@ -206,7 +208,7 @@ export interface DeleteCertificateOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface DeletedCertificate extends KeyVaultCertificate {
-    readonly deletedDate?: Date;
+    readonly deletedOn?: Date;
     recoveryId?: string;
     readonly scheduledPurgeDate?: Date;
 }
@@ -291,10 +293,11 @@ export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherm
 export interface KeyVaultCertificate {
     cer?: Uint8Array;
     contentType?: CertificateContentType;
-    readonly kid?: string;
+    readonly keyId?: string;
+    name: string;
     readonly policy?: CertificatePolicy;
     properties: CertificateProperties;
-    readonly sid?: string;
+    readonly secretId?: string;
 }
 
 // @public
@@ -435,7 +438,7 @@ export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificat
 export interface UpdateCertificateOptions extends coreHttp.OperationOptions {
     contentType?: CertificateContentType;
     enabled?: boolean;
-    expires?: Date;
+    expiresOn?: Date;
     notBefore?: Date;
     tags?: CertificateTags;
 }

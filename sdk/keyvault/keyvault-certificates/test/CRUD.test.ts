@@ -128,7 +128,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const result = await client.deleteCertificate(certificateName);
 
     assert.equal(typeof result.recoveryId, "string");
-    assert.ok(result.deletedDate instanceof Date);
+    assert.ok(result.deletedOn instanceof Date);
     assert.ok(result.scheduledPurgeDate instanceof Date);
 
     try {

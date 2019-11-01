@@ -921,20 +921,24 @@ export class CertificateClient {
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("createCertificate", requestOptions);
+    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+    const unflattenedOptions = {
+      ...remainingOptions,
+      tags: requestOptions.tags,
+      certificatePolicy: toCorePolicy(certificatePolicy),
+      certificateAttributes: {
+        enabled,
+        notBefore,
+        expires
+      }
+    };
+
+    const span = this.createSpan("createCertificate", unflattenedOptions);
 
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(this.vaultUrl, certificateName, {
-        ...this.setParentSpan(span, requestOptions.requestrequestOptions || {}),
-        certificateAttributes: {
-          ...requestOptions.certificateAttributes,
-          enabled: requestOptions.enabled
-        },
-        tags: requestOptions.tags,
-        certificatePolicy: toCorePolicy(certificatePolicy)
-      });
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, this.setParentSpan(span, unflattenedOptions || {}));
     } finally {
       span.end();
     }
@@ -1051,7 +1055,18 @@ export class CertificateClient {
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("importCertificate", requestOptions);
+    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+    const unflattenedOptions = {
+      ...remainingOptions,
+      tags: requestOptions.tags,
+      certificateAttributes: {
+        enabled,
+        notBefore,
+        expires
+      }
+    };
+
+    const span = this.createSpan("importCertificate", unflattenedOptions);
 
     let result: ImportCertificateResponse;
 
@@ -1060,7 +1075,7 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         base64EncodedCertificate,
-        this.setParentSpan(span, requestOptions)
+        this.setParentSpan(span, unflattenedOptions)
       );
     } finally {
       span.end();
@@ -1626,19 +1641,40 @@ export class CertificateClient {
   private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): KeyVaultCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
+    const attributes: any = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
 
-    const properties = {
+    let abstractProperties: any = {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
       ...parsedId,
       ...certificateBundle,
       ...certificateBundle.attributes
     };
-    delete properties.policy;
+
+    if (abstractProperties.expires) {
+      delete abstractProperties.expires;
+    }
+    if (abstractProperties.created) {
+      delete abstractProperties.created;
+    }
+    if (abstractProperties.updated) {
+      delete abstractProperties.updated;
+    }
+ 
+    delete abstractProperties.policy;
 
     return {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
       contentType: certificateBundle.contentType as CertificateContentType,
       policy,
-      properties
+      properties: abstractProperties
     };
   }
 
@@ -1647,28 +1683,82 @@ export class CertificateClient {
   ): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
+    const attributes: any = certificateBundle.attributes || {};
+    const policy = toPublicPolicy(certificateBundle.policy || {});
+
+    let abstractProperties: any = {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      ...parsedId,
+      ...certificateBundle,
+      ...certificateBundle.attributes
+    };
+
+    if (abstractProperties.deletedDate) {
+      delete abstractProperties.deletedDate;
+    }
+
+    if (abstractProperties.expires) {
+      delete abstractProperties.expires;
+    }
+    if (abstractProperties.created) {
+      delete abstractProperties.created;
+    }
+    if (abstractProperties.updated) {
+      delete abstractProperties.updated;
+    }
+
+    delete abstractProperties.policy;
+
     return {
-      contentType: certificateBundle.contentType as CertificateContentType,
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
       recoveryId: certificateBundle.recoveryId,
       scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
-      deletedDate: certificateBundle.deletedDate,
-      properties: {
-        ...parsedId,
-        ...certificateBundle,
-        ...certificateBundle.attributes
-      }
+      deletedOn: certificateBundle.deletedDate,
+      contentType: certificateBundle.contentType as CertificateContentType,
+      policy,
+      properties: abstractProperties
     };
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
 
+    const attributes: any = item.attributes || {};
+
+    let abstractProperties: any = {
+      name: parsedId.name,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      ...parsedId,
+      ...item,
+      ...item.attributes
+    };
+
+    if (abstractProperties.deletedDate) {
+      delete abstractProperties.deletedDate;
+    }
+
+    if (abstractProperties.expires) {
+      delete abstractProperties.expires;
+    }
+    if (abstractProperties.created) {
+      delete abstractProperties.created;
+    }
+    if (abstractProperties.updated) {
+      delete abstractProperties.updated;
+    }
+ 
     return {
-      properties: {
-        ...item,
-        ...parsedId,
-        ...item.attributes
-      }
+      name: parsedId.name,
+      properties: abstractProperties
     };
   }
 

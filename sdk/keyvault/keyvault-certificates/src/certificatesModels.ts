@@ -38,13 +38,17 @@ export interface KeyVaultCertificate {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly kid?: string;
+  readonly keyId?: string;
   /**
    * The secret id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly sid?: string;
+  readonly secretId?: string;
+  /**
+   * The name of certificate.
+   */
+  name: string;
   /**
    * CER contents of x509 certificate.
    */
@@ -153,15 +157,27 @@ export interface SubjectAlternativeNames {
  */
 export interface CertificateProperties {
   /**
+   * The key id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyId?: string;
+  /**
+   * The secret id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretId?: string;
+  /**
    * The vault URI.
    */
   vaultUrl: string;
   /**
-   * The version of key/secret/certificate. May be undefined.
+   * The version of certificate. May be undefined.
    */
   version?: string;
   /**
-   * The name of key/secret/certificate.
+   * The name of certificate.
    */
   name: string;
   /**
@@ -179,15 +195,15 @@ export interface CertificateProperties {
   /**
    * When the certificate was created.
    */
-  readonly created?: Date;
+  readonly createdOn?: Date;
   /**
    * When the object was updated.
    */
-  readonly updated?: Date;
+  readonly updatedOn?: Date;
   /**
    * Expiry date in UTC.
    */
-  readonly expires?: Date;
+  readonly expiresOn?: Date;
   /**
    * Application specific
    * metadata in the form of key-value pairs.
@@ -221,7 +237,7 @@ export interface DeletedCertificate extends KeyVaultCertificate {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly deletedDate?: Date;
+  readonly deletedOn?: Date;
 }
 
 /**
@@ -382,7 +398,7 @@ export interface UpdateCertificateOptions extends coreHttp.OperationOptions {
   /**
    * Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * Application specific
    * metadata in the form of key-value pairs.
@@ -431,11 +447,11 @@ export interface IssuerProperties {
   /**
    * When the issuer was created.
    */
-  created?: Date;
+  createdOn?: Date;
   /**
    * When the issuer was updated.
    */
-  updated?: Date;
+  updatedOn?: Date;
   /**
    * Name of the issuer
    */

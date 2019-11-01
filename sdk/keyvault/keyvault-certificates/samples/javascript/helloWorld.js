@@ -57,7 +57,7 @@ async function main() {
 
   const result = await client.deleteCertificate(certificateName);
   console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deletedDate);
+  console.log("Deleted Date: ", result.deletedOn);
   console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
 }
 
