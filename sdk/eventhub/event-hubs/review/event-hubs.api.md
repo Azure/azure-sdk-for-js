@@ -10,7 +10,6 @@ import { AwaitableSender } from 'rhea-promise';
 import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
-import { delay } from '@azure/core-amqp';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
@@ -57,8 +56,6 @@ export enum CloseReason {
 export { DataTransformer }
 
 export { DefaultDataTransformer }
-
-export { delay }
 
 // @public
 export interface EventData {

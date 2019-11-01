@@ -9,7 +9,6 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
   EventData,
-  delay,
   InMemoryPartitionManager,
   PartitionOwnership,
   CloseReason,
@@ -21,6 +20,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';
 import { PartitionProcessor, Checkpoint } from '../src/partitionProcessor';
+import { delay } from '@azure/core-amqp';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {

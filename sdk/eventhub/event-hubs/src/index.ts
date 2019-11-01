@@ -40,6 +40,5 @@ export {
   DefaultDataTransformer,
   RetryOptions,
   TokenType,
-  TokenCredential,
-  delay
+  TokenCredential
 } from "@azure/core-amqp";

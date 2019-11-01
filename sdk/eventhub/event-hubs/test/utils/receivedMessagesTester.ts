@@ -1,7 +1,8 @@
-import { CloseReason, ReceivedEventData, delay, EventPosition, EventHubProducerClient } from "../../src/";
+import { CloseReason, ReceivedEventData, EventPosition, EventHubProducerClient } from "../../src/";
 import { OptionalEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
+import { delay } from '@azure/core-amqp';
 
 const should = chai.should();
 
