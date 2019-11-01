@@ -60,7 +60,7 @@ export async function executeAtomXmlOperation(
     }
   } catch (err) {
     const error = new RestError(
-      `Response not in Atom XML format`,
+      `Response from service is in bad format. Expected response to be in Atom XML format.`,
       RestError.PARSE_ERROR,
       response.status,
       stripRequest(response.request),

@@ -264,7 +264,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const connectionStringObj: any = parseConnectionString(connectionString);
 
     if (connectionStringObj.Endpoint == undefined) {
-      throw new Error("Missing Endpoint in Connection String.");
+      throw new Error("Missing Endpoint in connection string.");
     }
 
     const credentials = new SasServiceClientCredentials(
