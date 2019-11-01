@@ -1,3 +1,7 @@
+## 3.4.1
+
+- Fix region drop failover scenario and add test (#5892)
+
 ## 3.4.0
 
 - FEATURE: GROUP BY query support (#5749)
