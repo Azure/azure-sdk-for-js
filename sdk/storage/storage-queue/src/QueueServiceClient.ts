@@ -619,7 +619,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.getQueueClient(queueName).create({
+      return await this.getQueueClient(queueName).create({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
@@ -652,7 +652,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.getQueueClient(queueName).delete({
+      return await this.getQueueClient(queueName).delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
