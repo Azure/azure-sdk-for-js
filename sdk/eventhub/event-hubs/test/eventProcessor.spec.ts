@@ -8,9 +8,7 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventHubClient,
   EventData,
-  EventProcessor,
   delay,
   InMemoryPartitionManager,
   PartitionOwnership,
@@ -20,8 +18,10 @@ import {
   PartitionProcessor,
   LastEnqueuedEventInfo
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
+import { EventProcessor } from '../src/eventProcessor';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -42,7 +42,7 @@ describe("Event Processor", function(): void {
   });
 
   beforeEach("create the client", function() {
-    client = new EventHubClient(service.connectionString, service.path);
+    client = new EventHubClient(service.connectionString, service.path, {});
   });
 
   afterEach("close the connection", async function(): Promise<void> {

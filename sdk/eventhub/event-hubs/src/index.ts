@@ -5,11 +5,10 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { OnMessage, OnError, LastEnqueuedEventInfo } from "./eventHubReceiver";
+export { LastEnqueuedEventInfo } from "./eventHubReceiver";
 export { ReceiveHandler } from "./receiveHandler";
 export {
   AbortSignalOptions,
-  EventHubClient,
   EventHubClientOptions,
   EventHubConsumerOptions,
   EventHubProducerOptions,
@@ -20,18 +19,25 @@ export {
   GetPropertiesOptions,
   ParentSpanOptions
 } from "./eventHubClient";
+export { EventHubConsumerClient, OnReceivedEvents, PartitionCheckpointer } from "./eventHubConsumerClient";
+export { EventHubProducerClient } from "./eventHubProducerClient";
+export { SubscriptionOptions, Subscription, OptionalEventHandlers, OnErrorHandler, OnInitializeHandler, OnCloseHandler } from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
-export { EventHubConsumer, EventIteratorOptions } from "./receiver";
+export { EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export {
-  EventProcessor,
   CloseReason,
   EventProcessorOptions,
+  EventProcessorCommonOptions,
+  PartitionContext,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
+export {
+  PartitionLoadBalancer
+} from "./partitionLoadBalancer";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";

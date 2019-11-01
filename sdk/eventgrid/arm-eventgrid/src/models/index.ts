@@ -12,42 +12,125 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Definition of a Resource.
+ * Contains the possible cases for InputSchemaMapping.
+ */
+export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
+
+/**
+ * By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
+ * schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only
+ * supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
+ */
+export interface InputSchemaMapping {
+  /**
+   * Polymorphic Discriminator
+   */
+  inputSchemaMappingType: "InputSchemaMapping";
+}
+
+/**
+ * Definition of a Resource
  */
 export interface Resource extends BaseResource {
   /**
-   * Fully qualified identifier of the resource.
+   * Fully qualified identifier of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the resource.
+   * Name of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Type of the resource.
+   * Type of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
 }
 
 /**
- * Definition of a Tracked Resource.
+ * This is used to express the source of an input schema mapping for a single target field in the
+ * Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and
+ * 'eventtime' properties. This represents a field in the input event schema.
+ */
+export interface JsonField {
+  /**
+   * Name of a field in the input event schema that's to be used as the source of a mapping.
+   */
+  sourceField?: string;
+}
+
+/**
+ * This is used to express the source of an input schema mapping for a single target field
+ * in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+ * 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+ * along with a default value to be used, and at least one of these two properties should be
+ * provided.
+ */
+export interface JsonFieldWithDefault {
+  /**
+   * Name of a field in the input event schema that's to be used as the source of a mapping.
+   */
+  sourceField?: string;
+  /**
+   * The default value to be used for mapping when a SourceField is not provided or if there's no
+   * property with the specified name in the published JSON event payload.
+   */
+  defaultValue?: string;
+}
+
+/**
+ * This enables publishing to Event Grid using a custom input schema. This can be used to map
+ * properties from a custom input JSON schema to the Event Grid event schema.
+ */
+export interface JsonInputSchemaMapping {
+  /**
+   * Polymorphic Discriminator
+   */
+  inputSchemaMappingType: "Json";
+  /**
+   * The mapping information for the Id property of the Event Grid Event.
+   */
+  id?: JsonField;
+  /**
+   * The mapping information for the Topic property of the Event Grid Event.
+   */
+  topic?: JsonField;
+  /**
+   * The mapping information for the EventTime property of the Event Grid Event.
+   */
+  eventTime?: JsonField;
+  /**
+   * The mapping information for the EventType property of the Event Grid Event.
+   */
+  eventType?: JsonFieldWithDefault;
+  /**
+   * The mapping information for the Subject property of the Event Grid Event.
+   */
+  subject?: JsonFieldWithDefault;
+  /**
+   * The mapping information for the DataVersion property of the Event Grid Event.
+   */
+  dataVersion?: JsonFieldWithDefault;
+}
+
+/**
+ * Definition of a Tracked Resource
  */
 export interface TrackedResource extends Resource {
   /**
-   * Location of the resource.
+   * Location of the resource
    */
   location: string;
   /**
-   * Tags of the resource.
+   * Tags of the resource
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * EventGrid Domain.
+ * EventGrid Domain
  */
 export interface Domain extends TrackedResource {
   /**
@@ -61,20 +144,35 @@ export interface Domain extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
+  /**
+   * This determines the format that Event Grid should expect for incoming events published to the
+   * domain. Possible values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventSchemaV1_0'. Default value: 'EventGridSchema'.
+   */
+  inputSchema?: InputSchema;
+  /**
+   * Information about the InputSchemaMapping which specified the info about mapping event payload.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+  /**
+   * Metric resource id for the domain.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metricResourceId?: string;
 }
 
 /**
- * Properties of the Domain update.
+ * Properties of the Domain update
  */
 export interface DomainUpdateParameters {
   /**
-   * Tags of the domains resource.
+   * Tags of the domains resource
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * Shared access keys of the Domain.
+ * Shared access keys of the Domain
  */
 export interface DomainSharedAccessKeys {
   /**
@@ -88,17 +186,17 @@ export interface DomainSharedAccessKeys {
 }
 
 /**
- * Domain regenerate share access key request.
+ * Domain regenerate share access key request
  */
 export interface DomainRegenerateKeyRequest {
   /**
-   * Key name to regenerate key1 or key2.
+   * Key name to regenerate key1 or key2
    */
   keyName: string;
 }
 
 /**
- * Domain Topic.
+ * Domain Topic
  */
 export interface DomainTopic extends Resource {
   /**
@@ -111,7 +209,7 @@ export interface DomainTopic extends Resource {
 /**
  * Contains the possible cases for EventSubscriptionDestination.
  */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
 
 /**
  * Information about the destination for an event subscription
@@ -146,7 +244,7 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Subscription.
+ * Filter for the Event Subscription
  */
 export interface EventSubscriptionFilter {
   /**
@@ -177,7 +275,7 @@ export interface EventSubscriptionFilter {
 }
 
 /**
- * Information about the retry policy for an event subscription.
+ * Information about the retry policy for an event subscription
  */
 export interface RetryPolicy {
   /**
@@ -459,6 +557,19 @@ export interface WebHookEventSubscriptionDestination {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpointBaseUrl?: string;
+  /**
+   * Maximum number of events per batch.
+   */
+  maxEventsPerBatch?: number;
+  /**
+   * Preferred batch size in Kilobytes.
+   */
+  preferredBatchSizeInKilobytes?: number;
+  /**
+   * The AAD application ID or URI to get the access token that will be included as the bearer
+   * token in delivery requests.
+   */
+  azureActiveDirectoryApplicationIdOrUri?: string;
 }
 
 /**
@@ -527,6 +638,44 @@ export interface ServiceBusQueueEventSubscriptionDestination {
 }
 
 /**
+ * Information about the service bus topic destination for an event subscription.
+ */
+export interface ServiceBusTopicEventSubscriptionDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "ServiceBusTopic";
+  /**
+   * The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an
+   * event subscription.
+   */
+  resourceId?: string;
+}
+
+/**
+ * Information about the azure function destination for an event subscription.
+ */
+export interface AzureFunctionEventSubscriptionDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "AzureFunction";
+  /**
+   * The Azure Resource Id that represents the endpoint of the Azure Function destination of an
+   * event subscription.
+   */
+  resourceId?: string;
+  /**
+   * Maximum number of events per batch.
+   */
+  maxEventsPerBatch?: number;
+  /**
+   * Preferred batch size in Kilobytes.
+   */
+  preferredBatchSizeInKilobytes?: number;
+}
+
+/**
  * Event Subscription
  */
 export interface EventSubscription extends Resource {
@@ -559,6 +708,11 @@ export interface EventSubscription extends Resource {
    */
   expirationTimeUtc?: Date;
   /**
+   * The event delivery schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
+   */
+  eventDeliverySchema?: EventDeliverySchema;
+  /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
    */
@@ -590,6 +744,11 @@ export interface EventSubscriptionUpdateParameters {
    * Information about the expiration time for the event subscription.
    */
   expirationTimeUtc?: Date;
+  /**
+   * The event delivery schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
+   */
+  eventDeliverySchema?: EventDeliverySchema;
   /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
@@ -670,6 +829,23 @@ export interface Topic extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
+  /**
+   * This determines the format that Event Grid should expect for incoming events published to the
+   * topic. Possible values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventSchemaV1_0'. Default value: 'EventGridSchema'.
+   */
+  inputSchema?: InputSchema;
+  /**
+   * This enables publishing using custom event schemas. An InputSchemaMapping can be specified to
+   * map various properties of a source schema to various required properties of the EventGridEvent
+   * schema.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+  /**
+   * Metric resource id for the topic.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metricResourceId?: string;
 }
 
 /**
@@ -1083,24 +1259,24 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * Result of the List Domains operation.
+ * Result of the List Domains operation
  * @extends Array<Domain>
  */
 export interface DomainsListResult extends Array<Domain> {
   /**
-   * A link for the next page of domains.
+   * A link for the next page of domains
    */
   nextLink?: string;
 }
 
 /**
  * @interface
- * Result of the List Domain Topics operation.
+ * Result of the List Domain Topics operation
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics.
+   * A link for the next page of domain topics
    */
   nextLink?: string;
 }
@@ -1162,6 +1338,14 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
+ * Defines values for InputSchema.
+ * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventSchemaV1_0'
+ * @readonly
+ * @enum {string}
+ */
+export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventSchemaV1_0';
+
+/**
  * Defines values for DomainTopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
@@ -1177,6 +1361,14 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @enum {string}
  */
 export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
+
+/**
+ * Defines values for EventDeliverySchema.
+ * Possible values include: 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
+ * @readonly
+ * @enum {string}
+ */
+export type EventDeliverySchema = 'EventGridSchema' | 'CustomInputSchema' | 'CloudEventSchemaV1_0';
 
 /**
  * Defines values for TopicProvisioningState.
