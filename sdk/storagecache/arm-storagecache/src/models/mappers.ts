@@ -103,23 +103,6 @@ export const CloudErrorBody: msRest.CompositeMapper = {
   }
 };
 
-export const CloudError: msRest.CompositeMapper = {
-  serializedName: "CloudError",
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
 export const CacheHealth: msRest.CompositeMapper = {
   serializedName: "CacheHealth",
   type: {

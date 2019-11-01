@@ -68,16 +68,6 @@ export interface CloudErrorBody {
 }
 
 /**
- * An error response.
- */
-export interface CloudError {
-  /**
-   * The body of the error.
-   */
-  error?: CloudErrorBody;
-}
-
-/**
  * An indication of Cache health. Gives more information about health than just that related to
  * provisioning.
  */
