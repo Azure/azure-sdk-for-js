@@ -1,11 +1,10 @@
 import * as coreHttp from "@azure/core-http";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   SecretProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
-  JsonWebKeyType,
-  JsonWebKeyCurveName,
+  JsonWebKeyType as KeyType,
+  JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
@@ -77,7 +76,7 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: JsonWebKeyType;
+  keyType?: KeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
@@ -87,10 +86,10 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
    */
   reuseKey?: boolean;
   /**
-   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  keyCurveType?: JsonWebKeyCurveName;
+  keyCurveType?: KeyCurveName;
   /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
@@ -126,6 +125,10 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
   validityInMonths?: number;
 }
 
+/**
+ * @interface
+ * An interface representing the alternative names of the subject of a certificate contact.
+ */
 export interface SubjectAlternativeNames {
   /**
    * The subject type, either emails, DNS names or UPNs
@@ -141,7 +144,19 @@ export interface SubjectAlternativeNames {
  * @interface
  * An interface representing the properties of a certificate
  */
-export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
+export interface CertificateProperties {
+  /**
+   * The vault URI.
+   */
+  vaultUrl: string;
+  /**
+   * The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
+  /**
+   * The name of key/secret/certificate.
+   */
+  name: string;
   /**
    * The certificate id.
    */
@@ -217,6 +232,10 @@ export interface CreateCertificateOptions extends KeyVaultClientCreateCertificat
   requestOptions?: coreHttp.RequestOptionsBase;
 }
 
+/**
+ * @interface
+ * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
+ */
 export type CertificateTags = { [propertyName: string]: string };
 
 /**
