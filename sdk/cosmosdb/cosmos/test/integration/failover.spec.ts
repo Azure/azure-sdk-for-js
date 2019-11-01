@@ -127,7 +127,7 @@ const WriteForbiddenResponse = {
   headers: {}
 };
 
-describe.only("Region Failover", () => {
+describe("Region Failover", () => {
   let responses: any[];
 
   it("region write no longer allowed", async () => {
