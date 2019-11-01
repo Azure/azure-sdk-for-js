@@ -186,6 +186,8 @@ export class BatchingReceiver extends MessageReceiver {
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();
+        } else {
+          addCreditAndSetTimer(true);
         }
       };
 
@@ -361,10 +363,13 @@ export class BatchingReceiver extends MessageReceiver {
         // number of messages concurrently. We will return the user an array of messages that can
         // be of size upto maxMessageCount. Then the user needs to accordingly dispose
         // (complete,/abandon/defer/deadletter) the messages from the array.
-        this._receiver!.addCredit(maxMessageCount);
+        this._receiver!.addCredit(1);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
+        }
         totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
           (idleTimeoutInSeconds as number) * 1000
