@@ -25,11 +25,7 @@ import {
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import {
-  ContainerClient,
-  ContainerCreateOptions,
-  ContainerDeleteMethodOptions
-} from "./ContainerClient";
+import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
