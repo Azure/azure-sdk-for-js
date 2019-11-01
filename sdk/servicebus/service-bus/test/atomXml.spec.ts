@@ -32,9 +32,9 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(
-        err.message.startsWith("ResponseNotInAtomXMLFormat"),
+        err.message.startsWith("Response not in Atom XML format"),
         true,
-        `"${err.message}" was expected to begin with "ResponseNotInAtomXMLFormat" `
+        `"${err.message}" was expected to begin with "Response not in Atom XML format" `
       );
       assert.deepEqual(err.code, "PARSE_ERROR");
     }

@@ -899,7 +899,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     try {
       return fn(response);
     } catch (err) {
-      log.error(`Failure parsing response from service - ${err.message}`);
+      log.error(`Failure parsing response from service - ${err}`);
       throw new RestError(
         `Response from service is in bad format`,
         RestError.PARSE_ERROR,
