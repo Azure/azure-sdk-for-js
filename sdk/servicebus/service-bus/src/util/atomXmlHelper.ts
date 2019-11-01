@@ -336,47 +336,18 @@ function setName(entry: any, nameProperties: any): any {
  * @param response
  */
 export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
-  const normalizedError: any = {};
-  const odataErrorFormat = !!errorBody["odata.error"];
-  const errorProperties =
-    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
+  const errorProperties = errorBody.Error || errorBody.error || errorBody;
   let errorMessage;
 
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    if (odataErrorFormat) {
-      Object.keys(errorProperties).forEach((property: string) => {
-        let value = errorProperties[property];
-        if (property === Constants.ODATA_ERROR_MESSAGE && typeof value !== "string") {
-          if (value && value[Constants.ODATA_ERROR_MESSAGE_VALUE]) {
-            value = value[Constants.ODATA_ERROR_MESSAGE_VALUE];
-          } else {
-            value = "missing value in the message property of the odata error format";
-          }
-        }
-        normalizedError[property.toLowerCase()] = value;
-      });
-    } else {
-      Object.keys(errorProperties).forEach((property: any) => {
-        let value = errorProperties[property];
-        if (property !== Constants.XML_METADATA_MARKER) {
-          if (value && value[Constants.XML_VALUE_MARKER]) {
-            value = value[Constants.XML_VALUE_MARKER];
-          }
-          normalizedError[property.toLowerCase()] = value;
-        }
-      });
-    }
-    errorMessage = normalizedError.code;
-    if (normalizedError.detail) {
-      errorMessage += " - " + normalizedError.detail;
-    }
+    errorMessage = errorProperties.Detail;
   }
 
   const error: RestError = new RestError(
     errorMessage,
-    normalizedError.code,
+    errorProperties.Code,
     response.status,
     stripRequest(response.request),
     stripResponse(response)
