@@ -414,8 +414,8 @@ export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }

@@ -268,7 +268,7 @@ export interface PrivateLinkServiceConnectionState {
   /**
    * A message indicating if changes on the service provider require any updates on the consumer.
    */
-  actionRequired?: string;
+  actionsRequired?: string;
 }
 
 /**
@@ -3194,7 +3194,7 @@ export interface AzureFirewall extends Resource {
    */
   sku?: AzureFirewallSku;
   /**
-   * The additional properties used to further config this azure firewall
+   * The additional properties used to further config this azure firewall.
    */
   additionalProperties?: { [propertyName: string]: string };
   /**
@@ -4847,7 +4847,7 @@ export interface IpGroup extends Resource {
    */
   ipAddresses?: string[];
   /**
-   * List of references to Azure resources that this IpGroups is associated with
+   * List of references to Azure resources that this IpGroups is associated with.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly firewalls?: SubResource[];
@@ -7918,11 +7918,11 @@ export interface DhcpOptions {
  */
 export interface VirtualNetworkBgpCommunities {
   /**
-   * The BGP community associated with the virtual network
+   * The BGP community associated with the virtual network.
    */
   virtualNetworkCommunity: string;
   /**
-   * The BGP community associated with the region of the virtual network
+   * The BGP community associated with the region of the virtual network.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly regionalCommunity?: string;
@@ -8603,11 +8603,11 @@ export interface LocalNetworkGateway extends Resource {
  */
 export interface TrafficSelectorPolicy {
   /**
-   * A collection of local address spaces in CIDR format
+   * A collection of local address spaces in CIDR format.
    */
   localAddressRanges: string[];
   /**
-   * A collection of remote address spaces in CIDR format
+   * A collection of remote address spaces in CIDR format.
    */
   remoteAddressRanges: string[];
 }
@@ -9011,7 +9011,7 @@ export interface VirtualRouter extends Resource {
    */
   virtualRouterAsn?: number;
   /**
-   * VirtualRouter IPs
+   * VirtualRouter IPs.
    */
   virtualRouterIps?: string[];
   /**
@@ -9023,7 +9023,7 @@ export interface VirtualRouter extends Resource {
    */
   hostedGateway?: SubResource;
   /**
-   * List of references to VirtualRouterPeerings
+   * List of references to VirtualRouterPeerings.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly peerings?: SubResource[];
@@ -9034,14 +9034,14 @@ export interface VirtualRouter extends Resource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * Gets a unique read-only string that changes whenever the resource is updated.
+   * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
 }
 
 /**
- * Virtual Router Peering resource
+ * Virtual Router Peering resource.
  */
 export interface VirtualRouterPeering extends SubResource {
   /**
@@ -9059,12 +9059,11 @@ export interface VirtualRouterPeering extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * Gets name of the peering unique to VirtualRouter. This name can be used to access the
-   * resource.
+   * Name of the virtual router peering that is unique within a virtual router.
    */
   name?: string;
   /**
-   * Gets a unique read-only string that changes whenever the resource is updated.
+   * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
@@ -9338,7 +9337,7 @@ export interface VirtualHubRouteTable {
  */
 export interface VirtualHubRouteV2 {
   /**
-   * The type of destinations
+   * The type of destinations.
    */
   destinationType?: string;
   /**
@@ -9346,7 +9345,7 @@ export interface VirtualHubRouteV2 {
    */
   destinations?: string[];
   /**
-   * The type of next hops
+   * The type of next hops.
    */
   nextHopType?: string;
   /**
@@ -9914,7 +9913,7 @@ export interface VpnServerConfiguration extends Resource {
    */
   readonly vpnServerConfigurationPropertiesEtag?: string;
   /**
-   * Gets a unique read-only string that changes whenever the resource is updated.
+   * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
@@ -10206,7 +10205,7 @@ export interface WebApplicationFirewallPolicy extends Resource {
    */
   readonly resourceState?: WebApplicationFirewallPolicyResourceState;
   /**
-   * Describes the managedRules structure
+   * Describes the managedRules structure.
    */
   managedRules: ManagedRulesDefinition;
   /**
