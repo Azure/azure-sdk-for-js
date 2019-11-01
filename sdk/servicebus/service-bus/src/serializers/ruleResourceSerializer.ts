@@ -362,7 +362,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
   }
 
   if (!Array.isArray(parameters)) {
-    throw new TypeError(`SQL parameters must be an array of SqlParameter instances or undefined`);
+    throw new TypeError(`SQL parameters must be an array of SqlParameter objects or undefined`);
   }
 
   const rawParameters: RawSqlParameter[] = [];
