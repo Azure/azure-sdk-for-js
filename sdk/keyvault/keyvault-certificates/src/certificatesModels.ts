@@ -21,7 +21,7 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
  * @interface
  * An interface representing a certificate without the certificate's policy
  */
-export interface Certificate {
+export interface KeyVaultCertificate {
   /**
    * The properties of the certificate
    */
@@ -196,7 +196,7 @@ export interface CertificateProperties {
  * @interface
  * An interface representing a deleted certificate
  */
-export interface DeletedCertificate extends Certificate {
+export interface DeletedCertificate extends KeyVaultCertificate {
   /**
    * The url of the recovery object, used to
    * identify and recover the deleted certificate.

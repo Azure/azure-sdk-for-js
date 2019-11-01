@@ -11,7 +11,7 @@ import { getTracer, Span } from "@azure/core-tracing";
 import { logger } from "./log";
 
 import {
-  Certificate,
+  KeyVaultCertificate,
   DeletedCertificate,
   CertificateIssuer,
   CertificateContentType,
@@ -95,7 +95,7 @@ export {
   AdministratorDetails,
   Attributes,
   BackupCertificateResult,
-  Certificate,
+  KeyVaultCertificate,
   CertificateAttributes,
   CertificateContentType,
   CertificateProperties,
@@ -283,7 +283,7 @@ export class CertificateClient {
   private async *listCertificatesPage(
     continuationState: PageSettings,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<Certificate[]> {
+  ): AsyncIterableIterator<KeyVaultCertificate[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -311,7 +311,7 @@ export class CertificateClient {
 
   private async *listCertificatesAll(
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<Certificate> {
+  ): AsyncIterableIterator<KeyVaultCertificate> {
     const f = {};
 
     for await (const page of this.listCertificatesPage(f, options)) {
@@ -344,7 +344,7 @@ export class CertificateClient {
    */
   public listCertificates(
     options?: RequestOptionsBase
-  ): PagedAsyncIterableIterator<Certificate, Certificate[]> {
+  ): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]> {
     const span = this.createSpan("listCertificates", options);
     const updatedOptions = this.setParentSpan(span, options);
 
@@ -368,7 +368,7 @@ export class CertificateClient {
     certificateName: string,
     continuationState: PageSettings,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<Certificate[]> {
+  ): AsyncIterableIterator<KeyVaultCertificate[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -402,7 +402,7 @@ export class CertificateClient {
   private async *listCertificateVersionsAll(
     certificateName: string,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<Certificate> {
+  ): AsyncIterableIterator<KeyVaultCertificate> {
     const f = {};
 
     for await (const page of this.listCertificateVersionsPage(certificateName, f, options)) {
@@ -430,7 +430,7 @@ export class CertificateClient {
   public listCertificateVersions(
     certificateName: string,
     options?: RequestOptionsBase
-  ): PagedAsyncIterableIterator<Certificate, Certificate[]> {
+  ): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]> {
     const span = this.createSpan("listCertificateVersions", options);
     const updatedOptions = this.setParentSpan(span, options);
 
@@ -842,7 +842,7 @@ export class CertificateClient {
     certificateName: string,
     certificatePolicy: CertificatePolicy,
     options: CreateCertificateOptions = {}
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("createCertificate", options);
 
     let result: CreateCertificateResponse;
@@ -884,7 +884,7 @@ export class CertificateClient {
   public async getCertificateWithPolicy(
     certificateName: string,
     options?: RequestOptionsBase
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("getCertificateWithPolicy", options);
 
     let result: GetCertificateResponse;
@@ -926,7 +926,7 @@ export class CertificateClient {
     certificateName: string,
     version: string,
     options?: RequestOptionsBase
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     if (!version) {
       throw new Error("The 'version' cannot be empty.");
     }
@@ -969,7 +969,7 @@ export class CertificateClient {
     certificateName: string,
     base64EncodedCertificate: string,
     options?: KeyVaultClientImportCertificateOptionalParams
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("importCertificate", options);
 
     let result: ImportCertificateResponse;
@@ -1080,7 +1080,7 @@ export class CertificateClient {
     certificateName: string,
     version: string,
     options?: KeyVaultClientUpdateCertificateOptionalParams
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("updateCertificate", options);
 
     let result: UpdateCertificateResponse;
@@ -1247,7 +1247,7 @@ export class CertificateClient {
     certificateName: string,
     x509Certificates: Uint8Array[],
     options?: RequestOptionsBase
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("mergeCertificate", options);
 
     let result: MergeCertificateResponse;
@@ -1323,7 +1323,7 @@ export class CertificateClient {
   public async restoreCertificate(
     certificateBackup: Uint8Array,
     options?: RequestOptionsBase
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("restoreCertificate", options);
 
     let result: RestoreCertificateResponse;
@@ -1509,7 +1509,7 @@ export class CertificateClient {
   public async recoverDeletedCertificate(
     certificateName: string,
     options?: RequestOptionsBase
-  ): Promise<Certificate> {
+  ): Promise<KeyVaultCertificate> {
     const span = this.createSpan("recoverDeletedCertificate", options);
 
     let result: RecoverDeletedCertificateResponse;
@@ -1527,7 +1527,7 @@ export class CertificateClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate {
+  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): KeyVaultCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
     const policy = toPublicPolicy(certificateBundle.policy || {});

@@ -41,16 +41,6 @@ export interface BackupCertificateResult {
 }
 
 // @public
-export interface Certificate {
-    cer?: Uint8Array;
-    contentType?: CertificateContentType;
-    readonly kid?: string;
-    readonly policy?: CertificatePolicy;
-    properties: CertificateProperties;
-    readonly sid?: string;
-}
-
-// @public
 export interface CertificateAttributes extends Attributes {
     readonly recoveryLevel?: DeletionRecoveryLevel;
 }
@@ -60,30 +50,30 @@ export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
     cancelCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
+    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<KeyVaultCertificate>;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    getCertificate(certificateName: string, version: string, options?: RequestOptionsBase): Promise<Certificate>;
+    getCertificate(certificateName: string, version: string, options?: RequestOptionsBase): Promise<KeyVaultCertificate>;
     getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
     getCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     getCertificatePolicy(certificateName: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    getCertificateWithPolicy(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
+    getCertificateWithPolicy(certificateName: string, options?: RequestOptionsBase): Promise<KeyVaultCertificate>;
     getDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
-    importCertificate(certificateName: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
+    importCertificate(certificateName: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<KeyVaultCertificate>;
     listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
-    listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
-    listCertificateVersions(certificateName: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
+    listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
+    listCertificateVersions(certificateName: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
+    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<null>;
-    recoverDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
-    restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
+    recoverDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<KeyVaultCertificate>;
+    restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<KeyVaultCertificate>;
     setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificate(certificateName: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
+    updateCertificate(certificateName: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<KeyVaultCertificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
     }
@@ -187,7 +177,7 @@ export interface CreateCertificateOptions extends KeyVaultClientCreateCertificat
 }
 
 // @public
-export interface DeletedCertificate extends Certificate {
+export interface DeletedCertificate extends KeyVaultCertificate {
     readonly deletedDate?: Date;
     recoveryId?: string;
     readonly scheduledPurgeDate?: Date;
@@ -240,6 +230,16 @@ export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
+
+// @public
+export interface KeyVaultCertificate {
+    cer?: Uint8Array;
+    contentType?: CertificateContentType;
+    readonly kid?: string;
+    readonly policy?: CertificatePolicy;
+    properties: CertificateProperties;
+    readonly sid?: string;
+}
 
 // @public
 export interface KeyVaultClientCreateCertificateOptionalParams extends coreHttp.RequestOptionsBase {
