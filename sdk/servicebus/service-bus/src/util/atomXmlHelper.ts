@@ -60,13 +60,13 @@ export async function executeAtomXmlOperation(
     }
   } catch (err) {
     const error = new RestError(
-      `ResponseNotInAtomXMLFormat - ${err.message}`,
+      `ResponseNotInAtomXMLFormat`,
       RestError.PARSE_ERROR,
       response.status,
       stripRequest(response.request),
       stripResponse(response)
     );
-
+    log.error(`Error parsing response body from Service - ${err.message}`);
     throw error;
   }
 
@@ -138,7 +138,17 @@ export async function deserializeAtomXmlResponse(
     }
   }
 
-  response.parsedBody = parseAtomResult(response.parsedBody, nameProperties);
+  try {
+    response.parsedBody = parseAtomResult(response.parsedBody, nameProperties);
+  } catch (err) {
+    throw new RestError(
+      err.message,
+      RestError.PARSE_ERROR,
+      response.status,
+      stripRequest(response.request),
+      stripResponse(response)
+    );
+  }
   return response;
 }
 
@@ -365,7 +375,7 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
   }
 
   const error: RestError = new RestError(
-    `ATOM Service Error: ${errorMessage}`,
+    errorMessage,
     normalizedError.code,
     response.status,
     stripRequest(response.request),
