@@ -244,7 +244,9 @@ export interface DeletedCertificate extends KeyVaultCertificate {
  * @interface
  * An interface representing options that can be passed to {@link createCertificate}.
  */
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams, coreHttp.OperationOptions {
+export interface CreateCertificateOptions
+  extends KeyVaultClientCreateCertificateOptionalParams,
+    coreHttp.OperationOptions {
   /**
    * Determines whether the object is enabled.
    */
@@ -256,7 +258,7 @@ export interface CreateCertificateOptions extends KeyVaultClientCreateCertificat
  * An interface representing options that can be passed to {@link backupCertificate}.
  */
 export interface BackupCertificateOptions extends coreHttp.OperationOptions {}
- 
+
 /**
  * @interface
  * An interface representing options that can be passed to {@link cancelCertificateOperation}.
@@ -274,7 +276,7 @@ export interface BackupCertificateOptions extends coreHttp.OperationOptions {}
  * An interface representing options that can be passed to {@link deleteCertificateOperation}.
  */
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {}
- 
+
 /**
  * @interface
  * An interface representing options that can be passed to {@link deleteCertificate}.
@@ -291,14 +293,16 @@ export interface DeleteContactsOptions extends coreHttp.OperationOptions {}
  * @interface
  * An interface representing options that can be passed to {@link importCertificate}.
  */
-export interface ImportCertificateOptions extends KeyVaultClientImportCertificateOptionalParams, coreHttp.OperationOptions {}
- 
+export interface ImportCertificateOptions
+  extends KeyVaultClientImportCertificateOptionalParams,
+    coreHttp.OperationOptions {}
+
 /**
  * @interface
  * An interface representing options that can be passed to {@link deleteIssuer}.
  */
 export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
- 
+
 /**
  * @interface
  * An interface representing options that can be passed to {@link setCertificateContacts}.
@@ -309,7 +313,9 @@ export interface SetCertificateContactsOptions extends coreHttp.OperationOptions
  * @interface
  * An interface representing options that can be passed to {@link setIssuer}.
  */
-export interface SetIssuerOptions extends KeyVaultClientSetCertificateIssuerOptionalParams, coreHttp.OperationOptions {}
+export interface SetIssuerOptions
+  extends KeyVaultClientSetCertificateIssuerOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -321,13 +327,17 @@ export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOption
  * @interface
  * An interface representing options that can be passed to {@link updateCertificate}.
  */
-export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams, coreHttp.OperationOptions {}
- 
+export interface UpdateCertificateOptions
+  extends KeyVaultClientUpdateCertificateOptionalParams,
+    coreHttp.OperationOptions {}
+
 /**
  * @interface
  * An interface representing options that can be passed to {@link updateIssuer}.
  */
-export interface UpdateIssuerOptions extends KeyVaultClientUpdateCertificateIssuerOptionalParams, coreHttp.OperationOptions {}
+export interface UpdateIssuerOptions
+  extends KeyVaultClientUpdateCertificateIssuerOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -462,25 +472,33 @@ export interface IssuerProperties {
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
  */
-export interface ListCertificatesOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {}
+export interface ListCertificatesOptions
+  extends KeyVaultClientGetCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
  */
-export interface ListCertificateVersionsOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {}
+export interface ListCertificateVersionsOptions
+  extends KeyVaultClientGetCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listIssuers}.
  */
-export interface ListIssuersOptions extends KeyVaultClientGetCertificateIssuersOptionalParams, coreHttp.OperationOptions {}
+export interface ListIssuersOptions
+  extends KeyVaultClientGetCertificateIssuersOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
-export interface ListDeletedCertificatesOptions extends KeyVaultClientGetDeletedCertificatesOptionalParams, coreHttp.OperationOptions {}
+export interface ListDeletedCertificatesOptions
+  extends KeyVaultClientGetDeletedCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
