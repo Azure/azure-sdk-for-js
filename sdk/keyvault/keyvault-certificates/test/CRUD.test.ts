@@ -194,7 +194,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setCertificateIssuer(issuerName, "Test", {
+    await client.setIssuer(issuerName, "Test", {
       credentials: {
         accountId: "keyvaultuser"
       },
@@ -223,11 +223,11 @@ describe("Certificates client - create, read, update and delete", () => {
     let getResponse: any;
 
     // Read
-    getResponse = await client.getCertificateIssuer(issuerName);
+    getResponse = await client.getIssuer(issuerName);
     assert.equal(getResponse.provider, "Test");
 
     // Update
-    await client.updateCertificateIssuer(issuerName, {
+    await client.updateIssuer(issuerName, {
       organizationDetails: {
         adminDetails: [
           {
@@ -239,17 +239,17 @@ describe("Certificates client - create, read, update and delete", () => {
         ]
       }
     });
-    getResponse = await client.getCertificateIssuer(issuerName);
+    getResponse = await client.getIssuer(issuerName);
     assert.equal(
       getResponse.organizationDetails.adminDetails[0].emailAddress,
       "admin@microsoft.com"
     );
 
     // Delete
-    await client.deleteCertificateIssuer(issuerName);
+    await client.deleteIssuer(issuerName);
     let error;
     try {
-      await client.getCertificateIssuer(issuerName);
+      await client.getIssuer(issuerName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -330,7 +330,7 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(getResponse.contactList![0].name, "a");
     assert.equal(getResponse.contactList![1].name, "b");
 
-    await client.deleteCertificateContacts();
+    await client.deleteContacts();
 
     let error;
     try {

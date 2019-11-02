@@ -22,11 +22,11 @@ import {
   CreateCertificateOptions,
   DeleteCertificateOperationOptions,
 	DeleteCertificateOptions,
-	DeleteCertificateContactsOptions,
-  DeleteCertificateIssuerOptions,
+	DeleteContactsOptions,
+  DeleteIssuerOptions,
   DeletedCertificate,
   GetCertificateContactsOptions,
-  GetCertificateIssuerOptions,
+  GetIssuerOptions,
   GetCertificateOperationOptions,
   GetCertificateOptions,
   GetCertificatePolicyOptions,
@@ -36,30 +36,30 @@ import {
 	ImportCertificateOptions,
 	ListCertificatesOptions,
 	ListCertificateVersionsOptions,
-	ListCertificateIssuersOptions,
+	ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   PurgeDeletedCertificateOptions,
   RecoverDeletedCertificateOptions,
   RestoreCertificateOptions,
   SetCertificateContactsOptions,
-  SetCertificateIssuerOptions,
+  SetIssuerOptions,
   SubjectAlternativeNames,
-  UpdateCertificateIssuerOptions,
+  UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions
 } from "./certificatesModels";
 import {
   CertificateBundle,
-  Contacts,
+  Contacts as CertificateContacts,
   KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientUpdateCertificateOptionalParams,
+  KeyVaultClientUpdateCertificateIssuerOptionalParams,
   CertificateOperation,
   CertificatePolicy as CoreCertificatePolicy,
   BackupCertificateResult,
@@ -136,17 +136,17 @@ export {
   CoreCertificatePolicy,
   CoreSubjectAlternativeNames,
   Contact,
-  Contacts,
+  CertificateContacts,
   CreateCertificateOptions,
   DeleteCertificateOperationOptions,
 	DeleteCertificateOptions,
-	DeleteCertificateContactsOptions,
-  DeleteCertificateIssuerOptions,
+	DeleteContactsOptions,
+  DeleteIssuerOptions,
   DeletedCertificate,
   DeletionRecoveryLevel,
   ErrorModel,
   GetCertificateContactsOptions,
-  GetCertificateIssuerOptions,
+  GetIssuerOptions,
   GetCertificateOperationOptions,
   GetCertificateOptions,
   GetCertificatePolicyOptions,
@@ -169,7 +169,7 @@ export {
   LifetimeAction,
 	ListCertificatesOptions,
 	ListCertificateVersionsOptions,
-	ListCertificateIssuersOptions,
+	ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   OrganizationDetails,
@@ -178,10 +178,10 @@ export {
   RestoreCertificateOptions,
   SecretProperties,
   SetCertificateContactsOptions,
-  SetCertificateIssuerOptions,
+  SetIssuerOptions,
   SubjectAlternativeNames,
   Trigger,
-  UpdateCertificateIssuerOptions,
+  UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
   X509CertificateProperties,
@@ -564,12 +564,12 @@ export class CertificateClient {
    *   name: "b",
    *   phone: "222222222222"
    * }]);
-   * await client.deleteCertificateContacts();
+   * await client.deleteContacts();
    * ```
    * @summary Deletes all of the certificate contacts
-   * @param {DeleteCertificateContactsOptions} [options] The optional parameters
+   * @param {DeleteContactsOptions} [options] The optional parameters
    */
-  public async deleteCertificateContacts(options: DeleteCertificateContactsOptions = {}): Promise<Contacts> {
+  public async deleteContacts(options: DeleteContactsOptions = {}): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("deleteCertificateContacts", requestOptions);
@@ -607,7 +607,7 @@ export class CertificateClient {
   public async setCertificateContacts(
     contacts: Contact[],
     options: SetCertificateContactsOptions = {}
-  ): Promise<Contacts> {
+  ): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("setCertificateContacts", requestOptions);
@@ -643,7 +643,7 @@ export class CertificateClient {
    * @summary Sets the certificate contacts.
    * @param {GetCertificateContactsOptions} [options] The optional parameters
    */
-  public async getCertificateContacts(options: GetCertificateContactsOptions = {}): Promise<Contacts> {
+  public async getCertificateContacts(options: GetCertificateContactsOptions = {}): Promise<CertificateContacts> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);
 
@@ -660,9 +660,9 @@ export class CertificateClient {
     return result._response.parsedBody;
   }
 
-  private async *listCertificateIssuersPage(
+  private async *listIssuersPage(
     continuationState: PageSettings,
-    options: ListCertificateIssuersOptions = {}
+    options: ListIssuersOptions = {}
   ): AsyncIterableIterator<CertificateIssuer[]> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (continuationState.continuationToken == null) {
@@ -693,13 +693,13 @@ export class CertificateClient {
     }
   }
 
-  private async *listCertificateIssuersAll(
-    options: ListCertificateIssuersOptions = {}
+  private async *listIssuersAll(
+    options: ListIssuersOptions = {}
   ): AsyncIterableIterator<CertificateIssuer> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listCertificateIssuersPage(f, requestOptions)) {
+    for await (const page of this.listIssuersPage(f, requestOptions)) {
       for (const item of page) {
         yield item;
       }
@@ -712,29 +712,29 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * await client.setIssuer("IssuerName", "Provider");
    * // All in one call
-   * for await (const issuer of client.listCertificateIssuers()) {
+   * for await (const issuer of client.listIssuers()) {
    *   console.log(issuer);
    * }
    * // By pages
-   * for await (const page of client.listCertificateIssuers().byPage()) {
+   * for await (const page of client.listIssuers().byPage()) {
    *   for (const issuer of page) {
    *     console.log(issuer);
    *   }
    * }
    * ```
    * @summary List the certificate issuers.
-   * @param {ListCertificateIssuersOptions} [options] The optional parameters
+   * @param {ListIssuersOptions} [options] The optional parameters
    */
-  public listCertificateIssuers(
-    options: ListCertificateIssuersOptions = {}
+  public listIssuers(
+    options: ListIssuersOptions = {}
   ): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listCertificateIssuers", requestOptions);
+    const span = this.createSpan("listIssuers", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
-    const iter = this.listCertificateIssuersAll(updatedOptions);
+    const iter = this.listIssuersAll(updatedOptions);
 
     span.end();
     let result = {
@@ -745,33 +745,33 @@ export class CertificateClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listCertificateIssuersPage(settings, updatedOptions)
+        this.listIssuersPage(settings, updatedOptions)
     };
 
     return result;
   }
 
   /**
-   * The SetCertificateIssuer operation adds or updates the specified certificate issuer. This
+   * The setIssuer operation adds or updates the specified certificate issuer. This
    * operation requires the certificates/setissuers permission.
    *
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * await client.setIssuer("IssuerName", "Provider");
    * ```
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
-   * @param {SetCertificateIssuerOptions} [options] The optional parameters
+   * @param {SetIssuerOptions} [options] The optional parameters
    */
-  public async setCertificateIssuer(
+  public async setIssuer(
     issuerName: string,
     provider: string,
-    options: SetCertificateIssuerOptions = {}
+    options: SetIssuerOptions = {}
   ): Promise<CertificateIssuer> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("setCertificateIssuer", requestOptions);
+    const span = this.createSpan("setIssuer", requestOptions);
 
     let result: SetCertificateIssuerResponse;
 
@@ -789,27 +789,27 @@ export class CertificateClient {
   }
 
   /**
-   * The UpdateCertificateIssuer operation performs an update on the specified certificate issuer
+   * The updateIssuer operation performs an update on the specified certificate issuer
    * entity. This operation requires the certificates/setissuers permission.
    *
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.setCertificateIssuer("IssuerName", "Provider");
-   * await client.updateCertificateIssuer("IssuerName", {
+   * await client.setIssuer("IssuerName", "Provider");
+   * await client.updateIssuer("IssuerName", {
    *   provider: "Provider2"
    * });
    * ```
    * @summary Updates the specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param {UpdateCertificateIssuerOptions} [options] The optional parameters
+   * @param {UpdateIssuerOptions} [options] The optional parameters
    */
-  public async updateCertificateIssuer(
+  public async updateIssuer(
     issuerName: string,
-    options: UpdateCertificateIssuerOptions = {},
+    options: UpdateIssuerOptions = {},
   ): Promise<CertificateIssuer> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("updateCertificateIssuer", requestOptions);
+    const span = this.createSpan("updateIssuer", requestOptions);
 
     let result: UpdateCertificateIssuerResponse;
 
@@ -827,24 +827,24 @@ export class CertificateClient {
   }
 
   /**
-   * The GetCertificateIssuer operation returns the specified certificate issuer resources in the
+   * The getIssuer operation returns the specified certificate issuer resources in the
    * specified key vault. This operation requires the certificates/manageissuers/getissuers
    * permission.
    *
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.setCertificateIssuer("IssuerName", "Provider");
-   * const certificateIssuer = await client.getCertificateIssuer("IssuerName");
+   * await client.setIssuer("IssuerName", "Provider");
+   * const certificateIssuer = await client.getIssuer("IssuerName");
    * console.log(certificateIssuer);
    * ```
    * @summary Gets he specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param {GetCertificateIssuerOptions} [options] The optional parameters
+   * @param {GetIssuerOptions} [options] The optional parameters
    */
-  public async getCertificateIssuer(
+  public async getIssuer(
     issuerName: string,
-    options: GetCertificateIssuerOptions = {}
+    options: GetIssuerOptions = {}
   ): Promise<CertificateIssuer> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateIssuer", requestOptions);
@@ -864,22 +864,22 @@ export class CertificateClient {
   }
 
   /**
-   * The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from
+   * The deleteIssuer operation permanently removes the specified certificate issuer from
    * the vault. This operation requires the certificates/manageissuers/deleteissuers permission.
    *
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.setCertificateIssuer("IssuerName", "Provider");
-   * await client.deleteCertificateIssuer("IssuerName");
+   * await client.setIssuer("IssuerName", "Provider");
+   * await client.deleteIssuer("IssuerName");
    * ```
    * @summary Deletes the specified certificate issuer.
    * @param issuerName The name of the issuer.
-   * @param {DeleteCertificateIssuerOptions} [options] The optional parameters
+   * @param {DeleteIssuerOptions} [options] The optional parameters
    */
-  public async deleteCertificateIssuer(
+  public async deleteIssuer(
     issuerName: string,
-    options: DeleteCertificateIssuerOptions = {}
+    options: DeleteIssuerOptions = {}
   ): Promise<CertificateIssuer> {
 		const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("deleteCertificateIssuer", requestOptions);
@@ -1085,7 +1085,7 @@ export class CertificateClient {
   }
 
   /**
-   * The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission.
+   * The getCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission.
    *
    * Example usage:
    * ```ts

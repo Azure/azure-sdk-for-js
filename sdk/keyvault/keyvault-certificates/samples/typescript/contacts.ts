@@ -37,7 +37,7 @@ async function main(): Promise<void> {
   getResponse = await client.getCertificateContacts();
   console.log("Contact List:", getResponse.contactList);
 
-  await client.deleteCertificateContacts();
+  await client.deleteContacts();
 }
 
 main().catch((err) => {
