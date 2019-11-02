@@ -161,11 +161,14 @@ const constructDeps = (pkgs) => {
 const dumpRushPackages = (rushPackages) => {
   const dumpData = {};
   for (const [pkgName, pkgInfo] of Object.entries(rushPackages)) {
+    const deps = Object.entries(pkgInfo.run || {})
+      .map(([name, version]) => ({ name, version }))
+
     dumpData[`${pkgName}:${pkgInfo.ver}`] = {
       name: pkgName,
       version: pkgInfo.ver,
       type: 'internal',
-      deps: pkgInfo.run || {}
+      deps: deps
     };
   }
   return dumpData;
@@ -176,25 +179,25 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId) => 
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
 
-  for (const depName of Object.keys(packages[pkgId].deps)) {
-    if (resolvedDeps[depName]) {
+  for (const dep of packages[pkgId].deps) {
+    if (resolvedDeps[dep.name]) {
       // Replace the version spec with the resolved version
-      packages[pkgId].deps[depName] = resolvedDeps[depName];
+      dep.version = resolvedDeps[dep.name];
 
       // Add the dependency to the top level of the packages list
-      const depId = `${depName}:${resolvedDeps[depName]}`;
+      const depId = `${dep.name}:${dep.version}`;
       if (!packages[depId]) {
         packages[depId] = {
-          name: depName,
-          version: resolvedDeps[depName],
-          type: internalPackages.includes(depName) ? 'internalbinary' : 'external',
-          deps: {}
+          name: dep.name,
+          version: dep.version,
+          type: internalPackages.includes(dep.name) ? 'internalbinary' : 'external',
+          deps: []
         };
       }
     } else {
       // Local linked projects are not listed here, so pull the version from the local package.json
-      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == depName);
-      packages[pkgId].deps[depName] = depInfo.version;
+      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
+      dep.version = depInfo.version;
     }
   }
 };
