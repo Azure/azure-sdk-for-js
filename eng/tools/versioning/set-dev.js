@@ -33,7 +33,7 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const service = argv["service"];
 
-  const rushSpec = await versionUtils.getRushSpec(repoRoot);
+  var rushSpec = await versionUtils.getRushSpec(repoRoot);
 
   console.log(`Updating packages with Build ID ${buildId}`);
 
@@ -64,6 +64,9 @@ async function main(argv) {
       newVersion
     );
   }
+  rushSpec.strictPeerDependencies = false;
+  const rushPackageJson = path.join(repoRoot, "rush.json");
+  await versionUtils.writePackageJson(rushPackageJson, rushSpec);
 }
 
 main(argv);
