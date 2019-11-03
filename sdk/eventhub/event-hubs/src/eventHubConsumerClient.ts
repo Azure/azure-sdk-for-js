@@ -361,6 +361,7 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         partitionManager,
         {
+          ...defaultConsumerClientOptions,
           ...(optionsOrPartitionIdOrPartitionManager3 as SubscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
