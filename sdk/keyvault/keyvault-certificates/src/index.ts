@@ -334,14 +334,12 @@ export class CertificateClient {
 
   private async *listCertificatesPage(
     continuationState: PageSettings,
-    options: ListCertificatesOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<KeyVaultCertificate[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -352,7 +350,7 @@ export class CertificateClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getCertificates(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -364,13 +362,11 @@ export class CertificateClient {
   }
 
   private async *listCertificatesAll(
-    options: ListCertificatesOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<KeyVaultCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     const f = {};
 
-    for await (const page of this.listCertificatesPage(f, requestOptions)) {
+    for await (const page of this.listCertificatesPage(f, options)) {
       for (const certificate of page) {
         yield certificate;
       }
@@ -425,14 +421,12 @@ export class CertificateClient {
   private async *listCertificateVersionsPage(
     certificateName: string,
     continuationState: PageSettings,
-    options: ListCertificateVersionsOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<KeyVaultCertificate[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getCertificateVersions(
         this.vaultUrl,
@@ -448,7 +442,7 @@ export class CertificateClient {
       const currentSetResponse = await this.client.getCertificateVersions(
         continuationState.continuationToken,
         certificateName,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -461,13 +455,11 @@ export class CertificateClient {
 
   private async *listCertificateVersionsAll(
     certificateName: string,
-    options: ListCertificateVersionsOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<KeyVaultCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     const f = {};
 
-    for await (const page of this.listCertificateVersionsPage(certificateName, f, requestOptions)) {
+    for await (const page of this.listCertificateVersionsPage(certificateName, f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -664,13 +656,12 @@ export class CertificateClient {
 
   private async *listIssuersPage(
     continuationState: PageSettings,
-    options: ListIssuersOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<CertificateIssuer[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getCertificateIssuers(
         this.vaultUrl,
@@ -684,7 +675,7 @@ export class CertificateClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getCertificateIssuers(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -696,12 +687,11 @@ export class CertificateClient {
   }
 
   private async *listIssuersAll(
-    options: ListIssuersOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<CertificateIssuer> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listIssuersPage(f, requestOptions)) {
+    for await (const page of this.listIssuersPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -1453,13 +1443,12 @@ export class CertificateClient {
 
   private async *listDeletedCertificatesPage(
     continuationState: PageSettings,
-    options: ListDeletedCertificatesOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<DeletedCertificate[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getDeletedCertificates(
         this.vaultUrl,
@@ -1473,7 +1462,7 @@ export class CertificateClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getDeletedCertificates(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1485,12 +1474,11 @@ export class CertificateClient {
   }
 
   private async *listDeletedCertificatesAll(
-    options: ListDeletedCertificatesOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listDeletedCertificatesPage(f, requestOptions)) {
+    for await (const page of this.listDeletedCertificatesPage(f, options)) {
       for (const item of page) {
         yield item;
       }
