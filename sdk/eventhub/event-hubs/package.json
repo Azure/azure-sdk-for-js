@@ -48,7 +48,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "mocha -t 1200000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:node": "mocha -t 1200000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --exit",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
