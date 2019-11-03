@@ -223,6 +223,10 @@ export class EventHubProducerClient {
    */
   async close(): Promise<void> {
     await this._client.close();
+
+    for (const pair of this._producersMap) {
+      await pair[1].close();
+    }
     this._producersMap.clear();
   }
 
