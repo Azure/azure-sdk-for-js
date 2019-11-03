@@ -929,11 +929,17 @@ export class CertificateClient {
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(
-        this.vaultUrl,
-        certificateName,
-        this.setParentSpan(span, unflattenedOptions || {})
-      );
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, {
+        ...this.setParentSpan(span, requestOptions.requestOptions || {}),
+        certificateAttributes: {
+          expires,
+          notBefore,
+          enabled,
+        },
+        tags: requestOptions.tags,
+        certificatePolicy: toCorePolicy(certificatePolicy)
+      });
+      
     } finally {
       span.end();
     }
