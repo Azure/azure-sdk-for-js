@@ -429,6 +429,10 @@ export class EventHubConsumer {
             cleanUpBeforeReturn();
             resolve(receivedEvents);
           }, maxWaitTimeInSeconds * 1000);
+
+          if (typeof timer.unref === "function") {
+            timer.unref();
+          }
         };
 
         addTimeout();
