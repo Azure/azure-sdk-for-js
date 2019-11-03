@@ -18,7 +18,7 @@ export interface Action {
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
-export interface AdministratorDetails {
+export interface AdministratorContact {
     emailAddress?: string;
     firstName?: string;
     lastName?: string;
@@ -66,11 +66,11 @@ export class CertificateClient {
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
-    getCertificate(certificateName: string, version: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
+    getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
     getCertificateContacts(options?: GetCertificateContactsOptions): Promise<CertificateContacts>;
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperation>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
-    getCertificateWithPolicy(certificateName: string, options?: GetCertificateWithPolicyOptions): Promise<KeyVaultCertificate>;
+    getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
     // Warning: (ae-forgotten-export) The symbol "ImportCertificateOptions" needs to be exported by the entry point index.d.ts
@@ -83,7 +83,7 @@ export class CertificateClient {
     // Warning: (ae-forgotten-export) The symbol "PurgeDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificate>;
-    restoreCertificate(certificateBackup: Uint8Array, options?: RestoreCertificateOptions): Promise<KeyVaultCertificate>;
+    restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateOptions): Promise<KeyVaultCertificate>;
     setCertificateContacts(contacts: Contact[], options?: SetCertificateContactsOptions): Promise<CertificateContacts>;
     setIssuer(issuerName: string, provider: string, options?: SetIssuerOptions): Promise<CertificateIssuer>;
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
@@ -240,7 +240,7 @@ export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetCertificateWithPolicyOptions extends coreHttp.OperationOptions {
+export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -387,7 +387,7 @@ export interface MergeCertificateOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface OrganizationDetails {
-    adminDetails?: AdministratorDetails[];
+    adminDetails?: AdministratorContact[];
     id?: string;
 }
 

@@ -42,14 +42,14 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(
       getDeletedResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificateWithPolicy()."
+      "Unexpected certificate name in result from getCertificate()."
     );
     await client.recoverDeletedCertificate(certificateName);
-    const getResult = await retry(async () => client.getCertificateWithPolicy(certificateName));
+    const getResult = await retry(async () => client.getCertificate(certificateName));
     assert.equal(
       getResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificateWithPolicy()."
+      "Unexpected certificate name in result from getCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
@@ -72,12 +72,12 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await client.createCertificate(certificateName, basicCertificatePolicy);
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
-    await retry(async () => client.restoreCertificate(backup.value!));
-    const getResult = await client.getCertificateWithPolicy(certificateName);
+    await retry(async () => client.restoreCertificateBackup(backup.value!));
+    const getResult = await client.getCertificate(certificateName);
     assert.equal(
       getResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificateWithPolicy()."
+      "Unexpected certificate name in result from getCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
@@ -86,7 +86,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     const backup = new Uint8Array(4728);
     let error;
     try {
-      await client.restoreCertificate(backup);
+      await client.restoreCertificateBackup(backup);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

@@ -30,7 +30,7 @@ import {
   GetCertificateOperationOptions,
   GetCertificateOptions,
   GetCertificatePolicyOptions,
-  GetCertificateWithPolicyOptions,
+  GetCertificateVersionOptions,
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
@@ -105,7 +105,7 @@ import {
   CertificateAttributes,
   Action,
   Trigger,
-  AdministratorDetails,
+  AdministratorDetails as AdministratorContact,
   ActionType,
   Attributes,
   DeletionRecoveryLevel
@@ -120,7 +120,7 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 export {
   Action,
   ActionType,
-  AdministratorDetails,
+  AdministratorContact,
   Attributes,
   BackupCertificateResult,
   KeyVaultCertificate,
@@ -150,7 +150,7 @@ export {
   GetCertificateOperationOptions,
   GetCertificateOptions,
   GetCertificatePolicyOptions,
-  GetCertificateWithPolicyOptions,
+  GetCertificateVersionOptions,
   GetDeletedCertificateOptions,
   IssuerAttributes,
   IssuerCredentials,
@@ -951,19 +951,19 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
-   * const certificate = await client.getCertificateWithPolicy("MyCertificate");
+   * const certificate = await client.getCertificate("MyCertificate");
    * console.log(certificate);
    * ```
    * @summary Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param certificateName The name of the certificate
-   * @param {GetCertificateWithPolicyOptions} [options] The optional parameters
+   * @param {GetCertificateOptions} [options] The optional parameters
    */
-  public async getCertificateWithPolicy(
+  public async getCertificate(
     certificateName: string,
-    options: GetCertificateWithPolicyOptions = {}
+    options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("getCertificateWithPolicy", requestOptions);
+    const span = this.createSpan("getCertificate", requestOptions);
 
     let result: GetCertificateResponse;
 
@@ -991,26 +991,26 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
-   * const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
-   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.properties.version!);
+   * const certificateWithPolicy = await client.getCertificate("MyCertificate");
+   * const certificate = await client.getCertificateVersion("MyCertificate", certificateWithPolicy.properties.version!);
    * console.log(certificate);
    * ```
    * @summary Retrieves a certificate from the certificate's name and a specified version
    * @param certificateName The name of the certificate
    * @param version The specific version of the certificate
-   * @param requestOptions The optional parameters
+   * @param options The optional parameters
    */
-  public async getCertificate(
+  public async getCertificateVersion(
     certificateName: string,
     version: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateVersionOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!version) {
       throw new Error("The 'version' cannot be empty.");
     }
 
-    const span = this.createSpan("getCertificate", requestOptions);
+    const span = this.createSpan("getCertificateVersion", requestOptions);
 
     let result: GetCertificateResponse;
 
@@ -1413,13 +1413,13 @@ export class CertificateClient {
    * const backup = await client.backupCertificate("MyCertificate");
    * await client.deleteCertificate("MyCertificate");
    * // Some time is required before we're able to restore the certificate
-   * await client.restoreCertificate(backup.value!);
+   * await client.restoreCertificateBackup(backup.value!);
    * ```
    * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
    * @param {RestoreCertificateOptions} [options] The optional parameters
    */
-  public async restoreCertificate(
+  public async restoreCertificateBackup(
     certificateBackup: Uint8Array,
     options: RestoreCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
@@ -1639,37 +1639,29 @@ export class CertificateClient {
   ): KeyVaultCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
-    const attributes: any = certificateBundle.attributes || {};
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
 
-    let abstractProperties: any = {
+
+    let abstractProperties: CertificateProperties = {
       keyId: certificateBundle.kid,
       secretId: certificateBundle.sid,
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint,
       ...parsedId,
-      ...certificateBundle,
-      ...certificateBundle.attributes
     };
-
-    if (abstractProperties.expires) {
-      delete abstractProperties.expires;
-    }
-    if (abstractProperties.created) {
-      delete abstractProperties.created;
-    }
-    if (abstractProperties.updated) {
-      delete abstractProperties.updated;
-    }
-
-    delete abstractProperties.policy;
 
     return {
       keyId: certificateBundle.kid,
       secretId: certificateBundle.sid,
       name: parsedId.name,
+      cer: certificateBundle.cer,
       contentType: certificateBundle.contentType as CertificateContentType,
       policy,
       properties: abstractProperties
@@ -1679,50 +1671,14 @@ export class CertificateClient {
   private getDeletedCertificateFromDeletedCertificateBundle(
     certificateBundle: DeletedCertificateBundle
   ): DeletedCertificate {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-
-    const attributes: any = certificateBundle.attributes || {};
-    const policy = toPublicPolicy(certificateBundle.policy || {});
-
-    let abstractProperties: any = {
-      keyId: certificateBundle.kid,
-      secretId: certificateBundle.sid,
-      name: parsedId.name,
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-      expiresOn: attributes.expires,
-      ...parsedId,
-      ...certificateBundle,
-      ...certificateBundle.attributes
-    };
-
-    if (abstractProperties.deletedDate) {
-      delete abstractProperties.deletedDate;
-    }
-
-    if (abstractProperties.expires) {
-      delete abstractProperties.expires;
-    }
-    if (abstractProperties.created) {
-      delete abstractProperties.created;
-    }
-    if (abstractProperties.updated) {
-      delete abstractProperties.updated;
-    }
-
-    delete abstractProperties.policy;
+    const certificate : KeyVaultCertificate = this.getCertificateFromCertificateBundle(certificateBundle);
 
     return {
-      keyId: certificateBundle.kid,
-      secretId: certificateBundle.sid,
-      name: parsedId.name,
+      ...certificate,
       recoveryId: certificateBundle.recoveryId,
       scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
-      deletedOn: certificateBundle.deletedDate,
-      contentType: certificateBundle.contentType as CertificateContentType,
-      policy,
-      properties: abstractProperties
-    };
+      deletedOn: certificateBundle.deletedDate
+    }
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {

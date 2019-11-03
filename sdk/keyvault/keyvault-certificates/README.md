@@ -230,10 +230,10 @@ the same certificate, which will have the latest provided attributes.
 ### Get a certificate
 
 The simplest way to read certificates back from the vault is to get a
-certificate by name. `getCertificateWithPolicy` will retrieve the most recent
+certificate by name. `getCertificate` will retrieve the most recent
 version of the certificate, along with the certificate's policy. You can
 optionally get a different version of the certificate by calling
-`getCertificate` if you specify the version. `getCertificate` does not return
+`getCertificateVersion` if you specify the version. `getCertificateVersion` does not return
 the certificate's policy.
 
 ```javascript
@@ -250,9 +250,9 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const latestCertificate = await client.getCertificateWithPolicy(certificateName);
+  const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificate(certificateName, latestCertificate.properties.version!);
+  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version!);
   console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version!}: `, specificCertificate);
 }
 
@@ -328,7 +328,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = client.getCertificateWithPolicy(certificateName);
+  const result = client.getCertificate(certificateName);
   await client.updateCertificate(certificateName, result.properties.version, {
     certificatePolicy: {
       issuerName: "Self"
@@ -361,7 +361,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = client.getCertificateWithPolicy(certificateName);
+  const result = client.getCertificate(certificateName);
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self"
   });

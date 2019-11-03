@@ -359,9 +359,9 @@ export interface GetCertificateOperationOptions extends coreHttp.OperationOption
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link getCertificate}.
+ * An interface representing options that can be passed to {@link getCertificateVersion}.
  */
-export interface GetCertificateOptions extends coreHttp.OperationOptions {}
+export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -377,9 +377,9 @@ export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions 
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link getCertificateWithPolicy}.
+ * An interface representing options that can be passed to {@link getCertificate}.
  */
-export interface GetCertificateWithPolicyOptions extends coreHttp.OperationOptions {}
+export interface GetCertificateOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface

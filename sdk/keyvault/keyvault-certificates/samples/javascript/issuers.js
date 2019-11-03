@@ -42,7 +42,7 @@ async function main() {
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy(certificateName);
+  const certificate = await client.getCertificate(certificateName);
   console.log("Certificate: ", certificate);
 
   // We can retrieve the issuer this way:
