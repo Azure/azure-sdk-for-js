@@ -52,7 +52,6 @@ import {
 import {
   CertificateBundle,
   Contacts as CertificateContacts,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
@@ -61,6 +60,7 @@ import {
   KeyVaultClientUpdateCertificateOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   CertificateOperation,
+  CertificateAttributes as CoreCertificateAttributes,
   CertificatePolicy as CoreCertificatePolicy,
   BackupCertificateResult,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
@@ -77,7 +77,6 @@ import {
   KeyUsageType,
   LifetimeAction,
   OrganizationDetails,
-  SecretProperties,
   X509CertificateProperties,
   DeleteCertificateResponse,
   DeleteCertificateContactsResponse,
@@ -102,12 +101,10 @@ import {
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  CertificateAttributes,
   Action,
   Trigger,
   AdministratorDetails as AdministratorContact,
   ActionType,
-  Attributes,
   DeletionRecoveryLevel
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
@@ -121,12 +118,10 @@ export {
   Action,
   ActionType,
   AdministratorContact,
-  Attributes,
   BackupCertificateResult,
   KeyVaultCertificate,
   BackupCertificateOptions,
   CancelCertificateOperationOptions,
-  CertificateAttributes,
   CertificateContentType,
   CertificateProperties,
   CertificateIssuer,
@@ -159,7 +154,6 @@ export {
   KeyCurveName,
   KeyProperties,
   KeyUsageType,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
@@ -176,7 +170,6 @@ export {
   PipelineOptions,
   RecoverDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
-  SecretProperties,
   SetContactsOptions,
   SetIssuerOptions,
   SubjectAlternativeNames,
@@ -192,7 +185,18 @@ export {
 // be required. See also: https://github.com/Azure/azure-sdk-for-js/issues/5508
 const SERVICE_API_VERSION = "7.0";
 
-function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
+function toCoreAttributes(p: CertificateProperties): CoreCertificateAttributes {
+	return {
+    recoveryLevel: p.recoveryLevel,
+    enabled: p.enabled;
+    notBefore: Date;
+    expires: p.expiresOn;
+    created: p.createdOn;
+    updated: p.updatedOn;
+	}
+}
+
+function toCorePolicy(p: CertificatePolicy): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (p.subjectAlternativeNames) {
     const propertyName = p.subjectAlternativeNames.subjectType;
@@ -913,14 +917,14 @@ export class CertificateClient {
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("createCertificate", requestOptions);
+
+		const certificateAttributes = toCoreAttributes(options);
+		const certificatePolicy = toCorePolicy(certificatePolicy, certificateAttributes);
     
     const updatedOptions = {
       ...this.setParentSpan(span, requestOptions),
-      certificatePolicy: toCorePolicy(certificatePolicy),
-      certificateAttributes: {
-        ...options.certificateAttributes,
-        enabled: options.enabled
-      }
+      certificatePolicy,
+      certificateAttributes,
     }
 
     let result: CreateCertificateResponse;
