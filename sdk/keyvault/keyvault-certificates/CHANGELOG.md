@@ -1,5 +1,20 @@
 # Release History
 
+## 4.0.0-preview.9 (2019-11-04)
+
+- Fixed parameter names and access modifiers to be on par of other language implementations.
+- Updated dependencies.
+- Cleaned up the exported types.
+- Renamed `Certificate` to `KeyVaultCertificate`.
+- Ensured that all the optional parameters have this format `{PascalCaseMethodName}Options`.
+- Date properties now end in `On`.
+- Added braces `[]` around optional parameters.
+- Anything `.*CertificateContacts.*` was changed to be `.*Contacts.*` except for the main class `CertificateContacts`.
+- Anything `.*CertificateIssuers.*` was changed to be `.*Issuers.*` except for the main class `CertificateIssuers`.
+- `restoreCertificate` is now `restoreCertificateBackup`.
+- `AdministratorDetails` is now `AdministratorContact`.
+- `getCertificateWithPolicy` was renamed `GetCertificate` and `GetCertificate` was renamed `GetCertificateVersion`.
+
 ## 4.0.0-preview.8 (2019-10-09)
 
 - Updated to use the latest version of `@azure/core-tracing`, `@azure/core-http` and `@azure/core-arm` packages
