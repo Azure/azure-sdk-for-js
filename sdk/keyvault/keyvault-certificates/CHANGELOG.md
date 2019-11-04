@@ -8,7 +8,6 @@
 - Renamed `Certificate` to `KeyVaultCertificate`.
 - Ensured that all the optional parameters have this format `{PascalCaseMethodName}Options`.
 - Date properties now end in `On`.
-- Added braces `[]` around optional parameters.
 - Anything `.*CertificateContacts.*` was changed to be `.*Contacts.*` except for the main class `CertificateContacts`.
 - Anything `.*CertificateIssuers.*` was changed to be `.*Issuers.*` except for the main class `CertificateIssuers`.
 - `restoreCertificate` is now `restoreCertificateBackup`.
