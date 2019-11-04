@@ -333,7 +333,7 @@ function setName(entry: any, nameProperties: any): any {
  */
 export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
   const errorProperties =
-    errorBody.Error || errorBody.error || errorBody || errorBody["odata.error"];
+    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
   let errorMessage;
 
   if (typeof errorBody === "string") {
