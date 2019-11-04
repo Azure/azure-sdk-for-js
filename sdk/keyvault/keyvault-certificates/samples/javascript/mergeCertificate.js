@@ -1,6 +1,6 @@
 const fs = require("fs");
 const childProcess = require("child_process");
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
@@ -16,7 +16,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
   await client.createCertificate("MyCertificate", {
