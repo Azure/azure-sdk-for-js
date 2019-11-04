@@ -895,7 +895,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     return ruleResponse;
   }
 
-  private buildResponse(fn: Function, response: HttpOperationResponse): any {
+  private buildResponse(
+    fn: (response: HttpOperationResponse) => void,
+    response: HttpOperationResponse
+  ): any {
     try {
       return fn(response);
     } catch (err) {
