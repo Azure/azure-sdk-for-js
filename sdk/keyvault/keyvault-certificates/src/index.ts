@@ -912,27 +912,39 @@ export class CertificateClient {
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("createCertificate", requestOptions);
-    
-    const updatedOptions = {
-      ...this.setParentSpan(span, requestOptions),
+    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+    const unflattenedOptions = {
+      ...remainingOptions,
+      tags: requestOptions.tags,
       certificatePolicy: toCorePolicy(certificatePolicy),
       certificateAttributes: {
-        ...options.certificateAttributes,
-        enabled: options.enabled
+        enabled,
+        notBefore,
+        expires
       }
-    }
+    };
+
+    const span = this.createSpan("createCertificate", unflattenedOptions);
 
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, {
+        ...this.setParentSpan(span, requestOptions.requestOptions || {}),
+        certificateAttributes: {
+          expires,
+          notBefore,
+          enabled,
+        },
+        tags: requestOptions.tags,
+        certificatePolicy: toCorePolicy(certificatePolicy)
+      });
+
     } finally {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(result);
-  }
+    return this.getCertificateFromCertificateBundle(result);  }
 
   /**
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
@@ -1043,7 +1055,18 @@ export class CertificateClient {
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("importCertificate", requestOptions);
+    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+    const unflattenedOptions = {
+      ...remainingOptions,
+      tags: requestOptions.tags,
+      certificateAttributes: {
+        enabled,
+        notBefore,
+        expires
+      }
+    };
+
+    const span = this.createSpan("importCertificate", unflattenedOptions);
 
     let result: ImportCertificateResponse;
 
@@ -1052,7 +1075,7 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         base64EncodedCertificate,
-        this.setParentSpan(span, requestOptions)
+        this.setParentSpan(span, unflattenedOptions)
       );
     } finally {
       span.end();
