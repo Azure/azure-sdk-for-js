@@ -11,7 +11,7 @@
 - Anything `.*CertificateIssuers.*` was changed to be `.*Issuers.*` except for the main class `CertificateIssuers`.
 - `restoreCertificate` is now `restoreCertificateBackup`.
 - `AdministratorDetails` is now `AdministratorContact`.
-- `getCertificateWithPolicy` was renamed `GetCertificate` and `GetCertificate` was renamed `GetCertificateVersion`.
+- `getCertificateWithPolicy` was renamed `getCertificate` and `getCertificate` was renamed `getCertificateVersion`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 
