@@ -12,7 +12,7 @@ export {
   EventHubConsumerOptions,
   EventHubProducerOptions,
   SendBatchOptions,
-  BatchOptions,
+  CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   GetPropertiesOptions,

@@ -8,7 +8,7 @@ import {
   EventHubClientOptions,
   GetPartitionIdsOptions,
   GetPropertiesOptions,
-  BatchOptions,
+  CreateBatchOptions,
   SendBatchOptions
 } from "./eventHubClient";
 import { EventHubProperties } from "./managementClient";
@@ -149,7 +149,7 @@ export class EventHubProducerClient {
    * - `abortSignal`   : A signal the request to cancel the operation.
    * @returns Promise<EventDataBatch>
    */
-  async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+  async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
     if (!this._producersMap.has("")) {
       this._producersMap.set("", this._client.createProducer());
     }

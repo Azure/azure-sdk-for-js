@@ -29,13 +29,6 @@ export interface AbortSignalOptions {
 }
 
 // @public
-export interface BatchOptions {
-    abortSignal?: AbortSignalLike;
-    maxSizeInBytes?: number;
-    partitionKey?: string;
-}
-
-// @public
 export interface Checkpoint {
     consumerGroupName: string;
     eTag: string;
@@ -51,6 +44,13 @@ export interface Checkpoint {
 export enum CloseReason {
     OwnershipLost = "OwnershipLost",
     Shutdown = "Shutdown"
+}
+
+// @public
+export interface CreateBatchOptions {
+    abortSignal?: AbortSignalLike;
+    maxSizeInBytes?: number;
+    partitionKey?: string;
 }
 
 export { DataTransformer }
@@ -117,7 +117,7 @@ export class EventHubProducerClient {
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
     close(): Promise<void>;
-    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
+    createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;

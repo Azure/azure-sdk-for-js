@@ -166,7 +166,7 @@ export interface SendOptions extends SendBatchOptions {
  * }
  * ```
  */
-export interface BatchOptions {
+export interface CreateBatchOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
