@@ -60,7 +60,6 @@ describe("Aggregate Query", function() {
 
   const validateFetchAll = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
-    console.log(results);
     assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
     assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
