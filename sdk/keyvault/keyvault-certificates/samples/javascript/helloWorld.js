@@ -27,13 +27,13 @@ async function main() {
   console.log("Certificate: ", certificate);
 
   // To read a certificate with their policy:
-  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithPolicy = await client.getCertificate(certificateName);
   // Note: It will always read the latest version of the certificate.
 
   console.log("Certificate with policy:", certificateWithPolicy);
 
   // To read a certificate from a specific version:
-  const certificateFromVersion = await client.getCertificate(
+  const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
     certificateWithPolicy.properties.version
   );
@@ -52,12 +52,12 @@ async function main() {
     issuerName: "Self",
     subjectName: "cn=MyOtherCert"
   });
-  updatedCertificate = await client.getCertificateWithPolicy(certificateName);
+  updatedCertificate = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", updatedCertificate.policy);
 
   const result = await client.deleteCertificate(certificateName);
   console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deletedDate);
+  console.log("Deleted Date: ", result.deletedOn);
   console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
 }
 

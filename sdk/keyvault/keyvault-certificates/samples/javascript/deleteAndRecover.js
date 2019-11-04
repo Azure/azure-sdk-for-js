@@ -43,7 +43,7 @@ async function main() {
   // It might take less time, or more, depending on your location, internet speed and other factors.
   await delay(30000);
 
-  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 

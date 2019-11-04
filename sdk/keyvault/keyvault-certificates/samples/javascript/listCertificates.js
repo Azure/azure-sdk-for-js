@@ -73,7 +73,7 @@ async function main() {
       break;
     }
     const version = value.properties.version;
-    const certificate = await client.getCertificate(certificateName1, version);
+    const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
 

@@ -7,7 +7,6 @@
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { RequestOptionsBase } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -19,7 +18,7 @@ export interface Action {
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
-export interface AdministratorDetails {
+export interface AdministratorContact {
     emailAddress?: string;
     firstName?: string;
     lastName?: string;
@@ -36,18 +35,16 @@ export interface Attributes {
 }
 
 // @public
+export interface BackupCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface BackupCertificateResult {
     readonly value?: Uint8Array;
 }
 
 // @public
-export interface Certificate {
-    cer?: Uint8Array;
-    contentType?: CertificateContentType;
-    readonly kid?: string;
-    readonly policy?: CertificatePolicy;
-    properties: CertificateProperties;
-    readonly sid?: string;
+export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -58,35 +55,43 @@ export interface CertificateAttributes extends Attributes {
 // @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
-    backupCertificate(certificateName: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
-    cancelCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
-    deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
-    deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
-    deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
-    deleteCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    getCertificate(certificateName: string, version: string, options?: RequestOptionsBase): Promise<Certificate>;
-    getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
-    getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
-    getCertificateOperation(certificateName: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    getCertificatePolicy(certificateName: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    getCertificateWithPolicy(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
-    getDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
-    importCertificate(certificateName: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
-    listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
-    listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
-    listCertificateVersions(certificateName: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
-    listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
-    purgeDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<null>;
-    recoverDeletedCertificate(certificateName: string, options?: RequestOptionsBase): Promise<Certificate>;
-    restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
-    setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
-    setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificate(certificateName: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
-    updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
+    backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<BackupCertificateResult>;
+    cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
+    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<KeyVaultCertificate>;
+    deleteCertificate(certificateName: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
+    deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
+    deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
+    deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
+    getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperation>;
+    getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
+    getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
+    getContacts(options?: GetContactsOptions): Promise<CertificateContacts>;
+    getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
+    getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
+    // Warning: (ae-forgotten-export) The symbol "ImportCertificateOptions" needs to be exported by the entry point index.d.ts
+    importCertificate(certificateName: string, base64EncodedCertificate: string, options?: ImportCertificateOptions): Promise<KeyVaultCertificate>;
+    listCertificates(options?: ListCertificatesOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
+    listCertificateVersions(certificateName: string, options?: ListCertificateVersionsOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
+    listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
+    listIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
+    mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
+    // Warning: (ae-forgotten-export) The symbol "PurgeDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
+    purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
+    recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificate>;
+    restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
+    setContacts(contacts: Contact[], options?: SetContactsOptions): Promise<CertificateContacts>;
+    setIssuer(issuerName: string, provider: string, options?: SetIssuerOptions): Promise<CertificateIssuer>;
+    updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
+    updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
+    updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
+
+// @public
+export interface CertificateContacts {
+    contactList?: Contact[];
+    readonly id?: string;
+}
 
 // @public
 export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
@@ -131,14 +136,16 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
 
 // @public
 export interface CertificateProperties {
-    readonly created?: Date;
+    readonly createdOn?: Date;
     enabled?: boolean;
-    readonly expires?: Date;
+    readonly expiresOn?: Date;
     readonly id?: string;
+    readonly keyId?: string;
     name: string;
     readonly notBefore?: Date;
+    readonly secretId?: string;
     tags?: CertificateTags;
-    readonly updated?: Date;
+    readonly updatedOn?: Date;
     vaultUrl: string;
     version?: string;
     readonly x509Thumbprint?: Uint8Array;
@@ -154,12 +161,6 @@ export interface Contact {
     emailAddress?: string;
     name?: string;
     phone?: string;
-}
-
-// @public
-export interface Contacts {
-    contactList?: Contact[];
-    readonly id?: string;
 }
 
 // @public
@@ -181,16 +182,31 @@ export interface CoreSubjectAlternativeNames {
 }
 
 // @public
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams, coreHttp.OperationOptions {
     enabled?: boolean;
-    requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 // @public
-export interface DeletedCertificate extends Certificate {
-    readonly deletedDate?: Date;
+export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface DeleteCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface DeleteContactsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface DeletedCertificate extends KeyVaultCertificate {
+    readonly deletedOn?: Date;
     recoveryId?: string;
     readonly scheduledPurgeDate?: Date;
+}
+
+// @public
+export interface DeleteIssuerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -201,6 +217,34 @@ export interface ErrorModel {
     readonly code?: string;
     readonly innerError?: ErrorModel;
     readonly message?: string;
+}
+
+// @public
+export interface GetCertificateOperationOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetContactsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetIssuerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -240,6 +284,17 @@ export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
+
+// @public
+export interface KeyVaultCertificate {
+    cer?: Uint8Array;
+    contentType?: CertificateContentType;
+    readonly keyId?: string;
+    name: string;
+    readonly policy?: CertificatePolicy;
+    properties: CertificateProperties;
+    readonly secretId?: string;
+}
 
 // @public
 export interface KeyVaultClientCreateCertificateOptionalParams extends coreHttp.RequestOptionsBase {
@@ -301,20 +356,58 @@ export interface LifetimeAction {
     trigger?: Trigger;
 }
 
+// Warning: (ae-forgotten-export) The symbol "KeyVaultClientGetCertificatesOptionalParams" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export interface ListCertificatesOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListCertificateVersionsOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListDeletedCertificatesOptions extends KeyVaultClientGetDeletedCertificatesOptionalParams, coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListIssuersOptions extends KeyVaultClientGetCertificateIssuersOptionalParams, coreHttp.OperationOptions {
+}
+
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
+export interface MergeCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface OrganizationDetails {
-    adminDetails?: AdministratorDetails[];
+    adminDetails?: AdministratorContact[];
     id?: string;
 }
 
 export { PipelineOptions }
 
 // @public
+export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface SecretProperties {
     contentType?: string;
+}
+
+// @public
+export interface SetContactsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface SetIssuerOptions extends KeyVaultClientSetCertificateIssuerOptionalParams, coreHttp.OperationOptions {
 }
 
 // @public
@@ -327,6 +420,23 @@ export interface SubjectAlternativeNames {
 export interface Trigger {
     daysBeforeExpiry?: number;
     lifetimePercentage?: number;
+}
+
+// @public
+export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams, coreHttp.OperationOptions {
+    contentType?: CertificateContentType;
+    enabled?: boolean;
+    expiresOn?: Date;
+    notBefore?: Date;
+    tags?: CertificateTags;
+}
+
+// @public
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface UpdateIssuerOptions extends KeyVaultClientUpdateCertificateIssuerOptionalParams, coreHttp.OperationOptions {
 }
 
 // @public

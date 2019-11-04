@@ -177,7 +177,7 @@ describe("Certificates client - list certificates in various ways", () => {
       );
       let response: any;
       await retry(async () => {
-        response = await client.getCertificateWithPolicy(certificateName);
+        response = await client.getCertificate(certificateName);
         if (response.properties.tags!.tag !== tag) throw "retrying due to mismatched tag";
       });
       // Versions don't match. Something must be happening under the hood.
@@ -190,7 +190,7 @@ describe("Certificates client - list certificates in various ways", () => {
       includePending: true
     })) {
       const version = item.properties.version!;
-      const certificate = await client.getCertificate(certificateName, version);
+      const certificate = await client.getCertificateVersion(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
       // results.push({ version: item.properties.version!, tag: certificate.properties.tags!.tag! });
       results.push({ tag: certificate.properties.tags!.tag! });

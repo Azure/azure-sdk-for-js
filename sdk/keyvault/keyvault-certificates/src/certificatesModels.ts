@@ -3,6 +3,13 @@ import {
   SecretProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
+  KeyVaultClientGetCertificatesOptionalParams,
+  KeyVaultClientGetCertificateIssuersOptionalParams,
+  KeyVaultClientGetDeletedCertificatesOptionalParams,
+  KeyVaultClientImportCertificateOptionalParams,
+  KeyVaultClientSetCertificateIssuerOptionalParams,
+  KeyVaultClientUpdateCertificateIssuerOptionalParams,
+  KeyVaultClientUpdateCertificateOptionalParams,
   JsonWebKeyType as KeyType,
   JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
@@ -21,7 +28,7 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
  * @interface
  * An interface representing a certificate without the certificate's policy
  */
-export interface Certificate {
+export interface KeyVaultCertificate {
   /**
    * The properties of the certificate
    */
@@ -31,13 +38,17 @@ export interface Certificate {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly kid?: string;
+  readonly keyId?: string;
   /**
    * The secret id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly sid?: string;
+  readonly secretId?: string;
+  /**
+   * The name of certificate.
+   */
+  name: string;
   /**
    * CER contents of x509 certificate.
    */
@@ -146,15 +157,27 @@ export interface SubjectAlternativeNames {
  */
 export interface CertificateProperties {
   /**
+   * The key id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyId?: string;
+  /**
+   * The secret id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretId?: string;
+  /**
    * The vault URI.
    */
   vaultUrl: string;
   /**
-   * The version of key/secret/certificate. May be undefined.
+   * The version of certificate. May be undefined.
    */
   version?: string;
   /**
-   * The name of key/secret/certificate.
+   * The name of certificate.
    */
   name: string;
   /**
@@ -172,15 +195,15 @@ export interface CertificateProperties {
   /**
    * When the certificate was created.
    */
-  readonly created?: Date;
+  readonly createdOn?: Date;
   /**
    * When the object was updated.
    */
-  readonly updated?: Date;
+  readonly updatedOn?: Date;
   /**
    * Expiry date in UTC.
    */
-  readonly expires?: Date;
+  readonly expiresOn?: Date;
   /**
    * Application specific
    * metadata in the form of key-value pairs.
@@ -196,7 +219,7 @@ export interface CertificateProperties {
  * @interface
  * An interface representing a deleted certificate
  */
-export interface DeletedCertificate extends Certificate {
+export interface DeletedCertificate extends KeyVaultCertificate {
   /**
    * The url of the recovery object, used to
    * identify and recover the deleted certificate.
@@ -214,23 +237,136 @@ export interface DeletedCertificate extends Certificate {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly deletedDate?: Date;
+  readonly deletedOn?: Date;
 }
 
 /**
  * @interface
- * An interface representing options for creating a certificate that can passed to {@link createCertificate}.
+ * An interface representing options that can be passed to {@link createCertificate}.
  */
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
+export interface CreateCertificateOptions
+  extends KeyVaultClientCreateCertificateOptionalParams,
+    coreHttp.OperationOptions {
   /**
    * Determines whether the object is enabled.
    */
   enabled?: boolean;
-  /**
-   * Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link cancelCertificateOperation}.
+ */
+export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link backupCertificate}.
+ */
+export interface BackupCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link deleteCertificateOperation}.
+ */
+export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link deleteCertificate}.
+ */
+export interface DeleteCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link deleteContacts}.
+ */
+export interface DeleteContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link importCertificate}.
+ */
+export interface ImportCertificateOptions
+  extends KeyVaultClientImportCertificateOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link deleteIssuer}.
+ */
+export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link setContacts}.
+ */
+export interface SetContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link setIssuer}.
+ */
+export interface SetIssuerOptions
+  extends KeyVaultClientSetCertificateIssuerOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link purgeDeletedCertificate}.
+ */
+export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link updateIssuer}.
+ */
+export interface UpdateIssuerOptions
+  extends KeyVaultClientUpdateCertificateIssuerOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getContacts}.
+ */
+export interface GetContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getIssuer}.
+ */
+export interface GetIssuerOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getCertificateOperation}.
+ */
+export interface GetCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getCertificateVersion}.
+ */
+export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getCertificatePolicy}.
+ */
+export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getDeletedCertificate}.
+ */
+export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link getCertificate}.
+ */
+export interface GetCertificateOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -242,7 +378,13 @@ export type CertificateTags = { [propertyName: string]: string };
  * @interface
  * An interface representing options that can be passed to {@link updateCertificate}.
  */
-export interface UpdateCertificateOptions {
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link updateCertificate}.
+ */
+
+export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams,
+  coreHttp.OperationOptions {
   /**
    * Type of the certificate value such as a
    * password.
@@ -259,17 +401,19 @@ export interface UpdateCertificateOptions {
   /**
    * Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
-  /**
-   * Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
+
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link updateCertificatePolicy}.
+ */
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -306,13 +450,63 @@ export interface IssuerProperties {
   /**
    * When the issuer was created.
    */
-  created?: Date;
+  createdOn?: Date;
   /**
    * When the issuer was updated.
    */
-  updated?: Date;
+  updatedOn?: Date;
   /**
    * Name of the issuer
    */
   name?: string;
 }
+
+/**
+ * @interface
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
+ */
+export interface ListCertificatesOptions
+  extends KeyVaultClientGetCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
+ */
+export interface ListCertificateVersionsOptions
+  extends KeyVaultClientGetCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listIssuers}.
+ */
+export interface ListIssuersOptions
+  extends KeyVaultClientGetCertificateIssuersOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
+ */
+export interface ListDeletedCertificatesOptions
+  extends KeyVaultClientGetDeletedCertificatesOptionalParams,
+    coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for {@link mergeCertificate}.
+ */
+export interface MergeCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for {@link recoverDeletedCertificate}.
+ */
+export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * @interface
+ * An interface representing optional parameters for {@link restoreCertificateBackup}.
+ */
+export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}

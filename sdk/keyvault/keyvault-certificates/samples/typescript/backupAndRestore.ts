@@ -38,9 +38,9 @@ async function main(): Promise<void> {
   await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
 
-  await client.restoreCertificate(backup.value!);
+  await client.restoreCertificateBackup(backup.value!);
 
-  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
+  const restoredCertificate = await client.getCertificate(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
 }

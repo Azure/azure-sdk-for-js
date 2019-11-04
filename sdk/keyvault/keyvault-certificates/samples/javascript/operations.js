@@ -25,7 +25,7 @@ async function main() {
   });
 
   // The pending state of the certificate will be visible.
-  const pendingCertificate = await client.getCertificateWithPolicy(certificateName);
+  const pendingCertificate = await client.getCertificate(certificateName);
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)
@@ -50,7 +50,7 @@ async function main() {
   console.log(error.message); // Pending certificate not found
 
   // There will be no signs of a pending operation at this point
-  const certificateWithoutOperation = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
 }
 
