@@ -323,13 +323,6 @@ export interface SetIssuerOptions
  */
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {}
 
-/**
- * @interface
- * An interface representing options that can be passed to {@link updateCertificate}.
- */
-export interface UpdateCertificateOptions
-  extends KeyVaultClientUpdateCertificateOptionalParams,
-    coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -391,7 +384,13 @@ export type CertificateTags = { [propertyName: string]: string };
  * @interface
  * An interface representing options that can be passed to {@link updateCertificate}.
  */
-export interface UpdateCertificateOptions extends coreHttp.OperationOptions {
+/**
+ * @interface
+ * An interface representing options that can be passed to {@link updateCertificate}.
+ */
+
+export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams,
+  coreHttp.OperationOptions {
   /**
    * Type of the certificate value such as a
    * password.
@@ -502,18 +501,18 @@ export interface ListDeletedCertificatesOptions
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link mergeCertificate}.
+ * An interface representing optional parameters for {@link mergeCertificate}.
  */
 export interface MergeCertificateOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link recoverDeletedCertificate}.
+ * An interface representing optional parameters for {@link recoverDeletedCertificate}.
  */
 export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link restoreCertificate}.
+ * An interface representing optional parameters for {@link restoreCertificateBackup}.
  */
-export interface RestoreCertificateOptions extends coreHttp.OperationOptions {}
+export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}

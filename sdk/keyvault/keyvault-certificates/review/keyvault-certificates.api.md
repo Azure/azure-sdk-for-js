@@ -83,7 +83,7 @@ export class CertificateClient {
     // Warning: (ae-forgotten-export) The symbol "PurgeDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificate>;
-    restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateOptions): Promise<KeyVaultCertificate>;
+    restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
     setCertificateContacts(contacts: Contact[], options?: SetCertificateContactsOptions): Promise<CertificateContacts>;
     setIssuer(issuerName: string, provider: string, options?: SetIssuerOptions): Promise<CertificateIssuer>;
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
@@ -398,7 +398,7 @@ export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOpti
 }
 
 // @public
-export interface RestoreCertificateOptions extends coreHttp.OperationOptions {
+export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -428,10 +428,6 @@ export interface Trigger {
 
 // @public
 export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams, coreHttp.OperationOptions {
-}
-
-// @public
-export interface UpdateCertificateOptions extends coreHttp.OperationOptions {
     contentType?: CertificateContentType;
     enabled?: boolean;
     expiresOn?: Date;

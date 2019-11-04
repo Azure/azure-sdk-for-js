@@ -41,7 +41,7 @@ import {
   MergeCertificateOptions,
   PurgeDeletedCertificateOptions,
   RecoverDeletedCertificateOptions,
-  RestoreCertificateOptions,
+  RestoreCertificateBackupOptions,
   SetCertificateContactsOptions,
   SetIssuerOptions,
   SubjectAlternativeNames,
@@ -175,7 +175,7 @@ export {
   OrganizationDetails,
   PipelineOptions,
   RecoverDeletedCertificateOptions,
-  RestoreCertificateOptions,
+  RestoreCertificateBackupOptions,
   SecretProperties,
   SetCertificateContactsOptions,
   SetIssuerOptions,
@@ -564,7 +564,7 @@ export class CertificateClient {
   public async deleteContacts(options: DeleteContactsOptions = {}): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    const span = this.createSpan("deleteCertificateContacts", requestOptions);
+    const span = this.createSpan("deleteContacts", requestOptions);
 
     let result: DeleteCertificateContactsResponse;
 
@@ -1399,11 +1399,11 @@ export class CertificateClient {
    * ```
    * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
-   * @param {RestoreCertificateOptions} [options] The optional parameters
+   * @param {RestoreCertificateBackupOptions} [options] The optional parameters
    */
   public async restoreCertificateBackup(
     certificateBackup: Uint8Array,
-    options: RestoreCertificateOptions = {}
+    options: RestoreCertificateBackupOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("restoreCertificate", requestOptions);
