@@ -1,6 +1,7 @@
 ## 3.4.1
 
 - Fix region drop failover scenario and add test (#5892)
+- Fix bug where preferredLocations was not respected (#6026)
 
 ## 3.4.0
 
