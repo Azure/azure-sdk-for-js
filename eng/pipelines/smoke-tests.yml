@@ -15,7 +15,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: install
-          workingDir: eng/tools/smoke-test/
+          workingDir: common/smoke-test/
           displayName: Install packages
 
       - script: tsc -p ./common/smoke-test/
