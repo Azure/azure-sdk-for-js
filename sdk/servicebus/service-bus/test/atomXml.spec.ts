@@ -33,10 +33,10 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
     } catch (err) {
       assert.deepEqual(
         err.message.startsWith(
-          "Response from service is in bad format. Expected response to be in Atom XML format."
+          "Error occurred while parsing the response body - expected the service to return valid xml content."
         ),
         true,
-        `"${err.message}" was expected to begin with "Response from service is in bad format. Expected response to be in Atom XML format." `
+        `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `
       );
       assert.deepEqual(err.code, "PARSE_ERROR");
     }

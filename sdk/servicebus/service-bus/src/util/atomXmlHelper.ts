@@ -60,7 +60,7 @@ export async function executeAtomXmlOperation(
     }
   } catch (err) {
     const error = new RestError(
-      `Response from service is in bad format. Expected response to be in Atom XML format.`,
+      `Error occurred while parsing the response body - expected the service to return valid xml content.`,
       RestError.PARSE_ERROR,
       response.status,
       stripRequest(response.request),
@@ -177,7 +177,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
     atomResponseInJson
   );
   throw new RestError(
-    "Response from service is in bad format. Expected response to be in Atom XML format and have either feed or entry components",
+    "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
     RestError.PARSE_ERROR,
     response.status,
     stripRequest(response.request),
