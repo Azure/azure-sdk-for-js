@@ -2,7 +2,6 @@
 
 ## 4.0.0-preview.9 (2019-11-04)
 
-- Fixed parameter names and access modifiers to be on par of other language implementations.
 - Updated dependencies to use the latest version of the `@azure/core-*` libraries.
 - Renamed `Certificate` to `KeyVaultCertificate`.
 - Ensured that all the optional parameters have this format `{PascalCaseMethodName}Options`.
