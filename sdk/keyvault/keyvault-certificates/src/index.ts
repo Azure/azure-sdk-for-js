@@ -912,34 +912,21 @@ export class CertificateClient {
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
-    const unflattenedOptions = {
-      ...remainingOptions,
-      tags: requestOptions.tags,
+    const span = this.createSpan("createCertificate", requestOptions);
+    
+    const updatedOptions = {
+      ...this.setParentSpan(span, requestOptions),
       certificatePolicy: toCorePolicy(certificatePolicy),
       certificateAttributes: {
-        enabled,
-        notBefore,
-        expires
+        ...options.certificateAttributes,
+        enabled: options.enabled
       }
-    };
-
-    const span = this.createSpan("createCertificate", unflattenedOptions);
+    }
 
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(this.vaultUrl, certificateName, {
-        ...this.setParentSpan(span, requestOptions.requestOptions || {}),
-        certificateAttributes: {
-          expires,
-          notBefore,
-          enabled,
-        },
-        tags: requestOptions.tags,
-        certificatePolicy: toCorePolicy(certificatePolicy)
-      });
-      
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
     } finally {
       span.end();
     }
@@ -1056,18 +1043,7 @@ export class CertificateClient {
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
-    const unflattenedOptions = {
-      ...remainingOptions,
-      tags: requestOptions.tags,
-      certificateAttributes: {
-        enabled,
-        notBefore,
-        expires
-      }
-    };
-
-    const span = this.createSpan("importCertificate", unflattenedOptions);
+    const span = this.createSpan("importCertificate", requestOptions);
 
     let result: ImportCertificateResponse;
 
@@ -1076,7 +1052,7 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         base64EncodedCertificate,
-        this.setParentSpan(span, unflattenedOptions)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
