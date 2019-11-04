@@ -339,12 +339,12 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    errorMessage = errorProperties.Detail;
+    errorMessage = errorProperties.Detail || errorProperties.detail;
   }
 
   const error: RestError = new RestError(
     errorMessage,
-    errorProperties.Code,
+    errorProperties.Code || errorProperties.code,
     response.status,
     stripRequest(response.request),
     stripResponse(response)
