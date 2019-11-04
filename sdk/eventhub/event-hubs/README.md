@@ -106,6 +106,8 @@ Many Event Hub operations take place within the scope of a specific partition.
 Because partitions are owned by the Event Hub, their names are assigned at the time of creation.
 To understand what partitions are available, you query the Event Hub using either of the two clients available: `EventHubProducerClient` or `EventHubConsumerClient`
 
+In the below example, we are using an `EventHubProducerClient`.
+
 ```javascript
 const { EventHubProducerClient } = require("@azure/event-hubs");
 
@@ -131,6 +133,8 @@ You may publish events to a specific partition, or allow the Event Hubs service 
 - Add events to the batch using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventdatabatch.html#tryadd)
 method. You can do this until the maximum batch size limit is reached or until you are done adding the number of events you liked, whichever comes first. This method would return `false` to indicate that no more events can be added to the batch due to the max batch size being reached.
 - Send the batch of events using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducerclient.html#sendbatch) method.
+
+In the below example, we attempt to send 10 events to Azure Event Hubs.
 
 ```javascript
 const { EventHubProducerClient } = require("@azure/event-hubs");
@@ -161,8 +165,8 @@ There are options you can pass at different stages to control the process of sen
 - The `EventHubProducerClient` constructor takes an optional parameter of type `EventHubClientOptions` which you can use to specify options like number of retries.
 - The `createBatch` method takes an optional parameter of type `CreateBatchOptions` which you can use to speicify the max batch size supported by the batch being created.
 - The `sendBatch` method takes an optional parameter of type `SendBatchOptions` which you can use to specify `abortSignal` to cancel current operation.
-The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fetch the available partitions ids.
 - In case you want to send to a specific partition, an overload of the `sendBatch` method allows you to pass the id of the partition to send events to. 
+The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fetch the available partitions ids.
 
 
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
