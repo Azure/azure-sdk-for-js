@@ -41,7 +41,7 @@
      * The default value is false to avoid legacy compatibility issues.
      * It is strongly recommended to set strictPeerDependencies=true.
      */
-    "strictPeerDependencies": true,
+    "strictPeerDependencies": false,
     /**
      * Configures the strategy used to select versions during installation.
      *
@@ -360,7 +360,7 @@
     {
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro"
-    }, 
+    },
     {
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging",
