@@ -69,7 +69,7 @@ export async function execute({
     requestContext.locationRouting = new LocationRouting();
   }
   requestContext.locationRouting.clearRouteToLocation();
-  if (retryContext) {
+  if (retryContext && Object.keys(retryContext).length > 0) {
     requestContext.locationRouting.routeToLocation(
       retryContext.retryCount || 0,
       !retryContext.retryRequestOnPreferredLocations
@@ -110,7 +110,7 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
-    const results = await retryPolicy.shouldRetry(err, retryContext, locationEndpoint);
+    const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
