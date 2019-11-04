@@ -19,7 +19,7 @@ async function main() {
   const issuerName = "issuerName";
 
   // Create
-  await client.setCertificateIssuer(issuerName, "Test", {
+  await client.setIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
@@ -42,15 +42,15 @@ async function main() {
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy(certificateName);
+  const certificate = await client.getCertificate(certificateName);
   console.log("Certificate: ", certificate);
 
   // We can retrieve the issuer this way:
-  const getResponse = await client.getCertificateIssuer(issuerName);
+  const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
   // We can also delete the issuer.
-  await client.deleteCertificateIssuer(issuerName);
+  await client.deleteIssuer(issuerName);
 }
 
 main().catch((err) => {
