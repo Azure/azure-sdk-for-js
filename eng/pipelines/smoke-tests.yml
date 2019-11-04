@@ -18,10 +18,10 @@ jobs:
           workingDir: eng/tools/smoke-test/
           displayName: Install packages
 
-      - script: tsc -p ./eng/tools/smoke-test/
+      - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"
 
-      - script: node ./eng/tools/smoke-test/app.js
+      - script: node ./common/smoke-test/app.js
         displayName: Run Smoke Test
         env:
           AZURE_PROJECT_URL: $(smoke-tests-key-vault-project-url)
