@@ -4,7 +4,6 @@
 
 - Fixed parameter names and access modifiers to be on par of other language implementations.
 - Updated dependencies to use the latest version of the `@azure/core-*` libraries.
-- Cleaned up the exported types.
 - Renamed `Certificate` to `KeyVaultCertificate`.
 - Ensured that all the optional parameters have this format `{PascalCaseMethodName}Options`.
 - Date properties now end in `On`.
