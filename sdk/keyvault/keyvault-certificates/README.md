@@ -176,11 +176,14 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = await client.createCertificate(certificateName, {
-    issuerName: "Self"
+  const keyVaultCertificate = await client.createCertificate(certificateName, {
+    issuerName: "Self",
+    subjectName: "cn=MyCert"
   });
-  console.log("result: ", result);
+  console.log("Certificate: ", keyVaultCertificate);
 }
+
+main();
 ```
 
 Besides the name of the certificate, you can also pass the following attributes:
@@ -202,7 +205,8 @@ const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
-  issuerName: "Self"
+  issuerName: "Self",
+  subjectName: "cn=MyCert"
 };
 const enabled = true;
 const tags = {
@@ -210,7 +214,7 @@ const tags = {
 };
 
 async function main() {
-  const result = await client.createCertificate(
+  const keyVaultCertificate = await client.createCertificate(
     certificateName,
     certificatePolicy,
     {
@@ -218,7 +222,7 @@ async function main() {
       tags
     }
   );
-  console.log("result: ", result);
+  console.log("Certificate: ", keyVaultCertificate);
 }
 
 main();
@@ -252,8 +256,8 @@ const certificateName = "MyCertificateName";
 async function main() {
   const latestCertificate = await client.getCertificateWithPolicy(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificate(certificateName, latestCertificate.properties.version!);
-  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version!}: `, specificCertificate);
+  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
+  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
 }
 
 main();
@@ -328,11 +332,8 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = client.getCertificateWithPolicy(certificateName);
+  const result = await client.getCertificate(certificateName);
   await client.updateCertificate(certificateName, result.properties.version, {
-    certificatePolicy: {
-      issuerName: "Self"
-    },
     certificateAttributes: {
       enabled: false
     },
@@ -363,7 +364,8 @@ const certificateName = "MyCertificateName";
 async function main() {
   const result = client.getCertificateWithPolicy(certificateName);
   await client.updateCertificatePolicy(certificateName, {
-    issuerName: "Self"
+    issuerName: "Self",
+    subjectName: "cn=MyCert"
   });
 }
 
