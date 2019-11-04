@@ -77,6 +77,9 @@ export class ClientContext {
 
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
+
+      // read will use ReadEndpoint since it uses GET operation
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
       return response;
@@ -128,6 +131,7 @@ export class ClientContext {
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
     request.headers = await this.buildHeaders(request);
     if (query !== undefined) {
       request.headers[Constants.HttpHeaders.IsQuery] = "true";
@@ -173,6 +177,7 @@ export class ClientContext {
       plugins: this.cosmosClientOptions.plugins
     };
 
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
     request.headers = await this.buildHeaders(request);
     request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
     request.headers[Constants.HttpHeaders.QueryVersion] = "1.4";
@@ -240,6 +245,8 @@ export class ClientContext {
 
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
+      // deleteResource will use WriteEndpoint since it uses DELETE operation
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       if (parseLink(path).type !== "colls") {
         this.captureSessionToken(undefined, path, OperationType.Delete, response.headers);
@@ -289,6 +296,7 @@ export class ClientContext {
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
       return response;
@@ -371,6 +379,9 @@ export class ClientContext {
 
       request.headers = await this.buildHeaders(request);
       this.applySessionToken(request);
+
+      // replace will use WriteEndpoint since it uses PUT operation
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
       return response;
@@ -416,6 +427,8 @@ export class ClientContext {
       request.headers[Constants.HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
+      // upsert will use WriteEndpoint since it uses POST operation
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
       return response;
@@ -461,6 +474,8 @@ export class ClientContext {
     };
 
     request.headers = await this.buildHeaders(request);
+    // executeStoredProcedure will use WriteEndpoint since it uses POST operation
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
     return executePlugins(request, executeRequest, PluginOn.operation);
   }
 
