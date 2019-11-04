@@ -97,7 +97,7 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
-- [Consume events from an Event Hub partition](#consume-events-from-an-event-hub-partition)
+- [Consume events from an Event Hub](#consume-events-from-an-event-hub)
 - [Use EventHubConsumerClient to work with IotHub](#use-eventHubConsumerClient-to-work-with-IotHub)
 
 ### Inspect an Event Hub
@@ -122,11 +122,14 @@ main();
 
 ### Publish events to an Event Hub
 
-In order to publish events, you'll need to create an `EventHubProducerClient`. You may publish events to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the example below, we will take advantage of automatic routing.
+In order to publish events, you'll need to create an `EventHubProducerClient`. While the below example shows one way to create the client, see the
+[Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
+
+You may publish events to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the example below, we will take advantage of automatic routing.
 
 - Create an `EventDataBatch` object using the [createBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#createbatch) 
 - Add events to the batch using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventdatabatch.html#tryadd)
-method. You can do this until the maximum batch size limit is reached after which this method would return `false` to indicate that no more events can be added to the batch.
+method. You can do this until the maximum batch size limit is reached or until you are done adding the number of events you liked, whichever comes first. This method would return `false` to indicate that no more events can be added to the batch due to the max batch size being reached.
 - Send the batch of events using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducerclient.html#sendbatch) method.
 
 ```javascript
@@ -165,59 +168,38 @@ The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fet
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
 For example: `body: { "message": "Hello World" }`
 
-### Consume events from an Event Hub partition
+### Consume events from an Event Hub
 
-To consume events from a single Event Hub partition in a consumer group, create an [EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html) for that partition and consumer group combination. 
+To consume events from an Event Hub instance, you also need to know which consumer group you want to target. 
+Once you know this, you are ready to create an [EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html). While the below example shows one way to create the client, see the
+[Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
 
-You will need to provide a position in the event stream from where to begin receiving events. There are several convenience methods that specify some common positions like the start of the stream (`EventPosition.earliest()`) as well as the current end of the stream (`EventPosition.latest()`).
+The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe)
+method on the client has 3 overloads to cater to the 3 ways you can consume events.
 
-More information can be found in the documentation for [EventPosition](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventposition.html).
-
-In our example, we will read new events as they are published, starting from the current end of the stream:
-
-```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
-
-const client = new EventHubConsumerClient("connectionString", "eventHubName");
-const partitionIds = await client.getPartitionIds();
-const subscription = client.subscribe(
-  EventHubClient.defaultConsumerGroupName,
-  (receivedEvents, context) => { },
-  partitionIds[0], {
-    defaultEventPosition: EventPosition.latest()
-  }
-);
-
-// events will be fired off as messages are received
-
-subscription.close();
-```
-
-The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids.
+- [Consume events in a single process](consume-events-in-a-single-process)
+- [Consume events with load balanced across multiple processes](consume-events-with-load-balanced-across-multiple-processes)
+- [Consume events from a single partition](consume-events-from-a-single-partition)
 
 The `subscribe` method takes an optional parameter of type [SubscriptionOptions](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/interfaces/subscriptionoptions.html) which you can use to specify options like the maxBatchSize (number of events to wait for) and maxWaitTimeInSeconds (amount of time to wait for maxBatchSize events to arrive).
 
-You can use this consumer in one of 3 ways to receive events:
 
-- [Get an array of events](#get-an-array-of-events)
-- [Register event handler](#register-event-handler)
+#### Consume events in a single process
 
-#### Subscribe with an event handler
+Begin by creating an instance of the `EventHubConsumerClient`, and then call the `subscribe()` method on it to start
+consuming events.
 
-Use the [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe) to set up event handlers and have it running as long as you need.
-
-This function takes an optional parameter called `abortSignal` to cancel current operation.
+The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe) 
+method takes callbacks to process events as they are receivied from Azure Event Hubs.
+To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubClient("connectionString", "eventHubName");
+  const client = new EventHubConsumerClient("connectionString", "eventHubName");
   const myEventHandler = (events, context) => {
     // your code here
-  };
-  const myErrorHandler = (error) => {
-    // your error handler here
   };
   const subscription = consumer.subscribe(myEventHandler, {
     onError: myErrorHandler
@@ -231,69 +213,74 @@ async function main() {
 main();
 ```
 
-### Consume events using a partition manager
+#### Consume events with load balanced across multiple processes
 
-[EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html) is a high level construct which allows you to receive events from multiple partitions at once 
-and load balance with other consumers using the same Event Hub and consumer group
+Azure Event Hubs is capable of dealing with millions of events per second. 
+To scale your processing application, you can run multiple instances of your application and have it balance the load among themselves.
 
-This also allows the user to track progress when events are processed using checkpoints.
+Begin by creating an instance of the `EventHubConsumerClient`, and then call the `subscribe()` method on it to start
+consuming events. Pass an instance of a `PartitionManager` to the `subscribe()` method which the `EventHubConsumerClient` can 
+use to co-ordinate the processing between the multiple instances of your application.
 
-A checkpoint is meant to represent the last successfully processed event by the user from a particular
-partition of a consumer group in an Event Hub instance. The `EventHubConsumerClient` uses an instance of `PartitionManager`
-to update checkpoints and to store the relevant information required by the load balancing algorithm.
+In this example, we will use the `PartitionManger` from the `@azure/eventhubs-checkpointstore-blob` package
+which implements the required read/writes to a durable store by using Azure Blob Storage.
 
-For development, we provide the [InMemoryPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/inmemorypartitionmanager.html) which makes it simple to bootstrap your project. This implementation is not suitable for production usage - it does not persist checkpoints and does not allow separate processes to coordinate with each other due to the fact that it does not serialize its state persistently.
-
-In production, it is recommended to use a persistent store to allow multiple service instances (or processes) to 
-coordinate their work, even in the face of shutdowns or restarts.
-
-Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the `PartitionManager` implementation from one such package.
-
-In the example below, we create two subscriptions using the same Event Hub and consumer group,
-using an `InMemoryPartitionManager`.
+The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe) 
+method takes callbacks to process events as they are receivied from Azure Event Hubs.
+To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
-const {
-  EventHubClient,
-  InMemoryPartitionManager
-} = require("@azure/event-hubs");
+const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { ContainerClient } = require("@azure/storage-blob");
+const { BlobPartitionManager } = require("@azure/eventhubs-checkpointstore-blob");
 
 async function main() {
-  const client = new EventHubConsumerClient("my-connection-string", "my-event-hub");
-  const partitionManager = new InMemoryPartitionManager();
+  const consumerClient = new EventHubConsumerClient("connectionString", "eventHubName");
+  const blobContainerClient = new ContainerClient("storage-connection-string", "container-name");
+  await blobContainerClient.create(); // This can be skipped if the container already exists
+  const partitionManager =  new BlobPartitionManager(blobContainerClient);
 
-  const subscription1 = client.subscribe(
-    "my-consumer-group",
-    (events, context) => { /* code for handling events should go here */ },
-    partitionManager, {
-      // wait for 10 messages to arrive or for 60 seconds to 
-      // expire - whichever comes first.
-      maxBatchSize: 10,
-      maxWaitTimeInSeconds: 60
-    }
-  );
+  const myEventHandler = (events, context) => {
+    // your code here
+  };
+  const subscription = consumer.subscribe(myEventHandler, partitionManager);
 
-  const subscription2 = client.subscribe(
-    "my-consumer-group",
-    (events, context) => { /* code for handling events should go here */ },
-    partitionManager, {
-      // wait for 10 messages to arrive or for 60 seconds to 
-      // expire - whichever comes first.
-      maxBatchSize: 10,
-      maxWaitTimeInSeconds: 60
-    }
-  );
+  // When ready to stop receiving
+  await subscription.close();
+  await client.close();
+}
 
-  // At this point, both subscriptions are consuming events 
-  // from different partitions of the Event Hub.
-  //
-  // The subscribers will load-balance automatically without
-  // any intervention. This processing takes place in the
-  // background and will not block.
+main();
+```
 
-  await subscription1.close();
-  await subscription2.close();
 
+#### Consume events from a single partition
+
+Begin by creating an instance of the `EventHubConsumerClient`, and then call the `subscribe()` method on it to start
+consuming events. Pass the id of the partition you want to target to the `subscribe()` method to consume only from that partition.
+
+In the below example, we are using the first partition.
+
+The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubconsumerclient.html#subscribe) 
+method takes callbacks to process events as they are receivied from Azure Event Hubs.
+To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
+
+
+```javascript
+const { EventHubConsumerClient } = require("@azure/event-hubs");
+
+async function main() {
+  const client = new EventHubConsumerClient("connectionString", "eventHubName");
+  const partitionIds = await client.getPartitionIds();
+  const myEventHandler = (events, context) => {
+    // your code here
+  };
+  const subscription = consumer.subscribe(myEventHandler, partitionIds[0], {
+    onError: myErrorHandler
+  });
+
+  // When ready to stop receiving
+  await subscription.close();
   await client.close();
 }
 
