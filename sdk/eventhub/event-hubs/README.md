@@ -98,13 +98,13 @@ The following sections provide code snippets that cover some of the common tasks
 
 Many Event Hub operations take place within the scope of a specific partition.
 Because partitions are owned by the Event Hub, their names are assigned at the time of creation.
-To understand what partitions are available, you query the Event Hub using the client.
+To understand what partitions are available, you query the Event Hub using either of the two clients available: `EventHubProducerClient` or `EventHubConsumerClient`
 
 ```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { EventHubProducerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubConsumerClient("connectionString", "eventHubName");
+  const client = new EventHubProducerClient("connectionString", "eventHubName");
 
   const partitionIds = await client.getPartitionIds();
 
@@ -116,40 +116,45 @@ main();
 
 ### Publish events to an Event Hub
 
-In order to publish events, you'll need to create an `EventHubProducerClient`. Producers may be dedicated to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the examples below, we will take advantage of automatic routing.
+In order to publish events, you'll need to create an `EventHubProducerClient`. You may publish events to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the example below, we will take advantage of automatic routing.
 
-#### Send a batch of events
-
-Use the [createBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#createbatch) method to create
-an `EventDataBatch` object which can then be sent using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducerclient.html#sendbatch) method.
-Events may be added to the `EventDataBatch` using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventdatabatch.html#tryadd)
-method until the maximum batch size limit in bytes has been reached.
+- Create an `EventDataBatch` object using the [createBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducer.html#createbatch) 
+- Add events to the batch using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventdatabatch.html#tryadd)
+method. You can do this until the maximum batch size limit is reached after which this method would return `false` to indicate that no more events can be added to the batch.
+- Send the batch of events using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.6/classes/eventhubproducerclient.html#sendbatch) method.
 
 ```javascript
-const { EventHubClient } = require("@azure/event-hubs");
+const { EventHubProducerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const producer = new EventHubProducerClient("connectionString", "eventHubName");
+  const producerClient = new EventHubProducerClient("connectionString", "eventHubName");
 
-  const eventDataBatch = await producer.createBatch();
-  
-  let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
-  wasAdded = eventDataBatch.tryAdd({ body: "my-event-body-2" });
+  const eventDataBatch = await producerClient.createBatch();
+  let numberOfEventsToSend = 10;
 
-  await producer.sendBatch(eventDataBatch);
+  while (numberOfEventsToSend > 0) {
+    let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+    if (!wasAdded) {
+      break;
+    }
+    numberOfEventsToSend--;
+  }
 
-  await producer.close();
+  await producerClient.sendBatch(eventDataBatch);
+  await producerClient.close();
 }
 
 main();
 ```
 
-The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids should you wish to specify one for a producer.
+There are options you can pass at different stages to control the process of sending events to Azure Event Hubs.
 
-The `EventHubProducerClient` constructor takes an optional parameter of type `EventHubClientOptions` which you can use to specify options like number of retries.
+- The `EventHubProducerClient` constructor takes an optional parameter of type `EventHubClientOptions` which you can use to specify options like number of retries.
+- The `createBatch` method takes an optional parameter of type `CreateBatchOptions` which you can use to speicify the max batch size supported by the batch being created.
+- The `sendBatch` method takes an optional parameter of type `SendBatchOptions` which you can use to specify `abortSignal` to cancel current operation.
+The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fetch the available partitions ids.
+- In case you want to send to a specific partition, an overload of the `sendBatch` method allows you to pass the id of the partition to send events to. 
 
-The `sendBatch` method takes an optional parameter of type `SendBatchOptions` which you can use to specify `abortSignal` to cancel current operation.
-All events that use the same partition key will be sent to the same partition.
 
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
 For example: `body: { "message": "Hello World" }`
