@@ -255,12 +255,6 @@ export interface CreateCertificateOptions
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link backupCertificate}.
- */
-export interface BackupCertificateOptions extends coreHttp.OperationOptions {}
-
-/**
- * @interface
  * An interface representing options that can be passed to {@link cancelCertificateOperation}.
  */
 export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {}
