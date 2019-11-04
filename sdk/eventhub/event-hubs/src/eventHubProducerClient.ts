@@ -141,12 +141,12 @@ export class EventHubProducerClient {
 
   /**
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
-   * The batch can be passed to the `send()` method of the `EventHubProducer` to be sent to Azure Event Hubs.
+   * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
    * @param options  A set of options to configure the behavior of the batch.
    * - `partitionKey`  : A value that is hashed to produce a partition assignment.
    * Not applicable if the `EventHubProducer` was created using a `partitionId`.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
-   * - `abortSignal`   : A signal the request to cancel the send operation.
+   * - `abortSignal`   : A signal the request to cancel the operation.
    * @returns Promise<EventDataBatch>
    */
   async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
@@ -164,7 +164,7 @@ export class EventHubProducerClient {
   /**
    * Sends a batch of events to the associated Event Hub.
    *
-   * @param eventData an instance of `EventDataBatch` (to create a batch use `createBatch`)
+   * @param batch An instance of `EventDataBatch` that you can create using the {@link createBatch} method.
    * @param options The set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
@@ -174,14 +174,12 @@ export class EventHubProducerClient {
    * @throws {MessagingError} Thrown if an error is encountered while sending a message.
    * @throws {TypeError} Thrown if a required parameter is missing.
    * @throws {Error} Thrown if the underlying connection or sender has been closed.
-   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
-   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
    */
   async sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
   /**
    * Sends a batch of events to the associated Event Hub to a specific partition
    *
-   * @param eventData an instance of `EventDataBatch` (to create a batch use `createBatch`)
+   * @param batch An instance of `EventDataBatch` that you can create using the {@link createBatch} method.
    * @param partitionId a partition id
    * @param options The set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -192,8 +190,7 @@ export class EventHubProducerClient {
    * @throws {MessagingError} Thrown if an error is encountered while sending a message.
    * @throws {TypeError} Thrown if a required parameter is missing.
    * @throws {Error} Thrown if the underlying connection or sender has been closed.
-   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
-   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
+   * @throws {Error} Thrown if the batch was created using a partitionKey as it conflicts with our attempt to send to a specific partition.
    */
   async sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
   async sendBatch(
