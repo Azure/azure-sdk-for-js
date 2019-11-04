@@ -25,7 +25,7 @@ import {
   DeleteContactsOptions,
   DeleteIssuerOptions,
   DeletedCertificate,
-  GetCertificateContactsOptions,
+  GetContactsOptions,
   GetIssuerOptions,
   GetCertificateOperationOptions,
   GetCertificateOptions,
@@ -42,7 +42,7 @@ import {
   PurgeDeletedCertificateOptions,
   RecoverDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
-  SetCertificateContactsOptions,
+  SetContactsOptions,
   SetIssuerOptions,
   SubjectAlternativeNames,
   UpdateIssuerOptions,
@@ -145,7 +145,7 @@ export {
   DeletedCertificate,
   DeletionRecoveryLevel,
   ErrorModel,
-  GetCertificateContactsOptions,
+  GetContactsOptions,
   GetIssuerOptions,
   GetCertificateOperationOptions,
   GetCertificateOptions,
@@ -177,7 +177,7 @@ export {
   RecoverDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SecretProperties,
-  SetCertificateContactsOptions,
+  SetContactsOptions,
   SetIssuerOptions,
   SubjectAlternativeNames,
   Trigger,
@@ -551,7 +551,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * let client = new CertificateClient(url, credentials);
-   * await client.setCertificateContacts([{
+   * await client.setContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
@@ -586,7 +586,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * let client = new CertificateClient(url, credentials);
-   * await client.setCertificateContacts([{
+   * await client.setContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
@@ -594,11 +594,11 @@ export class CertificateClient {
    * ```
    * @summary Sets the certificate contacts.
    * @param contacts The contacts to use
-   * @param {SetCertificateContactsOptions} [options] The optional parameters
+   * @param {SetContactsOptions} [options] The optional parameters
    */
-  public async setCertificateContacts(
+  public async setContacts(
     contacts: Contact[],
-    options: SetCertificateContactsOptions = {}
+    options: SetContactsOptions = {}
   ): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
@@ -624,19 +624,19 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * let client = new CertificateClient(url, credentials);
-   * await client.setCertificateContacts([{
+   * await client.setContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
-   * const getResponse = await client.getCertificateContacts();
+   * const getResponse = await client.getContacts();
    * console.log(getResponse.contactList!);
    * ```
    * @summary Sets the certificate contacts.
-   * @param {GetCertificateContactsOptions} [options] The optional parameters
+   * @param {GetContactsOptions} [options] The optional parameters
    */
-  public async getCertificateContacts(
-    options: GetCertificateContactsOptions = {}
+  public async getContacts(
+    options: GetContactsOptions = {}
   ): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);

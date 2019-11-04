@@ -324,9 +324,9 @@ describe("Certificates client - create, read, update and delete", () => {
 
     let getResponse: any;
 
-    await client.setCertificateContacts(contacts);
+    await client.setContacts(contacts);
 
-    getResponse = await client.getCertificateContacts();
+    getResponse = await client.getContacts();
     assert.equal(getResponse.contactList![0].name, "a");
     assert.equal(getResponse.contactList![1].name, "b");
 
@@ -334,7 +334,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     let error;
     try {
-      await client.getCertificateContacts();
+      await client.getContacts();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

@@ -299,9 +299,9 @@ export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link setCertificateContacts}.
+ * An interface representing options that can be passed to {@link setContacts}.
  */
-export interface SetCertificateContactsOptions extends coreHttp.OperationOptions {}
+export interface SetContactsOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -328,9 +328,9 @@ export interface UpdateIssuerOptions
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link getCertificateContacts}.
+ * An interface representing options that can be passed to {@link getContacts}.
  */
-export interface GetCertificateContactsOptions extends coreHttp.OperationOptions {}
+export interface GetContactsOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface

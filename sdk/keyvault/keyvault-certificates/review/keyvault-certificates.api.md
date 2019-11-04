@@ -39,10 +39,6 @@ export interface BackupCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface BackupCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export interface BackupCertificateResult {
     readonly value?: Uint8Array;
 }
@@ -67,10 +63,10 @@ export class CertificateClient {
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
-    getCertificateContacts(options?: GetCertificateContactsOptions): Promise<CertificateContacts>;
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperation>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
+    getContacts(options?: GetContactsOptions): Promise<CertificateContacts>;
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
     // Warning: (ae-forgotten-export) The symbol "ImportCertificateOptions" needs to be exported by the entry point index.d.ts
@@ -84,7 +80,7 @@ export class CertificateClient {
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificate>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
-    setCertificateContacts(contacts: Contact[], options?: SetCertificateContactsOptions): Promise<CertificateContacts>;
+    setContacts(contacts: Contact[], options?: SetContactsOptions): Promise<CertificateContacts>;
     setIssuer(issuerName: string, provider: string, options?: SetIssuerOptions): Promise<CertificateIssuer>;
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
@@ -224,10 +220,6 @@ export interface ErrorModel {
 }
 
 // @public
-export interface GetCertificateContactsOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export interface GetCertificateOperationOptions extends coreHttp.OperationOptions {
 }
 
@@ -241,6 +233,10 @@ export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetContactsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -407,7 +403,7 @@ export interface SecretProperties {
 }
 
 // @public
-export interface SetCertificateContactsOptions extends coreHttp.OperationOptions {
+export interface SetContactsOptions extends coreHttp.OperationOptions {
 }
 
 // @public

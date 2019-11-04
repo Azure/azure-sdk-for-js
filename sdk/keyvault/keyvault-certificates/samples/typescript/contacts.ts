@@ -32,9 +32,9 @@ async function main(): Promise<void> {
 
   let getResponse: any;
 
-  await client.setCertificateContacts(contacts);
+  await client.setContacts(contacts);
 
-  getResponse = await client.getCertificateContacts();
+  getResponse = await client.getContacts();
   console.log("Contact List:", getResponse.contactList);
 
   await client.deleteContacts();
