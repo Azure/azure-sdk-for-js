@@ -1,5 +1,8 @@
 import { env } from "@azure/test-utils-recorder";
 import { retry as realRetry } from "./retry";
+import * as dotenv from "dotenv";
+
+dotenv.config(); // Default: path.resolve(process.cwd(), '.env')
 
 export const isRecording = env.TEST_MODE === "record";
 export const isPlayingBack = env.TEST_MODE === "playback";
