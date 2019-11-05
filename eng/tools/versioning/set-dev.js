@@ -41,7 +41,15 @@ async function main(argv) {
     service ? package.projectFolder.startsWith(`sdk/${service}`) : true
   );
 
-  let targetPackages = scopedPackages.map(project =>
+  let appropriateVersionedPackages = scopedPackages.filter(
+    package =>
+      package.versionPolicyName == "core" ||
+      package.versionPolicyName == "client"
+  );
+
+  console.log(appropriateVersionedPackages);
+
+  let targetPackages = appropriateVersionedPackages.map(project =>
     path.resolve(path.join(repoRoot, project.projectFolder))
   );
 
@@ -64,9 +72,6 @@ async function main(argv) {
       newVersion
     );
   }
-  rushSpec.strictPeerDependencies = false;
-  const rushPackageJson = path.join(repoRoot, "rush.json");
-  await versionUtils.writePackageJson(rushPackageJson, rushSpec);
 }
 
 main(argv);
