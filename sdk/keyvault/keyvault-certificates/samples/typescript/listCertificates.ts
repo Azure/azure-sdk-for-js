@@ -29,13 +29,13 @@ async function main(): Promise<void> {
 
   // Listing all the available certificates in a single call.
   // The certificates we just created are still pending at this point.
-  for await (const certificate of client.listCertificates({ includePending: true })) {
+  for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
     console.log("Certificate from a single call: ", certificate);
   }
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  for await (const page of client.listCertificates({ includePending: true }).byPage()) {
+  for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
     for (const certificate of page) {
       console.log(`Certificate from page ${pageCount}: `, certificate);
     }
@@ -51,10 +51,10 @@ async function main(): Promise<void> {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  for await (const item of client.listCertificateVersions("MyCertificate1", {
+  for await (const item of client.listPropertiesOfCertificateVersions("MyCertificate1", {
     includePending: true
   })) {
-    const version = item.properties.version!;
+    const version = item.version!;
     const certificate = await client.getCertificateVersion("MyCertificate1", version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
