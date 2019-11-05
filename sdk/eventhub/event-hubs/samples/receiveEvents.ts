@@ -2,9 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how to use the EventProcessor to process events from all partitions
-  of a consumer group in an Event Hubs instance. It also demonstrates the process of checkpointing an event
-  which helps new instances of Event Processors that may have spun up for scaling or for crash recovery.
+  This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
+  of a consumer group in an Event Hubs instance.
 
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
@@ -31,24 +30,11 @@ async function main() {
     events: ReceivedEventData[],
     context: PartitionContext & PartitionCheckpointer
   ) => {
-    if (events.length === 0) {
-      return;
-    }
-
     for (const event of events) {
       console.log(
         `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
       );
     }
-
-    // checkpoint using the last event in the batch
-    const lastEvent = events[events.length - 1];
-    await context.updateCheckpoint(lastEvent).catch((err: any) => {
-      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-    });
-    console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
-    );
   };
 
   const subscription = consumerClient.subscribe(
