@@ -47,5 +47,6 @@
 ###########
 /.vscode/ @mikeharder @KarishmaGhiya
 /common/ @mikeharder @KarishmaGhiya
+/common/config/rush/pnpm-lock.yaml @bterlson
 /rush.json @mikeharder @KarishmaGhiya
 /tsconfig.json @mikeharder @KarishmaGhiya
