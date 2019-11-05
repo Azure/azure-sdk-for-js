@@ -2,9 +2,12 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how to use the EventProcessor to process events from all partitions
+  This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
   of a consumer group in an Event Hubs instance. It also demonstrates the process of checkpointing an event
-  which helps new instances of Event Processors that may have spun up for scaling or for crash recovery.
+  which helps new instances of your application that may have spun up for scaling or for crash recovery.
+
+  You will see the use of a Partition Manager which is crucial to balance the load of processing events
+  across multiple instances of your application.
 
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
