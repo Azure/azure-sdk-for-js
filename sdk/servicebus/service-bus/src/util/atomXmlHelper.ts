@@ -332,8 +332,7 @@ function setName(entry: any, nameProperties: any): any {
  * @param response
  */
 export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
-  const errorProperties =
-    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
+  const errorProperties = errorBody.Error || errorBody.error || errorBody;
   let errorMessage;
 
   if (typeof errorBody === "string") {
