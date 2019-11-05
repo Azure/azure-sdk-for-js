@@ -351,20 +351,22 @@ describe("AbortController", () => {
   });
 });
 
-describe("fetch integration", () => {
-  it("works", async () => {
-    const parentController = new AbortController();
-    const parentSignal = parentController.signal;
-    parentController.abort();
+if (typeof window !== undefined) {
+  describe("fetch integration", () => {
+    it("works", async () => {
+      const parentController = new AbortController();
+      const parentSignal = parentController.signal;
+      parentController.abort();
 
-    let error;
-    try {
-      await fetch("example.com", {
-        signal: parentSignal
-      });
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(error.name, "AbortError");
+      let error;
+      try {
+        await fetch("example.com", {
+          signal: parentSignal
+        });
+      } catch (e) {
+        error = e;
+      }
+      assert.equal(error.name, "AbortError");
+    });
   });
-});
+}
