@@ -80,10 +80,9 @@ export interface ListRequestOptions {
 }
 
 /**
- * @ignore
  * Type representing just the server response `_response`
  */
-type EmptyResponse = {
+export type EmptyResponse = {
   /**
    * The underlying HTTP response.
    */
@@ -103,7 +102,7 @@ export type CreateQueueResponse = QueueResponse;
 /**
  * Get Queue response
  */
-export type GetQueueResponse = QueueResponse;
+export type GetQueueResponse = QueueResponse | EmptyResponse;
 
 /**
  * Update Queue response
@@ -133,7 +132,7 @@ export type CreateTopicResponse = TopicResponse;
 /**
  * Get Topic response
  */
-export type GetTopicResponse = TopicResponse;
+export type GetTopicResponse = TopicResponse | EmptyResponse;
 
 /**
  * Update Topic response
@@ -163,7 +162,7 @@ export type CreateSubscriptionResponse = SubscriptionResponse;
 /**
  * Get Subscription response
  */
-export type GetSubscriptionResponse = SubscriptionResponse;
+export type GetSubscriptionResponse = SubscriptionResponse | EmptyResponse;
 
 /**
  * Update Subscription response
@@ -193,7 +192,7 @@ export type CreateRuleResponse = RuleResponse;
 /**
  * Get Rule response
  */
-export type GetRuleResponse = RuleResponse;
+export type GetRuleResponse = RuleResponse | EmptyResponse;
 
 /**
  * Update Rule response
@@ -289,6 +288,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
+    if (
+      response.parsedBody == undefined ||
+      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+    ) {
+      return { _response: response };
+    }
+
     return this.buildQueueResponse(response);
   }
 
@@ -378,6 +384,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicName,
       this.topicResourceSerializer
     );
+
+    if (
+      response.parsedBody == undefined ||
+      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+    ) {
+      return { _response: response };
+    }
 
     return this.buildTopicResponse(response);
   }
@@ -481,6 +494,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.subscriptionResourceSerializer
     );
+
+    if (response.parsedBody == undefined) {
+      return { _response: response };
+    }
 
     return this.buildSubscriptionResponse(response);
   }
@@ -601,6 +618,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.ruleResourceSerializer
     );
+
+    if (response.parsedBody == undefined) {
+      return { _response: response };
+    }
 
     return this.buildRuleResponse(response);
   }

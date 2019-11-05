@@ -65,7 +65,8 @@ export {
   GetRuleResponse,
   ListRulesResponse,
   UpdateRuleResponse,
-  DeleteRuleResponse
+  DeleteRuleResponse,
+  EmptyResponse
 } from "./serviceBusAtomManagementClient";
 
 export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";

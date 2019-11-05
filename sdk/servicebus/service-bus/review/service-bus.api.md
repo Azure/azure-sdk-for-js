@@ -70,37 +70,40 @@ export interface DeadLetterOptions {
 export { delay }
 
 // @public
-export type DeleteQueueResponse = QueueResponse;
+export type DeleteQueueResponse = EmptyResponse;
 
 // @public
-export type DeleteRuleResponse = RuleResponse;
+export type DeleteRuleResponse = EmptyResponse;
 
 // @public
-export type DeleteSubscriptionResponse = SubscriptionResponse;
+export type DeleteSubscriptionResponse = EmptyResponse;
 
 // @public
-export type DeleteTopicResponse = TopicResponse;
+export type DeleteTopicResponse = EmptyResponse;
 
 export { Delivery }
 
 // @public
-export type GetQueueResponse = QueueResponse;
+export type EmptyResponse = {
+    _response: HttpOperationResponse;
+};
 
 // @public
-export type GetRuleResponse = RuleResponse;
+export type GetQueueResponse = QueueResponse | EmptyResponse;
 
 // @public
-export type GetSubscriptionResponse = SubscriptionResponse;
+export type GetRuleResponse = RuleResponse | EmptyResponse;
 
 // @public
-export type GetTopicResponse = TopicResponse;
+export type GetSubscriptionResponse = SubscriptionResponse | EmptyResponse;
+
+// @public
+export type GetTopicResponse = TopicResponse | EmptyResponse;
 
 export { HttpOperationResponse }
 
 // @public
-export interface ListQueuesResponse extends Array<QueueDetails> {
-    _response: HttpOperationResponse;
-}
+export type ListQueuesResponse = Array<QueueDetails> & EmptyResponse;
 
 // @public
 export interface ListRequestOptions {
@@ -109,19 +112,13 @@ export interface ListRequestOptions {
 }
 
 // @public
-export interface ListRulesResponse extends Array<Rule> {
-    _response: HttpOperationResponse;
-}
+export type ListRulesResponse = Array<Rule> & EmptyResponse;
 
 // @public
-export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
-    _response: HttpOperationResponse;
-}
+export type ListSubscriptionsResponse = Array<SubscriptionDetails> & EmptyResponse;
 
 // @public
-export interface ListTopicsResponse extends Array<TopicDetails> {
-    _response: HttpOperationResponse;
-}
+export type ListTopicsResponse = Array<TopicDetails> & EmptyResponse;
 
 // @public
 export type MessageCountDetails = {
@@ -167,18 +164,35 @@ export class QueueClient implements Client {
 }
 
 // @public
-export interface QueueDetails extends QueueOptions {
+export interface QueueDetails {
     accessedAt?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
     createdAt?: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTimeToLive: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
     enableExpress?: boolean;
+    enablePartitioning: boolean;
     entityAvailabilityStatus?: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     isAnonymousAccessible?: boolean;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes: number;
+    messageCount: number;
     messageCountDetails?: MessageCountDetails;
     path?: string;
-    queueName?: string;
+    queueName: string;
+    requiresDuplicateDetection: boolean;
+    requiresSession: boolean;
+    sizeInBytes: number;
     status?: string;
     supportOrdering?: boolean;
     updatedAt?: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -203,9 +217,7 @@ export interface QueueOptions {
 }
 
 // @public
-export type QueueResponse = QueueDetails & {
-    _response: HttpOperationResponse;
-};
+export type QueueResponse = QueueDetails & EmptyResponse;
 
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -241,11 +253,13 @@ export class Receiver {
     }
 
 // @public
-export interface Rule extends RuleOptions {
-    createdAt?: string;
-    ruleName?: string;
-    subscriptionName?: string;
-    topicName?: string;
+export interface Rule {
+    action?: SqlAction;
+    createdAt: string;
+    filter?: SqlFilter | CorrelationFilter;
+    ruleName: string;
+    subscriptionName: string;
+    topicName: string;
 }
 
 // @public
@@ -262,9 +276,7 @@ export interface RuleOptions {
 }
 
 // @public
-export type RuleResponse = Rule & {
-    _response: HttpOperationResponse;
-};
+export type RuleResponse = Rule & EmptyResponse;
 
 // @public
 export interface SendableMessageInfo {
@@ -457,15 +469,31 @@ export class SubscriptionClient implements Client {
 }
 
 // @public
-export interface SubscriptionDetails extends SubscriptionOptions {
+export interface SubscriptionDetails {
     accessedAt?: string;
-    createdAt?: string;
-    entityAvailabilityStatus?: string;
+    autoDeleteOnIdle: string;
+    createdAt: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTimeToLive?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations: boolean;
+    enablePartitioning?: boolean;
+    entityAvailabilityStatus: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes?: number;
+    messageCount: number;
     messageCountDetails?: MessageCountDetails;
-    status?: string;
-    subscriptionName?: string;
-    topicName?: string;
-    updatedAt?: string;
+    requiresSession: boolean;
+    sizeInBytes?: number;
+    status: string;
+    subscriptionName: string;
+    topicName: string;
+    updatedAt: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -489,9 +517,7 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export type SubscriptionResponse = SubscriptionDetails & {
-    _response: HttpOperationResponse;
-};
+export type SubscriptionResponse = SubscriptionDetails & EmptyResponse;
 
 export { TokenInfo }
 
@@ -509,15 +535,36 @@ export class TopicClient implements Client {
 }
 
 // @public
-export interface TopicDetails extends TopicOptions {
+export interface TopicDetails {
     accessedAt?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
     createdAt?: string;
+    defaultMessageTimeToLive: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress: boolean;
+    enablePartitioning: boolean;
+    enableSubscriptionPartitioning: boolean;
     entityAvailabilityStatus?: string;
+    filteringMessagesBeforePublishing: boolean;
     isAnonymousAccessible?: boolean;
+    isExpress: boolean;
+    maxCorrelationFiltersPerTopic?: number;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes: number;
+    maxSqlFiltersPerTopic?: number;
+    maxSubscriptionsPerTopic?: number;
+    messageCount?: number;
     messageCountDetails?: MessageCountDetails;
+    requiresDuplicateDetection: boolean;
+    sizeInBytes: number;
     status?: string;
-    topicName?: string;
+    subscriptionCount?: number;
+    supportOrdering: boolean;
+    topicName: string;
     updatedAt?: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -546,9 +593,7 @@ export interface TopicOptions {
 }
 
 // @public
-export type TopicResponse = TopicDetails & {
-    _response: HttpOperationResponse;
-};
+export type TopicResponse = TopicDetails & EmptyResponse;
 
 // @public
 export type UpdateQueueResponse = QueueResponse;

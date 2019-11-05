@@ -18,7 +18,8 @@ import {
   AuthorizationRule,
   getString,
   getInteger,
-  getBoolean
+  getBoolean,
+  getBooleanOrUndefined
 } from "../util/utils";
 
 /**
@@ -116,19 +117,13 @@ export function buildTopic(rawTopic: any): TopicDetails {
     ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
-    isAnonymousAccessible: getBoolean(
-      rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE],
-      "isAnonymousAccessible"
-    ),
+    isAnonymousAccessible: getBooleanOrUndefined(rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE]),
     userMetadata: rawTopic[Constants.USER_METADATA],
 
-    entityAvailabilityStatus: getString(
-      rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
-      "entityAvailabilityStatus"
-    ),
-    status: getString(rawTopic[Constants.STATUS], "status"),
-    createdAt: getString(rawTopic[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getString(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    entityAvailabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
+    status: rawTopic[Constants.STATUS],
+    createdAt: rawTopic[Constants.CREATED_AT],
+    updatedAt: rawTopic[Constants.UPDATED_AT],
     accessedAt: rawTopic[Constants.ACCESSED_AT]
   };
 }
@@ -497,27 +492,27 @@ export interface TopicDetails {
   /**
    * Is anonymous accessible topic option
    */
-  isAnonymousAccessible: boolean;
+  isAnonymousAccessible?: boolean;
 
   /**
    * Entity availability status
    */
-  entityAvailabilityStatus: string;
+  entityAvailabilityStatus?: string;
 
   /**
    * Topic entity status
    */
-  status: string;
+  status?: string;
 
   /**
    * Created at timestamp
    */
-  createdAt: string;
+  createdAt?: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt: string;
+  updatedAt?: string;
 
   /**
    * Accessed at timestamp

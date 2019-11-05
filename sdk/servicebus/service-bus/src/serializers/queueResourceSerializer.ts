@@ -17,7 +17,8 @@ import {
   AuthorizationRule,
   getInteger,
   getBoolean,
-  getString
+  getString,
+  getBooleanOrUndefined
 } from "../util/utils";
 
 /**
@@ -99,22 +100,17 @@ export function buildQueue(rawQueue: any): QueueDetails {
     forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
 
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    supportOrdering: getBoolean(rawQueue[Constants.SUPPORT_ORDERING], "supportOrdering"),
-    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress"),
+    supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
+    enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
-    isAnonymousAccessible: getBoolean(
-      rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE],
-      "isAnonymousAccessible"
-    ),
+    isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
 
-    entityAvailabilityStatus: getString(
-      rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
-      "entityAvailabilityStatus"
-    ),
-    status: getString(rawQueue[Constants.STATUS], "status"),
-    createdAt: getString(rawQueue[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getString(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
+
+    status: rawQueue[Constants.STATUS],
+    createdAt: rawQueue[Constants.CREATED_AT],
+    updatedAt: rawQueue[Constants.UPDATED_AT],
     accessedAt: rawQueue[Constants.ACCESSED_AT]
   };
 }
@@ -433,37 +429,37 @@ export interface QueueDetails {
   /**
    * Ordering support for messages
    */
-  supportOrdering: boolean;
+  supportOrdering?: boolean;
 
   /**
    * Enable express option
    */
-  enableExpress: boolean;
+  enableExpress?: boolean;
 
   /**
    * Is anonymous accessible queue option
    */
-  isAnonymousAccessible: boolean;
+  isAnonymousAccessible?: boolean;
 
   /**
    * Entity availability status
    */
-  entityAvailabilityStatus: string;
+  entityAvailabilityStatus?: string;
 
   /**
    * Queue entity status
    */
-  status: string;
+  status?: string;
 
   /**
    * Created at timestamp
    */
-  createdAt: string;
+  createdAt?: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt: string;
+  updatedAt?: string;
 
   /**
    * Accessed at timestamp
