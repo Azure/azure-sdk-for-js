@@ -19,4 +19,8 @@ export function uniqueString(): string {
     : Math.random()
         .toString()
         .slice(2);
-} 
+}
+
+export const testPollerProperties = {
+  intervalInMs: isPlayingBack ? 0 : undefined
+};

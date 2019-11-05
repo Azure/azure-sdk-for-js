@@ -4,8 +4,9 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificateClient } from "../src";
-import { retry, isRecording } from "./utils/recorder";
+import { isRecording } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 const { expect } = chai;
@@ -54,7 +55,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificatePolicy);
+      await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
     }
 
     let found = 0;
@@ -71,7 +72,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  // This test only passes during recording.
+  // This test passes during recording.
   // I believe it's a bug on the recorder, but we're
   // migrating to the new recorder soon, so I'm hoping to let
   // this oddity happen for now and come back when the new recorder is here.
@@ -80,15 +81,11 @@ describe("Certificates client - list certificates in various ways", () => {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const certificateNames = [`${certificateName}0`, `${certificateName}1`];
       for (const name of certificateNames) {
-        await client.createCertificate(name, basicCertificatePolicy);
+        await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       }
       for (const name of certificateNames) {
-        await client.deleteCertificate(name);
-      }
-
-      // Waiting until the certificates are deleted
-      for (const name of certificateNames) {
-        await retry(async () => client.getDeletedCertificate(name));
+        const deletePoller = await client.beginDeleteCertificate(name, testPollerProperties);
+        await deletePoller.pollUntilDone();
       }
 
       let found = 0;
@@ -110,7 +107,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificatePolicy);
+      await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
     }
     let found = 0;
     for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
@@ -130,15 +127,11 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificatePolicy);
+      await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
     }
     for (const name of certificateNames) {
-      await client.deleteCertificate(name);
-    }
-
-    // Waiting until the certificates are deleted
-    for (const name of certificateNames) {
-      await retry(async () => client.getDeletedCertificate(name));
+      const deletePoller = await client.beginDeleteCertificate(name, testPollerProperties);
+      await deletePoller.pollUntilDone();
     }
 
     let found = 0;
@@ -169,17 +162,16 @@ describe("Certificates client - list certificates in various ways", () => {
     for (const tag of certificateTags) {
       // One can't re-create a certificate while it's pending,
       // so we're retrying until Azure allows us to do this.
-      await retry(async () =>
-        client.createCertificate(certificateName, basicCertificatePolicy, {
+      const createPoller = await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        {
+          ...testPollerProperties,
           tags: { tag },
           enabled: true
-        })
+        }
       );
-      let response: any;
-      await retry(async () => {
-        response = await client.getCertificate(certificateName);
-        if (response.properties.tags!.tag !== tag) throw "retrying due to mismatched tag";
-      });
+      const response = await createPoller.pollUntilDone();
       // Versions don't match. Something must be happening under the hood.
       // versions.push({ version: response.version!, tag: response.properties.tags!.tag });
       versions.push({ tag: response.properties.tags!.tag });
