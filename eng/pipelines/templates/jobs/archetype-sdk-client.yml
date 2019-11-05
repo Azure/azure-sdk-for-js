@@ -58,18 +58,19 @@ jobs:
           if (('$(Build.Reason)' -eq 'Schedule') -and ('$(System.TeamProject)' -eq 'internal')) {
             $setDailyDevBuild = "true"
           }
-          echo "##vso[task.setvariable variable=DevBuildRun]$setDailyDevBuild"
+          echo "##vso[task.setvariable variable=SetDevVersion]$setDailyDevBuild"
         displayName: "Setup Versioning Properties"
+        condition: eq(variables['SetDevVersion'], '')
 
       - script: |
           node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
           node common/scripts/install-run-rush.js update
-        condition: eq(variables['DevBuildRun'],'true')
+        condition: eq(variables['SetDevVersion'],'true')
         displayName: "Update package versions for dev build"
 
       - script: |
           node common/scripts/install-run-rush.js install
-        condition: ne(variables['DevBuildRun'],'true')
+        condition: ne(variables['SetDevVersion'],'true')
         displayName: "Install dependencies"
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
