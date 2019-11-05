@@ -410,7 +410,7 @@ export class CertificateClient {
   ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    const span = this.createSpan("listCertificates", requestOptions);
+    const span = this.createSpan("listPropertiesOfCertificates", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
     const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
@@ -497,7 +497,7 @@ export class CertificateClient {
     options: ListCertificateVersionsOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listCertificateVersions", requestOptions);
+    const span = this.createSpan("listPropertiesOfCertificateVersions", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
     const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, updatedOptions);
