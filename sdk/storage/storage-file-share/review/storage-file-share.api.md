@@ -93,7 +93,7 @@ export interface CommonOptions {
 }
 
 // @public
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 // @public
 export abstract class Credential implements RequestPolicyFactory {
@@ -110,7 +110,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = "include";
+export type DeleteSnapshotsOptionType = 'include';
 
 export { deserializationPolicy }
 
@@ -670,7 +670,7 @@ export { HttpRequestBody }
 export { IHttpClient }
 
 // @public
-export type ListSharesIncludeType = "snapshots" | "metadata";
+export type ListSharesIncludeType = 'snapshots' | 'metadata';
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
