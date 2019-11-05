@@ -1,4 +1,7 @@
 /// <reference path="./shims-public.d.ts" />
+
+import { AbortController } from "./AbortController";
+
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
@@ -76,7 +79,8 @@ export class AbortSignal implements AbortSignalLike {
    * @memberof AbortSignal
    */
   public static get none(): AbortSignal {
-    return new AbortSignal();
+    const controller = new AbortController();
+    return controller.signal;
   }
 
   /**
@@ -84,7 +88,7 @@ export class AbortSignal implements AbortSignalLike {
    *
    * @memberof AbortSignal
    */
-  public onabort: ((ev?: Event) => any) | null = null;
+  public onabort: ((ev: Event) => any) | null = null;
 
   /**
    * Added new "abort" event listener, only support "abort" event.
@@ -131,10 +135,12 @@ export class AbortSignal implements AbortSignalLike {
   }
 
   /**
-    * Dispatches a synthetic event to the AbortSignal.
-    */
+   * Dispatches a synthetic event to the AbortSignal.
+   */
   dispatchEvent(event: Event): boolean {
-    throw new Error("This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes.")
+    throw new Error(
+      "This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes."
+    );
   }
 }
 
@@ -154,7 +160,7 @@ export function abortSignal(signal: AbortSignal) {
   }
 
   if (signal.onabort) {
-    signal.onabort.call(signal);
+    signal.onabort.call(signal, { type: "abort" } as any);
   }
 
   const listeners = listenersMap.get(signal)!;

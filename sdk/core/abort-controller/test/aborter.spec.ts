@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 import * as assert from "assert";
 import { AbortController, AbortSignal, AbortError } from "../src/aborter";
 
@@ -179,7 +181,7 @@ describe("AbortController", () => {
     assert.equal(s, "parent1");
   });
 
-  it("should call abort() on child signals that were created before parent abort() call", async function() {
+  it("should call abort() on child signals that were created before parent abort() call", async () => {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 
@@ -276,7 +278,7 @@ describe("AbortController", () => {
     assert.equal(true, values.includes("child"));
   });
 
-  it("should call abort() on deeply nested child signals that were created before parent abort() call", async function() {
+  it("should call abort() on deeply nested child signals that were created before parent abort() call", async () => {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 
@@ -307,7 +309,7 @@ describe("AbortController", () => {
     assert.equal(true, values.includes("child2"));
   });
 
-  it("should not call abort() on parent signals when child calls abort()", async function() {
+  it("should not call abort() on parent signals when child calls abort()", async () => {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 
@@ -346,5 +348,23 @@ describe("AbortController", () => {
     assert.equal(true, values.includes("parent"));
     assert.equal(true, values.includes("child1"));
     assert.equal(true, values.includes("child2"));
+  });
+});
+
+describe("fetch integration", () => {
+  it("works", async () => {
+    const parentController = new AbortController();
+    const parentSignal = parentController.signal;
+    parentController.abort();
+
+    let error;
+    try {
+      await fetch("example.com", {
+        signal: parentSignal
+      });
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.name, "AbortError");
   });
 });

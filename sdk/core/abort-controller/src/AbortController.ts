@@ -57,7 +57,7 @@ export class AbortError extends Error {
  */
 export class AbortController {
   private _signal: AbortSignal;
-
+  private _innerController?: InstanceType<typeof window.AbortController>;
   /**
    * @param {AbortSignalLike[]} [parentSignals] The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
    * @constructor
@@ -69,7 +69,13 @@ export class AbortController {
    */
   constructor(...parentSignals: AbortSignalLike[]);
   constructor(parentSignals?: any) {
-    this._signal = new AbortSignal();
+    if (typeof window !== "undefined" && typeof window.AbortController === "function") {
+      this._innerController = new window.AbortController();
+      this._signal = this._innerController.signal;
+    } else {
+      this._innerController = undefined;
+      this._signal = new AbortSignal();
+    }
 
     if (!parentSignals) {
       return;
@@ -111,7 +117,11 @@ export class AbortController {
    * @memberof AbortController
    */
   abort() {
-    abortSignal(this._signal);
+    if (this._innerController) {
+      this._innerController.abort();
+    } else {
+      abortSignal(this._signal);
+    }
   }
 
   /**
@@ -122,12 +132,12 @@ export class AbortController {
    * @returns {AbortSignal}
    */
   public static timeout(ms: number): AbortSignal {
-    const signal = new AbortSignal();
-    const timer = setTimeout(abortSignal, ms, signal);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ms);
     // Prevent the active Timer from keeping the Node.js event loop active.
     if (typeof timer.unref === "function") {
       timer.unref();
     }
-    return signal;
+    return controller.signal;
   }
 }
