@@ -1,14 +1,12 @@
 import * as coreHttp from "@azure/core-http";
 import {
-  SecretProperties,
-  KeyVaultClientCreateCertificateOptionalParams,
+  DeletionRecoveryLevel,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
   KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateOptionalParams,
   JsonWebKeyType as KeyType,
   JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
@@ -195,7 +193,7 @@ export interface CertificateProperties {
   /**
    * The name of certificate.
    */
-  name: string;
+  name?: string;
   /**
    * Not before date in UTC.
    */
@@ -221,7 +219,7 @@ export interface CertificateProperties {
   /**
    * The vault URI.
    */
-  vaultUrl: string;
+  vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
    */
@@ -261,7 +259,9 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
  * @interface
  * An interface representing options that can be passed to {@link createCertificate}.
  */
-export interface CreateCertificateOptions extends CertificateProperties, coreHttp.OperationOptions {}
+export interface CreateCertificateOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
@@ -327,7 +327,6 @@ export interface SetIssuerOptions
  */
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {}
 
-
 /**
  * @interface
  * An interface representing options that can be passed to {@link updateIssuer}.
@@ -388,42 +387,17 @@ export type CertificateTags = { [propertyName: string]: string };
  * @interface
  * An interface representing options that can be passed to {@link updateCertificate}.
  */
-/**
- * @interface
- * An interface representing options that can be passed to {@link updateCertificate}.
- */
-
-export interface UpdateCertificateOptions extends KeyVaultClientUpdateCertificateOptionalParams,
-  coreHttp.OperationOptions {
-  /**
-   * Type of the certificate value such as a
-   * password.
-   */
-  contentType?: CertificateContentType;
-  /**
-   * Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * Expiry date in UTC.
-   */
-  expiresOn?: Date;
-  /**
-   * Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: CertificateTags;
-}
+export interface UpdateCertificateOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing options that can be passed to {@link updateCertificatePolicy}.
  */
-export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
+export interface UpdateCertificatePolicyOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
 
 /**
  * @interface

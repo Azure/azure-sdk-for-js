@@ -178,7 +178,7 @@ const certificateName = "MyCertificateName";
 async function main() {
   const keyVaultCertificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
   console.log("Certificate: ", keyVaultCertificate);
 }
@@ -206,7 +206,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
   issuerName: "Self",
-  subjectName: "cn=MyCert"
+  subject: "cn=MyCert"
 };
 const enabled = true;
 const tags = {
@@ -365,7 +365,7 @@ async function main() {
   const result = client.getCertificate(certificateName);
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 }
 
