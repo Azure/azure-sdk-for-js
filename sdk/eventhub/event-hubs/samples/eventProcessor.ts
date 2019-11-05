@@ -13,21 +13,28 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
+
 import {
   EventHubConsumerClient,
   ReceivedEventData,
-  delay,
-  CloseReason,
   PartitionContext,
-  PartitionCheckpointer,
-  InMemoryPartitionManager
+  PartitionCheckpointer
 } from "@azure/event-hubs";
 
-// A Sample event processor that keeps track of the number of events processed.
-class SampleEventProcessor {
-  private _messageCount = 0;
+import { ContainerClient } from "@azure/storage-blob";
+import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob";
 
-  async processEvents(events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) {
+const connectionString = "";
+const eventHubName = "";
+const storageConnectionString = "";
+const containerName = "";
+
+async function main() {
+  const consumerClient = new EventHubConsumerClient(connectionString, eventHubName);
+  const containerClient = new ContainerClient(storageConnectionString, containerName);
+  await containerClient.create();
+
+  const processEvents = async (events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => {
     // events can be empty if no events were recevied in the last 60 seconds.
     // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
@@ -38,63 +45,28 @@ class SampleEventProcessor {
       console.log(
         `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
       );
-      this._messageCount++;
     }
 
     // checkpoint using the last event in the batch
     const lastEvent = events[events.length - 1];
-    await context.updateCheckpoint(lastEvent).catch((err) => {
+    await context.updateCheckpoint(lastEvent).catch((err: any) => {
       console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
     });
     console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${context.partitionId}'`
+      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
     );
   }
 
-  async processError(error: Error, context: PartitionContext) {
-    console.log(
-      `Encountered an error: ${error.message} when processing partition ${context.partitionId}`
-    );
-  }
+  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, processEvents, new BlobPartitionManager(containerClient))
 
-  async initialize(partitionContext: PartitionContext) {
-    console.log(`Started processing partition: ${partitionContext.partitionId}`);
-  }
-
-  async close(reason: CloseReason, partitionContext: PartitionContext & PartitionCheckpointer) {
-    console.log(`Stopped processing for reason ${reason}`);
-    console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
-  }
-}
-
-// Define connection string and related Event Hubs entity name here
-const connectionString = "";
-const eventHubName = "";
-
-async function main() {
-  const client = new EventHubConsumerClient(connectionString, eventHubName);
-  const processor = new SampleEventProcessor();
-
-  const partitionManager = new InMemoryPartitionManager();
-
-  const subscription = await client.subscribe(
-    EventHubConsumerClient.defaultConsumerGroupName,
-    (events, context) => processor.processEvents(events, context),
-    partitionManager,
-    {
-      onInitialize: async (context) => { processor.initialize(context) },
-      onClose: async (closeReason, context) => { processor.close(closeReason, context) },
-      onError: async (error, context) => processor.processError(error, context),
-      maxBatchSize: 10,
-      maxWaitTimeInSeconds: 20
-    }
-  );
-
-  // after 50 seconds, stop processing
-  await delay(50000);
-
-  await subscription.close();
-  await client.close();
+  // after 30 seconds, stop processing
+  await new Promise(resolve => {
+    setInterval(async () => {
+      await subscription.close();
+      await consumerClient.close();
+      resolve();
+    }, 30000)
+  });
 }
 
 main().catch((err) => {
