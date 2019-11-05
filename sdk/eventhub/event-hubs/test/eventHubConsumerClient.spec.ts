@@ -144,7 +144,12 @@ describe("EventHubConsumerClient", () => {
 
       const subscriber1 = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
+        async (events, context) => {
+          if (events.length > 0) {
+            await context.updateCheckpoint(events[events.length - 1]);
+          }
+          return tester.onReceivedEvents(events, context);
+        },
         inMemoryPartitionManager,
         tester
       );
@@ -153,7 +158,13 @@ describe("EventHubConsumerClient", () => {
 
       const subscriber2 = await client.subscribe(
          EventHubClient.defaultConsumerGroupName,
-         (events, context) => tester.onReceivedEvents(events, context),
+        async (events, context) => {
+          if (events.length > 0) {
+            await context.updateCheckpoint(events[events.length - 1]);
+          }
+
+          return tester.onReceivedEvents(events, context);
+        },
          inMemoryPartitionManager,
          tester
       );
