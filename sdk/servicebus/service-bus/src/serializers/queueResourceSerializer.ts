@@ -51,7 +51,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 
 /**
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the response 
+ * Builds the queue object from the raw json object gotten after deserializing the response
  * from the service
  * @param rawQueue
  */
@@ -310,61 +310,151 @@ export interface InternalQueueOptions {
 /**
  * Represents all attributes of a queue entity
  */
-export interface QueueDetails extends QueueOptions {
+export interface QueueDetails {
   /**
    * Name of the queue
    */
-  queueName?: string;
+  queueName: string;
+
+  /**
+   * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
+   */
+  lockDuration: string;
+
+  /**
+   * The entity's size in bytes.
+   *
+   */
+  sizeInBytes: number;
+
+  /**
+   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
+   */
+  maxSizeInMegabytes: number;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  messageCount: number;
+
+  /**
+   * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
+   */
+  defaultMessageTimeToLive: string;
+
+  /**
+   * Specifies the time span during which the Service Bus detects message duplication.
+   */
+  duplicateDetectionHistoryTimeWindow: string;
+
+  /**
+   * Entity to forward deadlettered messages to
+   *
+   */
+  forwardDeadLetteredMessagesTo: string;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   */
+  requiresSession: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Settable only at queue creation time.
+   */
+  requiresDuplicateDetection: boolean;
+
+  /**
+   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   */
+  deadLetteringOnMessageExpiration: boolean;
+
+  /**
+   * ForwardTo header
+   */
+  forwardTo: string;
+
+  /**
+   * The user metadata information
+   */
+  userMetadata: string;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  enablePartitioning: boolean;
+
+  /**
+   * Authorization rules on the queue
+   */
+  authorizationRules: AuthorizationRule[];
 
   /**
    * Entity path
    */
-  path?: string;
+  path: string;
 
   /**
    * Message count details
    */
-  messageCountDetails?: MessageCountDetails;
+  messageCountDetails: MessageCountDetails;
 
   /**
    * Ordering support for messages
    */
-  supportOrdering?: boolean;
+  supportOrdering: boolean;
 
   /**
    * Enable express option
    */
-  enableExpress?: boolean;
+  enableExpress: boolean;
 
   /**
    * Is anonymous accessible queue option
    */
-  isAnonymousAccessible?: boolean;
+  isAnonymousAccessible: boolean;
 
   /**
    * Entity availability status
    */
-  entityAvailabilityStatus?: string;
+  entityAvailabilityStatus: string;
 
   /**
    * Queue entity status
    */
-  status?: string;
+  status: string;
 
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  createdAt: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: string;
+  updatedAt: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  accessedAt: string;
 }
 
 /**

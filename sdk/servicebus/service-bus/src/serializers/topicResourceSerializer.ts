@@ -21,8 +21,8 @@ import {
 
 /**
  * @ignore
- * Builds the topic options object from the user provided options. 
- * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * Builds the topic options object from the user provided options.
+ * Handles the differences in casing for the property names, converts values to string and ensures the
  * right order as expected by the service
  * @param topicOptions
  */
@@ -58,7 +58,7 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
 
 /**
  * @ignore
- * Builds the topic object from the raw json object gotten after deserializing the response 
+ * Builds the topic object from the raw json object gotten after deserializing the response
  * from the service
  * @param rawTopic
  */
@@ -354,47 +354,158 @@ export interface InternalTopicOptions {
 /**
  * Represents all attributes of a topic entity
  */
-export interface TopicDetails extends TopicOptions {
+export interface TopicDetails {
   /**
    * Name of the topic
    */
+  topicName: string;
 
-  topicName?: string;
+  /**
+   * Specifies the topic size in bytes.
+   */
+  sizeInBytes: number;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   */
+  maxSizeInMegabytes: number;
+
+  /**
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
+   */
+  requiresDuplicateDetection: boolean;
+
+  /**
+   * Enable Subscription Partitioning option
+   */
+  enableSubscriptionPartitioning: boolean;
+
+  /**
+   * Filtering Messages Before Publishing option
+   */
+  filteringMessagesBeforePublishing: boolean;
+
+  /**
+   * Authorization rules on the topic
+   */
+  authorizationRules: AuthorizationRule[];
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  enablePartitioning: boolean;
+
+  /**
+   * Specifies whether the topic supports message ordering.
+   */
+  supportOrdering: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle: string;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  messageCount: number;
+
+  /**
+   * The subscription count on given topic.
+   *
+   */
+  subscriptionCount: number;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   */
+  defaultMessageTimeToLive: string;
+
+  /**
+   * Specifies the time span during which the Service Bus will detect message duplication.
+   */
+  duplicateDetectionHistoryTimeWindow: string;
+
+  /**
+   * User metadata
+   */
+  userMetadata: string;
+
+  /**
+   * Is Express option
+   */
+  isExpress: boolean;
+
+  /**
+   * Enable express option
+   */
+  enableExpress: boolean;
+
+  /**
+   * The maximum number of subscriptions per topic.
+   *
+   */
+  maxSubscriptionsPerTopic: number;
+
+  /**
+   * The maximum amount of sql filters per topic.
+   *
+   */
+  maxSqlFiltersPerTopic: number;
+
+  /**
+   * The maximum amount of correlation filters per topic.
+   *
+   */
+  maxCorrelationFiltersPerTopic: number;
 
   /**
    * Message count details
    */
-  messageCountDetails?: MessageCountDetails;
+  messageCountDetails: MessageCountDetails;
 
   /**
    * Is anonymous accessible topic option
    */
-  isAnonymousAccessible?: boolean;
+  isAnonymousAccessible: boolean;
 
   /**
    * Entity availability status
    */
-  entityAvailabilityStatus?: string;
+  entityAvailabilityStatus: string;
 
   /**
    * Topic entity status
    */
-  status?: string;
+  status: string;
 
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  createdAt: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: string;
+  updatedAt: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  accessedAt: string;
 }
 
 /**

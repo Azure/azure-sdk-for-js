@@ -132,26 +132,36 @@ export interface InternalRuleOptions extends RuleOptions {
 /**
  * Represents all attributes of a rule entity
  */
-export interface Rule extends RuleOptions {
+export interface Rule {
   /**
    * Name of the rule
    */
-  ruleName?: string;
+  ruleName: string;
+
+  /**
+   * Defines the expression that the rule evaluates. The expression string is interpreted as a SQL92 expression which must evaluate to True or False. Only one between a correlation and a sql expression can be defined.
+   */
+  filter: SqlFilter | CorrelationFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the associated filter apply.
+   */
+  action: SqlAction;
 
   /**
    * Name of topic
    */
-  topicName?: string;
+  topicName: string;
 
   /**
    * Name of subscription
    */
-  subscriptionName?: string;
+  subscriptionName: string;
 
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  createdAt: string;
 }
 
 /**
