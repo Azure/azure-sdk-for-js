@@ -814,16 +814,30 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
-    const queues: QueueDetails[] = [];
-    const rawQueueArray: any = response.parsedBody || [];
-    for (let i = 0; i < rawQueueArray.length; i++) {
-      const queue = buildQueue(rawQueueArray[i]);
-      if (queue) {
-        queues.push(queue);
+    try {
+      const queues: QueueDetails[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
+      const rawQueueArray: any = response.parsedBody;
+      for (let i = 0; i < rawQueueArray.length; i++) {
+        const queue = buildQueue(rawQueueArray[i]);
+        if (queue) {
+          queues.push(queue);
+        }
+      }
+      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
+      return listQueuesResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     }
-    const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
-    return listQueuesResponse;
   }
 
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
@@ -844,16 +858,30 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListTopicsResponse(response: HttpOperationResponse): ListTopicsResponse {
-    const topics: TopicDetails[] = [];
-    const rawTopicArray: any = response.parsedBody || [];
-    for (let i = 0; i < rawTopicArray.length; i++) {
-      const topic = buildTopic(rawTopicArray[i]);
-      if (topic) {
-        topics.push(topic);
+    try {
+      const topics: TopicDetails[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
+      const rawTopicArray: any = response.parsedBody;
+      for (let i = 0; i < rawTopicArray.length; i++) {
+        const topic = buildTopic(rawTopicArray[i]);
+        if (topic) {
+          topics.push(topic);
+        }
+      }
+      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
+      return listTopicsResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     }
-    const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
-    return listTopicsResponse;
   }
 
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
@@ -876,18 +904,32 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
   ): ListSubscriptionsResponse {
-    const subscriptions: SubscriptionDetails[] = [];
-    const rawSubscriptionArray: any = response.parsedBody || [];
-    for (let i = 0; i < rawSubscriptionArray.length; i++) {
-      const subscription = buildSubscription(rawSubscriptionArray[i]);
-      if (subscription) {
-        subscriptions.push(subscription);
+    try {
+      const subscriptions: SubscriptionDetails[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
+      const rawSubscriptionArray: any = response.parsedBody;
+      for (let i = 0; i < rawSubscriptionArray.length; i++) {
+        const subscription = buildSubscription(rawSubscriptionArray[i]);
+        if (subscription) {
+          subscriptions.push(subscription);
+        }
+      }
+      const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
+        _response: response
+      });
+      return listSubscriptionsResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     }
-    const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
-      _response: response
-    });
-    return listSubscriptionsResponse;
   }
 
   private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
@@ -910,16 +952,30 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
-    const rules: Rule[] = [];
-    const rawRuleArray: any = response.parsedBody || [];
-    for (let i = 0; i < rawRuleArray.length; i++) {
-      const rule = buildRule(rawRuleArray[i]);
-      if (rule) {
-        rules.push(rule);
+    try {
+      const rules: Rule[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
+      const rawRuleArray: any = response.parsedBody;
+      for (let i = 0; i < rawRuleArray.length; i++) {
+        const rule = buildRule(rawRuleArray[i]);
+        if (rule) {
+          rules.push(rule);
+        }
+      }
+      const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
+      return listRulesResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     }
-    const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
-    return listRulesResponse;
   }
 
   private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
