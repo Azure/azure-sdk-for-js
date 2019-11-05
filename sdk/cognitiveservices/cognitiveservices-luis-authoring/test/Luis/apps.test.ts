@@ -252,14 +252,18 @@ describe("Apps Module Functionality Tests", () => {
         'pt-br': 'Brazilian Portuguese',
         'ko-kr': 'Korean',
         'nl-nl': 'Dutch',
-        'tr-tr': 'Turkish'
+        'tr-tr': 'Turkish',
+		'hi-in': 'Hindi Indian',
+		'ar-ar': 'Arabic',
+		'gu-in': 'Gujarati Indian',
+		'te-in': 'Telugu Indian'
       };
 
       const result = await client.apps.listSupportedCultures();
 
       for (let culture of result) {
         const culture_name: string = cultures_map[culture.code];
-        chai.expect(culture_name.toLowerCase()).to.eql(culture.name.toLowerCase());
+        chai.expect(culture_name).to.eql(culture.name);
       }
     });
   });
