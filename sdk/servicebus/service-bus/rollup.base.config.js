@@ -141,8 +141,7 @@ export function browserConfig({ test = false, production = false } = {}) {
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false,
-        dedupe: ["buffer"]
+        preferBuiltins: false
       }),
       cjs({
         namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
