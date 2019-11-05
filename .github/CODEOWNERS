@@ -50,3 +50,4 @@
 /common/config/rush/pnpm-lock.yaml @bterlson
 /rush.json @mikeharder @KarishmaGhiya
 /tsconfig.json @mikeharder @KarishmaGhiya
+/**/tsconfig.json @bterlson
