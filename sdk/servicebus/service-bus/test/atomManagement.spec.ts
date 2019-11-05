@@ -584,6 +584,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
       messageCount: undefined,
+      userMetadata: undefined,
       requiresDuplicateDetection: false,
       sizeInBytes: 0,
       status: "Active",
@@ -644,6 +645,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // enableExpress: true,
       enableExpress: false,
       authorizationRules: undefined,
+      userMetadata: undefined,
 
       isExpress: false,
       enableSubscriptionPartitioning: false,

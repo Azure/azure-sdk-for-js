@@ -13,7 +13,10 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getString,
+  getInteger,
+  getBoolean
 } from "../util/utils";
 
 /**
@@ -56,35 +59,38 @@ export function buildSubscriptionOptions(
  * from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDetails | undefined {
-  if (rawSubscription == undefined) {
-    return undefined;
-  }
+export function buildSubscription(rawSubscription: any): SubscriptionDetails {
   return {
-    subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
-    topicName: rawSubscription[Constants.TOPIC_NAME],
+    subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
+    topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
 
-    lockDuration: rawSubscription[Constants.LOCK_DURATION],
+    lockDuration: getString(rawSubscription[Constants.LOCK_DURATION], "lockDuration"),
     sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
     maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
 
-    messageCount: getIntegerOrUndefined(rawSubscription[Constants.MESSAGE_COUNT]),
-    maxDeliveryCount: getIntegerOrUndefined(rawSubscription[Constants.MAX_DELIVERY_COUNT]),
+    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    maxDeliveryCount: getInteger(rawSubscription[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
-    requiresSession: getBooleanOrUndefined(rawSubscription[Constants.REQUIRES_SESSION]),
-    enableBatchedOperations: getBooleanOrUndefined(
-      rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS]
+    requiresSession: getBoolean(rawSubscription[Constants.REQUIRES_SESSION], "requiresSession"),
+    enableBatchedOperations: getBoolean(
+      rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS],
+      "enableBatchedOperations"
     ),
 
-    defaultMessageTimeToLive: rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-    autoDeleteOnIdle: rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
-
-    deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-      rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+    defaultMessageTimeToLive: getString(
+      rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      "defaultMessageTimeToLive"
     ),
-    deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
-      rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS]
+    autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+
+    deadLetteringOnMessageExpiration: getBoolean(
+      rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
+      "deadLetteringOnMessageExpiration"
+    ),
+    deadLetteringOnFilterEvaluationExceptions: getBoolean(
+      rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS],
+      "deadLetteringOnFilterEvaluationExceptions"
     ),
     forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
     defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
@@ -94,10 +100,13 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails | u
     forwardTo: rawSubscription[Constants.FORWARD_TO],
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    entityAvailabilityStatus: rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-    status: rawSubscription[Constants.STATUS],
-    createdAt: rawSubscription[Constants.CREATED_AT],
-    updatedAt: rawSubscription[Constants.UPDATED_AT],
+    entityAvailabilityStatus: getString(
+      rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+      "entityAvailabilityStatus"
+    ),
+    status: getString(rawSubscription[Constants.STATUS], "status"),
+    createdAt: getString(rawSubscription[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getString(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: rawSubscription[Constants.ACCESSED_AT]
   };
 }
@@ -308,12 +317,12 @@ export interface SubscriptionDetails {
    * The entity's size in bytes.
    *
    */
-  sizeInBytes: number;
+  sizeInBytes?: number;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
    */
-  maxSizeInMegabytes: number;
+  maxSizeInMegabytes?: number;
 
   /**
    * The entity's message count.
@@ -324,7 +333,7 @@ export interface SubscriptionDetails {
   /**
    * Specifies whether the topic should be partitioned
    */
-  enablePartitioning: boolean;
+  enablePartitioning?: boolean;
 
   /**
    * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
@@ -345,7 +354,7 @@ export interface SubscriptionDetails {
    * Indicates the default rule description.
    *
    */
-  defaultRuleDescription: any;
+  defaultRuleDescription?: any;
 
   /**
    * Max idle time before entity is deleted
@@ -367,7 +376,7 @@ export interface SubscriptionDetails {
    * Entity to forward deadlettered messages to
    *
    */
-  forwardDeadLetteredMessagesTo: string;
+  forwardDeadLetteredMessagesTo?: string;
 
   /**
    * The maximum delivery count.
@@ -378,17 +387,17 @@ export interface SubscriptionDetails {
   /**
    * ForwardTo header
    */
-  forwardTo: string;
+  forwardTo?: string;
 
   /**
    * The user metadata information
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Message count details
    */
-  messageCountDetails: MessageCountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Entity availability status
@@ -413,7 +422,7 @@ export interface SubscriptionDetails {
   /**
    * Accessed at timestamp
    */
-  accessedAt: string;
+  accessedAt?: string;
 }
 
 /**

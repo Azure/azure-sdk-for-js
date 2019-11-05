@@ -12,7 +12,8 @@ import {
   getIntegerOrUndefined,
   getJSObjectOrUndefined,
   getStringOrUndefined,
-  getBooleanOrUndefined
+  getBooleanOrUndefined,
+  getString
 } from "../util/utils";
 import { CorrelationFilter } from "../core/managementClient";
 
@@ -35,17 +36,14 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): Rule | undefined {
-  if (rawRule == undefined) {
-    return undefined;
-  }
+export function buildRule(rawRule: any): Rule {
   return {
-    ruleName: rawRule["RuleName"],
-    topicName: rawRule["TopicName"],
-    subscriptionName: rawRule["SubscriptionName"],
-    filter: getTopicFilterOrUndefined(rawRule["Filter"]),
+    ruleName: getString(rawRule["RuleName"], "ruleName"),
+    topicName: getString(rawRule["TopicName"], "topicName"),
+    subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
+    filter: getTopicFilter(rawRule["Filter"]),
     action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdAt: rawRule["CreatedAt"]
+    createdAt: getString(rawRule["CreatedAt"], "createdAt")
   };
 }
 
@@ -55,11 +53,8 @@ export function buildRule(rawRule: any): Rule | undefined {
  * or undefined if not passed in.
  * @param value
  */
-function getTopicFilterOrUndefined(value: any): SqlFilter | CorrelationFilter | undefined {
-  if (value == undefined) {
-    return undefined;
-  }
-  let result: SqlFilter | CorrelationFilter | undefined;
+function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
+  let result: SqlFilter | CorrelationFilter;
 
   if (value["SqlExpression"] != undefined) {
     result = {
@@ -68,7 +63,7 @@ function getTopicFilterOrUndefined(value: any): SqlFilter | CorrelationFilter | 
       compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
       requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
     };
-  } else if (value["CorrelationId"] != undefined) {
+  } else {
     result = {
       correlationId: getStringOrUndefined(value["CorrelationId"]),
       label: getStringOrUndefined(value["Label"]),
@@ -141,12 +136,12 @@ export interface Rule {
   /**
    * Defines the expression that the rule evaluates. The expression string is interpreted as a SQL92 expression which must evaluate to True or False. Only one between a correlation and a sql expression can be defined.
    */
-  filter: SqlFilter | CorrelationFilter;
+  filter?: SqlFilter | CorrelationFilter;
 
   /**
    * The SQL like expression that can be executed on the message should the associated filter apply.
    */
-  action: SqlAction;
+  action?: SqlAction;
 
   /**
    * Name of topic

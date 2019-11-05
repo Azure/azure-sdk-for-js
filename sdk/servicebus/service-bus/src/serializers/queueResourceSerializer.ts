@@ -10,13 +10,14 @@ import {
 } from "../util/atomXmlHelper";
 import {
   getStringOrUndefined,
-  getIntegerOrUndefined,
-  getBooleanOrUndefined,
   getCountDetailsOrUndefined,
   getRawAuthorizationRules,
   getAuthorizationRulesOrUndefined,
   MessageCountDetails,
-  AuthorizationRule
+  AuthorizationRule,
+  getInteger,
+  getBoolean,
+  getString
 } from "../util/utils";
 
 /**
@@ -55,52 +56,65 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
  * from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDetails | undefined {
-  if (rawQueue == undefined) {
-    return undefined;
-  }
+export function buildQueue(rawQueue: any): QueueDetails {
   return {
-    queueName: rawQueue[Constants.QUEUE_NAME],
+    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
     forwardTo: rawQueue[Constants.FORWARD_TO],
     path: rawQueue[Constants.PATH],
     userMetadata: rawQueue[Constants.USER_METADATA],
 
-    lockDuration: rawQueue[Constants.LOCK_DURATION],
-    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
-    maxSizeInMegabytes: getIntegerOrUndefined(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES]),
+    lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
+    sizeInBytes: getInteger(rawQueue[Constants.SIZE_IN_BYTES], "sizeInBytes"),
+    maxSizeInMegabytes: getInteger(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
-    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
-    maxDeliveryCount: getIntegerOrUndefined(rawQueue[Constants.MAX_DELIVERY_COUNT]),
+    messageCount: getInteger(rawQueue[Constants.MESSAGE_COUNT], "messageCount"),
+    maxDeliveryCount: getInteger(rawQueue[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
-    enablePartitioning: getBooleanOrUndefined(rawQueue[Constants.ENABLE_PARTITIONING]),
-    requiresSession: getBooleanOrUndefined(rawQueue[Constants.REQUIRES_SESSION]),
-    enableBatchedOperations: getBooleanOrUndefined(rawQueue[Constants.ENABLE_BATCHED_OPERATIONS]),
+    enablePartitioning: getBoolean(rawQueue[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
+    requiresSession: getBoolean(rawQueue[Constants.REQUIRES_SESSION], "requiresSession"),
+    enableBatchedOperations: getBoolean(
+      rawQueue[Constants.ENABLE_BATCHED_OPERATIONS],
+      "enableBatchedOperations"
+    ),
 
-    defaultMessageTimeToLive: rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+    defaultMessageTimeToLive: getString(
+      rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      "defaultMessageTimeToLive"
+    ),
     autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
-    requiresDuplicateDetection: getBooleanOrUndefined(
-      rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION]
+    requiresDuplicateDetection: getBoolean(
+      rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION],
+      "requiresDuplicateDetection"
     ),
-    duplicateDetectionHistoryTimeWindow:
+    duplicateDetectionHistoryTimeWindow: getString(
       rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-    deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-      rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+      "duplicateDetectionHistoryTimeWindow"
+    ),
+    deadLetteringOnMessageExpiration: getBoolean(
+      rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
+      "deadLetteringOnMessageExpiration"
     ),
     forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
 
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
-    enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
+    supportOrdering: getBoolean(rawQueue[Constants.SUPPORT_ORDERING], "supportOrdering"),
+    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress"),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
-    isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
+    isAnonymousAccessible: getBoolean(
+      rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE],
+      "isAnonymousAccessible"
+    ),
 
-    entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
-    status: rawQueue[Constants.STATUS],
-    createdAt: rawQueue[Constants.CREATED_AT],
-    updatedAt: rawQueue[Constants.UPDATED_AT],
+    entityAvailabilityStatus: getString(
+      rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
+      "entityAvailabilityStatus"
+    ),
+    status: getString(rawQueue[Constants.STATUS], "status"),
+    createdAt: getString(rawQueue[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getString(rawQueue[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: rawQueue[Constants.ACCESSED_AT]
   };
 }
@@ -352,7 +366,7 @@ export interface QueueDetails {
    * Entity to forward deadlettered messages to
    *
    */
-  forwardDeadLetteredMessagesTo: string;
+  forwardDeadLetteredMessagesTo?: string;
 
   /**
    * Max idle time before entity is deleted
@@ -389,12 +403,12 @@ export interface QueueDetails {
   /**
    * ForwardTo header
    */
-  forwardTo: string;
+  forwardTo?: string;
 
   /**
    * The user metadata information
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Specifies whether the queue should be partitioned.
@@ -404,17 +418,17 @@ export interface QueueDetails {
   /**
    * Authorization rules on the queue
    */
-  authorizationRules: AuthorizationRule[];
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Entity path
    */
-  path: string;
+  path?: string;
 
   /**
    * Message count details
    */
-  messageCountDetails: MessageCountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Ordering support for messages
@@ -454,7 +468,7 @@ export interface QueueDetails {
   /**
    * Accessed at timestamp
    */
-  accessedAt: string;
+  accessedAt?: string;
 }
 
 /**

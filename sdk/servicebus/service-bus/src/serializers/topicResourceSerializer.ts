@@ -11,12 +11,14 @@ import {
 import {
   getStringOrUndefined,
   getIntegerOrUndefined,
-  getBooleanOrUndefined,
   getCountDetailsOrUndefined,
   MessageCountDetails,
   getRawAuthorizationRules,
   getAuthorizationRulesOrUndefined,
-  AuthorizationRule
+  AuthorizationRule,
+  getString,
+  getInteger,
+  getBoolean
 } from "../util/utils";
 
 /**
@@ -62,41 +64,49 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
  * from the service
  * @param rawTopic
  */
-export function buildTopic(rawTopic: any): TopicDetails | undefined {
-  if (rawTopic == undefined) {
-    return undefined;
-  }
+export function buildTopic(rawTopic: any): TopicDetails {
   return {
-    topicName: rawTopic[Constants.TOPIC_NAME],
-    sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
-    maxSizeInMegabytes: getIntegerOrUndefined(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES]),
+    topicName: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
+    sizeInBytes: getInteger(rawTopic[Constants.SIZE_IN_BYTES], "sizeInBytes"),
+    maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
     messageCount: getIntegerOrUndefined(rawTopic[Constants.MESSAGE_COUNT]),
     maxDeliveryCount: getIntegerOrUndefined(rawTopic[Constants.MAX_DELIVERY_COUNT]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
 
-    enablePartitioning: getBooleanOrUndefined(rawTopic[Constants.ENABLE_PARTITIONING]),
-    supportOrdering: getBooleanOrUndefined(rawTopic[Constants.SUPPORT_ORDERING]),
-    enableBatchedOperations: getBooleanOrUndefined(rawTopic[Constants.ENABLE_BATCHED_OPERATIONS]),
-
-    defaultMessageTimeToLive: rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-    autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
-
-    requiresDuplicateDetection: getBooleanOrUndefined(
-      rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION]
+    enablePartitioning: getBoolean(rawTopic[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
+    supportOrdering: getBoolean(rawTopic[Constants.SUPPORT_ORDERING], "supportOrdering"),
+    enableBatchedOperations: getBoolean(
+      rawTopic[Constants.ENABLE_BATCHED_OPERATIONS],
+      "enableBatchedOperations"
     ),
-    duplicateDetectionHistoryTimeWindow:
+
+    defaultMessageTimeToLive: getString(
+      rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      "defaultMessageTimeToLive"
+    ),
+    autoDeleteOnIdle: getString(rawTopic[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+
+    requiresDuplicateDetection: getBoolean(
+      rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
+      "requiresDuplicateDetection"
+    ),
+    duplicateDetectionHistoryTimeWindow: getString(
       rawTopic[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-
-    filteringMessagesBeforePublishing: getBooleanOrUndefined(
-      rawTopic[Constants.FILTER_MESSAGES_BEFORE_PUBLISHING]
+      "duplicateDetectionHistoryTimeWindow"
     ),
-    enableSubscriptionPartitioning: getBooleanOrUndefined(
-      rawTopic[Constants.ENABLE_SUBSCRIPTION_PARTITIONING]
+
+    filteringMessagesBeforePublishing: getBoolean(
+      rawTopic[Constants.FILTER_MESSAGES_BEFORE_PUBLISHING],
+      "filteringMessagesBeforePublishing"
+    ),
+    enableSubscriptionPartitioning: getBoolean(
+      rawTopic[Constants.ENABLE_SUBSCRIPTION_PARTITIONING],
+      "enableSubscriptionPartitioning"
     ),
 
     messageCountDetails: getCountDetailsOrUndefined(rawTopic[Constants.COUNT_DETAILS]),
-    isExpress: getBooleanOrUndefined(rawTopic[Constants.IS_EXPRESS]),
-    enableExpress: getBooleanOrUndefined(rawTopic[Constants.ENABLE_EXPRESS]),
+    isExpress: getBoolean(rawTopic[Constants.IS_EXPRESS], "isExpress"),
+    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress"),
     maxSubscriptionsPerTopic: getIntegerOrUndefined(
       rawTopic[Constants.MAX_SUBSCRIPTIONS_PER_TOPIC]
     ),
@@ -106,12 +116,19 @@ export function buildTopic(rawTopic: any): TopicDetails | undefined {
     ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
-    isAnonymousAccessible: getBooleanOrUndefined(rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE]),
+    isAnonymousAccessible: getBoolean(
+      rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE],
+      "isAnonymousAccessible"
+    ),
+    userMetadata: rawTopic[Constants.USER_METADATA],
 
-    entityAvailabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
-    status: rawTopic[Constants.STATUS],
-    createdAt: rawTopic[Constants.CREATED_AT],
-    updatedAt: rawTopic[Constants.UPDATED_AT],
+    entityAvailabilityStatus: getString(
+      rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
+      "entityAvailabilityStatus"
+    ),
+    status: getString(rawTopic[Constants.STATUS], "status"),
+    createdAt: getString(rawTopic[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getString(rawTopic[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: rawTopic[Constants.ACCESSED_AT]
   };
 }
@@ -388,7 +405,7 @@ export interface TopicDetails {
   /**
    * Authorization rules on the topic
    */
-  authorizationRules: AuthorizationRule[];
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Specifies whether the topic should be partitioned
@@ -415,19 +432,19 @@ export interface TopicDetails {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  messageCount?: number;
 
   /**
    * The subscription count on given topic.
    *
    */
-  subscriptionCount: number;
+  subscriptionCount?: number;
 
   /**
    * The maximum delivery count.
    *
    */
-  maxDeliveryCount: number;
+  maxDeliveryCount?: number;
 
   /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
@@ -442,7 +459,7 @@ export interface TopicDetails {
   /**
    * User metadata
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Is Express option
@@ -458,24 +475,24 @@ export interface TopicDetails {
    * The maximum number of subscriptions per topic.
    *
    */
-  maxSubscriptionsPerTopic: number;
+  maxSubscriptionsPerTopic?: number;
 
   /**
    * The maximum amount of sql filters per topic.
    *
    */
-  maxSqlFiltersPerTopic: number;
+  maxSqlFiltersPerTopic?: number;
 
   /**
    * The maximum amount of correlation filters per topic.
    *
    */
-  maxCorrelationFiltersPerTopic: number;
+  maxCorrelationFiltersPerTopic?: number;
 
   /**
    * Message count details
    */
-  messageCountDetails: MessageCountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Is anonymous accessible topic option
@@ -505,7 +522,7 @@ export interface TopicDetails {
   /**
    * Accessed at timestamp
    */
-  accessedAt: string;
+  accessedAt?: string;
 }
 
 /**

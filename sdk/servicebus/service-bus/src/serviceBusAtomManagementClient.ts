@@ -80,14 +80,20 @@ export interface ListRequestOptions {
 }
 
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * @ignore
+ * Type representing just the server response `_response`
  */
-export type QueueResponse = QueueDetails & {
+type EmptyResponse = {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
 };
+
+/**
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export type QueueResponse = QueueDetails & EmptyResponse;
 
 /**
  * Create Queue response
@@ -107,27 +113,17 @@ export type UpdateQueueResponse = QueueResponse;
 /**
  * Delete Queue response
  */
-export type DeleteQueueResponse = QueueResponse;
+export type DeleteQueueResponse = EmptyResponse;
 
 /**
  * Represents result of list operation on queues.
  */
-export interface ListQueuesResponse extends Array<QueueDetails> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type ListQueuesResponse = Array<QueueDetails> & EmptyResponse;
 
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export type TopicResponse = TopicDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-};
+export type TopicResponse = TopicDetails & EmptyResponse;
 
 /**
  * Create Topic response
@@ -147,27 +143,17 @@ export type UpdateTopicResponse = TopicResponse;
 /**
  * Delete Topic response
  */
-export type DeleteTopicResponse = TopicResponse;
+export type DeleteTopicResponse = EmptyResponse;
 
 /**
  * Represents result of list operation on topics.
  */
-export interface ListTopicsResponse extends Array<TopicDetails> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type ListTopicsResponse = Array<TopicDetails> & EmptyResponse;
 
 /**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export type SubscriptionResponse = SubscriptionDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-};
+export type SubscriptionResponse = SubscriptionDetails & EmptyResponse;
 
 /**
  * Create Subscription response
@@ -187,27 +173,17 @@ export type UpdateSubscriptionResponse = SubscriptionResponse;
 /**
  * Delete Subscription response
  */
-export type DeleteSubscriptionResponse = SubscriptionResponse;
+export type DeleteSubscriptionResponse = EmptyResponse;
 
 /**
  * Represents result of list operation on subscriptions.
  */
-export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type ListSubscriptionsResponse = Array<SubscriptionDetails> & EmptyResponse;
 
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export type RuleResponse = Rule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-};
+export type RuleResponse = Rule & EmptyResponse;
 
 /**
  * Create Rule response
@@ -227,17 +203,12 @@ export type UpdateRuleResponse = RuleResponse;
 /**
  * Delete Rule response
  */
-export type DeleteRuleResponse = RuleResponse;
+export type DeleteRuleResponse = EmptyResponse;
 
 /**
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<Rule> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type ListRulesResponse = Array<Rule> & EmptyResponse;
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -374,7 +345,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildQueueResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -464,7 +435,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildTopicResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -584,7 +555,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -704,7 +675,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildRuleResponse(response);
+    return { _response: response };
   }
 
   /**
