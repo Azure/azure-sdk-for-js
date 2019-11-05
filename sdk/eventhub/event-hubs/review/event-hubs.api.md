@@ -113,9 +113,9 @@ export interface EventHubConsumerOptions {
 
 // @public
 export class EventHubProducerClient {
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
