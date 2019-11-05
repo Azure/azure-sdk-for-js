@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@azure/identity": "^1.0.0",
-    "@microsoft/api-extractor": "^7.1.5",
+    "@microsoft/api-extractor": "^7.5.4",
     "@types/dotenv": "^6.1.0",
     "@types/execa": "0.9.0",
     "@types/fs-extra": "^8.0.0",
