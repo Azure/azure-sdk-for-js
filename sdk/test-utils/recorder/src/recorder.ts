@@ -100,6 +100,7 @@ export function record(testContext: Mocha.Context): Recorder {
      * @param reason Reason for skipping the test
      */
     skip: function(runtime?: "node" | "browser", reason?: string): void {
+      if (!reason) reason = "Reason to skip the test is not specified";
       // 1. skipping the test only in node
       // 2. skipping the test only in browser
       // 3. skipping the test in both the node and browser runtimes
