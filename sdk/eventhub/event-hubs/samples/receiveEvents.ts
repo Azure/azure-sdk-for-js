@@ -13,7 +13,6 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-
 import {
   EventHubConsumerClient,
   ReceivedEventData,
@@ -21,22 +20,17 @@ import {
   PartitionCheckpointer
 } from "@azure/event-hubs";
 
-import { ContainerClient } from "@azure/storage-blob";
-import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob";
-
 const connectionString = "";
 const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
 
 async function main() {
   const consumerClient = new EventHubConsumerClient(connectionString, eventHubName);
-  const containerClient = new ContainerClient(storageConnectionString, containerName);
-  await containerClient.create();
 
-  const processEvents = async (events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => {
-    // events can be empty if no events were recevied in the last 60 seconds.
-    // This interval can be configured when creating the EventProcessor
+  // The callback where you add your code to process incoming events
+  const processEvents = async (
+    events: ReceivedEventData[],
+    context: PartitionContext & PartitionCheckpointer
+  ) => {
     if (events.length === 0) {
       return;
     }
@@ -55,17 +49,20 @@ async function main() {
     console.log(
       `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
     );
-  }
+  };
 
-  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, processEvents, new BlobPartitionManager(containerClient))
+  const subscription = consumerClient.subscribe(
+    EventHubConsumerClient.defaultConsumerGroupName,
+    processEvents
+  );
 
   // after 30 seconds, stop processing
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     setInterval(async () => {
       await subscription.close();
       await consumerClient.close();
       resolve();
-    }, 30000)
+    }, 30000);
   });
 }
 
