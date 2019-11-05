@@ -361,7 +361,7 @@
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro",
       "versionPolicyName": "core"
-    }, 
+    },
     {
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging",
