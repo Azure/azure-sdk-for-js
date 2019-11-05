@@ -48,7 +48,6 @@ export class CertificateClient {
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
-    // Warning: (ae-forgotten-export) The symbol "KeyVaultCertificateWithPolicy" needs to be exported by the entry point index.d.ts
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperation>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
@@ -56,14 +55,12 @@ export class CertificateClient {
     getContacts(options?: GetContactsOptions): Promise<CertificateContacts>;
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
-    // Warning: (ae-forgotten-export) The symbol "ImportCertificateOptions" needs to be exported by the entry point index.d.ts
     importCertificate(certificateName: string, base64EncodedCertificate: string, options?: ImportCertificateOptions): Promise<KeyVaultCertificate>;
     listCertificates(options?: ListCertificatesOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
     listCertificateVersions(certificateName: string, options?: ListCertificateVersionsOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     listIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
-    // Warning: (ae-forgotten-export) The symbol "PurgeDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
@@ -152,19 +149,6 @@ export interface Contact {
 }
 
 // @public
-export interface CoreCertificatePolicy {
-    // Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
-    attributes?: CertificateAttributes;
-    readonly id?: string;
-    issuerParameters?: IssuerParameters;
-    keyProperties?: KeyProperties;
-    lifetimeActions?: LifetimeAction[];
-    // Warning: (ae-forgotten-export) The symbol "SecretProperties" needs to be exported by the entry point index.d.ts
-    secretProperties?: SecretProperties;
-    x509CertificateProperties?: X509CertificateProperties;
-}
-
-// @public
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
@@ -237,6 +221,11 @@ export interface GetIssuerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface ImportCertificateOptions extends CertificateProperties, coreHttp.OperationOptions {
+    password?: string;
+}
+
+// @public
 export interface IssuerAttributes {
     readonly created?: Date;
     enabled?: boolean;
@@ -286,24 +275,8 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export interface KeyVaultClientGetCertificateIssuersOptionalParams extends coreHttp.RequestOptionsBase {
-    maxresults?: number;
-}
-
-// @public
-export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends coreHttp.RequestOptionsBase {
-    includePending?: boolean;
-    maxresults?: number;
-}
-
-// @public
-export interface KeyVaultClientImportCertificateOptionalParams extends coreHttp.RequestOptionsBase {
-    certificateAttributes?: CertificateAttributes;
-    certificatePolicy?: CoreCertificatePolicy;
-    password?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
+    readonly policy?: CertificatePolicy;
 }
 
 // @public
@@ -322,36 +295,30 @@ export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends cor
 }
 
 // @public
-export interface KeyVaultClientUpdateCertificateOptionalParams extends coreHttp.RequestOptionsBase {
-    certificateAttributes?: CertificateAttributes;
-    certificatePolicy?: CoreCertificatePolicy;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface LifetimeAction {
     action?: Action;
     trigger?: Trigger;
 }
 
-// Warning: (ae-forgotten-export) The symbol "KeyVaultClientGetCertificatesOptionalParams" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export interface ListCertificatesOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {
+export interface ListCertificatesOptions extends coreHttp.OperationOptions {
+    includePending?: boolean;
+    maxresults?: number;
 }
 
 // @public
-export interface ListCertificateVersionsOptions extends KeyVaultClientGetCertificatesOptionalParams, coreHttp.OperationOptions {
+export interface ListCertificateVersionsOptions extends ListCertificatesOptions, coreHttp.OperationOptions {
 }
 
 // @public
-export interface ListDeletedCertificatesOptions extends KeyVaultClientGetDeletedCertificatesOptionalParams, coreHttp.OperationOptions {
+export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
+    includePending?: boolean;
+    maxresults?: number;
 }
 
 // @public
-export interface ListIssuersOptions extends KeyVaultClientGetCertificateIssuersOptionalParams, coreHttp.OperationOptions {
+export interface ListIssuersOptions extends coreHttp.OperationOptions {
+    maxresults?: number;
 }
 
 // @public
@@ -368,6 +335,10 @@ export interface OrganizationDetails {
 }
 
 export { PipelineOptions }
+
+// @public
+export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
+}
 
 // @public
 export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {

@@ -13,6 +13,7 @@ import { logger } from "./log";
 
 import {
   KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
   CancelCertificateOperationOptions,
   CertificateIssuer,
@@ -47,8 +48,7 @@ import {
   SubjectAlternativeNames,
   UpdateIssuerOptions,
   UpdateCertificateOptions,
-  UpdateCertificatePolicyOptions,
-  KeyVaultCertificateWithPolicy
+  UpdateCertificatePolicyOptions
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -57,8 +57,6 @@ import {
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientImportCertificateOptionalParams,
-  KeyVaultClientUpdateCertificateOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   CertificateOperation,
   CertificateAttributes as CoreCertificateAttributes,
@@ -122,6 +120,7 @@ export {
   AdministratorContact,
   BackupCertificateResult,
   KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
   CancelCertificateOperationOptions,
   CertificateContentType,
@@ -130,7 +129,6 @@ export {
   CertificateOperation,
   CertificatePolicy,
   CertificateTags,
-  CoreCertificatePolicy,
   CoreSubjectAlternativeNames,
   Contact,
   CertificateContacts,
@@ -149,6 +147,7 @@ export {
   GetCertificatePolicyOptions,
   GetCertificateVersionOptions,
   GetDeletedCertificateOptions,
+  ImportCertificateOptions,
   IssuerAttributes,
   IssuerCredentials,
   IssuerParameters,
@@ -157,11 +156,7 @@ export {
   KeyProperties,
   KeyUsageType,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
-  KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateOptionalParams,
   LifetimeAction,
   ListCertificatesOptions,
   ListCertificateVersionsOptions,
@@ -170,6 +165,7 @@ export {
   MergeCertificateOptions,
   OrganizationDetails,
   PipelineOptions,
+  PurgeDeletedCertificateOptions,
   RecoverDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,

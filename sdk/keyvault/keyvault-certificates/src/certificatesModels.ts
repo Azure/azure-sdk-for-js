@@ -1,10 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 import {
   DeletionRecoveryLevel,
-  KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
-  KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   JsonWebKeyType as KeyType,
@@ -297,9 +293,12 @@ export interface DeleteContactsOptions extends coreHttp.OperationOptions {}
  * @interface
  * An interface representing options that can be passed to {@link importCertificate}.
  */
-export interface ImportCertificateOptions
-  extends KeyVaultClientImportCertificateOptionalParams,
-    coreHttp.OperationOptions {}
+export interface ImportCertificateOptions extends CertificateProperties, coreHttp.OperationOptions {
+  /**
+   * If the private key in base64EncodedCertificate is encrypted, the password used for encryption.
+   */
+  password?: string;
+}
 
 /**
  * @interface
@@ -449,33 +448,53 @@ export interface IssuerProperties {
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
  */
-export interface ListCertificatesOptions
-  extends KeyVaultClientGetCertificatesOptionalParams,
-    coreHttp.OperationOptions {}
+export interface ListCertificatesOptions extends coreHttp.OperationOptions {
+  /**
+   * Maximum number of results to return in a page. If not specified the service will return up to
+   * 25 results.
+   */
+  maxresults?: number;
+  /**
+   * Specifies whether to include certificates which are not completely provisioned.
+   */
+  includePending?: boolean;
+}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
  */
 export interface ListCertificateVersionsOptions
-  extends KeyVaultClientGetCertificatesOptionalParams,
+  extends ListCertificatesOptions,
     coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listIssuers}.
  */
-export interface ListIssuersOptions
-  extends KeyVaultClientGetCertificateIssuersOptionalParams,
-    coreHttp.OperationOptions {}
+export interface ListIssuersOptions extends coreHttp.OperationOptions {
+  /**
+   * Maximum number of results to return in a page. If not specified the service will return up to
+   * 25 results.
+   */
+  maxresults?: number;
+}
 
 /**
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
-export interface ListDeletedCertificatesOptions
-  extends KeyVaultClientGetDeletedCertificatesOptionalParams,
-    coreHttp.OperationOptions {}
+export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
+  /**
+   * Maximum number of results to return in a page. If not specified the service will return up to
+   * 25 results.
+   */
+  maxresults?: number;
+  /**
+   * Specifies whether to include certificates which are not completely provisioned.
+   */
+  includePending?: boolean;
+}
 
 /**
  * @interface
