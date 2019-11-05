@@ -471,7 +471,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
         );
       } finally {
-        newClient.close();
+        await newClient.close();
       }
     });
 
@@ -487,7 +487,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
       } finally {
-        newClient.close();
+        await newClient.close();
       }
     });
 
@@ -506,7 +506,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
       } finally {
-        newClient.close();
+        await newClient.close();
       }
     });
   });

@@ -150,14 +150,13 @@ export class EventHubProducerClient {
    * @returns Promise<EventDataBatch>
    */
   async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
-    if (!this._producersMap.has("")) {
-      this._producersMap.set("", this._client.createProducer());
-    }
     let producer = this._producersMap.get("");
+
     if (!producer) {
       producer = this._client.createProducer();
       this._producersMap.set("", producer);
     }
+    
     return producer.createBatch(options);
   }
 
@@ -206,7 +205,7 @@ export class EventHubProducerClient {
     }
     let producer = this._producersMap.get(partitionId);
     if (!producer) {
-      producer = this._client.createProducer({ partitionId });
+      producer = this._client.createProducer({ partitionId: partitionId === "" ? undefined : partitionId });
       this._producersMap.set(partitionId, producer);
     }
     return producer.send(batch1, options3);
