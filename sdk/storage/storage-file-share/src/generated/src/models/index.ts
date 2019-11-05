@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -18,13 +17,13 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start?: string;
+  startsOn?: string;
   /**
    * The date-time the policy expires.
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry?: string;
+  expiresOn?: string;
   /**
    * The permissions for the ACL policy.
    */
@@ -678,7 +677,8 @@ export interface DirectorySetMetadataOptionalParams extends coreHttp.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only entries whose name begins with the specified prefix.
    */
@@ -2472,7 +2472,67 @@ export interface FileForceCloseHandlesHeaders {
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed';
+export type StorageErrorCode =
+  | "AccountAlreadyExists"
+  | "AccountBeingCreated"
+  | "AccountIsDisabled"
+  | "AuthenticationFailed"
+  | "AuthorizationFailure"
+  | "ConditionHeadersNotSupported"
+  | "ConditionNotMet"
+  | "EmptyMetadataKey"
+  | "InsufficientAccountPermissions"
+  | "InternalError"
+  | "InvalidAuthenticationInfo"
+  | "InvalidHeaderValue"
+  | "InvalidHttpVerb"
+  | "InvalidInput"
+  | "InvalidMd5"
+  | "InvalidMetadata"
+  | "InvalidQueryParameterValue"
+  | "InvalidRange"
+  | "InvalidResourceName"
+  | "InvalidUri"
+  | "InvalidXmlDocument"
+  | "InvalidXmlNodeValue"
+  | "Md5Mismatch"
+  | "MetadataTooLarge"
+  | "MissingContentLengthHeader"
+  | "MissingRequiredQueryParameter"
+  | "MissingRequiredHeader"
+  | "MissingRequiredXmlNode"
+  | "MultipleConditionHeadersNotSupported"
+  | "OperationTimedOut"
+  | "OutOfRangeInput"
+  | "OutOfRangeQueryParameterValue"
+  | "RequestBodyTooLarge"
+  | "ResourceTypeMismatch"
+  | "RequestUrlFailedToParse"
+  | "ResourceAlreadyExists"
+  | "ResourceNotFound"
+  | "ServerBusy"
+  | "UnsupportedHeader"
+  | "UnsupportedXmlNode"
+  | "UnsupportedQueryParameter"
+  | "UnsupportedHttpVerb"
+  | "CannotDeleteFileOrDirectory"
+  | "ClientCacheFlushDelay"
+  | "DeletePending"
+  | "DirectoryNotEmpty"
+  | "FileLockConflict"
+  | "InvalidFileOrDirectoryPathName"
+  | "ParentNotFound"
+  | "ReadOnlyAttribute"
+  | "ShareAlreadyExists"
+  | "ShareBeingDeleted"
+  | "ShareDisabled"
+  | "ShareNotFound"
+  | "SharingViolation"
+  | "ShareSnapshotInProgress"
+  | "ShareSnapshotCountExceeded"
+  | "ShareSnapshotOperationNotSupported"
+  | "ShareHasSnapshots"
+  | "ContainerQuotaDowngradeNotAllowed";
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -2480,7 +2540,7 @@ export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = 'include';
+export type DeleteSnapshotsOptionType = "include";
 
 /**
  * Defines values for ListSharesIncludeType.
@@ -2488,7 +2548,7 @@ export type DeleteSnapshotsOptionType = 'include';
  * @readonly
  * @enum {string}
  */
-export type ListSharesIncludeType = 'snapshots' | 'metadata';
+export type ListSharesIncludeType = "snapshots" | "metadata";
 
 /**
  * Defines values for CopyStatusType.
@@ -2496,7 +2556,7 @@ export type ListSharesIncludeType = 'snapshots' | 'metadata';
  * @readonly
  * @enum {string}
  */
-export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 /**
  * Defines values for FileRangeWriteType.
@@ -2504,7 +2564,7 @@ export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
  * @readonly
  * @enum {string}
  */
-export type FileRangeWriteType = 'update' | 'clear';
+export type FileRangeWriteType = "update" | "clear";
 
 /**
  * Defines values for FileType.
@@ -2512,7 +2572,7 @@ export type FileRangeWriteType = 'update' | 'clear';
  * @readonly
  * @enum {string}
  */
-export type FileType = 'File';
+export type FileType = "File";
 
 /**
  * Contains response data for the setProperties operation.
@@ -2522,21 +2582,22 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceSetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ServiceSetPropertiesHeaders;
+  };
 };
 
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceGetPropertiesResponse = FileServiceProperties &
+  ServiceGetPropertiesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2552,16 +2613,17 @@ export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPro
        */
       parsedBody: FileServiceProperties;
     };
-};
+  };
 
 /**
  * Contains response data for the listSharesSegment operation.
  */
-export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceListSharesSegmentResponse = ListSharesResponse &
+  ServiceListSharesSegmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2577,7 +2639,7 @@ export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListS
        */
       parsedBody: ListSharesResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -2587,11 +2649,11 @@ export type ShareCreateResponse = ShareCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareCreateHeaders;
+  };
 };
 
 /**
@@ -2602,11 +2664,11 @@ export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -2617,11 +2679,11 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareDeleteHeaders;
+  };
 };
 
 /**
@@ -2632,11 +2694,11 @@ export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareCreateSnapshotHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareCreateSnapshotHeaders;
+  };
 };
 
 /**
@@ -2647,21 +2709,22 @@ export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareCreatePermissionHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareCreatePermissionHeaders;
+  };
 };
 
 /**
  * Contains response data for the getPermission operation.
  */
-export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ShareGetPermissionResponse = Permission &
+  ShareGetPermissionHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2677,7 +2740,7 @@ export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders 
        */
       parsedBody: Permission;
     };
-};
+  };
 
 /**
  * Contains response data for the setQuota operation.
@@ -2687,11 +2750,11 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareSetQuotaHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareSetQuotaHeaders;
+  };
 };
 
 /**
@@ -2702,21 +2765,22 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareSetMetadataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareSetMetadataHeaders;
+  };
 };
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type ShareGetAccessPolicyResponse = Array<SignedIdentifier> & ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ShareGetAccessPolicyResponse = Array<SignedIdentifier> &
+  ShareGetAccessPolicyHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2732,7 +2796,7 @@ export type ShareGetAccessPolicyResponse = Array<SignedIdentifier> & ShareGetAcc
        */
       parsedBody: SignedIdentifier[];
     };
-};
+  };
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -2742,21 +2806,22 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareSetAccessPolicyHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ShareSetAccessPolicyHeaders;
+  };
 };
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ShareGetStatisticsResponse = ShareStats & ShareGetStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ShareGetStatisticsResponse = ShareStats &
+  ShareGetStatisticsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2772,7 +2837,7 @@ export type ShareGetStatisticsResponse = ShareStats & ShareGetStatisticsHeaders 
        */
       parsedBody: ShareStats;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -2782,11 +2847,11 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectoryCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectoryCreateHeaders;
+  };
 };
 
 /**
@@ -2797,11 +2862,11 @@ export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectoryGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectoryGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -2812,11 +2877,11 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectoryDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectoryDeleteHeaders;
+  };
 };
 
 /**
@@ -2827,11 +2892,11 @@ export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectorySetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectorySetPropertiesHeaders;
+  };
 };
 
 /**
@@ -2842,21 +2907,22 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectorySetMetadataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectorySetMetadataHeaders;
+  };
 };
 
 /**
  * Contains response data for the listFilesAndDirectoriesSegment operation.
  */
-export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse & DirectoryListFilesAndDirectoriesSegmentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse &
+  DirectoryListFilesAndDirectoriesSegmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2872,16 +2938,17 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirect
        */
       parsedBody: ListFilesAndDirectoriesSegmentResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the listHandles operation.
  */
-export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHandlesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type DirectoryListHandlesResponse = ListHandlesResponse &
+  DirectoryListHandlesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2897,7 +2964,7 @@ export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHa
        */
       parsedBody: ListHandlesResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the forceCloseHandles operation.
@@ -2907,11 +2974,11 @@ export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DirectoryForceCloseHandlesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DirectoryForceCloseHandlesHeaders;
+  };
 };
 
 /**
@@ -2922,11 +2989,11 @@ export type FileCreateResponse = FileCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileCreateHeaders;
+  };
 };
 
 /**
@@ -2953,11 +3020,11 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileDownloadHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileDownloadHeaders;
+  };
 };
 
 /**
@@ -2968,11 +3035,11 @@ export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -2983,11 +3050,11 @@ export type FileDeleteResponse = FileDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileDeleteHeaders;
+  };
 };
 
 /**
@@ -2998,11 +3065,11 @@ export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSetHTTPHeadersHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSetHTTPHeadersHeaders;
+  };
 };
 
 /**
@@ -3013,11 +3080,11 @@ export type FileSetMetadataResponse = FileSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSetMetadataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSetMetadataHeaders;
+  };
 };
 
 /**
@@ -3028,11 +3095,11 @@ export type FileUploadRangeResponse = FileUploadRangeHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileUploadRangeHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileUploadRangeHeaders;
+  };
 };
 
 /**
@@ -3043,21 +3110,22 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileUploadRangeFromURLHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileUploadRangeFromURLHeaders;
+  };
 };
 
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type FileGetRangeListResponse = Array<Range> &
+  FileGetRangeListHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3073,7 +3141,7 @@ export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & 
        */
       parsedBody: Range[];
     };
-};
+  };
 
 /**
  * Contains response data for the startCopy operation.
@@ -3083,11 +3151,11 @@ export type FileStartCopyResponse = FileStartCopyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileStartCopyHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileStartCopyHeaders;
+  };
 };
 
 /**
@@ -3098,21 +3166,22 @@ export type FileAbortCopyResponse = FileAbortCopyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileAbortCopyHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileAbortCopyHeaders;
+  };
 };
 
 /**
  * Contains response data for the listHandles operation.
  */
-export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type FileListHandlesResponse = ListHandlesResponse &
+  FileListHandlesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3128,7 +3197,7 @@ export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeade
        */
       parsedBody: ListHandlesResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the forceCloseHandles operation.
@@ -3138,9 +3207,9 @@ export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileForceCloseHandlesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileForceCloseHandlesHeaders;
+  };
 };

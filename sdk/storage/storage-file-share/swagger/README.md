@@ -234,3 +234,14 @@ directive:
     transform: >
       $.name = "fileHttpHeaders";
 ```
+
+### Rename AccessPolicy start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+```

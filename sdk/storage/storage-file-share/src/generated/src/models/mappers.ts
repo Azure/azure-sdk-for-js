@@ -8,21 +8,20 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const AccessPolicy: coreHttp.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         serializedName: "Start",
         type: {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         serializedName: "Expiry",
         type: {
@@ -2135,12 +2134,7 @@ export const FileDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       fileContentMD5: {
@@ -2337,12 +2331,7 @@ export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       isServerEncrypted: {
@@ -2791,12 +2780,7 @@ export const FileStartCopyHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       errorCode: {
