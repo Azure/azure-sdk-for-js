@@ -21,13 +21,13 @@ async function main(): Promise<void> {
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
 
   // To read a certificate with their policy:
-  const certificateWithPolicy = await client.getCertificate(certificateName);
+  let certificateWithPolicy = await client.getCertificate(certificateName);
   // Note: It will always read the latest version of the certificate.
 
   console.log("Certificate with policy:", certificateWithPolicy);
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  let updatedCertificate = await client.updateCertificate(certificateName, "", {
+  const updatedCertificate = await client.updateCertificate(certificateName, "", {
     tags: {
       customTag: "value"
     }
@@ -50,10 +50,10 @@ async function main(): Promise<void> {
   // Updating the certificate's policy:
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyOtherCert"
+    subject: "cn=MyOtherCert"
   });
-  updatedCertificate = await client.getCertificate(certificateName);
-  console.log("updatedCertificate certificate's policy:", updatedCertificate.policy);
+  certificateWithPolicy = await client.getCertificate(certificateName);
+  console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
 
   const result = await client.deleteCertificate(certificateName);
   console.log("Recovery Id: ", result.recoveryId);

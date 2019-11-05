@@ -13,6 +13,7 @@ import { logger } from "./log";
 
 import {
   KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
   CancelCertificateOperationOptions,
   CertificateIssuer,
@@ -52,15 +53,13 @@ import {
 import {
   CertificateBundle,
   Contacts as CertificateContacts,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientImportCertificateOptionalParams,
-  KeyVaultClientUpdateCertificateOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   CertificateOperation,
+  CertificateAttributes as CoreCertificateAttributes,
   CertificatePolicy as CoreCertificatePolicy,
   BackupCertificateResult,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
@@ -77,7 +76,6 @@ import {
   KeyUsageType,
   LifetimeAction,
   OrganizationDetails,
-  SecretProperties,
   X509CertificateProperties,
   DeleteCertificateResponse,
   DeleteCertificateContactsResponse,
@@ -102,13 +100,12 @@ import {
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  CertificateAttributes,
   Action,
   Trigger,
   AdministratorDetails as AdministratorContact,
   ActionType,
-  Attributes,
-  DeletionRecoveryLevel
+  DeletionRecoveryLevel,
+  CertificateAttributes
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -121,19 +118,17 @@ export {
   Action,
   ActionType,
   AdministratorContact,
-  Attributes,
   BackupCertificateResult,
   KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
   CancelCertificateOperationOptions,
-  CertificateAttributes,
   CertificateContentType,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
   CertificatePolicy,
   CertificateTags,
-  CoreCertificatePolicy,
   CoreSubjectAlternativeNames,
   Contact,
   CertificateContacts,
@@ -152,6 +147,7 @@ export {
   GetCertificatePolicyOptions,
   GetCertificateVersionOptions,
   GetDeletedCertificateOptions,
+  ImportCertificateOptions,
   IssuerAttributes,
   IssuerCredentials,
   IssuerParameters,
@@ -159,13 +155,8 @@ export {
   KeyCurveName,
   KeyProperties,
   KeyUsageType,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
-  KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateOptionalParams,
   LifetimeAction,
   ListCertificatesOptions,
   ListCertificateVersionsOptions,
@@ -174,9 +165,9 @@ export {
   MergeCertificateOptions,
   OrganizationDetails,
   PipelineOptions,
+  PurgeDeletedCertificateOptions,
   RecoverDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
-  SecretProperties,
   SetContactsOptions,
   SetIssuerOptions,
   SubjectAlternativeNames,
@@ -192,56 +183,84 @@ export {
 // be required. See also: https://github.com/Azure/azure-sdk-for-js/issues/5508
 const SERVICE_API_VERSION = "7.0";
 
-function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
+function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
+  return {
+    recoveryLevel: properties.recoveryLevel,
+    enabled: properties.enabled,
+    notBefore: properties.notBefore,
+    expires: properties.expiresOn,
+    created: properties.createdOn,
+    updated: properties.updatedOn
+  };
+}
+
+function toCorePolicy(
+  id: string | undefined,
+  policy: CertificatePolicy,
+  attributes: CertificateAttributes
+): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
-  if (p.subjectAlternativeNames) {
-    const propertyName = p.subjectAlternativeNames.subjectType;
+  if (policy.subjectAlternativeNames) {
+    const propertyName = policy.subjectAlternativeNames.subjectType;
     subjectAlternativeNames = {
-      [propertyName]: p.subjectAlternativeNames.subjectValues
+      [propertyName]: policy.subjectAlternativeNames.subjectValues
     };
   }
 
   return {
-    id: p.id,
-    lifetimeActions: p.lifetimeActions,
+    id,
+    lifetimeActions: policy.lifetimeActions,
     keyProperties: {
-      exportable: p.exportable,
-      keyType: p.keyType,
-      keySize: p.keySize,
-      reuseKey: p.reuseKey,
-      curve: p.keyCurveType
+      keyType: policy.keyType,
+      keySize: policy.keySize,
+      reuseKey: policy.reuseKey,
+      curve: policy.keyCurveName
     },
     secretProperties: {
-      contentType: p.contentType
+      contentType: policy.contentType
     },
     x509CertificateProperties: {
-      subject: p.subjectName,
-      ekus: p.ekus,
+      subject: policy.subject,
+      ekus: policy.enhancedKeyUsage,
       subjectAlternativeNames,
-      keyUsage: p.keyUsage,
-      validityInMonths: p.validityInMonths
+      keyUsage: policy.keyUsage,
+      validityInMonths: policy.validityInMonths
     },
     issuerParameters: {
-      name: p.issuerName,
-      certificateType: p.certificateType,
-      certificateTransparency: p.certificateTransparency
+      name: policy.issuerName,
+      certificateType: policy.certificateType,
+      certificateTransparency: policy.certificateTransparency
     },
-    attributes: {
-      recoveryLevel: p.recoveryLevel
-    }
+    attributes
   };
 }
 
-function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
-  let optionalProperties: CertificatePolicy = {};
-  if (p.keyProperties && p.keyProperties.curve) {
-    optionalProperties.keyCurveType = p.keyProperties.curve;
+function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
+  let certificatePolicy: CertificatePolicy = {
+    lifetimeActions: policy.lifetimeActions,
+    contentType: policy.secretProperties ? policy.secretProperties.contentType : undefined
+  };
+
+  if (policy.attributes) {
+    certificatePolicy.enabled = policy.attributes.enabled;
   }
-  if (p.issuerParameters && p.issuerParameters.name) {
-    optionalProperties.issuerName = p.issuerParameters && p.issuerParameters.name;
+
+  if (policy.keyProperties) {
+    certificatePolicy.keyType = policy.keyProperties.keyType;
+    certificatePolicy.keySize = policy.keyProperties.keySize;
+    certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
+    certificatePolicy.keyCurveName = policy.keyProperties.curve;
   }
-  if (p.x509CertificateProperties) {
-    const x509Properties: X509CertificateProperties = p.x509CertificateProperties || {};
+
+  if (policy.issuerParameters) {
+    certificatePolicy.issuerName = policy.issuerParameters && policy.issuerParameters.name;
+    certificatePolicy.certificateType = policy.issuerParameters
+      .certificateType as CertificateContentType;
+    certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
+  }
+
+  if (policy.x509CertificateProperties) {
+    const x509Properties: X509CertificateProperties = policy.x509CertificateProperties || {};
     let subjectAlternativeNames: SubjectAlternativeNames | undefined;
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
@@ -250,25 +269,17 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
         subjectValues: names.emails || names.dnsNames || names.upns || []
       };
     }
-    optionalProperties = {
-      ...optionalProperties,
-      subjectName: x509Properties.subject,
-      ekus: x509Properties.ekus,
+    certificatePolicy = {
+      ...certificatePolicy,
+      subject: x509Properties.subject,
+      enhancedKeyUsage: x509Properties.ekus,
       subjectAlternativeNames,
       keyUsage: x509Properties.keyUsage,
       validityInMonths: x509Properties.validityInMonths
     };
   }
 
-  return {
-    id: p.id,
-    lifetimeActions: p.lifetimeActions,
-    ...optionalProperties,
-    ...p.keyProperties,
-    ...p.secretProperties,
-    ...p.issuerParameters,
-    ...p.attributes
-  };
+  return certificatePolicy;
 }
 
 /**
@@ -515,7 +526,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * await client.deleteCertificate("MyCertificate");
    * ```
@@ -635,9 +646,7 @@ export class CertificateClient {
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
    */
-  public async getContacts(
-    options: GetContactsOptions = {}
-  ): Promise<CertificateContacts> {
+  public async getContacts(options: GetContactsOptions = {}): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);
 
@@ -898,7 +907,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * ```
    * @summary Creates a certificate
@@ -913,15 +922,16 @@ export class CertificateClient {
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("createCertificate", requestOptions);
-    
+
+    const id = options.id;
+    const certificateAttributes = toCoreAttributes(options);
+    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+
     const updatedOptions = {
       ...this.setParentSpan(span, requestOptions),
-      certificatePolicy: toCorePolicy(certificatePolicy),
-      certificateAttributes: {
-        ...options.certificateAttributes,
-        enabled: options.enabled
-      }
-    }
+      certificatePolicy: corePolicy,
+      certificateAttributes
+    };
 
     let result: CreateCertificateResponse;
 
@@ -931,7 +941,8 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(result);  }
+    return this.getCertificateFromCertificateBundle(result);
+  }
 
   /**
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
@@ -941,7 +952,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const certificate = await client.getCertificate("MyCertificate");
    * console.log(certificate);
@@ -953,7 +964,7 @@ export class CertificateClient {
   public async getCertificate(
     certificateName: string,
     options: GetCertificateOptions = {}
-  ): Promise<KeyVaultCertificate> {
+  ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificate", requestOptions);
 
@@ -970,7 +981,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(result);
+    return this.getCertificateWithPolicyFromCertificateBundle(result);
   }
 
   /**
@@ -981,7 +992,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const certificateWithPolicy = await client.getCertificate("MyCertificate");
    * const certificate = await client.getCertificateVersion("MyCertificate", certificateWithPolicy.properties.version!);
@@ -1068,7 +1079,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const policy = await client.getCertificatePolicy("MyCertificate");
    * console.log(policy);
@@ -1108,18 +1119,22 @@ export class CertificateClient {
    */
   public async updateCertificatePolicy(
     certificateName: string,
-    policy: CertificatePolicy,
+    certificatePolicy: CertificatePolicy,
     options: UpdateCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateCertificatePolicy", requestOptions);
+
+    const id = options.id;
+    const certificateAttributes = toCoreAttributes(options);
+    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
 
     let result: UpdateCertificatePolicyResponse;
     try {
       result = await this.client.updateCertificatePolicy(
         this.vaultUrl,
         certificateName,
-        toCorePolicy(policy),
+        corePolicy,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -1137,7 +1152,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * await client.updateCertificate("MyCertificate", "", {
    *   tags: {
@@ -1182,7 +1197,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * await client.cancelCertificateOperation("MyCertificate");
    * ```
@@ -1221,7 +1236,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const operation = await client.getCertificateOperation("MyCertificate");
    * console.log(operation);
@@ -1261,7 +1276,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * await client.deleteCertificateOperation("MyCertificate");
    * await client.getCertificateOperation("MyCertificate"); // Throws error: Pending certificate not found: "MyCertificate"
@@ -1300,7 +1315,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Unknown",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const { csr } = await client.getCertificateOperation(certificateName);
    * const base64Csr = Buffer.from(csr!).toString("base64");
@@ -1352,7 +1367,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * ```
@@ -1389,7 +1404,7 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subjectName: "cn=MyCert"
+   *   subject: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * await client.deleteCertificate("MyCertificate");
@@ -1596,7 +1611,7 @@ export class CertificateClient {
   public async recoverDeletedCertificate(
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
-  ): Promise<KeyVaultCertificate> {
+  ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("recoverDeletedCertificate", requestOptions);
 
@@ -1612,7 +1627,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+    return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
   }
 
   private getCertificateFromCertificateBundle(
@@ -1621,21 +1636,20 @@ export class CertificateClient {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
-    const policy = toPublicPolicy(certificateBundle.policy || {});
-
 
     let abstractProperties: CertificateProperties = {
-      keyId: certificateBundle.kid,
-      secretId: certificateBundle.sid,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
       id: certificateBundle.id,
+      name: parsedId.name,
       enabled: attributes.enabled,
       notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
       tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint,
-      ...parsedId,
+      x509Thumbprint: certificateBundle.x509Thumbprint
     };
 
     return {
@@ -1643,7 +1657,40 @@ export class CertificateClient {
       secretId: certificateBundle.sid,
       name: parsedId.name,
       cer: certificateBundle.cer,
-      contentType: certificateBundle.contentType as CertificateContentType,
+      certificateContentType: certificateBundle.contentType as CertificateContentType,
+      properties: abstractProperties
+    };
+  }
+
+  private getCertificateWithPolicyFromCertificateBundle(
+    certificateBundle: CertificateBundle
+  ): KeyVaultCertificateWithPolicy {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
+    const policy = toPublicPolicy(certificateBundle.policy || {});
+
+    let abstractProperties: CertificateProperties = {
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      name: parsedId.name,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint
+    };
+
+    return {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
+      cer: certificateBundle.cer,
+      certificateContentType: certificateBundle.contentType as CertificateContentType,
       policy,
       properties: abstractProperties
     };
@@ -1652,14 +1699,16 @@ export class CertificateClient {
   private getDeletedCertificateFromDeletedCertificateBundle(
     certificateBundle: DeletedCertificateBundle
   ): DeletedCertificate {
-    const certificate : KeyVaultCertificate = this.getCertificateFromCertificateBundle(certificateBundle);
+    const certificate: KeyVaultCertificate = this.getCertificateFromCertificateBundle(
+      certificateBundle
+    );
 
     return {
       ...certificate,
       recoveryId: certificateBundle.recoveryId,
       scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
       deletedOn: certificateBundle.deletedDate
-    }
+    };
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {

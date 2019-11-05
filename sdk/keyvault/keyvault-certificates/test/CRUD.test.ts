@@ -17,7 +17,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   };
 
   beforeEach(async function() {
@@ -213,7 +213,7 @@ describe("Certificates client - create, read, update and delete", () => {
     // Creating a certificate with that issuer
     await client.createCertificate(certificateName, {
       issuerName,
-      subjectName: "cn=MyCert"
+      subject: "cn=MyCert"
     });
 
     // Reading the issuer from the certificate
@@ -265,14 +265,14 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.createCertificate(certificateName, basicCertificatePolicy);
     const result = await client.getCertificate(certificateName);
     assert.equal(result.policy!.issuerName, "Self");
-    assert.equal(result.policy!.subjectName, "cn=MyCert");
+    assert.equal(result.policy!.subject, "cn=MyCert");
 
     await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
-      subjectName: "cn=MyOtherCert"
+      subject: "cn=MyOtherCert"
     });
     const updated = await client.getCertificate(certificateName);
-    assert.equal(updated.policy!.subjectName, "cn=MyOtherCert");
+    assert.equal(updated.policy!.subject, "cn=MyOtherCert");
 
     await testClient.flushCertificate(certificateName);
   });
