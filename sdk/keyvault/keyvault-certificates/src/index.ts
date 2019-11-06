@@ -35,8 +35,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  ListCertificatesOptions,
-  ListCertificateVersionsOptions,
+  ListPropertiesOfCertificatesOptions,
+  ListPropertiesOfCertificateVersionsOptions,
   ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
@@ -158,8 +158,8 @@ export {
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   LifetimeAction,
-  ListCertificatesOptions,
-  ListCertificateVersionsOptions,
+  ListPropertiesOfCertificatesOptions as ListCertificatesOptions,
+  ListPropertiesOfCertificateVersionsOptions as ListCertificateVersionsOptions,
   ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
@@ -403,10 +403,10 @@ export class CertificateClient {
    * }
    * ```
    * @summary List all versions of the specified certificate.
-   * @param {ListCertificatesOptions} [options] The optional parameters
+   * @param {ListPropertiesOfCertificatesOptions} [options] The optional parameters
    */
   public listPropertiesOfCertificates(
-    options: ListCertificatesOptions = {}
+    options: ListPropertiesOfCertificatesOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
@@ -490,11 +490,11 @@ export class CertificateClient {
    * ```
    * @summary List the versions of a certificate.
    * @param certificateName The name of the certificate.
-   * @param {ListCertificateVersionsOptions} [options] The optional parameters
+   * @param {ListPropertiesOfCertificateVersionsOptions} [options] The optional parameters
    */
   public listPropertiesOfCertificateVersions(
     certificateName: string,
-    options: ListCertificateVersionsOptions = {}
+    options: ListPropertiesOfCertificateVersionsOptions = {}
   ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfCertificateVersions", requestOptions);

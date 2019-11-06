@@ -448,7 +448,7 @@ export interface IssuerProperties {
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
  */
-export interface ListCertificatesOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -464,8 +464,8 @@ export interface ListCertificatesOptions extends coreHttp.OperationOptions {
  * @interface
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
  */
-export interface ListCertificateVersionsOptions
-  extends ListCertificatesOptions,
+export interface ListPropertiesOfCertificateVersionsOptions
+  extends ListPropertiesOfCertificatesOptions,
     coreHttp.OperationOptions {}
 
 /**

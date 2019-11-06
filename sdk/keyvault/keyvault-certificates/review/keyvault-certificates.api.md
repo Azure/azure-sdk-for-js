@@ -56,10 +56,10 @@ export class CertificateClient {
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
     importCertificate(certificateName: string, base64EncodedCertificate: string, options?: ImportCertificateOptions): Promise<KeyVaultCertificate>;
-    listCertificates(options?: ListCertificatesOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
-    listCertificateVersions(certificateName: string, options?: ListCertificateVersionsOptions): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]>;
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     listIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
+    listPropertiesOfCertificates(options?: ListCertificatesOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
+    listPropertiesOfCertificateVersions(certificateName: string, options?: ListCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
