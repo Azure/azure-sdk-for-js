@@ -76,9 +76,7 @@ export async function executeAtomXmlOperation(
 
 /**
  * Serializes input information to construct the Atom XML request
- *
  * Note: The passed in `resource` object is mutated so as to remove key value pairs that have value as `undefined`.
- * This is because the Service Bus' ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body.
  *
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
@@ -88,6 +86,10 @@ export async function executeAtomXmlOperation(
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
 
+  // The key value pairs having undefined as the value are removed in order to address issue where the Service Bus'
+  // ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body.
+  // Post-processing of the `resource` object is being done as the xml2js utility does not provide a way to prevent undefined/null
+  // values in JSON to be excluded from being constructed to the XML output.
   content[resourceName] = removeUndefinedValues(resource);
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
