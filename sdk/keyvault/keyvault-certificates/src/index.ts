@@ -35,8 +35,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  ListCertificatesOptions,
-  ListCertificateVersionsOptions,
+  ListPropertiesOfCertificatesOptions,
+  ListPropertiesOfCertificateVersionsOptions,
   ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
@@ -158,8 +158,8 @@ export {
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   LifetimeAction,
-  ListCertificatesOptions,
-  ListCertificateVersionsOptions,
+  ListPropertiesOfCertificatesOptions,
+  ListPropertiesOfCertificateVersionsOptions,
   ListIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
@@ -343,10 +343,10 @@ export class CertificateClient {
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
   }
 
-  private async *listCertificatesPage(
+  private async *listPropertiesOfCertificatesPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<KeyVaultCertificate[]> {
+  ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -355,7 +355,7 @@ export class CertificateClient {
       const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
       }
     }
     while (continuationState.continuationToken) {
@@ -365,19 +365,19 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
       } else {
         break;
       }
     }
   }
 
-  private async *listCertificatesAll(
+  private async *listPropertiesOfCertificatesAll(
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<KeyVaultCertificate> {
+  ): AsyncIterableIterator<CertificateProperties> {
     const f = {};
 
-    for await (const page of this.listCertificatesPage(f, options)) {
+    for await (const page of this.listPropertiesOfCertificatesPage(f, options)) {
       for (const certificate of page) {
         yield certificate;
       }
@@ -392,28 +392,28 @@ export class CertificateClient {
    * ```ts
    * const client = new CertificateClient(url, credentials);
    * // All in one call
-   * for await (const certificate of client.listCertificates()) {
+   * for await (const certificate of client.listPropertiesOfCertificates()) {
    *   console.log(certificate);
    * }
    * // By pages
-   * for await (const page of client.listCertificates().byPage()) {
+   * for await (const page of client.listPropertiesOfCertificates().byPage()) {
    *   for (const certificate of page) {
    *     console.log(certificate);
    *   }
    * }
    * ```
    * @summary List all versions of the specified certificate.
-   * @param {ListCertificatesOptions} [options] The optional parameters
+   * @param {ListPropertiesOfCertificatesOptions} [options] The optional parameters
    */
-  public listCertificates(
-    options: ListCertificatesOptions = {}
-  ): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]> {
+  public listPropertiesOfCertificates(
+    options: ListPropertiesOfCertificatesOptions = {}
+  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    const span = this.createSpan("listCertificates", requestOptions);
+    const span = this.createSpan("listPropertiesOfCertificates", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
-    const iter = this.listCertificatesAll(updatedOptions);
+    const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
 
     span.end();
     let result = {
@@ -423,17 +423,17 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listCertificatesPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfCertificatesPage(settings, updatedOptions)
     };
 
     return result;
   }
 
-  private async *listCertificateVersionsPage(
+  private async *listPropertiesOfCertificateVersionsPage(
     certificateName: string,
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<KeyVaultCertificate[]> {
+  ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -446,7 +446,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
       }
     }
     while (continuationState.continuationToken) {
@@ -457,20 +457,20 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
       } else {
         break;
       }
     }
   }
 
-  private async *listCertificateVersionsAll(
+  private async *listPropertiesOfCertificateVersionsAll(
     certificateName: string,
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<KeyVaultCertificate> {
+  ): AsyncIterableIterator<CertificateProperties> {
     const f = {};
 
-    for await (const page of this.listCertificateVersionsPage(certificateName, f, options)) {
+    for await (const page of this.listPropertiesOfCertificateVersionsPage(certificateName, f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -484,23 +484,23 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * for await (const item of client.listCertificateVersions("MyCertificate")) {
-   *   console.log(item.properties.version!);
+   * for await (const item of client.listPropertiesOfCertificateVersions("MyCertificate")) {
+   *   console.log(item.version!);
    * }
    * ```
    * @summary List the versions of a certificate.
    * @param certificateName The name of the certificate.
-   * @param {ListCertificateVersionsOptions} [options] The optional parameters
+   * @param {ListPropertiesOfCertificateVersionsOptions} [options] The optional parameters
    */
-  public listCertificateVersions(
+  public listPropertiesOfCertificateVersions(
     certificateName: string,
-    options: ListCertificateVersionsOptions = {}
-  ): PagedAsyncIterableIterator<KeyVaultCertificate, KeyVaultCertificate[]> {
+    options: ListPropertiesOfCertificateVersionsOptions = {}
+  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listCertificateVersions", requestOptions);
+    const span = this.createSpan("listPropertiesOfCertificateVersions", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
-    const iter = this.listCertificateVersionsAll(certificateName, updatedOptions);
+    const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, updatedOptions);
 
     span.end();
     let result = {
@@ -511,7 +511,7 @@ export class CertificateClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listCertificateVersionsPage(certificateName, settings, updatedOptions)
+        this.listPropertiesOfCertificateVersionsPage(certificateName, settings, updatedOptions)
     };
 
     return result;
@@ -1504,7 +1504,7 @@ export class CertificateClient {
     options: ListDeletedCertificatesOptions = {}
   ): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("listDeletedCertificates", requestOptions);
+    const span = this.createSpan("listPropertiesOfDeletedCertificates", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
     const iter = this.listDeletedCertificatesAll(updatedOptions);
@@ -1628,6 +1628,28 @@ export class CertificateClient {
     }
 
     return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+  }
+
+  private getPropertiesFromCertificateBundle(certificateBundle: CertificateBundle): CertificateProperties {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
+
+    let abstractProperties: CertificateProperties = {
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      name: parsedId.name,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint
+    };
+
+    return abstractProperties;
   }
 
   private getCertificateFromCertificateBundle(
