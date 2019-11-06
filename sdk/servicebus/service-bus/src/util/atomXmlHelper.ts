@@ -15,7 +15,7 @@ import {
 import * as Constants from "./constants";
 import * as log from "../log";
 import { Buffer } from "buffer";
-import { removeUndefinedValues } from "./utils";
+import { removeUndefinedAndNullValues } from "./utils";
 
 /**
  * @ignore
@@ -90,7 +90,7 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
   // ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body.
   // Post-processing of the `resource` object is being done as the xml2js utility does not provide a way to prevent undefined/null
   // values in JSON to be excluded from being constructed to the XML output.
-  content[resourceName] = removeUndefinedValues(resource);
+  content[resourceName] = removeUndefinedAndNullValues(resource);
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
