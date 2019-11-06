@@ -351,7 +351,7 @@ describe("AbortController", () => {
   });
 });
 
-if (typeof window !== undefined && typeof window.fetch !== undefined) {
+if (typeof window !== "undefined" && typeof window.fetch !== "undefined") {
   describe("fetch integration", () => {
     it("works", async () => {
       const parentController = new AbortController();
