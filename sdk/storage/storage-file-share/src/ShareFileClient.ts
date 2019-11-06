@@ -58,6 +58,7 @@ import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { ReadableStreamBuffer } from "stream-buffers";
 
 /**
  * Options to configure File - Create operation.
@@ -1395,31 +1396,36 @@ export class ShareFileClient extends StorageClient {
   // High Level functions
 
   /**
-   * ONLY AVAILABLE IN BROWSERS.
+   * Uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to an Azure File.
    *
-   * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to an Azure File.
-   *
-   * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
    * @param {FileParallelUploadOptions} [options]
    * @returns {Promise<void>}
    */
-  public async uploadBrowserData(
-    browserData: Blob | ArrayBuffer | ArrayBufferView,
+  public async uploadData(
+    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadBrowserData",
-      options.tracingOptions
-    );
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
     try {
-      const browserBlob = new Blob([browserData]);
-      return this.uploadSeekableBlob(
-        (offset: number, size: number): Blob => {
-          return browserBlob.slice(offset, offset + size);
-        },
-        browserBlob.size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
-      );
+      if (isNode && data instanceof Buffer) {
+        const bufferToStream = new ReadableStreamBuffer();
+        bufferToStream.put(data);
+        bufferToStream.stop();
+        return this.uploadResetableStream(() => bufferToStream, data.byteLength, {
+          ...options,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
+      } else {
+        const browserBlob = new Blob([data]);
+        return this.uploadSeekableBlob(
+          (offset: number, size: number): Blob => {
+            return browserBlob.slice(offset, offset + size);
+          },
+          browserBlob.size,
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        );
+      }
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
