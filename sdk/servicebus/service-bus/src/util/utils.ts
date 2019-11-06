@@ -385,8 +385,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
 /**
  * @ignore
- * Recurse through a JSON structure and remove key: value pairs where the value is `undefined` or `null`.
- * Also removes array elements `undefined` or `null`.
+ * For an object or array of objects, removes top level key: value pairs where the value is `undefined` or `null`.
  * Note: This utility must be used with caution as it mutates the passed in object.
  * @param value The JSON structure
  * @returns The new JSON structure with undefined values removed
@@ -396,15 +395,10 @@ export function removeUndefinedAndNullValues(value: any): any {
     value.forEach((arrayElement) => {
       removeUndefinedAndNullValues(arrayElement);
     });
-    value = value.filter(function(arrayElement) {
-      return arrayElement != undefined;
-    });
   } else if (Object.prototype.toString.call(value) === "[object Object]") {
     Object.keys(value).forEach(function(property) {
       if (value[property] == undefined) {
         delete value[property];
-      } else if (Object.prototype.toString.call(value[property]) === "[object Object]") {
-        value[property] = removeUndefinedAndNullValues(value[property]);
       }
     });
   }
