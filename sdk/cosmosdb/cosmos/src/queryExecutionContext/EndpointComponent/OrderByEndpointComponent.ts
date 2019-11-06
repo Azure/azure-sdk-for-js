@@ -27,19 +27,6 @@ export class OrderByEndpointComponent implements ExecutionContext {
   }
 
   /**
-   * Retrieve the current element on the OrderByEndpointComponent.
-   * @memberof OrderByEndpointComponent
-   * @instance
-   */
-  public async current(): Promise<Response<any>> {
-    const { result: item, headers } = await this.executionContext.current();
-    return {
-      result: item !== undefined ? item.payload : undefined,
-      headers
-    };
-  }
-
-  /**
    * Determine if there are still remaining resources to processs.
    * @memberof OrderByEndpointComponent
    * @instance

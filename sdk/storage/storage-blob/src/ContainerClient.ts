@@ -671,7 +671,7 @@ export class ContainerClient extends StorageClient {
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
-      return this.containerContext.create({
+      return await this.containerContext.create({
         ...options,
         spanOptions
       });
@@ -805,7 +805,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.getProperties({
+      return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
         spanOptions
@@ -850,7 +850,7 @@ export class ContainerClient extends StorageClient {
     const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
 
     try {
-      return this.containerContext.deleteMethod({
+      return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -903,7 +903,7 @@ export class ContainerClient extends StorageClient {
     const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
 
     try {
-      return this.containerContext.setMetadata({
+      return await this.containerContext.setMetadata({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata,
@@ -1039,7 +1039,7 @@ export class ContainerClient extends StorageClient {
         });
       }
 
-      return this.containerContext.setAccessPolicy({
+      return await this.containerContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         access,
         containerAcl: acl,
@@ -1178,7 +1178,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.listBlobFlatSegment({
+      return await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
@@ -1217,7 +1217,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.listBlobHierarchySegment(delimiter, {
+      return await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions

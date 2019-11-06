@@ -21,5 +21,22 @@ describe("PartitionLoadBalancer", () => {
       lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2"]);
       m.should.be.empty;
     });    
+
+    it("don't claim already owned partitions", () => {
+      const m = new Map<string, PartitionOwnership>();
+
+      m.set("1", {
+        consumerGroupName: "",
+        fullyQualifiedNamespace: "",
+        eventHubName: "",
+        ownerId: "",
+        ownerLevel: 0,
+        partitionId: ""        
+      });
+
+      const lb = new GreedyPartitionLoadBalancer(["1", "2", "3"]);
+
+      lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2", "3"]);
+    });    
   });
 });

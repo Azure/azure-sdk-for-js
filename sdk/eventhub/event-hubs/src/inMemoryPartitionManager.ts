@@ -4,6 +4,7 @@
 import { PartitionManager, PartitionOwnership } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
+import { throwTypeErrorIfParameterMissing } from './util/error';
 
 /**
  * The `EventProcessor` relies on a `PartitionManager` to store checkpoints and handle partition
@@ -66,6 +67,15 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
+    // these checks should mirror what we do in checkpointStoreBlob
+    throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
+    throwTypeErrorIfParameterMissing("", 
+      "updateCheckpoint",
+      "sequenceNumber",
+      checkpoint.sequenceNumber
+    );
+    throwTypeErrorIfParameterMissing("", "updateCheckpoint", "offset", checkpoint.offset);
+    
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
       partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;

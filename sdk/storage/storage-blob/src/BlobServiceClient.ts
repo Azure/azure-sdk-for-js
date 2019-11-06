@@ -511,7 +511,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -545,7 +545,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -578,7 +578,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -612,7 +612,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getAccountInfo({
+      return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -651,7 +651,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.listContainersSegment({
+      return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
         ...options,

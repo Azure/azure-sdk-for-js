@@ -75,4 +75,4 @@ This will produce `dist/main.js`. Reference this file in an HTML file script tag
 <script src="./dist/main.js"></script>
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-file-share/samples/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fsamples%2FREADME.png)

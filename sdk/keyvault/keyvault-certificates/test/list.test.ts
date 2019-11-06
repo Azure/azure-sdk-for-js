@@ -19,7 +19,7 @@ describe("Certificates client - list certificates in various ways", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   };
 
   beforeEach(async function() {
@@ -40,12 +40,12 @@ describe("Certificates client - list certificates in various ways", () => {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const certificate of client.listCertificates({ includePending: true })) {
       try {
-        await testClient.flushCertificate(certificate.properties.name);
+        await testClient.flushCertificate(certificate.properties.name!);
       } catch (e) {}
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
       try {
-        await testClient.purgeCertificate(certificate.properties.name);
+        await testClient.purgeCertificate(certificate.properties.name!);
       } catch (e) {}
     }
   });
@@ -60,7 +60,7 @@ describe("Certificates client - list certificates in various ways", () => {
     let found = 0;
     for await (const certificate of client.listCertificates({ includePending: true })) {
       // The vault might contain more certificates than the ones we inserted.
-      if (!certificateNames.includes(certificate.properties.name)) continue;
+      if (!certificateNames.includes(certificate.properties.name!)) continue;
       found += 1;
     }
 
@@ -94,7 +94,7 @@ describe("Certificates client - list certificates in various ways", () => {
       let found = 0;
       for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.properties.name)) continue;
+        if (!certificateNames.includes(certificate.properties.name!)) continue;
         found += 1;
       }
 
@@ -116,7 +116,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const page of client.listCertificates({ includePending: true }).byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.properties.name)) continue;
+        if (!certificateNames.includes(certificate.properties.name!)) continue;
         found += 1;
       }
     }
@@ -145,7 +145,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const page of client.listDeletedCertificates({ includePending: true }).byPage()) {
       for (const deleteCertificate of page) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(deleteCertificate.properties.name)) continue;
+        if (!certificateNames.includes(deleteCertificate.properties.name!)) continue;
         found += 1;
       }
     }
@@ -177,7 +177,7 @@ describe("Certificates client - list certificates in various ways", () => {
       );
       let response: any;
       await retry(async () => {
-        response = await client.getCertificateWithPolicy(certificateName);
+        response = await client.getCertificate(certificateName);
         if (response.properties.tags!.tag !== tag) throw "retrying due to mismatched tag";
       });
       // Versions don't match. Something must be happening under the hood.
@@ -190,7 +190,7 @@ describe("Certificates client - list certificates in various ways", () => {
       includePending: true
     })) {
       const version = item.properties.version!;
-      const certificate = await client.getCertificate(certificateName, version);
+      const certificate = await client.getCertificateVersion(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
       // results.push({ version: item.properties.version!, tag: certificate.properties.tags!.tag! });
       results.push({ tag: certificate.properties.tags!.tag! });
