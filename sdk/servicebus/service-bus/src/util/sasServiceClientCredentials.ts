@@ -16,16 +16,6 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    * @param {string} sharedAccessKey The SAS key value to use
    */
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
-    if (typeof sharedAccessKeyName !== "string") {
-      throw new Error(
-        "sharedAccessKeyName cannot be null or undefined and must be of type string."
-      );
-    }
-
-    if (typeof sharedAccessKey !== "string") {
-      throw new Error("sharedAccessKey cannot be null or undefined and must be of type string.");
-    }
-
     this.keyName = sharedAccessKeyName;
     this.keyValue = sharedAccessKey;
   }
