@@ -30,14 +30,6 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     return { result: undefined, headers: getInitialHeader() };
   }
 
-  public async current(): Promise<Response<any>> {
-    if (this.offset > 0) {
-      const current = await this.executionContext.current();
-      return { result: undefined, headers: current.headers };
-    }
-    return this.executionContext.current();
-  }
-
   public hasMoreResults() {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
   }
