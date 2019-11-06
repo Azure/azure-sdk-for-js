@@ -73,7 +73,7 @@ export class IpGroups {
   }
 
   /**
-   * Updates an IpGroups
+   * Updates tags of an IpGroups resource.
    * @param resourceGroupName The name of the resource group.
    * @param ipGroupsName The name of the ipGroups.
    * @param parameters Parameters supplied to the update ipGroups operation.

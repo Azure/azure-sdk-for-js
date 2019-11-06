@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, then deletes it, then recovers it.
@@ -18,14 +18,14 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName = "MyCertificate234833";
 
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
@@ -43,7 +43,7 @@ async function main() {
   // It might take less time, or more, depending on your location, internet speed and other factors.
   await delay(30000);
 
-  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 

@@ -1266,7 +1266,7 @@ export class BlobClient extends StorageClient {
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blobContext.getProperties({
+      return await this.blobContext.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -1299,7 +1299,7 @@ export class BlobClient extends StorageClient {
     const { span, spanOptions } = createSpan("BlobClient-delete", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
-      return this.blobContext.deleteMethod({
+      return await this.blobContext.deleteMethod({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
@@ -1330,7 +1330,7 @@ export class BlobClient extends StorageClient {
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     const { span, spanOptions } = createSpan("BlobClient-undelete", options.tracingOptions);
     try {
-      return this.blobContext.undelete({
+      return await this.blobContext.undelete({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -1367,7 +1367,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blobContext.setHTTPHeaders({
+      return await this.blobContext.setHTTPHeaders({
         abortSignal: options.abortSignal,
         blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
@@ -1407,7 +1407,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blobContext.setMetadata({
+      return await this.blobContext.setMetadata({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata,
@@ -1452,7 +1452,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blobContext.createSnapshot({
+      return await this.blobContext.createSnapshot({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
@@ -1580,7 +1580,7 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobAbortCopyFromURLResponse> {
     const { span, spanOptions } = createSpan("BlobClient-abortCopyFromURL", options.tracingOptions);
     try {
-      return this.blobContext.abortCopyFromURL(copyId, {
+      return await this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         spanOptions
@@ -1615,7 +1615,7 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
 
     try {
-      return this.blobContext.copyFromURL(copySource, {
+      return await this.blobContext.copyFromURL(copySource, {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         leaseAccessConditions: options.conditions,
@@ -1960,7 +1960,7 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
 
     try {
-      return this.blobContext.startCopyFromURL(copySource, {
+      return await this.blobContext.startCopyFromURL(copySource, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
@@ -2349,7 +2349,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return this.appendBlobContext.create(0, {
+      return await this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
@@ -2392,7 +2392,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return this.appendBlobContext.appendBlock(body, contentLength, {
+      return await this.appendBlobContext.appendBlock(body, contentLength, {
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
@@ -2445,7 +2445,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+      return await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
         abortSignal: options.abortSignal,
         sourceRange: rangeToString({ offset: sourceOffset, count }),
         sourceContentMD5: options.sourceContentMD5,
@@ -3093,7 +3093,7 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blockBlobContext.upload(body, contentLength, {
+      return await this.blockBlobContext.upload(body, contentLength, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
@@ -3136,7 +3136,7 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-stageBlock", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
+      return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
@@ -3191,7 +3191,7 @@ export class BlockBlobClient extends BlobClient {
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+      return await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         sourceContentMD5: options.sourceContentMD5,
@@ -3235,7 +3235,7 @@ export class BlockBlobClient extends BlobClient {
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.blockBlobContext.commitBlockList(
+      return await this.blockBlobContext.commitBlockList(
         { latest: blocks },
         {
           abortSignal: options.abortSignal,
@@ -3332,7 +3332,7 @@ export class BlockBlobClient extends BlobClient {
     );
     try {
       const browserBlob = new Blob([browserData]);
-      return this.uploadSeekableBlob(
+      return await this.uploadSeekableBlob(
         (offset: number, size: number): Blob => {
           return browserBlob.slice(offset, offset + size);
         },
@@ -3417,7 +3417,7 @@ export class BlockBlobClient extends BlobClient {
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return this.upload(blobFactory(0, size), size, {
+        return await this.upload(blobFactory(0, size), size, {
           ...options,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
@@ -3498,7 +3498,7 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
-      return this.uploadResetableStream(
+      return await this.uploadResetableStream(
         (offset, count) =>
           fs.createReadStream(filePath, {
             autoClose: true,
@@ -3588,7 +3588,7 @@ export class BlockBlobClient extends BlobClient {
       );
       await scheduler.do();
 
-      return this.commitBlockList(blockList, {
+      return await this.commitBlockList(blockList, {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
@@ -3673,7 +3673,7 @@ export class BlockBlobClient extends BlobClient {
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return this.upload(() => streamFactory(0), size, {
+        return await this.upload(() => streamFactory(0), size, {
           ...options,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
@@ -3720,7 +3720,7 @@ export class BlockBlobClient extends BlobClient {
       }
       await batch.do();
 
-      return this.commitBlockList(blockList, {
+      return await this.commitBlockList(blockList, {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
@@ -4267,7 +4267,7 @@ export class PageBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("PageBlobClient-create", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.pageBlobContext.create(0, size, {
+      return await this.pageBlobContext.create(0, size, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
@@ -4310,7 +4310,7 @@ export class PageBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.tracingOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.pageBlobContext.uploadPages(body, count, {
+      return await this.pageBlobContext.uploadPages(body, count, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -4361,7 +4361,7 @@ export class PageBlobClient extends BlobClient {
     );
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return this.pageBlobContext.uploadPagesFromURL(
+      return await this.pageBlobContext.uploadPagesFromURL(
         sourceURL,
         rangeToString({ offset: sourceOffset, count }),
         0,
@@ -4412,7 +4412,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.tracingOptions);
     try {
-      return this.pageBlobContext.clearPages(0, {
+      return await this.pageBlobContext.clearPages(0, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -4453,7 +4453,7 @@ export class PageBlobClient extends BlobClient {
       options.tracingOptions
     );
     try {
-      return this.pageBlobContext
+      return await this.pageBlobContext
         .getPageRanges({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -4496,7 +4496,7 @@ export class PageBlobClient extends BlobClient {
       options.tracingOptions
     );
     try {
-      return this.pageBlobContext
+      return await this.pageBlobContext
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -4533,7 +4533,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-resize", options.tracingOptions);
     try {
-      return this.pageBlobContext.resize(size, {
+      return await this.pageBlobContext.resize(size, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -4571,7 +4571,7 @@ export class PageBlobClient extends BlobClient {
       options.tracingOptions
     );
     try {
-      return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
+      return await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
         abortSignal: options.abortSignal,
         blobSequenceNumber: sequenceNumber,
         leaseAccessConditions: options.conditions,
@@ -4612,7 +4612,7 @@ export class PageBlobClient extends BlobClient {
       options.tracingOptions
     );
     try {
-      return this.pageBlobContext.copyIncremental(copySource, {
+      return await this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: options.conditions,
         spanOptions
@@ -5570,7 +5570,7 @@ export class ContainerClient extends StorageClient {
     try {
       // Spread operator in destructuring assignments,
       // this will filter out unwanted properties from the response object into result object
-      return this.containerContext.create({
+      return await this.containerContext.create({
         ...options,
         spanOptions
       });
@@ -5704,7 +5704,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.getProperties({
+      return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
         spanOptions
@@ -5749,7 +5749,7 @@ export class ContainerClient extends StorageClient {
     const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
 
     try {
-      return this.containerContext.deleteMethod({
+      return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -5802,7 +5802,7 @@ export class ContainerClient extends StorageClient {
     const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.tracingOptions);
 
     try {
-      return this.containerContext.setMetadata({
+      return await this.containerContext.setMetadata({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata,
@@ -5938,7 +5938,7 @@ export class ContainerClient extends StorageClient {
         });
       }
 
-      return this.containerContext.setAccessPolicy({
+      return await this.containerContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         access,
         containerAcl: acl,
@@ -6077,7 +6077,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.listBlobFlatSegment({
+      return await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
@@ -6116,7 +6116,7 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.containerContext.listBlobHierarchySegment(delimiter, {
+      return await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions

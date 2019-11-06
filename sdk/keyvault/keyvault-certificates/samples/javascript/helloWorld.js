@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, reads it in various ways,
@@ -14,33 +14,33 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName = "MyCertificate96123";
 
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
 
   // To read a certificate with their policy:
-  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
+  let certificateWithPolicy = await client.getCertificate(certificateName);
   // Note: It will always read the latest version of the certificate.
 
   console.log("Certificate with policy:", certificateWithPolicy);
 
   // To read a certificate from a specific version:
-  const certificateFromVersion = await client.getCertificate(
+  const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
     certificateWithPolicy.properties.version
   );
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  let updatedCertificate = await client.updateCertificate(certificateName, "", {
+  const updatedCertificate = await client.updateCertificate(certificateName, "", {
     tags: {
       customTag: "value"
     }
@@ -50,14 +50,14 @@ async function main() {
   // Updating the certificate's policy:
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyOtherCert"
+    subject: "cn=MyOtherCert"
   });
-  updatedCertificate = await client.getCertificateWithPolicy(certificateName);
-  console.log("updatedCertificate certificate's policy:", updatedCertificate.policy);
+  certificateWithPolicy = await client.getCertificate(certificateName);
+  console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
 
   const result = await client.deleteCertificate(certificateName);
   console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deletedDate);
+  console.log("Deleted Date: ", result.deletedOn);
   console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
 }
 

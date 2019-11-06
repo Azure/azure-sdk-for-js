@@ -24,7 +24,7 @@ async function main(): Promise<void> {
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
@@ -38,9 +38,9 @@ async function main(): Promise<void> {
   await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
 
-  await client.restoreCertificate(backup.value!);
+  await client.restoreCertificateBackup(backup.value!);
 
-  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
+  const restoredCertificate = await client.getCertificate(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
 }

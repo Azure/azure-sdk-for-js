@@ -15,10 +15,14 @@ import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
-import { SubscriptionOptions, Subscription } from "./eventHubConsumerClientModels";
+import { SubscriptionOptions, Subscription, OptionalEventHandlers } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 
+/**
+ * Event handler called when events are received. The `context` parameter can be 
+ * used to get partition information as well as to checkpoint.
+ */
 export type OnReceivedEvents = (
   receivedEvents: ReceivedEventData[],
   context: PartitionContext & PartitionCheckpointer
@@ -49,11 +53,20 @@ export interface PartitionCheckpointer {
    * @return  Promise<void>.
    */
   updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+  /**
+   * @internal
+   * @ignore
+   */
   updateCheckpoint(
     eventDataOrSequenceNumber: ReceivedEventData | number,
     offset?: number
   ): Promise<void>;
 }
+
+const defaultConsumerClientOptions : SubscriptionOptions = {
+  maxBatchSize: 10,
+  maxWaitTimeInSeconds: 10
+};
 
 /**
  * @class
@@ -68,7 +81,7 @@ export interface PartitionCheckpointer {
  */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
-
+  
   /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
@@ -243,7 +256,7 @@ export class EventHubConsumerClient {
    *
    * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param onReceivedEvents Called when new events are received.
-   * @param partitionIds An array of partition ids to subscribe to.
+   * @param partitionId A partition id to subscribe to.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
@@ -251,7 +264,7 @@ export class EventHubConsumerClient {
   subscribe(
     consumerGroupName: string,
     onReceivedEvents: OnReceivedEvents,
-    partitionIds: string[],
+    partitionId: string,
     options?: SubscriptionOptions
   ): Subscription; // #2
   /**
@@ -275,20 +288,20 @@ export class EventHubConsumerClient {
   subscribe(
     consumerGroupName1: string, 
     onReceivedEvents2: OnReceivedEvents,
-    optionsOrPartitionIdsOrPartitionManager3:
+    optionsOrPartitionIdOrPartitionManager3:
       | SubscriptionOptions
       | undefined
-      | string[]
+      | string
       | PartitionManager,
     possibleOptions4?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (Array.isArray(optionsOrPartitionIdsOrPartitionManager3)) {
+    if (typeof optionsOrPartitionIdOrPartitionManager3 === "string") {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const partitionIds = optionsOrPartitionIdsOrPartitionManager3;
+      const partitionId = optionsOrPartitionIdOrPartitionManager3;
       log.consumerClient(
-        `Subscribing to specific partitions (${partitionIds.join(",")}), no coordination.`
+        `Subscribing to specific partition (${partitionId}), no coordination.`
       );
 
       const partitionManager = new InMemoryPartitionManager();
@@ -305,16 +318,17 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         partitionManager,
         {
+          ...defaultConsumerClientOptions,
           ...possibleOptions4,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(partitionIds)
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId])
         }
       );
-    } else if (isPartitionManager(optionsOrPartitionIdsOrPartitionManager3)) {
+    } else if (isPartitionManager(optionsOrPartitionIdOrPartitionManager3)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
-      const partitionManager = optionsOrPartitionIdsOrPartitionManager3;
+      const partitionManager = optionsOrPartitionIdOrPartitionManager3;
 
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
@@ -327,7 +341,7 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        possibleOptions4
+        { ...defaultConsumerClientOptions, ...possibleOptions4 }
       );
     } else {
       // #1: subscribe overload - read from all partitions, don't coordinate
@@ -338,7 +352,7 @@ export class EventHubConsumerClient {
       const partitionProcessorType = createPartitionProcessorType(
         onReceivedEvents2,
         partitionManager,
-        optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions
+        optionsOrPartitionIdOrPartitionManager3
       );
 
       eventProcessor = new EventProcessor(
@@ -347,7 +361,8 @@ export class EventHubConsumerClient {
         partitionProcessorType,
         partitionManager,
         {
-          ...(optionsOrPartitionIdsOrPartitionManager3 as SubscriptionOptions),
+          ...defaultConsumerClientOptions,
+          ...(optionsOrPartitionIdOrPartitionManager3 as SubscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -368,7 +383,7 @@ export class EventHubConsumerClient {
 export function createPartitionProcessorType(
   onReceivedEvents: OnReceivedEvents,
   partitionManager: PartitionManager,
-  options: SubscriptionOptions = {}
+  options: OptionalEventHandlers = {}
 ): typeof PartitionProcessor {
   class DefaultPartitionProcessor extends PartitionProcessor {
     private _partitionCheckpointer?: SimplePartitionCheckpointer;

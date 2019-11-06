@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates, updates and deletes a certificate's operation.
@@ -13,7 +13,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
   const certificateName = "MyCertificate986632";
 
   let getResponse;
@@ -21,11 +21,11 @@ async function main() {
   // Certficates' operations will be pending for some time right after they're created.
   await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // The pending state of the certificate will be visible.
-  const pendingCertificate = await client.getCertificateWithPolicy(certificateName);
+  const pendingCertificate = await client.getCertificate(certificateName);
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)
@@ -50,7 +50,7 @@ async function main() {
   console.log(error.message); // Pending certificate not found
 
   // There will be no signs of a pending operation at this point
-  const certificateWithoutOperation = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
 }
 

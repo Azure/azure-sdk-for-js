@@ -1,5 +1,5 @@
 
-import { CloseReason, PartitionContext, EventProcessorCommonOptions } from './eventProcessor';
+import { CloseReason, PartitionContext, EventProcessorOptions } from './eventProcessor';
 import { PartitionCheckpointer } from './eventHubConsumerClient';
 
 /**
@@ -39,7 +39,7 @@ export interface OptionalEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorCommonOptions {
+export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorOptions {
 }
 
 /**
