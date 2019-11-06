@@ -382,3 +382,26 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   };
   return rawAuthorizationRule;
 }
+
+/**
+ * @ignore
+ * Recurse through a JSON structure and remove array values equal to `undefined` and object key: value pairs where the value === `undefined`.
+ * @param value The JSON structure
+ * @returns The new JSON structure with undefined values removed
+ */
+export function removeUndefinedValues(value: any): any {
+  if (Array.isArray(value)) {
+    value.forEach((entry) => {
+      removeUndefinedValues(entry);
+    });
+  } else if (Object.prototype.toString.call(value) === "[object Object]") {
+    Object.keys(value).forEach(function(property) {
+      if (value[property] == undefined) {
+        delete value[property];
+      } else if (Object.prototype.toString.call(value[property]) === "[object Object]") {
+        value[property] = removeUndefinedValues(value[property]);
+      }
+    });
+  }
+  return value;
+}

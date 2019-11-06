@@ -15,6 +15,7 @@ import {
 import * as Constants from "./constants";
 import * as log from "../log";
 import { Buffer } from "buffer";
+import { removeUndefinedValues } from "./utils";
 
 /**
  * @ignore
@@ -84,14 +85,8 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
   const content: any = {};
 
   // Remove key value pairs that have value as undefined. This is because the Service Bus ATOM based management API
-  // does not accept empty XML elements in the top level request, but accepts empty elements within some of the inner properties
-  Object.keys(resource).forEach(function(property) {
-    if (resource[property] == undefined) {
-      delete resource[property];
-    }
-  });
-
-  content[resourceName] = resource;
+  // throws a 'Bad Request' error if empty tags are included and xml2js utility does not have an option to automatically exclude these.
+  content[resourceName] = removeUndefinedValues(Object.assign({}, resource));
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
     "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
