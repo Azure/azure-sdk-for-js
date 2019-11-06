@@ -19,7 +19,7 @@ async function main() {
   const issuerName = "issuerName";
 
   // Create
-  await client.setIssuer(issuerName, "Test", {
+  await client.createIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
