@@ -155,3 +155,4 @@ jobs:
           node common/scripts/install-run-rushx.js execute:samples --verbose
         displayName: "Execute Samples"
         workingDirectory: "${{parameters.PackagePath}}"
+        env: ${{parameters.EnvVars}}
