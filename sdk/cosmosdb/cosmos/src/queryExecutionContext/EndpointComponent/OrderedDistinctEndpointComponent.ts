@@ -21,10 +21,6 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     return { result, headers };
   }
 
-  public async current(): Promise<Response<any>> {
-    return this.executionContext.current();
-  }
-
   public hasMoreResults() {
     return this.executionContext.hasMoreResults();
   }

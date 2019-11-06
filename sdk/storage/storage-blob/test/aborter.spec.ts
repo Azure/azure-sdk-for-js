@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
-import { ContainerClient } from "../src/ContainerClient";
+import { ContainerClient } from "../src";
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";

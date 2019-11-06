@@ -19,7 +19,7 @@ import { Service } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { CommonOptions } from "./StorageClient";
-import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
+import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 

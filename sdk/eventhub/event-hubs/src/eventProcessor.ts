@@ -135,16 +135,16 @@ export interface PartitionManager {
  * Common options for configuring `EventProcessor`, minus options that are only 
  * used internally (like `partitionLoadBalancer`)
  */
-export interface EventProcessorCommonOptions {
+export interface EventProcessorOptions {
   /**
    * The max size of the batch of events passed each time to user code for processing.
    */
-  maxBatchSize?: number;
+  maxBatchSize: number;
   /**
    * The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
-  maxWaitTimeInSeconds?: number;
+  maxWaitTimeInSeconds: number;
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
@@ -181,8 +181,9 @@ export interface EventProcessorCommonOptions {
   *     maxWaitTimeInSeconds: 60
   * }
   * ```
+  * @internal
   */
-export interface EventProcessorOptions extends EventProcessorCommonOptions {
+export interface FullEventProcessorOptions extends EventProcessorOptions {
   /**
    * A load balancer to use
    */
@@ -223,7 +224,7 @@ export class EventProcessor {
   private _consumerGroupName: string;
   private _eventHubClient: EventHubClient;
   private _partitionProcessorClass: typeof PartitionProcessor;
-  private _processorOptions: EventProcessorOptions;
+  private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string = uuid();
   private _isRunning: boolean = false;
@@ -249,10 +250,8 @@ export class EventProcessor {
     eventHubClient: EventHubClient,
     PartitionProcessorClass: typeof PartitionProcessor,
     partitionManager: PartitionManager,
-    options?: EventProcessorOptions
+    options: FullEventProcessorOptions
   ) {
-    if (!options) options = {};
-
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
     this._partitionProcessorClass = PartitionProcessorClass;
@@ -364,7 +363,10 @@ export class EventProcessor {
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
-        const partitionIds = await this._eventHubClient.getPartitionIds();
+        const partitionIds = await this._eventHubClient.getPartitionIds({
+          abortSignal: abortSignal
+        });
+
         if (abortSignal.aborted) {
           return;
         }

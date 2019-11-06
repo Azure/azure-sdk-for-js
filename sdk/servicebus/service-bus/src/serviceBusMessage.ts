@@ -16,6 +16,8 @@ import { reorderLockToken } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { Buffer } from "buffer";
+
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */

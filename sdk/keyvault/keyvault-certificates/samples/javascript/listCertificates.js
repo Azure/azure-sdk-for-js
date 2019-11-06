@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample list previously created certificates in a single chunk and by page,
@@ -15,7 +15,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName1 = "MyCertificate109088";
   const certificateName2 = "MyCertificate209088";
@@ -23,11 +23,11 @@ async function main() {
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.createCertificate(certificateName1, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
   await client.createCertificate(certificateName2, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Listing all the available certificates in a single call.
@@ -73,7 +73,7 @@ async function main() {
       break;
     }
     const version = value.properties.version;
-    const certificate = await client.getCertificate(certificateName1, version);
+    const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
 

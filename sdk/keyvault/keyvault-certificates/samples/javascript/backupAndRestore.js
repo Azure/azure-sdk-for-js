@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, then makes a backup from it,
@@ -18,14 +18,14 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName = "MyCertificate123129";
 
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
@@ -39,9 +39,9 @@ async function main() {
   await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
 
-  await client.restoreCertificate(backup.value);
+  await client.restoreCertificateBackup(backup.value);
 
-  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
+  const restoredCertificate = await client.getCertificate(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
 }

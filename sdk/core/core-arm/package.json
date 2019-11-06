@@ -118,7 +118,7 @@
     "rollup-plugin-visualizer": "^2.0.0",
     "shx": "^0.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
   },

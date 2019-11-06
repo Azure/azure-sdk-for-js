@@ -176,11 +176,14 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = await client.createCertificate(certificateName, {
-    issuerName: "Self"
+  const keyVaultCertificate = await client.createCertificate(certificateName, {
+    issuerName: "Self",
+    subject: "cn=MyCert"
   });
-  console.log("result: ", result);
+  console.log("Certificate: ", keyVaultCertificate);
 }
+
+main();
 ```
 
 Besides the name of the certificate, you can also pass the following attributes:
@@ -202,7 +205,8 @@ const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
-  issuerName: "Self"
+  issuerName: "Self",
+  subject: "cn=MyCert"
 };
 const enabled = true;
 const tags = {
@@ -210,7 +214,7 @@ const tags = {
 };
 
 async function main() {
-  const result = await client.createCertificate(
+  const keyVaultCertificate = await client.createCertificate(
     certificateName,
     certificatePolicy,
     {
@@ -218,7 +222,7 @@ async function main() {
       tags
     }
   );
-  console.log("result: ", result);
+  console.log("Certificate: ", keyVaultCertificate);
 }
 
 main();
@@ -230,10 +234,10 @@ the same certificate, which will have the latest provided attributes.
 ### Get a certificate
 
 The simplest way to read certificates back from the vault is to get a
-certificate by name. `getCertificateWithPolicy` will retrieve the most recent
+certificate by name. `getCertificate` will retrieve the most recent
 version of the certificate, along with the certificate's policy. You can
 optionally get a different version of the certificate by calling
-`getCertificate` if you specify the version. `getCertificate` does not return
+`getCertificateVersion` if you specify the version. `getCertificateVersion` does not return
 the certificate's policy.
 
 ```javascript
@@ -250,10 +254,10 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const latestCertificate = await client.getCertificateWithPolicy(certificateName);
+  const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificate(certificateName, latestCertificate.properties.version!);
-  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version!}: `, specificCertificate);
+  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
+  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
 }
 
 main();
@@ -328,11 +332,8 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = client.getCertificateWithPolicy(certificateName);
+  const result = await client.getCertificate(certificateName);
   await client.updateCertificate(certificateName, result.properties.version, {
-    certificatePolicy: {
-      issuerName: "Self"
-    },
     certificateAttributes: {
       enabled: false
     },
@@ -361,9 +362,10 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const result = client.getCertificateWithPolicy(certificateName);
+  const result = client.getCertificate(certificateName);
   await client.updateCertificatePolicy(certificateName, {
-    issuerName: "Self"
+    issuerName: "Self",
+    subject: "cn=MyCert"
   });
 }
 
@@ -547,4 +549,4 @@ environment variables:
 **WARNING:**
 Integration tests will wipe all of the existing records in the targeted Key Vault.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault-certificates/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)

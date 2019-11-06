@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const issuerName = "issuerName";
 
   // Create
-  await client.setCertificateIssuer(issuerName, "Test", {
+  await client.setIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
@@ -37,19 +37,19 @@ async function main(): Promise<void> {
   // We can create a certificate with that issuer's name.
   await client.createCertificate("MyCertificate", {
     issuerName,
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy("MyCertificate");
+  const certificate = await client.getCertificate("MyCertificate");
   console.log("Certificate: ", certificate);
 
   // We can retrieve the issuer this way:
-  const getResponse = await client.getCertificateIssuer(issuerName);
+  const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
   // We can also delete the issuer.
-  await client.deleteCertificateIssuer(issuerName);
+  await client.deleteIssuer(issuerName);
 }
 
 main().catch((err) => {

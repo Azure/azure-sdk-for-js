@@ -340,7 +340,7 @@ export class ShareServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -374,7 +374,7 @@ export class ShareServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -569,7 +569,7 @@ export class ShareServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.listSharesSegment({
+      return await this.serviceContext.listSharesSegment({
         marker,
         ...options,
         spanOptions

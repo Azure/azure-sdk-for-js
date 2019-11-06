@@ -23,7 +23,7 @@ async function main(): Promise<void> {
   // Creating a self-signed certificate
   const certificate = await client.createCertificate("MyCertificate", {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
   // It might take less time, or more, depending on your location, internet speed and other factors.
   await delay(10000);
 
-  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
+  const certificateWithPolicy = await client.getCertificate("MyCertificate");
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 
