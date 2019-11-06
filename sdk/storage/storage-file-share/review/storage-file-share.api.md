@@ -935,8 +935,8 @@ export class ShareDirectoryClient extends StorageClient {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
