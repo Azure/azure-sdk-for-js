@@ -148,6 +148,13 @@ export interface CertificatePolicy {
   validityInMonths?: number;
 }
 
+export module CertificatePolicy {
+  export const Default: CertificatePolicy =  {
+     issuerName: "Self",
+     subject: "cn=MyCert"
+  };
+}
+
 /**
  * @interface
  * An interface representing the alternative names of the subject of a certificate contact.

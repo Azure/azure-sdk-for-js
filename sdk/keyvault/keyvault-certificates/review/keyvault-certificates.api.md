@@ -120,6 +120,12 @@ export interface CertificatePolicy {
     validityInMonths?: number;
 }
 
+// @public (undocumented)
+export module CertificatePolicy {
+    const // (undocumented)
+    Default: CertificatePolicy;
+}
+
 // @public
 export interface CertificateProperties {
     readonly createdOn?: Date;
