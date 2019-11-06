@@ -23,7 +23,7 @@ import {
   RetryConfig,
   RetryOperationType,
   Constants,
-  randomNumberFromInterval, 
+  randomNumberFromInterval,
   delay
 } from "@azure/amqp-common";
 import {
@@ -33,7 +33,7 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName } from "../util/utils";
+import { getUniqueName, isJSONLikeObject } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
@@ -269,7 +269,7 @@ export class MessageSender extends LinkEntity {
             this._context.namespace.connectionId,
             this.name
           );
-          
+
           await delay(1000);
 
           log.sender(
@@ -614,6 +614,11 @@ export class MessageSender extends LinkEntity {
    * @returns {Promise<void>}
    */
   async send(data: SendableMessageInfo): Promise<void> {
+    if (!isJSONLikeObject(data) && data.body == undefined) {
+      throw new TypeError(
+        `Input must be a JS object and "body" property must not be undefined or null.`
+      );
+    }
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this.isOpen()) {
