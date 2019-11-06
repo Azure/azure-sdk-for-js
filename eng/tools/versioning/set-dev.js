@@ -33,7 +33,7 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const service = argv["service"];
 
-  const rushSpec = await versionUtils.getRushSpec(repoRoot);
+  var rushSpec = await versionUtils.getRushSpec(repoRoot);
 
   console.log(`Updating packages with Build ID ${buildId}`);
 
@@ -41,7 +41,15 @@ async function main(argv) {
     service ? package.projectFolder.startsWith(`sdk/${service}`) : true
   );
 
-  let targetPackages = scopedPackages.map(project =>
+  let appropriateVersionedPackages = scopedPackages.filter(
+    package =>
+      package.versionPolicyName == "core" ||
+      package.versionPolicyName == "client"
+  );
+
+  console.log(appropriateVersionedPackages);
+
+  let targetPackages = appropriateVersionedPackages.map(project =>
     path.resolve(path.join(repoRoot, project.projectFolder))
   );
 
