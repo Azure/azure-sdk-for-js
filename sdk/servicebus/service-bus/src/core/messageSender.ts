@@ -614,7 +614,7 @@ export class MessageSender extends LinkEntity {
    * @returns {Promise<void>}
    */
   async send(data: SendableMessageInfo): Promise<void> {
-    if (!isJSONLikeObject(data) && data.body == undefined) {
+    if (!isJSONLikeObject(data) || data.body == undefined) {
       throw new TypeError(
         `Input must be a JS object and "body" property must not be undefined or null.`
       );
