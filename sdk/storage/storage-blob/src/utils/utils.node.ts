@@ -38,6 +38,7 @@ export async function streamToBuffer(
         return;
       }
       if (typeof chunk === "string") {
+        // @ts-ignore
         chunk = Buffer.from(chunk, encoding);
       }
 
@@ -93,6 +94,7 @@ export async function streamToBuffer2(
         return;
       }
       if (typeof chunk === "string") {
+        // @ts-ignore
         chunk = Buffer.from(chunk, encoding);
       }
 
