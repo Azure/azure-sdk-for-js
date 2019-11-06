@@ -132,6 +132,8 @@ const skip = [
   "node/highlevel_nodejs_only/recording_downloadtobuffer_should_abort.js",
   // Size (526MB), Tempfile
   "node/highlevel_nodejs_only/recording_downloadtobuffer_should_success.js",
+  // Size (4MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_succeed__without_passing_the_buffer.js",
   // Progress, Size (15MB), Tempfile
   "node/highlevel_nodejs_only/recording_downloadtobuffer_should_update_progress_event.js",
   // Size (526MB), Tempfile

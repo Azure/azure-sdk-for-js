@@ -208,6 +208,32 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
+  it("downloadToBuffer should succeed - without passing the buffer", async () => {
+    const rs = fs.createReadStream(tempFileLarge);
+    await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
+
+    const buf = await fileClient.downloadToBuffer(0, undefined, {
+      concurrency: 20,
+      rangeSize: 4 * 1024 * 1024
+    });
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
+    let error;
+    try {
+      await fileClient.downloadToBuffer(undefined, 4*1024*1024*1024);
+    } catch (err) {
+      error = err;
+    }
+    assert.ok(
+      error.message.includes("Unable to allocate a buffer of size:"),
+      "Error is not thrown when the count (size in bytes) is too large"
+    );
+  });
+
   it("downloadToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
