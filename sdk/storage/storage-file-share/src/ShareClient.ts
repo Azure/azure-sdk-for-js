@@ -223,11 +223,11 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
     startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
     expiresOn: Date;
     /**
