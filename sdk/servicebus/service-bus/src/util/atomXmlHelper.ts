@@ -38,7 +38,7 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
-    const content: object = serializer.serialize(JSON.parse(webResource.body));
+    const content: object = serializer.serialize(webResource.body);
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
@@ -82,6 +82,15 @@ export async function executeAtomXmlOperation(
  */
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
+
+  // Remove key value pairs that have value as undefined. This is because the Service Bus ATOM based management API
+  // does not accept empty XML elements in the top level request, but accepts empty elements within some of the inner properties
+  Object.keys(resource).forEach(function(property) {
+    if (resource[property] == undefined) {
+      delete resource[property];
+    }
+  });
+
   content[resourceName] = resource;
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
