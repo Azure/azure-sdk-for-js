@@ -386,6 +386,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 /**
  * @ignore
  * Recurse through a JSON structure and remove key: value pairs where the value == `undefined`.
+ * Note: This utility must be used with caution as it mutates the passed in object.
  * @param value The JSON structure
  * @returns The new JSON structure with undefined values removed
  */

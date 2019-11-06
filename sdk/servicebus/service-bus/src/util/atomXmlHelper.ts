@@ -76,6 +76,10 @@ export async function executeAtomXmlOperation(
 
 /**
  * Serializes input information to construct the Atom XML request
+ *
+ * Note: The passed in `resource` object is mutated so as to remove key value pairs that have value as `undefined`.
+ * This is because the Service Bus' ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body.
+ *
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
  * @param allowedProperties The set of properties that are allowed by the service for the
@@ -84,10 +88,7 @@ export async function executeAtomXmlOperation(
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
 
-  // Remove key value pairs that have value as undefined. This is because the Service Bus ATOM based management API
-  // throw a 'Bad Request' error if empty tags are included in request body.
-  // Post-processing is done as the xml2js utility does not have an option to automatically exclude empty tags.
-  content[resourceName] = removeUndefinedValues(Object.assign({}, resource));
+  content[resourceName] = removeUndefinedValues(resource);
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
