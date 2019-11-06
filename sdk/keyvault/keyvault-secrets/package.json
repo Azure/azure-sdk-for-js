@@ -129,7 +129,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   },
