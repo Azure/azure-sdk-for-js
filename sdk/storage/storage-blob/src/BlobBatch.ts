@@ -15,7 +15,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
+import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
