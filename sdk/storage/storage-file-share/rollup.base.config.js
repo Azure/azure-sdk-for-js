@@ -117,6 +117,9 @@ export function browserConfig(test = false, production = false) {
         `,
         util: `
           export function promisify() { }
+        `,
+        "stream-buffers": `
+          export function ReadableStreamBuffer() { }
         `
       }),
       nodeResolve({
