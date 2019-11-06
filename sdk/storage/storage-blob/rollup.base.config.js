@@ -142,7 +142,11 @@ export function browserConfig(test = false, production = false) {
           ]
         }
       })
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") throw new Error(warning.message);
+      warn(warning);
+    }
   };
 
   if (test) {
