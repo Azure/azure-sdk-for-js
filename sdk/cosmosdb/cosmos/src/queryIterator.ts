@@ -264,7 +264,9 @@ export class QueryIterator<T> {
 
   private handleSplitError(err: any) {
     if (err.code === 410) {
-      const error = new Error("Unhandled partition split error. This request is retryable") as any;
+      const error = new Error(
+        "Encountered partition split and could not recover. This request is retryable"
+      ) as any;
       error.code = 503;
       error.originalError = err;
       throw error;
