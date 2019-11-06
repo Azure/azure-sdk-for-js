@@ -276,3 +276,16 @@ jobs:
             testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
           condition: always()
           displayName: "Publish browser unit test results"
+
+  - job: "Rich Code Nav"
+      variables:
+          - template: ../variables/globals.yml
+
+      pool:
+        vmImage: "windows-2019"
+      
+      steps:
+        - task: RichCodeNavIndexer@0
+          continueOnError: true
+          inputs:
+            languages: 'typescript'
