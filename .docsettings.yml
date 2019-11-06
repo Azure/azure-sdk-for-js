@@ -25,7 +25,7 @@ known_content_issues:
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/appconfiguration/app-configuration/README.md", "#1583"]
   - ["sdk/appconfiguration/app-configuration/samples/readme.md", "#1583"]
-  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]  
+  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]
   - ["sdk/batch/batch/README.md", "#1583"]
   - [
       "sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md",
