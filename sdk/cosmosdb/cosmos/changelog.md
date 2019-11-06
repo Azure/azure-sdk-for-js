@@ -1,6 +1,6 @@
 ## 3.4.2
 
-- Fix bug where query could possible throw a 410 error during a split operation. Instead throw 503 (#6074)
+- Fixes bug where query could may throw a 410 error during a split operation. Instead throw 503 (#6074)
 
 ## 3.4.1
 
