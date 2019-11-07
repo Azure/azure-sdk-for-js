@@ -7,21 +7,7 @@
  */
 
 export {
-  ActiveDirectory,
-  BaseResource,
-  CapacityPool,
-  CapacityPoolPatch,
   CloudError,
-  ExportPolicyRule,
-  NetAppAccount,
-  NetAppAccountPatch,
-  ReplicationObject,
-  Snapshot,
-  SnapshotPatch,
-  SnapshotsList,
-  Volume,
-  VolumePatch,
-  VolumePatchPropertiesExportPolicy,
-  VolumePropertiesDataProtection,
-  VolumePropertiesExportPolicy
+  ResourceNameAvailability,
+  ResourceNameAvailabilityRequest
 } from "../models/mappers";
