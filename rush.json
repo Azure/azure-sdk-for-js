@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.13.0",
+  "rushVersion": "5.16.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -41,7 +41,7 @@
      * The default value is false to avoid legacy compatibility issues.
      * It is strongly recommended to set strictPeerDependencies=true.
      */
-     /*
+    /*
      * Turning off peerdependencies check until our repo is free from all peer dependencies
      * or till Rush fixes the bug - https: //github.com/microsoft/rushstack/issues/1415
      * https: //github.com/Azure/azure-sdk-for-js/issues/5999
@@ -56,7 +56,7 @@
      * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
      * can be reused; this is more similar to NPM's algorithm.
      */
-    "resolutionStrategy": "fast"
+    "resolutionStrategy": "fewer-dependencies"
   },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.

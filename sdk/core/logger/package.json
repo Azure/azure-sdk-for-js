@@ -18,6 +18,7 @@
     "build": "npm run build:es6 && npm run build:nodebrowser && npm run extract-api",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -115,6 +116,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2"
+    "typescript": "~3.6.4"
   }
 }

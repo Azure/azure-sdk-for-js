@@ -47,6 +47,7 @@
     "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types *.tgz *.log browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
@@ -129,7 +130,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   },

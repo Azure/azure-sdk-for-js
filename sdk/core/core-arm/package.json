@@ -74,6 +74,7 @@
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/coreArm.js.map'\" -o ./dist/coreArm.min.js ./dist/coreArm.js",
     "build:test": "npm run build",
     "clean": "rimraf ./es ./dist",
+    "execute:samples": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -118,7 +119,7 @@
     "rollup-plugin-visualizer": "^2.0.0",
     "shx": "^0.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
   },
