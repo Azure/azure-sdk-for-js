@@ -15,8 +15,6 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
-  ClearReadOnlyOptions,
-  ClearReadOnlyResponse,
   ConfigurationSetting,
   ConfigurationSettingId,
   DeleteConfigurationSettingOptions,

@@ -33,14 +33,6 @@ export class AppConfigurationClient {
     }
 
 // @public
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
-}
-
-// @public
-export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
-}
-
-// @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
     isReadOnly: boolean;
     lastModified?: Date;

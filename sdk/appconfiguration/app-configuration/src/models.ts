@@ -282,19 +282,6 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 }
 
 /**
- * Options for clearReadOnly
- */
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
-
-/**
- * Response when clearing the read-only status from a value
- */
-export interface ClearReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
-
-/**
  * Options for setReadOnly
  */
 export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
