@@ -152,7 +152,6 @@ jobs:
         displayName: "Build libraries"
 
       - script: |
-          node common/scripts/install-run-rushx.js execute:samples --verbose
+          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        workingDirectory: "${{parameters.PackagePath}}"
         env: ${{parameters.EnvVars}}
