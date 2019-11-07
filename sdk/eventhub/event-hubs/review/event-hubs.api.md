@@ -255,10 +255,10 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
 export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -293,8 +293,8 @@ export interface Subscription {
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
     processError?: ProcessErrorHandler;
+    processEvents: ProcessEvents;
     processInitialize?: ProcessInitializeHandler;
-    processReceivedEvents: ProcessReceivedEvents;
 }
 
 // @public
