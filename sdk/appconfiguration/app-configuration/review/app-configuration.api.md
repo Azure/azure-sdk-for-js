@@ -43,7 +43,7 @@ export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHe
 
 // @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
-    lastModified?: Date;
+    lastModifiedOn?: Date;
     readOnly: boolean;
 }
 
@@ -76,12 +76,11 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-    lastModifiedHeader?: string;
 }
 
 // @public
 export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
-    acceptDatetime?: string;
+    acceptDatetime?: Date;
 }
 
 // @public
@@ -131,7 +130,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 
 // @public
 export interface ListSettingsOptions extends OptionalFields {
-    acceptDatetime?: string;
+    acceptDatetime?: Date;
     keys?: string[];
     labels?: string[];
 }

@@ -78,7 +78,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -92,16 +92,31 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
-  let fields: (keyof KeyValue)[] | undefined;
+  let fieldsToGet: (keyof KeyValue)[] | undefined;
 
   if (listConfigOptions.fields) {
-    fields = listConfigOptions.fields.map((opt) => (opt === "readOnly" ? "locked" : opt));
+    fieldsToGet = listConfigOptions.fields.map((opt) => {
+      if (opt === "readOnly") {
+        return "locked";
+      } else if (opt === "lastModifiedOn") {
+        return "lastModified";
+      }
+
+      return opt;
+    });
+  }
+
+  let acceptDatetime: string | undefined = undefined;
+
+  if (listConfigOptions.acceptDatetime) {
+    acceptDatetime = listConfigOptions.acceptDatetime.toISOString();
   }
 
   return {
     key,
     label,
-    select: fields
+    acceptDatetime,
+    select: fieldsToGet
   };
 }
 
@@ -136,7 +151,7 @@ export function makeConfigurationSettingEmpty(
     "contentType",
     "etag",
     "label",
-    "lastModified",
+    "lastModifiedOn",
     "readOnly",
     "tags",
     "value"
@@ -154,8 +169,13 @@ export function makeConfigurationSettingEmpty(
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const obj: ConfigurationSetting & KeyValue = {
     ...kvp,
-    readOnly: !!kvp.locked
+    readOnly: !!kvp.locked,
   };
+
+  if (kvp.lastModified != null) {
+    obj.lastModifiedOn = kvp.lastModified;
+    delete obj.lastModified;
+  }
 
   delete obj.locked;
   return obj;

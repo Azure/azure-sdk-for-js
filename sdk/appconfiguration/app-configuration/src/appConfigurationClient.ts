@@ -159,6 +159,7 @@ export class AppConfigurationClient {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
+        acceptDatetime: newOptions.acceptDatetime && newOptions.acceptDatetime.toISOString(),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
 
