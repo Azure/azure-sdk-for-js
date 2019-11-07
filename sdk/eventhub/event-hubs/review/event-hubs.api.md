@@ -157,10 +157,14 @@ export class EventPosition {
     }
 
 // @public
+export interface EventProcessorBatchOptions {
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
+}
+
+// @public
 export interface EventProcessorOptions {
     defaultEventPosition?: EventPosition;
-    maxBatchSize: number;
-    maxWaitTimeInSeconds: number;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
@@ -294,7 +298,7 @@ export interface SubscriptionEventHandlers {
 }
 
 // @public
-export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
 }
 
 export { TokenCredential }

@@ -28,6 +28,7 @@ export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
   EventProcessorOptions,
+  EventProcessorBatchOptions,
   PartitionContext,
   PartitionManager,
   PartitionOwnership

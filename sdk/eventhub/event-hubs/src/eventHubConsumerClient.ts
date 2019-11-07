@@ -10,7 +10,7 @@ import {
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, CloseReason, PartitionContext, EventProcessorOptions } from "./eventProcessor";
+import { EventProcessor, PartitionManager, CloseReason, PartitionContext, EventProcessorBatchOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
@@ -54,7 +54,7 @@ export interface PartitionCheckpointer {
   ): Promise<void>;
 }
 
-const defaultConsumerClientOptions : EventProcessorOptions = {
+const defaultConsumerClientOptions : Required<EventProcessorBatchOptions> = {
   maxBatchSize: 10,
   maxWaitTimeInSeconds: 10
 };
