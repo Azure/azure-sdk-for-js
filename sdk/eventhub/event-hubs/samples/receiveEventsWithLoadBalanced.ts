@@ -62,8 +62,9 @@ async function main() {
   await containerClient.create();
   const subscription = consumerClient.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName,
-    processEvents,
-    new BlobPartitionManager(containerClient)
+    new BlobPartitionManager(containerClient), {
+      processEvents: processEvents
+    }
   );
 
   // after 30 seconds, stop processing

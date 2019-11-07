@@ -1,45 +1,59 @@
 
-import { CloseReason, PartitionContext, EventProcessorOptions } from './eventProcessor';
+import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions } from './eventProcessor';
 import { PartitionCheckpointer } from './eventHubConsumerClient';
+import { ReceivedEventData } from './eventData';
+
+/**
+ * Event handler called when events are received. The `context` parameter can be 
+ * used to get partition information as well as to checkpoint.
+ */
+export type ProcessEvents = (
+  receivedEvents: ReceivedEventData[],
+  context: PartitionContext & PartitionCheckpointer
+) => Promise<void>;
 
 /**
  * Called when errors occur during event receiving.
  */
-export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.
  */
-export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
  */
-export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 /**
  * Optional event handlers that provide more context when subscribing to events.
  */
-export interface OptionalEventHandlers {
+export interface SubscriptionEventHandlers {
+  /**
+   * Event handler called when events are received.    
+   */
+  processEvents: ProcessEvents
   /**
    * Called when errors occur during event receiving.
    */
-  onError?: OnErrorHandler;
+  processError?: ProcessErrorHandler;
   /**
    * Called when we first start processing events from a partition.
    */
-  onInitialize?: OnInitializeHandler;
+  processInitialize?: ProcessInitializeHandler;
   /**
    * Called when we stop processing events from a partition.
    */
-  onClose?: OnCloseHandler;
+  processClose?: ProcessCloseHandler;
 
 }
 
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
 }
 
 /**
