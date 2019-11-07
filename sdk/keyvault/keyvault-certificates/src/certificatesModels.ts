@@ -583,7 +583,7 @@ export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOpti
 export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}
 
 /**
- * The contact information for the vault certificates.
+ * The shape of the contact information for the vault certificates.
  */
 export interface CertificateContactAll {
   /**
@@ -599,9 +599,20 @@ export interface CertificateContactAll {
    */
   phone: string;
 }
+
+/**
+ * RequireAtLeastOne allows us to potentially ignore all the other properties of a type,
+ * but also to enforce at least one.
+ */
 export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
+
+/**
+ * The contact information for the vault certificates.
+ * Each contact will have just one of the properties of CertificateContactAll,
+ * which are emailAddress, name or phone.
+ */
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
 
 /**
