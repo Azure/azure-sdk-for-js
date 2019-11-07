@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 
 if (isNode) {
-  dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+  dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 }
 
 export const isRecording = env.TEST_MODE === "record";
