@@ -57,7 +57,9 @@ import {
   UpdateCertificatePolicyOptions,
   CertificateClientInterface,
   CertificatePollerOptions,
-  IssuerProperties
+  IssuerProperties,
+  CertificateContactAll,
+  RequireAtLeastOne
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -151,6 +153,8 @@ export {
   CertificatePollerOptions,
   CoreSubjectAlternativeNames,
   Contact,
+  RequireAtLeastOne,
+  CertificateContactAll,
   CertificateContact,
   CertificateContacts,
   DeleteCertificateOperationOptions,

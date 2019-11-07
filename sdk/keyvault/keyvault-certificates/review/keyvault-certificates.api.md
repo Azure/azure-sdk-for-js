@@ -85,11 +85,15 @@ export class CertificateClient {
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
 
-// Warning: (ae-forgotten-export) The symbol "RequireAtLeastOne" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ContactAll" needs to be exported by the entry point index.d.ts
-// 
 // @public (undocumented)
-export type CertificateContact = RequireAtLeastOne<ContactAll> | undefined;
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+
+// @public
+export interface CertificateContactAll {
+    emailAddress: string;
+    name: string;
+    phone: string;
+}
 
 // @public
 export interface CertificateContacts {
@@ -385,6 +389,11 @@ export { PipelineOptions }
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
+
+// @public (undocumented)
+export type RequireAtLeastOne<T> = {
+    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
 
 // @public
 export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {

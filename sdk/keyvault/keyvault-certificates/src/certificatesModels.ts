@@ -585,7 +585,7 @@ export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptio
 /**
  * The contact information for the vault certificates.
  */
-interface ContactAll {
+export interface CertificateContactAll {
   /**
    * Email address.
    */
@@ -599,10 +599,10 @@ interface ContactAll {
    */
   phone: string;
 }
-type RequireAtLeastOne<T> = {
+export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
-export type CertificateContact = RequireAtLeastOne<ContactAll> | undefined;
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
 
 /**
  * The contacts for the vault certificates.
