@@ -20,7 +20,15 @@ export {
 } from "./eventHubClient";
 export { EventHubConsumerClient, PartitionCheckpointer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
-export { SubscriptionOptions, Subscription, SubscriptionEventHandlers, ProcessErrorHandler, ProcessInitializeHandler, ProcessCloseHandler, ProcessReceivedEvents } from "./eventHubConsumerClientModels";
+export {
+  SubscriptionOptions,
+  Subscription,
+  SubscriptionEventHandlers,
+  ProcessErrorHandler,
+  ProcessInitializeHandler,
+  ProcessCloseHandler,
+  ProcessEvents
+} from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";

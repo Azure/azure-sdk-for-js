@@ -26,7 +26,7 @@ describe("EventHubConsumerClient", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
         ...defaultSubscriptionOptions,
-        processReceivedEvents: async () => { },
+        processEvents: async () => { },
         processClose: async () => {}
       }).should.not.ok;
 

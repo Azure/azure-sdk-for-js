@@ -63,7 +63,7 @@ async function main() {
   const subscription = consumerClient.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName,
     new BlobPartitionManager(containerClient), {
-      processReceivedEvents: processEvents
+      processEvents: processEvents
     }
   );
 

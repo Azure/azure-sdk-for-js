@@ -39,7 +39,7 @@ async function main() {
 
   const subscription = consumerClient.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName, {
-      processReceivedEvents: processEvents
+      processEvents: processEvents
     }
   );
 

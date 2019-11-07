@@ -378,7 +378,7 @@ export function createPartitionProcessorType(
     private _partitionCheckpointer?: SimplePartitionCheckpointer;
 
     async processEvents(events: ReceivedEventData[]): Promise<void> {
-      await options.processReceivedEvents(
+      await options.processEvents(
         events,
         this._partitionCheckpointer!
       );
@@ -443,7 +443,7 @@ export function isPartitionManager(
  * @ignore
  */
 function isSubscriptionOptions(possible: SubscriptionOptions | string | PartitionManager) : possible is SubscriptionOptions{
-  return typeof (possible as SubscriptionOptions).processReceivedEvents === "function";
+  return typeof (possible as SubscriptionOptions).processEvents === "function";
 }
 
 class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {

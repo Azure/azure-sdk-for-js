@@ -271,7 +271,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
         maxWaitTimeInSeconds: 60,
         defaultEventPosition: EventPosition.latest(),
-        processReceivedEvents: async (events, context) => {
+        processEvents: async (events, context) => {
           receivedEvents.push(...events.map(e => e.body));
         },
         processInitialize: async (_) => {

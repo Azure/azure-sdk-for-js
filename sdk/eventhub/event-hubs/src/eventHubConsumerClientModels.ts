@@ -7,7 +7,7 @@ import { ReceivedEventData } from '.';
  * Event handler called when events are received. The `context` parameter can be 
  * used to get partition information as well as to checkpoint.
  */
-export type ProcessReceivedEvents = (
+export type ProcessEvents = (
   receivedEvents: ReceivedEventData[],
   context: PartitionContext & PartitionCheckpointer
 ) => Promise<void>;
@@ -34,7 +34,7 @@ export interface SubscriptionEventHandlers {
   /**
    * Event handler called when events are received.    
    */
-  processReceivedEvents: ProcessReceivedEvents
+  processEvents: ProcessEvents
   /**
    * Called when errors occur during event receiving.
    */

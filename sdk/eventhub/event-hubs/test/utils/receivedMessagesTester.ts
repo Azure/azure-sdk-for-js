@@ -43,7 +43,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     this.done = false;
   }
 
-  async processReceivedEvents(
+  async processEvents(
     receivedEvents: ReceivedEventData[],
     context: PartitionContext & PartitionCheckpointer
   ): Promise<void> {
