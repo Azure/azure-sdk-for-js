@@ -85,9 +85,14 @@ export class CertificateClient {
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
 
+// Warning: (ae-forgotten-export) The symbol "RequireAtLeastOne" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ContactAll" needs to be exported by the entry point index.d.ts
+// 
+// @public (undocumented)
+export type CertificateContact = RequireAtLeastOne<ContactAll> | undefined;
+
 // @public
 export interface CertificateContacts {
-    // Warning: (ae-forgotten-export) The symbol "CertificateContact" needs to be exported by the entry point index.d.ts
     contactList?: CertificateContact[];
     readonly id?: string;
 }

@@ -151,6 +151,7 @@ export {
   CertificatePollerOptions,
   CoreSubjectAlternativeNames,
   Contact,
+  CertificateContact,
   CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
