@@ -131,7 +131,7 @@ jobs:
         condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"
 
-  - job: "TestSamples"
+  - job: "Verify Samples"
 
     variables:
       - template: ../variables/globals.yml
