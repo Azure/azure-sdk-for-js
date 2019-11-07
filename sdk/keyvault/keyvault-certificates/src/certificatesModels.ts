@@ -513,7 +513,7 @@ export interface UpdateCertificatePolicyOptions
  * @interface
  * An interface representing the issuer of a certificate
  */
-export interface CertificateIssuer {
+export interface IssuerProperties {
   /**
    * Certificate Identifier.
    */
@@ -528,7 +528,7 @@ export interface CertificateIssuer {
  * @interface
  * An interface representing the properties of an issuer
  */
-export interface IssuerProperties {
+export interface CertificateIssuer {
   /**
    * Certificate Identifier.
    */
@@ -557,7 +557,7 @@ export interface IssuerProperties {
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificates}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
  */
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
   /**
@@ -573,7 +573,7 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listCertificateVersions}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
 export interface ListPropertiesOfCertificateVersionsOptions
   extends ListPropertiesOfCertificatesOptions,
@@ -581,9 +581,9 @@ export interface ListPropertiesOfCertificateVersionsOptions
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listIssuers}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export interface ListIssuersOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
