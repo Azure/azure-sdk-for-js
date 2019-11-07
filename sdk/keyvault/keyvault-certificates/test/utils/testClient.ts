@@ -1,4 +1,4 @@
-import { retry } from "./recorder";
+import { retry } from "./recorderUtils";
 import { CertificateClient } from "../../src";
 
 export default class TestClient {
@@ -22,7 +22,8 @@ export default class TestClient {
   }
   public async flushCertificate(certificateName: string): Promise<void> {
     const that = this;
-    await that.client.deleteCertificate(certificateName);
+    const poller = await that.client.beginDeleteCertificate(certificateName);
+    await poller.pollUntilDone();
     await this.purgeCertificate(certificateName);
   }
 }

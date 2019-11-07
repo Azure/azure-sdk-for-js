@@ -7,6 +7,8 @@
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -35,6 +37,18 @@ export interface BackupCertificateResult {
 }
 
 // @public
+export interface BeginCreateCertificateOptions extends CreateCertificateOptions, CertificatePollerOptions {
+}
+
+// @public
+export interface BeginDeleteCertificateOptions extends CertificatePollerOptions {
+}
+
+// @public
+export interface BeginRecoverDeletedCertificateOptions extends CertificatePollerOptions {
+}
+
+// @public
 export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
 }
 
@@ -42,15 +56,16 @@ export interface CancelCertificateOperationOptions extends coreHttp.OperationOpt
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<BackupCertificateResult>;
+    beginCreateCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
+    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
+    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
     cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
-    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<KeyVaultCertificate>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
-    deleteCertificate(certificateName: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperation>;
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContacts>;
@@ -63,7 +78,6 @@ export class CertificateClient {
     listPropertiesOfCertificateVersions(certificateName: string, options?: ListPropertiesOfCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
-    recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
     setContacts(contacts: Contact[], options?: SetContactsOptions): Promise<CertificateContacts>;
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
@@ -127,6 +141,12 @@ export module CertificatePolicy {
 }
 
 // @public
+export interface CertificatePollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
+
+// @public
 export interface CertificateProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
@@ -174,10 +194,6 @@ export interface DeleteCertificateOperationOptions extends coreHttp.OperationOpt
 }
 
 // @public
-export interface DeleteCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export interface DeleteContactsOptions extends coreHttp.OperationOptions {
 }
 
@@ -203,7 +219,7 @@ export interface ErrorModel {
 }
 
 // @public
-export interface GetCertificateOperationOptions extends coreHttp.OperationOptions {
+export interface GetCertificateOperationOptions extends CertificatePollerOptions {
 }
 
 // @public
@@ -228,6 +244,10 @@ export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions 
 
 // @public
 export interface GetIssuerOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetPlainCertificateOperationOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -348,10 +368,6 @@ export { PipelineOptions }
 
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public

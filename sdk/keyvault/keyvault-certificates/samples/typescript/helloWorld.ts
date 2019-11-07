@@ -2,7 +2,7 @@ import { CertificateClient, CertificatePolicy } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, reads it in various ways,
-// updates the tags of the certificate and finaly deletes the certificate.
+// updates the tags of the certificate and finally deletes the certificate.
 
 async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
@@ -19,9 +19,10 @@ async function main(): Promise<void> {
   const certificateName = "MyCertificate";
 
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate(certificateName, CertificatePolicy.Default);
+  const createPoller = await client.beginCreateCertificate(certificateName, CertificatePolicy.Default);
 
-  console.log("Certificate: ", certificate);
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   // To read a certificate with their policy:
   let certificateWithPolicy = await client.getCertificate(certificateName);
@@ -52,10 +53,11 @@ async function main(): Promise<void> {
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
 
-  const result = await client.deleteCertificate(certificateName);
-  console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deletedOn);
-  console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  const deletedCertificate = await deletePoller.pollUntilDone();
+  console.log("Recovery Id: ", deletedCertificate.recoveryId);
+  console.log("Deleted Date: ", deletedCertificate.deletedOn);
+  console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
 }
 
 main().catch((err) => {
