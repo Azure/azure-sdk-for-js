@@ -5,7 +5,7 @@ dependencies:
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-nodeauth': 0.9.3
-  '@microsoft/api-extractor': 7.5.4
+  '@microsoft/api-extractor': 7.5.5
   '@opencensus/web-types': 0.0.7
   '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
@@ -102,7 +102,7 @@ dependencies:
   fetch-mock: 7.7.3_node-fetch@2.6.0
   form-data: 2.5.1
   fs-extra: 8.1.0
-  glob: 7.1.5
+  glob: 7.1.6
   guid-typescript: 1.0.9
   https-proxy-agent: 2.2.4
   inherits: 2.0.4
@@ -237,7 +237,7 @@ packages:
       '@typescript-eslint/parser': 2.6.1_eslint@6.6.0+typescript@3.6.4
       eslint: 6.6.0
       fast-levenshtein: 2.0.6
-      glob: 7.1.5
+      glob: 7.1.6
       typescript: 3.6.4
     dev: false
     engines:
@@ -305,32 +305,32 @@ packages:
     dev: false
     resolution:
       integrity: sha512-27d4lZoomVyo51VegxI20xZPuSHusqbQag/ztrBC7wegWoQ1nLREPVSKSW8byhTlzTKyNE4ifaTA6lCp7JjpFw==
-  /@babel/generator/7.7.0:
+  /@babel/generator/7.7.2:
     dependencies:
-      '@babel/types': 7.7.1
+      '@babel/types': 7.7.2
       jsesc: 2.5.2
       lodash: 4.17.15
       source-map: 0.5.7
     dev: false
     resolution:
-      integrity: sha512-1wdJ6UxHyL1XoJQ119JmvuRX27LRih7iYStMPZOWAjQqeAabFg3dYXKMpgihma+to+0ADsTVVt6oRyUxWZw6Mw==
+      integrity: sha512-WthSArvAjYLz4TcbKOi88me+KmDJdKSlfwwN8CnUYn9jBkzhq0ZEPuBfkAWIvjJ3AdEV1Cf/+eSQTnp3IDJKlQ==
   /@babel/helper-function-name/7.7.0:
     dependencies:
       '@babel/helper-get-function-arity': 7.7.0
       '@babel/template': 7.7.0
-      '@babel/types': 7.7.1
+      '@babel/types': 7.7.2
     dev: false
     resolution:
       integrity: sha512-tDsJgMUAP00Ugv8O2aGEua5I2apkaQO7lBGUq1ocwN3G23JE5Dcq0uh3GvFTChPa4b40AWiAsLvCZOA2rdnQ7Q==
   /@babel/helper-get-function-arity/7.7.0:
     dependencies:
-      '@babel/types': 7.7.1
+      '@babel/types': 7.7.2
     dev: false
     resolution:
       integrity: sha512-tLdojOTz4vWcEnHWHCuPN5P85JLZWbm5Fx5ZsMEMPhF3Uoe3O7awrbM2nQ04bDOUToH/2tH/ezKEOR8zEYzqyw==
   /@babel/helper-split-export-declaration/7.7.0:
     dependencies:
-      '@babel/types': 7.7.1
+      '@babel/types': 7.7.2
     dev: false
     resolution:
       integrity: sha512-HgYSI8rH08neWlAH3CcdkFg9qX9YsZysZI5GD8LjhQib/mM0jGOZOVkoUiiV2Hu978fRtjtsGsW6w0pKHUWtqA==
@@ -342,43 +342,43 @@ packages:
     dev: false
     resolution:
       integrity: sha512-7dV4eu9gBxoM0dAnj/BCFDW9LFU0zvTrkq0ugM7pnHEgguOEeOz1so2ZghEdzviYzQEED0r4EAgpsBChKy1TRQ==
-  /@babel/parser/7.7.0:
+  /@babel/parser/7.7.2:
     dev: false
     engines:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-GqL+Z0d7B7ADlQBMXlJgvXEbtt5qlqd1YQ5fr12hTSfh7O/vgrEIvJxU2e7aSVrEUn75zTZ6Nd0s8tthrlZnrQ==
+      integrity: sha512-DDaR5e0g4ZTb9aP7cpSZLkACEBdoLGwJDWgHtBhrGX7Q1RjhdoMOfexICj5cqTAtpowjGQWfcvfnQG7G2kAB5w==
   /@babel/template/7.7.0:
     dependencies:
       '@babel/code-frame': 7.5.5
-      '@babel/parser': 7.7.0
-      '@babel/types': 7.7.1
+      '@babel/parser': 7.7.2
+      '@babel/types': 7.7.2
     dev: false
     resolution:
       integrity: sha512-OKcwSYOW1mhWbnTBgQY5lvg1Fxg+VyfQGjcBduZFljfc044J5iDlnDSfhQ867O17XHiSCxYHUxHg2b7ryitbUQ==
-  /@babel/traverse/7.7.0:
+  /@babel/traverse/7.7.2:
     dependencies:
       '@babel/code-frame': 7.5.5
-      '@babel/generator': 7.7.0
+      '@babel/generator': 7.7.2
       '@babel/helper-function-name': 7.7.0
       '@babel/helper-split-export-declaration': 7.7.0
-      '@babel/parser': 7.7.0
-      '@babel/types': 7.7.1
+      '@babel/parser': 7.7.2
+      '@babel/types': 7.7.2
       debug: 4.1.1
       globals: 11.12.0
       lodash: 4.17.15
     dev: false
     resolution:
-      integrity: sha512-ea/3wRZc//e/uwCpuBX2itrhI0U9l7+FsrKWyKGNyvWbuMcCG7ATKY2VI4wlg2b2TA39HHwIxnvmXvtiKsyn7w==
-  /@babel/types/7.7.1:
+      integrity: sha512-TM01cXib2+rgIZrGJOLaHV/iZUAxf4A0dt5auY6KNZ+cm6aschuJGqKJM3ROTt3raPUdIDk9siAufIFEleRwtw==
+  /@babel/types/7.7.2:
     dependencies:
       esutils: 2.0.3
       lodash: 4.17.15
       to-fast-properties: 2.0.0
     dev: false
     resolution:
-      integrity: sha512-kN/XdANDab9x1z5gcjDc9ePpxexkt+1EQ2MQUiM4XnMvQfvp87/+6kY4Ko2maLXH+tei/DgJ/ybFITeqqRwDiA==
+      integrity: sha512-YTf6PXoh3+eZgRCBzzP25Bugd2ngmpQVrk7kXX0i5N9BO7TFBtIgZYs7WtxtOGs8e6A4ZI7ECkbBCEHeXocvOA==
   /@bahmutov/data-driven/1.0.0:
     dependencies:
       check-more-types: 2.24.0
@@ -395,7 +395,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pzY1EVHw8dMCRBba8PDEV71vnsmvhOSgLUIXxB45Ts0Po69tz2H7YZQ4DsAetyv0aSLHG5QVXmGEn65A1DDvDQ==
-  /@microsoft/api-extractor/7.5.4:
+  /@microsoft/api-extractor/7.5.5:
     dependencies:
       '@microsoft/api-extractor-model': 7.5.4
       '@microsoft/node-core-library': 3.17.0
@@ -405,11 +405,11 @@ packages:
       lodash: 4.17.15
       resolve: 1.8.1
       source-map: 0.6.1
-      typescript: 3.5.3
+      typescript: 3.7.2
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-zt+1WAQ1VRMBltpmaRiycDphWvdOt2dQ9u5B1gG8hHL9kR07DHbAws5p3eUcTI3QBqtBVGGuhK8Kt8IRnKZGOw==
+      integrity: sha512-gkwB5IxUAFKpvpzDcJ6quo7hiW5axLY2te0RRrGm4gHHVbegdddWk4PyVLa4qogjqaK5hTshWo0EIZ6wChd3dw==
   /@microsoft/node-core-library/3.17.0:
     dependencies:
       '@types/node': 8.10.54
@@ -872,7 +872,7 @@ packages:
       integrity: sha512-PDPkUkZ4c7yA+FWqigjwf3ngPUgoLaGjMlFh6TRtbjhqxFBnkElDfckSjm98q9cMr4xRzZ15VrS/xKm6QHYf0w==
   /@typescript-eslint/typescript-estree/2.3.3:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
       is-glob: 4.0.1
       lodash.unescape: 4.0.1
       semver: 6.3.0
@@ -884,7 +884,7 @@ packages:
   /@typescript-eslint/typescript-estree/2.6.1_typescript@3.6.4:
     dependencies:
       debug: 4.1.1
-      glob: 7.1.5
+      glob: 7.1.6
       is-glob: 4.0.1
       lodash.unescape: 4.0.1
       semver: 6.3.0
@@ -1238,7 +1238,7 @@ packages:
   /anymatch/3.1.1:
     dependencies:
       normalize-path: 3.0.0
-      picomatch: 2.1.0
+      picomatch: 2.1.1
     dev: false
     engines:
       node: '>= 8'
@@ -2140,7 +2140,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30001008
-      electron-to-chromium: 1.3.304
+      electron-to-chromium: 1.3.305
     dev: false
     hasBin: true
     resolution:
@@ -2218,7 +2218,7 @@ packages:
       bluebird: 3.7.1
       chownr: 1.1.3
       figgy-pudding: 3.5.1
-      glob: 7.1.5
+      glob: 7.1.6
       graceful-fs: 4.2.3
       infer-owner: 1.0.4
       lru-cache: 5.1.1
@@ -3108,10 +3108,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.304:
+  /electron-to-chromium/1.3.305:
     dev: false
     resolution:
-      integrity: sha512-a5mqa13jCdBc+Crgk3Gyr7vpXCiFWfFq23YDCEmrPYeiDOQKZDVE6EX/Q4Xdv97n3XkcjiSBDOY0IS19yP2yeA==
+      integrity: sha512-jBEhRZ3eeJWf3eAnGYB1vDy09uBQpZWshC5fxiiIRofA9L3vkpa3SxsXleVS2MvuYir15oTVxzWPsOwj7KBzUw==
   /elliptic/6.5.1:
     dependencies:
       bn.js: 4.11.8
@@ -3296,7 +3296,7 @@ packages:
       esprima: 3.1.3
       estraverse: 4.3.0
       esutils: 2.0.3
-      optionator: 0.8.2
+      optionator: 0.8.3
     dev: false
     engines:
       node: '>=4.0'
@@ -3310,7 +3310,7 @@ packages:
       esprima: 2.7.3
       estraverse: 1.9.3
       esutils: 2.0.3
-      optionator: 0.8.2
+      optionator: 0.8.3
     dev: false
     engines:
       node: '>=0.12.0'
@@ -3413,7 +3413,7 @@ packages:
       minimatch: 3.0.4
       mkdirp: 0.5.1
       natural-compare: 1.4.0
-      optionator: 0.8.2
+      optionator: 0.8.3
       progress: 2.0.3
       regexpp: 2.0.1
       semver: 6.3.0
@@ -4098,7 +4098,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==
-  /glob/7.1.5:
+  /glob/7.1.6:
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -4108,7 +4108,7 @@ packages:
       path-is-absolute: 1.0.1
     dev: false
     resolution:
-      integrity: sha512-J9dlskqUXK1OeTOYBEn5s8aMukWMwWfs+rPTn/jn50Ux4MNXVhubL1wu/j2t+H4NVI+cXEcCaYellqaPVGXNqQ==
+      integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
   /global-modules/1.0.0:
     dependencies:
       global-prefix: 1.0.2
@@ -4922,11 +4922,11 @@ packages:
       integrity: sha512-vrRztU9VRRFDyC+aklfLoeXyNdTfga2EI3udDGn4cZ6fpSXpHLV9X6CHvfoMCPtggg8zvDDmC4b9xfu0z6/llA==
   /istanbul-lib-instrument/3.3.0:
     dependencies:
-      '@babel/generator': 7.7.0
-      '@babel/parser': 7.7.0
+      '@babel/generator': 7.7.2
+      '@babel/parser': 7.7.2
       '@babel/template': 7.7.0
-      '@babel/traverse': 7.7.0
-      '@babel/types': 7.7.1
+      '@babel/traverse': 7.7.2
+      '@babel/types': 7.7.2
       istanbul-lib-coverage: 2.0.5
       semver: 6.3.0
     dev: false
@@ -5331,7 +5331,7 @@ packages:
       di: 0.0.1
       dom-serialize: 2.2.1
       flatted: 2.0.1
-      glob: 7.1.5
+      glob: 7.1.6
       graceful-fs: 4.2.3
       http-proxy: 1.18.0
       isbinaryfile: 3.0.3
@@ -5670,7 +5670,7 @@ packages:
     dependencies:
       arr-union: 3.1.0
       async-array-reduce: 0.2.1
-      glob: 7.1.5
+      glob: 7.1.6
       has-glob: 1.0.0
       is-valid-glob: 1.0.0
       resolve-dir: 1.0.1
@@ -5816,7 +5816,7 @@ packages:
   /micromatch/4.0.2:
     dependencies:
       braces: 3.0.2
-      picomatch: 2.1.0
+      picomatch: 2.1.1
     dev: false
     engines:
       node: '>=8'
@@ -6268,7 +6268,7 @@ packages:
       find-cache-dir: 2.1.0
       find-up: 3.0.0
       foreground-child: 1.5.6
-      glob: 7.1.5
+      glob: 7.1.6
       istanbul-lib-coverage: 2.0.5
       istanbul-lib-hook: 2.0.7
       istanbul-lib-instrument: 3.3.0
@@ -6410,19 +6410,19 @@ packages:
     dev: false
     resolution:
       integrity: sha1-2j6nRob6IaGaERwybpDrFaAZZoY=
-  /optionator/0.8.2:
+  /optionator/0.8.3:
     dependencies:
       deep-is: 0.1.3
       fast-levenshtein: 2.0.6
       levn: 0.3.0
       prelude-ls: 1.1.2
       type-check: 0.3.2
-      wordwrap: 1.0.0
+      word-wrap: 1.2.3
     dev: false
     engines:
       node: '>= 0.8.0'
     resolution:
-      integrity: sha1-NkxeQJ0/TWMB1sC0wFu6UBgK62Q=
+      integrity: sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==
   /os-browserify/0.3.0:
     dev: false
     resolution:
@@ -6730,12 +6730,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
-  /picomatch/2.1.0:
+  /picomatch/2.1.1:
     dev: false
     engines:
       node: '>=8.6'
     resolution:
-      integrity: sha512-uhnEDzAbrcJ8R3g2fANnSuXZMBtkpSjxTTgn2LeSiQlfmq72enQJWdQllXW24MBLYnA1SBD2vfvx2o0Zw3Ielw==
+      integrity: sha512-OYMyqkKzK7blWO/+XZYP6w8hH0LDvkBvdvKukti+7kqYFCiEAk+gI3DWnryapc0Dau05ugGTy0foQ6mqn4AHYA==
   /pidtree/0.3.0:
     dev: false
     engines:
@@ -7173,7 +7173,7 @@ packages:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
   /readdirp/3.2.0:
     dependencies:
-      picomatch: 2.1.0
+      picomatch: 2.1.1
     dev: false
     engines:
       node: '>= 8'
@@ -7451,21 +7451,21 @@ packages:
       integrity: sha512-gmloHC4fpBzak8DwzVdL+sMmnzFpuOqxCiXFgSk/sTge2ftSXeGIYqemVSEuWBUH6bfS/hx47O/2B71LxM2IQQ==
   /rimraf/2.6.3:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
     dev: false
     hasBin: true
     resolution:
       integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
   /rimraf/2.7.1:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
     dev: false
     hasBin: true
     resolution:
       integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
   /rimraf/3.0.0:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
     dev: false
     hasBin: true
     resolution:
@@ -7782,7 +7782,7 @@ packages:
       integrity: sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
   /shelljs/0.8.3:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
       interpret: 1.2.0
       rechoir: 0.6.2
     dev: false
@@ -8421,7 +8421,7 @@ packages:
       integrity: sha512-NFGMpHjlzmyOtPL+fDw3G7+6Ueh/sz4mkaUYa4lJCxOPTNzd0Uj0aZJOmsDYoSQyfuVoWDMSWTPU3huyOm2zdA==
   /test-exclude/5.2.3:
     dependencies:
-      glob: 7.1.5
+      glob: 7.1.6
       minimatch: 3.0.4
       read-pkg-up: 4.0.0
       require-main-filename: 2.0.0
@@ -8679,7 +8679,7 @@ packages:
       chalk: 2.4.2
       commander: 2.20.3
       diff: 4.0.1
-      glob: 7.1.5
+      glob: 7.1.6
       js-yaml: 3.13.1
       minimatch: 3.0.4
       mkdirp: 0.5.1
@@ -8813,6 +8813,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
+  /typescript/3.7.2:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
   /uglify-js/3.6.8:
     dependencies:
       commander: 2.20.3
@@ -9154,6 +9161,12 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-QTlz2hKLrdqukrsapKsINzqMgOUpQW268eJ0OaOpJN32h272waxR9fkB9VoWRtK7uKHG5EHJcTXQBD8XZVJkFA==
+  /word-wrap/1.2.3:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
   /wordwrap/0.0.3:
     dev: false
     engines:
@@ -9424,7 +9437,7 @@ packages:
       integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==
   'file:projects/abort-controller.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/mocha': 5.2.7
       '@types/node': 8.10.58
@@ -9472,7 +9485,7 @@ packages:
     version: 0.0.0
   'file:projects/app-configuration.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       assert: 1.5.0
@@ -9503,7 +9516,7 @@ packages:
     version: 0.0.0
   'file:projects/cognitiveservices-inkrecognizer.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/mocha': 5.2.7
       '@types/node': 8.10.58
@@ -9669,7 +9682,7 @@ packages:
   'file:projects/core-auth.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/mocha': 5.2.7
       '@types/node': 8.10.58
@@ -9736,7 +9749,7 @@ packages:
       express: 4.17.1
       fetch-mock: 7.7.3_node-fetch@2.6.0
       form-data: 2.5.1
-      glob: 7.1.5
+      glob: 7.1.6
       karma: 4.4.1
       karma-chai: 0.1.0_chai@4.2.0+karma@4.4.1
       karma-chrome-launcher: 3.1.0
@@ -9789,7 +9802,7 @@ packages:
     version: 0.0.0
   'file:projects/core-lro.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@types/chai': 4.2.4
       '@types/mocha': 5.2.7
       '@types/node': 8.10.58
@@ -9860,7 +9873,7 @@ packages:
   'file:projects/core-tracing.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@opencensus/web-types': 0.0.7
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/mocha': 5.2.7
@@ -9900,7 +9913,7 @@ packages:
   'file:projects/cosmos.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
       '@types/mocha': 5.2.7
@@ -9971,7 +9984,7 @@ packages:
   'file:projects/event-hubs.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.4
@@ -10049,7 +10062,7 @@ packages:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
       '@azure/event-hubs': 2.1.1
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.4
@@ -10104,7 +10117,7 @@ packages:
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/chai': 4.2.4
       '@types/chai-as-promised': 7.1.2
@@ -10166,7 +10179,7 @@ packages:
     version: 0.0.0
   'file:projects/identity.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/express': 4.17.2
       '@types/jws': 3.2.0
@@ -10223,7 +10236,7 @@ packages:
   'file:projects/keyvault-certificates.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/chai': 4.2.4
       '@types/dotenv': 6.1.1
@@ -10286,7 +10299,7 @@ packages:
   'file:projects/keyvault-keys.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/chai': 4.2.4
       '@types/dotenv': 6.1.1
@@ -10349,7 +10362,7 @@ packages:
   'file:projects/keyvault-secrets.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/chai': 4.2.4
       '@types/dotenv': 6.1.1
@@ -10411,7 +10424,7 @@ packages:
     version: 0.0.0
   'file:projects/logger.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/chai': 4.2.4
       '@types/mocha': 5.2.7
@@ -10469,7 +10482,7 @@ packages:
       '@azure/arm-servicebus': 3.2.0
       '@azure/eslint-plugin-azure-sdk': 2.0.1_47985cb813de276321a61b23c1c6de5b
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.4
@@ -10544,7 +10557,7 @@ packages:
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/dotenv': 6.1.1
       '@types/execa': 0.9.0
@@ -10613,7 +10626,7 @@ packages:
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.1
@@ -10681,7 +10694,7 @@ packages:
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.1
@@ -10748,7 +10761,7 @@ packages:
     version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
-      '@microsoft/api-extractor': 7.5.4
+      '@microsoft/api-extractor': 7.5.5
       '@rollup/plugin-replace': 2.2.1_rollup@1.26.3
       '@types/mocha': 5.2.7
       '@types/node': 8.10.58
