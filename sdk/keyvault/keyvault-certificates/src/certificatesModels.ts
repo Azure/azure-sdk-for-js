@@ -321,9 +321,9 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
- * An interface representing options that can be passed to {@link setIssuer}.
+ * An interface representing options that can be passed to {@link createIssuer}.
  */
-export interface SetIssuerOptions
+export interface CreateIssuerOptions
   extends KeyVaultClientSetCertificateIssuerOptionalParams,
     coreHttp.OperationOptions {}
 

@@ -194,7 +194,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setIssuer(issuerName, "Test", {
+    await client.createIssuer(issuerName, "Test", {
       credentials: {
         accountId: "keyvaultuser"
       },
