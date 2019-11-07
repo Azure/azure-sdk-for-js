@@ -87,7 +87,8 @@ export class CertificateClient {
 
 // @public
 export interface CertificateContacts {
-    contactList?: Contact[];
+    // Warning: (ae-forgotten-export) The symbol "CertificateContact" needs to be exported by the entry point index.d.ts
+    contactList?: CertificateContact[];
     readonly id?: string;
 }
 

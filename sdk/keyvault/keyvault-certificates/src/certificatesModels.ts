@@ -581,3 +581,40 @@ export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOpti
  * An interface representing optional parameters for {@link restoreCertificateBackup}.
  */
 export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}
+
+/**
+ * The contact information for the vault certificates.
+ */
+interface ContactAll {
+  /**
+   * Email address.
+   */
+  emailAddress: string;
+  /**
+   * Name.
+   */
+  name: string;
+  /**
+   * Phone number.
+   */
+  phone: string;
+}
+type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+export type CertificateContact = RequireAtLeastOne<ContactAll> | undefined;
+
+/**
+ * The contacts for the vault certificates.
+ */
+export interface CertificateContacts {
+  /**
+   * Identifier for the contacts collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The contact list for the vault certificates.
+   */
+  contactList?: CertificateContact[];
+}
