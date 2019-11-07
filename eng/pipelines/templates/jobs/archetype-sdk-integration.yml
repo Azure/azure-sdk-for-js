@@ -1,6 +1,5 @@
 parameters:
   PackageName: ""
-  PackagePath: ""
   PreIntegrationSteps: ""
   PostIntegrationSteps: ""
   ResourceFileLocation: ""
