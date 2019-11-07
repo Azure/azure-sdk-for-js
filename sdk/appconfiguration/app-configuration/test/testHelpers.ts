@@ -40,8 +40,8 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
-    if (setting.readOnly) {
-      await client.clearReadOnly(setting);
+    if (setting.isReadOnly) {
+      await client.setReadOnly(setting, false);
     }
 
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
@@ -77,7 +77,7 @@ export async function toSortedArray(
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "readOnly">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[]
 ) {
   actual = actual.map((setting) => {
@@ -85,7 +85,7 @@ export function assertEqualSettings(
       key: setting.key,
       label: setting.label,
       value: setting.value,
-      readOnly: setting.readOnly
+      isReadOnly: setting.isReadOnly
     };
   });
 

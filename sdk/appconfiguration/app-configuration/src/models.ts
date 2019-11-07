@@ -52,7 +52,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * Whether or not the setting is read-only
    */
-  readOnly: boolean;
+  isReadOnly: boolean;
 
   /**
    * The date when this setting was last modified
