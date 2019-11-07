@@ -56,7 +56,7 @@
      * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
      * can be reused; this is more similar to NPM's algorithm.
      */
-    "resolutionStrategy": "fast"
+    "resolutionStrategy": "fewer-dependencies"
   },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
