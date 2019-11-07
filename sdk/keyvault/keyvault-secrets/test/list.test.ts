@@ -34,7 +34,8 @@ describe("Secret client - list secrets in various ways", () => {
 
   // The tests follow
 
-  it("can purge all secrets", async function() {
+  // This test is only useful while developing locally
+  it.skip("can purge all secrets", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
