@@ -8,7 +8,6 @@ import { CertificateClientInterface } from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 /**
- * @interface
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CertificateOperationPollOperationState
@@ -28,7 +27,6 @@ export interface CertificateOperationPollOperationState
 }
 
 /**
- * @interface
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
