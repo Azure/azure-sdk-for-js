@@ -302,6 +302,13 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
+
+  if (
+    authorizationRule.rights.accessRights &&
+    !Array.isArray(authorizationRule.rights.accessRights)
+  ) {
+    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  }
   return authorizationRule;
 }
 
