@@ -2,6 +2,11 @@
 
 This package contains an isomorphic SDK for LUISAuthoringClient.
 
+Package version | LUIS Authoring API version
+--------------- | --------------------------
+3.0.0           |  /luis/api/v2.0
+4.0.0-preview.1 |  /luis/authoring/v3.0-preview
+
 ### Currently supported environments
 
 - Node.js version 6.x.x or higher
