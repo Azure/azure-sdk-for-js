@@ -2,7 +2,7 @@ import { CertificateClient, CertificatePolicy } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, reads it in various ways,
-// updates the tags of the certificate and finaly deletes the certificate.
+// updates the tags of the certificate and finally deletes the certificate.
 
 async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
