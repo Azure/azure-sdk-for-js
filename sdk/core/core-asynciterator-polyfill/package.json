@@ -38,6 +38,7 @@
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "echo skipped",
+    "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

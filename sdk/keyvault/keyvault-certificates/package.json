@@ -48,6 +48,7 @@
     "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist-esm dist-test typings *.tgz *.log",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"samples/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
