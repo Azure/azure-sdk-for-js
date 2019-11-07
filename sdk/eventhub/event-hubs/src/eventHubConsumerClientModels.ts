@@ -1,7 +1,7 @@
 
 import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions } from './eventProcessor';
 import { PartitionCheckpointer } from './eventHubConsumerClient';
-import { ReceivedEventData } from '.';
+import { ReceivedEventData } from './eventData';
 
 /**
  * Event handler called when events are received. The `context` parameter can be 
