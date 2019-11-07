@@ -81,7 +81,11 @@ export class QueryIterator<T> {
       } catch (error) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
-          response = await this.queryExecutionContext.fetchMore();
+          try {
+            response = await this.queryExecutionContext.fetchMore();
+          } catch (error) {
+            this.handleSplitError(error);
+          }
         } else {
           throw error;
         }
@@ -113,7 +117,13 @@ export class QueryIterator<T> {
   public async fetchAll(): Promise<FeedResponse<T>> {
     this.reset();
     this.fetchAllTempResources = [];
-    return this.toArrayImplementation();
+    let response: FeedResponse<T>;
+    try {
+      response = await this.toArrayImplementation();
+    } catch (error) {
+      this.handleSplitError(error);
+    }
+    return response;
   }
 
   /**
@@ -135,7 +145,11 @@ export class QueryIterator<T> {
     } catch (error) {
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
-        response = await this.queryExecutionContext.fetchMore();
+        try {
+          response = await this.queryExecutionContext.fetchMore();
+        } catch (error) {
+          this.handleSplitError(error);
+        }
       } else {
         throw error;
       }
@@ -246,5 +260,18 @@ export class QueryIterator<T> {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialied = true;
+  }
+
+  private handleSplitError(err: any) {
+    if (err.code === 410) {
+      const error = new Error(
+        "Encountered partition split and could not recover. This request is retryable"
+      ) as any;
+      error.code = 503;
+      error.originalError = err;
+      throw error;
+    } else {
+      throw err;
+    }
   }
 }
