@@ -790,7 +790,9 @@ export class BlobServiceClient extends StorageClient {
   public listContainers(
     options: ServiceListContainersOptions = {}
   ): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse> {
-    if (options.prefix === "") options.prefix = undefined;
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
