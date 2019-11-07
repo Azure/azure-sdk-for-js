@@ -99,9 +99,9 @@ export class EventHubConsumerClient {
     getPartitionIds(): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionId: string, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -197,25 +197,6 @@ export interface LastEnqueuedEventInfo {
 export { MessagingError }
 
 // @public
-export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
-
-// @public
-export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
-
-// @public
-export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
-
-// @public
-export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
-
-// @public
-export interface OptionalEventHandlers {
-    onClose?: OnCloseHandler;
-    onError?: OnErrorHandler;
-    onInitialize?: OnInitializeHandler;
-}
-
-// @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
 }
@@ -264,6 +245,18 @@ export interface PartitionProperties {
 }
 
 // @public
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+// @public
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+
+// @public
+export type ProcessReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
 export interface ReceivedEventData {
     body: any;
     enqueuedTimeUtc: Date;
@@ -293,7 +286,15 @@ export interface Subscription {
 }
 
 // @public
-export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorOptions {
+export interface SubscriptionEventHandlers {
+    processClose?: ProcessCloseHandler;
+    processError?: ProcessErrorHandler;
+    processInitialize?: ProcessInitializeHandler;
+    processReceivedEvents: ProcessReceivedEvents;
+}
+
+// @public
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions {
 }
 
 export { TokenCredential }
