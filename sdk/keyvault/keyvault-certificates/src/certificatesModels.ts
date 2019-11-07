@@ -208,9 +208,9 @@ export interface CertificatePolicy {
 }
 
 export module CertificatePolicy {
-  export const Default: CertificatePolicy =  {
-     issuerName: "Self",
-     subject: "cn=MyCert"
+  export const Default: CertificatePolicy = {
+    issuerName: "Self",
+    subject: "cn=MyCert"
   };
 }
 
