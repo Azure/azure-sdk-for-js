@@ -52,7 +52,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * Whether or not the setting is read-only
    */
-  readOnly: boolean;
+  isReadOnly: boolean;
 
   /**
    * The date when this setting was last modified
@@ -276,19 +276,6 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
    */
   items: ConfigurationSetting[];
 }
-
-/**
- * Options for clearReadOnly
- */
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
-
-/**
- * Response when clearing the read-only status from a value
- */
-export interface ClearReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for setReadOnly

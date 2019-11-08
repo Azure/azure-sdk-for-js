@@ -96,7 +96,7 @@ export function formatWildcards(
 
   if (listConfigOptions.fields) {
     fieldsToGet = listConfigOptions.fields.map((opt) => {
-      if (opt === "readOnly") {
+      if (opt === "isReadOnly") {
         return "locked";
       }
 
@@ -150,7 +150,7 @@ export function makeConfigurationSettingEmpty(
     "etag",
     "label",
     "lastModified",
-    "readOnly",
+    "isReadOnly",
     "tags",
     "value"
   ];
@@ -167,7 +167,7 @@ export function makeConfigurationSettingEmpty(
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const obj: ConfigurationSetting & KeyValue = {
     ...kvp,
-    readOnly: !!kvp.locked,
+    isReadOnly: !!kvp.locked
   };
 
   delete obj.locked;

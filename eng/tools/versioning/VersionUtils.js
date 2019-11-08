@@ -27,7 +27,7 @@ async function readFileJson(filename) {
 async function writePackageJson(filename, contentObject) {
   try {
     const contentString = JSON.stringify(contentObject, null, 2);
-    await writeFile(filename, contentString);
+    await writeFile(filename, `${contentString}\n`);
   } catch (ex) {
     console.error(ex);
   }

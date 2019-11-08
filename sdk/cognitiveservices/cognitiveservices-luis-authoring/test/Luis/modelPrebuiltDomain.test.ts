@@ -19,7 +19,7 @@ describe("Model Prebuilt Domain Tests", () => {
         usageScenario: "IoT"
       });
       let versionsApp = await client.versions.list(appId.body);
-      let version = versionsApp[0].version;
+      let version = '0.1';
       let results = await client.model.addCustomPrebuiltDomain(appId.body, version, { domainName: "Communication" });
       let prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
       await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
