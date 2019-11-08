@@ -106,8 +106,8 @@ export function formatWildcards(
 
   let acceptDatetime: string | undefined = undefined;
 
-  if (listConfigOptions.acceptDatetime) {
-    acceptDatetime = listConfigOptions.acceptDatetime.toISOString();
+  if (listConfigOptions.acceptDateTime) {
+    acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
 
   return {

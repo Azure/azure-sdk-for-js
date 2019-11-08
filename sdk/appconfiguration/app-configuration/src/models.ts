@@ -230,7 +230,7 @@ export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: Date;
+  acceptDateTime?: Date;
 
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
