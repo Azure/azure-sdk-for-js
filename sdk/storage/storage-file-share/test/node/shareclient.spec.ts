@@ -31,9 +31,9 @@ describe("ShareClient Node.js only", () => {
     const identifiers: SignedIdentifier[] = [
       {
         accessPolicy: {
-          expiry: tomorrow,
+          expiresOn: tomorrow,
           permissions: "rwd",
-          start: yesterday
+          startsOn: yesterday
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }
@@ -44,12 +44,12 @@ describe("ShareClient Node.js only", () => {
 
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiry.getTime(),
-      identifiers[0].accessPolicy.expiry.getTime()
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiresOn.getTime(),
+      identifiers[0].accessPolicy.expiresOn.getTime()
     );
     assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.start.getTime(),
-      identifiers[0].accessPolicy.start.getTime()
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.startsOn.getTime(),
+      identifiers[0].accessPolicy.startsOn.getTime()
     );
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,

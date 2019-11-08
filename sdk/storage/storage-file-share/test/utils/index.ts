@@ -140,13 +140,13 @@ export function getSASConnectionStringFromEnvironment(): string {
 
   const sas = generateAccountSASQueryParameters(
     {
-      expiryTime: tmr,
+      expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
-      startTime: now,
+      startsOn: now,
       version: "2016-05-31"
     },
     sharedKeyCredential as StorageSharedKeyCredential
