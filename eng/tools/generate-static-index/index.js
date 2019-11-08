@@ -1,36 +1,34 @@
 const fs = require("fs-extra");
 const path = require("path");
 var jsyaml = require("js-yaml");
+const util = require("util");
+const readFile = util.promisify(fs.readFile);
+const readDir = util.promisify(fs.readdir);
 
 /* Traversing the directory */
-const walk = (dir, checks) => {
-  var list = fs.readdirSync(dir);
+const getChecks = async (dir, checks) => {
+  var list = await readDir(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
     if (fileName == "node_modules") {
-      checks.isRush = true;
       continue;
     }
     if (fileName == "src") {
       checks.srcPresent = true;
     }
     if (fileName == "package.json") {
-      let data = fs.readFileSync(filePath, "utf8");
+      let data = await readFile(filePath, "utf8");
       let settings = JSON.parse(data);
       if (settings["private"] === true) {
         checks.isPrivate = true;
       }
-      if(settings["sdk-type"] === "client"){
+      if (settings["sdk-type"] === "client") {
         checks.isClient = true;
       }
       checks.version = settings["version"];
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
-    }
-    const stat = fs.statSync(filePath);
-    if (stat && stat.isDirectory()) {
-      checks = walk(filePath, checks);
     }
   }
   return checks;
@@ -65,7 +63,7 @@ for (const eachService of serviceFolders) {
         eachPackagePath = path.join(eachServicePath, eachPackage);
         const packageStat = fs.statSync(eachPackagePath);
         if (packageStat && packageStat.isDirectory()) {
-          checks = walk(eachPackagePath, checks);
+          checks = getChecks(eachPackagePath, checks);
 
           console.log(
             "checks after walk: checks.isRush = " + checks.isRush +
@@ -105,7 +103,11 @@ var serviceMapperPath = path.join(process.cwd(),"eng/tools/generate-static-index
 const serviceMapper = JSON.parse(fs.readFileSync(serviceMapperPath, 'utf8'));
 for (const eachService of serviceList) {
   var mdFile = eachService.name + ".md";
-  jObject.push({ name: serviceMapper[eachService.name], href: mdFile });//change the value for name to lookup name for service from given json file
+  var serviceName = eachService.name;
+  if(serviceMapper[eachService.name]){
+    serviceName = serviceMapper[eachService.name];
+  }
+  jObject.push({ name: serviceName, href: mdFile });//change the value for name to lookup name for service from given json file
   var mdContent = "";
   if(eachService.clientList.length > 0){
      mdContent += "<h1>Client Libraries </h1><hr>";

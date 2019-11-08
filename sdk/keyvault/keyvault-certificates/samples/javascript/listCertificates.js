@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample list previously created certificates in a single chunk and by page,
@@ -15,19 +15,19 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificate109088";
-  const certificateName2 = "MyCertificate209088";
+  const certificateName1 = "MyCertificate1";
+  const certificateName2 = "MyCertificate2";
 
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.createCertificate(certificateName1, {
+  await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
-  await client.createCertificate(certificateName2, {
+  await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Listing all the available certificates in a single call.
@@ -73,13 +73,15 @@ async function main() {
       break;
     }
     const version = value.properties.version;
-    const certificate = await client.getCertificate(certificateName1, version);
+    const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
 
   // Deleting both certificates
-  await client.deleteCertificate(certificateName1);
-  await client.deleteCertificate(certificateName2);
+  let deletePoller = await client.beginDeleteCertificate("MyCertificate1");
+  await deletePoller.pollUntilDone();
+  deletePoller = await client.beginDeleteCertificate("MyCertificate2");
+  await deletePoller.pollUntilDone();
 
   let listDeletedCertificates = client.listDeletedCertificates({ includePending: true });
   while (true) {

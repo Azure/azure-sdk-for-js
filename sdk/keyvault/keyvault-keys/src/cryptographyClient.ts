@@ -917,43 +917,36 @@ export type SignatureAlgorithm =
   | "ES256K";
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * Result of the {@link decrypt} operation.
  */
 export interface DecryptResult {
@@ -972,7 +965,6 @@ export interface DecryptResult {
 }
 
 /**
- * @interface
  * Result of the {@link encrypt} operation.
  */
 export interface EncryptResult {
@@ -991,7 +983,6 @@ export interface EncryptResult {
 }
 
 /**
- * @interface
  * Result of the {@link sign} operation.
  */
 export interface SignResult {
@@ -1010,7 +1001,6 @@ export interface SignResult {
 }
 
 /**
- * @interface
  * Result of the {@link verify} operation.
  */
 export interface VerifyResult {
@@ -1025,7 +1015,6 @@ export interface VerifyResult {
 }
 
 /**
- * @interface
  * Result of the {@link wrap} operation.
  */
 export interface WrapResult {
@@ -1044,7 +1033,6 @@ export interface WrapResult {
 }
 
 /**
- * @interface
  * Result of the {@link unwrap} operation.
  */
 export interface UnwrapResult {

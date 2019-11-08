@@ -6,6 +6,7 @@ import * as helloworldWithLabels from "./helloworldWithLabels";
 import * as setReadOnlySample from "./setReadOnlySample";
 import * as getSettingOnlyIfChanged from "./getSettingOnlyIfChanged";
 import * as optimisticConcurrencyViaEtag from "./optimisticConcurrencyViaEtag";
+import * as listRevisions from "./listRevisions";
 
 export async function runAll() {
     await helloworld.run();
@@ -13,4 +14,5 @@ export async function runAll() {
     await setReadOnlySample.run();
     await getSettingOnlyIfChanged.run();
     await optimisticConcurrencyViaEtag.run();
+    await listRevisions.run();
 }

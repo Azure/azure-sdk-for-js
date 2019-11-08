@@ -28,7 +28,7 @@ function incrementVersion(currentVersion) {
     return semver.inc(currentVersion, "prerelease");
   }
 
-  return `${semver.inc(currentVersion, "minor")}-preview.1`;
+  return `${semver.inc(currentVersion, "patch")}`;
 }
 
 async function main(argv) {

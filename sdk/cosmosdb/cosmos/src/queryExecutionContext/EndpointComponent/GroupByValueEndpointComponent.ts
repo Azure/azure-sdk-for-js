@@ -81,10 +81,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     return { result: undefined, headers };
   }
 
-  public async current(): Promise<Response<any>> {
-    return this.executionContext.current();
-  }
-
   public hasMoreResults() {
     return this.executionContext.hasMoreResults() || this.aggreateResultArray.length > 0;
   }

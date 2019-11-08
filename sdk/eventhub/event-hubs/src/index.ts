@@ -6,40 +6,42 @@
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedEventInfo } from "./eventHubReceiver";
-export { ReceiveHandler } from "./receiveHandler";
 export {
   AbortSignalOptions,
   EventHubClientOptions,
   EventHubConsumerOptions,
   EventHubProducerOptions,
-  SendOptions,
-  BatchOptions,
+  SendBatchOptions,
+  CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   GetPropertiesOptions,
   ParentSpanOptions
 } from "./eventHubClient";
-export { EventHubConsumerClient, OnReceivedEvents, PartitionCheckpointer } from "./eventHubConsumerClient";
+export { EventHubConsumerClient, PartitionCheckpointer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
-export { SubscriptionOptions, Subscription, OptionalEventHandlers, OnErrorHandler, OnInitializeHandler, OnCloseHandler } from "./eventHubConsumerClientModels";
+export {
+  SubscriptionOptions,
+  Subscription,
+  SubscriptionEventHandlers,
+  ProcessErrorHandler,
+  ProcessInitializeHandler,
+  ProcessCloseHandler,
+  ProcessEvents
+} from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
-export { EventHubProducer } from "./sender";
-export { EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
+export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
   EventProcessorOptions,
-  EventProcessorCommonOptions,
+  EventProcessorBatchOptions,
   PartitionContext,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
-export {
-  PartitionLoadBalancer
-} from "./partitionLoadBalancer";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 export {
   MessagingError,
@@ -47,6 +49,5 @@ export {
   DefaultDataTransformer,
   RetryOptions,
   TokenType,
-  TokenCredential,
-  delay
+  TokenCredential
 } from "@azure/core-amqp";

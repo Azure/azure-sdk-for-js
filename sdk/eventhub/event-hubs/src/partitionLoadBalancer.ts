@@ -4,7 +4,18 @@
 import { PartitionOwnership } from "./eventProcessor";
 import * as log from "./log";
 
+/**
+ * Implements a load balancing algorithm for determining which consumers 
+ * own which partitions.
+ */
 export interface PartitionLoadBalancer {
+  /**
+   * Implements load balancing by taking into account current ownership and
+   * the new set of partitions to add.
+   * @param partitionOwnershipMap The current ownerships for partitions
+   * @param partitionsToAdd New partitions to assign owners to
+   * @returns Partition ids to claim
+   */
   loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
@@ -20,7 +31,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   private partitionsToClaim?: Set<string>;
 
   /**
-   * @param partitionIds An optional set of partition IDs. undefined means  all partitions.
+   * @param partitionIds An optional set of partition IDs. undefined means all partitions.
    */
   constructor(partitionIds?: string[]) {
     log.partitionLoadBalancer(`GreedyPartitionLoadBalancer created. Watching ${partitionIds ? '(' + partitionIds.join(",") + ')' : "all"}.`);
@@ -28,12 +39,16 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   }
 
   loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
+    let potential: string[] = partitionsToAdd;
+
     if (this.partitionsToClaim) {
       const partitionsToClaim = this.partitionsToClaim;
-      return partitionsToAdd.filter(part => partitionsToClaim.has(part));
+      potential = partitionsToAdd.filter(part => partitionsToClaim.has(part));
     }
 
-    return partitionsToAdd;
+    // now remove any partitions that are already claimed
+    potential = potential.filter(id => !partitionOwnershipMap.has(id));
+    return potential;
   }
 }
 
