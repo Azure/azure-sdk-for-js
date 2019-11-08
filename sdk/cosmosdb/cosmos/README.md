@@ -54,7 +54,7 @@ npm install @azure/cosmos
 - [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-resources)
 - [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query)
 - [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
-- [API Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/cosmos/?view=azure-node-latest)
+- [API Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-cosmos/3.3.6/index.html)
 
 ## Need Help?
 
