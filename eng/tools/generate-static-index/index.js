@@ -3,13 +3,7 @@ const path = require("path");
 var jsyaml = require("js-yaml");
 
 /* Traversing the directory */
-const walk = async (dir, checks) => {
-  checks = await walkRecurse(dir, checks, 0);
-  return checks;
-};
-
-const walkRecurse = async (dir, checks, depth) => {
-  if (depth > 0) return checks;
+const getChecks = async (dir, checks) => {
   var list = await readDir(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
@@ -32,10 +26,6 @@ const walkRecurse = async (dir, checks, depth) => {
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
-    }
-    const stat = await statFile(filePath);
-    if (stat && stat.isDirectory()) {
-      checks = await walkRecurse(filePath, checks, depth + 1);
     }
   }
   return checks;
@@ -70,7 +60,7 @@ for (const eachService of serviceFolders) {
         eachPackagePath = path.join(eachServicePath, eachPackage);
         const packageStat = fs.statSync(eachPackagePath);
         if (packageStat && packageStat.isDirectory()) {
-          checks = walk(eachPackagePath, checks);
+          checks = getChecks(eachPackagePath, checks);
 
           console.log(
             "checks after walk: checks.isRush = " + checks.isRush +
