@@ -98,8 +98,6 @@ export function formatWildcards(
     fieldsToGet = listConfigOptions.fields.map((opt) => {
       if (opt === "readOnly") {
         return "locked";
-      } else if (opt === "lastModifiedOn") {
-        return "lastModified";
       }
 
       return opt;
@@ -151,7 +149,7 @@ export function makeConfigurationSettingEmpty(
     "contentType",
     "etag",
     "label",
-    "lastModifiedOn",
+    "lastModified",
     "readOnly",
     "tags",
     "value"
@@ -171,11 +169,6 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
     ...kvp,
     readOnly: !!kvp.locked,
   };
-
-  if (kvp.lastModified != null) {
-    obj.lastModifiedOn = kvp.lastModified;
-    delete obj.lastModified;
-  }
 
   delete obj.locked;
   return obj;

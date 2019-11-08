@@ -319,9 +319,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.lastModifiedOn instanceof Date,
+        result.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
         result.readOnly,
@@ -357,9 +357,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from getConfigurationSetting()."
       );
       assert.equal(
-        remoteResult.lastModifiedOn instanceof Date,
+        remoteResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from getConfigurationSetting()."
+        "Unexpected lastModified in result from getConfigurationSetting()."
       );
       assert.equal(
         remoteResult.readOnly,
@@ -422,7 +422,7 @@ describe("AppConfigurationClient", () => {
       });
 
       const settingAtPointInTime = await client.getConfigurationSetting({ key }, {
-        acceptDatetime: initialSetting.lastModifiedOn
+        acceptDatetime: initialSetting.lastModified
       });
 
       assert.equal("value1", settingAtPointInTime.value);
@@ -603,7 +603,7 @@ describe("AppConfigurationClient", () => {
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
         keys: ['listConfigSettingA-*'],
-        acceptDatetime: listConfigSettingA.lastModifiedOn
+        acceptDatetime: listConfigSettingA.lastModified
       });
 
       let settings = await toSortedArray(byKeyIterator);
@@ -611,8 +611,8 @@ describe("AppConfigurationClient", () => {
 
       // all settings returned should be the same date or as old as my setting
       for (const setting of settings) {
-        assert.ok(setting.lastModifiedOn);
-        assert.ok(setting.lastModifiedOn! <= listConfigSettingA.lastModifiedOn!);
+        assert.ok(setting.lastModified);
+        assert.ok(setting.lastModified! <= listConfigSettingA.lastModified!);
 
         if (setting.key === listConfigSettingA.key && setting.label === listConfigSettingA.label) {
           foundMyExactSettingToo = true;
@@ -795,9 +795,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.lastModifiedOn instanceof Date,
+        result.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
         result.readOnly,
@@ -833,9 +833,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from setConfigurationSetting()."
       );
       assert.equal(
-        replacedResult.lastModifiedOn instanceof Date,
+        replacedResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
         replacedResult.readOnly,
@@ -886,9 +886,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.lastModifiedOn instanceof Date,
+        result.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
         result.readOnly,
@@ -932,9 +932,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from setConfigurationSetting()."
       );
       assert.equal(
-        replacedResult.lastModifiedOn instanceof Date,
+        replacedResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
         replacedResult.readOnly,
@@ -971,9 +971,9 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from setConfigurationSetting()."
       );
       assert.equal(
-        result.lastModifiedOn instanceof Date,
+        result.lastModified instanceof Date,
         true,
-        "Unexpected lastModifiedOn in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
         result.readOnly,

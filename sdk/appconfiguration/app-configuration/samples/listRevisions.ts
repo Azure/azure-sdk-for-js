@@ -42,7 +42,7 @@ export async function run() {
   // show all the revisions, including the date they were set.
   for await (const revision of revisionsIterator) {
     // revisions are just a configuration setting at a particular point in time
-    console.log(`At ${revision.lastModifiedOn}, the value was ${revision.value}`);
+    console.log(`At ${revision.lastModified}, the value was ${revision.value}`);
   }
 
   cleanupSampleValues([originalSetting.key], client);

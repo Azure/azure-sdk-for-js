@@ -43,7 +43,7 @@ export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHe
 
 // @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
-    lastModifiedOn?: Date;
+    lastModified?: Date;
     readOnly: boolean;
 }
 

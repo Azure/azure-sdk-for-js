@@ -57,7 +57,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * The date when this setting was last modified
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
 }
 
 /**

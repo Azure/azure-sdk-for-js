@@ -154,12 +154,10 @@ describe("helper methods", () => {
   });
 
   it("transformKeyValue", () => {
-    const lastModifiedOn = new Date();
 
     const configurationSetting = transformKeyValue({
       key: "hello",
       locked: true,
-      lastModified: lastModifiedOn
     });
 
     assert.deepEqual(
@@ -168,8 +166,6 @@ describe("helper methods", () => {
         // it should be 'renamed' to readOnly
         readOnly: true,
         key: "hello",
-        // lastModified is also renamed to lastModifiedOn
-        lastModifiedOn: lastModifiedOn
       },
       configurationSetting
     );
@@ -205,19 +201,16 @@ describe("helper methods", () => {
   });
 
   it("transformKeyValueResponse", () => {
-    const lastModified = new Date();
-
     const configurationSetting = transformKeyValueResponse({
       key: "hello",
       locked: true,
-      lastModified: lastModified,
       ...fakeHttp204Response
     });
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(["key", "lastModifiedOn", "readOnly"], actualKeys);
+    assert.deepEqual(["key", "readOnly"], actualKeys);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
@@ -228,7 +221,6 @@ describe("helper methods", () => {
       {
         readOnly: true,
         key: "hello",
-        lastModifiedOn: lastModified,
         _response: fakeHttp204Response._response
       },
       configurationSetting
@@ -241,7 +233,7 @@ describe("helper methods", () => {
       etag: "",
       key: "",
       label: "",
-      lastModifiedOn: new Date(),
+      lastModified: new Date(),
       readOnly: true,
       tags: {},
       value: ""
