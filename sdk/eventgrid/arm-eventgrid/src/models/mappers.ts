@@ -778,6 +778,12 @@ export const WebHookEventSubscriptionDestination: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      azureActiveDirectoryTenantId: {
+        serializedName: "properties.azureActiveDirectoryTenantId",
+        type: {
+          name: "String"
+        }
+      },
       azureActiveDirectoryApplicationIdOrUri: {
         serializedName: "properties.azureActiveDirectoryApplicationIdOrUri",
         type: {

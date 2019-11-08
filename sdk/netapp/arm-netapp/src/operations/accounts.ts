@@ -28,7 +28,7 @@ export class Accounts {
   }
 
   /**
-   * List and describe all NetApp accounts in the resource group
+   * List and describe all NetApp accounts in the resource group.
    * @summary Describe all NetApp Accounts in a resource group
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters

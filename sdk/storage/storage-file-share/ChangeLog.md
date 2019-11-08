@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.12 12.0.0-preview.7
+
+- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## 2019.11 12.0.0-preview.6
 
 - [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,

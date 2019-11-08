@@ -6,7 +6,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "sdk-type": "client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LRO Polling strtegy for the Azure SDK in TypeScript",
   "tags": [
     "isomorphic",
@@ -75,6 +75,7 @@
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\"",
     "clean": "rimraf dist dist-esm dist-test types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\"",
     "integration-test:browser": "echo skipped",
@@ -141,7 +142,7 @@
     "rollup-plugin-visualizer": "^2.0.0",
     "shx": "^0.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
   }

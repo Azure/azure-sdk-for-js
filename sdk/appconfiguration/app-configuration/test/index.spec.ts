@@ -324,7 +324,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.readOnly,
+        result.isReadOnly,
         false,
         "Unexpected readOnly in result from addConfigurationSetting()."
       );
@@ -362,7 +362,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from getConfigurationSetting()."
       );
       assert.equal(
-        remoteResult.readOnly,
+        remoteResult.isReadOnly,
         false,
         "Unexpected readOnly in result from getConfigurationSetting()."
       );
@@ -419,7 +419,7 @@ describe("AppConfigurationClient", () => {
 
     before(async () => {
       await client.addConfigurationSetting(productionASettingId);
-      await client.setReadOnly(productionASettingId);
+      await client.setReadOnly(productionASettingId, true);
 
       await client.addConfigurationSetting({
         key: `listConfigSettingA-${now}`,
@@ -457,13 +457,13 @@ describe("AppConfigurationClient", () => {
             key: `listConfigSettingA-${now}`,
             value: "[A] production value",
             label: uniqueLabel,
-            readOnly: true
+            isReadOnly: true
           },
           {
             key: `listConfigSettingB-${now}`,
             value: "[B] production value",
             label: uniqueLabel,
-            readOnly: false
+            isReadOnly: false
           }
         ],
         byLabelSettings
@@ -483,13 +483,13 @@ describe("AppConfigurationClient", () => {
             key: `listConfigSettingA-${now}`,
             value: "[A] production value",
             label: uniqueLabel,
-            readOnly: true
+            isReadOnly: true
           },
           {
             key: `listConfigSettingB-${now}`,
             value: "[B] production value",
             label: uniqueLabel,
-            readOnly: false
+            isReadOnly: false
           }
         ],
         byLabelSettings
@@ -506,13 +506,13 @@ describe("AppConfigurationClient", () => {
             key: `listConfigSettingA-${now}`,
             value: "[A] production value",
             label: uniqueLabel,
-            readOnly: true
+            isReadOnly: true
           },
           {
             key: `listConfigSettingA-${now}`,
             value: "[A] value",
             label: undefined,
-            readOnly: false
+            isReadOnly: false
           }
         ],
         byKeySettings
@@ -530,13 +530,13 @@ describe("AppConfigurationClient", () => {
             key: `listConfigSettingA-${now}`,
             value: "[A] production value",
             label: uniqueLabel,
-            readOnly: true
+            isReadOnly: true
           },
           {
             key: `listConfigSettingA-${now}`,
             value: "[A] value",
             label: undefined,
-            readOnly: false
+            isReadOnly: false
           }
         ],
         byKeySettings
@@ -547,13 +547,13 @@ describe("AppConfigurationClient", () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       let byKeyIterator = client.listConfigurationSettings({
         keys: [`listConfigSettingA-${now}`],
-        fields: ["key", "label", "readOnly"]
+        fields: ["key", "label", "isReadOnly"]
       });
       let settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
       assert.equal(productionASettingId.key, settings[0].key);
-      assert.ok(settings[0].readOnly);
+      assert.ok(settings[0].isReadOnly);
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].contentType);
@@ -572,7 +572,7 @@ describe("AppConfigurationClient", () => {
       assert.equal("[A] production value", settings[0].value);
       assert.equal(uniqueLabel, settings[0].label);
 
-      assert.ok(!settings[0].readOnly);
+      assert.ok(!settings[0].isReadOnly);
       assert.ok(!settings[0].contentType);
       assert.ok(!settings[0].etag);
     });
@@ -655,8 +655,8 @@ describe("AppConfigurationClient", () => {
 
       assertEqualSettings(
         [
-          { key, label: labelA, value: "fooA1", readOnly: false },
-          { key, label: labelA, value: "fooA2", readOnly: false }
+          { key, label: labelA, value: "fooA1", isReadOnly: false },
+          { key, label: labelA, value: "fooA2", isReadOnly: false }
         ],
         revisions
       );
@@ -670,8 +670,8 @@ describe("AppConfigurationClient", () => {
 
       assertEqualSettings(
         [
-          { key, label: labelA, value: "fooA1", readOnly: false },
-          { key, label: labelA, value: "fooA2", readOnly: false }
+          { key, label: labelA, value: "fooA1", isReadOnly: false },
+          { key, label: labelA, value: "fooA2", isReadOnly: false }
         ],
         revisions
       );
@@ -683,10 +683,10 @@ describe("AppConfigurationClient", () => {
 
       assertEqualSettings(
         [
-          { key, label: labelA, value: "fooA1", readOnly: false },
-          { key, label: labelA, value: "fooA2", readOnly: false },
-          { key, label: labelB, value: "fooB1", readOnly: false },
-          { key, label: labelB, value: "fooB2", readOnly: false }
+          { key, label: labelA, value: "fooA1", isReadOnly: false },
+          { key, label: labelA, value: "fooA2", isReadOnly: false },
+          { key, label: labelB, value: "fooB1", isReadOnly: false },
+          { key, label: labelB, value: "fooB2", isReadOnly: false }
         ],
         revisions
       );
@@ -700,10 +700,10 @@ describe("AppConfigurationClient", () => {
 
       assertEqualSettings(
         [
-          { key, label: labelA, value: "fooA1", readOnly: false },
-          { key, label: labelA, value: "fooA2", readOnly: false },
-          { key, label: labelB, value: "fooB1", readOnly: false },
-          { key, label: labelB, value: "fooB2", readOnly: false }
+          { key, label: labelA, value: "fooA1", isReadOnly: false },
+          { key, label: labelA, value: "fooA2", isReadOnly: false },
+          { key, label: labelB, value: "fooB1", isReadOnly: false },
+          { key, label: labelB, value: "fooB2", isReadOnly: false }
         ],
         revisions
       );
@@ -755,7 +755,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.readOnly,
+        result.isReadOnly,
         false,
         "Unexpected readOnly in result from addConfigurationSetting()."
       );
@@ -793,7 +793,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
-        replacedResult.readOnly,
+        replacedResult.isReadOnly,
         false,
         "Unexpected readOnly in result from setConfigurationSetting()."
       );
@@ -846,7 +846,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from addConfigurationSetting()."
       );
       assert.equal(
-        result.readOnly,
+        result.isReadOnly,
         false,
         "Unexpected readOnly in result from addConfigurationSetting()."
       );
@@ -892,7 +892,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
-        replacedResult.readOnly,
+        replacedResult.isReadOnly,
         false,
         "Unexpected readOnly in result from setConfigurationSetting()."
       );
@@ -931,7 +931,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected lastModified in result from setConfigurationSetting()."
       );
       assert.equal(
-        result.readOnly,
+        result.isReadOnly,
         false,
         "Unexpected readOnly in result from setConfigurationSetting()."
       );

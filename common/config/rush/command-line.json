@@ -148,7 +148,14 @@
       "enableParallelism": true,
       "allowWarningsInSuccessfulBuild": true
     },
-
+    {
+      "commandKind": "bulk",
+      "name": "execute:samples",
+      "summary": "Execute samples defined in projects",
+      "description": "Execute samples against external service.",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
     // Optional Scripts
     {
       "commandKind": "bulk",
