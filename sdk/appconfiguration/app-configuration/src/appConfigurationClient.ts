@@ -371,7 +371,7 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Sets or clears a key's read-only status
+   * Sets or clears a key's read-only status.
    * @param id The id of the configuration setting to modify
    */
   async setReadOnly(
