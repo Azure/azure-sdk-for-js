@@ -33,6 +33,7 @@ export class Sender {
 
   /**
    * @internal
+   * @throws {Error} Thrown if the underlying connection is closed.
    */
   constructor(context: ClientEntityContext) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -69,6 +70,7 @@ export class Sender {
    *
    * @param message - Message to send.
    * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -89,6 +91,7 @@ export class Sender {
    *
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -109,6 +112,7 @@ export class Sender {
    * You will need the sequence number if you intend to cancel the scheduling of the message.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async scheduleMessage(
     scheduledEnqueueTimeUtc: Date,
@@ -139,6 +143,7 @@ export class Sender {
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
@@ -162,6 +167,7 @@ export class Sender {
    * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumber - The sequence number of the message to be cancelled.
    * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -183,6 +189,7 @@ export class Sender {
    * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
    * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection, client or sender is closed.
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
