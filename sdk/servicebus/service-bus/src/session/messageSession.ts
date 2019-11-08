@@ -6,7 +6,10 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  Func
+  Func,
+  retry,
+  RetryOperationType,
+  RetryConfig
 } from "@azure/amqp-common";
 import {
   Receiver,
@@ -1134,22 +1137,20 @@ export class MessageSession extends LinkEntity {
     operation: DispositionType,
     options?: DispositionOptions
   ): Promise<any> {
-    return new Promise((resolve, reject) => {
+    const settleMessagePromise = new Promise((resolve, reject) => {
       if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
       const delivery = message.delivery;
       const timer = setTimeout(() => {
-        this._deliveryDispositionMap.delete(delivery.id);
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-            "Hence rejecting the promise with timeout error",
+            "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds * 1000
+          10 * 1000
         );
-
         const e: AmqpError = {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
           description:
@@ -1157,7 +1158,9 @@ export class MessageSession extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds * 1000);
+      }, 10 * 1000);
+
+      // This takes care of resolving the promise by waiting on the onSettled event
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,
@@ -1181,6 +1184,32 @@ export class MessageSession extends LinkEntity {
         delivery.reject(options.error || {});
       }
     });
+
+    const config: RetryConfig<any> = {
+      operation: () => {
+        return settleMessagePromise;
+      },
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      delayInSeconds: Constants.defaultDelayBetweenRetriesInSeconds,
+      times: Constants.defaultRetryAttempts
+    };
+    try {
+      return retry<Promise<any>>(config);
+    } catch (err) {
+      this._deliveryDispositionMap.delete(message.delivery.id);
+      log.error(
+        "[%s] Disposition for delivery id: %d, failed with error: %0",
+        this._context.namespace.connectionId,
+        message.delivery.id,
+        err
+      );
+      throw err;
+    } finally {
+      if (this._sessionLockRenewalTimer) {
+        clearTimeout(this._sessionLockRenewalTimer as NodeJS.Timer);
+      }
+    }
   }
 
   /**
