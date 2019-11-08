@@ -1414,7 +1414,7 @@ export class ShareFileClient extends StorageClient {
     try {
       if (isNode && data instanceof Buffer) {
         return this.uploadBuffer(
-          (offset, count) => Buffer.from(data.subarray(offset, offset + count)),
+          (offset, count) => data.slice(offset, offset + count),
           data.byteLength,
           {
             ...options,
