@@ -463,7 +463,7 @@ export class KeyClient {
   public async importKey(
     name: string,
     key: JsonWebKey,
-    options: ImportKeyOptions
+    options?: ImportKeyOptions
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
