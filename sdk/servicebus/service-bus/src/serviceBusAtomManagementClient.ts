@@ -10,7 +10,10 @@ import {
   proxyPolicy,
   RequestPolicyFactory,
   URLBuilder,
-  ProxySettings
+  ProxySettings,
+  stripRequest,
+  stripResponse,
+  RestError
 } from "@azure/core-http";
 
 import { parseConnectionString } from "@azure/amqp-common";
@@ -737,7 +740,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    return executeAtomXmlOperation(this, webResource, serializer);
+    return new Promise<HttpOperationResponse>(async (resolve, reject) => {
+      const response = await executeAtomXmlOperation(this, webResource, serializer);
+      resolve(response);
+      if (response.parsedBody == undefined) {
+        const err = new RestError(
+          `The message entity "${name}" being requested cannot be found.`,
+          "Service Error",
+          404,
+          stripRequest(webResource),
+          stripResponse(response)
+        );
+        reject(err);
+      }
+    });
   }
 
   /**
