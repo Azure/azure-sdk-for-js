@@ -3,24 +3,29 @@ const path = require("path");
 var jsyaml = require("js-yaml");
 
 /* Traversing the directory */
-const walk = (dir, checks) => {
-  var list = fs.readdirSync(dir);
+const walk = async (dir, checks) => {
+  checks = await walkRecurse(dir, checks, 0);
+  return checks;
+};
+
+const walkRecurse = async (dir, checks, depth) => {
+  if (depth > 0) return checks;
+  var list = await readDir(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
     if (fileName == "node_modules") {
-      checks.isRush = true;
       continue;
     }
     if (fileName == "src") {
       checks.srcPresent = true;
     }
     if (fileName == "package.json") {
-      let data = fs.readFileSync(filePath, "utf8");
+      let data = await readFile(filePath, "utf8");
       let settings = JSON.parse(data);
       if (settings["private"] === true) {
         checks.isPrivate = true;
       }
-      if(settings["sdk-type"] === "client"){
+      if (settings["sdk-type"] === "client") {
         checks.isClient = true;
       }
       checks.version = settings["version"];
@@ -28,9 +33,9 @@ const walk = (dir, checks) => {
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
     }
-    const stat = fs.statSync(filePath);
+    const stat = await statFile(filePath);
     if (stat && stat.isDirectory()) {
-      checks = walk(filePath, checks);
+      checks = await walkRecurse(filePath, checks, depth + 1);
     }
   }
   return checks;
