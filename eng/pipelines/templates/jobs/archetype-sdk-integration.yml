@@ -117,6 +117,11 @@ jobs:
             displayName: Delete Test-Specific Azure Resources
             condition: succeededOrFailed()
 
+      - script: |
+          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
+        displayName: "Execute Samples"
+        env: ${{parameters.EnvVars}}
+
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
@@ -130,27 +135,3 @@ jobs:
           testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
         condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"
-
-  - job: "VerifySamples"
-
-    variables:
-      - template: ../variables/globals.yml
-
-    pool:
-      vmImage: "$(OSVmImage)"
-
-    steps:
-      - template: ../steps/common.yml
-
-      - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
-
-      - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
-        displayName: "Build libraries"
-
-      - script: |
-          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
-        displayName: "Execute Samples"
-        env: ${{parameters.EnvVars}}
