@@ -58,7 +58,7 @@ const client = new AppConfigurationClient("<connection string>");
 The [`AppConfigurationClient`](https://azure.github.io/azure-sdk-for-js/app-configuration/classes/appconfigurationclient.html) has some terminology changes from App Configuration in the portal. 
 
 * Key/Value pairs are represented as [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) objects
-* Locking and unlocking a setting is renamed to `readOnly`, which you can toggle using the `setReadOnly` and `clearReadOnly` methods.
+* Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
 
 The client follows a simple design methodology - [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) can be passed into any method that takes a [`ConfigurationSettingParam`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingparam.html) or [`ConfigurationSettingId`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingid.html). 
 
@@ -74,7 +74,7 @@ await client.setConfigurationSetting(setting);
 
 // fields unrelated to just identifying the setting are simply 
 // ignored (for instance, the `value` field)
-await client.setReadOnly(setting);
+await client.setReadOnly(setting, true);
 
 // delete just needs to identify the setting so other fields are
 // just ignored
