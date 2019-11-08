@@ -728,7 +728,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
-    webResource.body = JSON.stringify(entityFields);
+    webResource.body = entityFields;
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }
