@@ -7,7 +7,7 @@ import { SharedOptions } from "./SharedOptions";
  */
 export interface FeedOptions extends SharedOptions {
   /** Opaque token for continuing the enumeration. Default: undefined */
-  continuation?: string;
+  continuationToken?: string;
   /**
    * Limits the size of the continuation token in the response. Default: undefined
    *

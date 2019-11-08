@@ -49,7 +49,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.currentPartitionIndex = 0;
     this.fetchFunctions = Array.isArray(fetchFunctions) ? fetchFunctions : [fetchFunctions];
     this.options = options || {};
-    this.continuation = this.options.continuation || null;
+    this.continuation = this.options.continuationToken || null;
     this.state = DefaultQueryExecutionContext.STATES.start;
   }
 
@@ -127,8 +127,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
-    const originalContinuation = this.options.continuation;
-    this.options.continuation = this.continuation;
+    const originalContinuation = this.options.continuationToken;
+    this.options.continuationToken = this.continuation;
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -159,7 +159,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       if (this.options && this.options.bufferItems === true) {
         const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
         this.nextFetchFunction = fetchFunction
-          ? fetchFunction({ ...this.options, continuation: this.continuation })
+          ? fetchFunction({ ...this.options, continuationToken: this.continuation })
           : undefined;
       }
     } catch (err) {
@@ -171,7 +171,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     this.state = DefaultQueryExecutionContext.STATES.inProgress;
     this.currentIndex = 0;
-    this.options.continuation = originalContinuation;
+    this.options.continuationToken = originalContinuation;
 
     // deserializing query metrics so that we aren't working with delimited strings in the rest of the code base
     if (Constants.HttpHeaders.QueryMetrics in responseHeaders) {

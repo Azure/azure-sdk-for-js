@@ -10,28 +10,28 @@ export class ResourceThrottleRetryPolicy {
   /** Current retry attempt count. */
   public currentRetryAttemptCount: number = 0;
   /** Cummulative wait time in milliseconds for a request while the retries are happening. */
-  public cummulativeWaitTimeinMilliseconds: number = 0;
+  public cummulativeWaitTimeinMs: number = 0;
   /** Max wait time in milliseconds to wait for a request while the retries are happening. */
-  public retryAfterInMilliseconds: number = 0;
+  public retryAfterInMs: number = 0;
 
   /** Max number of retries to be performed for a request. */
-  private maxWaitTimeInMilliseconds: number;
+  private timeoutInMs: number;
   /**
    * @constructor ResourceThrottleRetryPolicy
-   * @param {int} maxRetryAttemptCount               - Max number of retries to be performed for a request.
-   * @param {int} fixedRetryIntervalInMilliseconds   - Fixed retry interval in milliseconds to wait between each \
+   * @param {int} maxTries - Max number of retries to be performed for a request.
+   * @param {int} fixedRetryIntervalInMs   - Fixed retry interval in milliseconds to wait between each \
    * retry ignoring the retryAfter returned as part of the response.
-   * @param {int} maxWaitTimeInSeconds               - Max wait time in seconds to wait for a request while the \
+   * @param {int} timeoutInSeconds               - Max wait time in seconds to wait for a request while the \
    * retries are happening.
    */
   constructor(
-    private maxRetryAttemptCount: number = 9,
-    private fixedRetryIntervalInMilliseconds: number = 0,
-    maxWaitTimeInSeconds: number = 30
+    private maxTries: number = 9,
+    private fixedRetryIntervalInMs: number = 0,
+    timeoutInSeconds: number = 30
   ) {
-    this.maxWaitTimeInMilliseconds = maxWaitTimeInSeconds * 1000;
+    this.timeoutInMs = timeoutInSeconds * 1000;
     this.currentRetryAttemptCount = 0;
-    this.cummulativeWaitTimeinMilliseconds = 0;
+    this.cummulativeWaitTimeinMs = 0;
   }
   /**
    * Determines whether the request should be retried or not.
@@ -40,18 +40,18 @@ export class ResourceThrottleRetryPolicy {
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     // TODO: any custom error object
     if (err) {
-      if (this.currentRetryAttemptCount < this.maxRetryAttemptCount) {
+      if (this.currentRetryAttemptCount < this.maxTries) {
         this.currentRetryAttemptCount++;
-        this.retryAfterInMilliseconds = 0;
+        this.retryAfterInMs = 0;
 
-        if (this.fixedRetryIntervalInMilliseconds) {
-          this.retryAfterInMilliseconds = this.fixedRetryIntervalInMilliseconds;
-        } else if (err.retryAfterInMilliseconds) {
-          this.retryAfterInMilliseconds = err.retryAfterInMilliseconds;
+        if (this.fixedRetryIntervalInMs) {
+          this.retryAfterInMs = this.fixedRetryIntervalInMs;
+        } else if (err.retryAfterInMs) {
+          this.retryAfterInMs = err.retryAfterInMs;
         }
 
-        if (this.cummulativeWaitTimeinMilliseconds < this.maxWaitTimeInMilliseconds) {
-          this.cummulativeWaitTimeinMilliseconds += this.retryAfterInMilliseconds;
+        if (this.cummulativeWaitTimeinMs < this.timeoutInMs) {
+          this.cummulativeWaitTimeinMs += this.retryAfterInMs;
           return true;
         }
       }

@@ -208,7 +208,7 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -277,7 +277,7 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and

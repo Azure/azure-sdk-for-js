@@ -118,7 +118,9 @@ export class StoredProcedure {
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
     if (partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const response = await this.clientContext.execute<T>({

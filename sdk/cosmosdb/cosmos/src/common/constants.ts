@@ -77,7 +77,7 @@ export const Constants = {
     XDate: "x-ms-date",
     CollectionPartitionInfo: "x-ms-collection-partition-info",
     CollectionServiceInfo: "x-ms-collection-service-info",
-    RetryAfterInMilliseconds: "x-ms-retry-after-ms",
+    RetryAfterInMs: "x-ms-retry-after-ms",
     IsFeedUnfiltered: "x-ms-is-feed-unfiltered",
     ResourceTokenExpiry: "x-ms-documentdb-expiry-seconds",
     EnableScanInQuery: "x-ms-documentdb-query-enable-scan",

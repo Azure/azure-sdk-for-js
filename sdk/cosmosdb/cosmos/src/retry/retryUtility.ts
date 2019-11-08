@@ -52,9 +52,9 @@ export async function execute({
         requestContext.operationType
       ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+        requestContext.connectionPolicy.retryOptions.maxTries,
+        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMs,
+        requestContext.connectionPolicy.retryOptions.timeoutInSeconds
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         requestContext.globalEndpointManager,
@@ -88,7 +88,7 @@ export async function execute({
     response.headers[Constants.ThrottleRetryCount] =
       retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
-      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
     return response;
   } catch (err) {
     // TODO: any error
@@ -115,7 +115,7 @@ export async function execute({
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
       headers[Constants.ThrottleRetryWaitTimeInMs] =
-        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
       throw err;
     } else {
@@ -124,7 +124,7 @@ export async function execute({
       if (newUrl !== undefined) {
         requestContext.endpoint = newUrl;
       }
-      await sleep(retryPolicy.retryAfterInMilliseconds);
+      await sleep(retryPolicy.retryAfterInMs);
       return execute({
         executeRequest,
         requestContext,

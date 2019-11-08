@@ -167,7 +167,7 @@ export const Constants: {
         XDate: string;
         CollectionPartitionInfo: string;
         CollectionServiceInfo: string;
-        RetryAfterInMilliseconds: string;
+        RetryAfterInMs: string;
         IsFeedUnfiltered: string;
         ResourceTokenExpiry: string;
         EnableScanInQuery: string;
@@ -257,7 +257,6 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
-    getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // Warning: (ae-forgotten-export) The symbol "PartitionedQueryExecutionInfo" needs to be exported by the entry point index.d.ts
     // 
     // (undocumented)
@@ -267,6 +266,7 @@ export class Container {
     item(id: string, partitionKey: any): Item;
     readonly items: Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
+    readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
@@ -427,7 +427,7 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
-    retryAfterInMilliseconds?: number;
+    retryAfterInMs?: number;
     // (undocumented)
     substatus?: number;
 }
@@ -444,7 +444,7 @@ export interface FeedOptions extends SharedOptions {
         condition: string;
     };
     bufferItems?: boolean;
-    continuation?: string;
+    continuationToken?: string;
     continuationTokenLimitInKB?: number;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
@@ -460,7 +460,7 @@ export class FeedResponse<TResource> {
     // (undocumented)
     readonly activityId: string;
     // (undocumented)
-    readonly continuation: string;
+    readonly continuationToken: string;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -970,9 +970,9 @@ export interface Response<T> {
 
 // @public
 export interface RetryOptions {
-    fixedRetryIntervalInMilliseconds: number;
-    maxRetryAttemptCount: number;
-    maxWaitTimeInSeconds: number;
+    fixedRetryIntervalInMs: number;
+    maxTries: number;
+    timeoutInSeconds: number;
 }
 
 // @public (undocumented)

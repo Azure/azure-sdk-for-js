@@ -15,7 +15,7 @@ export class SessionRetryPolicy implements RetryPolicy {
   /** Current retry attempt count. */
   public currentRetryAttemptCount = 0;
   /** Retry interval in milliseconds. */
-  public retryAfterInMilliseconds = 0;
+  public retryAfterInMs = 0;
 
   /**
    * @constructor SessionReadRetryPolicy

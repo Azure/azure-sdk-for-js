@@ -9,7 +9,7 @@ export class FeedResponse<TResource> {
     private readonly headers: CosmosHeaders,
     public readonly hasMoreResults: boolean
   ) {}
-  public get continuation(): string {
+  public get continuationToken(): string {
     return this.headers[Constants.HttpHeaders.Continuation];
   }
   public get queryMetrics(): string {

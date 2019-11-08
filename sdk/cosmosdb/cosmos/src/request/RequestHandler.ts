@@ -115,9 +115,9 @@ async function httpRequest(requestContext: RequestContext) {
       errorResponse.substatus = substatus;
     }
 
-    if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
-      errorResponse.retryAfterInMilliseconds = parseInt(
-        headers[Constants.HttpHeaders.RetryAfterInMilliseconds],
+    if (Constants.HttpHeaders.RetryAfterInMs in headers) {
+      errorResponse.retryAfterInMs = parseInt(
+        headers[Constants.HttpHeaders.RetryAfterInMs],
         10
       );
     }

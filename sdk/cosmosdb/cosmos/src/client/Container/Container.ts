@@ -176,7 +176,7 @@ export class Container {
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
    */
-  public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
+  public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {

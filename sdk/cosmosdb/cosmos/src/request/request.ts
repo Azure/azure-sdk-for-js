@@ -76,8 +76,8 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.ResponseContinuationTokenLimitInKB] =
       options.continuationTokenLimitInKB;
   }
-  if (options.continuation) {
-    headers[Constants.HttpHeaders.Continuation] = options.continuation;
+  if (options.continuationToken) {
+    headers[Constants.HttpHeaders.Continuation] = options.continuationToken;
   }
 
   if (options.preTriggerInclude) {
