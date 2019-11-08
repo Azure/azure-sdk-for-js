@@ -8,7 +8,6 @@ import { DeletionRecoveryLevel } from "./core/models";
 /**
  * @internal
  * @ignore
- * @interface
  * An interface representing the KeyClient. For internal use.
  */
 export interface KeyClientInterface {
@@ -109,7 +108,6 @@ export interface JsonWebKey {
 }
 
 /**
- * @interface
  * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
@@ -142,7 +140,6 @@ export interface KeyVaultKey {
 }
 
 /**
- * @interface
  * An interface representing the Properties of {@link KeyVaultKey}
  */
 export interface KeyProperties {
@@ -204,7 +201,6 @@ export interface KeyProperties {
 }
 
 /**
- * @interface
  * An interface representing a deleted KeyVault Key.
  */
 export interface DeletedKey {
@@ -255,7 +251,6 @@ export interface DeletedKey {
 }
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link createKey}
  */
@@ -288,7 +283,6 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link beginDeleteKey} and {@link beginRecoverDeletedKey}
  */
@@ -304,21 +298,18 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link beginDeleteKey}
  */
 export interface BeginDeleteKeyOptions extends KeyPollerOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link beginRecoverDeletedKey}
  */
 export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
@@ -335,7 +326,6 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 }
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link createRsaKey}
  */
@@ -351,7 +341,6 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 }
 
 /**
- * @interface
  * An interface representing the optional parameters that can be
  * passed to {@link importKey}
  */
@@ -379,7 +368,6 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * @interface
  * An interface representing optional parameters that can be passed to {@link updateKeyProperties}.
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
@@ -407,7 +395,6 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * @interface
  * An interface representing optional parameters that can be passed to {@link getKey}.
  */
 export interface GetKeyOptions extends coreHttp.OperationOptions {
@@ -419,37 +406,31 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * @interface
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
 export interface ListKeysOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeys}.
  */
 export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeyVersions}.
  */
 export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listDeletedKeys}.
  */
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link purgeDeletedKey}.
  */
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
@@ -457,7 +438,6 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 /**
  * @internal
  * @ignore
- * @interface
  * An interface representing the optional parameters that can be passed to {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
@@ -465,25 +445,21 @@ export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 /**
  * @internal
  * @ignore
- * @interface
  * An interface representing the optional parameters that can be passed to {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link backupKey}.
  */
 export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing the optional parameters that can be passed to {@link restoreKeyBackup}.
  */
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 
 /**
- * @interface
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
 export interface CryptographyOptions extends coreHttp.OperationOptions {}
