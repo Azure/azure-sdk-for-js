@@ -219,7 +219,7 @@ export interface GetConfigurationSettingOptions
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: Date;
+  acceptDateTime?: Date;
 }
 
 /**

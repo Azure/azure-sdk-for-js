@@ -119,6 +119,18 @@ export function formatWildcards(
 }
 
 /**
+ * Handles translating a Date acceptDateTime into a string as needed by the API
+ * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @internal
+ * @ignore
+ */
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): { acceptDatetime?: string; }{
+  return {
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
+  };
+}
+
+/**
  * Take the URL that gets returned from next link and extract the 'after' token needed
  * to get the next page of results.
  * @internal

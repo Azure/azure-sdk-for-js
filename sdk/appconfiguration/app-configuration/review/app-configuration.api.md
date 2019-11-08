@@ -71,7 +71,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 
 // @public
 export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
-    acceptDatetime?: Date;
+    acceptDateTime?: Date;
 }
 
 // @public
@@ -121,7 +121,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 
 // @public
 export interface ListSettingsOptions extends OptionalFields {
-    acceptDatetime?: Date;
+    acceptDateTime?: Date;
     keys?: string[];
     labels?: string[];
 }

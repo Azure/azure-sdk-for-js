@@ -11,6 +11,7 @@ import {
   assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
+import { delay } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -414,7 +415,7 @@ describe("AppConfigurationClient", () => {
         value: "value1"
       });
 
-      await (new Promise((resolve) => setTimeout(() => resolve(), 1000)));
+      await delay(1000);
 
       await client.setConfigurationSetting({
         key,
@@ -422,7 +423,7 @@ describe("AppConfigurationClient", () => {
       });
 
       const settingAtPointInTime = await client.getConfigurationSetting({ key }, {
-        acceptDatetime: initialSetting.lastModified
+        acceptDateTime: initialSetting.lastModified
       });
 
       assert.equal("value1", settingAtPointInTime.value);
@@ -603,7 +604,7 @@ describe("AppConfigurationClient", () => {
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
         keys: ['listConfigSettingA-*'],
-        acceptDatetime: listConfigSettingA.lastModified
+        acceptDateTime: listConfigSettingA.lastModified
       });
 
       let settings = await toSortedArray(byKeyIterator);
@@ -684,10 +685,12 @@ describe("AppConfigurationClient", () => {
     const key = `listRevisions-${now}`;
     const labelA = `list-revisions-A-${now}`;
     const labelB = `list-revisions-B-${now}`;
+    let originalSetting: ConfigurationSetting;
 
     before(async () => {
       // we'll generate two sets of keys and labels for this selection
-      await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      originalSetting = await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      await delay(1000);
       await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
 
       await client.addConfigurationSetting({ key, label: labelB, value: "fooB1" });
@@ -759,6 +762,31 @@ describe("AppConfigurationClient", () => {
         const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
         await iter.next();
       });
+    });
+
+    it("by date", async () => {
+      let byKeyIterator = client.listRevisions({
+        keys: [key],
+        acceptDateTime: originalSetting.lastModified
+      });
+
+      let settings = await toSortedArray(byKeyIterator);
+
+      assert.equal(1, settings.length);
+      assert.deepEqual(
+        {
+          key: originalSetting.key,
+          label: originalSetting.label,
+          value: originalSetting.value,
+          isReadOnly: originalSetting.isReadOnly
+        },
+        {
+          key: settings[0].key,
+          label: settings[0].label,
+          value: settings[0].value,
+          isReadOnly: settings[0].isReadOnly
+        }
+      );
     });
   });
 

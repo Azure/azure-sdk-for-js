@@ -38,7 +38,8 @@ import {
   makeConfigurationSettingEmpty,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-  transformKeyValue
+  transformKeyValue,
+  formatAcceptDateTime
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -157,7 +158,7 @@ export class AppConfigurationClient {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
-        acceptDatetime: newOptions.acceptDatetime && newOptions.acceptDatetime.toISOString(),
+        ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
 
@@ -230,6 +231,7 @@ export class AppConfigurationClient {
       (newOptions) => {
         return this.client.getKeyValues({
           ...newOptions,
+          ...formatAcceptDateTime(options),
           ...formatWildcards(newOptions)
         });
       }
@@ -312,6 +314,7 @@ export class AppConfigurationClient {
     let currentResponse = await this.spanner.trace("listRevisions", opts, (newOptions) => {
       return this.client.getRevisions({
         ...newOptions,
+        ...formatAcceptDateTime(options),
         ...formatWildcards(newOptions)
       });
     });
