@@ -76,7 +76,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
   });
 });
 
-describe.only("deserializeAtomXmlResponse #RunInBrowser", function() {
+describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
     try {
       await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
