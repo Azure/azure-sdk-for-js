@@ -52,7 +52,7 @@ import { Credential } from "./credentials/Credential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
-import { streamToBuffer, bufferToStream } from "./utils/utils.node";
+import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
@@ -1413,8 +1413,8 @@ export class ShareFileClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
     try {
       if (isNode && data instanceof Buffer) {
-        return this.uploadResetableStream(
-          (offset, count) => bufferToStream(data, offset, count!),
+        return this.uploadBuffer(
+          (offset, count) => Buffer.from(data.subarray(offset, offset + count)),
           data.byteLength,
           {
             ...options,
@@ -1632,6 +1632,87 @@ export class ShareFileClient extends StorageClient {
                 tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            transferProgress += contentLength;
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
+            }
+          }
+        );
+      }
+      return await batch.do();
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * @export
+   * @param {(offset: number, count: number) => Buffer} bufferChunk Returns a Node.js Buffer chunk starting
+   *                                                                  from the offset defined till the count
+   * @param {number} size Size of the Azure file
+   * @param {ShareFileClient} fileClient ShareFileClient
+   * @param {FileParallelUploadOptions} [options]
+   * @returns {(Promise<void>)}
+   */
+  private async uploadBuffer(
+    bufferChunk: (offset: number, count: number) => Buffer,
+    size: number,
+    options: FileParallelUploadOptions = {}
+  ): Promise<void> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-uploadBuffer",
+      options.tracingOptions
+    );
+    try {
+      if (!options.rangeSize) {
+        options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
+      }
+      if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
+        throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
+      }
+
+      if (!options.fileHttpHeaders) {
+        options.fileHttpHeaders = {};
+      }
+
+      if (!options.concurrency) {
+        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
+      }
+      if (options.concurrency < 0) {
+        throw new RangeError(`options.concurrency cannot less than 0.`);
+      }
+
+      // Create the file
+      await this.create(size, {
+        abortSignal: options.abortSignal,
+        fileHttpHeaders: options.fileHttpHeaders,
+        metadata: options.metadata,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+
+      const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
+      let transferProgress: number = 0;
+      const batch = new Batch(options.concurrency);
+
+      for (let i = 0; i < numBlocks; i++) {
+        batch.addOperation(
+          async (): Promise<any> => {
+            const start = options.rangeSize! * i;
+            const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
+            const contentLength = end - start;
+            await this.uploadRange(bufferChunk(start, contentLength), start, contentLength, {
+              abortSignal: options.abortSignal,
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
+            });
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
             if (options.onProgress) {
