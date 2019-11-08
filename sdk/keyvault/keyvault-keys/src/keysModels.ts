@@ -368,7 +368,7 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing optional parameters that can be passed to {@link updateKeyProperties}.
+ * Options for {@link updateKeyProperties}.
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**
@@ -395,7 +395,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing optional parameters that can be passed to {@link getKey}.
+ * Options for {@link getKey}.
  */
 export interface GetKeyOptions extends coreHttp.OperationOptions {
   /**
@@ -426,36 +426,36 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link getDeletedKey}.
+ * Options for {@link getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link purgeDeletedKey}.
+ * Options for {@link purgeDeletedKey}.
  */
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link recoverDeletedKey}.
+ * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link deleteKey}.
+ * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link backupKey}.
+ * Options for {@link backupKey}.
  */
 export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link restoreKeyBackup}.
+ * Options for {@link restoreKeyBackup}.
  */
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 

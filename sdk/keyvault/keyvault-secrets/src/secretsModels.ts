@@ -198,7 +198,7 @@ export interface BeginDeleteSecretOptions extends SecretPollerOptions {}
 export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link setSecret}.
+ * Options for {@link setSecret}.
  */
 export interface SetSecretOptions extends coreHttp.OperationOptions {
   /**
@@ -224,7 +224,7 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing the optional parameters that can be passed to {@link updateSecretProperties}.
+ * Options for {@link updateSecretProperties}.
  */
 export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
   /**
@@ -250,7 +250,7 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions
 }
 
 /**
- * An interface representing the optional parameters that can be passed to {@link getSecret}.
+ * Options for {@link getSecret}.
  */
 export interface GetSecretOptions extends coreHttp.OperationOptions {
   /**
@@ -261,50 +261,50 @@ export interface GetSecretOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing the optional parameters that can be passed to {@link getDeletedSecret}.
+ * Options for {@link getDeletedSecret}.
  */
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link purgeDeletedSecret}.
+ * Options for {@link purgeDeletedSecret}.
  */
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link backupSecretOptions}.
+ * Options for {@link backupSecretOptions}.
  */
 export interface BackupSecretOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link restoreSecretBackup}.
+ * Options for {@link restoreSecretBackup}.
  */
 export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link recoverDeletedSecret}.
+ * Options for {@link recoverDeletedSecret}.
  */
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link deleteSecret}.
+ * Options for {@link deleteSecret}.
  */
 export interface DeleteSecretOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecretVersions}.
+ * Options for {@link listPropertiesOfSecretVersions}.
  */
 export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link listPropertiesOfSecrets}.
+ * Options for {@link listPropertiesOfSecrets}.
  */
 export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link listDeletedSecrets}.
+ * Options for {@link listDeletedSecrets}.
  */
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {}
