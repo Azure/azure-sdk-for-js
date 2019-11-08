@@ -1,6 +1,9 @@
 const fs = require("fs-extra");
 const path = require("path");
 var jsyaml = require("js-yaml");
+const util = require("util");
+const readFile = util.promisify(fs.readFile);
+const readDir = util.promisify(fs.readdir);
 
 /* Traversing the directory */
 const getChecks = async (dir, checks) => {
