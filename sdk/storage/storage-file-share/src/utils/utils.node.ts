@@ -4,25 +4,6 @@
 import * as fs from "fs";
 import * as util from "util";
 import { isNode } from "@azure/core-http";
-import { ReadableStreamBuffer } from "stream-buffers";
-
-/**
- * Reads buffer into a NodeJS.ReadableStream.
- *
- * @export
- * @param {Buffer} data A Node.js Buffer
- * @param {number} offset From which position in the buffer to be streamed, inclusive
- * @param {number} count Size of the buffer chunk to be passed as a ReadableStream, exclusive
- * @returns {NodeJS.ReadableStream}
- */
-export function bufferToStream(data: Buffer, offset: number, count: number): NodeJS.ReadableStream {
-  const bufferToStream = new ReadableStreamBuffer({
-    chunkSize: count ? offset + count - 1 : Infinity
-  });
-  bufferToStream.put(Buffer.from(data.subarray(offset, offset + count)));
-  bufferToStream.stop();
-  return bufferToStream;
-}
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
