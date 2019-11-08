@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU } from "../utils";
+import { bodyToString, getBSU, createRandomLocalFile } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -12,6 +12,9 @@ import {
   FileSASPermissions
 } from "../../src";
 import { record } from "../utils/recorder";
+import * as fs from "fs";
+import * as path from "path";
+import { readStreamToLocalFile } from "../../src/utils/utils.node";
 
 describe("FileClient Node.js only", () => {
   const serviceClient = getBSU();
@@ -42,6 +45,26 @@ describe("FileClient Node.js only", () => {
   afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
+  });
+
+  it("uploadData - large Buffer as data", async () => {
+    await fileClient.create(257 * 1024 * 1024 * 1024);
+    const tempFolderPath = "temp";
+    if (!fs.existsSync(tempFolderPath)) {
+      fs.mkdirSync(tempFolderPath);
+    }
+    const tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
+    await fileClient.uploadData(fs.readFileSync(tempFileLarge));
+
+    const downloadResponse = await fileClient.download();
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+
+    const downloadedData = await fs.readFileSync(downloadedFile);
+    const uploadedData = await fs.readFileSync(tempFileLarge);
+
+    fs.unlinkSync(downloadedFile);
+    assert.ok(downloadedData.equals(uploadedData));
   });
 
   it("upload with buffer and default parameters", async () => {
