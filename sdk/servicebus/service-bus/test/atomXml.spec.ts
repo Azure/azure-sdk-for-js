@@ -6,7 +6,11 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { executeAtomXmlOperation, AtomXmlSerializer } from "../src/util/atomXmlHelper";
+import {
+  executeAtomXmlOperation,
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse
+} from "../src/util/atomXmlHelper";
 import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
 
 import { HttpOperationResponse, WebResource } from "@azure/core-http";
@@ -69,6 +73,59 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
       expectedRequestBody.substring(indexOfCloseUpdateTag),
       "Atom XML serialization failure"
     );
+  });
+});
+
+describe.only("deserializeAtomXmlResponse #RunInBrowser", function() {
+  it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
+    try {
+      await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
+    } catch (err) {
+      console.log("Ignoring clean up step");
+    }
+    const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
+
+    delete response._response["parsedBody"]["entry"];
+    delete response._response["parsedBody"]["feed"];
+    response._response["parsedBody"] = { notAnEntry: "" };
+
+    try {
+      await deserializeAtomXmlResponse(["QueueName"], response._response);
+      assert.deepEqual(true, false, "Error must be thrown");
+    } catch (err) {
+      assert.deepEqual(
+        err.message.startsWith(
+          "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements."
+        ),
+        true,
+        `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements." `
+      );
+      assert.deepEqual(err.code, "PARSE_ERROR");
+    }
+  });
+
+  it("should throw appropriate error if unrecognized HTTP code is returned by service", async function() {
+    try {
+      await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
+    } catch (err) {
+      console.log("Ignoring clean up step");
+    }
+    const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
+
+    response._response.status = 666;
+    response._response["parsedBody"] = undefined;
+
+    try {
+      await deserializeAtomXmlResponse(["QueueName"], response._response);
+      assert.deepEqual(true, false, "Error must be thrown");
+    } catch (err) {
+      assert.deepEqual(
+        err.message.startsWith("Service Error"),
+        true,
+        `"${err.message}" was expected to begin with "Service Error" `
+      );
+      assert.deepEqual(err.code.startsWith("UnrecognizedHttpResponseStatus"), true);
+    }
   });
 });
 
