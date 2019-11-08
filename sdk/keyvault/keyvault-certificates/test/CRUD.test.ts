@@ -3,8 +3,8 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { retry } from "./utils/recorder";
 import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
@@ -17,7 +17,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   };
 
   beforeEach(async function() {
@@ -36,11 +36,16 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can create a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const result = await client.createCertificate(certificateName, basicCertificatePolicy);
-    assert.equal(
-      result.properties.name,
+    const poller = await client.beginCreateCertificate(
       certificateName,
-      "Unexpected key name in result from createCertificate()."
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const pendingCertificate = poller.getResult(); // Pending certificate
+    assert.equal(
+      pendingCertificate!.properties.name,
+      certificateName,
+      "Unexpected key name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
@@ -49,7 +54,11 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = "";
     let error;
     try {
-      await client.createCertificate(certificateName, basicCertificatePolicy);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -57,14 +66,18 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(
       error.message,
       `"certificateName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running createCertificate with an empty string as the name."
+      "Unexpected error while running beginCreateCertificate with an empty string as the name."
     );
   });
 
   it("can update the tags of a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     await client.updateCertificate(certificateName, "", {
       tags: {
         customTag: "value"
@@ -82,26 +95,34 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can get a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     const result = await client.getCertificate(certificateName);
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from createCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
 
   it("can retrieve the latest version of a certificate value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
 
     const result = await client.getCertificate(certificateName);
 
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from createCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
@@ -124,8 +145,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can delete a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
-    const result = await client.deleteCertificate(certificateName);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const result = poller.getResult()!;
 
     assert.equal(typeof result.recoveryId, "string");
     assert.ok(result.deletedOn instanceof Date);
@@ -148,7 +174,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
-      await client.deleteCertificate(certificateName);
+      await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -162,11 +188,15 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can get a deleted certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
-    await client.deleteCertificate(certificateName);
-    const getResult = await retry(async () => client.getDeletedCertificate(certificateName));
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const deletedCertificate = await deletePoller.pollUntilDone();
     assert.equal(
-      getResult.properties.name,
+      deletedCertificate.properties.name,
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
@@ -177,7 +207,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
-      await client.deleteCertificate(certificateName);
+      await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -194,7 +224,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setIssuer(issuerName, "Test", {
+    await client.createIssuer(issuerName, "Test", {
       credentials: {
         accountId: "keyvaultuser"
       },
@@ -211,10 +241,14 @@ describe("Certificates client - create, read, update and delete", () => {
     });
 
     // Creating a certificate with that issuer
-    await client.createCertificate(certificateName, {
-      issuerName,
-      subjectName: "cn=MyCert"
-    });
+    await client.beginCreateCertificate(
+      certificateName,
+      {
+        issuerName,
+        subject: "cn=MyCert"
+      },
+      testPollerProperties
+    );
 
     // Reading the issuer from the certificate
     const certificate = await client.getCertificate(certificateName);
@@ -262,35 +296,45 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can update a certificate's policy", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     const result = await client.getCertificate(certificateName);
     assert.equal(result.policy!.issuerName, "Self");
-    assert.equal(result.policy!.subjectName, "cn=MyCert");
+    assert.equal(result.policy!.subject, "cn=MyCert");
 
     await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
-      subjectName: "cn=MyOtherCert"
+      subject: "cn=MyOtherCert"
     });
     const updated = await client.getCertificate(certificateName);
-    assert.equal(updated.policy!.subjectName, "cn=MyOtherCert");
+    assert.equal(updated.policy!.subject, "cn=MyOtherCert");
 
     await testClient.flushCertificate(certificateName);
   });
 
   it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
 
     let getResponse: any;
 
     // Read
-    getResponse = await client.getCertificateOperation(certificateName);
+    let operationPoller = await client.getCertificateOperation(certificateName);
+    getResponse = operationPoller.getResult();
     assert.equal(getResponse.status, "inProgress");
     assert.equal(getResponse.cancellationRequested, false);
 
     // Cancel
     await client.cancelCertificateOperation(certificateName);
-    getResponse = await client.getCertificateOperation(certificateName);
+    operationPoller = await client.getCertificateOperation(certificateName);
+    getResponse = operationPoller.getResult();
     assert.equal(getResponse.cancellationRequested, true);
 
     // Delete

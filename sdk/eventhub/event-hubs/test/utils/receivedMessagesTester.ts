@@ -1,20 +1,21 @@
-import { CloseReason, ReceivedEventData, delay, EventPosition, EventHubProducerClient } from "../../src/";
-import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
+import { CloseReason, ReceivedEventData, EventPosition, EventHubProducerClient, PartitionCheckpointer } from "../../src/";
+import { SubscriptionEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
+import { delay } from '@azure/core-amqp';
 
 const should = chai.should();
 
 interface ReceivedMessages {
   closeReason?: CloseReason;
-  errors: Error[];
+  lastError?: Error;
 }
 
 /**
  * A simple tester that lets you easily poll for messages and check that they've
  * all been received at least once.
  */
-export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
+export class ReceivedMessagesTester implements Required<SubscriptionEventHandlers>, SubscriptionOptions {
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
@@ -33,18 +34,24 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
    */
   constructor(
     private expectedPartitions: string[],
-    private multipleConsumers: boolean
+    private multipleConsumers: boolean, 
+    public maxBatchSize: number = 1,
+    public maxWaitTimeInSeconds: number = 10
   ) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();
     this.done = false;
   }
 
-  async onReceivedEvents(
+  async processEvents(
     receivedEvents: ReceivedEventData[],
-    context: PartitionContext
+    context: PartitionContext & PartitionCheckpointer
   ): Promise<void> {
     this.contextIsOk(context);
+
+    if (receivedEvents.length > 0) {
+      await context.updateCheckpoint(receivedEvents[receivedEvents.length - 1]);
+    }
 
     for (const event of receivedEvents) {
       this.expectedMessageBodies.delete(event.body);
@@ -55,7 +62,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     }
   }
 
-  async onError(error: Error, context: PartitionContext): Promise<void> {
+  async processError(error: Error, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
@@ -68,10 +75,10 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     }
 
     const receivedData = this.get(context.partitionId);
-    receivedData.errors.push(error);
+    receivedData.lastError = error;
   }
 
-  async onInitialize(context: PartitionContext): Promise<void> {
+  async processInitialize(context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     if (!this.multipleConsumers) {
@@ -85,12 +92,11 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     }
 
     this.data.set(context.partitionId, {
-      closeReason: undefined,
-      errors: []
+      closeReason: undefined
     });
   }
 
-  async onClose(reason: CloseReason, context: PartitionContext): Promise<void> {
+  async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     const receivedData = this.get(context.partitionId);
@@ -111,8 +117,8 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
 
     while (!this.done) {
       for (const data of this.data) {
-        if (data[1].errors.length > 0) {
-          throw data[1].errors[0];
+        if (data[1].lastError) {
+          throw data[1].lastError;
         }
       }
 

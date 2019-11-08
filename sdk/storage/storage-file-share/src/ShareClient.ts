@@ -47,7 +47,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 
 /**
- * Options to configure Share - Create operation.
+ * Options to configure the {@link ShareClient.create} operation.
  *
  * @export
  * @interface ShareCreateOptions
@@ -80,7 +80,7 @@ export interface ShareCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Delete operation.
+ * Options to configure the {@link ShareClient.delete} operation.
  *
  * @export
  * @interface ShareDeleteMethodOptions
@@ -106,7 +106,7 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Metadata operation.
+ * Options to configure the {@link ShareClient.setMetadata} operation.
  *
  * @export
  * @interface ShareSetMetadataOptions
@@ -123,7 +123,7 @@ export interface ShareSetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Access Policy operation.
+ * Options to configure the {@link ShareClient.setAccessPolicy} operation.
  *
  * @export
  * @interface ShareSetAccessPolicyOptions
@@ -140,7 +140,7 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Access Policy operation.
+ * Options to configure the {@link ShareClient.getAccessPolicy} operation.
  *
  * @export
  * @interface ShareGetAccessPolicyOptions
@@ -157,7 +157,7 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Properties operation.
+ * Options to configure the {@link ShareClient.getProperties} operation.
  *
  * @export
  * @interface ShareGetPropertiesOptions
@@ -174,7 +174,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Quota operation.
+ * Options to configure the {@link ShareClient.setQuota} operation.
  *
  * @export
  * @interface ShareSetQuotaOptions
@@ -191,7 +191,7 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Statistics operation.
+ * Options to configure the {@link ShareClient.getStatistics} operation.
  *
  * @export
  * @interface ShareGetStatisticsOptions
@@ -261,7 +261,7 @@ export declare type ShareGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Share - Create Snapshot operation.
+ * Options to configure the {@link ShareClient.createSnapshot} operation.
  *
  * @export
  * @interface ShareCreateSnapshotOptions
@@ -285,7 +285,7 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Create Permission operation.
+ * Options to configure the {@link ShareClient.createPermission} operation.
  *
  * @export
  * @interface ShareCreatePermissionOptions
@@ -301,7 +301,7 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 /**
- * Options to configure Share - Get Permission operation.
+ * Options to configure the {@link ShareClient.getPermission} operation.
  *
  * @export
  * @interface ShareGetPermissionOptions
@@ -318,7 +318,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 }
 
 /**
- * Response - Share Get Statistics Operation.
+ * Response data for the {@link ShareClient.getStatistics} Operation.
  *
  * @export
  * @interface ShareGetStatisticsResponse
@@ -481,7 +481,7 @@ export class ShareClient extends StorageClient {
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
-      return this.context.create({
+      return await this.context.create({
         ...options,
         spanOptions
       });
@@ -497,7 +497,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a ShareDirectoryClient object.
+   * Creates a {@link ShareDirectoryClient} object.
    *
    * @param directoryName A directory name
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given directory name.
@@ -637,11 +637,12 @@ export class ShareClient extends StorageClient {
    * account's index and is no longer accessible to clients. The file's data is later
    * removed from the service during garbage collection.
    *
-   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * Delete File will fail with status code 409 (Conflict) and error code `SharingViolation`
    * if the file is open on an SMB client.
    *
    * Delete File is not supported on a share snapshot, which is a read-only copy of
-   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400
+   * (`InvalidQueryParameterValue`)
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
@@ -687,7 +688,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -714,7 +715,7 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         ...options,
         spanOptions
       });
@@ -747,7 +748,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareSetMetadataResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -851,7 +852,7 @@ export class ShareClient extends StorageClient {
         });
       }
 
-      return this.context.setAccessPolicy({
+      return await this.context.setAccessPolicy({
         abortSignal: options.abortSignal,
         shareAcl: acl,
         spanOptions
@@ -879,7 +880,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareCreateSnapshotResponse> {
     const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.tracingOptions);
     try {
-      return this.context.createSnapshot({
+      return await this.context.createSnapshot({
         abortSignal: options.abortSignal,
         ...options,
         spanOptions
@@ -914,7 +915,7 @@ export class ShareClient extends StorageClient {
           `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
         );
       }
-      return this.context.setQuota({
+      return await this.context.setQuota({
         abortSignal: options.abortSignal,
         quota: quotaInGB,
         spanOptions
@@ -977,7 +978,7 @@ export class ShareClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.createPermission(
+      return await this.context.createPermission(
         {
           permission: filePermission
         },
@@ -1011,7 +1012,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPermissionResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
     try {
-      return this.context.getPermission(filePermissionKey, {
+      return await this.context.getPermission(filePermissionKey, {
         aborterSignal: options.abortSignal,
         spanOptions
       });

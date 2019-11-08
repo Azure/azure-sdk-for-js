@@ -158,7 +158,7 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 
 ### Creating and setting a certificate
 
-`createCertificate` creates a certificate to be stored in the Azure Key Vault. If
+`beginCreateCertificate` creates a certificate to be stored in the Azure Key Vault. If
 a certificate with the same name already exists, a new version of the
 certificate is created.
 
@@ -176,19 +176,17 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  const keyVaultCertificate = await client.createCertificate(certificateName, {
+  await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
-  console.log("Certificate: ", keyVaultCertificate);
 }
 
 main();
 ```
 
-Besides the name of the certificate, you can also pass the following attributes:
+Besides the name of the certificate and the policy, you can also pass the following properties in a third argument with optional values:
 
-- `certificatePolicy`: The policy of the certificate.
 - `enabled`: A boolean value that determines whether the certificate can be used or not.
 - `tags`: Any set of key-values that can be used to search and filter certificates.
 
@@ -206,7 +204,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
   issuerName: "Self",
-  subjectName: "cn=MyCert"
+  subject: "cn=MyCert"
 };
 const enabled = true;
 const tags = {
@@ -214,22 +212,60 @@ const tags = {
 };
 
 async function main() {
-  const keyVaultCertificate = await client.createCertificate(
-    certificateName,
-    certificatePolicy,
-    {
-      enabled,
-      tags
-    }
-  );
-  console.log("Certificate: ", keyVaultCertificate);
+  await client.beginCreateCertificate(certificateName, certificatePolicy, {
+    enabled,
+    tags
+  });
 }
 
 main();
 ```
 
-Calling to `createCertificate` with the same name will create a new version of
+Calling to `beginCreateCertificate` with the same name will create a new version of
 the same certificate, which will have the latest provided attributes.
+
+Since Certificates take some time to get fully created, `beginCreateCertificate`
+returns a poller object that keeps track of the underlying Long Running
+Operation according to our guidelines:
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+The received poller will allow you to get the created certificate by calling to `poller.getResult()`.
+You can also wait until the deletion finishes, either by running individual service
+calls until the certificate is created, or by waiting until the process is done:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+const client = new CertificateClient(url, credential);
+
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerName: "Self",
+  subject: "cn=MyCert"
+};
+
+async function main() {
+  const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
+
+  // You can use the pending certificate immediately:
+  const pendingCertificate = poller.getResult();
+
+  await poller.poll(); // On each poll, the poller checks whether the certificate has been fully created or not.
+  console.log(poller.isDone()); // The poller will be done once the certificate is fully created.
+
+  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+  const keyVaultCertificate = await poller.pollUntilDone();
+  console.log(keyVaultCertificate);
+}
+
+main();
+```
 
 ### Get a certificate
 
@@ -256,8 +292,14 @@ const certificateName = "MyCertificateName";
 async function main() {
   const latestCertificate = await client.getCertificate(certificateName);
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificateVersion(certificateName, latestCertificate.properties.version);
-  console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `, specificCertificate);
+  const specificCertificate = await client.getCertificateVersion(
+    certificateName,
+    latestCertificate.properties.version
+  );
+  console.log(
+    `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
+    specificCertificate
+  );
 }
 
 main();
@@ -365,7 +407,7 @@ async function main() {
   const result = client.getCertificate(certificateName);
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 }
 
@@ -374,7 +416,7 @@ main();
 
 ### Deleting a certificate
 
-The `deleteCertificate` method sets a certificate up for deletion. This process will
+The `beginDeleteCertificate` method sets a certificate up for deletion. This process will
 happen in the background as soon as the necessary resources are available.
 
 If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
@@ -396,13 +438,24 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  await client.deleteCertificate(certificateName);
+  const poller = await client.beginDeleteCertificate(certificateName);
 
-  // If soft-delete is enabled, we can eventually do:
+  // You can use the deleted certificate immediately:
+  const deletedCertificate = poller.getResult();
+
+  // The certificate is being deleted. Only wait for it if you want to restore it or purge it.
+  await poller.pollUntilDone();
+
+  // You can also get the deleted certificate this way:
   await client.getDeletedCertificate(certificateName);
-  // Deleted certificates can also be recovered or purged:
-  await client.recoverDeletedCertificate(certificateName);
-  // or
+
+  // Deleted certificates can also be recovered or purged.
+
+  // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
+  const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
+  const recoverPoller.pollUntilDone();
+
+  // And then, to purge the deleted certificate:
   await client.purgeDeletedCertificate(certificateName);
 }
 
@@ -410,7 +463,7 @@ main();
 ```
 
 Since the deletion of a certificate won't happen instantly, some time is needed
-after the `deleteCertificate` method is called before the deleted certificate is
+after the `beginDeleteCertificate` method is called before the deleted certificate is
 available to be read, recovered or purged.
 
 ### Iterating lists of certificates
@@ -486,7 +539,7 @@ async function main() {
   }
   for await (let page of client.listCertificateVersions(certificateName).byPage()) {
     for (let version of page) {
-    console.log("Version: ", version);
+      console.log("Version: ", version);
     }
   }
 }
@@ -514,7 +567,7 @@ directory for detailed examples on how to use this library.
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.microsoft.com.
 

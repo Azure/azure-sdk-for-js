@@ -38,7 +38,7 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
-    const content: object = serializer.serialize(JSON.parse(webResource.body));
+    const content: object = serializer.serialize(webResource.body);
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
@@ -60,13 +60,13 @@ export async function executeAtomXmlOperation(
     }
   } catch (err) {
     const error = new RestError(
-      `ResponseNotInAtomXMLFormat - ${err.message}`,
+      `Error occurred while parsing the response body - expected the service to return valid xml content.`,
       RestError.PARSE_ERROR,
       response.status,
       stripRequest(response.request),
       stripResponse(response)
     );
-
+    log.warning("Error parsing response body from Service - %0", err);
     throw error;
   }
 
@@ -82,7 +82,17 @@ export async function executeAtomXmlOperation(
  */
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
-  content[resourceName] = resource;
+
+  // The top level key value pairs having undefined/null as the value are removed in order to address issue where the Service Bus'
+  // ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body at top level.
+  const processedResource = Object.assign({}, resource);
+  Object.keys(processedResource).forEach(function(property) {
+    if (processedResource[property] == undefined) {
+      delete processedResource[property];
+    }
+  });
+  content[resourceName] = processedResource;
+
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
     "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
@@ -118,44 +128,39 @@ export async function deserializeAtomXmlResponse(
     if (errorBody == undefined) {
       const HttpResponseCodes: any = Constants.HttpResponseCodes;
       const statusCode = response.status;
-      if (isKnownResponseCode(statusCode)) {
-        throw buildError(
-          {
-            code: HttpResponseCodes[statusCode]
-          },
-          response
-        );
-      } else {
-        throw buildError(
-          {
-            code: `UnrecognizedHttpResponseStatus: ${statusCode}`
-          },
-          response
-        );
-      }
+      throw new RestError(
+        "Service Error",
+        isKnownResponseCode(statusCode)
+          ? HttpResponseCodes[statusCode]
+          : `UnrecognizedHttpResponseStatus: ${statusCode}`,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
     } else {
       throw buildError(errorBody, response);
     }
   }
 
-  response.parsedBody = parseAtomResult(response.parsedBody, nameProperties);
+  parseAtomResult(response, nameProperties);
+
   return response;
 }
 
 /**
  * @ignore
- * Utility to deserialize the given JSON content even further based on
- * if it's a single `entry` or `feed`
- * @param {object} atomResponseInJson
+ * Utility to deserialize the given JSON content in response body based on
+ * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
+ * @param response Response containing the JSON value in `response.parsedBody`
  * @nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */
-function parseAtomResult(
-  atomResponseInJson: any,
-  nameProperties: string[]
-): object[] | object | undefined {
+function parseAtomResult(response: HttpOperationResponse, nameProperties: string[]): void {
+  const atomResponseInJson = response.parsedBody;
+
   let result: any;
   if (!atomResponseInJson) {
+    response.parsedBody = undefined;
     return;
   }
 
@@ -173,10 +178,21 @@ function parseAtomResult(
     } else {
       setName(result, nameProperties);
     }
-    return result;
+    response.parsedBody = result;
+    return;
   }
 
-  throw new Error("Unrecognized Atom XML result: " + JSON.stringify(atomResponseInJson));
+  log.error(
+    "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
+    atomResponseInJson
+  );
+  throw new RestError(
+    "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
+    RestError.PARSE_ERROR,
+    response.status,
+    stripRequest(response.request),
+    stripResponse(response)
+  );
 }
 
 /**
@@ -326,47 +342,18 @@ function setName(entry: any, nameProperties: any): any {
  * @param response
  */
 export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
-  const normalizedError: any = {};
-  const odataErrorFormat = !!errorBody["odata.error"];
-  const errorProperties =
-    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
+  const errorProperties = errorBody.Error || errorBody.error || errorBody;
   let errorMessage;
 
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    if (odataErrorFormat) {
-      Object.keys(errorProperties).forEach((property: string) => {
-        let value = errorProperties[property];
-        if (property === Constants.ODATA_ERROR_MESSAGE && typeof value !== "string") {
-          if (value && value[Constants.ODATA_ERROR_MESSAGE_VALUE]) {
-            value = value[Constants.ODATA_ERROR_MESSAGE_VALUE];
-          } else {
-            value = "missing value in the message property of the odata error format";
-          }
-        }
-        normalizedError[property.toLowerCase()] = value;
-      });
-    } else {
-      Object.keys(errorProperties).forEach((property: any) => {
-        let value = errorProperties[property];
-        if (property !== Constants.XML_METADATA_MARKER) {
-          if (value && value[Constants.XML_VALUE_MARKER]) {
-            value = value[Constants.XML_VALUE_MARKER];
-          }
-          normalizedError[property.toLowerCase()] = value;
-        }
-      });
-    }
-    errorMessage = normalizedError.code;
-    if (normalizedError.detail) {
-      errorMessage += " - " + normalizedError.detail;
-    }
+    errorMessage = errorProperties.Detail || errorProperties.detail;
   }
 
   const error: RestError = new RestError(
-    `ATOM Service Error: ${errorMessage}`,
-    normalizedError.code,
+    errorMessage,
+    errorProperties.Code || errorProperties.code,
     response.status,
     stripRequest(response.request),
     stripResponse(response)

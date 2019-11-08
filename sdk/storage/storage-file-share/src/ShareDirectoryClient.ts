@@ -41,7 +41,7 @@ import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
 
 /**
- * Options to configure Directory - Create operation.
+ * Options to configure {@link ShareDirectoryClient.create} operation.
  *
  * @export
  * @interface DirectoryCreateOptions
@@ -78,7 +78,12 @@ export interface DirectoryProperties
 }
 
 /**
- * Options to configure Directory - List Files and Directories Segment operation.
+ * Options to configure Directory - List Files and Directories Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.iterateFilesAndDirectoriesSegments}
+ * - {@link ShareDirectoryClient.listFilesAndDirectoriesItems}
+ * - {@link ShareDirectoryClient.listFilesAndDirectoriesSegment}
  *
  * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
@@ -112,7 +117,7 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Files and Directories operation.
+ * Options to configure {@link ShareDirectoryClient.listFilesAndDirectories} operation.
  *
  * @export
  * @interface DirectoryListFilesAndDirectoriesOptions
@@ -137,7 +142,7 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Delete operation.
+ * Options to configure the {@link ShareDirectoryClient.delete} operation.
  *
  * @export
  * @interface DirectoryDeleteOptions
@@ -154,7 +159,7 @@ export interface DirectoryDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Get Properties operation.
+ * Options to configure the {@link ShareDirectoryClient.getProperties} operation.
  *
  * @export
  * @interface DirectoryGetPropertiesOptions
@@ -171,7 +176,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Set Metadata operation.
+ * Options to configure the {@link ShareDirectoryClient.setMetadata} operation.
  *
  * @export
  * @interface DirectorySetMetadataOptions
@@ -188,7 +193,13 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Handles Segment.
+ * Options to configure Directory - List Handles Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.listHandlesSegment}
+ * - {@link ShareDirectoryClient.iterateHandleSegments}
+ * - {@link ShareDirectoryClient.listHandleItems}
+ *
  *
  * @export
  * @interface DirectoryListHandlesSegmentOptions
@@ -221,7 +232,7 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Handles.
+ * Options to configure the {@link ShareDirectoryClient.listHandles} operation.
  *
  * @export
  * @interface DirectoryListHandlesOptions
@@ -246,7 +257,11 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Force Close Handles Segment.
+ * Options to configure Directory - Force Close Handles Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.forceCloseHandlesSegment}
+ * - {@link ShareDirectoryClient.forceCloseAllHandles}
  *
  * @export
  * @interface DirectoryForceCloseHandlesSegmentOptions
@@ -271,7 +286,7 @@ export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions 
 }
 
 /**
- * Options to configure Directory - Force Close Handles.
+ * Options to configure {@link ShareDirectoryClient.forceCloseHandle}.
  *
  * @export
  * @interface DirectoryForceCloseHandlesOptions
@@ -388,7 +403,7 @@ export class ShareDirectoryClient extends StorageClient {
         options.fileAttributes = attributes;
       }
 
-      return this.context.create(
+      return await this.context.create(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -430,7 +445,7 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
-      return this.context.setProperties(
+      return await this.context.setProperties(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -458,6 +473,13 @@ export class ShareDirectoryClient extends StorageClient {
    * @param subDirectoryName A subdirectory name
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
    * @memberof ShareDirectoryClient
+   *
+   * @example
+   * ```js
+   * const directoryClient = shareClient.getDirectoryClient("<directory name>");
+   * await directoryClient.create();
+   * console.log("Created directory successfully");
+   * ```
    */
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
@@ -627,11 +649,24 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a ShareFileClient object.
+   * Creates a {@link ShareFileClient} object.
    *
    * @param {string} fileName A file name.
    * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
    * @memberof ShareFileClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!"
+   *
+   * const fileClient = directoryClient.getFileClient("<file name>");
+   *
+   * await fileClient.create(content.length);
+   * console.log("Created file successfully!");
+   *
+   * await fileClient.uplaodRange(content, 0, content.length);
+   * console.log("Updated file successfully!")
+   * ```
    */
   public getFileClient(fileName: string): ShareFileClient {
     return new ShareFileClient(
@@ -658,7 +693,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -685,7 +720,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -718,7 +753,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -735,7 +770,7 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for DirectoryListFilesAndDirectoriesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link DirectoryListFilesAndDirectoriesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -923,7 +958,7 @@ export class ShareDirectoryClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.context.listFilesAndDirectoriesSegment({
+      return await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
         spanOptions
@@ -940,7 +975,7 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for DirectoryListHandlesResponse
+   * Returns an AsyncIterableIterator for {@link DirectoryListHandlesResponse}
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of the list to be
@@ -1158,7 +1193,7 @@ export class ShareDirectoryClient extends StorageClient {
     );
     try {
       marker = marker === "" ? undefined : marker;
-      return this.context.forceCloseHandles("*", {
+      return await this.context.forceCloseHandles("*", {
         marker,
         ...options,
         spanOptions
@@ -1241,7 +1276,7 @@ export class ShareDirectoryClient extends StorageClient {
         );
       }
 
-      return this.context.forceCloseHandles(handleId, {
+      return await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         spanOptions
       });

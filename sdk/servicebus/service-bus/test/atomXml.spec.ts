@@ -24,7 +24,7 @@ const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new Servi
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
     const request: WebResource = new WebResource("https://xyz.com", "PUT");
-    request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
+    request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
 
     const testSerializer = new DummySerializer();
     try {
@@ -32,9 +32,11 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(
-        err.message.startsWith("ResponseNotInAtomXMLFormat"),
+        err.message.startsWith(
+          "Error occurred while parsing the response body - expected the service to return valid xml content."
+        ),
         true,
-        `"${err.message}" was expected to begin with "ResponseNotInAtomXMLFormat" `
+        `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `
       );
       assert.deepEqual(err.code, "PARSE_ERROR");
     }
@@ -42,7 +44,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
 
   it("should properly serialize when using valid inputs and serializer", async function() {
     const request: WebResource = new WebResource("dummy", "PUT");
-    request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
+    request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
 
     const testSerializer = new DummySerializer();
 

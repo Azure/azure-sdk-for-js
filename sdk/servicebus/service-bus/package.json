@@ -49,6 +49,7 @@
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log coverage coverage-browser .nyc_output",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "node .scripts/buildBrowserTestResources.js && karma start --single-run",
@@ -84,7 +85,7 @@
   "devDependencies": {
     "@azure/arm-servicebus": "^3.2.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@microsoft/api-extractor": "^7.1.5",
+    "@microsoft/api-extractor": "^7.5.4",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -134,12 +135,12 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.0.2",
-    "rollup-plugin-replace": "^2.1.0",
+    "@rollup/plugin-replace": "^2.2.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "ws": "^7.1.1"
   },
   "//metadata": {

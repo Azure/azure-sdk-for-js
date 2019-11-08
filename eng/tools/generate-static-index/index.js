@@ -105,7 +105,11 @@ var serviceMapperPath = path.join(process.cwd(),"eng/tools/generate-static-index
 const serviceMapper = JSON.parse(fs.readFileSync(serviceMapperPath, 'utf8'));
 for (const eachService of serviceList) {
   var mdFile = eachService.name + ".md";
-  jObject.push({ name: serviceMapper[eachService.name], href: mdFile });//change the value for name to lookup name for service from given json file
+  var serviceName = eachService.name;
+  if(serviceMapper[eachService.name]){
+    serviceName = serviceMapper[eachService.name];
+  }
+  jObject.push({ name: serviceName, href: mdFile });//change the value for name to lookup name for service from given json file
   var mdContent = "";
   if(eachService.clientList.length > 0){
      mdContent += "<h1>Client Libraries </h1><hr>";
