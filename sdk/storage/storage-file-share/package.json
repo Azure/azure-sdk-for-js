@@ -94,9 +94,7 @@
     "@azure/core-paging": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.5",
     "@azure/logger": "^1.0.0",
-    "@types/stream-buffers": "^3.0.3",
     "events": "^3.0.0",
-    "stream-buffers": "^3.0.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
