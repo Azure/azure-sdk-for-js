@@ -52,13 +52,12 @@ import { Credential } from "./credentials/Credential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
-import { streamToBuffer } from "./utils/utils.node";
+import { streamToBuffer, bufferToStream } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
-import { ReadableStreamBuffer } from "stream-buffers";
 
 /**
  * Options to configure File - Create operation.
@@ -1414,13 +1413,14 @@ export class ShareFileClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
     try {
       if (isNode && data instanceof Buffer) {
-        const bufferToStream = new ReadableStreamBuffer();
-        bufferToStream.put(data);
-        bufferToStream.stop();
-        return this.uploadResetableStream(() => bufferToStream, data.byteLength, {
-          ...options,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
-        });
+        return this.uploadResetableStream(
+          (offset, count) => bufferToStream(data, offset, count!),
+          data.byteLength,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
+        );
       } else {
         const browserBlob = new Blob([data]);
         return this.uploadSeekableBlob(
