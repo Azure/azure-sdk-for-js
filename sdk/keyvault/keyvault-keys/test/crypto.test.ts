@@ -23,7 +23,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
@@ -35,7 +35,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
   });
 
-  after(async function() {
+  afterEach(async function() {
     await testClient.flushKey(keyName);
     recorder.stop();
   });

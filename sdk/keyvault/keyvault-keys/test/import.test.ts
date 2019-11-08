@@ -6,7 +6,7 @@ import { KeyClient, JsonWebKey } from "../src";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { isNode } from '@azure/core-http';
+import { isNode } from "@azure/core-http";
 
 describe("Keys client - import keys", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -38,7 +38,7 @@ describe("Keys client - import keys", () => {
       if (isNode) {
         return Buffer.from(hex, "hex");
       } else {
-        return new Uint8Array(hex.match(/.{1,2}/g)!.map(byte => parseInt(byte, 16)));
+        return new Uint8Array(hex.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16)));
       }
     }
     const jsonWebKey: JsonWebKey = {
