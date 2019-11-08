@@ -60,10 +60,11 @@ async function main(argv) {
     );
     const newVersion = getDevVersion(packageJsonContents.version, buildId);
     console.log(`File ${targetPackageJson} version updated to ${newVersion}`);
-    const updatedPackageSpec = {
+    var updatedPackageSpec = {
       ...packageJsonContents,
       version: newVersion
     };
+    
     await versionUtils.writePackageJson(targetPackageJson, updatedPackageSpec);
 
     await versionUtils.updatePackageConstants(
