@@ -79,11 +79,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     if (this._canFetchMore()) {
       const { result: resources, headers } = await this.fetchMore();
-      // if (err) {
-      //     return callback(err, undefined, headers);
-      // }
-      // TODO: returning data and error is an anti-pattern
-
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuation && this.currentPartitionIndex >= this.fetchFunctions.length) {

@@ -350,7 +350,12 @@ export const NetAppAccount: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       provisioningState: {
@@ -412,7 +417,12 @@ export const NetAppAccountPatch: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       provisioningState: {
@@ -475,7 +485,12 @@ export const CapacityPool: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       poolId: {
@@ -556,7 +571,12 @@ export const CapacityPoolPatch: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       size: {
@@ -655,6 +675,60 @@ export const VolumePropertiesExportPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const ReplicationObject: msRest.CompositeMapper = {
+  serializedName: "replicationObject",
+  type: {
+    name: "Composite",
+    className: "ReplicationObject",
+    modelProperties: {
+      replicationId: {
+        serializedName: "replicationId",
+        type: {
+          name: "String"
+        }
+      },
+      endpointType: {
+        required: true,
+        serializedName: "endpointType",
+        type: {
+          name: "String"
+        }
+      },
+      replicationSchedule: {
+        required: true,
+        serializedName: "replicationSchedule",
+        type: {
+          name: "String"
+        }
+      },
+      remoteVolumeResourceId: {
+        required: true,
+        serializedName: "remoteVolumeResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
+  serializedName: "volumeProperties_dataProtection",
+  type: {
+    name: "Composite",
+    className: "VolumePropertiesDataProtection",
+    modelProperties: {
+      replication: {
+        serializedName: "replication",
+        type: {
+          name: "Composite",
+          className: "ReplicationObject"
+        }
+      }
+    }
+  }
+};
+
 export const Volume: msRest.CompositeMapper = {
   serializedName: "volume",
   type: {
@@ -692,7 +766,12 @@ export const Volume: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       fileSystemId: {
@@ -793,6 +872,19 @@ export const Volume: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      volumeType: {
+        serializedName: "properties.volumeType",
+        type: {
+          name: "String"
+        }
+      },
+      dataProtection: {
+        serializedName: "properties.dataProtection",
+        type: {
+          name: "Composite",
+          className: "VolumePropertiesDataProtection"
+        }
       }
     }
   }
@@ -856,7 +948,12 @@ export const VolumePatch: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       serviceLevel: {
@@ -915,10 +1012,22 @@ export const MountTarget: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       mountTargetId: {
@@ -1036,7 +1145,12 @@ export const Snapshot: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       snapshotId: {
@@ -1089,7 +1203,12 @@ export const SnapshotPatch: msRest.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

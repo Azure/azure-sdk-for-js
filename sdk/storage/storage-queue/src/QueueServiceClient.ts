@@ -332,7 +332,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.listQueuesSegment({
+      return await this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
         marker: marker,
         maxPageSize: options.maxPageSize,
@@ -519,7 +519,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -553,7 +553,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -586,7 +586,7 @@ export class QueueServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -614,7 +614,24 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    return this.getQueueClient(queueName).create(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-createQueue",
+      options.tracingOptions
+    );
+    try {
+      return await this.getQueueClient(queueName).create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -630,6 +647,23 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    return this.getQueueClient(queueName).delete(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-deleteQueue",
+      options.tracingOptions
+    );
+    try {
+      return await this.getQueueClient(queueName).delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

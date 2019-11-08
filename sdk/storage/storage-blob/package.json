@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.0.0",
+  "version": "12.0.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -22,13 +22,12 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@5.0.1",
-    "build:browserzip": "gulp zip",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:js-samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:ts-samples": "npm run clean && cd samples && tsc -p . ",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip && api-extractor run --local",
+    "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -112,8 +111,6 @@
     "eslint-plugin-promise": "^4.1.1",
     "execa": "^1.0.0",
     "fs-extra": "^8.1.0",
-    "gulp": "^4.0.0",
-    "gulp-zip": "^5.0.0",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
@@ -149,7 +146,7 @@
     "rollup-plugin-visualizer": "^2.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "util": "^0.12.1"
   },
   "//metadata": {

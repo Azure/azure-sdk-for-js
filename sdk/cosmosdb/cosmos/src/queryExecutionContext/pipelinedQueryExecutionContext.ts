@@ -102,10 +102,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.endpoint.nextItem();
   }
 
-  public async current(): Promise<Response<any>> {
-    return this.endpoint.current();
-  }
-
   // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
     return this.endpoint.hasMoreResults();

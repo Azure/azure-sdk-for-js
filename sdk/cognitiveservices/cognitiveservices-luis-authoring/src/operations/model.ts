@@ -95,35 +95,38 @@ export class Model {
   }
 
   /**
-   * Adds a simple entity extractor to a version of the application.
+   * Adds an entity extractor to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
+   * @param entityModelCreateObject A model object containing the name of the new entity extractor
+   * and its children.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddEntityResponse>
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddEntityResponse>;
+  addEntity(appId: string, versionId: string, entityModelCreateObject: Models.EntityModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddEntityResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
+   * @param entityModelCreateObject A model object containing the name of the new entity extractor
+   * and its children.
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addEntity(appId: string, versionId: string, entityModelCreateObject: Models.EntityModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
+   * @param entityModelCreateObject A model object containing the name of the new entity extractor
+   * and its children.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
+  addEntity(appId: string, versionId: string, entityModelCreateObject: Models.EntityModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addEntity(appId: string, versionId: string, entityModelCreateObject: Models.EntityModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         versionId,
-        modelCreateObject,
+        entityModelCreateObject,
         options
       },
       addEntityOperationSpec,
@@ -143,15 +146,15 @@ export class Model {
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.NDepthEntityExtractor[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
+  listEntities(appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.NDepthEntityExtractor[]>): void;
+  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.NDepthEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.NDepthEntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -160,45 +163,6 @@ export class Model {
       },
       listEntitiesOperationSpec,
       callback) as Promise<Models.ModelListEntitiesResponse>;
-  }
-
-  /**
-   * Adds a hierarchical entity extractor to a version of the application.
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ModelAddHierarchicalEntityResponse>
-   */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityResponse>;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param callback The callback
-   */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        appId,
-        versionId,
-        hierarchicalModelCreateObject,
-        options
-      },
-      addHierarchicalEntityOperationSpec,
-      callback) as Promise<Models.ModelAddHierarchicalEntityResponse>;
   }
 
   /**
@@ -231,45 +195,6 @@ export class Model {
       },
       listHierarchicalEntitiesOperationSpec,
       callback) as Promise<Models.ModelListHierarchicalEntitiesResponse>;
-  }
-
-  /**
-   * Adds a composite entity extractor to a version of the application.
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param compositeModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ModelAddCompositeEntityResponse>
-   */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCompositeEntityResponse>;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param compositeModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param callback The callback
-   */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param compositeModelCreateObject A model containing the name and children of the new entity
-   * extractor.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        appId,
-        versionId,
-        compositeModelCreateObject,
-        options
-      },
-      addCompositeEntityOperationSpec,
-      callback) as Promise<Models.ModelAddCompositeEntityResponse>;
   }
 
   /**
@@ -671,7 +596,7 @@ export class Model {
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
+  getEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.NDepthEntityExtractor>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -679,8 +604,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
-  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor>, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
+  getEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NDepthEntityExtractor>): void;
+  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NDepthEntityExtractor>, callback?: msRest.ServiceCallback<Models.NDepthEntityExtractor>): Promise<Models.ModelGetEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -693,50 +618,10 @@ export class Model {
   }
 
   /**
-   * Updates the name of an entity in a version of the application.
+   * Deletes an entity or a child from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
-   * @param modelUpdateObject A model object containing the new entity extractor name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ModelUpdateEntityResponse>
-   */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityResponse>;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
-   * @param modelUpdateObject A model object containing the new entity extractor name.
-   * @param callback The callback
-   */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
-   * @param modelUpdateObject A model object containing the new entity extractor name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        appId,
-        versionId,
-        entityId,
-        modelUpdateObject,
-        options
-      },
-      updateEntityOperationSpec,
-      callback) as Promise<Models.ModelUpdateEntityResponse>;
-  }
-
-  /**
-   * Deletes an entity from a version of the application.
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteEntityResponse>
    */
@@ -744,14 +629,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
    * @param callback The callback
    */
   deleteEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param entityId The entity extractor ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -766,6 +651,296 @@ export class Model {
       },
       deleteEntityOperationSpec,
       callback) as Promise<Models.ModelDeleteEntityResponse>;
+  }
+
+  /**
+   * Updates the name of an entity extractor or the name and instanceOf model of a child entity
+   * extractor.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
+   * @param entityModelUpdateObject A model object containing the name new entity extractor or the
+   * name and instance of model of a child entity extractor
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelUpdateEntityChildResponse>
+   */
+  updateEntityChild(appId: string, versionId: string, entityId: string, entityModelUpdateObject: Models.EntityModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityChildResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
+   * @param entityModelUpdateObject A model object containing the name new entity extractor or the
+   * name and instance of model of a child entity extractor
+   * @param callback The callback
+   */
+  updateEntityChild(appId: string, versionId: string, entityId: string, entityModelUpdateObject: Models.EntityModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor or the child entity extractor ID.
+   * @param entityModelUpdateObject A model object containing the name new entity extractor or the
+   * name and instance of model of a child entity extractor
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateEntityChild(appId: string, versionId: string, entityId: string, entityModelUpdateObject: Models.EntityModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntityChild(appId: string, versionId: string, entityId: string, entityModelUpdateObject: Models.EntityModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityChildResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        entityId,
+        entityModelUpdateObject,
+        options
+      },
+      updateEntityChildOperationSpec,
+      callback) as Promise<Models.ModelUpdateEntityChildResponse>;
+  }
+
+  /**
+   * Gets the information of the features used by the intent in a version of the application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelGetIntentFeaturesResponse>
+   */
+  getIntentFeatures(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetIntentFeaturesResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param callback The callback
+   */
+  getIntentFeatures(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getIntentFeatures(appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): void;
+  getIntentFeatures(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelFeatureInformation[]>, callback?: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): Promise<Models.ModelGetIntentFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        intentId,
+        options
+      },
+      getIntentFeaturesOperationSpec,
+      callback) as Promise<Models.ModelGetIntentFeaturesResponse>;
+  }
+
+  /**
+   * Updates the information of the features used by the intent in a version of the application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelReplaceIntentFeaturesResponse>
+   */
+  replaceIntentFeatures(appId: string, versionId: string, intentId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options?: msRest.RequestOptionsBase): Promise<Models.ModelReplaceIntentFeaturesResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param callback The callback
+   */
+  replaceIntentFeatures(appId: string, versionId: string, intentId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  replaceIntentFeatures(appId: string, versionId: string, intentId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  replaceIntentFeatures(appId: string, versionId: string, intentId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelReplaceIntentFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        intentId,
+        featureRelationsUpdateObject,
+        options
+      },
+      replaceIntentFeaturesOperationSpec,
+      callback) as Promise<Models.ModelReplaceIntentFeaturesResponse>;
+  }
+
+  /**
+   * Deletes a relation from the feature relations used by the intent in a version of the
+   * application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelDeleteIntentFeatureResponse>
+   */
+  deleteIntentFeature(appId: string, versionId: string, intentId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteIntentFeatureResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param callback The callback
+   */
+  deleteIntentFeature(appId: string, versionId: string, intentId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param intentId The intent classifier ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteIntentFeature(appId: string, versionId: string, intentId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteIntentFeature(appId: string, versionId: string, intentId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentFeatureResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        intentId,
+        featureRelationDeleteObject,
+        options
+      },
+      deleteIntentFeatureOperationSpec,
+      callback) as Promise<Models.ModelDeleteIntentFeatureResponse>;
+  }
+
+  /**
+   * Gets the information of the features used by the entity in a version of the application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelGetEntityFeaturesResponse>
+   */
+  getEntityFeatures(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityFeaturesResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param callback The callback
+   */
+  getEntityFeatures(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getEntityFeatures(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): void;
+  getEntityFeatures(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelFeatureInformation[]>, callback?: msRest.ServiceCallback<Models.ModelFeatureInformation[]>): Promise<Models.ModelGetEntityFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        entityId,
+        options
+      },
+      getEntityFeaturesOperationSpec,
+      callback) as Promise<Models.ModelGetEntityFeaturesResponse>;
+  }
+
+  /**
+   * Updates the information of the features used by the entity in a version of the application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelReplaceEntityFeaturesResponse>
+   */
+  replaceEntityFeatures(appId: string, versionId: string, entityId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options?: msRest.RequestOptionsBase): Promise<Models.ModelReplaceEntityFeaturesResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param callback The callback
+   */
+  replaceEntityFeatures(appId: string, versionId: string, entityId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationsUpdateObject A list of feature information objects containing the new
+   * feature relations.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  replaceEntityFeatures(appId: string, versionId: string, entityId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  replaceEntityFeatures(appId: string, versionId: string, entityId: string, featureRelationsUpdateObject: Models.ModelFeatureInformation[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelReplaceEntityFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        entityId,
+        featureRelationsUpdateObject,
+        options
+      },
+      replaceEntityFeaturesOperationSpec,
+      callback) as Promise<Models.ModelReplaceEntityFeaturesResponse>;
+  }
+
+  /**
+   * Deletes a relation from the feature relations used by the entity in a version of the
+   * application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelDeleteEntityFeatureResponse>
+   */
+  deleteEntityFeature(appId: string, versionId: string, entityId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteEntityFeatureResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param callback The callback
+   */
+  deleteEntityFeature(appId: string, versionId: string, entityId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param featureRelationDeleteObject A feature information object containing the feature relation
+   * to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteEntityFeature(appId: string, versionId: string, entityId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntityFeature(appId: string, versionId: string, entityId: string, featureRelationDeleteObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityFeatureResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        entityId,
+        featureRelationDeleteObject,
+        options
+      },
+      deleteEntityFeatureOperationSpec,
+      callback) as Promise<Models.ModelDeleteEntityFeatureResponse>;
   }
 
   /**
@@ -805,42 +980,39 @@ export class Model {
   }
 
   /**
-   * Updates the name and children of a hierarchical entity model in a version of the application.
+   * Updates the name of a hierarchical entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalModelUpdateObject Model containing names of the children of the hierarchical
-   * entity.
+   * @param modelUpdateObject Model containing names of the hierarchical entity.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateHierarchicalEntityResponse>
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityResponse>;
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalModelUpdateObject Model containing names of the children of the hierarchical
-   * entity.
+   * @param modelUpdateObject Model containing names of the hierarchical entity.
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalModelUpdateObject Model containing names of the children of the hierarchical
-   * entity.
+   * @param modelUpdateObject Model containing names of the hierarchical entity.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         versionId,
         hEntityId,
-        hierarchicalModelUpdateObject,
+        modelUpdateObject,
         options
       },
       updateHierarchicalEntityOperationSpec,
@@ -1671,6 +1843,49 @@ export class Model {
   }
 
   /**
+   * Creates a single child in an existing entity model hierarchy in a version of the application.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param childEntityModelCreateObject A model object containing the name of the new child model
+   * and its children.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ModelAddEntityChildResponse>
+   */
+  addEntityChild(appId: string, versionId: string, entityId: string, childEntityModelCreateObject: Models.ChildEntityModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddEntityChildResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param childEntityModelCreateObject A model object containing the name of the new child model
+   * and its children.
+   * @param callback The callback
+   */
+  addEntityChild(appId: string, versionId: string, entityId: string, childEntityModelCreateObject: Models.ChildEntityModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param entityId The entity extractor ID.
+   * @param childEntityModelCreateObject A model object containing the name of the new child model
+   * and its children.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  addEntityChild(appId: string, versionId: string, entityId: string, childEntityModelCreateObject: Models.ChildEntityModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addEntityChild(appId: string, versionId: string, entityId: string, childEntityModelCreateObject: Models.ChildEntityModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityChildResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        entityId,
+        childEntityModelCreateObject,
+        options
+      },
+      addEntityChildOperationSpec,
+      callback) as Promise<Models.ModelAddEntityChildResponse>;
+  }
+
+  /**
    * Gets information about the child's model contained in an hierarchical entity child model in a
    * version of the application.
    * @param appId The application ID.
@@ -1796,49 +2011,6 @@ export class Model {
       },
       deleteHierarchicalEntityChildOperationSpec,
       callback) as Promise<Models.ModelDeleteHierarchicalEntityChildResponse>;
-  }
-
-  /**
-   * Creates a single child in an existing hierarchical entity model in a version of the application.
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalChildModelCreateObject A model object containing the name of the new
-   * hierarchical child model.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ModelAddHierarchicalEntityChildResponse>
-   */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityChildResponse>;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalChildModelCreateObject A model object containing the name of the new
-   * hierarchical child model.
-   * @param callback The callback
-   */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param appId The application ID.
-   * @param versionId The version ID.
-   * @param hEntityId The hierarchical entity extractor ID.
-   * @param hierarchicalChildModelCreateObject A model object containing the name of the new
-   * hierarchical child model.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
-    return this.client.sendOperationRequest(
-      {
-        appId,
-        versionId,
-        hEntityId,
-        hierarchicalChildModelCreateObject,
-        options
-      },
-      addHierarchicalEntityChildOperationSpec,
-      callback) as Promise<Models.ModelAddHierarchicalEntityChildResponse>;
   }
 
   /**
@@ -4174,9 +4346,9 @@ const addEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0
   ],
   requestBody: {
-    parameterPath: "modelCreateObject",
+    parameterPath: "entityModelCreateObject",
     mapper: {
-      ...Mappers.ModelCreateObject,
+      ...Mappers.EntityModelCreateObject,
       required: true
     }
   },
@@ -4217,40 +4389,9 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "EntityExtractor"
+              className: "NDepthEntityExtractor"
             }
           }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "apps/{appId}/versions/{versionId}/hierarchicalentities",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
-  requestBody: {
-    parameterPath: "hierarchicalModelCreateObject",
-    mapper: {
-      ...Mappers.HierarchicalEntityModel,
-      required: true
-    }
-  },
-  responses: {
-    201: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Uuid"
         }
       }
     },
@@ -4285,37 +4426,6 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
               className: "HierarchicalEntityExtractor"
             }
           }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const addCompositeEntityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "apps/{appId}/versions/{versionId}/compositeentities",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
-  requestBody: {
-    parameterPath: "compositeModelCreateObject",
-    mapper: {
-      ...Mappers.CompositeEntityModel,
-      required: true
-    }
-  },
-  responses: {
-    201: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Uuid"
         }
       }
     },
@@ -4684,34 +4794,7 @@ const getEntityOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.EntityExtractor
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const updateEntityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "apps/{appId}/versions/{versionId}/entities/{entityId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0,
-    Parameters.entityId
-  ],
-  requestBody: {
-    parameterPath: "modelUpdateObject",
-    mapper: {
-      ...Mappers.ModelUpdateObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.NDepthEntityExtractor
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -4729,6 +4812,221 @@ const deleteEntityOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0,
     Parameters.entityId
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateEntityChildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "apps/{appId}/versions/{versionId}/entities/{entityId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
+  ],
+  requestBody: {
+    parameterPath: "entityModelUpdateObject",
+    mapper: {
+      ...Mappers.EntityModelUpdateObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getIntentFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}/versions/{versionId}/intents/{intentId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelFeatureInformation"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const replaceIntentFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "apps/{appId}/versions/{versionId}/intents/{intentId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
+  ],
+  requestBody: {
+    parameterPath: "featureRelationsUpdateObject",
+    mapper: {
+      required: true,
+      serializedName: "featureRelationsUpdateObject",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Composite",
+            className: "ModelFeatureInformation"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteIntentFeatureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "apps/{appId}/versions/{versionId}/intents/{intentId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.intentId
+  ],
+  requestBody: {
+    parameterPath: "featureRelationDeleteObject",
+    mapper: {
+      ...Mappers.ModelFeatureInformation,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getEntityFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}/versions/{versionId}/entities/{entityId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelFeatureInformation"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const replaceEntityFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "apps/{appId}/versions/{versionId}/entities/{entityId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
+  ],
+  requestBody: {
+    parameterPath: "featureRelationsUpdateObject",
+    mapper: {
+      required: true,
+      serializedName: "featureRelationsUpdateObject",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Composite",
+            className: "ModelFeatureInformation"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteEntityFeatureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "apps/{appId}/versions/{versionId}/entities/{entityId}/features",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
+  ],
+  requestBody: {
+    parameterPath: "featureRelationDeleteObject",
+    mapper: {
+      ...Mappers.ModelFeatureInformation,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -4761,7 +5059,7 @@ const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
 };
 
 const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "PATCH",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
     Parameters.endpoint,
@@ -4770,9 +5068,9 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
     Parameters.hEntityId
   ],
   requestBody: {
-    parameterPath: "hierarchicalModelUpdateObject",
+    parameterPath: "modelUpdateObject",
     mapper: {
-      ...Mappers.HierarchicalEntityModel,
+      ...Mappers.ModelUpdateObject,
       required: true
     }
   },
@@ -5365,6 +5663,38 @@ const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const addEntityChildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/{appId}/versions/{versionId}/entities/{entityId}/children",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0,
+    Parameters.entityId
+  ],
+  requestBody: {
+    parameterPath: "childEntityModelCreateObject",
+    mapper: {
+      ...Mappers.ChildEntityModelCreateObject,
+      required: true
+    }
+  },
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
@@ -5387,7 +5717,7 @@ const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
 };
 
 const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "PATCH",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
     Parameters.endpoint,
@@ -5427,38 +5757,6 @@ const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0,
-    Parameters.hEntityId
-  ],
-  requestBody: {
-    parameterPath: "hierarchicalChildModelCreateObject",
-    mapper: {
-      ...Mappers.HierarchicalChildModelCreateObject,
-      required: true
-    }
-  },
-  responses: {
-    201: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Uuid"
-        }
-      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

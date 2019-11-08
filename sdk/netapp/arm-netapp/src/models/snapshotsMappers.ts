@@ -15,11 +15,13 @@ export {
   ExportPolicyRule,
   NetAppAccount,
   NetAppAccountPatch,
+  ReplicationObject,
   Snapshot,
   SnapshotPatch,
   SnapshotsList,
   Volume,
   VolumePatch,
   VolumePatchPropertiesExportPolicy,
+  VolumePropertiesDataProtection,
   VolumePropertiesExportPolicy
 } from "../models/mappers";

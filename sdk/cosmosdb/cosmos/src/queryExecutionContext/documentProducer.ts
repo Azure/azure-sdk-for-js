@@ -285,15 +285,11 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    try {
-      const { result, headers } = await this.bufferMore();
-      mergeHeaders(this.respHeaders, headers);
-      if (result === undefined) {
-        return { result: undefined, headers: this.respHeaders };
-      }
-      return this.current();
-    } catch (err) {
-      throw err;
+    const { result, headers } = await this.bufferMore();
+    mergeHeaders(this.respHeaders, headers);
+    if (result === undefined) {
+      return { result: undefined, headers: this.respHeaders };
     }
+    return this.current();
   }
 }

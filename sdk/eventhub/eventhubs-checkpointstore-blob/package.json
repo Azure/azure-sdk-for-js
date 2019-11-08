@@ -1,7 +1,7 @@
 {
   "name": "@azure/eventhubs-checkpointstore-blob",
   "sdk-type": "client",
-  "version": "1.0.0-preview.4",
+  "version": "1.0.0-preview.5",
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -45,6 +45,7 @@
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -118,7 +119,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "util": "^0.12.1"
   }
 }

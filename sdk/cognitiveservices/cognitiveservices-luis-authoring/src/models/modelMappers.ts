@@ -7,10 +7,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 export {
   AvailablePrebuiltEntityModel,
   ChildEntity,
+  ChildEntityModelCreateObject,
   ClosedListEntityExtractor,
   ClosedListModelCreateObject,
   ClosedListModelPatchObject,
@@ -21,7 +21,9 @@ export {
   CustomPrebuiltModel,
   EntitiesSuggestionExample,
   EntityExtractor,
+  EntityModelCreateObject,
   EntityModelInfo,
+  EntityModelUpdateObject,
   EntityPrediction,
   EntityRole,
   EntityRoleCreateObject,
@@ -31,18 +33,18 @@ export {
   ExplicitListItemCreateObject,
   ExplicitListItemUpdateObject,
   HierarchicalChildEntity,
-  HierarchicalChildModelCreateObject,
   HierarchicalChildModelUpdateObject,
   HierarchicalEntityExtractor,
-  HierarchicalEntityModel,
   IntentClassifier,
   IntentPrediction,
   IntentsSuggestionExample,
   LabelTextObject,
   ModelCreateObject,
+  ModelFeatureInformation,
   ModelInfo,
   ModelInfoResponse,
   ModelUpdateObject,
+  NDepthEntityExtractor,
   OperationStatus,
   PatternAnyEntityExtractor,
   PatternAnyModelCreateObject,

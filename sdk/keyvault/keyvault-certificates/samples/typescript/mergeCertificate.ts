@@ -19,14 +19,15 @@ async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
-  await client.createCertificate("MyCertificate", {
+  await client.beginCreateCertificate("MyCertificate", {
     issuerName: "Unknown",
     certificateTransparency: false,
     subject: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request
-  const { csr } = await client.getCertificateOperation("MyCertificate");
+  const operationPoller = await client.getCertificateOperation("MyCertificate");
+  const { csr } = operationPoller.getResult()!;
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

@@ -5,9 +5,7 @@ import { RestError } from "@azure/core-http";
 
 export { PollerLike, PollOperationState } from "@azure/core-lro";
 export * from "./BlobServiceClient";
-export * from "./ContainerClient";
-// ordering of these clients is important as there are circular dependencies
-export * from "./BlobClient";
+export * from "./Clients";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
@@ -24,7 +22,6 @@ export * from "./credentials/Credential";
 export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
-export * from "./BlobLeaseClient";
 export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
