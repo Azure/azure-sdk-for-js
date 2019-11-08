@@ -105,7 +105,7 @@ export type CreateQueueResponse = QueueResponse;
 /**
  * Get Queue response
  */
-export type GetQueueResponse = QueueResponse | EmptyResponse;
+export type GetQueueResponse = QueueResponse;
 
 /**
  * Update Queue response
@@ -135,7 +135,7 @@ export type CreateTopicResponse = TopicResponse;
 /**
  * Get Topic response
  */
-export type GetTopicResponse = TopicResponse | EmptyResponse;
+export type GetTopicResponse = TopicResponse;
 
 /**
  * Update Topic response
@@ -165,7 +165,7 @@ export type CreateSubscriptionResponse = SubscriptionResponse;
 /**
  * Get Subscription response
  */
-export type GetSubscriptionResponse = SubscriptionResponse | EmptyResponse;
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Update Subscription response
@@ -195,7 +195,7 @@ export type CreateRuleResponse = RuleResponse;
 /**
  * Get Rule response
  */
-export type GetRuleResponse = RuleResponse | EmptyResponse;
+export type GetRuleResponse = RuleResponse;
 
 /**
  * Update Rule response
