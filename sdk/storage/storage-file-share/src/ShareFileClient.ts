@@ -1703,36 +1703,6 @@ export class ShareFileClient extends StorageClient {
       options.tracingOptions
     );
 
-    if (!count) {
-      // User did not specify the bytes, so we need to ask the service how large the file is
-      const response = await this.getProperties({
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
-
-      count = response.contentLength! - offset;
-      if (count < 0) {
-        throw new RangeError(
-          `offset ${offset} shouldn't be larger than the blob size ${response.contentLength}`
-        );
-      }
-    }
-
-    if (!buffer) {
-      try {
-        buffer = Buffer.alloc(count);
-      } catch (error) {
-        throw new Error(
-          `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-            'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
-            `\t ${error.message}`
-        );
-      }
-    }
-
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -1766,6 +1736,18 @@ export class ShareFileClient extends StorageClient {
         if (count < 0) {
           throw new RangeError(
             `offset ${offset} shouldn't be larger than file size ${response.contentLength!}`
+          );
+        }
+      }
+
+      if (!buffer) {
+        try {
+          buffer = Buffer.alloc(count);
+        } catch (error) {
+          throw new Error(
+            `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
+              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+              `\t ${error.message}`
           );
         }
       }
