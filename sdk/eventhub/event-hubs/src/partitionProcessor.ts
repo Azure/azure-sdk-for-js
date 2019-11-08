@@ -1,6 +1,7 @@
 import { CloseReason, PartitionManager } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventInfo } from "./eventHubReceiver";
+import { PartitionInitializer } from './eventHubConsumerClientModels';
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -186,7 +187,7 @@ export class PartitionProcessor {
    *
    * @return {Promise<void>}
    */
-  async initialize(): Promise<void> {}
+  async initialize(partitionInitializer: PartitionInitializer): Promise<void> {}
 
   /**
    * This method is called before the partition processor is closed by the EventProcessor.

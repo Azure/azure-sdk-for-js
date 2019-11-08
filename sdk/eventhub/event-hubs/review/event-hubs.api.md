@@ -164,7 +164,6 @@ export interface EventProcessorBatchOptions {
 
 // @public
 export interface EventProcessorOptions {
-    defaultEventPosition?: EventPosition;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
@@ -222,6 +221,11 @@ export interface PartitionContext {
 }
 
 // @public
+export interface PartitionInitializer {
+    setStartPosition(startPosition: EventPosition): void;
+}
+
+// @public
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
@@ -258,7 +262,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionInitializer) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {

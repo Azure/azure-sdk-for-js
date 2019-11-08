@@ -1,7 +1,53 @@
 
 import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions } from './eventProcessor';
-import { PartitionCheckpointer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
+import { EventPosition } from './eventPosition';
+
+/**
+ * Allow for checkpointing
+ */
+export interface PartitionCheckpointer {
+  /**
+   * Updates the checkpoint using the event data.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
+   * @return Promise<void>
+   */
+  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+  /**
+   * Updates the checkpoint using the given offset and sequence number.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
+   * @param offset The offset of the event that you want to update the checkpoint with.
+   * @return  Promise<void>.
+   */
+  updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+  /**
+   * @internal
+   * @ignore
+   */
+  updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void>;
+}
+
+/**
+ * Allows for configuring initialization of partition processors
+ */
+export interface PartitionInitializer {
+  /**
+   * Allows for setting the start position of a partition.
+   * Default (if not called) is `EventPosition.earliest()`
+   */
+  setStartPosition(startPosition: EventPosition): void;
+}
 
 /**
  * Event handler called when events are received. The `context` parameter can be 
@@ -20,7 +66,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionInitializer) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
@@ -53,7 +99,7 @@ export interface SubscriptionEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {  
 }
 
 /**

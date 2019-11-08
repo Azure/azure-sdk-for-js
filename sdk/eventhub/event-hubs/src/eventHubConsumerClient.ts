@@ -15,44 +15,9 @@ import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
-import { SubscriptionOptions, Subscription, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import { SubscriptionOptions, Subscription, SubscriptionEventHandlers, PartitionInitializer, PartitionCheckpointer } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
-
-/**
- * Allow for checkpointing
- */
-export interface PartitionCheckpointer {
-  /**
-   * Updates the checkpoint using the event data.
-   *
-   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
-   * partition of a consumer group in an Event Hub instance.
-   *
-   * @param eventData The event that you want to update the checkpoint with.
-   * @return Promise<void>
-   */
-  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-  /**
-   * Updates the checkpoint using the given offset and sequence number.
-   *
-   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
-   * partition of a consumer group in an Event Hub instance.
-   *
-   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
-   * @param offset The offset of the event that you want to update the checkpoint with.
-   * @return  Promise<void>.
-   */
-  updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-  /**
-   * @internal
-   * @ignore
-   */
-  updateCheckpoint(
-    eventDataOrSequenceNumber: ReceivedEventData | number,
-    offset?: number
-  ): Promise<void>;
-}
 
 const defaultConsumerClientOptions : Required<EventProcessorBatchOptions> = {
   maxBatchSize: 10,
@@ -395,7 +360,7 @@ export function createPartitionProcessorType(
       }
     }
 
-    async initialize() {
+    async initialize(partitionInitializer: PartitionInitializer) {
       this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
 
       if (options.processInitialize) {
@@ -403,7 +368,8 @@ export function createPartitionProcessorType(
           partitionId: this.partitionId,
           consumerGroupName: this.consumerGroupName,
           eventHubName: this.eventHubName,
-          fullyQualifiedNamespace: this.fullyQualifiedNamespace
+          fullyQualifiedNamespace: this.fullyQualifiedNamespace,
+          setStartPosition: (startPosition) => partitionInitializer.setStartPosition(startPosition)
         });
       }
     }

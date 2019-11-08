@@ -270,12 +270,12 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {
         maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
         maxWaitTimeInSeconds: 60,
-        defaultEventPosition: EventPosition.latest(),
         processEvents: async (events, context) => {
           receivedEvents.push(...events.map(e => e.body));
         },
-        processInitialize: async (_) => {
+        processInitialize: async (context) => {
           initialized = true;
+          context.setStartPosition(EventPosition.latest());
         }
       });
       

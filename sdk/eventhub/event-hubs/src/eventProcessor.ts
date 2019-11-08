@@ -162,14 +162,6 @@ export interface EventProcessorOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventInfo?: boolean;
-
-  /**
-   * The event position to use when claiming a partition if not already
-   * initialized.
-   * 
-   * Defaults to EventPosition.earliest()
-   */
-  defaultEventPosition?: EventPosition;  
 }
 
 /**
@@ -331,7 +323,7 @@ export class EventProcessor {
 
       const eventPosition = ownershipRequest.sequenceNumber
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
+        : EventPosition.earliest();
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);

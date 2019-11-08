@@ -39,7 +39,12 @@ export class PartitionPump {
   async start(): Promise<void> {
     this._isReceiving = true;
     try {
-      await this._partitionProcessor.initialize();
+      await this._partitionProcessor.initialize({
+        setStartPosition: (startPosition) => {
+          // the user can override the start position if they choose
+          this._initialEventPosition = startPosition;
+        }
+      });
     } catch {
       // swallow the error from the user-defined code
     }

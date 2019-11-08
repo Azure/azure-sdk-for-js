@@ -47,7 +47,7 @@ describe("EventHubConsumerClient", () => {
     let partitionIds: string[];
     let subscriptions: Subscription[] = [];
 
-    beforeEach(async () => {
+    before(async () => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -67,7 +67,7 @@ describe("EventHubConsumerClient", () => {
       partitionIds.length.should.gte(2);
     });
 
-    afterEach(async () => {
+    after(async () => {
       for (const subscription of subscriptions) {
         await subscription.close();
       }
