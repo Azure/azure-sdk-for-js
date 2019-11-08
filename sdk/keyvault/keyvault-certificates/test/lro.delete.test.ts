@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, DeletedCertificate } from "../src";
+import { CertificateClient, DeletedCertificate, CertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -15,11 +15,6 @@ describe("Certificates client - Long Running Operations - delete", () => {
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-
-  const basicCertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
   
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -39,7 +34,7 @@ describe("Certificates client - Long Running Operations - delete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
       certificateName,
-      basicCertificatePolicy,
+      CertificatePolicy.Default,
       testPollerProperties
     );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -62,7 +57,7 @@ describe("Certificates client - Long Running Operations - delete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
         certificateName,
-        basicCertificatePolicy,
+        CertificatePolicy.Default,
         testPollerProperties
       );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

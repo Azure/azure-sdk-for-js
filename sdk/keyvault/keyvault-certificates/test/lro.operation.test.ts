@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation } from "../src";
+import { CertificateClient, CertificateOperation, CertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -15,11 +15,6 @@ describe("Certificates client - Long Running Operations - certificate operation"
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-
-  const basicCertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
   
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -39,7 +34,7 @@ describe("Certificates client - Long Running Operations - certificate operation"
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
-      basicCertificatePolicy,
+      CertificatePolicy.Default,
       testPollerProperties
     );
     createPoller.stopPolling();
@@ -63,7 +58,7 @@ describe("Certificates client - Long Running Operations - certificate operation"
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const createPoller = await client.beginCreateCertificate(
         certificateName,
-        basicCertificatePolicy,
+        CertificatePolicy.Default,
         testPollerProperties
       );
       createPoller.stopPolling();

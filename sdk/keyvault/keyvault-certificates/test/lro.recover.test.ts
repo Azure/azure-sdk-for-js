@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, DeletedCertificate } from "../src";
+import { CertificateClient, DeletedCertificate, CertificatePolicy } from "../src";
 import { isNode } from "@azure/core-http";
 import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -17,11 +17,6 @@ describe("Certificates client - Long Running Operations - recoverDelete", () => 
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-
-  const basicCertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -41,7 +36,7 @@ describe("Certificates client - Long Running Operations - recoverDelete", () => 
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
       certificateName,
-      basicCertificatePolicy,
+      CertificatePolicy.Default,
       testPollerProperties
     );
 
@@ -68,7 +63,7 @@ describe("Certificates client - Long Running Operations - recoverDelete", () => 
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
         certificateName,
-        basicCertificatePolicy,
+        CertificatePolicy.Default,
         testPollerProperties
       );
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -110,7 +105,7 @@ describe("Certificates client - Long Running Operations - recoverDelete", () => 
       const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
       await client.beginCreateCertificate(
         certificateName,
-        basicCertificatePolicy,
+        CertificatePolicy.Default,
         testPollerProperties
       );
       const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

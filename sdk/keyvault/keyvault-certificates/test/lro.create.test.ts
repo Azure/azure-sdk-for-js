@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, KeyVaultCertificate } from "../src";
+import { CertificateClient, KeyVaultCertificate, CertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -15,11 +15,6 @@ describe("Certificates client - Long Running Operations - create", () => {
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-
-  const basicCertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
   
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -39,7 +34,7 @@ describe("Certificates client - Long Running Operations - create", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
-      basicCertificatePolicy,
+      CertificatePolicy.Default,
       testPollerProperties
     );
     assert.ok(poller.getOperationState().isStarted);
@@ -61,7 +56,7 @@ describe("Certificates client - Long Running Operations - create", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
-      basicCertificatePolicy,
+      CertificatePolicy.Default,
       testPollerProperties
     );
     assert.ok(poller.getOperationState().isStarted);
@@ -78,7 +73,7 @@ describe("Certificates client - Long Running Operations - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+    const resumePoller = await client.beginCreateCertificate(certificateName, CertificatePolicy.Default, {
       resumeFrom: serialized,
       ...testPollerProperties
     });
