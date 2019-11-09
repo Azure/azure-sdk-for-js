@@ -237,6 +237,17 @@ directive:
       $.name = "fileHttpHeaders";
 ```
 
+### Rename AccessPolicy start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+```
+
 ### Update date type for "fileCreatedOn" and "fileLastWriteOn" from `DateTimeRfc1123` -> `string`
 
 ```yaml

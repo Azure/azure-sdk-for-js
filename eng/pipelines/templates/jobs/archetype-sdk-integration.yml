@@ -99,9 +99,16 @@ jobs:
           node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose
         displayName: "Integration test libraries"
         env: ${{parameters.EnvVars}}
+        condition: ne(variables['TestType'],'sample')
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
+
+      - script: |
+          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
+        displayName: "Execute Samples"
+        env: ${{parameters.EnvVars}}
+        condition: eq(variables['TestType'],'sample')
 
       - ${{ if ne(parameters.ResourceFileLocation, '') }}:
           - pwsh: |
@@ -130,27 +137,3 @@ jobs:
           testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
         condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"
-
-  - job: "VerifySamples"
-
-    variables:
-      - template: ../variables/globals.yml
-
-    pool:
-      vmImage: "$(OSVmImage)"
-
-    steps:
-      - template: ../steps/common.yml
-
-      - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
-
-      - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
-        displayName: "Build libraries"
-
-      - script: |
-          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
-        displayName: "Execute Samples"
-        env: ${{parameters.EnvVars}}
