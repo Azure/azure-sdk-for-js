@@ -291,13 +291,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    if (
-      response.parsedBody == undefined ||
-      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
-    ) {
-      return { _response: response };
-    }
-
     return this.buildQueueResponse(response);
   }
 
@@ -387,13 +380,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicName,
       this.topicResourceSerializer
     );
-
-    if (
-      response.parsedBody == undefined ||
-      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
-    ) {
-      return { _response: response };
-    }
 
     return this.buildTopicResponse(response);
   }
@@ -497,10 +483,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.subscriptionResourceSerializer
     );
-
-    if (response.parsedBody == undefined) {
-      return { _response: response };
-    }
 
     return this.buildSubscriptionResponse(response);
   }
@@ -621,10 +603,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.ruleResourceSerializer
     );
-
-    if (response.parsedBody == undefined) {
-      return { _response: response };
-    }
 
     return this.buildRuleResponse(response);
   }
