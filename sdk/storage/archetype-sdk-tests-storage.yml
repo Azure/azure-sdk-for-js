@@ -54,6 +54,10 @@ parameters:
       OSVmImage: "macOS-10.13"
       NodeVersion: "10.x"
       TestType: "browser"
+    Linux_Sample10:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "10.x"
+      TestType: "sample"
 
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
