@@ -113,7 +113,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
 
     if (clientId) {
-      queryParameters.client_id = clientId;
+      queryParameters.clientid = clientId;
     }
 
     return {
