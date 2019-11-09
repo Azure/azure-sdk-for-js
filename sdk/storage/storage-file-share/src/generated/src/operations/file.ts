@@ -36,7 +36,7 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileCreateResponse>
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
@@ -45,7 +45,7 @@ export class File {
    * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, callback: coreHttp.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
@@ -55,8 +55,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options: Models.FileCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
     return this.client.sendOperationRequest(
       {
         fileContentLength,
@@ -151,7 +151,7 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
@@ -159,7 +159,7 @@ export class File {
    * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, callback: coreHttp.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
@@ -168,8 +168,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options: Models.FileSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: Date | string, fileLastWriteOn: Date | string, options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         fileAttributes,

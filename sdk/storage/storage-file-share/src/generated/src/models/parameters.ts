@@ -339,7 +339,7 @@ export const fileCreatedOn: coreHttp.OperationParameter = {
     required: true,
     serializedName: "x-ms-file-creation-time",
     type: {
-      name: "DateTimeRfc1123"
+      name: "String"
     }
   }
 };
@@ -349,7 +349,7 @@ export const fileLastWriteOn: coreHttp.OperationParameter = {
     required: true,
     serializedName: "x-ms-file-last-write-time",
     type: {
-      name: "DateTimeRfc1123"
+      name: "String"
     }
   }
 };
