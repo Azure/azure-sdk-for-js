@@ -22,6 +22,7 @@
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
     "rhea-promise": "^0.1.15"
   },
+  "implicitlyPreferredVersions": false,
   /**
    * The "rush check" command can be used to enforce that every project in the repo must specify
    * the same SemVer range for a given dependency.  However, sometimes exceptions are needed.
