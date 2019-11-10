@@ -89,16 +89,16 @@ export type EmptyResponse = {
 };
 
 // @public
-export type GetQueueResponse = QueueResponse | EmptyResponse;
+export type GetQueueResponse = QueueResponse;
 
 // @public
-export type GetRuleResponse = RuleResponse | EmptyResponse;
+export type GetRuleResponse = RuleResponse;
 
 // @public
-export type GetSubscriptionResponse = SubscriptionResponse | EmptyResponse;
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 // @public
-export type GetTopicResponse = TopicResponse | EmptyResponse;
+export type GetTopicResponse = TopicResponse;
 
 export { HttpOperationResponse }
 
