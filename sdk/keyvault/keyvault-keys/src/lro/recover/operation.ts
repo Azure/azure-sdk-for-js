@@ -7,7 +7,6 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultKey, KeyClientInterface } from "../../keysModels";
 
 /**
- * @interface
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
@@ -26,7 +25,6 @@ export interface RecoverDeletedKeyPollOperationState extends PollOperationState<
 }
 
 /**
- * @interface
  * An interface representing a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperation

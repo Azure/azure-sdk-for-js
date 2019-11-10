@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-file";
-const packageVersion = "12.0.0-preview.6";
+const packageVersion = "12.0.0-preview.7";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   version: string;
@@ -44,7 +44,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
 
     super(undefined, options);
 
-    this.fileRangeWriteFromUrl = 'update';
+    this.fileRangeWriteFromUrl = "update";
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.version = version;
