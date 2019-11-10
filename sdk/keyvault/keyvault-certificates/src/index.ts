@@ -41,7 +41,7 @@ import {
   ImportCertificateOptions,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
-  ListIssuersOptions,
+  ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   PurgeDeletedCertificateOptions,
@@ -54,7 +54,8 @@ import {
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
   CertificateClientInterface,
-  CertificatePollerOptions
+  CertificatePollerOptions,
+  IssuerProperties
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -167,6 +168,7 @@ export {
   IssuerAttributes,
   IssuerCredentials,
   IssuerParameters,
+  IssuerProperties,
   KeyType,
   KeyCurveName,
   KeyProperties,
@@ -176,7 +178,7 @@ export {
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
-  ListIssuersOptions,
+  ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   OrganizationDetails,
@@ -707,10 +709,10 @@ export class CertificateClient {
     return result._response.parsedBody;
   }
 
-  private async *listIssuersPage(
+  private async *listPropertiesOfIssuersPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<CertificateIssuer[]> {
+  ): AsyncIterableIterator<IssuerProperties[]> {
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -739,12 +741,12 @@ export class CertificateClient {
     }
   }
 
-  private async *listIssuersAll(
+  private async *listPropertiesOfIssuersAll(
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<CertificateIssuer> {
+  ): AsyncIterableIterator<IssuerProperties> {
     const f = {};
 
-    for await (const page of this.listIssuersPage(f, options)) {
+    for await (const page of this.listPropertiesOfIssuersPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -770,16 +772,16 @@ export class CertificateClient {
    * }
    * ```
    * @summary List the certificate issuers.
-   * @param {ListIssuersOptions} [options] The optional parameters
+   * @param {ListPropertiesOfIssuersOptions} [options] The optional parameters
    */
-  public listIssuers(
-    options: ListIssuersOptions = {}
-  ): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
+  public listPropertiesOfIssuers(
+    options: ListPropertiesOfIssuersOptions = {}
+  ): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listIssuers", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
-    const iter = this.listIssuersAll(updatedOptions);
+    const iter = this.listPropertiesOfIssuersAll(updatedOptions);
 
     span.end();
     let result = {
@@ -789,7 +791,7 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listIssuersPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, updatedOptions)
     };
 
     return result;

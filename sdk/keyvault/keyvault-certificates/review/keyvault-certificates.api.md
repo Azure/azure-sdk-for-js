@@ -73,9 +73,9 @@ export class CertificateClient {
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
     importCertificate(certificateName: string, base64EncodedCertificate: string, options?: ImportCertificateOptions): Promise<KeyVaultCertificate>;
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    listIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
     listPropertiesOfCertificates(options?: ListPropertiesOfCertificatesOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     listPropertiesOfCertificateVersions(certificateName: string, options?: ListPropertiesOfCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
+    listPropertiesOfIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
@@ -96,8 +96,12 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
 
 // @public
 export interface CertificateIssuer {
+    createdOn?: Date;
+    enabled?: boolean;
     id?: string;
+    name?: string;
     provider?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -273,6 +277,12 @@ export interface IssuerParameters {
     certificateTransparency?: boolean;
     certificateType?: string;
     name?: string;
+}
+
+// @public
+export interface IssuerProperties {
+    id?: string;
+    provider?: string;
 }
 
 // @public
