@@ -178,7 +178,7 @@ export {
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
-  ListPropertiesOfIssuersOptions as ListIssuersOptions,
+  ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   OrganizationDetails,
