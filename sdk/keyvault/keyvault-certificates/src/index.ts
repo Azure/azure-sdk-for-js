@@ -41,6 +41,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
+  KeyType,
+  KeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -80,9 +82,6 @@ import {
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
-  JsonWebKeyType as KeyType,
-  JsonWebKeyCurveName as KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   LifetimeAction,
   OrganizationDetails,
@@ -178,7 +177,6 @@ export {
   IssuerProperties,
   KeyType,
   KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
@@ -798,7 +796,8 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfIssuersPage(settings, updatedOptions)
     };
 
     return result;

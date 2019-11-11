@@ -245,7 +245,7 @@ export class SecretClient {
 
   /**
    * Deletes a secret stored in Azure Key Vault.
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is deleted.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the secret is deleted.
    *
    * This operation requires the secrets/delete permission.
    *
@@ -454,7 +454,7 @@ export class SecretClient {
 
   /**
    * Recovers the deleted secret in the specified vault.
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is recovered.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the secret is recovered.
    *
    * This operation requires the secrets/recover permission.
    *

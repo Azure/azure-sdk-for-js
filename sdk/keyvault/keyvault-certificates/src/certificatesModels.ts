@@ -4,11 +4,25 @@ import {
   DeletionRecoveryLevel,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  JsonWebKeyType as KeyType,
-  JsonWebKeyCurveName as KeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
+
+/**
+ * Defines values for KeyType.
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+
+/**
+ * Defines values for KeyCurveName.
+ * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * @internal
@@ -203,7 +217,16 @@ export interface CertificatePolicy {
   validityInMonths?: number;
 }
 
+/**
+ * The CertificatePolicy module exports values that
+ * are useful as default parameters to methods that
+ * modify the certificate's policy.
+ */
 export module CertificatePolicy {
+  /**
+   * The minimum working properties for a Certificate's Policy.
+   * If used, the certificate will be a self-signed certificate.
+   */
   export const Default: CertificatePolicy = {
     issuerName: "Self",
     subject: "cn=MyCert"
@@ -586,8 +609,17 @@ export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptio
  * The shape of the contact information for the vault certificates.
  */
 export interface CertificateContactAll {
+  /**
+   * Email address of the contact
+   */
   emailAddress: string;
+  /**
+   * Name of the contact
+   */
   name: string;
+  /**
+   * Phone number of the contact
+   */
   phone: string;
 }
 
