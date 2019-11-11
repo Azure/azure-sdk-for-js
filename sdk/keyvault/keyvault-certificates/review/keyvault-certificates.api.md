@@ -85,9 +85,19 @@ export class CertificateClient {
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
 
+// @public (undocumented)
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+
+// @public
+export interface CertificateContactAll {
+    emailAddress: string;
+    name: string;
+    phone: string;
+}
+
 // @public
 export interface CertificateContacts {
-    contactList?: Contact[];
+    contactList?: CertificateContact[];
     readonly id?: string;
 }
 
@@ -379,6 +389,11 @@ export { PipelineOptions }
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
+
+// @public (undocumented)
+export type RequireAtLeastOne<T> = {
+    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
 
 // @public
 export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {

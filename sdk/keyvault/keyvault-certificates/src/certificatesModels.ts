@@ -581,3 +581,49 @@ export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOpti
  * An interface representing optional parameters for {@link restoreCertificateBackup}.
  */
 export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}
+
+/**
+ * The shape of the contact information for the vault certificates.
+ */
+export interface CertificateContactAll {
+  emailAddress: string;
+  name: string;
+  phone: string;
+}
+
+/**
+ * RequireAtLeastOne helps create a type where at least one of the properties of an interface (can be any property) is required to exist.
+ *
+ * This works because of TypeScript's utility types: https://www.typescriptlang.org/docs/handbook/utility-types.html
+ * Let's examine it:
+ * - `[K in keyof T]-?` this property (K) is valid only if it has the same name as any property of T.
+ * - `Required<Pick<T, K>>` makes a new type from T with just the current property in the iteration, and marks it as required
+ * - `Partial<Pick<T, Exclude<keyof T, K>>>` makes a new type with all the properties of T, except from the property K.
+ * - `&` is what unites the type with only one required property from `Required<...>` with all the optional properties from `Partial<...>`.
+ * - `[keyof T]` ensures that only properties of T are allowed.
+ */
+export type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+
+/**
+ * The contact information for the vault certificates.
+ * Each contact will have at least just one of the properties of CertificateContactAll,
+ * which are: emailAddress, name or phone.
+ */
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+
+/**
+ * The contacts for the vault certificates.
+ */
+export interface CertificateContacts {
+  /**
+   * Identifier for the contacts collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The contact list for the vault certificates.
+   */
+  contactList?: CertificateContact[];
+}

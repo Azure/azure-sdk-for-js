@@ -20,6 +20,8 @@ import {
   BeginRecoverDeletedCertificateOptions,
   CancelCertificateOperationOptions,
   CertificateIssuer,
+  CertificateContact,
+  CertificateContacts,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
@@ -55,11 +57,12 @@ import {
   UpdateCertificatePolicyOptions,
   CertificateClientInterface,
   CertificatePollerOptions,
-  IssuerProperties
+  IssuerProperties,
+  CertificateContactAll,
+  RequireAtLeastOne
 } from "./certificatesModels";
 import {
   CertificateBundle,
-  Contacts as CertificateContacts,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
@@ -112,7 +115,8 @@ import {
   AdministratorDetails as AdministratorContact,
   ActionType,
   DeletionRecoveryLevel,
-  CertificateAttributes
+  CertificateAttributes,
+  Contacts as CoreContacts
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -149,6 +153,9 @@ export {
   CertificatePollerOptions,
   CoreSubjectAlternativeNames,
   Contact,
+  RequireAtLeastOne,
+  CertificateContactAll,
+  CertificateContact,
   CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
@@ -634,7 +641,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -672,7 +679,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -706,7 +713,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   private async *listPropertiesOfIssuersPage(
@@ -1957,6 +1964,13 @@ export class CertificateClient {
     return {
       name: parsedId.name,
       properties: abstractProperties
+    };
+  }
+
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
+    return {
+      id: contacts.id,
+      contactList: contacts.contactList && (contacts.contactList as CertificateContact[])
     };
   }
 
