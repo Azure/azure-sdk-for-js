@@ -75,7 +75,7 @@ export class CertificateClient {
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     listPropertiesOfCertificates(options?: ListPropertiesOfCertificatesOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     listPropertiesOfCertificateVersions(certificateName: string, options?: ListPropertiesOfCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
-    listPropertiesOfIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]>;
+    listPropertiesOfIssuers(options?: ListPropertiesOfIssuersOptions): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
@@ -85,13 +85,16 @@ export class CertificateClient {
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
 
-// @public (undocumented)
+// @public
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
 
 // @public
 export interface CertificateContactAll {
+    // (undocumented)
     emailAddress: string;
+    // (undocumented)
     name: string;
+    // (undocumented)
     phone: string;
 }
 
@@ -295,20 +298,23 @@ export interface IssuerProperties {
     provider?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JsonWebKeyCurveName" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type KeyCurveName = JsonWebKeyCurveName;
 
 // @public
 export interface KeyProperties {
-    curve?: KeyCurveName;
+    curve?: JsonWebKeyCurveName;
     exportable?: boolean;
     keySize?: number;
-    keyType?: KeyType;
+    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
+    keyType?: JsonWebKeyType;
     reuseKey?: boolean;
 }
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = JsonWebKeyType;
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
@@ -357,11 +363,6 @@ export interface ListDeletedCertificatesOptions extends coreHttp.OperationOption
 }
 
 // @public
-export interface ListIssuersOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
-}
-
-// @public
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
     maxresults?: number;
@@ -369,6 +370,11 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 
 // @public
 export interface ListPropertiesOfCertificateVersionsOptions extends ListPropertiesOfCertificatesOptions, coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
+    maxresults?: number;
 }
 
 // @public
@@ -390,7 +396,7 @@ export { PipelineOptions }
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type RequireAtLeastOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];

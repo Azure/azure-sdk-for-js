@@ -1,5 +1,10 @@
-import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
-import { JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm } from "./core/models";
+import {
+  JsonWebKey,
+  GetKeyOptions,
+  CryptographyOptions,
+  KeyVaultKey,
+  EncryptionAlgorithm
+} from "./keysModels";
 import {
   TokenCredential,
   isNode,
