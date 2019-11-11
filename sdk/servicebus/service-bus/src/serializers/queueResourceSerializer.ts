@@ -180,6 +180,7 @@ export interface QueueOptions {
   enableBatchedOperations?: boolean;
 
   /**
+   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   requiresDuplicateDetection?: boolean;
@@ -282,6 +283,7 @@ export interface InternalQueueOptions {
   EnableBatchedOperations?: string;
 
   /**
+   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   RequiresDuplicateDetection?: string;
@@ -387,6 +389,7 @@ export interface QueueDetails {
   enableBatchedOperations: boolean;
 
   /**
+   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   requiresDuplicateDetection: boolean;

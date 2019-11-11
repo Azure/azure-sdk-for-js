@@ -143,7 +143,8 @@ export interface TopicOptions {
   maxSizeInMegabytes?: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * Settable only at topic creation time.
    */
   requiresDuplicateDetection?: boolean;
 
@@ -261,7 +262,8 @@ export interface InternalTopicOptions {
   MaxSizeInMegabytes?: string;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * Settable only at topic creation time.
    */
   RequiresDuplicateDetection?: string;
 
@@ -383,7 +385,8 @@ export interface TopicDetails {
   maxSizeInMegabytes: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * Settable only at topic creation time.
    */
   requiresDuplicateDetection: boolean;
 
