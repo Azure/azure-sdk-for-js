@@ -930,6 +930,14 @@ export interface KeyVaultSecretReference {
 }
 
 /**
+ * Describes the parameter of customer managed disk encryption set resource id that can be
+ * specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for
+ * managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.
+ */
+export interface DiskEncryptionSetParameters extends SubResource {
+}
+
+/**
  * Describes a reference to Key Vault Key
  */
 export interface KeyVaultKeyReference {
@@ -993,6 +1001,10 @@ export interface ManagedDiskParameters extends SubResource {
    * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
    */
   storageAccountType?: StorageAccountTypes;
+  /**
+   * Specifies the customer managed disk encryption set resource id for the managed disk.
+   */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
 }
 
 /**
@@ -1118,6 +1130,20 @@ export interface DataDisk {
    * VirtualMachine/VirtualMachineScaleset
    */
   toBeDetached?: boolean;
+  /**
+   * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS.
+   * Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the
+   * VirtualMachine Scale Set.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskIOPSReadWrite?: number;
+  /**
+   * Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is
+   * UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via
+   * updates to the VirtualMachine Scale Set.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskMBpsReadWrite?: number;
 }
 
 /**
@@ -1413,6 +1439,33 @@ export interface OSProfile {
    * may only be set to False when no extensions are present on the virtual machine.
    */
   allowExtensionOperations?: boolean;
+  /**
+   * Specifies whether the guest provision signal is required from the virtual machine.
+   */
+  requireGuestProvisionSignal?: boolean;
+}
+
+/**
+ * Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
+ */
+export interface AutomaticRepairsPolicy {
+  /**
+   * Specifies whether automatic repairs should be enabled on the virtual machine scale set. The
+   * default value is false.
+   */
+  enabled?: boolean;
+  /**
+   * The amount of time for which automatic repairs are suspended due to a state change on VM. The
+   * grace time starts after the state change has completed. This helps avoid premature or
+   * accidental repairs. The time duration should be specified in ISO 8601 format. The default
+   * value is 5 minutes (PT5M).
+   */
+  gracePeriod?: string;
+  /**
+   * The percentage (capacity of scaleset) of virtual machines that will be simultaneously
+   * repaired. The default value is 20%.
+   */
+  maxInstanceRepairsPercent?: number;
 }
 
 /**
@@ -2026,59 +2079,31 @@ export interface UpgradePolicy {
 }
 
 /**
- * Describes an Operating System disk.
+ * Describes a scale-in policy for a virtual machine scale set.
  */
-export interface ImageOSDisk {
+export interface ScaleInPolicy {
   /**
-   * This property allows you to specify the type of the OS that is included in the disk if
-   * creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br>
-   * **Linux**. Possible values include: 'Windows', 'Linux'
+   * The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values
+   * are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will
+   * first be balanced across zones if it is a zonal scale set. Then, it will be balanced across
+   * Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for
+   * removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM**
+   * When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not
+   * protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the
+   * scale set will first be balanced across zones. Within each zone, the oldest virtual machines
+   * that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual
+   * machine scale set is being scaled-in, the newest virtual machines that are not protected from
+   * scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will
+   * first be balanced across zones. Within each zone, the newest virtual machines that are not
+   * protected will be chosen for removal. <br><br>
    */
-  osType: OperatingSystemTypes;
-  /**
-   * The OS State. Possible values include: 'Generalized', 'Specialized'
-   */
-  osState: OperatingSystemStateTypes;
-  /**
-   * The snapshot.
-   */
-  snapshot?: SubResource;
-  /**
-   * The managedDisk.
-   */
-  managedDisk?: SubResource;
-  /**
-   * The Virtual Hard Disk.
-   */
-  blobUri?: string;
-  /**
-   * Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br>
-   * **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly
-   * for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
-   */
-  caching?: CachingTypes;
-  /**
-   * Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the
-   * name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
-   */
-  diskSizeGB?: number;
-  /**
-   * Specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS
-   * Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS',
-   * 'UltraSSD_LRS'
-   */
-  storageAccountType?: StorageAccountTypes;
+  rules?: VirtualMachineScaleSetScaleInRules[];
 }
 
 /**
- * Describes a data disk.
+ * Describes a image disk.
  */
-export interface ImageDataDisk {
-  /**
-   * Specifies the logical unit number of the data disk. This value is used to identify data disks
-   * within the VM and therefore must be unique for each data disk attached to a VM.
-   */
-  lun: number;
+export interface ImageDisk {
   /**
    * The snapshot.
    */
@@ -2108,6 +2133,37 @@ export interface ImageDataDisk {
    * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
    */
   storageAccountType?: StorageAccountTypes;
+  /**
+   * Specifies the customer managed disk encryption set resource id for the managed image disk.
+   */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/**
+ * Describes an Operating System disk.
+ */
+export interface ImageOSDisk extends ImageDisk {
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk if
+   * creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br>
+   * **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * The OS State. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+}
+
+/**
+ * Describes a data disk.
+ */
+export interface ImageDataDisk extends ImageDisk {
+  /**
+   * Specifies the logical unit number of the data disk. This value is used to identify data disks
+   * within the VM and therefore must be unique for each data disk attached to a VM.
+   */
+  lun: number;
 }
 
 /**
@@ -2330,6 +2386,10 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
    * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
    */
   storageAccountType?: StorageAccountTypes;
+  /**
+   * Specifies the customer managed disk encryption set resource id for the managed disk.
+   */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
 }
 
 /**
@@ -2461,6 +2521,18 @@ export interface VirtualMachineScaleSetDataDisk {
    * The managed disk parameters.
    */
   managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+  /**
+   * Specifies the Read-Write IOPS for the managed disk. Should be used only when
+   * StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based
+   * on diskSizeGB.
+   */
+  diskIOPSReadWrite?: number;
+  /**
+   * Specifies the bandwidth in MB per second for the managed disk. Should be used only when
+   * StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based
+   * on diskSizeGB.
+   */
+  diskMBpsReadWrite?: number;
 }
 
 /**
@@ -2567,6 +2639,12 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
    * The PublicIPPrefix from which to allocate publicIP addresses.
    */
   publicIPPrefix?: SubResource;
+  /**
+   * Available from Api-Version 2019-07-01 onwards, it represents whether the specific
+   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and
+   * 'IPv6'. Possible values include: 'IPv4', 'IPv6'
+   */
+  publicIPAddressVersion?: IPVersion;
 }
 
 /**
@@ -2783,6 +2861,12 @@ export interface VirtualMachineScaleSetNetworkProfile {
  */
 export interface VirtualMachineScaleSetUpdateNetworkProfile {
   /**
+   * A reference to a load balancer probe used to determine the health of an instance in the
+   * virtual machine scale set. The reference will be in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
+   */
+  healthProbe?: ApiEntityReference;
+  /**
    * The list of network configurations.
    */
   networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
@@ -2992,6 +3076,10 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   upgradePolicy?: UpgradePolicy;
   /**
+   * Policy for automatic repairs.
+   */
+  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  /**
    * The virtual machine profile.
    */
   virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
@@ -3041,6 +3129,11 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   additionalCapabilities?: AdditionalCapabilities;
   /**
+   * Specifies the scale-in policy that decides which virtual machines are chosen for removal when
+   * a Virtual Machine Scale Set is scaled-in.
+   */
+  scaleInPolicy?: ScaleInPolicy;
+  /**
    * The identity of the virtual machine scale set, if configured.
    */
   identity?: VirtualMachineScaleSetIdentity;
@@ -3085,6 +3178,10 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    */
   upgradePolicy?: UpgradePolicy;
   /**
+   * Policy for automatic repairs.
+   */
+  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  /**
    * The virtual machine profile.
    */
   virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
@@ -3092,6 +3189,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * Specifies whether the Virtual Machine Scale Set should be overprovisioned.
    */
   overprovision?: boolean;
+  /**
+   * When Overprovision is enabled, extensions are launched only on the requested number of VMs
+   * which are finally kept. This property will hence ensure that the extensions do not run on the
+   * extra overprovisioned VMs.
+   */
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /**
    * When true this limits the scale set to a single placement group, of max size 100 virtual
    * machines.
@@ -3103,6 +3206,11 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * attaching managed data disks with UltraSSD_LRS storage account type.
    */
   additionalCapabilities?: AdditionalCapabilities;
+  /**
+   * Specifies the scale-in policy that decides which virtual machines are chosen for removal when
+   * a Virtual Machine Scale Set is scaled-in.
+   */
+  scaleInPolicy?: ScaleInPolicy;
   /**
    * The identity of the virtual machine scale set, if configured.
    */
@@ -4255,6 +4363,21 @@ export interface EncryptionSettingsCollection {
 }
 
 /**
+ * Encryption at rest settings for disk or snapshot
+ */
+export interface Encryption {
+  /**
+   * ResourceId of the disk encryption set to use for enabling encryption at rest.
+   */
+  diskEncryptionSetId?: string;
+  /**
+   * The type of key used to encrypt the data of the disk. Possible values include:
+   * 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'
+   */
+  type: EncryptionType;
+}
+
+/**
  * Disk resource.
  */
 export interface Disk extends Resource {
@@ -4330,6 +4453,11 @@ export interface Disk extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly diskState?: DiskState;
+  /**
+   * Encryption property can be used to encrypt data at rest with customer managed keys or platform
+   * managed keys.
+   */
+  encryption?: Encryption;
 }
 
 /**
@@ -4470,6 +4598,11 @@ export interface Snapshot extends Resource {
    * than full snapshots and can be diffed.
    */
   incremental?: boolean;
+  /**
+   * Encryption property can be used to encrypt data at rest with customer managed keys or platform
+   * managed keys.
+   */
+  encryption?: Encryption;
 }
 
 /**
@@ -4497,6 +4630,65 @@ export interface SnapshotUpdate {
    */
   tags?: { [propertyName: string]: string };
   sku?: SnapshotSku;
+}
+
+/**
+ * The managed identity for the disk encryption set. It should be given permission on the key vault
+ * before it can be used to encrypt disks.
+ */
+export interface EncryptionSetIdentity {
+  /**
+   * The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported.
+   * Possible values include: 'SystemAssigned'
+   */
+  type?: DiskEncryptionSetIdentityType;
+  /**
+   * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the
+   * x-ms-identity-principal-id header in the PUT request if the resource has a
+   * systemAssigned(implicit) identity
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the
+   * x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit)
+   * identity
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
+ * disk encryption set resource.
+ */
+export interface DiskEncryptionSet extends Resource {
+  identity?: EncryptionSetIdentity;
+  /**
+   * The key vault key which is currently used by this disk encryption set.
+   */
+  activeKey?: KeyVaultAndKeyReference;
+  /**
+   * A readonly collection of key vault keys previously used by this disk encryption set while a
+   * key rotation is in progress. It will be empty if there is no ongoing key rotation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly previousKeys?: KeyVaultAndKeyReference[];
+  /**
+   * The disk encryption set provisioning state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * disk encryption set update resource.
+ */
+export interface DiskEncryptionSetUpdate {
+  activeKey?: KeyVaultAndKeyReference;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -5220,6 +5412,16 @@ export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
+export interface VirtualMachinesListAllOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * statusOnly=true enables fetching run time status of all Virtual Machines in the subscription.
+   */
+  statusOnly?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachinesPowerOffOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The parameter to request non-graceful VM shutdown. True value for this flag indicates
@@ -5456,6 +5658,26 @@ export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
+export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetVMExtensionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters for the Reimaging Virtual machine in ScaleSet.
@@ -5523,6 +5745,16 @@ export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends ms
    * if not specified. Default value: false.
    */
   skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ResourceSkusListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation.
+   */
+  filter?: string;
 }
 
 /**
@@ -5784,6 +6016,19 @@ export interface SnapshotList extends Array<Snapshot> {
   /**
    * The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page
    * of snapshots.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List disk encryption set operation response.
+ * @extends Array<DiskEncryptionSet>
+ */
+export interface DiskEncryptionSetList extends Array<DiskEncryptionSet> {
+  /**
+   * The uri to fetch the next page of disk encryption sets. Call ListNext() with this to fetch the
+   * next page of disk encryption sets.
    */
   nextLink?: string;
 }
@@ -6068,6 +6313,14 @@ export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
 export type UpgradeMode = 'Automatic' | 'Manual' | 'Rolling';
 
 /**
+ * Defines values for VirtualMachineScaleSetScaleInRules.
+ * Possible values include: 'Default', 'OldestVM', 'NewestVM'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualMachineScaleSetScaleInRules = 'Default' | 'OldestVM' | 'NewestVM';
+
+/**
  * Defines values for OperatingSystemStateTypes.
  * Possible values include: 'Generalized', 'Specialized'
  * @readonly
@@ -6189,6 +6442,14 @@ export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Co
 export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | 'ReadyToUpload' | 'ActiveUpload';
 
 /**
+ * Defines values for EncryptionType.
+ * Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey';
+
+/**
  * Defines values for SnapshotStorageAccountTypes.
  * Possible values include: 'Standard_LRS', 'Premium_LRS', 'Standard_ZRS'
  * @readonly
@@ -6203,6 +6464,14 @@ export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Stan
  * @enum {string}
  */
 export type AccessLevel = 'None' | 'Read' | 'Write';
+
+/**
+ * Defines values for DiskEncryptionSetIdentityType.
+ * Possible values include: 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskEncryptionSetIdentityType = 'SystemAssigned';
 
 /**
  * Defines values for AggregatedReplicationState.
@@ -8189,6 +8458,126 @@ export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgr
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtension;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtension;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtension;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineExtensionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtensionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsBeginCreateOrUpdateResponse = VirtualMachineExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtension;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VirtualMachineScaleSetVMExtensionsBeginUpdateResponse = VirtualMachineExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineExtension;
+    };
+};
+
+/**
  * Contains response data for the update operation.
  */
 export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM & {
@@ -8965,6 +9354,186 @@ export type SnapshotsListNextResponse = SnapshotList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SnapshotList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSet;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSet;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DiskEncryptionSetsGetResponse = DiskEncryptionSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSet;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSetList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DiskEncryptionSetsListResponse = DiskEncryptionSetList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSetList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DiskEncryptionSetsBeginCreateOrUpdateResponse = DiskEncryptionSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSet;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type DiskEncryptionSetsBeginUpdateResponse = DiskEncryptionSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSet;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSetList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskEncryptionSetList;
     };
 };
 
