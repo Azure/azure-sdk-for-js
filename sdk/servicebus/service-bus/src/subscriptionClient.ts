@@ -143,8 +143,8 @@ export class SubscriptionClient implements Client {
    *
    * @returns SessionReceiver A receiver to receive from a session in the Subscription.
    * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient.
-   * @throws {SessionCannotBeLockedError} Thrown if the Queue does not have sessions enabled (in which
+   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient for given sessionId.
+   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` Thrown if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
@@ -164,11 +164,11 @@ export class SubscriptionClient implements Client {
    * @returns Receiver|SessionReceiver A receiver to receive from a session in the Subscription if
    * `sessionOptions` were provided. Else, a receiver to receive messages from the Subscription.
    * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient.
+   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient and for given sessionId if creating SessionReceiver.
    * @throws {MessagingError} Throws this error with name `InvalidOperationError` Thrown if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
-   * @throws {SessionCannotBeLockedError} Thrown if the Queue does not have sessions enabled (in which
+   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` Thrown if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
