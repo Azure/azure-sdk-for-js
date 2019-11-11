@@ -177,7 +177,10 @@ export const REQUIRES_SESSION = "RequiresSession";
 export const REQUIRES_DUPLICATE_DETECTION = "RequiresDuplicateDetection";
 
 /**
- * The indication if dead lettering on message expiration.
+ * The indication if dead lettering on message expiration. If it is enabled and a message expires,
+ * the Service Bus moves the message from the queue into the entity dead-letter sub-queue.
+ * If disabled, message will be permanently deleted from the main entity.
+ * Settable only at entity creation time.
  *
  */
 export const DEAD_LETTERING_ON_MESSAGE_EXPIRATION = "DeadLetteringOnMessageExpiration";

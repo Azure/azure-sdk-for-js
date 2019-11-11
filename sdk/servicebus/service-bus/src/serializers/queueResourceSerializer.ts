@@ -185,7 +185,7 @@ export interface QueueOptions {
   requiresDuplicateDetection?: boolean;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
    */
   deadLetteringOnMessageExpiration?: boolean;
 
@@ -287,7 +287,7 @@ export interface InternalQueueOptions {
   RequiresDuplicateDetection?: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
    */
   DeadLetteringOnMessageExpiration?: string;
 
@@ -392,7 +392,7 @@ export interface QueueDetails {
   requiresDuplicateDetection: boolean;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
    */
   deadLetteringOnMessageExpiration: boolean;
 

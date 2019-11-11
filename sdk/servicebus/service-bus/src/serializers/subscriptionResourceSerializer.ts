@@ -170,7 +170,7 @@ export interface SubscriptionOptions {
   autoDeleteOnIdle?: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
    */
   deadLetteringOnMessageExpiration?: boolean;
 
@@ -262,7 +262,7 @@ export interface InternalSubscriptionOptions {
   AutoDeleteOnIdle?: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
    */
   DeadLetteringOnMessageExpiration?: string;
 
@@ -363,7 +363,7 @@ export interface SubscriptionDetails {
   autoDeleteOnIdle: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
    */
   deadLetteringOnMessageExpiration: boolean;
 
