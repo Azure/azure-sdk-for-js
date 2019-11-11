@@ -36,7 +36,9 @@ export const administratorName1: msRest.OperationURLParameter = {
   parameterPath: "administratorName",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "administratorName",
+    defaultValue: 'ActiveDirectory',
     type: {
       name: "String"
     }
@@ -630,6 +632,18 @@ export const recoverableDatabaseName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "recoverableDatabaseName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const replicaType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "replicaType"
+  ],
+  mapper: {
+    serializedName: "replicaType",
     type: {
       name: "String"
     }

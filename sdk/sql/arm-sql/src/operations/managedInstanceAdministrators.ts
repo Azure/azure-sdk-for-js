@@ -67,34 +67,30 @@ export class ManagedInstanceAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The administrator name.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, administratorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsGetResponse>;
+  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The administrator name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, administratorName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
+  get(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The administrator name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, administratorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
-  get(resourceGroupName: string, managedInstanceName: string, administratorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceAdministrator>, callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): Promise<Models.ManagedInstanceAdministratorsGetResponse> {
+  get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
+  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceAdministrator>, callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): Promise<Models.ManagedInstanceAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
-        administratorName,
         options
       },
       getOperationSpec,
@@ -106,13 +102,12 @@ export class ManagedInstanceAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The requested administrator name.
    * @param parameters The requested administrator parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, administratorName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,administratorName,parameters,options)
+  createOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse>;
   }
 
@@ -121,12 +116,11 @@ export class ManagedInstanceAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The administrator name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, administratorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,managedInstanceName,administratorName,options)
+  deleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,managedInstanceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -135,17 +129,15 @@ export class ManagedInstanceAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The requested administrator name.
    * @param parameters The requested administrator parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, administratorName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         managedInstanceName,
-        administratorName,
         parameters,
         options
       },
@@ -158,16 +150,14 @@ export class ManagedInstanceAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param administratorName The administrator name.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, managedInstanceName: string, administratorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         managedInstanceName,
-        administratorName,
         options
       },
       beginDeleteMethodOperationSpec,
