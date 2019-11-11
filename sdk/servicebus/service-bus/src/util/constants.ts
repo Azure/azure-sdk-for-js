@@ -135,7 +135,7 @@ export const STATUS = "Status";
 export const PATH = "Path";
 
 /**
- * The entity to forward to
+ * The URL of Service Bus entity to forward messages to.
  *
  */
 export const FORWARD_TO = "ForwardTo";
@@ -238,7 +238,7 @@ export const SUPPORT_ORDERING = "SupportOrdering";
 export const ENABLE_PARTITIONING = "EnablePartitioning";
 
 /**
- * Entity to forward deadlettered messages to
+ * The URL of Service Bus entity to forward deadlettered messages to.
  *
  */
 export const FORWARD_DEADLETTERED_MESSAGES_TO = "ForwardDeadLetteredMessagesTo";

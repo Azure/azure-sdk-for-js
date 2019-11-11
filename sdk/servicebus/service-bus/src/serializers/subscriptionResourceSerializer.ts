@@ -180,7 +180,7 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus subscription to forward deadlettered messages to.
    *
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -272,7 +272,7 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus subscription to forward deadlettered messages to.
    *
    */
   ForwardDeadLetteredMessagesTo?: string;
@@ -373,7 +373,7 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus subscription to forward deadlettered messages to.
    *
    */
   forwardDeadLetteredMessagesTo?: string;

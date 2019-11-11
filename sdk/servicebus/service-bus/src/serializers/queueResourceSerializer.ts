@@ -152,7 +152,7 @@ export interface QueueOptions {
   duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus queue to forward deadlettered messages to.
    *
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -249,7 +249,7 @@ export interface InternalQueueOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus queue to forward deadlettered messages to.
    *
    */
   ForwardDeadLetteredMessagesTo?: string;
@@ -359,7 +359,7 @@ export interface QueueDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus queue to forward deadlettered messages to.
    *
    */
   forwardDeadLetteredMessagesTo?: string;
