@@ -154,9 +154,10 @@ describe("helper methods", () => {
   });
 
   it("transformKeyValue", () => {
+
     const configurationSetting = transformKeyValue({
       key: "hello",
-      locked: true
+      locked: true,
     });
 
     assert.deepEqual(
@@ -191,6 +192,7 @@ describe("helper methods", () => {
       {
         isReadOnly: true,
         key: "hello",
+        
         statusCode: 204,
         _response: fakeHttp204Response._response
       },
