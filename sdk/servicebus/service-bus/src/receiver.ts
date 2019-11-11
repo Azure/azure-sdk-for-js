@@ -515,7 +515,6 @@ export class SessionReceiver {
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the renewSessionLock operation.
    */
   async renewSessionLock(): Promise<Date> {
@@ -533,7 +532,6 @@ export class SessionReceiver {
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the setState operation.
    */
   async setState(state: any): Promise<void> {
@@ -547,7 +545,6 @@ export class SessionReceiver {
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @returns Promise<any> The state of that session
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the getState operation.
    */
   async getState(): Promise<any> {
@@ -567,7 +564,6 @@ export class SessionReceiver {
    * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the peek operation.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
@@ -586,7 +582,6 @@ export class SessionReceiver {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the peekBySequenceNumber operation.
    */
   async peekBySequenceNumber(
@@ -609,7 +604,6 @@ export class SessionReceiver {
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the receiveDeferredMessage operation.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
@@ -641,7 +635,6 @@ export class SessionReceiver {
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if the service returns an error for the receiveDeferredMessages operation.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
@@ -684,7 +677,6 @@ export class SessionReceiver {
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   async receiveMessages(
@@ -717,7 +709,6 @@ export class SessionReceiver {
    * @returns void
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   registerMessageHandler(
@@ -764,7 +755,6 @@ export class SessionReceiver {
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
-   * @throws {Error} Thrown if a session ID is not already defined.
    * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
