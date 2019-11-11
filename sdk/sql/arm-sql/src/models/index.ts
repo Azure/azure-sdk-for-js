@@ -2848,8 +2848,8 @@ export interface DatabaseVulnerabilityAssessment extends ProxyResource {
    */
   storageContainerPath?: string;
   /**
-   * A shared access signature (SAS Key) that has write access to the blob container specified in
-   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
+   * A shared access signature (SAS Key) that has read and write access to the blob container
+   * specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
    * StorageContainerSasKey is required.
    */
   storageContainerSasKey?: string;
@@ -5090,8 +5090,8 @@ export interface ManagedInstanceVulnerabilityAssessment extends ProxyResource {
    */
   storageContainerPath: string;
   /**
-   * A shared access signature (SAS Key) that has write access to the blob container specified in
-   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
+   * A shared access signature (SAS Key) that has read and write access to the blob container
+   * specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
    * StorageContainerSasKey is required.
    */
   storageContainerSasKey?: string;
@@ -5116,8 +5116,8 @@ export interface ServerVulnerabilityAssessment extends ProxyResource {
    */
   storageContainerPath: string;
   /**
-   * A shared access signature (SAS Key) that has write access to the blob container specified in
-   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
+   * A shared access signature (SAS Key) that has read and write access to the blob container
+   * specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
    * StorageContainerSasKey is required.
    */
   storageContainerSasKey?: string;
@@ -5744,6 +5744,26 @@ export interface PrivateLinkResource extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly properties?: PrivateLinkResourceProperties;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DatabasesFailoverOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The type of replica to be failed over. Possible values include: 'Primary', 'ReadableSecondary'
+   */
+  replicaType?: ReplicaType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DatabasesBeginFailoverOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The type of replica to be failed over. Possible values include: 'Primary', 'ReadableSecondary'
+   */
+  replicaType?: ReplicaType;
 }
 
 /**
@@ -7630,6 +7650,14 @@ export type SensitivityLabelSource = 'current' | 'recommended';
  * @enum {string}
  */
 export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions';
+
+/**
+ * Defines values for ReplicaType.
+ * Possible values include: 'Primary', 'ReadableSecondary'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicaType = 'Primary' | 'ReadableSecondary';
 
 /**
  * Defines values for Type.
