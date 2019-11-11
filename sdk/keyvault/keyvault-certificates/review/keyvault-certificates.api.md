@@ -90,11 +90,8 @@ export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | unde
 
 // @public
 export interface CertificateContactAll {
-    // (undocumented)
     emailAddress: string;
-    // (undocumented)
     name: string;
-    // (undocumented)
     phone: string;
 }
 
@@ -151,10 +148,9 @@ export interface CertificatePolicy {
     validityInMonths?: number;
 }
 
-// @public (undocumented)
+// @public
 export module CertificatePolicy {
-    const // (undocumented)
-    Default: CertificatePolicy;
+    const Default: CertificatePolicy;
 }
 
 // @public

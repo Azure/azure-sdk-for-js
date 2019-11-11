@@ -217,12 +217,16 @@ export interface CertificatePolicy {
   validityInMonths?: number;
 }
 
-// The CertificatePolicy module exports values that
-// are useful as default parameters to methods that
-// modify the certificate's policy.
+/**
+ * The CertificatePolicy module exports values that
+ * are useful as default parameters to methods that
+ * modify the certificate's policy.
+ */
 export module CertificatePolicy {
-  // The minimum working properties for a Certificate's Policy.
-  // If used, the certificate will be a self-signed certificate.
+  /**
+   * The minimum working properties for a Certificate's Policy.
+   * If used, the certificate will be a self-signed certificate.
+   */
   export const Default: CertificatePolicy = {
     issuerName: "Self",
     subject: "cn=MyCert"
@@ -605,11 +609,17 @@ export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptio
  * The shape of the contact information for the vault certificates.
  */
 export interface CertificateContactAll {
-  // Email address of the contact
+  /**
+   * Email address of the contact
+   */
   emailAddress: string;
-  // Name of the contact
+  /**
+   * Name of the contact
+   */
   name: string;
-  // String version of the phone number of the contact
+  /**
+   * Phone number of the contact
+   */
   phone: string;
 }
 
