@@ -685,7 +685,7 @@ export class SessionReceiver {
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
    * @throws {Error} Thrown if a session ID is not already defined.
-   * @throws {MessagingError} Thrown if the service returns an error for the receiveMessages operation.
+   * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   async receiveMessages(
     maxMessageCount: number,
@@ -718,7 +718,7 @@ export class SessionReceiver {
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
    * @throws {Error} Thrown if a session ID is not already defined.
-   * @throws {MessagingError} Thrown if the service returns an error for the registerMessageHandler operation.
+   * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   registerMessageHandler(
     onMessage: OnMessage,
@@ -765,7 +765,7 @@ export class SessionReceiver {
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
    * @throws {Error} Thrown if a session ID is not already defined.
-   * @throws {MessagingError} Thrown if the service returns an error for the getMessageIterator operation.
+   * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
