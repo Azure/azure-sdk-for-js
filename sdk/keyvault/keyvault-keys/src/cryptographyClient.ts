@@ -917,32 +917,32 @@ export type SignatureAlgorithm =
   | "ES256K";
 
 /**
- * An interface representing the optional parameters that can be passed to {@link encrypt}.
+ * Options for {@link encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link decrypt}.
+ * Options for {@link decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link sign}.
+ * Options for {@link sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link verify}.
+ * Options for {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link wrapKey}.
+ * Options for {@link wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link unwrapKey}.
+ * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 
