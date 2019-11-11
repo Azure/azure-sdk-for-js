@@ -123,7 +123,7 @@ export class SubscriptionClient implements Client {
    * sessions enabled.
    * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
    * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient.
-   * @throws {InvalidOperationError} Thrown if the Queue has sessions enabled
+   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
@@ -165,7 +165,7 @@ export class SubscriptionClient implements Client {
    * `sessionOptions` were provided. Else, a receiver to receive messages from the Subscription.
    * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
    * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient.
-   * @throws {InvalidOperationError} Thrown if the Queue has sessions enabled
+   * @throws {MessagingError} Throws this error with name `InvalidOperationError` Thrown if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    * @throws {SessionCannotBeLockedError} Thrown if the Queue does not have sessions enabled (in which

@@ -124,7 +124,7 @@ export class QueueClient implements Client {
    * sessions enabled.
    * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
    * @throws {Error} Thrown if an open receiver already exists on the QueueClient.
-   * @throws {InvalidOperationError} Thrown if the Queue has sessions enabled
+   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
@@ -168,7 +168,7 @@ export class QueueClient implements Client {
    * @returns SessionReceiver A receiver to receive from a session in the Queue.
    * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
    * @throws {Error} Thrown if an open receiver already exists on the QueueClient.
-   * @throws {InvalidOperationError} Thrown if the Queue has sessions enabled
+   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    * @throws {SessionCannotBeLockedError} Thrown if the Queue does not have sessions enabled (in which
