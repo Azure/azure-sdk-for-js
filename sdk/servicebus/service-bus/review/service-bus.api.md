@@ -70,23 +70,26 @@ export interface DeadLetterOptions {
 export { delay }
 
 // @public
-export type DeleteQueueResponse = EmptyResponse;
-
-// @public
-export type DeleteRuleResponse = EmptyResponse;
-
-// @public
-export type DeleteSubscriptionResponse = EmptyResponse;
-
-// @public
-export type DeleteTopicResponse = EmptyResponse;
-
-export { Delivery }
-
-// @public
-export type EmptyResponse = {
+export type DeleteQueueResponse = {
     _response: HttpOperationResponse;
 };
+
+// @public
+export type DeleteRuleResponse = {
+    _response: HttpOperationResponse;
+};
+
+// @public
+export type DeleteSubscriptionResponse = {
+    _response: HttpOperationResponse;
+};
+
+// @public
+export type DeleteTopicResponse = {
+    _response: HttpOperationResponse;
+};
+
+export { Delivery }
 
 // @public
 export type GetQueueResponse = QueueResponse;
@@ -103,7 +106,9 @@ export type GetTopicResponse = TopicResponse;
 export { HttpOperationResponse }
 
 // @public
-export type ListQueuesResponse = Array<QueueDetails> & EmptyResponse;
+export type ListQueuesResponse = Array<QueueDetails> & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export interface ListRequestOptions {
@@ -112,13 +117,19 @@ export interface ListRequestOptions {
 }
 
 // @public
-export type ListRulesResponse = Array<Rule> & EmptyResponse;
+export type ListRulesResponse = Array<Rule> & {
+    _response: HttpOperationResponse;
+};
 
 // @public
-export type ListSubscriptionsResponse = Array<SubscriptionDetails> & EmptyResponse;
+export type ListSubscriptionsResponse = Array<SubscriptionDetails> & {
+    _response: HttpOperationResponse;
+};
 
 // @public
-export type ListTopicsResponse = Array<TopicDetails> & EmptyResponse;
+export type ListTopicsResponse = Array<TopicDetails> & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export type MessageCountDetails = {
@@ -217,7 +228,9 @@ export interface QueueOptions {
 }
 
 // @public
-export type QueueResponse = QueueDetails & EmptyResponse;
+export type QueueResponse = QueueDetails & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -276,7 +289,9 @@ export interface RuleOptions {
 }
 
 // @public
-export type RuleResponse = Rule & EmptyResponse;
+export type RuleResponse = Rule & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export interface SendableMessageInfo {
@@ -517,7 +532,9 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export type SubscriptionResponse = SubscriptionDetails & EmptyResponse;
+export type SubscriptionResponse = SubscriptionDetails & {
+    _response: HttpOperationResponse;
+};
 
 export { TokenInfo }
 
@@ -593,7 +610,9 @@ export interface TopicOptions {
 }
 
 // @public
-export type TopicResponse = TopicDetails & EmptyResponse;
+export type TopicResponse = TopicDetails & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export type UpdateQueueResponse = QueueResponse;

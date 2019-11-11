@@ -83,19 +83,14 @@ export interface ListRequestOptions {
 }
 
 /**
- * Type representing just the server response `_response`
+ * Represents result of create, get, update and delete operations on queue.
  */
-export type EmptyResponse = {
+export type QueueResponse = QueueDetails & {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
 };
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export type QueueResponse = QueueDetails & EmptyResponse;
 
 /**
  * Create Queue response
@@ -115,17 +110,32 @@ export type UpdateQueueResponse = QueueResponse;
 /**
  * Delete Queue response
  */
-export type DeleteQueueResponse = EmptyResponse;
+export type DeleteQueueResponse = {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of list operation on queues.
  */
-export type ListQueuesResponse = Array<QueueDetails> & EmptyResponse;
+export type ListQueuesResponse = Array<QueueDetails> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export type TopicResponse = TopicDetails & EmptyResponse;
+export type TopicResponse = TopicDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Create Topic response
@@ -145,17 +155,32 @@ export type UpdateTopicResponse = TopicResponse;
 /**
  * Delete Topic response
  */
-export type DeleteTopicResponse = EmptyResponse;
+export type DeleteTopicResponse = {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of list operation on topics.
  */
-export type ListTopicsResponse = Array<TopicDetails> & EmptyResponse;
+export type ListTopicsResponse = Array<TopicDetails> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export type SubscriptionResponse = SubscriptionDetails & EmptyResponse;
+export type SubscriptionResponse = SubscriptionDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Create Subscription response
@@ -175,17 +200,32 @@ export type UpdateSubscriptionResponse = SubscriptionResponse;
 /**
  * Delete Subscription response
  */
-export type DeleteSubscriptionResponse = EmptyResponse;
+export type DeleteSubscriptionResponse = {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of list operation on subscriptions.
  */
-export type ListSubscriptionsResponse = Array<SubscriptionDetails> & EmptyResponse;
+export type ListSubscriptionsResponse = Array<SubscriptionDetails> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export type RuleResponse = Rule & EmptyResponse;
+export type RuleResponse = Rule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Create Rule response
@@ -205,12 +245,22 @@ export type UpdateRuleResponse = RuleResponse;
 /**
  * Delete Rule response
  */
-export type DeleteRuleResponse = EmptyResponse;
+export type DeleteRuleResponse = {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * Represents result of list operation on rules.
  */
-export type ListRulesResponse = Array<Rule> & EmptyResponse;
+export type ListRulesResponse = Array<Rule> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
