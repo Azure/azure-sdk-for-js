@@ -39,7 +39,8 @@ describe("Certificates client - list certificates in various ways", () => {
 
   // The tests follow
 
-  it("can purge all certificates", async function() {
+  // This test is only useful while developing locally
+  it.skip("can purge all certificates", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
       try {
