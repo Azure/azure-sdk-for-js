@@ -217,7 +217,7 @@ export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
 export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
 /**
- * The maximum delivery count.
+ * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
  *
  */
 export const MAX_DELIVERY_COUNT = "MaxDeliveryCount";

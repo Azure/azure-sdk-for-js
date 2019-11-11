@@ -143,7 +143,7 @@ export interface TopicOptions {
   maxSizeInMegabytes?: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection?: boolean;
@@ -197,7 +197,7 @@ export interface TopicOptions {
   subscriptionCount?: number;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount?: number;
@@ -262,7 +262,7 @@ export interface InternalTopicOptions {
   MaxSizeInMegabytes?: string;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   RequiresDuplicateDetection?: string;
@@ -316,7 +316,7 @@ export interface InternalTopicOptions {
   SubscriptionCount?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -385,7 +385,7 @@ export interface TopicDetails {
   maxSizeInMegabytes: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. 
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection: boolean;
@@ -439,7 +439,7 @@ export interface TopicDetails {
   subscriptionCount?: number;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount?: number;

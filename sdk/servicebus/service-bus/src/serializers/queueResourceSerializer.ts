@@ -164,7 +164,7 @@ export interface QueueOptions {
   autoDeleteOnIdle?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount?: number;
@@ -263,7 +263,7 @@ export interface InternalQueueOptions {
   AutoDeleteOnIdle?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -375,7 +375,7 @@ export interface QueueDetails {
   autoDeleteOnIdle: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount: number;

@@ -187,7 +187,7 @@ export interface SubscriptionOptions {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount?: number;
@@ -280,7 +280,7 @@ export interface InternalSubscriptionOptions {
   ForwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -382,7 +382,7 @@ export interface SubscriptionDetails {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
    *
    */
   maxDeliveryCount: number;
