@@ -383,7 +383,7 @@ export class SessionReceiver {
   /**
    * @internal
    * @throws {Error} Thrown if the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver is already existing.
+   * @throws {Error} Thrown if an open receiver is already existing for given sessionId.
    */
   constructor(
     context: ClientEntityContext,
