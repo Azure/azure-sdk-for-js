@@ -586,23 +586,21 @@ export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptio
  * The shape of the contact information for the vault certificates.
  */
 export interface CertificateContactAll {
-  /**
-   * Email address.
-   */
   emailAddress: string;
-  /**
-   * Name.
-   */
   name: string;
-  /**
-   * Phone number.
-   */
   phone: string;
 }
 
 /**
- * RequireAtLeastOne allows us to potentially ignore all the other properties of a type,
- * but also to enforce at least one.
+ * RequireAtLeastOne helps create a type where at least one of the properties of an interface (can be any property) is required to exist.
+ *
+ * This works because of TypeScript's utility types: https://www.typescriptlang.org/docs/handbook/utility-types.html
+ * Let's examine it:
+ * - `[K in keyof T]-?` this property (K) is valid only if it has the same name as any property of T.
+ * - `Required<Pick<T, K>>` makes a new type from T with just the current property in the iteration, and marks it as required
+ * - `Partial<Pick<T, Exclude<keyof T, K>>>` makes a new type with all the properties of T, except from the property K.
+ * - `&` is what unites the type with only one required property from `Required<...>` with all the optional properties from `Partial<...>`.
+ * - `[keyof T]` ensures that only properties of T are allowed.
  */
 export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
@@ -610,8 +608,8 @@ export type RequireAtLeastOne<T> = {
 
 /**
  * The contact information for the vault certificates.
- * Each contact will have just one of the properties of CertificateContactAll,
- * which are emailAddress, name or phone.
+ * Each contact will have at least just one of the properties of CertificateContactAll,
+ * which are: emailAddress, name or phone.
  */
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
 
