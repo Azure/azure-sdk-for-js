@@ -143,7 +143,8 @@ export interface SubscriptionOptions {
   enablePartitioning?: boolean;
 
   /**
-   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
    */
   requiresSession?: boolean;
 
@@ -235,7 +236,8 @@ export interface InternalSubscriptionOptions {
   EnablePartitioning?: string;
 
   /**
-   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
    */
   RequiresSession?: string;
 
@@ -336,7 +338,8 @@ export interface SubscriptionDetails {
   enablePartitioning?: boolean;
 
   /**
-   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
    */
   requiresSession: boolean;
 

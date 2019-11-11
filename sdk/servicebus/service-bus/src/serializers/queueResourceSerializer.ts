@@ -170,7 +170,8 @@ export interface QueueOptions {
   maxDeliveryCount?: number;
 
   /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
    */
   requiresSession?: boolean;
 
@@ -273,7 +274,8 @@ export interface InternalQueueOptions {
   EnablePartitioning?: string;
 
   /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
    */
   RequiresSession?: string;
 
@@ -379,7 +381,8 @@ export interface QueueDetails {
   maxDeliveryCount: number;
 
   /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
    */
   requiresSession: boolean;
 
