@@ -612,4 +612,15 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code
 
+### Testing
+
+To run our tests, first install the dependencies (with `npm install` or `rush install`),
+then run the unit tests with: `npm run unit-test`.
+
+Some of our tests aim to reproduce the behavior of our library against remotely
+available endpoints. These are executed using previously recorded HTTP request and
+responses.
+
+You can read more about the tests of this project [here](test/README.md).
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)

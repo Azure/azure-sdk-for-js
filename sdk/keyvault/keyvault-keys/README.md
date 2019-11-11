@@ -394,39 +394,12 @@ async function main() {
   // You can use the deleted key immediately:
   let deletedKey = poller.getDeletedKey();
 
-  // Or you can wait until the key finishes being deleted:
+  await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
+  console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
+
+  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
   deletedKey = await poller.pollUntilDone();
   console.log(deletedKey);
-}
-
-main();
-```
-
-Another way to wait until the key is fully deleted is to do individual calls, as follows:
-
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyClient } = require("@azure/keyvault-keys");
-const { delay } = require("@azure/core-http");
-
-const credential = new DefaultAzureCredential();
-
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
-
-const client = new KeyClient(url, credential);
-
-const keyName = "MyKeyName";
-
-async function main() {
-  const poller = await client.beginDeleteKey(keyName);
-
-  while (!poller.isDone()) {
-    await poller.poll();
-    await delay(5000);
-  }
-
-  console.log(`The key ${keyName} is fully deleted`);
 }
 
 main();
@@ -800,5 +773,16 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+### Testing
+
+To run our tests, first install the dependencies (with `npm install` or `rush install`),
+then run the unit tests with: `npm run unit-test`.
+
+Some of our tests aim to reproduce the behavior of our library against remotely
+available endpoints. These are executed using previously recorded HTTP request and
+responses.
+
+You can read more about the tests of this project [here](test/README.md).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)
