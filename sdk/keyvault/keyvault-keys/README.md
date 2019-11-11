@@ -394,12 +394,39 @@ async function main() {
   // You can use the deleted key immediately:
   let deletedKey = poller.getDeletedKey();
 
-  await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
-  console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
-
-  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+  // Or you can wait until the key finishes being deleted:
   deletedKey = await poller.pollUntilDone();
   console.log(deletedKey);
+}
+
+main();
+```
+
+Another way to wait until the key is fully deleted is to do individual calls, as follows:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient } = require("@azure/keyvault-keys");
+const { delay } = require("@azure/core-http");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+const client = new KeyClient(url, credential);
+
+const keyName = "MyKeyName";
+
+async function main() {
+  const poller = await client.beginDeleteKey(keyName);
+
+  while (!poller.isDone()) {
+    await poller.poll();
+    await delay(5000);
+  }
+
+  console.log(`The key ${keyName} is fully deleted`);
 }
 
 main();
