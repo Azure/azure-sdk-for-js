@@ -4,8 +4,6 @@ import {
   DeletionRecoveryLevel,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  JsonWebKeyType,
-  JsonWebKeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
@@ -16,7 +14,7 @@ import {
  * @readonly
  * @enum {string}
  */
-export type KeyType = JsonWebKeyType;
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for KeyCurveName.
@@ -24,7 +22,7 @@ export type KeyType = JsonWebKeyType;
  * @readonly
  * @enum {string}
  */
-export type KeyCurveName = JsonWebKeyCurveName;
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * @internal

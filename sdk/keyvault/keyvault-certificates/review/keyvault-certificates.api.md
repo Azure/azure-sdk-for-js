@@ -298,23 +298,11 @@ export interface IssuerProperties {
     provider?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "JsonWebKeyCurveName" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type KeyCurveName = JsonWebKeyCurveName;
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export interface KeyProperties {
-    curve?: JsonWebKeyCurveName;
-    exportable?: boolean;
-    keySize?: number;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
-    keyType?: JsonWebKeyType;
-    reuseKey?: boolean;
-}
-
-// @public
-export type KeyType = JsonWebKeyType;
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
