@@ -110,7 +110,7 @@ export class Receiver {
    *
    * @returns void
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if an open receiver is already existing.
+   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the registerMessageHandler operation.
    */
@@ -166,7 +166,7 @@ export class Receiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if an open receiver is already existing.
+   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the receiveMessages operation.
    */
@@ -197,7 +197,7 @@ export class Receiver {
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    * @throws {Error} Thrown if the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver is already existing.
+   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the getMessageIterator operation.
    */
