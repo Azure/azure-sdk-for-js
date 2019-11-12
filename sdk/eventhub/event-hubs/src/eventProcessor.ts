@@ -10,6 +10,8 @@ import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
+import { SubscriptionEventHandlers } from './eventHubConsumerClientModels';
+import { LastEnqueuedEventInfo } from './eventHubReceiver';
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -27,10 +29,10 @@ export enum CloseReason {
 }
 
 /**
- * An interface representing data that can identify a partition.
+ * Common properties between various partition contexts.
  */
-export interface PartitionContext {
-  /**
+export interface PartitionContextBase {
+    /**
    * @property The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
@@ -43,10 +45,33 @@ export interface PartitionContext {
    * @property The consumer group name
    */
   consumerGroupName: string;
+}
+
+export interface PartitionContextError extends PartitionContextBase {
+  /**
+   * @property The identifier of the Event Hub partition. Undefined in cases
+   * where the error is not partition specific
+   */
+  partitionId?: string;
+}
+
+/**
+ * An interface representing data that can identify a partition.
+ */
+export interface PartitionContext extends PartitionContextBase {
   /**
    * @property The identifier of the Event Hub partition
    */
   partitionId: string;
+
+  /**
+   * Information about the last enqueued event of a partition, as observed by the consumer
+   *  as events are received from the Event Hubs service.
+   * 
+   * This data is only filled out if `trackLastEnqueuedEventInfo` is set as part of the options for
+   * your consumer.
+   */
+  lastEnqueuedEventInfo?: LastEnqueuedEventInfo
 }
 
 /**
@@ -228,7 +253,6 @@ export interface FullEventProcessorOptions extends EventProcessorOptions, Requir
 export class EventProcessor {
   private _consumerGroupName: string;
   private _eventHubClient: EventHubClient;
-  private _partitionProcessorClass: typeof PartitionProcessor;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string = uuid();
@@ -253,13 +277,12 @@ export class EventProcessor {
   constructor(
     consumerGroupName: string,
     eventHubClient: EventHubClient,
-    PartitionProcessorClass: typeof PartitionProcessor,
+    private _subscriptionEventHandlers: SubscriptionEventHandlers,
     partitionManager: PartitionManager,
     options: FullEventProcessorOptions
   ) {
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
-    this._partitionProcessorClass = PartitionProcessorClass;
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
@@ -321,13 +344,16 @@ export class EventProcessor {
       log.partitionLoadBalancer(
         `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
       );
-      const partitionProcessor = new this._partitionProcessorClass();
-      partitionProcessor.fullyQualifiedNamespace = this._eventHubClient.fullyQualifiedNamespace;
-      partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
-      partitionProcessor.consumerGroupName = this._consumerGroupName;
-      partitionProcessor.partitionId = ownershipRequest.partitionId;
-      partitionProcessor.partitionManager = this._partitionManager;
-      partitionProcessor.eventProcessorId = this.id;
+      const partitionProcessor = new PartitionProcessor(
+        this._subscriptionEventHandlers,
+        this._partitionManager,
+        {
+          fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+          eventHubName: this._eventHubClient.eventHubName,
+          consumerGroupName: this._consumerGroupName,
+          partitionId: ownershipRequest.partitionId,
+          eventProcessorId: this.id,
+        });
 
       const eventPosition = ownershipRequest.sequenceNumber
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
@@ -339,6 +365,7 @@ export class EventProcessor {
       log.error(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
+      await this._addSubscriptionHandleError(err);
     }
   }
 
@@ -395,7 +422,24 @@ export class EventProcessor {
         await delay(waitIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+        await this._addSubscriptionHandleError(err);
       }
+    }
+  }
+
+  private async _addSubscriptionHandleError(err: Error, partitionId?: string): Promise<void> {
+    // fliter out any internal "expected" errors
+    if (err.name === "AbortError") {
+      return;
+    }
+
+    if (this._subscriptionEventHandlers.processError) {
+      await this._subscriptionEventHandlers.processError(err, {
+        fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+        eventHubName: this._eventHubClient.eventHubName,
+        consumerGroupName: this._consumerGroupName,
+        partitionId: partitionId,
+      });
     }
   }
 

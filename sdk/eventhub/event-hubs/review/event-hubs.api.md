@@ -213,11 +213,11 @@ export interface PartitionCheckpointer {
     updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PartitionContextBase" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface PartitionContext {
-    consumerGroupName: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
+export interface PartitionContext extends PartitionContextBase {
+    lastEnqueuedEventInfo?: LastEnqueuedEventInfo;
     partitionId: string;
 }
 
@@ -251,8 +251,10 @@ export interface PartitionProperties {
 // @public
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
+// Warning: (ae-forgotten-export) The symbol "PartitionContextError" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContextError) => Promise<void>;
 
 // @public
 export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;

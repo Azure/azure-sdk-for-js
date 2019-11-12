@@ -1,5 +1,5 @@
 
-import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions } from './eventProcessor';
+import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions, PartitionContextError } from './eventProcessor';
 import { PartitionCheckpointer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
 
@@ -15,7 +15,7 @@ export type ProcessEvents = (
 /**
  * Called when errors occur during event receiving.
  */
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContextError) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.

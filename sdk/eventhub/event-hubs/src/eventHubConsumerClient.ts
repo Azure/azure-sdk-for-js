@@ -293,15 +293,10 @@ export class EventHubConsumerClient {
 
       const partitionManager = new InMemoryPartitionManager();
 
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        possibleOptions3
-      );
-
       eventProcessor = new EventProcessor(
         consumerGroupName1,
         this._eventHubClient,
-        partitionProcessorType,
+        possibleOptions3,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -320,15 +315,10 @@ export class EventHubConsumerClient {
 
       const partitionManager = optionsOrPartitionIdOrPartitionManager2;
 
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        possibleOptions3
-      );
-
       eventProcessor = new EventProcessor(
         consumerGroupName1,
         this._eventHubClient,
-        partitionProcessorType,
+        possibleOptions3,
         partitionManager,
         { ...defaultConsumerClientOptions, ...possibleOptions3 }
       );
@@ -338,15 +328,10 @@ export class EventHubConsumerClient {
 
       const partitionManager = new InMemoryPartitionManager();
 
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        optionsOrPartitionIdOrPartitionManager2
-      );
-
       eventProcessor = new EventProcessor(
         consumerGroupName1,
         this._eventHubClient,
-        partitionProcessorType,
+        optionsOrPartitionIdOrPartitionManager2,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -395,7 +380,7 @@ export function createPartitionProcessorType(
       }
     }
 
-    async initialize() {
+    async processInitialize() {
       this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
 
       if (options.processInitialize) {
