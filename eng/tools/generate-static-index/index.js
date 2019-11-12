@@ -34,14 +34,15 @@ const getChecks = async (dir, checks) => {
   return checks;
 };
 
-console.log("process.cwd = " + process.cwd());
+async function main() {
+  console.log("process.cwd = " + process.cwd());
 
-let workingDir = path.join(process.cwd(), "sdk");
-const serviceFolders = fs.readdirSync(workingDir);
+  let workingDir = path.join(process.cwd(), "sdk");
+  const serviceFolders = fs.readdirSync(workingDir);
 
-/* Initializing package list for template index generation */
-let serviceList = [];
-for (const eachService of serviceFolders) {
+  /* Initializing package list for template index generation */
+  let serviceList = [];
+  for (const eachService of serviceFolders) {
     const eachServicePath = path.join(workingDir, eachService);
     const stat = fs.statSync(eachServicePath);
 
@@ -63,77 +64,91 @@ for (const eachService of serviceFolders) {
         eachPackagePath = path.join(eachServicePath, eachPackage);
         const packageStat = fs.statSync(eachPackagePath);
         if (packageStat && packageStat.isDirectory()) {
-          checks = getChecks(eachPackagePath, checks);
+          checks = await getChecks(eachPackagePath, checks);
 
           console.log(
-            "checks after walk: checks.isRush = " + checks.isRush +
-              " , checks.isPrivate = " + checks.isPrivate +
-              ", checks.srcPresent = " + checks.srcPresent +
-              ", typedocPresent = " + checks.typedocPresent +
-            ", isClient = " + checks.isClient
+            "checks after walk: checks.isRush = " +
+              checks.isRush +
+              " , checks.isPrivate = " +
+              checks.isPrivate +
+              ", checks.srcPresent = " +
+              checks.srcPresent +
+              ", typedocPresent = " +
+              checks.typedocPresent +
+              ", isClient = " +
+              checks.isClient
           );
           console.log("Path: " + eachPackagePath);
           if (!checks.isPrivate) {
-              if (checks.srcPresent || (eachPackage == "core-http") || (eachPackage == "core-tracing")) {
-                if(checks.isClient){
-                  clientList.push(eachPackage);
-                }
-                else{
-                  mngmtList.push(eachPackage);
-                }
+            if (
+              checks.srcPresent ||
+              eachPackage == "core-http" ||
+              eachPackage == "core-tracing"
+            ) {
+              if (checks.isClient) {
+                clientList.push(eachPackage);
               } else {
-                console.log("...SKIPPING Since src folder could not be found.....");
+                mngmtList.push(eachPackage);
               }
+            } else {
+              console.log(
+                "...SKIPPING Since src folder could not be found....."
+              );
+            }
           } else {
             console.log("...SKIPPING Since package marked as private...");
           }
         }
       } //end-for each-package
       /* Adding service entry for the template index generation */
-      serviceList.push({ name: eachService, mngmtList: mngmtList, clientList: clientList });
+      serviceList.push({
+        name: eachService,
+        mngmtList: mngmtList,
+        clientList: clientList
+      });
     }
-} // end-for ServiceFolders
+  } // end-for ServiceFolders
 
-// Versioned Indexes
-var yamlPath = path.join(process.cwd(), "docfx_project/api");
-var yamlFilePath = path.join(yamlPath, "toc.yml");
+  // Versioned Indexes
+  var yamlPath = path.join(process.cwd(), "docfx_project/api");
+  var yamlFilePath = path.join(yamlPath, "toc.yml");
 
-var jObject = []; //[{"name": service, "href": <link-to-md-file>}]
-var serviceMapperPath = path.join(process.cwd(),"eng/tools/generate-static-index/service-mapper.json");
-const serviceMapper = JSON.parse(fs.readFileSync(serviceMapperPath, 'utf8'));
-for (const eachService of serviceList) {
-  var mdFile = eachService.name + ".md";
-  var serviceName = eachService.name;
-  if(serviceMapper[eachService.name]){
-    serviceName = serviceMapper[eachService.name];
-  }
-  jObject.push({ name: serviceName, href: mdFile });//change the value for name to lookup name for service from given json file
-  var mdContent = "";
-  if(eachService.clientList.length > 0){
-     mdContent += "<h1>Client Libraries </h1><hr>";
+  var jObject = []; //[{"name": service, "href": <link-to-md-file>}]
+  var serviceMapperPath = path.join(
+    process.cwd(),
+    "eng/tools/generate-static-index/service-mapper.json"
+  );
+  const serviceMapper = JSON.parse(fs.readFileSync(serviceMapperPath, "utf8"));
+  for (const eachService of serviceList) {
+    var mdFile = eachService.name + ".md";
+    var serviceName = eachService.name;
+    if (serviceMapper[eachService.name]) {
+      serviceName = serviceMapper[eachService.name];
+    }
+    jObject.push({ name: serviceName, href: mdFile }); //change the value for name to lookup name for service from given json file
+    var mdContent = "";
+    if (eachService.clientList.length > 0) {
+      mdContent += "<h1>Client Libraries </h1><hr>";
+    }
+
+    for (var package of eachService.clientList) {
+      var packagename = "@azure/" + package;
+      mdContent += "<h3>" + packagename + "</h3>";
+    }
+    if (eachService.mngmtList.length > 0) {
+      mdContent += "<h1>Management Libraries </h1><hr>";
+    }
+
+    for (var package of eachService.mngmtList) {
+      var packagename = "@azure/" + package;
+      mdContent += "<h3>" + packagename + "</h3>";
+    }
+    var mdFilePath = path.join(yamlPath, mdFile);
+    fs.writeFile(mdFilePath, mdContent);
   }
 
-  for (var package of eachService.clientList) {
-    var packagename = "@azure/" + package;
-    mdContent +=
-      "<h3>" +
-      packagename +
-      "</h3>";
-  }
-  if (eachService.mngmtList.length > 0) {
-    mdContent += "<h1>Management Libraries </h1><hr>";
-  }
-
-  for (var package of eachService.mngmtList) {
-    var packagename = "@azure/" + package;
-    mdContent +=
-      "<h3>" +
-      packagename +
-      "</h3>";
-  }
-  var mdFilePath = path.join(yamlPath, mdFile);
-  fs.writeFile(mdFilePath, mdContent);
+  fs.writeFile(yamlFilePath, jsyaml.safeDump(jObject));
+  console.log("toc.yml created");
 }
 
-fs.writeFile(yamlFilePath, jsyaml.safeDump(jObject));
-console.log("toc.yml created");
+main();
