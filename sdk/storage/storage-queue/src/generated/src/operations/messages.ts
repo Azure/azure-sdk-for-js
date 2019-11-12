@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/messagesMappers";
 import * as Parameters from "../models/parameters";
@@ -35,13 +35,13 @@ export class Messages {
   /**
    * @param callback The callback
    */
-  dequeue(callback: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): void;
+  dequeue(callback: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  dequeue(options: Models.MessagesDequeueOptionalParams, callback: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): void;
-  dequeue(options?: Models.MessagesDequeueOptionalParams | msRest.ServiceCallback<Models.DequeuedMessageItem[]>, callback?: msRest.ServiceCallback<Models.DequeuedMessageItem[]>): Promise<Models.MessagesDequeueResponse> {
+  dequeue(options: Models.MessagesDequeueOptionalParams, callback: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>): void;
+  dequeue(options?: Models.MessagesDequeueOptionalParams | coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>, callback?: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>): Promise<Models.MessagesDequeueResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -59,13 +59,13 @@ export class Messages {
   /**
    * @param callback The callback
    */
-  clear(callback: msRest.ServiceCallback<void>): void;
+  clear(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  clear(options: Models.MessagesClearOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  clear(options?: Models.MessagesClearOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.MessagesClearResponse> {
+  clear(options: Models.MessagesClearOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  clear(options?: Models.MessagesClearOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessagesClearResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -89,14 +89,14 @@ export class Messages {
    * @param queueMessage A Message object which can be stored in a Queue
    * @param callback The callback
    */
-  enqueue(queueMessage: Models.QueueMessage, callback: msRest.ServiceCallback<Models.EnqueuedMessage[]>): void;
+  enqueue(queueMessage: Models.QueueMessage, callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): void;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param options The optional parameters
    * @param callback The callback
    */
-  enqueue(queueMessage: Models.QueueMessage, options: Models.MessagesEnqueueOptionalParams, callback: msRest.ServiceCallback<Models.EnqueuedMessage[]>): void;
-  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams | msRest.ServiceCallback<Models.EnqueuedMessage[]>, callback?: msRest.ServiceCallback<Models.EnqueuedMessage[]>): Promise<Models.MessagesEnqueueResponse> {
+  enqueue(queueMessage: Models.QueueMessage, options: Models.MessagesEnqueueOptionalParams, callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): void;
+  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams | coreHttp.ServiceCallback<Models.EnqueuedMessage[]>, callback?: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): Promise<Models.MessagesEnqueueResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
@@ -116,13 +116,13 @@ export class Messages {
   /**
    * @param callback The callback
    */
-  peek(callback: msRest.ServiceCallback<Models.PeekedMessageItem[]>): void;
+  peek(callback: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  peek(options: Models.MessagesPeekOptionalParams, callback: msRest.ServiceCallback<Models.PeekedMessageItem[]>): void;
-  peek(options?: Models.MessagesPeekOptionalParams | msRest.ServiceCallback<Models.PeekedMessageItem[]>, callback?: msRest.ServiceCallback<Models.PeekedMessageItem[]>): Promise<Models.MessagesPeekResponse> {
+  peek(options: Models.MessagesPeekOptionalParams, callback: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>): void;
+  peek(options?: Models.MessagesPeekOptionalParams | coreHttp.ServiceCallback<Models.PeekedMessageItem[]>, callback?: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>): Promise<Models.MessagesPeekResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -133,8 +133,8 @@ export class Messages {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const dequeueOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const dequeueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}/messages",
   urlParameters: [
@@ -142,8 +142,8 @@ const dequeueOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.visibilitytimeout0,
-    Parameters.timeout
+    Parameters.visibilityTimeout0,
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -167,21 +167,22 @@ const dequeueOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesDequeueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesDequeueHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const clearOperationSpec: msRest.OperationSpec = {
+const clearOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{queueName}/messages",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -192,23 +193,24 @@ const clearOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesClearHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesClearHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const enqueueOperationSpec: msRest.OperationSpec = {
+const enqueueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "{queueName}/messages",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.visibilitytimeout0,
+    Parameters.visibilityTimeout0,
     Parameters.messageTimeToLive,
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -240,14 +242,15 @@ const enqueueOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesEnqueueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesEnqueueHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const peekOperationSpec: msRest.OperationSpec = {
+const peekOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}/messages",
   urlParameters: [
@@ -255,7 +258,7 @@ const peekOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.peekonly
   ],
   headerParameters: [
@@ -280,7 +283,8 @@ const peekOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesPeekHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesPeekHeaders
     }
   },
   isXML: true,

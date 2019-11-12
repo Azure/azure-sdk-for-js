@@ -79,11 +79,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     if (this._canFetchMore()) {
       const { result: resources, headers } = await this.fetchMore();
-      // if (err) {
-      //     return callback(err, undefined, headers);
-      // }
-      // TODO: returning data and error is an anti-pattern
-
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuation && this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -185,6 +180,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
       // Add the request charge to the query metrics so that we can have per partition request charge.
       if (Constants.HttpHeaders.RequestCharge in responseHeaders) {
+        const requestCharge = Number(responseHeaders[Constants.HttpHeaders.RequestCharge]) || 0;
         queryMetrics = new QueryMetrics(
           queryMetrics.retrievedDocumentCount,
           queryMetrics.retrievedDocumentSize,
@@ -198,7 +194,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           queryMetrics.vmExecutionTime,
           queryMetrics.runtimeExecutionTimes,
           queryMetrics.documentWriteTime,
-          new ClientSideMetrics(responseHeaders[Constants.HttpHeaders.RequestCharge])
+          new ClientSideMetrics(requestCharge)
         );
       }
 

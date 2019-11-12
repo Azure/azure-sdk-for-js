@@ -1,4 +1,7 @@
-import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
 
 import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy";
 import { Credential } from "./Credential";
@@ -15,7 +18,7 @@ import { Credential } from "./Credential";
  */
 export class AnonymousCredential extends Credential {
   /**
-   * Creates an AnonymousCredentialPolicy object.
+   * Creates an {@link AnonymousCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options

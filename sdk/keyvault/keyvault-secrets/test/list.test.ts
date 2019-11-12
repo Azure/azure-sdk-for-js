@@ -3,22 +3,24 @@
 
 import * as assert from "assert";
 import chai from "chai";
-import { SecretsClient } from "../src";
-import { retry } from "./utils/recorderUtils";
+import { SecretClient } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
-  let client: SecretsClient;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -26,27 +28,28 @@ describe("Secret client - list secrets in various ways", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
   // The tests follow
 
-  it("can purge all secrets", async function() {
+  // This test is only useful while developing locally
+  it.skip("can purge all secrets", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const secret of client.listSecrets()) {
+    for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
-        await testClient.flushSecret(secret.name);
+        await testClient.flushSecret(secretProperties.name);
       } catch (e) {}
     }
-    for await (const secret of client.listDeletedSecrets()) {
+    for await (const deletedSecret of client.listDeletedSecrets()) {
       try {
-        await testClient.purgeSecret(secret.name);
+        await testClient.purgeSecret(deletedSecret.name);
       } catch (e) {}
     }
   });
 
-  it("can list secrets", async function() {
+  it("can list secret properties", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -56,9 +59,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     let found = 0;
-    for await (const secret of client.listSecrets()) {
+    for await (const secretProperties of client.listPropertiesOfSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
-      if (!secretNames.includes(secret.name)) continue;
+      if (!secretNames.includes(secretProperties.name)) continue;
       found += 1;
     }
 
@@ -69,6 +72,18 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get secret properties with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfSecrets({
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
+
   it("can list deleted secrets", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -78,12 +93,8 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      await client.deleteSecret(name);
-    }
-
-    // Waiting until the secrets are deleted
-    for (const name of secretNames) {
-      await retry(async () => client.getDeletedSecret(name));
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
+      await deletePoller.pollUntilDone();
     }
 
     let found = 0;
@@ -99,6 +110,18 @@ describe("Secret client - list secrets in various ways", () => {
       await testClient.purgeSecret(name);
     }
   });
+
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get the deleted secrets with requestOptions timeout", async function() {
+      const iter = client.listDeletedSecrets({
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
 
   it("can retrieve all versions of a secret", async function() {
     const secretName = testClient.formatName(
@@ -116,10 +139,10 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const item of client.listSecretVersions(secretName)) {
-      const version = item.version!;
+    for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
+      const version = secretProperties.version!;
       const secret = await client.getSecret(secretName, { version: version });
-      results.push({ version: item.version!, value: secret.value! });
+      results.push({ version: secretProperties.version!, value: secret.value! });
     }
 
     const comp = (a: VersionValuePair, b: VersionValuePair): number =>
@@ -131,14 +154,26 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get versions of a secret with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
+    });
+  }
+
   it("can list secret versions (non existing)", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const version of client.listSecretVersions(secretName)) {
+    for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
       assert.equal(
-        version.name,
+        secretProperties.name,
         secretName,
         "Unexpected key name in result from listKeyVersions()."
       );
@@ -156,10 +191,10 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
-    for await (const page of client.listSecrets().byPage()) {
-      for (const secret of page) {
+    for await (const page of client.listPropertiesOfSecrets().byPage()) {
+      for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
-        if (!secretNames.includes(secret.name)) continue;
+        if (!secretNames.includes(secretProperties.name)) continue;
         found += 1;
       }
     }
@@ -178,12 +213,8 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      await client.deleteSecret(name);
-    }
-
-    // Waiting until the secrets are deleted
-    for (const name of secretNames) {
-      await retry(async () => client.getDeletedSecret(name));
+      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
+      await deletePoller.pollUntilDone();
     }
 
     let found = 0;
@@ -216,9 +247,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const item of page) {
-        const version = item.version!;
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+      for (const secretProperties of page) {
+        const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
         results.push({ version, value: secret.value! });
       }
@@ -238,10 +269,10 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const version of page) {
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+      for (const secretProperties of page) {
         assert.equal(
-          version.name,
+          secretProperties.name,
           secretName,
           "Unexpected key name in result from listKeyVersions()."
         );

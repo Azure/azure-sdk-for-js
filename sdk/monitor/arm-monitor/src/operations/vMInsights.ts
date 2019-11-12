@@ -67,7 +67,7 @@ const getOnboardingStatusOperationSpec: msRest.OperationSpec = {
     Parameters.resourceUri
   ],
   queryParameters: [
-    Parameters.apiVersion10
+    Parameters.apiVersion11
   ],
   headerParameters: [
     Parameters.acceptLanguage

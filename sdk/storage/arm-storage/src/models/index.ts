@@ -399,13 +399,47 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Settings properties for Active Directory (AD).
+ */
+export interface ActiveDirectoryProperties {
+  /**
+   * Specifies the primary domain that the AD DNS server is authoritative for.
+   */
+  domainName: string;
+  /**
+   * Specifies the NetBIOS domain name.
+   */
+  netBiosDomainName: string;
+  /**
+   * Specifies the Active Directory forest to get.
+   */
+  forestName: string;
+  /**
+   * Specifies the domain GUID.
+   */
+  domainGuid: string;
+  /**
+   * Specifies the security identifier (SID).
+   */
+  domainSid: string;
+  /**
+   * Specifies the security identifier (SID) for Azure Storage.
+   */
+  azureStorageSid: string;
+}
+
+/**
  * Settings for Azure Files identity based authentication.
  */
 export interface AzureFilesIdentityBasedAuthentication {
   /**
-   * Indicates the directory service used. Possible values include: 'None', 'AADDS'
+   * Indicates the directory service used. Possible values include: 'None', 'AADDS', 'AD'
    */
   directoryServiceOptions: DirectoryServiceOptions;
+  /**
+   * Required if choose AD.
+   */
+  activeDirectoryProperties?: ActiveDirectoryProperties;
 }
 
 /**
@@ -561,6 +595,37 @@ export interface GeoReplicationStats {
 }
 
 /**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionRequired?: string;
+}
+
+/**
  * An interface representing Resource.
  */
 export interface Resource extends BaseResource {
@@ -581,6 +646,26 @@ export interface Resource extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 /**
@@ -719,6 +804,11 @@ export interface StorageAccount extends TrackedResource {
    * values include: 'Disabled', 'Enabled'
    */
   largeFileSharesState?: LargeFileSharesState;
+  /**
+   * List of private endpoint connection associated with the specified storage account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /**
@@ -759,7 +849,8 @@ export interface StorageAccountListKeysResult {
  */
 export interface StorageAccountRegenerateKeyParameters {
   /**
-   * The name of storage keys that want to be regenerated, possible values are key1, key2.
+   * The name of storage keys that want to be regenerated, possible values are key1, key2, kerb1,
+   * kerb2.
    */
   keyName: string;
 }
@@ -1154,6 +1245,51 @@ export interface ManagementPolicy extends Resource {
    * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    */
   policy: ManagementPolicySchema;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
+}
+
+/**
+ * An error response from the storage resource provider.
+ */
+export interface ErrorResponse {
+  /**
+   * An identifier for the error. Codes are invariant and are intended to be consumed
+   * programmatically.
+   */
+  code?: string;
+  /**
+   * A message describing the error, intended to be suitable for display in a user interface.
+   */
+  message?: string;
 }
 
 /**
@@ -1662,11 +1798,18 @@ export interface StorageAccountsGetPropertiesOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface BlobContainersListOptionalParams extends msRest.RequestOptionsBase {
+export interface StorageAccountsListKeysOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Optional. Continuation token for the list operation.
+   * Specifies type of the key to be listed. Possible value is kerb. Possible values include:
+   * 'kerb'
    */
-  skipToken?: string;
+  expand?: ListKeyExpand;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobContainersListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional. Specified maximum number of containers that can be included in the list.
    */
@@ -1757,10 +1900,6 @@ export interface FileServicesSetServicePropertiesOptionalParams extends msRest.R
  * Optional Parameters.
  */
 export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Optional. Continuation token for the list operation.
-   */
-  skipToken?: string;
   /**
    * Optional. Specified maximum number of shares that can be included in the list.
    */
@@ -2030,11 +2169,11 @@ export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for DirectoryServiceOptions.
- * Possible values include: 'None', 'AADDS'
+ * Possible values include: 'None', 'AADDS', 'AD'
  * @readonly
  * @enum {string}
  */
-export type DirectoryServiceOptions = 'None' | 'AADDS';
+export type DirectoryServiceOptions = 'None' | 'AADDS' | 'AD';
 
 /**
  * Defines values for AccessTier.
@@ -2075,6 +2214,22 @@ export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Succeeded';
  * @enum {string}
  */
 export type AccountStatus = 'available' | 'unavailable';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for KeyPermission.
@@ -2188,6 +2343,14 @@ export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
  * @enum {string}
  */
 export type StorageAccountExpand = 'geoReplicationStats';
+
+/**
+ * Defines values for ListKeyExpand.
+ * Possible values include: 'kerb'
+ * @readonly
+ * @enum {string}
+ */
+export type ListKeyExpand = 'kerb';
 
 /**
  * Defines values for Action1.
@@ -2534,6 +2697,66 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByStorageAccount operation.
+ */
+export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };
 

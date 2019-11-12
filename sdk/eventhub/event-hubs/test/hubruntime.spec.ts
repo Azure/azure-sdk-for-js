@@ -10,7 +10,7 @@ const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 describe("RuntimeInformation #RunnableInBrowser", function(): void {
@@ -186,7 +186,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "partitionId"`);
+        err.message.should.equal(`getPartitionProperties called without required argument "partitionId"`);
       }
     });
 

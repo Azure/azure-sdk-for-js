@@ -1,3 +1,74 @@
+## 3.4.2
+
+- Fixes bug where the query may throw a 410 error during a split operation. Instead, throw 503 (#6074)
+
+## 3.4.1
+
+- Fix region drop failover scenario and add test (#5892)
+
+## 3.4.0
+
+- FEATURE: GROUP BY query support (#5749)
+- Update proxy-agent. Remove types folder (#5854)
+- Typo: Fix "an" vs "a" (#5812)
+- Update to Mocha 6.2.2 (#5824)
+- Remove unused Range type (#5686)
+- Remove universal-user-agent (#5869)
+
+## 3.3.4
+
+- Query bug fix. Empty result last call not reporting proper RUs (#5517)
+- Sign headers using internal package (#5523)
+- Use internal digest function instead of crypto-hash package (#5493)
+- Remove internal binary-search-bounds package (#5417)
+- Fix atob bug impacting browser users (#5375)
+
+## 3.3.2
+
+- Export TokenProvider and RequestInfo types (#5262)
+- Remove atob package in favor of local version (#5334)
+- Fix incorrect lib version in UserAgent (#5295)
+- Allow zero for Item TTL (#5257)
+
+## 3.3.0
+
+- FEATURE: Add userAgentSuffix to CosmosClient constructor options (#5068)
+- Guard process.env to fix webpack issues (#5223)
+- Fixes bug where initial QueryIterator promise was not being created (#5215)
+- Fix aggregates bug when query was returning no results (#5184)
+- sideEffects field set to false (#5022)
+
+## 3.2.0
+
+- FEATURE: Endpoint resolution now blocks until initialized (#409)
+- FEATURE: Add bufferItems support & other cross-partition perf improvements (#397)
+- Fix missing AbortSignal type for users not targeting the DOM (#416)
+- Add sample for bulk update with continuation token (#402)
+- Export default partition key path (#405)
+
+## 3.1.1
+
+- Fix bug where offset limit iterator was being called for each item under the offset count (#398)
+- Add retry on EPIPE error (#400)
+
+## 3.1.0
+
+- FEATURE: Set default ResponseContinuationTokenLimitInKB to 1kb. Prevents header limit errors (#384)
+- Remove unused disableSSLVerification options (#388)
+
+## 3.0.4
+
+- Allow initialHeaders to explicitly set partition key header (#383)
+- Use package.json#files to prevent extraneous files from being pubished (#382)
+- Fix for routing map sort error on older version of node+v8 (#378)
+- Fixes bug when user supplies partial retry options. Close #377 (#379)
+- README updates (#374)
+
+## 3.0.3
+
+- Fix webpack usage. Prevent resolving modules called with `require` (#373)
+- Various internal API cleanups and sample fixes
+
 ## 3.0.2
 
 Fixes a long outstanding bug where RUs were always being reported as 0 for aggregate queries (#366)
@@ -138,7 +209,9 @@ v2 had custom code to generate item IDs. We have switched to the well known and 
 It is now possible to pass a connection string copied from the Azure portal:
 
 ```js
-const client = new CosmosClient("AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;");
+const client = new CosmosClient(
+  "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;"
+);
 ```
 
 #### Add DISTINCT and LIMIT/OFFSET queries (#306)

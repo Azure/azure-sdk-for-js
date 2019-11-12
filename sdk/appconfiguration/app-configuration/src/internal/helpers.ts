@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
-import { URLBuilder } from '@azure/core-http';
-import { isArray } from 'util';
-import { ListRevisionsOptions } from '../models';
+import { ListConfigurationSettingsOptions } from "..";
+import { URLBuilder } from "@azure/core-http";
+import { isArray } from "util";
+import {
+  ListRevisionsOptions,
+  ConfigurationSettingId,
+  ConfigurationSetting,
+  HttpResponseField,
+  HttpResponseFields,
+  HttpOnlyIfChangedField,
+  HttpOnlyIfUnchangedField
+} from "../models";
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -13,7 +22,7 @@ import { ListRevisionsOptions } from '../models';
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
-  if (etag === undefined || etag === '*') {
+  if (etag === undefined || etag === "*") {
     return etag;
   }
 
@@ -29,26 +38,29 @@ export function quoteETag(etag: string | undefined): string | undefined {
 }
 
 /**
- * Checks the ifMatch/ifNoneMatch properties to make sure we haven't specified both
+ * Checks the onlyIfChanged/onlyIfUnchanged properties to make sure we haven't specified both
  * and throws an Error. Otherwise, returns the properties properly quoted.
- * @param options An options object with ifMatch/ifNoneMatch fields 
+ * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
  * @ignore
  */
-export function checkAndFormatIfAndIfNoneMatch(options: { ifMatch?: string, ifNoneMatch?: string }): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
-  if (options.ifMatch && options.ifNoneMatch) {
-    throw new Error("ifMatch and ifNoneMatch are mutually-exclusive");
+export function checkAndFormatIfAndIfNoneMatch(
+  configurationSetting: ConfigurationSettingId,
+  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
+): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
+  if (options.onlyIfChanged && options.onlyIfUnchanged) {
+    throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
 
   let ifMatch;
   let ifNoneMatch;
 
-  if (options.ifMatch) {
-    ifMatch = quoteETag(options.ifMatch);
+  if (options.onlyIfUnchanged) {
+    ifMatch = quoteETag(configurationSetting.etag);
   }
 
-  if (options.ifNoneMatch) {
-    ifNoneMatch = quoteETag(options.ifNoneMatch);
+  if (options.onlyIfChanged) {
+    ifNoneMatch = quoteETag(configurationSetting.etag);
   }
 
   return {
@@ -60,13 +72,13 @@ export function checkAndFormatIfAndIfNoneMatch(options: { ifMatch?: string, ifNo
 /**
  * Transforms the keys/labels parameters in the listConfigurationSettings and listRevisions
  * into the format the REST call will need.
- * 
+ *
  * @internal
  * @ignore
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -80,9 +92,41 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
+  let fieldsToGet: (keyof KeyValue)[] | undefined;
+
+  if (listConfigOptions.fields) {
+    fieldsToGet = listConfigOptions.fields.map((opt) => {
+      if (opt === "isReadOnly") {
+        return "locked";
+      }
+
+      return opt;
+    });
+  }
+
+  let acceptDatetime: string | undefined = undefined;
+
+  if (listConfigOptions.acceptDateTime) {
+    acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
+  }
+
   return {
     key,
-    label
+    label,
+    acceptDatetime,
+    select: fieldsToGet
+  };
+}
+
+/**
+ * Handles translating a Date acceptDateTime into a string as needed by the API
+ * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @internal
+ * @ignore
+ */
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): { acceptDatetime?: string; }{
+  return {
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
   };
 }
 
@@ -101,4 +145,86 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
   }
 
   return decodeURIComponent(afterToken);
+}
+
+/**
+ * Makes a ConfigurationSetting-based response throw for all of the data members. Used primarily
+ * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
+ * in cases like HTTP status code 204 or 304, which return an empty response body.
+ *
+ * @param configurationSetting The configuration setting to alter
+ */
+export function makeConfigurationSettingEmpty(
+  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
+) {
+  const names: (Exclude<keyof ConfigurationSetting, "key">)[] = [
+    "contentType",
+    "etag",
+    "label",
+    "lastModified",
+    "isReadOnly",
+    "tags",
+    "value"
+  ];
+
+  for (const name of names) {
+    configurationSetting[name] = undefined;
+  }
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
+  const obj: ConfigurationSetting & KeyValue = {
+    ...kvp,
+    isReadOnly: !!kvp.locked
+  };
+
+  delete obj.locked;
+  return obj;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponseWithStatusCode<
+  T extends KeyValue & HttpResponseField<any>
+>(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
+  return normalizeResponse(kvp, <
+    ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
+  >{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status
+  });
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponse<
+  T extends KeyValue & { eTag?: string } & HttpResponseField<any>
+>(kvp: T): ConfigurationSetting & HttpResponseField<any> {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+    ...transformKeyValue(kvp)
+  });
+}
+
+function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>(
+  originalResponse: HttpResponseField<any>,
+  newResponse: T
+): T {
+  Object.defineProperty(newResponse, "_response", {
+    enumerable: false,
+    value: originalResponse._response
+  });
+
+  // this field comes from the header but it's redundant with
+  // the one serialized in the model itself
+  delete newResponse.eTag;
+
+  return newResponse;
 }

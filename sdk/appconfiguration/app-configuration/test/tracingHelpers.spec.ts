@@ -32,9 +32,18 @@ describe("tracingHelpers", () => {
   });
 
   it("getCanonicalCode", () => {
-    assert.equal(CanonicalCode.PERMISSION_DENIED, Spanner.getCanonicalCode(new RestError("hello", "", 401)));
-    assert.equal(CanonicalCode.NOT_FOUND, Spanner.getCanonicalCode(new RestError("hello", "", 404)));
+    assert.equal(
+      CanonicalCode.PERMISSION_DENIED,
+      Spanner.getCanonicalCode(new RestError("hello", "", 401))
+    );
+    assert.equal(
+      CanonicalCode.NOT_FOUND,
+      Spanner.getCanonicalCode(new RestError("hello", "", 404))
+    );
     assert.equal(CanonicalCode.UNKNOWN, Spanner.getCanonicalCode(new RestError("hello", "", 409)));
-    assert.equal(CanonicalCode.FAILED_PRECONDITION, Spanner.getCanonicalCode(new RestError("hello", "", 412)));    
+    assert.equal(
+      CanonicalCode.FAILED_PRECONDITION,
+      Spanner.getCanonicalCode(new RestError("hello", "", 412))
+    );
   });
 });

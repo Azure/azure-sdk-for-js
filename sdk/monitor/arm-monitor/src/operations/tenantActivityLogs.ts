@@ -94,7 +94,7 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "providers/microsoft.insights/eventtypes/management/values",
   queryParameters: [
     Parameters.apiVersion0,
-    Parameters.filter,
+    Parameters.filter1,
     Parameters.select
   ],
   headerParameters: [

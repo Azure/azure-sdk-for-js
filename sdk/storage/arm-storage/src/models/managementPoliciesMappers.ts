@@ -7,6 +7,7 @@
  */
 
 export {
+  ActiveDirectoryProperties,
   AzureEntityResource,
   AzureFilesIdentityBasedAuthentication,
   BaseResource,
@@ -44,6 +45,10 @@ export {
   ManagementPolicySchema,
   ManagementPolicySnapShot,
   NetworkRuleSet,
+  PrivateEndpoint,
+  PrivateEndpointConnection,
+  PrivateLinkResource,
+  PrivateLinkServiceConnectionState,
   ProxyResource,
   Resource,
   Restriction,

@@ -1,3 +1,23 @@
+### 2019-11-04 5.0.0-preview.6
+
+- Updated to use the latest version of the `@azure/core-tracing` & `@azure/core-amqp` package.
+
+#### Breaking changes
+
+`EventHubsClient` has been split into two separate clients: `EventHubProducerClient` and `EventHubConsumerClient`
+
+The `EventHubConsumerClient` provides several overloads for `subscribe` which all take event handlers rather than 
+requiring an `EventProcessor`. There are no longer any methods that directly return `ReceivedEventData` - all 
+receiving is done via event handlers.
+
+The `EventHubProducerClient` has standardized on only providing sending via `sendBatch`.
+
+Construction of both objects is the same as it was for the previous client.
+
+### 2019-10-08 5.0.0-preview.5
+
+- Updated to use the latest version of the `@azure/core-tracing` package.
+
 ### 2019-10-07 5.0.0-preview.4
 
 - Current implementation of the Partition Manager takes the event hub name, consumer group name and partition id to ensure uniqueness for the checkpoint and ownership.
@@ -5,7 +25,6 @@
   ([PR #5153](https://github.com/Azure/azure-sdk-for-js/pull/5153))
 - Adds preview capabilities for `@azure/core-tracing`.
   ([PR #5207](https://github.com/Azure/azure-sdk-for-js/pull/5207)
-
 
 #### Breaking changes
 
@@ -24,6 +43,7 @@
   ```javascript
   const client = new EventHubClient(iotEventHubsCompatibleConnectionString);
   ```
+
 - The `PartitionContext` properties have been merged into the `PartitionProcessor` class.
   The `PartitionProcessor` now exposes an `updateCheckpoint` method that can be called to checkpoint events.
 

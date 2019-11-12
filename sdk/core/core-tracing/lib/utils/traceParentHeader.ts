@@ -3,7 +3,6 @@
 
 import { SpanContext } from "../interfaces/span_context";
 import { TraceFlags } from "../interfaces/trace_flags";
-import * as log from "./log";
 
 const VERSION = "00";
 
@@ -18,14 +17,12 @@ export function extractSpanContextFromTraceParentHeader(
   const parts = traceParentHeader.split("-");
 
   if (parts.length !== 4) {
-    log.warning(`Unable to extract span context from traceparent header "${traceParentHeader}".`);
     return;
   }
 
   const [version, traceId, spanId, traceOptions] = parts;
 
   if (version !== VERSION) {
-    log.warning(`Unexpected traceparent header version "${version}" found, expected "${VERSION}".`);
     return;
   }
 
@@ -55,7 +52,6 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
   }
 
   if (missingFields.length) {
-    log.warning(`Missing required field(s) ${missingFields.join(", ")} from spanContext`);
     return;
   }
 

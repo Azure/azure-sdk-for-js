@@ -5,14 +5,15 @@ import Long from "long";
 import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { Buffer } from "buffer";
+import * as Constants from "../util/constants";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
 interface Navigator {
   hardwareConcurrency: number;
 }
-declare var navigator: Navigator;
+declare const navigator: Navigator;
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.
@@ -160,23 +161,206 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
+
 /**
- * @internal
- * Helper function to retrieve active receiver name, if it exists.
+ *  @ignore
+ * Helper utility to retrieve `string` value from given input,
+ * or undefined if not passed in.
+ * @param value
  */
-export function getAssociatedReceiverName(
-  clientEntityContext: ClientEntityContext,
-  sessionId?: string
-): string | undefined {
-  let receiverName: string | undefined;
-  if (sessionId != undefined) {
-    if (clientEntityContext.messageSessions[sessionId]) {
-      receiverName = clientEntityContext.messageSessions[sessionId].name;
-    }
-  } else if (clientEntityContext.batchingReceiver) {
-    receiverName = clientEntityContext.batchingReceiver.name;
-  } else if (clientEntityContext.streamingReceiver) {
-    receiverName = clientEntityContext.streamingReceiver.name;
+export function getStringOrUndefined(value: any): string | undefined {
+  if (value == undefined) {
+    return undefined;
   }
-  return receiverName;
+  return value.toString();
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `integer` value from given string,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getIntegerOrUndefined(value: any): number | undefined {
+  if (value == undefined) {
+    return undefined;
+  }
+  const result = parseInt(value.toString());
+  return result == NaN ? undefined : result;
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `boolean` value from given string,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getBooleanOrUndefined(value: any): boolean | undefined {
+  if (value == undefined) {
+    return undefined;
+  }
+  return (
+    value
+      .toString()
+      .trim()
+      .toLowerCase() === "true"
+  );
+}
+
+/**
+ * @ignore
+ * Returns `true` if given input is a JSON like object.
+ * @param value
+ */
+export function isJSONLikeObject(value: any): boolean {
+  return typeof value === "object" && !(value instanceof Number) && !(value instanceof String);
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve message count details from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
+  if (value == undefined) {
+    return undefined;
+  }
+  return {
+    activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
+    deadLetterMessageCount: parseInt(value["d2p1:DeadLetterMessageCount"]) || 0,
+    scheduledMessageCount: parseInt(value["d2p1:ScheduledMessageCount"]) || 0,
+    transferMessageCount: parseInt(value["d2p1:TransferMessageCount"]) || 0,
+    transferDeadLetterMessageCount: parseInt(value["d2p1:TransferDeadLetterMessageCount"]) || 0
+  };
+}
+
+/**
+ * Represents type of message count details in ATOM based management operations
+ */
+export type MessageCountDetails = {
+  activeMessageCount: number;
+  deadLetterMessageCount: number;
+  scheduledMessageCount: number;
+  transferMessageCount: number;
+  transferDeadLetterMessageCount: number;
+};
+
+/**
+ * Represents type of `AuthorizationRule` in ATOM based management operations
+ */
+export type AuthorizationRule = {
+  claimType: string;
+  claimValue: string;
+  rights: { accessRights?: string[] };
+  keyName: string;
+  primaryKey?: string;
+  secondaryKey?: string;
+};
+
+/**
+ *  @ignore
+ * Helper utility to retrieve array of `AuthorizationRule` from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
+  const authorizationRules: AuthorizationRule[] = [];
+
+  // Ignore special case as Service Bus treats "" as a valid value for authorization rules
+  if (typeof value === "string" && value.trim() === "") {
+    return undefined;
+  }
+
+  if (value == undefined) {
+    return undefined;
+  }
+
+  const rawAuthorizationRules = value.AuthorizationRule;
+  if (Array.isArray(rawAuthorizationRules)) {
+    for (let i = 0; i < rawAuthorizationRules.length; i++) {
+      authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
+    }
+  } else {
+    authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
+  }
+  return authorizationRules;
+}
+
+/**
+ * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input,
+ * @param value
+ */
+function buildAuthorizationRule(value: any): AuthorizationRule {
+  const authorizationRule: AuthorizationRule = {
+    claimType: value["ClaimType"],
+    claimValue: value["ClaimValue"],
+    rights: {
+      accessRights: value["Rights"]["AccessRights"]
+    },
+    keyName: value["KeyName"],
+    primaryKey: value["PrimaryKey"],
+    secondaryKey: value["SecondaryKey"]
+  };
+  return authorizationRule;
+}
+
+/**
+ *  @ignore
+ * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
+  if (authorizationRules == undefined) {
+    return undefined;
+  }
+
+  if (!Array.isArray(authorizationRules)) {
+    throw new TypeError(
+      `authorizationRules must be an array of AuthorizationRule objects or undefined, but received ${JSON.stringify(
+        authorizationRules,
+        undefined,
+        2
+      )}`
+    );
+  }
+
+  const rawAuthorizationRules: any[] = [];
+  for (let i = 0; i < authorizationRules.length; i++) {
+    rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[i]));
+  }
+  return { AuthorizationRule: rawAuthorizationRules };
+}
+
+/**
+ * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input,
+ * @param authorizationRule parsed Authorization Rule instance
+ */
+function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
+  if (!isJSONLikeObject(authorizationRule)) {
+    throw new TypeError(
+      `Expected authorizationRule input to be a JSON value but received ${JSON.stringify(
+        authorizationRule,
+        undefined,
+        2
+      )}`
+    );
+  }
+
+  const rawAuthorizationRule: any = {
+    ClaimType: authorizationRule.claimType,
+    ClaimValue: authorizationRule.claimValue,
+    Rights: {
+      AccessRights: authorizationRule.rights.accessRights
+    },
+    KeyName: authorizationRule.keyName,
+    PrimaryKey: authorizationRule.primaryKey,
+    SecondaryKey: authorizationRule.secondaryKey
+  };
+  rawAuthorizationRule[Constants.XML_METADATA_MARKER] = {
+    "p5:type": "SharedAccessAuthorizationRule",
+    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
+  };
+  return rawAuthorizationRule;
 }

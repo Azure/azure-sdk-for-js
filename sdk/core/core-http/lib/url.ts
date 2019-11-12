@@ -19,6 +19,13 @@ export class URLQuery {
   }
 
   /**
+   * Get the keys of the query string.
+   */
+  public keys(): string[] {
+    return Object.keys(this._rawQuery);
+  }
+
+  /**
    * Set a query parameter with the provided name and value. If the parameterValue is undefined or
    * empty, then this will attempt to remove an existing query parameter with the provided
    * parameterName.
@@ -83,52 +90,52 @@ export class URLQuery {
       for (let i = 0; i < text.length; ++i) {
         const currentCharacter: string = text[i];
         switch (currentState) {
-        case "ParameterName":
-          switch (currentCharacter) {
-          case "=":
-            currentState = "ParameterValue";
+          case "ParameterName":
+            switch (currentCharacter) {
+              case "=":
+                currentState = "ParameterValue";
+                break;
+
+              case "&":
+                parameterName = "";
+                parameterValue = "";
+                break;
+
+              default:
+                parameterName += currentCharacter;
+                break;
+            }
             break;
 
-          case "&":
-            parameterName = "";
-            parameterValue = "";
+          case "ParameterValue":
+            switch (currentCharacter) {
+              case "=":
+                parameterName = "";
+                parameterValue = "";
+                currentState = "Invalid";
+                break;
+
+              case "&":
+                result.set(parameterName, parameterValue);
+                parameterName = "";
+                parameterValue = "";
+                currentState = "ParameterName";
+                break;
+
+              default:
+                parameterValue += currentCharacter;
+                break;
+            }
+            break;
+
+          case "Invalid":
+            if (currentCharacter === "&") {
+              currentState = "ParameterName";
+            }
             break;
 
           default:
-            parameterName += currentCharacter;
-            break;
-          }
-          break;
-
-        case "ParameterValue":
-          switch (currentCharacter) {
-          case "=":
-            parameterName = "";
-            parameterValue = "";
-            currentState = "Invalid";
-            break;
-
-          case "&":
-            result.set(parameterName, parameterValue);
-            parameterName = "";
-            parameterValue = "";
-            currentState = "ParameterName";
-            break;
-
-          default:
-            parameterValue += currentCharacter;
-            break;
-          }
-          break;
-
-        case "Invalid":
-          if (currentCharacter === "&") {
-            currentState = "ParameterName";
-          }
-          break;
-
-        default:
-          throw new Error("Unrecognized URLQuery parse state: " + currentState);
+            throw new Error("Unrecognized URLQuery parse state: " + currentState);
         }
       }
       if (currentState === "ParameterValue") {
@@ -302,31 +309,31 @@ export class URLBuilder {
       const token: URLToken | undefined = tokenizer.current();
       if (token) {
         switch (token.type) {
-        case "SCHEME":
-          this._scheme = token.text || undefined;
-          break;
+          case "SCHEME":
+            this._scheme = token.text || undefined;
+            break;
 
-        case "HOST":
-          this._host = token.text || undefined;
-          break;
+          case "HOST":
+            this._host = token.text || undefined;
+            break;
 
-        case "PORT":
-          this._port = token.text || undefined;
-          break;
+          case "PORT":
+            this._port = token.text || undefined;
+            break;
 
-        case "PATH":
-          const tokenPath: string | undefined = token.text || undefined;
-          if (!this._path || this._path === "/" || tokenPath !== "/") {
-            this._path = tokenPath;
-          }
-          break;
+          case "PATH":
+            const tokenPath: string | undefined = token.text || undefined;
+            if (!this._path || this._path === "/" || tokenPath !== "/") {
+              this._path = tokenPath;
+            }
+            break;
 
-        case "QUERY":
-          this._query = URLQuery.parse(token.text);
-          break;
+          case "QUERY":
+            this._query = URLQuery.parse(token.text);
+            break;
 
-        default:
-          throw new Error(`Unrecognized URLTokenType: ${token.type}`);
+          default:
+            throw new Error(`Unrecognized URLTokenType: ${token.type}`);
         }
       }
     }
@@ -387,8 +394,7 @@ type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" 
 type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
-  public constructor(public readonly text: string, public readonly type: URLTokenType) {
-  }
+  public constructor(public readonly text: string, public readonly type: URLTokenType) {}
 
   public static scheme(text: string): URLToken {
     return new URLToken(text, "SCHEME");
@@ -417,9 +423,11 @@ export class URLToken {
  */
 export function isAlphaNumericCharacter(character: string): boolean {
   const characterCode: number = character.charCodeAt(0);
-  return (48 /* '0' */ <= characterCode && characterCode <= 57 /* '9' */) ||
-    (65 /* 'A' */ <= characterCode && characterCode <= 90 /* 'Z' */) ||
-    (97 /* 'a' */ <= characterCode && characterCode <= 122 /* 'z' */);
+  return (
+    (48 /* '0' */ <= characterCode && characterCode <= 57) /* '9' */ ||
+    (65 /* 'A' */ <= characterCode && characterCode <= 90) /* 'Z' */ ||
+    (97 /* 'a' */ <= characterCode && characterCode <= 122) /* 'z' */
+  );
 }
 
 /**
@@ -453,38 +461,37 @@ export class URLTokenizer {
       this._currentToken = undefined;
     } else {
       switch (this._currentState) {
-      case "SCHEME":
-        nextScheme(this);
-        break;
+        case "SCHEME":
+          nextScheme(this);
+          break;
 
-      case "SCHEME_OR_HOST":
-        nextSchemeOrHost(this);
-        break;
+        case "SCHEME_OR_HOST":
+          nextSchemeOrHost(this);
+          break;
 
-      case "HOST":
-        nextHost(this);
-        break;
+        case "HOST":
+          nextHost(this);
+          break;
 
-      case "PORT":
-        nextPort(this);
-        break;
+        case "PORT":
+          nextPort(this);
+          break;
 
-      case "PATH":
-        nextPath(this);
-        break;
+        case "PATH":
+          nextPath(this);
+          break;
 
-      case "QUERY":
-        nextQuery(this);
-        break;
+        case "QUERY":
+          nextQuery(this);
+          break;
 
-      default:
-        throw new Error(`Unrecognized URLTokenizerState: ${this._currentState}`);
+        default:
+          throw new Error(`Unrecognized URLTokenizerState: ${this._currentState}`);
       }
     }
     return !!this._currentToken;
   }
 }
-
 
 /**
  * Read the remaining characters from this Tokenizer's character stream.
@@ -570,7 +577,10 @@ function readWhileLetterOrDigit(tokenizer: URLTokenizer): string {
  * the end of the character stream is reached.
  */
 function readUntilCharacter(tokenizer: URLTokenizer, ...terminatingCharacters: string[]): string {
-  return readWhile(tokenizer, (character: string) => terminatingCharacters.indexOf(character) === -1);
+  return readWhile(
+    tokenizer,
+    (character: string) => terminatingCharacters.indexOf(character) === -1
+  );
 }
 
 function nextScheme(tokenizer: URLTokenizer): void {

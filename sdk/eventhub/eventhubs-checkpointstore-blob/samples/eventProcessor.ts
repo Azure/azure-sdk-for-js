@@ -11,23 +11,26 @@
 */
 
 import {
-  EventHubClient,
+  EventHubConsumerClient,
   ReceivedEventData,
-  delay,
-  EventProcessor,
   PartitionContext,
-  PartitionProcessor,
-  CloseReason
+  PartitionCheckpointer
 } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob";
 
-// A Sample Partition Processor that keeps track of the number of events processed.
-class SamplePartitionProcessor extends PartitionProcessor {
-  private _messageCount = 0;
+const connectionString = "";
+const eventHubName = "";
+const storageConnectionString = "";
+const containerName = "";
 
-  async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
+async function main() {
+  const consumerClient = new EventHubConsumerClient(connectionString, eventHubName);
+  const containerClient = new ContainerClient(storageConnectionString, containerName);
+  await containerClient.create();
+
+  const processEvents = async (events: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => {
     // events can be empty if no events were recevied in the last 60 seconds.
     // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
@@ -36,61 +39,30 @@ class SamplePartitionProcessor extends PartitionProcessor {
 
     for (const event of events) {
       console.log(
-        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`
+        `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
       );
-      this._messageCount++;
     }
 
     // checkpoint using the last event in the batch
     const lastEvent = events[events.length - 1];
-    await partitionContext.updateCheckpoint(lastEvent).catch((err) => {
-      console.log(`Error when checkpointing on partition ${partitionContext.partitionId}: `, err);
+    await context.updateCheckpoint(lastEvent).catch((err) => {
+      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
     });
     console.log(
       `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
     );
   }
 
-  async processError(error: Error, partitionContext: PartitionContext) {
-    console.log(`Encountered an error: ${error.message} when processing partition ${partitionContext.partitionId}`);
-  }
+  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, processEvents, new BlobPartitionManager(containerClient))
 
-  async initialize(partitionContext: PartitionContext) {
-    console.log(`Started processing partition: ${partitionContext.partitionId}`);
-  }
-
-  async close(reason: CloseReason, partitionContext: PartitionContext) {
-    console.log(`Stopped processing for reason ${reason}`);
-    console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
-  }
-}
-
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-
-async function main() {
-  const client = new EventHubClient(connectionString, eventHubName);
-  const containerClient = new ContainerClient(storageConnectionString, containerName);
-  await containerClient.create();
-
-  const processor = new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    SamplePartitionProcessor,
-    new BlobPartitionManager(containerClient),
-    {
-      maxBatchSize: 10,
-      maxWaitTimeInSeconds: 20
-    }
-  );
-  await processor.start();
   // after 30 seconds, stop processing
-  await delay(30000);
-
-  await processor.stop();
-  await client.close();
+  await new Promise(resolve => {
+    setInterval(async () => {
+      await subscription.close();
+      await consumerClient.close();
+      resolve();
+    }, 30000)
+  });
 }
 
 main().catch((err) => {

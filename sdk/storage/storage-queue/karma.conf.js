@@ -29,11 +29,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js",
-      "recordings/browsers/**/*.json"
-    ],
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
+      "dist-test/index.browser.js"
+    ].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -51,7 +50,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE"],
+    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "STORAGE_SAS_CONNECTION_STRING"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -84,22 +83,31 @@ module.exports = function(config) {
 
     jsonToFileReporter: {
       filter: function(obj) {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          // Create the directories recursively incase they don't exist
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
+        // - jsonToFileReporter filters the JSON strings in console.logs.
+        // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
+        // - The other console statements are captured and printed normally.
+        // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
+        // - Example - console.log("hello"); -> console.log({ log: "hello" });
+        if (process.env.TEST_MODE === "record") {
+          if (obj.writeFile) {
+            const fs = require("fs-extra");
+            // Create the directories recursively incase they don't exist
+            try {
+              // Stripping away the filename from the file path and retaining the directory structure
+              fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+            } catch (err) {
+              if (err.code !== "EEXIST") throw err;
             }
-          });
+            fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
+              if (err) {
+                throw err;
+              }
+            });
+          } else {
+            console.log(obj);
+          }
+          return false;
         }
-        return false;
       },
       outputPath: "."
     },
@@ -134,7 +142,6 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
       terminal: process.env.TEST_MODE !== "record"
     },
 
@@ -142,7 +149,8 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
+        timeout: "600000",
+        retries: 2
       }
     }
   });

@@ -6,7 +6,6 @@ import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request";
 import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
-import { executeRequest } from "../request/RequestHandler";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
@@ -21,6 +20,7 @@ interface ExecuteArgs {
   retryContext?: RetryContext;
   retryPolicies?: RetryPolicies;
   requestContext: RequestContext;
+  executeRequest: (requestContext: RequestContext) => Promise<Response<any>>;
 }
 
 /**
@@ -41,7 +41,8 @@ interface RetryPolicies {
 export async function execute({
   retryContext = {},
   retryPolicies,
-  requestContext
+  requestContext,
+  executeRequest
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
   if (!retryPolicies) {
@@ -93,7 +94,11 @@ export async function execute({
     // TODO: any error
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
-    if (err.code === StatusCodes.Forbidden && err.substatus === SubStatusCodes.WriteForbidden) {
+    if (
+      err.code === StatusCodes.Forbidden &&
+      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+        err.substatus === SubStatusCodes.WriteForbidden)
+    ) {
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {
       retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
@@ -121,6 +126,7 @@ export async function execute({
       }
       await sleep(retryPolicy.retryAfterInMilliseconds);
       return execute({
+        executeRequest,
         requestContext,
         retryContext,
         retryPolicies

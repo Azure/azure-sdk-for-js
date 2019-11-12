@@ -1,3 +1,7 @@
+## 1.0.0-preview.5 - 29th October, 2019
+
+- Updated to use the latest version of the `@azure/abort-controller` and `@azure/core-auth` packages.
+
 ## 1.0.0-preview.4 - 7th October, 2019
 
 - Fixes bug where calling `sendRequest` from a `RequestResponseLink` mulitple

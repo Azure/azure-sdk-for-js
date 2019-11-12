@@ -66,6 +66,10 @@ export interface Catalog {
    */
   readonly name?: string;
   /**
+   * The billing plan options available for this SKU.
+   */
+  billingPlans?: { [propertyName: string]: ReservationBillingPlan[] };
+  /**
    * Available reservation terms for this resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -85,6 +89,17 @@ export interface Catalog {
 }
 
 /**
+ * An interface representing Price.
+ */
+export interface Price {
+  /**
+   * The ISO 4217 3-letter currency code for the currency used by this purchase record.
+   */
+  currencyCode?: string;
+  amount?: number;
+}
+
+/**
  * An interface representing ExtendedStatusInfo.
  */
 export interface ExtendedStatusInfo {
@@ -97,6 +112,57 @@ export interface ExtendedStatusInfo {
    * The message giving detailed information about the status code.
    */
   message?: string;
+}
+
+/**
+ * Information about payment related to a reservation order.
+ */
+export interface PaymentDetail {
+  /**
+   * Date when the payment needs to be done.
+   */
+  dueDate?: Date;
+  /**
+   * Date when the transaction is completed. Is null when it is scheduled.
+   */
+  paymentDate?: Date;
+  /**
+   * Amount in pricing currency. Tax not included.
+   */
+  pricingCurrencyTotal?: Price;
+  /**
+   * Amount charged in Billing currency. Tax not included. Is null for future payments
+   */
+  billingCurrencyTotal?: Price;
+  /**
+   * Shows the Account that is charged for this payment.
+   */
+  billingAccount?: string;
+  /**
+   * Possible values include: 'Succeeded', 'Failed', 'Scheduled', 'Cancelled'
+   */
+  status?: PaymentStatus;
+  extendedStatusInfo?: ExtendedStatusInfo;
+}
+
+/**
+ * Information describing the type of billing plan for this reservation.
+ */
+export interface ReservationOrderBillingPlanInformation {
+  /**
+   * Amount of money to be paid for the Order. Tax is not included.
+   */
+  pricingCurrencyTotal?: Price;
+  /**
+   * Date when the billing plan has started.
+   */
+  startDate?: Date;
+  /**
+   * For recurring billing plans, indicates the date when next payment will be processed. Null when
+   * total is paid off.
+   */
+  nextPaymentDueDate?: Date;
+  transactions?: PaymentDetail[];
 }
 
 /**
@@ -161,6 +227,10 @@ export interface PurchaseRequest {
    * Possible values include: 'P1Y', 'P3Y'
    */
   term?: ReservationTerm;
+  /**
+   * Possible values include: 'Upfront', 'Monthly'
+   */
+  billingPlan?: ReservationBillingPlan;
   quantity?: number;
   /**
    * Friendly name of the Reservation
@@ -258,6 +328,10 @@ export interface ReservationProperties {
    */
   skuDescription?: string;
   extendedStatusInfo?: ExtendedStatusInfo;
+  /**
+   * Possible values include: 'Upfront', 'Monthly'
+   */
+  billingPlan?: ReservationBillingPlan;
   splitProperties?: ReservationSplitProperties;
   mergeProperties?: ReservationMergeProperties;
   billingScopeId?: string;
@@ -350,6 +424,11 @@ export interface ReservationOrderResponse extends BaseResource {
    * Current state of the reservation.
    */
   provisioningState?: string;
+  /**
+   * Possible values include: 'Upfront', 'Monthly'
+   */
+  billingPlan?: ReservationBillingPlan;
+  planInformation?: ReservationOrderBillingPlanInformation;
   reservations?: ReservationResponse[];
   /**
    * Type of resource. "Microsoft.Capacity/reservations"
@@ -406,6 +485,7 @@ export interface CalculatePriceResponseProperties {
    * not included.
    */
   pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
+  paymentSchedule?: PaymentDetail[];
 }
 
 /**
@@ -601,6 +681,16 @@ export interface AzureReservationAPIGetCatalogOptionalParams extends msRest.Requ
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ReservationOrderGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * May be used to expand the planInformation.
+   */
+  expand?: string;
+}
+
+/**
  * An interface representing AzureReservationAPIOptions.
  */
 export interface AzureReservationAPIOptions extends AzureServiceClientOptions {
@@ -679,12 +769,28 @@ export type ReservationStatusCode = 'None' | 'Pending' | 'Active' | 'PurchaseErr
 export type ErrorResponseCode = 'NotSpecified' | 'InternalServerError' | 'ServerTimeout' | 'AuthorizationFailed' | 'BadRequest' | 'ClientCertificateThumbprintNotSet' | 'InvalidRequestContent' | 'OperationFailed' | 'HttpMethodNotSupported' | 'InvalidRequestUri' | 'MissingTenantId' | 'InvalidTenantId' | 'InvalidReservationOrderId' | 'InvalidReservationId' | 'ReservationIdNotInReservationOrder' | 'ReservationOrderNotFound' | 'InvalidSubscriptionId' | 'InvalidAccessToken' | 'InvalidLocationId' | 'UnauthenticatedRequestsThrottled' | 'InvalidHealthCheckType' | 'Forbidden' | 'BillingScopeIdCannotBeChanged' | 'AppliedScopesNotAssociatedWithCommerceAccount' | 'PatchValuesSameAsExisting' | 'RoleAssignmentCreationFailed' | 'ReservationOrderCreationFailed' | 'ReservationOrderNotEnabled' | 'CapacityUpdateScopesFailed' | 'UnsupportedReservationTerm' | 'ReservationOrderIdAlreadyExists' | 'RiskCheckFailed' | 'CreateQuoteFailed' | 'ActivateQuoteFailed' | 'NonsupportedAccountId' | 'PaymentInstrumentNotFound' | 'MissingAppliedScopesForSingle' | 'NoValidReservationsToReRate' | 'ReRateOnlyAllowedForEA' | 'OperationCannotBePerformedInCurrentState' | 'InvalidSingleAppliedScopesCount' | 'InvalidFulfillmentRequestParameters' | 'NotSupportedCountry' | 'InvalidRefundQuantity' | 'PurchaseError' | 'BillingCustomerInputError' | 'BillingPaymentInstrumentSoftError' | 'BillingPaymentInstrumentHardError' | 'BillingTransientError' | 'BillingError' | 'FulfillmentConfigurationError' | 'FulfillmentOutOfStockError' | 'FulfillmentTransientError' | 'FulfillmentError' | 'CalculatePriceFailed';
 
 /**
+ * Defines values for ReservationBillingPlan.
+ * Possible values include: 'Upfront', 'Monthly'
+ * @readonly
+ * @enum {string}
+ */
+export type ReservationBillingPlan = 'Upfront' | 'Monthly';
+
+/**
  * Defines values for ReservationTerm.
  * Possible values include: 'P1Y', 'P3Y'
  * @readonly
  * @enum {string}
  */
 export type ReservationTerm = 'P1Y' | 'P3Y';
+
+/**
+ * Defines values for PaymentStatus.
+ * Possible values include: 'Succeeded', 'Failed', 'Scheduled', 'Cancelled'
+ * @readonly
+ * @enum {string}
+ */
+export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
 
 /**
  * Defines values for ReservedResourceType.

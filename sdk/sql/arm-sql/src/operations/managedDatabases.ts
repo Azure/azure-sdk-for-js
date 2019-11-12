@@ -28,19 +28,6 @@ export class ManagedDatabases {
   }
 
   /**
-   * Completes the restore operation on a managed database.
-   * @param locationName The name of the region where the resource is located.
-   * @param operationId Management operation id that this request tries to complete.
-   * @param parameters The definition for completing the restore of this managed database.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  completeRestore(locationName: string, operationId: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCompleteRestore(locationName,operationId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * Gets a list of managed databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -160,22 +147,17 @@ export class ManagedDatabases {
 
   /**
    * Completes the restore operation on a managed database.
-   * @param locationName The name of the region where the resource is located.
-   * @param operationId Management operation id that this request tries to complete.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
    * @param parameters The definition for completing the restore of this managed database.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<msRest.RestResponse>
    */
-  beginCompleteRestore(locationName: string, operationId: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        locationName,
-        operationId,
-        parameters,
-        options
-      },
-      beginCompleteRestoreOperationSpec,
-      options);
+  completeRestore(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginCompleteRestore(resourceGroupName,managedInstanceName,databaseName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -242,6 +224,29 @@ export class ManagedDatabases {
         options
       },
       beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Completes the restore operation on a managed database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters The definition for completing the restore of this managed database.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCompleteRestore(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        parameters,
+        options
+      },
+      beginCompleteRestoreOperationSpec,
       options);
   }
 
@@ -320,37 +325,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedDatabase
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginCompleteRestoreOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.operationId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.CompleteDatabaseRestoreDefinition,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -447,6 +421,38 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedDatabase
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCompleteRestoreOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CompleteDatabaseRestoreDefinition,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

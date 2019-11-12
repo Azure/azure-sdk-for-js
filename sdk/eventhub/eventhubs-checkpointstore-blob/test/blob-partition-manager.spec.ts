@@ -326,4 +326,20 @@ describe("Blob Partition Manager", function(): void {
       err.message.should.match(/.*Error occurred while upating the checkpoint for partition*/);
     });
   });
+  
+  it("blob prefix is always lowercased for case-insensitive fields", () => {
+    chai.assert.equal("namespace/eventhubname/consumergroupname/", BlobPartitionManager["getBlobPrefix"]({
+      fullyQualifiedNamespace: "nAmESpAce",
+      eventHubName: 'eVentHubNamE',
+      consumerGroupName: 'cOnsuMerGrouPNaMe',      
+      // partition ID is optional
+    }));
+
+    chai.assert.equal("namespace/eventhubname/consumergroupname/0", BlobPartitionManager["getBlobPrefix"]({
+      fullyQualifiedNamespace: "nAmESpAce",
+      eventHubName: 'eVentHubNamE',
+      consumerGroupName: 'cOnsuMerGrouPNaMe',      
+      partitionId: "0"
+    }));
+  });
 }).timeout(90000);

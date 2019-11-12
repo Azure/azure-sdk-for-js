@@ -6268,6 +6268,12 @@ export const MigrateSqlServerSqlMITaskInput: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      aadDomainName: {
+        serializedName: "aadDomainName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7816,9 +7822,9 @@ export const MigrationEligibilityInfo: msRest.CompositeMapper = {
     name: "Composite",
     className: "MigrationEligibilityInfo",
     modelProperties: {
-      isEligibileForMigration: {
+      isEligibleForMigration: {
         readOnly: true,
-        serializedName: "isEligibileForMigration",
+        serializedName: "isEligibleForMigration",
         type: {
           name: "Boolean"
         }
@@ -10034,21 +10040,10 @@ export const CheckOCIDriverTaskOutput: msRest.CompositeMapper = {
     className: "CheckOCIDriverTaskOutput",
     modelProperties: {
       installedDriver: {
-        readOnly: true,
         serializedName: "installedDriver",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "Composite",
-                  className: "OracleOCIDriverInfo"
-                }
-              }
-            }
-          }
+          name: "Composite",
+          className: "OracleOCIDriverInfo"
         }
       },
       validationErrors: {

@@ -175,9 +175,9 @@ export class WebResource {
       if (validMethods.indexOf(options.method.toUpperCase()) === -1) {
         throw new Error(
           'The provided method "' +
-          options.method +
-          '" is invalid. Supported HTTP methods are: ' +
-          JSON.stringify(validMethods)
+            options.method +
+            '" is invalid. Supported HTTP methods are: ' +
+            JSON.stringify(validMethods)
         );
       }
     }
@@ -204,7 +204,7 @@ export class WebResource {
             `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`
           );
         }
-        segments.forEach(function (item) {
+        segments.forEach(function(item) {
           const pathParamName = item.slice(1, -1);
           const pathParam = (pathParameters as { [key: string]: any })[pathParamName];
           if (
@@ -215,9 +215,9 @@ export class WebResource {
             const stringifiedPathParameters = JSON.stringify(pathParameters, undefined, 2);
             throw new Error(
               `pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
-              ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
-              `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
-              `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
+                ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
+                `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
+                `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
             );
           }
 
@@ -248,8 +248,8 @@ export class WebResource {
       if (typeof queryParameters !== "object") {
         throw new Error(
           `options.queryParameters must be of type object. It should be a JSON object ` +
-          `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
-          `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
+            `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
+            `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
         );
       }
       // append question mark if it is not present in the url
@@ -360,7 +360,8 @@ export class WebResource {
       this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress,
-      this.proxySettings
+      this.proxySettings,
+      this.keepAlive
     );
 
     if (this.formData) {

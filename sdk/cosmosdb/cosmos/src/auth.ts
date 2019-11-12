@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateHeaders } from "@azure/cosmos-sign";
+import { generateHeaders } from "./utils/headers";
 import { Constants, getResourceIdFromPath, HTTPMethod, ResourceType } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
@@ -47,7 +47,7 @@ export async function setAuthorizationHeader(
   }
 
   if (clientOptions.key) {
-    setAuthorizationTokenHeaderUsingMasterKey(
+    await setAuthorizationTokenHeaderUsingMasterKey(
       verb,
       resourceId,
       resourceType,
@@ -69,7 +69,7 @@ export async function setAuthorizationHeader(
  * The default function for setting header token using the masterKey
  * @ignore
  */
-export function setAuthorizationTokenHeaderUsingMasterKey(
+export async function setAuthorizationTokenHeaderUsingMasterKey(
   verb: HTTPMethod,
   resourceId: string,
   resourceType: ResourceType,
@@ -80,7 +80,10 @@ export function setAuthorizationTokenHeaderUsingMasterKey(
   if (resourceType === ResourceType.offer) {
     resourceId = resourceId && resourceId.toLowerCase();
   }
-  headers = Object.assign(headers, generateHeaders(masterKey, verb, resourceType, resourceId));
+  headers = Object.assign(
+    headers,
+    await generateHeaders(masterKey, verb, resourceType, resourceId)
+  );
 }
 
 /**

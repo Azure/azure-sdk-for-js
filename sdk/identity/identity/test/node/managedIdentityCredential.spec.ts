@@ -97,13 +97,13 @@ describe("ManagedIdentityCredential", function() {
 
     assert.strictEqual(authDetails.requests[0].timeout, 5000);
     assert.strictEqual(authDetails.token, null);
-  }).timeout(10000);
+  });
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
     const credential = new ManagedIdentityCredential(
       "client",
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     // Run getToken twice and verify that an auth request is only
@@ -183,12 +183,11 @@ describe("ManagedIdentityCredential", function() {
     timeout?: number
   ): Promise<AuthRequestDetails> {
     const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
-    const credential = new ManagedIdentityCredential(
-      clientId,
-      mockHttpClient.identityClientOptions
-    );
+    const credential = clientId
+      ? new ManagedIdentityCredential(clientId, { ...mockHttpClient.tokenCredentialOptions })
+      : new ManagedIdentityCredential({ ...mockHttpClient.tokenCredentialOptions });
 
-    const token = await credential.getToken(scopes, { timeout });
+    const token = await credential.getToken(scopes, { requestOptions: { timeout } });
     return {
       token,
       requests: mockHttpClient.requests

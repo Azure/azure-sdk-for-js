@@ -9,24 +9,28 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/keyvault-secrets";
-const packageVersion = "4.0.0-preview.5";
+const packageVersion = "4.0.1";
 
-export class KeyVaultClientContext extends coreArm.AzureServiceClient {
-  credentials: coreHttp.TokenCredential;
-  apiVersion?: string;
+export class KeyVaultClientContext extends coreHttp.ServiceClient {
+  apiVersion: string;
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the KeyVaultClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * Initializes a new instance of the KeyVaultClientContext class.
+   * @param apiVersion Client API version.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential,
-    options?: coreArm.AzureServiceClientOptions
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    options?: coreHttp.ServiceClientOptions
   ) {
+    if (apiVersion == undefined) {
+      throw new Error("'apiVersion' cannot be null.");
+    }
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }
@@ -34,28 +38,17 @@ export class KeyVaultClientContext extends coreArm.AzureServiceClient {
     if (!options) {
       options = {};
     }
+
     if (!options.userAgent) {
-      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = "7.0";
-    this.acceptLanguage = "en-US";
-    this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.apiVersion = apiVersion;
     this.credentials = credentials;
-
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
-      this.acceptLanguage = options.acceptLanguage;
-    }
-    if (
-      options.longRunningOperationRetryTimeout !== null &&
-      options.longRunningOperationRetryTimeout !== undefined
-    ) {
-      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
-    }
   }
 }

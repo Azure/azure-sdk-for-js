@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, BatchOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -90,7 +90,7 @@ export class EventHubProducer {
    * - `abortSignal`   : A signal the request to cancel the send operation.
    * @returns Promise<EventDataBatch>
    */
-  async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+  async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
     this._throwIfSenderOrConnectionClosed();
     if (!options) {
       options = {};
@@ -155,7 +155,7 @@ export class EventHubProducer {
     options: SendOptions = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "send", "eventData", eventData);
     if (Array.isArray(eventData) && eventData.length === 0) {
       log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;

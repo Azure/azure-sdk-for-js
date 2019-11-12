@@ -3,25 +3,25 @@
 
 import { NoOpTracer } from "./tracers/noop/noOpTracer";
 import { Tracer } from "./interfaces/tracer";
-
-
-let _tracerPlugin: Tracer;
+import { getCache } from "./utils/cache";
 
 /**
-   * Sets the global tracer, enabling tracing for the AzureSDK.
-   * @param tracer An OpenTelemetry Tracer instance.
-   */
+ * Sets the global tracer, enabling tracing for the Azure SDK.
+ * @param tracer An OpenTelemetry Tracer instance.
+ */
 export function setTracer(tracer: Tracer) {
-  _tracerPlugin = tracer;
+  const cache = getCache();
+  cache.tracer = tracer;
 }
 
 /**
-   * Retrieves the active tracer, or returns a
-   * no-op implementation if one is not set.
-   */
+ * Retrieves the active tracer, or returns a
+ * no-op implementation if one is not set.
+ */
 export function getTracer() {
-  if (!_tracerPlugin) {
-    _tracerPlugin = new NoOpTracer();
+  const cache = getCache();
+  if (!cache.tracer) {
+    cache.tracer = new NoOpTracer();
   }
-  return _tracerPlugin;
+  return cache.tracer;
 }

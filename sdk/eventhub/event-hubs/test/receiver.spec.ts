@@ -10,16 +10,16 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
 import {
   EventPosition,
-  EventHubClient,
   EventData,
   MessagingError,
   ReceivedEventData,
-  EventHubConsumer,
-  delay,
-  ReceiveHandler
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
+import { EventHubConsumer } from '../src/receiver';
+import { ReceiveHandler } from '../src/receiveHandler';
+import { delay } from '@azure/core-amqp';
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {
@@ -995,7 +995,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "eventPosition"`);
+        err.message.should.equal(`createConsumer called without required argument "eventPosition"`);
       }
     });
 
@@ -1005,7 +1005,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "consumerGroup"`);
+        err.message.should.equal(`createConsumer called without required argument "consumerGroup"`);
       }
     });
 

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClientOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../client/identityClient";
 
 const BrowserNotSupportedError = new Error(
   "ClientCertificateCredential is not supported in the browser."
@@ -15,7 +15,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: IdentityClientOptions
+    options?: TokenCredentialOptions
   ) {
     throw BrowserNotSupportedError;
   }

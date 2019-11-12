@@ -6,15 +6,33 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
-import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
+import {
+  getPathStringFromParameter,
+  getPathStringFromParameterPath,
+  OperationParameter,
+  ParameterPath
+} from "./operationParameter";
 import { isStreamOperation, OperationSpec } from "./operationSpec";
-import { deserializationPolicy, DeserializationContentTypes } from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import {
+  deserializationPolicy,
+  DeserializationContentTypes,
+  DefaultDeserializationOptions
+} from "./policies/deserializationPolicy";
+import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import { userAgentPolicy, getDefaultUserAgentHeaderName, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
-import { redirectPolicy } from "./policies/redirectPolicy";
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
+import {
+  userAgentPolicy,
+  getDefaultUserAgentHeaderName,
+  getDefaultUserAgentValue
+} from "./policies/userAgentPolicy";
+import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
@@ -25,22 +43,42 @@ import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 import { OperationResponse } from "./operationResponse";
-import { ServiceCallback } from "./util/utils";
+import { ServiceCallback, isNode } from "./util/utils";
 import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { signingPolicy } from './policies/signingPolicy';
-
+import { signingPolicy } from "./policies/signingPolicy";
+import { logger } from "./log";
+import { InternalPipelineOptions } from "./pipelineOptions";
+import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
- * HTTP proxy settings (Node.js only)
+ * Options to configure a proxy for outgoing requests (Node.js only).
  */
 export interface ProxySettings {
+  /*
+   * The proxy's host address.
+   */
   host: string;
+
+  /*
+   * The proxy host's port.
+   */
   port: number;
+
+  /**
+   * The user name to authenticate with the proxy, if required.
+   */
   username?: string;
+
+  /**
+   * The password to authenticate with the proxy, if required.
+   */
   password?: string;
 }
+
+export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.
 
 /**
  * Options to be provided while creating the client.
@@ -51,7 +89,9 @@ export interface ServiceClientOptions {
    * request on the wire, or a function that takes in the defaultRequestPolicyFactories and returns
    * the requestPolicyFactories that will be used.
    */
-  requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => (void | RequestPolicyFactory[]));
+  requestPolicyFactories?:
+    | RequestPolicyFactory[]
+    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
@@ -120,7 +160,6 @@ export class ServiceClient {
    */
   protected requestContentType?: string;
 
-
   /**
    * The HTTP client that will be used to send requests.
    */
@@ -136,7 +175,10 @@ export class ServiceClient {
    * @param credentials The credentials used for authentication with the service.
    * @param options The service client options that govern the behavior of the client.
    */
-  constructor(credentials?: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
+  constructor(
+    credentials?: TokenCredential | ServiceClientCredentials,
+    options?: ServiceClientOptions
+  ) {
     if (!options) {
       options = {};
     }
@@ -147,10 +189,14 @@ export class ServiceClient {
 
     let requestPolicyFactories: RequestPolicyFactory[];
     if (Array.isArray(options.requestPolicyFactories)) {
+      logger.info("ServiceClient: using custom request policies");
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
       let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
+        logger.info(
+          "ServiceClient: creating bearer token authentication policy from provided credentials"
+        );
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
         // one is requested.  This is needed because generated ServiceClient
@@ -163,26 +209,33 @@ export class ServiceClient {
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
               if (bearerTokenPolicyFactory === undefined) {
-                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(credentials, `${serviceClient.baseUri || ""}/.default`)
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
+                  credentials,
+                  `${serviceClient.baseUri || ""}/.default`
+                );
               }
 
               return bearerTokenPolicyFactory.create(nextPolicy, options);
             }
-          }
+          };
         };
 
         authPolicyFactory = wrappedPolicyFactory();
       } else if (credentials && typeof credentials.signRequest === "function") {
+        logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
+      logger.info("ServiceClient: using default request policies");
       requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
         // the default requestPolicyFactories array
-        const newRequestPolicyFactories: void | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
+        const newRequestPolicyFactories:
+          | void
+          | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
           requestPolicyFactories = newRequestPolicyFactories;
         }
@@ -215,7 +268,10 @@ export class ServiceClient {
     let httpPipeline: RequestPolicy = this._httpClient;
     if (this._requestPolicyFactories && this._requestPolicyFactories.length > 0) {
       for (let i = this._requestPolicyFactories.length - 1; i >= 0; --i) {
-        httpPipeline = this._requestPolicyFactories[i].create(httpPipeline, this._requestPolicyOptions);
+        httpPipeline = this._requestPolicyFactories[i].create(
+          httpPipeline,
+          this._requestPolicyOptions
+        );
       }
     }
     return httpPipeline.sendRequest(httpRequest);
@@ -227,7 +283,11 @@ export class ServiceClient {
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse> {
+  async sendOperationRequest(
+    operationArguments: OperationArguments,
+    operationSpec: OperationSpec,
+    callback?: ServiceCallback<any>
+  ): Promise<RestResponse> {
     if (typeof operationArguments.options === "function") {
       callback = operationArguments.options;
       operationArguments.options = undefined;
@@ -239,7 +299,9 @@ export class ServiceClient {
     try {
       const baseUri: string | undefined = operationSpec.baseUrl || this.baseUri;
       if (!baseUri) {
-        throw new Error("If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use.");
+        throw new Error(
+          "If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use."
+        );
       }
 
       httpRequest.method = operationSpec.httpMethod;
@@ -251,19 +313,40 @@ export class ServiceClient {
       }
       if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
         for (const urlParameter of operationSpec.urlParameters) {
-          let urlParameterValue: string = getOperationArgumentValueFromParameter(this, operationArguments, urlParameter, operationSpec.serializer);
-          urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, getPathStringFromParameter(urlParameter));
+          let urlParameterValue: string = getOperationArgumentValueFromParameter(
+            this,
+            operationArguments,
+            urlParameter,
+            operationSpec.serializer
+          );
+          urlParameterValue = operationSpec.serializer.serialize(
+            urlParameter.mapper,
+            urlParameterValue,
+            getPathStringFromParameter(urlParameter)
+          );
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
           }
-          requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || getPathStringFromParameter(urlParameter)}}`, urlParameterValue);
+          requestUrl.replaceAll(
+            `{${urlParameter.mapper.serializedName || getPathStringFromParameter(urlParameter)}}`,
+            urlParameterValue
+          );
         }
       }
       if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
         for (const queryParameter of operationSpec.queryParameters) {
-          let queryParameterValue: any = getOperationArgumentValueFromParameter(this, operationArguments, queryParameter, operationSpec.serializer);
+          let queryParameterValue: any = getOperationArgumentValueFromParameter(
+            this,
+            operationArguments,
+            queryParameter,
+            operationSpec.serializer
+          );
           if (queryParameterValue != undefined) {
-            queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getPathStringFromParameter(queryParameter));
+            queryParameterValue = operationSpec.serializer.serialize(
+              queryParameter.mapper,
+              queryParameterValue,
+              getPathStringFromParameter(queryParameter)
+            );
             if (queryParameter.collectionFormat != undefined) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
@@ -283,12 +366,14 @@ export class ServiceClient {
                 for (const index in queryParameterValue) {
                   queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
                 }
-              }
-              else {
+              } else {
                 queryParameterValue = encodeURIComponent(queryParameterValue);
               }
             }
-            requestUrl.setQueryParameter(queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter), queryParameterValue);
+            requestUrl.setQueryParameter(
+              queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
+              queryParameterValue
+            );
           }
         }
       }
@@ -301,16 +386,30 @@ export class ServiceClient {
 
       if (operationSpec.headerParameters) {
         for (const headerParameter of operationSpec.headerParameters) {
-          let headerValue: any = getOperationArgumentValueFromParameter(this, operationArguments, headerParameter, operationSpec.serializer);
+          let headerValue: any = getOperationArgumentValueFromParameter(
+            this,
+            operationArguments,
+            headerParameter,
+            operationSpec.serializer
+          );
           if (headerValue != undefined) {
-            headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getPathStringFromParameter(headerParameter));
-            const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper).headerCollectionPrefix;
+            headerValue = operationSpec.serializer.serialize(
+              headerParameter.mapper,
+              headerValue,
+              getPathStringFromParameter(headerParameter)
+            );
+            const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
+              .headerCollectionPrefix;
             if (headerCollectionPrefix) {
               for (const key of Object.keys(headerValue)) {
                 httpRequest.headers.set(headerCollectionPrefix + key, headerValue[key]);
               }
             } else {
-              httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
+              httpRequest.headers.set(
+                headerParameter.mapper.serializedName ||
+                  getPathStringFromParameter(headerParameter),
+                headerValue
+              );
             }
           }
         }
@@ -353,8 +452,27 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest)
-        .then(res => flattenResponse(res, operationSpec.responses[res.status]));
+      let rawResponse: HttpOperationResponse;
+      let sendRequestError;
+      try {
+        rawResponse = await this.sendRequest(httpRequest);
+      } catch (error) {
+        sendRequestError = error;
+      }
+      if (sendRequestError) {
+        if (sendRequestError.response) {
+          sendRequestError.details = flattenResponse(
+            sendRequestError.response,
+            operationSpec.responses[sendRequestError.statusCode] ||
+              operationSpec.responses["default"]
+          );
+        }
+        result = Promise.reject(sendRequestError);
+      } else {
+        result = Promise.resolve(
+          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
+        );
+      }
     } catch (error) {
       result = Promise.reject(error);
     }
@@ -363,53 +481,95 @@ export class ServiceClient {
     if (cb) {
       result
         // tslint:disable-next-line:no-null-keyword
-        .then(res => cb(null, res._response.parsedBody, res._response.request, res._response))
-        .catch(err => cb(err));
+        .then((res) => cb(null, res._response.parsedBody, res._response.request, res._response))
+        .catch((err) => cb(err));
     }
 
     return result;
   }
 }
 
-export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
+export function serializeRequestBody(
+  serviceClient: ServiceClient,
+  httpRequest: WebResource,
+  operationArguments: OperationArguments,
+  operationSpec: OperationSpec
+): void {
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
-    httpRequest.body = getOperationArgumentValueFromParameter(serviceClient, operationArguments, operationSpec.requestBody, operationSpec.serializer);
+    httpRequest.body = getOperationArgumentValueFromParameter(
+      serviceClient,
+      operationArguments,
+      operationSpec.requestBody,
+      operationSpec.serializer
+    );
 
     const bodyMapper = operationSpec.requestBody.mapper;
     const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
     const typeName = bodyMapper.type.name;
     try {
       if (httpRequest.body != undefined || required) {
-        const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
-        httpRequest.body = operationSpec.serializer.serialize(bodyMapper, httpRequest.body, requestBodyParameterPathString);
+        const requestBodyParameterPathString: string = getPathStringFromParameter(
+          operationSpec.requestBody
+        );
+        httpRequest.body = operationSpec.serializer.serialize(
+          bodyMapper,
+          httpRequest.body,
+          requestBodyParameterPathString
+        );
         const isStream = typeName === MapperType.Stream;
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
-            httpRequest.body = stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName!), { rootName: xmlName || serializedName });
-          }
-          else if (!isStream) {
-            httpRequest.body = stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
+            httpRequest.body = stringifyXML(
+              utils.prepareXMLRootList(
+                httpRequest.body,
+                xmlElementName || xmlName || serializedName!
+              ),
+              { rootName: xmlName || serializedName }
+            );
+          } else if (!isStream) {
+            httpRequest.body = stringifyXML(httpRequest.body, {
+              rootName: xmlName || serializedName
+            });
           }
         } else if (!isStream) {
           httpRequest.body = JSON.stringify(httpRequest.body);
         }
       }
     } catch (error) {
-      throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, undefined, "  ")}.`);
+      throw new Error(
+        `Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(
+          serializedName,
+          undefined,
+          "  "
+        )}.`
+      );
     }
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
     httpRequest.formData = {};
     for (const formDataParameter of operationSpec.formDataParameters) {
-      const formDataParameterValue: any = getOperationArgumentValueFromParameter(serviceClient, operationArguments, formDataParameter, operationSpec.serializer);
+      const formDataParameterValue: any = getOperationArgumentValueFromParameter(
+        serviceClient,
+        operationArguments,
+        formDataParameter,
+        operationSpec.serializer
+      );
       if (formDataParameterValue != undefined) {
-        const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
-        httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
+        const formDataParameterPropertyName: string =
+          formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
+        httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
+          formDataParameter.mapper,
+          formDataParameterValue,
+          getPathStringFromParameter(formDataParameter)
+        );
       }
     }
   }
 }
 
-function getValueOrFunctionResult(value: undefined | string | ((defaultValue: string) => string), defaultValueCreator: (() => string)): string {
+function getValueOrFunctionResult(
+  value: undefined | string | ((defaultValue: string) => string),
+  defaultValueCreator: () => string
+): string {
   let result: string;
   if (typeof value === "string") {
     result = value;
@@ -422,7 +582,10 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(authPolicyFactory: RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(
+  authPolicyFactory: RequestPolicyFactory | undefined,
+  options: ServiceClientOptions
+): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -433,8 +596,14 @@ function createDefaultRequestPolicyFactories(authPolicyFactory: RequestPolicyFac
     factories.push(authPolicyFactory);
   }
 
-  const userAgentHeaderName: string = getValueOrFunctionResult(options.userAgentHeaderName, getDefaultUserAgentHeaderName);
-  const userAgentHeaderValue: string = getValueOrFunctionResult(options.userAgent, getDefaultUserAgentValue);
+  const userAgentHeaderName: string = getValueOrFunctionResult(
+    options.userAgentHeaderName,
+    getDefaultUserAgentHeaderName
+  );
+  const userAgentHeaderValue: string = getValueOrFunctionResult(
+    options.userAgent,
+    getDefaultUserAgentValue
+  );
   if (userAgentHeaderName && userAgentHeaderValue) {
     factories.push(userAgentPolicy({ key: userAgentHeaderName, value: userAgentHeaderValue }));
   }
@@ -454,7 +623,90 @@ function createDefaultRequestPolicyFactories(authPolicyFactory: RequestPolicyFac
     factories.push(proxyPolicy(proxySettings));
   }
 
+  factories.push(logPolicy({ logger: logger.info }));
+
   return factories;
+}
+
+export function createPipelineFromOptions(
+  pipelineOptions: InternalPipelineOptions,
+  authPolicyFactory?: RequestPolicyFactory
+): ServiceClientOptions {
+  let requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  let userAgentValue = undefined;
+  if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
+    const userAgentInfo: string[] = [];
+    userAgentInfo.push(pipelineOptions.userAgentOptions.userAgentPrefix);
+
+    // Add the default user agent value if it isn't already specified
+    // by the userAgentPrefix option.
+    const defaultUserAgentInfo = getDefaultUserAgentValue();
+    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+      userAgentInfo.push(defaultUserAgentInfo);
+    }
+
+    userAgentValue = userAgentInfo.join(" ");
+  }
+
+  const keepAliveOptions = {
+    ...DefaultKeepAliveOptions,
+    ...pipelineOptions.keepAliveOptions
+  };
+
+  const retryOptions = {
+    ...DefaultRetryOptions,
+    ...pipelineOptions.retryOptions
+  };
+
+  const redirectOptions = {
+    ...DefaultRedirectOptions,
+    ...pipelineOptions.redirectOptions
+  };
+
+  const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
+  if (isNode && proxySettings) {
+    requestPolicyFactories.push(proxyPolicy(proxySettings));
+  }
+
+  const deserializationOptions = {
+    ...DefaultDeserializationOptions,
+    ...pipelineOptions.deserializationOptions
+  };
+
+  const loggingOptions: LogPolicyOptions = {
+    ...pipelineOptions.loggingOptions
+  };
+
+  requestPolicyFactories.push(
+    tracingPolicy(),
+    keepAlivePolicy(keepAliveOptions),
+    userAgentPolicy({ value: userAgentValue }),
+    generateClientRequestIdPolicy(),
+    deserializationPolicy(deserializationOptions.expectedContentTypes),
+    throttlingRetryPolicy(),
+    systemErrorRetryPolicy(),
+    exponentialRetryPolicy(
+      retryOptions.maxRetries,
+      retryOptions.retryDelayInMs,
+      retryOptions.maxRetryDelayInMs
+    )
+  );
+
+  if (redirectOptions.handleRedirects) {
+    requestPolicyFactories.push(redirectPolicy(redirectOptions.maxRetries));
+  }
+
+  if (authPolicyFactory) {
+    requestPolicyFactories.push(authPolicyFactory);
+  }
+
+  requestPolicyFactories.push(logPolicy(loggingOptions));
+
+  return {
+    httpClient: pipelineOptions.httpClient,
+    requestPolicyFactories
+  };
 }
 
 export type PropertyParent = { [propertyName: string]: any };
@@ -477,11 +729,28 @@ export function getPropertyParent(parent: PropertyParent, propertyPath: string[]
   return parent;
 }
 
-function getOperationArgumentValueFromParameter(serviceClient: ServiceClient, operationArguments: OperationArguments, parameter: OperationParameter, serializer: Serializer): any {
-  return getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, parameter.parameterPath, parameter.mapper, serializer);
+function getOperationArgumentValueFromParameter(
+  serviceClient: ServiceClient,
+  operationArguments: OperationArguments,
+  parameter: OperationParameter,
+  serializer: Serializer
+): any {
+  return getOperationArgumentValueFromParameterPath(
+    serviceClient,
+    operationArguments,
+    parameter.parameterPath,
+    parameter.mapper,
+    serializer
+  );
 }
 
-export function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
+export function getOperationArgumentValueFromParameterPath(
+  serviceClient: ServiceClient,
+  operationArguments: OperationArguments,
+  parameterPath: ParameterPath,
+  parameterMapper: Mapper,
+  serializer: Serializer
+): any {
   let value: any;
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
@@ -491,20 +760,28 @@ export function getOperationArgumentValueFromParameterPath(serviceClient: Servic
       if (parameterMapper.isConstant) {
         value = parameterMapper.defaultValue;
       } else {
-        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments, parameterPath);
+        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(
+          operationArguments,
+          parameterPath
+        );
         if (!propertySearchResult.propertyFound) {
           propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
         }
 
         let useDefaultValue = false;
         if (!propertySearchResult.propertyFound) {
-          useDefaultValue = parameterMapper.required || (parameterPath[0] === "options" && parameterPath.length === 2);
+          useDefaultValue =
+            parameterMapper.required ||
+            (parameterPath[0] === "options" && parameterPath.length === 2);
         }
         value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
       }
 
       // Serialize just for validation purposes.
-      const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
+      const parameterPathString: string = getPathStringFromParameterPath(
+        parameterPath,
+        parameterMapper
+      );
       serializer.serialize(parameterMapper, value, parameterPathString);
     }
   } else {
@@ -513,11 +790,22 @@ export function getOperationArgumentValueFromParameterPath(serviceClient: Servic
     }
 
     for (const propertyName in parameterPath) {
-      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![propertyName];
+      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![
+        propertyName
+      ];
       const propertyPath: ParameterPath = parameterPath[propertyName];
-      const propertyValue: any = getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, propertyPath, propertyMapper, serializer);
+      const propertyValue: any = getOperationArgumentValueFromParameterPath(
+        serviceClient,
+        operationArguments,
+        propertyPath,
+        propertyMapper,
+        serializer
+      );
       // Serialize just for validation purposes.
-      const propertyPathString: string = getPathStringFromParameterPath(propertyPath, propertyMapper);
+      const propertyPathString: string = getPathStringFromParameterPath(
+        propertyPath,
+        propertyMapper
+      );
       serializer.serialize(propertyMapper, propertyValue, propertyPathString);
       if (propertyValue !== undefined) {
         if (!value) {
@@ -535,7 +823,10 @@ interface PropertySearchResult {
   propertyFound: boolean;
 }
 
-function getPropertyFromParameterPath(parent: { [parameterName: string]: any }, parameterPath: string[]): PropertySearchResult {
+function getPropertyFromParameterPath(
+  parent: { [parameterName: string]: any },
+  parameterPath: string[]
+): PropertySearchResult {
   const result: PropertySearchResult = { propertyFound: false };
   let i = 0;
   for (; i < parameterPath.length; ++i) {
@@ -554,7 +845,10 @@ function getPropertyFromParameterPath(parent: { [parameterName: string]: any }, 
   return result;
 }
 
-export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse {
+export function flattenResponse(
+  _response: HttpOperationResponse,
+  responseSpec: OperationResponse | undefined
+): RestResponse {
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
@@ -573,8 +867,11 @@ export function flattenResponse(_response: HttpOperationResponse, responseSpec: 
       });
     }
 
-    const modelProperties = typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties || {};
-    const isPageableResponse = Object.keys(modelProperties).some(k => modelProperties[k].serializedName === "");
+    const modelProperties =
+      (typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties) || {};
+    const isPageableResponse = Object.keys(modelProperties).some(
+      (k) => modelProperties[k].serializedName === ""
+    );
     if (typeName === "Sequence" || isPageableResponse) {
       const arrayResponse = [...(_response.parsedBody || [])] as RestResponse & any[];
 
@@ -601,7 +898,11 @@ export function flattenResponse(_response: HttpOperationResponse, responseSpec: 
     }
   }
 
-  if (bodyMapper || _response.request.method === "HEAD" || utils.isPrimitiveType(_response.parsedBody)) {
+  if (
+    bodyMapper ||
+    _response.request.method === "HEAD" ||
+    utils.isPrimitiveType(_response.parsedBody)
+  ) {
     // primitive body types and HEAD booleans
     return addOperationResponse({
       ...parsedHeaders,

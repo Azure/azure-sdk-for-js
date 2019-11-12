@@ -2,11 +2,17 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { delay } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
-import { MockAuthHttpClient, assertRejects } from "../authTestUtils";
-import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
+import {
+  MockAuthHttpClient,
+  assertRejects,
+  setDelayInstantlyCompletes,
+  restoreDelayBehavior,
+  createDelayController,
+  DelayController
+} from "../authTestUtils";
+import { AuthenticationError, OAuthErrorResponse } from "../../src/client/errors";
 import {
   DeviceCodeCredential,
   DeviceCodeResponse
@@ -21,13 +27,18 @@ const deviceCodeResponse: DeviceCodeResponse = {
   message: "Visit https://contoso.com/devicelogin and enter code B3920934"
 };
 
-const pendingResponse: ErrorResponse = {
+const pendingResponse: OAuthErrorResponse = {
   error: "authorization_pending",
   error_description: "Waiting for user to authenticate"
 };
 
 describe("DeviceCodeCredential", function() {
-  this.timeout(10000); // eslint-disable-line no-invalid-this
+  before(() => {
+    setDelayInstantlyCompletes();
+  });
+  after(() => {
+    restoreDelayBehavior();
+  });
 
   it("sends a device code request and returns a token when the user completes it", async function() {
     const mockHttpClient = new MockAuthHttpClient({
@@ -44,7 +55,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     const accessToken = await credential.getToken("scope");
@@ -81,7 +92,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -125,7 +136,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions, }
     );
 
     await credential.getToken("scope");
@@ -150,7 +161,7 @@ describe("DeviceCodeCredential", function() {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: { error: "authorization_declined", error_description: "" } }
+        { status: 400, parsedBody: { error: "authorization_declined", error_description: "", correlation_id: "correlation_id", trace_id: "trace_id", error_codes: [ 1, 2, 3], timestamp: "timestamp" } as OAuthErrorResponse }
       ]
     });
 
@@ -158,13 +169,17 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "authorization_declined");
+      assert.strictEqual(authError.errorResponse.correlationId, "correlation_id");
+      assert.strictEqual(authError.errorResponse.traceId, "trace_id");
+      assert.strictEqual(authError.errorResponse.timestamp, "timestamp");
+      assert.deepStrictEqual(authError.errorResponse.errorCodes, [ 1, 2, 3]);
       return true;
     });
   });
@@ -183,7 +198,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -206,7 +221,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -217,13 +232,19 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
-  it("cancels polling when abort signal is raised", async function() {
+  it("rethrows an unexpected AuthenticationError", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
+        {
+          status: 401,
+          parsedBody: {
+            error: "invalid_client",
+            error_description: "The request body must contain..."
+          }
+        }
       ]
     });
 
@@ -231,18 +252,54 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
-    const abortController = new AbortController();
-    const getTokenPromise = credential.getToken("scope", { abortSignal: abortController.signal });
-    await delay(1500); // Long enough for device code request and one polling request
-    abortController.abort();
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "invalid_client");
+      return true;
+    });
+  });
 
-    const token = await getTokenPromise;
+  describe("tests with delays", function() {
+    let delayController: DelayController;
+    before(() => {
+      delayController = createDelayController();
+    });
 
-    assert.strictEqual(token, null);
-    assert.strictEqual(mockHttpClient.requests.length, 2);
+    it("cancels polling when abort signal is raised", async function() {
+      const mockHttpClient = new MockAuthHttpClient({
+        authResponse: [
+          { status: 200, parsedBody: deviceCodeResponse },
+          { status: 400, parsedBody: pendingResponse },
+          { status: 400, parsedBody: pendingResponse },
+          { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
+        ]
+      });
+
+      const credential = new DeviceCodeCredential(
+        "tenant",
+        "client",
+        (details) => assert.equal(details.message, deviceCodeResponse.message),
+        { ...mockHttpClient.tokenCredentialOptions }
+      );
+
+      const abortController = new AbortController();
+      const getTokenPromise = credential.getToken("scope", { abortSignal: abortController.signal });
+      // getToken ends up calling pollForToken which normally has a 1000ms delay.
+      // This code allows us to control the delay programatically in the test.
+      let delay = await delayController.waitForDelay();
+      delay.resolve();
+      delay = await delayController.waitForDelay();
+      // abort the request before the second poll is allowed to complete
+      abortController.abort();
+      delay.resolve();
+      const token = await getTokenPromise;
+      assert.strictEqual(token, null);
+      assert.strictEqual(mockHttpClient.requests.length, 2);
+    });
   });
 
   it("sends a device code request and returns a token with tracing", async function() {
@@ -264,12 +321,14 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -289,11 +348,35 @@ describe("DeviceCodeCredential", function() {
               children: [
                 {
                   name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 },
                 {
                   name: "Azure.Identity.DeviceCodeCredential-pollForToken",
-                  children: []
+                  children: [
+                    // We see 4 traces from core-http here because the client in
+                    // this test polls 4 times for the authorization code.
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 }
               ]
             }

@@ -23,7 +23,7 @@ export async function run() {
 
   // now we'd like to prevent future modifications - let's set the key/label to read-only
   console.log("Setting a key to read-only. Any modifications will fail");
-  await client.setReadOnly({ key: readOnlySampleKey, label: "a label" });
+  await client.setReadOnly({ key: readOnlySampleKey, label: "a label" }, true);
 
   // any modifications to the key will now throw errors
   try {
@@ -34,11 +34,11 @@ export async function run() {
   }
     
   // clients that read from the key are unaffected
-  await client.getConfigurationSetting(readOnlySampleKey, { label: "a label" });
+  await client.getConfigurationSetting({ key: readOnlySampleKey, label: "a label" });
   
   // to make a key writable again we can clear the read-only status
   console.log("Clearing the read-only status on the key so we can update the value");
-  await client.clearReadOnly({ key: readOnlySampleKey, label: "a label" });
+  await client.setReadOnly({ key: readOnlySampleKey, label: "a label" }, false);
 
   // and now clients can change the value again
   const updatedSetting = await client.setConfigurationSetting({ key: readOnlySampleKey, label: "a label", value: "new value" });
@@ -53,8 +53,8 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
   });
 
   for await (const setting of existingSettings) {
-    await client.clearReadOnly(setting);
-    await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    await client.setReadOnly(setting, false);
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 

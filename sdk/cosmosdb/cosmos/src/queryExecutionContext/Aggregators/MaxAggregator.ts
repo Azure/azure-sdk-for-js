@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
-import { IAggregator } from "./IAggregator";
+import { Aggregator } from "./Aggregator";
 
 interface MaxAggregateResult {
   count: number;
@@ -9,7 +9,7 @@ interface MaxAggregateResult {
 }
 
 /** @hidden */
-export class MaxAggregator implements IAggregator {
+export class MaxAggregator implements Aggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
   /**

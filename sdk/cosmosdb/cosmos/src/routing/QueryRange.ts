@@ -52,6 +52,15 @@ export class QueryRange {
     return false;
   }
 
+  public isFullRange() {
+    return (
+      this.min === Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
+      this.max === Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
+      this.isMinInclusive === true &&
+      this.isMaxInclusive === false
+    );
+  }
+
   public isEmpty() {
     return !(this.isMinInclusive && this.isMaxInclusive) && this.min === this.max;
   }

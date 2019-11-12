@@ -2,14 +2,70 @@ import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
-import { delay as restDelay } from "@azure/ms-rest-js";
+import { delay as restDelay } from "@azure/core-http";
 import { blobToString } from "./index.browser";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 let nock: any;
 if (!isBrowser()) {
-  nock = require("nock");
+  if (process.env.TEST_MODE === "record" || process.env.TEST_MODE === "playback") {
+    nock = require("nock");
+  }
+} else if ((window as any).__env__.TEST_MODE === "record") {
+  // Converting content corresponding to all the console statements
+  //  into (JSON.stringify)-ed content in record mode for browser tests.
+  //
+  // In browser, once the content to be recorded is ready, recordings
+  //  are supposed to be sent to the appropriate karma reporter(jsonToFileReporter)
+  //  in order to generate the corresponding recording file.
+  // The way to do this is by printing the recordings as JSON strings to `console.log()`.
+  // As a result, the console gets filled with lots of prints while recording.
+  //
+  // We solve this issue by
+  // - disabling the console.logs from karma and
+  // - by adding a custom console.log() which converts all the console statements into
+  //   console.log() with stringified JSON objects.
+  // - Handle all the console.logs with stringified JSON objects in karma.conf.js
+  //   as explained below.
+  //
+  // Karma.conf.js
+  // - jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs.
+  // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
+  // - The other console statements are captured and printed normally.
+  // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
+  // - Example - console.log("hello"); -> console.log({ log: "hello" });
+  const consoleLog = window.console.log;
+  for (const method in window.console) {
+    if (
+      window.console.hasOwnProperty(method) &&
+      typeof (window.console as any)[method] === "function"
+    ) {
+      (window.console as any)[method] = function(obj: any) {
+        try {
+          if (!JSON.parse(obj).writeFile) {
+            // If the JSON string doesn't contain `.writeFile` property,
+            // we wrap the object as a JSON object and apply JSON.stringify()
+            // Example - console.warn("hello"); -> console.log({ warn: "hello" });
+            const newObj: any = {};
+            newObj[method] = obj;
+            consoleLog(JSON.stringify(newObj));
+          } else {
+            // If the JSON strings contain `.writeFile` property,
+            // use the console.log as it is.
+            consoleLog(obj);
+          }
+        } catch (error) {
+          // If the object is not a JSON string, the try block fails and
+          // we wrap the object as a JSON object and apply JSON.stringify()
+          // (same as the if block in try)
+          const newObj: any = {};
+          newObj[method] = obj;
+          consoleLog(JSON.stringify(newObj));
+        }
+      };
+    }
+  }
 }
 
 const env = isBrowser() ? (window as any).__env__ : process.env;
@@ -21,6 +77,7 @@ if (isPlayingBack) {
   env.ACCOUNT_NAME = "fakestorageaccount";
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
+  env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
   // Comment following line to skip user delegation key/SAS related cases in record and play
   // which depends on this environment variable
   env.ACCOUNT_TOKEN = "aaaaa";
@@ -65,53 +122,69 @@ const skip = [
   // Character, Size (2MB), Tempfile
   "browsers/highlevel/recording_uploadbrowserdatatoblockblob_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.json",
   // Progress, Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_abort_after_retrys.js",
+  "node/highlevel/recording_blobclientdownload_should_abort_after_retrys.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  "node/highlevel/recording_blobclientdownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel/recording_blobclientdownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel/recording_blobclientdownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
-  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_abort.js",
-  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_success.js",
-  // Progress, Size (15MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_update_progress_event.js",
+  "node/highlevel/recording_blobclientdownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_abort.js",
+  // Size (526MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_success.js",
+  // Size (4MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_success__without_passing_the_buffer.js",
+  // Progress, Size (15MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_update_progress_event.js",
   // Size (526MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
   // Progress, Size (4MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
   // Progress, Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.js",
-  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_success.js",
-  // UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js",
-  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js",
+  "node/highlevel/recording_uploadfile_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  // Size (526MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_success.js",
+  // UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_success_for_tiny_buffers.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_update_progress_event.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_abort.js",
+  // Size (263MB), Tempfile
+  "node/highlevel/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/bloburl/recording_startcopyfromurl.json",
-  "browsers/bloburl/recording_startcopyfromurl_with_rehydrate_priority.json",
+  "browsers/blobclient/recording_startcopyfromclient.json",
+  "node/blockblobclient/recording_can_be_created_with_a_sas_connection_string.js",
+  "browsers/blobclient/recording_begincopyfromurl_with_rehydrate_priority.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_automatic_polling_via_polluntildone.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_cancellation_of_the_copy.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_manual_polling_via_poll.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_updating_on_progress_events.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_restoring_poller_state_from_another_poller.json",
   // Skip for random UUID generated for request boundary and changing x-ms-date used for authentication
   "node/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete.js",
+  "node/blobbatch/recording_deleteblobs_should_work_for_batch_delete.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_access_condition_and_partial_succeed.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_snapshot.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_set_tier.js",
+  "node/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_set_tier_with_lease_condition.js",
   "node/blobbatch/recording_submitbatch_should_work_with_multiple_types_of_credentials_for_subrequests.js",
   "browsers/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete.json",
+  "browsers/blobbatch/recording_deleteblobs_should_work_for_batch_delete.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_access_condition_and_partial_succeed.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_snapshot.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_set_tier.json",
+  "browsers/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_set_tier_with_lease_condition.json",
   "browsers/blobbatch/recording_submitbatch_should_work_with_multiple_types_of_credentials_for_subrequests.json"
 ];
@@ -495,4 +568,8 @@ export function record(testContext: any) {
       return date;
     }
   };
+}
+
+export const testPollerProperties = {
+  intervalInMs: isPlayingBack ? 0 : undefined
 }

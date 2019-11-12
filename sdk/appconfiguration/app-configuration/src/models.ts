@@ -1,85 +1,246 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AppConfigurationPutKeyValueOptionalParams,
-  GetKeyValueResponse,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-  KeyValue as ConfigurationSetting,
-  AppConfigurationDeleteLockOptionalParams,
-  AppConfigurationPutLockOptionalParams,
-} from "./generated/src/models/index";
-import { RequestOptionsBase } from '@azure/core-http';
-
-export {
-  AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions,
-  AppConfigurationDeleteKeyValueOptionalParams,
-  AppConfigurationDeleteLockOptionalParams,
-  AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions,
-  AppConfigurationGetKeyValueOptionalParams,
-  AppConfigurationGetKeyValuesOptionalParams,
-  AppConfigurationGetRevisionsOptionalParams,
-  AppConfigurationPutKeyValueOptionalParams,
-  AppConfigurationPutLockOptionalParams,
-  DeleteKeyValueHeaders,
-  DeleteKeyValueResponse as DeleteConfigurationSettingResponse,
-  DeleteKeyValueResponse,
-  DeleteLockHeaders,
-  DeleteLockResponse as ClearReadOnlyResponse,
-  DeleteLockResponse,
-  GetKeyValueHeaders,  
-  GetKeyValueResponse,
-  GetKeyValuesHeaders,
-  GetKeyValuesResponse,
-  GetRevisionsHeaders,
-  GetRevisionsResponse,
-  KeyValueListResult,
-  PutKeyValueHeaders,
-  PutKeyValueResponse as AddConfigurationSettingResponse,
-  PutKeyValueResponse as SetConfigurationSettingResponse,
-  PutKeyValueResponse,
-  PutLockHeaders,
-  PutLockResponse as SetReadOnlyResponse,
-  PutLockResponse,
-} from "./generated/src/models/index";
-
-export { ConfigurationSetting };
+import { OperationOptions, HttpResponse } from "@azure/core-http";
 
 /**
- * Fields that represent a ConfigurationSetting
- * 
- * Any place that takes a ConfigurationSettingsParam will also take a ConfigurationSetting.
+ * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label'> {
-}
-  
-/**
- * A ConfigurationSetting minus any fields that are not settable in
- * addConfigurationSetting/setConfigurationSetting (ex: locked)
- *
- * Any place that takes a ConfigurationSettingsParam will also take a ConfigurationSetting.
- */
-export interface ConfigurationSettingParam
-  extends Pick<
-    ConfigurationSetting,
-    Exclude<keyof ConfigurationSetting, "locked" | "etag" | "lastModified">
-  > {}
-
-/**
- * Options used when adding or saving a ConfigurationSetting.
- */
-export interface ConfigurationSettingOptions
-  extends Pick<
-    AppConfigurationPutKeyValueOptionalParams,
-    Exclude<keyof AppConfigurationPutKeyValueOptionalParams, "label" | "entity">
-  > { }
-  
+export interface ConfigurationSettingId {
+  /**
+   * The key for this setting
+   */
+  key: string;
 
   /**
-   * A configuration setting and associated HTTP information
+   * The label for this setting. Leaving this undefined means this
+   * setting does not have a label.
    */
-export interface GetConfigurationSettingResponse extends Pick<GetKeyValueResponse, Exclude<keyof GetKeyValueResponse, 'eTag'>> {
+  label?: string;
+
+  /**
+   * The etag for this setting
+   */
+  etag?: string;
+}
+
+/**
+ * Necessary fields for updating or creating a new configuration setting
+ */
+export interface ConfigurationSettingParam extends ConfigurationSettingId {
+  /**
+   * The content type of the setting's value
+   */
+  contentType?: string;
+
+  /**
+   * The setting's value
+   */
+  value?: string;
+
+  /**
+   * Tags for this key
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Configuration setting with extra metadata from the server, indicating
+ * its etag, whether it is currently readOnly and when it was last modified.
+ */
+export interface ConfigurationSetting extends ConfigurationSettingParam {
+  /**
+   * Whether or not the setting is read-only
+   */
+  isReadOnly: boolean;
+
+  /**
+   * The date when this setting was last modified
+   */
+  lastModified?: Date;
+}
+
+/**
+ * Fields that are hoisted up  from the _response field of the object
+ * Used in cases where individual HTTP response fields are important for
+ * the user to use in common-use cases like handling http status codes 204 or 304.
+ */
+export interface HttpResponseFields {
+  /**
+   * The HTTP status code for the response
+   */
+  statusCode: number;
+}
+
+/**
+ * Parameters for adding a new configuration setting
+ */
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
+
+/**
+ * Parameters for creating or updating a new configuration setting
+ */
+export interface SetConfigurationSettingParam extends ConfigurationSettingParam {}
+
+/**
+ * Standard base response for getting, deleting or updating a configuration setting
+ */
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
+  HttpResponseField<HeadersT> &
+  Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+
+/**
+ * HTTP response related information - headers and raw body.
+ */
+export interface HttpResponseField<HeadersT> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: HeadersT;
+
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+  };
+}
+
+/**
+ * Options used to provide if-none-match for an HTTP request
+ */
+export interface HttpOnlyIfChangedField {
+  /**
+   * Used to perform an operation only if the targeted resource's etag does not match the value
+   * provided.
+   */
+  onlyIfChanged?: boolean;
+}
+
+/**
+ * Options used to provide if-match for an HTTP request
+ */
+export interface HttpOnlyIfUnchangedField {
+  /**
+   * Used to perform an operation only if the targeted resource's etag matches the value provided.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Used when the API supports selectively returning fields.
+ */
+export interface OptionalFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof ConfigurationSetting)[];
+}
+
+/**
+ * Sync token header field
+ */
+export interface SyncTokenHeaderField {
+  /**
+   * Enables real-time consistency between requests by providing the returned value in the next
+   * request made to the server.
+   */
+  syncToken?: string;
+}
+
+/**
+ * Options used when adding a ConfigurationSetting.
+ */
+export interface AddConfigurationSettingOptions extends OperationOptions {}
+
+/**
+ * Response from adding a ConfigurationSetting.
+ */
+export interface AddConfigurationSettingResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Response from deleting a ConfigurationSetting.
+ */
+export interface DeleteConfigurationSettingResponse
+  extends SyncTokenHeaderField,
+    HttpResponseFields,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Options for deleting a ConfigurationSetting.
+ */
+export interface DeleteConfigurationSettingOptions
+  extends HttpOnlyIfUnchangedField,
+    OperationOptions {}
+
+/**
+ * Options used when saving a ConfigurationSetting.
+ */
+export interface SetConfigurationSettingOptions
+  extends HttpOnlyIfUnchangedField,
+    OperationOptions {}
+
+/**
+ * Response from setting a ConfigurationSetting.
+ */
+export interface SetConfigurationSettingResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Headers from getting a ConfigurationSetting.
+ */
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {
+}
+
+/**
+ * Response from retrieving a ConfigurationSetting.
+ */
+export interface GetConfigurationSettingResponse
+  extends ConfigurationSetting,
+    GetConfigurationHeaders,
+    HttpResponseFields,
+    HttpResponseField<GetConfigurationHeaders> {}
+
+/**
+ * Options for getting a ConfigurationSetting.
+ */
+export interface GetConfigurationSettingOptions
+  extends OperationOptions,
+    HttpOnlyIfChangedField,
+    OptionalFields {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+}
+
+/**
+ * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
+ * the accept date time header.
+ */
+export interface ListSettingsOptions extends OptionalFields {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /**
+   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
+   */
+  keys?: string[];
+
+  /**
+   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
+   */
+  labels?: string[];
 }
 
 /**
@@ -87,26 +248,16 @@ export interface GetConfigurationSettingResponse extends Pick<GetKeyValueRespons
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase {
-  /**
-   * Requests the server to respond with the state of the resource at the specified time.
-   */
-  acceptDatetime ?: string;
-  
-  /**
-   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
-   */
-  keys?: string[];
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
 
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
-   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
+   * The configuration settings for this page of results.
    */
-  labels?: string[];
-
-  /**
-   * Which fields to return for each ConfigurationSetting
-   */
-  fields?: (keyof ConfigurationSetting)[];
+  items: ConfigurationSetting[];
 }
 
 /**
@@ -114,56 +265,27 @@ export interface ListConfigurationSettingsOptions extends RequestOptionsBase {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends RequestOptionsBase {
-  /**
-   * Requests the server to respond with the state of the resource at the specified time.
-   */
-  acceptDatetime?: string;
-
-  /**
-   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
-   */
-  keys?: string[];
-
-  /**
-   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
-   */
-  labels?: string[];
-
-  /**
-   * Which fields to return for each ConfigurationSetting
-   */
-  fields?: (keyof ConfigurationSetting)[];
-}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage
-  extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, "items">> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
-   * ConfigurationSettings for this page of results
+   * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
 }
-
-/**
- * A page of configuration settings and the corresponding HTTP response
- */
-export interface ListRevisionsPage
-  extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, "items">> {
-  /**
-   * ConfigurationSettings for this page of results
-   */
-  items: ConfigurationSetting[];
-}
-
-/**
- * Options for clearReadOnly
- */
-export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOptionalParams, Exclude<keyof AppConfigurationDeleteLockOptionalParams, 'label'>> { }
 
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> { }
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
+
+/**
+ * Response when setting a value to read-only.
+ */
+export interface SetReadOnlyResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}

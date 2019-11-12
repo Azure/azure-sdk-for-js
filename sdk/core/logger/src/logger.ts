@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import debug from "debug";
+import debug, { Debugger } from "./debug";
+export { Debugger } from "./debug";
 
 const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =
-  (typeof process !== "undefined" &&
-    process.env &&
-    (process.env.AZURE_LOG_LEVEL as AzureLogLevel)) ||
-  undefined;
+  (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
 
-let azureLogLevel: AzureLogLevel | undefined = logLevelFromEnv;
+let azureLogLevel: AzureLogLevel | undefined;
 
 /**
  * The AzureLogger provides a mechanism for overriding where logs are output to.
  * By default, logs are sent to stderr.
  * Override the `log` method to redirect logs to another location.
  */
-export const AzureLogger = debug("azure") as AzureDebugger;
+export const AzureLogger: AzureClientLogger = debug("azure");
 AzureLogger.log = (...args) => {
   debug.log(...args);
 };
@@ -31,11 +29,26 @@ AzureLogger.log = (...args) => {
  * - error
  */
 export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
+const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
 
-type AzureDebugger = debug.Debugger & { level: number };
+type AzureDebugger = Debugger & { level: AzureLogLevel };
+
+/**
+ * An AzureClientLogger is a function that can log to an appropriate severity level.
+ */
+export type AzureClientLogger = Debugger;
 
 if (logLevelFromEnv) {
-  setLogLevel(logLevelFromEnv);
+  // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
+  if (isAzureLogLevel(logLevelFromEnv)) {
+    setLogLevel(logLevelFromEnv);
+  } else {
+    console.error(
+      `AZURE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${AZURE_LOG_LEVELS.join(
+        ", "
+      )}.`
+    );
+  }
 }
 
 /**
@@ -48,6 +61,11 @@ if (logLevelFromEnv) {
  * - error
  */
 export function setLogLevel(level?: AzureLogLevel) {
+  if (level && !isAzureLogLevel(level)) {
+    throw new Error(
+      `Unknown log level '${level}'. Acceptable values: ${AZURE_LOG_LEVELS.join(",")}`
+    );
+  }
   azureLogLevel = level;
 
   const enabledNamespaces = [];
@@ -76,13 +94,29 @@ const levelMap = {
 
 /**
  * Defines the methods available on the SDK-facing logger.
- * @ignore
  */
 export interface AzureLogger {
-  error: debug.Debugger;
-  warning: debug.Debugger;
-  info: debug.Debugger;
-  verbose: debug.Debugger;
+  /**
+   * Used for failures the program is unlikely to recover from,
+   * such as Out of Memory.
+   */
+  error: Debugger;
+  /**
+   * Used when a function fails to perform its intended task.
+   * Usually this means the function will throw an exception.
+   * Not used for self-healing events (e.g. automatic retry)
+   */
+  warning: Debugger;
+  /**
+   * Used when a function operates normally.
+   */
+  info: Debugger;
+  /**
+   * Used for detailed trbouleshooting scenarios. This is
+   * intended for use by developers / system administrators
+   * for diagnosing specific failures.
+   */
+  verbose: Debugger;
 }
 
 /**
@@ -91,7 +125,8 @@ export interface AzureLogger {
  * @ignore
  */
 export function createClientLogger(namespace: string): AzureLogger {
-  const clientRootLogger = createLogger(AzureLogger, namespace);
+  const clientRootLogger: AzureClientLogger = AzureLogger.extend(namespace);
+  patchLogMethod(AzureLogger, clientRootLogger);
   return {
     error: createLogger(clientRootLogger, "error"),
     warning: createLogger(clientRootLogger, "warning"),
@@ -100,17 +135,18 @@ export function createClientLogger(namespace: string): AzureLogger {
   };
 }
 
-function createLogger(parent: AzureDebugger, levelOrNamespace: string) {
-  const logger: AzureDebugger = parent.extend(levelOrNamespace) as any;
-  if (levelOrNamespace !== undefined) {
-    logger.level = levelMap[levelOrNamespace as AzureLogLevel];
-  }
+function patchLogMethod(parent: AzureClientLogger, child: AzureClientLogger | AzureDebugger): void {
+  child.log = (...args) => {
+    parent.log(...args);
+  };
+}
 
-  if (parent) {
-    logger.log = (...args) => {
-      parent.log(...args);
-    };
-  }
+function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDebugger {
+  const logger: AzureDebugger = Object.assign(parent.extend(level), {
+    level
+  });
+
+  patchLogMethod(parent, logger);
 
   if (shouldEnable(logger)) {
     const enabledNamespaces = debug.disable();
@@ -123,9 +159,13 @@ function createLogger(parent: AzureDebugger, levelOrNamespace: string) {
 }
 
 function shouldEnable(logger: AzureDebugger) {
-  if (azureLogLevel && logger.level <= levelMap[azureLogLevel]) {
+  if (azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]) {
     return true;
   } else {
     return false;
   }
+}
+
+function isAzureLogLevel(logLevel: string): logLevel is AzureLogLevel {
+  return AZURE_LOG_LEVELS.includes(logLevel as any);
 }

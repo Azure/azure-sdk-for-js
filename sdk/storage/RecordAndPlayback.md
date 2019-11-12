@@ -177,16 +177,19 @@
 ## Note - `console.log()` for browser tests
 
 - In browser, once the content to be recorded is ready, recordings are supposed to be sent to the appropriate karma reporter in order to generate the corresponding recording file. The way of doing this is by printing the recordings to `console.log()`. As a result, the console gets filled with lots of prints while recording.
-- To avoid the issue, we have currently disabled `console.log()` in karma.conf.js (karma configuration) for storage packages in `"record"` mode.
+- To avert the issue, we came up with the following solution.
 
-  ```javascript
-  browserConsoleLogOptions: {
-    // IMPORTANT: Comment the following line if you want to print debug logs in your browsers in record mode!!
-    terminal: process.env.TEST_MODE !== "record";
-  }
-  ```
+  - Convert the content corresponding to any console statement into (JSON.stringify)-ed content in record mode for browser tests.
+    [Add a custom console.log() which converts all the console statements into console.log() with stringified JSON objects.]
+  - Filter the console.logs with stringified JSON objects in karma.conf.js as explained below.
 
-- In `record` mode, comment the above specified line in `karma.conf.js` to enable `console.log()` in browsers.
+    Karma.conf.js
+
+    - jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs.
+    - Console logs with `.writeFile` property are captured and are written to a file(as test recordings).
+    - Any other console statements are captured and printed normally.
+    - Example - console.warn("hello"); -> console.log({ warn: "hello" });
+    - Example - console.log("hello"); -> console.log({ log: "hello" });
 
 ---
 

@@ -12,16 +12,26 @@ import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
 dotenv.config();
 
-export function getConnectionStringFromEnvironment(): string {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
+export function getConnectionStringFromEnvironment(): string | undefined {
+  return process.env["AZ_CONFIG_CONNECTION"];
+}
+
+let connectionStringNotPresentWarning = false;
+
+export function createAppConfigurationClientForTests(): AppConfigurationClient | undefined {
+  const connectionString = getConnectionStringFromEnvironment();
 
   if (connectionString == null) {
-    throw Error(
-      `No connection string in environment - set AZ_CONFIG_CONNECTION with a connection string for your AppConfiguration instance.`
-    );
+    if (!connectionStringNotPresentWarning) {
+      connectionStringNotPresentWarning = true;
+      console.log(
+        "Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate"
+      );
+    }
+    return undefined;
   }
 
-  return connectionString;
+  return new AppConfigurationClient(connectionString);
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
@@ -30,11 +40,11 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
-    if (setting.locked) {
-      await client.clearReadOnly(setting);
+    if (setting.isReadOnly) {
+      await client.setReadOnly(setting, false);
     }
 
-    await client.deleteConfigurationSetting(setting.key, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 
@@ -67,11 +77,16 @@ export async function toSortedArray(
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[]
 ) {
   actual = actual.map((setting) => {
-    return { key: setting.key, label: setting.label, value: setting.value };
+    return {
+      key: setting.key,
+      label: setting.label,
+      value: setting.value,
+      isReadOnly: setting.isReadOnly
+    };
   });
 
   assert.deepEqual(expected, actual);
@@ -93,6 +108,16 @@ export async function assertThrowsRestError(
 
     assert.fail(`${message}: Caught error but wasn't a RestError: ${err}`);
   }
-  
+
   return new Error("We won't reach this - both cases above throw because of assert.fail()");
+}
+
+export async function assertThrowsAbortError(testFunction: () => Promise<any>, message = "") {
+  try {
+    await testFunction();
+    assert.fail(`${message}: No error thrown`);
+  } catch (e) {
+    assert.equal(e.name, "AbortError");
+    return e;
+  }
 }

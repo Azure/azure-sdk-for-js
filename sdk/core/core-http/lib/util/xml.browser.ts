@@ -1,13 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// tslint:disable-next-line:no-null-keyword
+const doc = document.implementation.createDocument(null, null, null);
+
 const parser = new DOMParser();
-export function parseXML(str: string): Promise<any> {
+export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
   try {
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
-    const obj = domToObject(dom.childNodes[0]);
+    let obj;
+    if (opts && opts.includeRoot) {
+      obj = domToObject(dom);
+    } else {
+      obj = domToObject(dom.childNodes[0]);
+    }
+
     return Promise.resolve(obj);
   } catch (err) {
     return Promise.reject(err);
@@ -94,13 +103,11 @@ function domToObject(node: Node): any {
   return result;
 }
 
-// tslint:disable-next-line:no-null-keyword
-const doc = document.implementation.createDocument(null, null, null);
 const serializer = new XMLSerializer();
 
-export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+export function stringifyXML(content: any, opts?: { rootName?: string }): string {
   const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(obj, rootName)[0];
+  const dom = buildNode(content, rootName)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
@@ -117,9 +124,14 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
 }
 
 function buildNode(obj: any, elementName: string): Node[] {
-  if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
+  if (
+    obj == undefined ||
+    typeof obj === "string" ||
+    typeof obj === "number" ||
+    typeof obj === "boolean"
+  ) {
     const elem = doc.createElement(elementName);
-    elem.textContent = obj.toString();
+    elem.textContent = obj == undefined ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
     const result = [];
@@ -136,6 +148,8 @@ function buildNode(obj: any, elementName: string): Node[] {
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
+      } else if (key === "_") {
+        elem.textContent = obj[key].toString();
       } else {
         for (const child of buildNode(obj[key], key)) {
           elem.appendChild(child);

@@ -4,142 +4,150 @@
 
 ```ts
 
-import { HttpClient } from '@azure/core-http';
-import { HttpPipelineLogger } from '@azure/core-http';
-import * as msRest from '@azure/core-http';
+import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface DeletedSecret extends Secret {
-    readonly deletedDate?: Date;
-    recoveryId?: string;
-    readonly scheduledPurgeDate?: Date;
+export interface BackupSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface BeginDeleteSecretOptions extends SecretPollerOptions {
+}
+
+// @public
+export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
+}
+
+// @public
+export interface DeletedSecret {
+    name: string;
+    properties: SecretProperties & {
+        recoveryId?: string;
+        scheduledPurgeDate?: Date;
+        deletedOn?: Date;
+    };
+    value?: string;
 }
 
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
-export interface GetSecretOptions {
-    requestOptions?: msRest.RequestOptionsBase;
+export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetSecretOptions extends coreHttp.OperationOptions {
     version?: string;
 }
 
 // @public
-export interface GetSecretsOptions {
-    requestOptions?: msRest.RequestOptionsBase;
-}
-
-// @public
-export interface NewPipelineOptions {
-    // (undocumented)
-    HTTPClient?: HttpClient;
-    // (undocumented)
-    logger?: HttpPipelineLogger;
-    // (undocumented)
-    proxyOptions?: ProxyOptions;
-    // (undocumented)
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
-export { PagedAsyncIterableIterator }
-
-export { PageSettings }
-
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
+export interface KeyVaultSecret {
     name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
-
-// @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
-}
-
-// @public
-export interface Secret {
     properties: SecretProperties;
     value?: string;
 }
 
 // @public
-export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
+export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
+export { PagedAsyncIterableIterator }
+
+export { PageSettings }
+
+export { PipelineOptions }
+
+export { PollerLike }
+
+export { PollOperationState }
+
+// @public
+export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export class SecretClient {
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
+    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
+    getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
+    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
+    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
+    restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
+    setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
+    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
+    readonly vaultUrl: string;
+}
+
+// @public
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
+
+// @public
+export interface SecretProperties {
     contentType?: string;
-    readonly created?: Date;
+    readonly createdOn?: Date;
     enabled?: boolean;
-    expires?: Date;
+    readonly expiresOn?: Date;
     id?: string;
-    readonly keyId?: string;
+    readonly keyId?: URL;
     readonly managed?: boolean;
-    notBefore?: Date;
+    name: string;
+    readonly notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly updated?: Date;
+    readonly updatedOn?: Date;
+    vaultUrl: string;
+    version?: string;
 }
 
 // @public
-export class SecretsClient {
-    constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
-    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
-    protected readonly credential: TokenCredential;
-    deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
-    getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    readonly pipeline: ServiceClientOptions;
-    purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
-    recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;
-    restoreSecret(secretBundleBackup: Uint8Array, options?: RequestOptionsBase): Promise<Secret>;
-    setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<Secret>;
-    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretOptions): Promise<Secret>;
-    readonly vaultBaseUrl: string;
-}
-
-// @public
-export interface SetSecretOptions {
+export interface SetSecretOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
-    expires?: Date;
-    notBefore?: Date;
-    requestOptions?: msRest.RequestOptionsBase;
+    readonly expiresOn?: Date;
+    readonly notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
-}
-
 // @public
-export interface UpdateSecretOptions {
+export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
-    expires?: Date;
-    notBefore?: Date;
-    requestOptions?: msRest.RequestOptionsBase;
+    readonly expiresOn?: Date;
+    readonly notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
     };

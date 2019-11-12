@@ -28,3 +28,6 @@ If you just want to run the tests against the published npm package then skip st
 
 3. Run the tests
 > mocha -t 0 -R spec
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcosmosdb%2Fcosmos%2Ftest%2Freadme.png)

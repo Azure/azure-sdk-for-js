@@ -9,10 +9,11 @@ import {
   RestError,
   TokenCredential
 } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -33,9 +34,33 @@ export class ManagedIdentityCredential implements TokenCredential {
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
 
-  constructor(clientId?: string, options?: IdentityClientOptions) {
-    this.identityClient = new IdentityClient(options);
-    this.clientId = clientId;
+  /**
+   * Creates an instance of ManagedIdentityCredential with a client ID
+   *
+   * @param clientId The client (application) ID of an App Registration in the tenant.
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(clientId: string, options?: TokenCredentialOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential
+   *
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(options?: TokenCredentialOptions);
+  /**
+   * @internal
+   * @ignore
+   */
+  constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
+
+    if (typeof clientIdOrOptions === "string") {
+      // clientId, options constructor
+      this.clientId = clientIdOrOptions;
+      this.identityClient = new IdentityClient(options);
+    } else {
+      // options only constructor
+      this.identityClient = new IdentityClient(clientIdOrOptions);
+    }
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
@@ -144,24 +169,25 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = options.spanOptions;
+    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = this.identityClient.createWebResource(request);
-      webResource.timeout = options.timeout || 500;
+      webResource.timeout = options.requestOptions && options.requestOptions.timeout || 500;
 
       try {
+        logger.info(`ManagedIdentityCredential: pinging IMDS endpoint`);
         await this.identityClient.sendRequest(webResource);
       } catch (err) {
         if (
-          err instanceof RestError &&
-          (err.code === RestError.REQUEST_SEND_ERROR ||
-            err.code === RestError.REQUEST_ABORTED_ERROR)
+          (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
+          err.name === "AbortError"
         ) {
           // Either request failed or IMDS endpoint isn't available
+          logger.info(`ManagedIdentityCredential: IMDS endpoint unavailable`);
           span.setStatus({
             code: CanonicalCode.UNAVAILABLE,
             message: err.message
@@ -171,8 +197,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
 
       // If we received any response, the endpoint is available
+      logger.info(`ManagedIdentityCredential: IMDS endpoint is available`);
       return true;
     } catch (err) {
+      logger.warning(`ManagedIdentityCredential: error when accessing IMDS endpoint: ${err}`);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -232,7 +260,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
         abortSignal: options.abortSignal,
-        spanOptions: options.spanOptions,
+        spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
         ...authRequestOptions
       });
 
@@ -257,7 +285,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

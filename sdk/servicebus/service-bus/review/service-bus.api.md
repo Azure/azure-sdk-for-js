@@ -10,14 +10,29 @@ import { DataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
+import { ProxySettings } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-http';
 import { TokenInfo } from '@azure/amqp-common';
 import { TokenProvider } from '@azure/amqp-common';
 import { TokenType } from '@azure/amqp-common';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export type AuthorizationRule = {
+    claimType: string;
+    claimValue: string;
+    rights: {
+        accessRights?: string[];
+    };
+    keyName: string;
+    primaryKey?: string;
+    secondaryKey?: string;
+};
 
 // @public
 export interface CorrelationFilter {
@@ -32,6 +47,18 @@ export interface CorrelationFilter {
     userProperties?: any;
 }
 
+// @public
+export type CreateQueueResponse = QueueResponse;
+
+// @public
+export type CreateRuleResponse = RuleResponse;
+
+// @public
+export type CreateSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type CreateTopicResponse = TopicResponse;
+
 export { DataTransformer }
 
 // @public
@@ -42,7 +69,68 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export type DeleteQueueResponse = QueueResponse;
+
+// @public
+export type DeleteRuleResponse = RuleResponse;
+
+// @public
+export type DeleteSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type DeleteTopicResponse = TopicResponse;
+
 export { Delivery }
+
+// @public
+export type GetQueueResponse = QueueResponse;
+
+// @public
+export type GetRuleResponse = RuleResponse;
+
+// @public
+export type GetSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type GetTopicResponse = TopicResponse;
+
+export { HttpOperationResponse }
+
+// @public
+export interface ListQueuesResponse extends Array<QueueDetails> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListRequestOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ListRulesResponse extends Array<Rule> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListTopicsResponse extends Array<TopicDetails> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export type MessageCountDetails = {
+    activeMessageCount: number;
+    deadLetterMessageCount: number;
+    scheduledMessageCount: number;
+    transferMessageCount: number;
+    transferDeadLetterMessageCount: number;
+};
 
 // @public
 export interface MessageHandlerOptions {
@@ -68,8 +156,8 @@ export interface OnMessage {
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;
@@ -77,6 +165,47 @@ export class QueueClient implements Client {
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
 }
+
+// @public
+export interface QueueDetails extends QueueOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    enableExpress?: boolean;
+    entityAvailabilityStatus?: string;
+    isAnonymousAccessible?: boolean;
+    messageCountDetails?: MessageCountDetails;
+    path?: string;
+    queueName?: string;
+    status?: string;
+    supportOrdering?: boolean;
+    updatedAt?: string;
+}
+
+// @public
+export interface QueueOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTimeToLive?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    messageCount?: number;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
+    sizeInBytes?: number;
+    userMetadata?: string;
+}
+
+// @public
+export type QueueResponse = QueueDetails & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -112,11 +241,30 @@ export class Receiver {
     }
 
 // @public
+export interface Rule extends RuleOptions {
+    createdAt?: string;
+    ruleName?: string;
+    subscriptionName?: string;
+    topicName?: string;
+}
+
+// @public
 export interface RuleDescription {
     action?: string;
     filter?: string | CorrelationFilter;
     name: string;
 }
+
+// @public
+export interface RuleOptions {
+    action?: SqlAction;
+    filter?: SqlFilter | CorrelationFilter;
+}
+
+// @public
+export type RuleResponse = Rule & {
+    _response: HttpOperationResponse;
+};
 
 // @public
 export interface SendableMessageInfo {
@@ -149,6 +297,36 @@ export class Sender {
     send(message: SendableMessageInfo): Promise<void>;
     sendBatch(messages: SendableMessageInfo[]): Promise<void>;
     }
+
+// @public
+export class ServiceBusAtomManagementClient extends ServiceClient {
+    constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions);
+    createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
+    createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
+    deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
+    deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
+    deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
+    getQueueDetails(queueName: string): Promise<GetQueueResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    getTopicDetails(topicName: string): Promise<GetTopicResponse>;
+    listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse>;
+    listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
+    listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
+    listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
+    updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
+    updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
+    updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
+}
+
+// @public
+export interface ServiceBusAtomManagementClientOptions {
+    proxySettings?: ProxySettings;
+}
 
 // @public
 export class ServiceBusClient {
@@ -244,6 +422,24 @@ export interface SessionReceiverOptions {
 }
 
 // @public
+export type SqlAction = SqlFilter;
+
+// @public
+export interface SqlFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
+}
+
+// @public
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
+
+// @public
 export class SubscriptionClient implements Client {
     addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
     close(): Promise<void>;
@@ -260,6 +456,43 @@ export class SubscriptionClient implements Client {
     readonly topicName: string;
 }
 
+// @public
+export interface SubscriptionDetails extends SubscriptionOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    entityAvailabilityStatus?: string;
+    messageCountDetails?: MessageCountDetails;
+    status?: string;
+    subscriptionName?: string;
+    topicName?: string;
+    updatedAt?: string;
+}
+
+// @public
+export interface SubscriptionOptions {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTimeToLive?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    messageCount?: number;
+    requiresSession?: boolean;
+    sizeInBytes?: number;
+    userMetadata?: string;
+}
+
+// @public
+export type SubscriptionResponse = SubscriptionDetails & {
+    _response: HttpOperationResponse;
+};
+
 export { TokenInfo }
 
 export { TokenProvider }
@@ -274,6 +507,60 @@ export class TopicClient implements Client {
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
 }
+
+// @public
+export interface TopicDetails extends TopicOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    entityAvailabilityStatus?: string;
+    isAnonymousAccessible?: boolean;
+    messageCountDetails?: MessageCountDetails;
+    status?: string;
+    topicName?: string;
+    updatedAt?: string;
+}
+
+// @public
+export interface TopicOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    defaultMessageTimeToLive?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enableExpress?: boolean;
+    enablePartitioning?: boolean;
+    enableSubscriptionPartitioning?: boolean;
+    filteringMessagesBeforePublishing?: boolean;
+    isExpress?: boolean;
+    maxCorrelationFiltersPerTopic?: number;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    maxSqlFiltersPerTopic?: number;
+    maxSubscriptionsPerTopic?: number;
+    messageCount?: number;
+    requiresDuplicateDetection?: boolean;
+    sizeInBytes?: number;
+    subscriptionCount?: number;
+    supportOrdering?: boolean;
+    userMetadata?: string;
+}
+
+// @public
+export type TopicResponse = TopicDetails & {
+    _response: HttpOperationResponse;
+};
+
+// @public
+export type UpdateQueueResponse = QueueResponse;
+
+// @public
+export type UpdateRuleResponse = RuleResponse;
+
+// @public
+export type UpdateSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type UpdateTopicResponse = TopicResponse;
 
 export { WebSocketImpl }
 

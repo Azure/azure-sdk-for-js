@@ -17,9 +17,7 @@ export function parseKeyvaultIdentifier(
   try {
     baseUri = url.parse(identifier, true, true);
   } catch (e) {
-    throw new Error(
-      `Invalid ${collection} identifier: ${identifier}. Not a valid URI`
-    );
+    throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`);
   }
 
   // Path is of the form '/collection/name[/version]'
@@ -32,7 +30,7 @@ export function parseKeyvaultIdentifier(
 
   if (collection !== segments[1]) {
     throw new Error(
-      `Invalid ${collection} identifier: ${identifier}. segment [1] should be "${collection}", found "${segments[1]}"`,
+      `Invalid ${collection} identifier: ${identifier}. segment [1] should be "${collection}", found "${segments[1]}"`
     );
   }
 
@@ -42,6 +40,6 @@ export function parseKeyvaultIdentifier(
   return {
     vaultUrl,
     name,
-    version,
+    version
   };
 }

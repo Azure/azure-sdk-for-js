@@ -2,19 +2,21 @@
 // Licensed under the MIT License.
 
 import nodeResolve from "rollup-plugin-node-resolve";
+import path from "path";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const input = "./dist-esm/src/logger.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = [];
+  const externalNodeBuiltins = ["util", "os"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -43,8 +45,8 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/logger.js";
 
-    // mark assert as external
-    baseConfig.external.push("assert");
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
 
     baseConfig.context = "null";
 
@@ -94,8 +96,9 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
+          chai: ["assert"],
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "throws"]
         }
       })
     ]
@@ -105,6 +108,18 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
     baseConfig.context = "null";
+
+    baseConfig.onwarn = (warning) => {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

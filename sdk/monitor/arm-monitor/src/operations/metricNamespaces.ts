@@ -64,7 +64,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceUri
   ],
   queryParameters: [
-    Parameters.apiVersion9,
+    Parameters.apiVersion10,
     Parameters.startTime
   ],
   headerParameters: [

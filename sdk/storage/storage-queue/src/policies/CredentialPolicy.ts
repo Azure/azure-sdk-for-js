@@ -1,4 +1,7 @@
-import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/core-http";
 
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an
@@ -23,7 +26,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Child classes must implement this method with request signing. This method
-   * will be executed in sendRequest().
+   * will be executed in {@link sendRequest}.
    *
    * @protected
    * @abstract

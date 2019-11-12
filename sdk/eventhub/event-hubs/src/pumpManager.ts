@@ -3,7 +3,7 @@
 
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { EventProcessorOptions, CloseReason } from "./eventProcessor";
+import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import * as log from "./log";
@@ -16,7 +16,7 @@ import * as log from "./log";
  */
 export class PumpManager {
   private readonly _eventProcessorName: string;
-  private readonly _options: EventProcessorOptions;
+  private readonly _options: FullEventProcessorOptions;
   private _partitionIdToPumps: {
     [partitionId: string]: PartitionPump | undefined;
   } = {};
@@ -24,7 +24,7 @@ export class PumpManager {
   /**
    * @ignore
    */
-  constructor(eventProcessorName: string, eventProcessorOptions: EventProcessorOptions = {}) {
+  constructor(eventProcessorName: string, eventProcessorOptions: FullEventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
     this._options = eventProcessorOptions;
   }

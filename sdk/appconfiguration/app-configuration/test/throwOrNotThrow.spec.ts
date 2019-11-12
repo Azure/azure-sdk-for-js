@@ -1,6 +1,6 @@
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
@@ -14,8 +14,8 @@ describe("Various error cases", () => {
   let client: AppConfigurationClient;
   const nonMatchingETag = "never-match-etag";
 
-  before(() => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(function() {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   describe("throws", () => {
@@ -36,73 +36,40 @@ describe("Various error cases", () => {
     });
 
     it("get: Non-existent key throws 404", async () => {
-      await assertThrowsRestError(() => client.getConfigurationSetting(nonExistentKey), 404);
-    });
-
-    it("get: Non-existent key (ifMatch: non-matching etag) throws 404", async () => {
       await assertThrowsRestError(
-        () => client.getConfigurationSetting(nonExistentKey, { ifMatch: nonMatchingETag }),
-        412
+        () => client.getConfigurationSetting({ key: nonExistentKey }),
+        404
       );
-    });
-
-    it("get: Non-existent key (ifMatch: *) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.getConfigurationSetting(nonExistentKey, { ifMatch: "*" }),
-        412
-      );
-    });
-
-    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError (derived from RestError)", async () => {
-      const errThrown = await assertThrowsRestError(
-        () =>
-          client.getConfigurationSetting(addedSetting.key, {
-            ifNoneMatch: addedSetting.etag
-          }),
-        304
-      );
-
-      assert.equal("ResponseBodyNotFoundError", errThrown.name);
     });
 
     it("add: Setting already exists throws 412", async () => {
       await assertThrowsRestError(() => client.addConfigurationSetting(addedSetting), 412);
     });
 
-    it("set: Existing key, (ifMatch: non-matching etag) throws 412", async () => {
+    it("set: Existing key, (onlyIfUnchanged) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.setConfigurationSetting(addedSetting, { ifMatch: nonMatchingETag }),
+        () =>
+          client.setConfigurationSetting(
+            {
+              ...addedSetting,
+              etag: nonMatchingETag // purposefully make the etag not match the server
+            },
+            { onlyIfUnchanged: true }
+          ),
         412
       );
     });
 
     it("set: trying to modify a read-only setting throws 409", async () => {
-      await client.setReadOnly(addedSetting);
+      await client.setReadOnly(addedSetting, true);
 
       await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
     });
-  });
 
-  // these are just here for completeness so we understand what the failures are for some
-  // of the weirder, but possible, scenarios from our API.
-  describe("throws, but not mainline scenarios", () => {
-    const nonExistentKey = `non-existent-key-etags-${Date.now()}`;
-
-    // it's a bit non-sensical (delete a key that doesn't exist but
-    // only if it matches any key)
-    it("delete: Non-existent key (ifMatch: *) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.deleteConfigurationSetting(nonExistentKey, { ifMatch: "*" }),
-        412
-      );
-    });
-
-    // again, a weird one - delete a non-existent key but only if the etag doesn't match
-    it("delete: Non-existent key (ifMatch: non-matching etag) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.deleteConfigurationSetting(nonExistentKey, { ifMatch: nonMatchingETag }),
-        412
-      );
+    it("delete: key that is set to read-only throws 409", async () => {
+      await client.setReadOnly(addedSetting, true);
+      await assertThrowsRestError(async () => client.deleteConfigurationSetting(addedSetting), 409);
+      await client.setReadOnly(addedSetting, false);
     });
   });
 
@@ -127,8 +94,17 @@ describe("Various error cases", () => {
       await deleteKeyCompletely([addedSetting.key], client);
     });
 
+    it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
+      const response = await client.getConfigurationSetting(addedSetting, {
+        onlyIfChanged: true
+      });
+
+      assert.equal(304, response.statusCode);
+      assert.ok(!response.value);
+    });
+
     it("delete: non-existent key (no etag)", async () => {
-      await client.deleteConfigurationSetting(nonExistentKey);
+      await client.deleteConfigurationSetting({ key: nonExistentKey });
     });
   });
 });

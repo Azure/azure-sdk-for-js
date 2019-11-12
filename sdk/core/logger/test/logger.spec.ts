@@ -62,6 +62,12 @@ describe("setLogLevel", () => {
     assert.ok(!testLogger.warning.enabled);
     assert.ok(!testLogger.error.enabled);
   });
+
+  it("throws when setting to an unknown log level", () => {
+    assert.throws(() => {
+      Logger.setLogLevel('debug' as any);
+    }, /Unknown log level/)
+  });
 });
 
 describe("ClientLoggers", () => {

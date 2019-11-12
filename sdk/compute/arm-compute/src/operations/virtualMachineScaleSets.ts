@@ -314,7 +314,8 @@ export class VirtualMachineScaleSets {
   }
 
   /**
-   * Redeploy one or more virtual machines in a VM scale set.
+   * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node,
+   * and powers them back on.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
@@ -612,7 +613,8 @@ export class VirtualMachineScaleSets {
   }
 
   /**
-   * Redeploy one or more virtual machines in a VM scale set.
+   * Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node,
+   * and powers them back on.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters

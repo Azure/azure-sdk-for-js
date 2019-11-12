@@ -9,7 +9,23 @@ import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
 import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
+
+/**
+ * Options to configure API response deserialization.
+ */
+export interface DeserializationOptions {
+  /**
+   * Configures the expected content types for the deserialization of
+   * JSON and XML response bodies.
+   */
+  expectedContentTypes: DeserializationContentTypes;
+}
 
 /**
  * The content-types that will indicate that an operation response should be deserialized in a
@@ -33,7 +49,9 @@ export interface DeserializationContentTypes {
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
  * pass through the HTTP pipeline.
  */
-export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory {
+export function deserializationPolicy(
+  deserializationContentTypes?: DeserializationContentTypes
+): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new DeserializationPolicy(nextPolicy, deserializationContentTypes, options);
@@ -44,6 +62,13 @@ export function deserializationPolicy(deserializationContentTypes?: Deserializat
 export const defaultJsonContentTypes = ["application/json", "text/json", "text/plain"];
 export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
 
+export const DefaultDeserializationOptions: DeserializationOptions = {
+  expectedContentTypes: {
+    json: defaultJsonContentTypes,
+    xml: defaultXmlContentTypes
+  }
+};
+
 /**
  * A RequestPolicy that will deserialize HTTP response bodies and headers as they pass through the
  * HTTP pipeline.
@@ -52,24 +77,41 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   public readonly jsonContentTypes: string[];
   public readonly xmlContentTypes: string[];
 
-  constructor(nextPolicy: RequestPolicy, deserializationContentTypes: DeserializationContentTypes | undefined, options: RequestPolicyOptions) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    deserializationContentTypes: DeserializationContentTypes | undefined,
+    options: RequestPolicyOptions
+  ) {
     super(nextPolicy, options);
 
-    this.jsonContentTypes = deserializationContentTypes && deserializationContentTypes.json || defaultJsonContentTypes;
-    this.xmlContentTypes = deserializationContentTypes && deserializationContentTypes.xml || defaultXmlContentTypes;
+    this.jsonContentTypes =
+      (deserializationContentTypes && deserializationContentTypes.json) || defaultJsonContentTypes;
+    this.xmlContentTypes =
+      (deserializationContentTypes && deserializationContentTypes.xml) || defaultXmlContentTypes;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) => deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response));
+    return this._nextPolicy
+      .sendRequest(request)
+      .then((response: HttpOperationResponse) =>
+        deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response)
+      );
   }
 }
 
-function getOperationResponse(parsedResponse: HttpOperationResponse): undefined | OperationResponse {
+function getOperationResponse(
+  parsedResponse: HttpOperationResponse
+): undefined | OperationResponse {
   let result: OperationResponse | undefined;
   const request: WebResource = parsedResponse.request;
   const operationSpec: OperationSpec | undefined = request.operationSpec;
   if (operationSpec) {
-    const operationResponseGetter: undefined | ((operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse)) = request.operationResponseGetter;
+    const operationResponseGetter:
+      | undefined
+      | ((
+          operationSpec: OperationSpec,
+          response: HttpOperationResponse
+        ) => undefined | OperationResponse) = request.operationResponseGetter;
     if (!operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
@@ -80,7 +122,8 @@ function getOperationResponse(parsedResponse: HttpOperationResponse): undefined 
 }
 
 function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boolean {
-  const shouldDeserialize: undefined | boolean | ((response: HttpOperationResponse) => boolean) = parsedResponse.request.shouldDeserialize;
+  const shouldDeserialize: undefined | boolean | ((response: HttpOperationResponse) => boolean) =
+    parsedResponse.request.shouldDeserialize;
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
@@ -92,8 +135,12 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
-export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse): Promise<HttpOperationResponse> {
-  return parse(jsonContentTypes, xmlContentTypes, response).then(parsedResponse => {
+export function deserializeResponseBody(
+  jsonContentTypes: string[],
+  xmlContentTypes: string[],
+  response: HttpOperationResponse
+): Promise<HttpOperationResponse> {
+  return parse(jsonContentTypes, xmlContentTypes, response).then((parsedResponse) => {
     const shouldDeserialize: boolean = shouldDeserializeResponse(parsedResponse);
     if (shouldDeserialize) {
       const operationSpec: OperationSpec | undefined = parsedResponse.request.operationSpec;
@@ -102,17 +149,21 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
 
         const expectedStatusCodes: string[] = Object.keys(operationSpec.responses);
 
-        const hasNoExpectedStatusCodes: boolean = (expectedStatusCodes.length === 0 || (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default"));
+        const hasNoExpectedStatusCodes: boolean =
+          expectedStatusCodes.length === 0 ||
+          (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default");
 
         const responseSpec: OperationResponse | undefined = getOperationResponse(parsedResponse);
 
-        const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes ? (200 <= statusCode && statusCode < 300) : !!responseSpec;
+        const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes
+          ? 200 <= statusCode && statusCode < 300
+          : !!responseSpec;
         if (!isExpectedStatusCode) {
           const defaultResponseSpec: OperationResponse = operationSpec.responses.default;
           if (defaultResponseSpec) {
             const initialErrorMessage: string = isStreamOperation(operationSpec)
               ? `Unexpected status code: ${statusCode}`
-              : parsedResponse.bodyAsText as string;
+              : (parsedResponse.bodyAsText as string);
 
             const error = new RestError(initialErrorMessage);
             error.statusCode = statusCode;
@@ -122,8 +173,12 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
             let parsedErrorResponse: { [key: string]: any } = parsedResponse.parsedBody;
             try {
               if (parsedErrorResponse) {
-                const defaultResponseBodyMapper: Mapper | undefined = defaultResponseSpec.bodyMapper;
-                if (defaultResponseBodyMapper && defaultResponseBodyMapper.serializedName === "CloudError") {
+                const defaultResponseBodyMapper: Mapper | undefined =
+                  defaultResponseSpec.bodyMapper;
+                if (
+                  defaultResponseBodyMapper &&
+                  defaultResponseBodyMapper.serializedName === "CloudError"
+                ) {
                   if (parsedErrorResponse.error) {
                     parsedErrorResponse = parsedErrorResponse.error;
                   }
@@ -147,13 +202,29 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
 
                 if (defaultResponseBodyMapper) {
                   let valueToDeserialize: any = parsedErrorResponse;
-                  if (operationSpec.isXML && defaultResponseBodyMapper.type.name === MapperType.Sequence) {
-                    valueToDeserialize = typeof parsedErrorResponse === "object"
-                      ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
-                      : [];
+                  if (
+                    operationSpec.isXML &&
+                    defaultResponseBodyMapper.type.name === MapperType.Sequence
+                  ) {
+                    valueToDeserialize =
+                      typeof parsedErrorResponse === "object"
+                        ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
+                        : [];
                   }
-                  error.body = operationSpec.serializer.deserialize(defaultResponseBodyMapper, valueToDeserialize, "error.body");
+                  error.response!.parsedBody = operationSpec.serializer.deserialize(
+                    defaultResponseBodyMapper,
+                    valueToDeserialize,
+                    "error.response.parsedBody"
+                  );
                 }
+              }
+
+              if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
+                error.response!.parsedHeaders = operationSpec.serializer.deserialize(
+                  defaultResponseSpec.headersMapper,
+                  parsedResponse.headers.rawHeaders(),
+                  "operationRes.parsedHeaders"
+                );
               }
             } catch (defaultError) {
               error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;
@@ -164,12 +235,21 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
           if (responseSpec.bodyMapper) {
             let valueToDeserialize: any = parsedResponse.parsedBody;
             if (operationSpec.isXML && responseSpec.bodyMapper.type.name === MapperType.Sequence) {
-              valueToDeserialize = typeof valueToDeserialize === "object" ? valueToDeserialize[responseSpec.bodyMapper.xmlElementName!] : [];
+              valueToDeserialize =
+                typeof valueToDeserialize === "object"
+                  ? valueToDeserialize[responseSpec.bodyMapper.xmlElementName!]
+                  : [];
             }
             try {
-              parsedResponse.parsedBody = operationSpec.serializer.deserialize(responseSpec.bodyMapper, valueToDeserialize, "operationRes.parsedBody");
+              parsedResponse.parsedBody = operationSpec.serializer.deserialize(
+                responseSpec.bodyMapper,
+                valueToDeserialize,
+                "operationRes.parsedBody"
+              );
             } catch (error) {
-              const restError = new RestError(`Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`);
+              const restError = new RestError(
+                `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`
+              );
               restError.request = utils.stripRequest(parsedResponse.request);
               restError.response = utils.stripResponse(parsedResponse);
               return Promise.reject(restError);
@@ -180,7 +260,11 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
           }
 
           if (responseSpec.headersMapper) {
-            parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(responseSpec.headersMapper, parsedResponse.headers.rawHeaders(), "operationRes.parsedHeaders");
+            parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
+              responseSpec.headersMapper,
+              parsedResponse.headers.rawHeaders(),
+              "operationRes.parsedHeaders"
+            );
           }
         }
       }
@@ -189,26 +273,41 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
   });
 }
 
-function parse(jsonContentTypes: string[], xmlContentTypes: string[], operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+function parse(
+  jsonContentTypes: string[],
+  xmlContentTypes: string[],
+  operationResponse: HttpOperationResponse
+): Promise<HttpOperationResponse> {
   const errorHandler = (err: Error & { code: string }) => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
     const errCode = err.code || RestError.PARSE_ERROR;
-    const e = new RestError(msg, errCode, operationResponse.status, operationResponse.request, operationResponse, operationResponse.bodyAsText);
+    const e = new RestError(
+      msg,
+      errCode,
+      operationResponse.status,
+      operationResponse.request,
+      operationResponse
+    );
     return Promise.reject(e);
   };
 
   if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
-    const contentComponents: string[] = !contentType ? [] : contentType.split(";").map(component => component.toLowerCase());
-    if (contentComponents.length === 0 || contentComponents.some(component => jsonContentTypes.indexOf(component) !== -1)) {
-      return new Promise<HttpOperationResponse>(resolve => {
+    const contentComponents: string[] = !contentType
+      ? []
+      : contentType.split(";").map((component) => component.toLowerCase());
+    if (
+      contentComponents.length === 0 ||
+      contentComponents.some((component) => jsonContentTypes.indexOf(component) !== -1)
+    ) {
+      return new Promise<HttpOperationResponse>((resolve) => {
         operationResponse.parsedBody = JSON.parse(text);
         resolve(operationResponse);
       }).catch(errorHandler);
-    } else if (contentComponents.some(component => xmlContentTypes.indexOf(component) !== -1)) {
+    } else if (contentComponents.some((component) => xmlContentTypes.indexOf(component) !== -1)) {
       return parseXML(text)
-        .then(body => {
+        .then((body) => {
           operationResponse.parsedBody = body;
           return operationResponse;
         })
