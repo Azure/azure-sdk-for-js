@@ -35,7 +35,7 @@ export interface EventHubProperties {
   /**
    * @property The name of the event hub.
    */
-  path: string;
+  name: string;
   /**
    * @property The date and time the hub was created in UTC.
    */
@@ -157,7 +157,7 @@ export class ManagementClient extends LinkEntity {
       requestName: "getHubRuntimeInformation"
     });
     const runtimeInfo: EventHubProperties = {
-      path: info.name,
+      name: info.name,
       createdAt: new Date(info.created_at),
       partitionIds: info.partition_ids
     };

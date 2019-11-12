@@ -122,8 +122,8 @@ export class EventHubProducerClient {
 // @public
 export interface EventHubProperties {
     createdAt: Date;
+    name: string;
     partitionIds: string[];
-    path: string;
 }
 
 // @public

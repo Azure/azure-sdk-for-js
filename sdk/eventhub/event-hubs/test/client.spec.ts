@@ -117,7 +117,7 @@ describe("Create EventHubClient using Azure Identity", function (): void {
 
     // Extra check involving actual call to the service to ensure this works
     const hubInfo = await client.getProperties();
-    should.equal(hubInfo.path, client.eventHubName);
+    should.equal(hubInfo.name, client.eventHubName);
     await client.close();
   });
 

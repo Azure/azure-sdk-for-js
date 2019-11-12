@@ -119,7 +119,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       });
       const hubRuntimeInfo = await client.getProperties();
       debug(hubRuntimeInfo);
-      hubRuntimeInfo.path.should.equal(service.path);
+      hubRuntimeInfo.name.should.equal(service.path);
 
       hubRuntimeInfo.partitionIds.should.have.members(
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
