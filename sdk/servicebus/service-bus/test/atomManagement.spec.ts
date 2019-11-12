@@ -466,15 +466,15 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
         should.equal(response.statusCode, 404, "Error must not be undefined");
         should.equal(
-          response.code.startsWith("Service Error"),
-          true,
-          `Code expected to start with "Service Error"`
+          response.code,
+          "404",
+          `Code expected to be "404" but received ${response.code}`
         );
         should.equal(
           response.message.startsWith("The messaging entity") ||
             response.message.startsWith("Entity") ||
             response.message.startsWith("SubCode") ||
-            response.message.startsWith("No service is hosted at the specified address."),
+            response.message.startsWith("No service"),
           true,
           `Expected error message to be a textual content but got "${response.message}"`
         );
