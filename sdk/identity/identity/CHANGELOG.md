@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 - Coming Soon
+
+- Fixed an issue that occurs when using a user-assigned managed identity with `ManagedIdentityCredential` ([PR #6134](https://github.com/Azure/azure-sdk-for-js/pull/6134))
+
 ## 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/identity` package.
