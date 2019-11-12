@@ -353,7 +353,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
     );
 
-    if (!isJSONLikeObject(queueOptions) || queueOptions == undefined) {
+    if (!isJSONLikeObject(queueOptions) || queueOptions === null) {
       throw new TypeError(
         `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
       );
@@ -449,7 +449,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
     );
 
-    if (!isJSONLikeObject(topicOptions) || topicOptions == undefined) {
+    if (!isJSONLikeObject(topicOptions) || topicOptions === null) {
       throw new TypeError(
         `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
       );
@@ -567,7 +567,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
     );
 
-    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions == undefined) {
+    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions === null) {
       throw new TypeError(
         `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
       );
@@ -699,7 +699,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
     );
 
-    if (!isJSONLikeObject(ruleOptions) || ruleOptions == undefined) {
+    if (!isJSONLikeObject(ruleOptions) || ruleOptions === null) {
       throw new TypeError(
         `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
       );
@@ -775,7 +775,27 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    return executeAtomXmlOperation(this, webResource, serializer);
+    return new Promise<HttpOperationResponse>(async (resolve, reject) => {
+      try {
+        const response = await executeAtomXmlOperation(this, webResource, serializer);
+        if (
+          response.parsedBody == undefined ||
+          (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+        ) {
+          const err = new RestError(
+            `The messaging entity "${name}" being requested cannot be found.`,
+            "404",
+            404,
+            stripRequest(webResource),
+            stripResponse(response)
+          );
+          throw err;
+        }
+        resolve(response);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   /**

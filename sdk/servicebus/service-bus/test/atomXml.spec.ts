@@ -6,6 +6,8 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
+import * as log from "../src/log";
+
 import {
   executeAtomXmlOperation,
   AtomXmlSerializer,
@@ -56,7 +58,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
       await executeAtomXmlOperation(serviceBusAtomManagementClient, request, testSerializer);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
-      console.log("Ignore test HTTP request");
+      log.httpAtomXml("Ignore test HTTP request");
     }
     const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
 
@@ -81,23 +83,18 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
     try {
       await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
     } catch (err) {
-      console.log("Ignoring clean up step");
+      log.httpAtomXml("Ignoring clean up step");
     }
     const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
-
-    delete response._response["parsedBody"]["entry"];
-    delete response._response["parsedBody"]["feed"];
-    response._response["parsedBody"] = { notAnEntry: "" };
+    response._response.parsedBody = { notAnEntry: "" };
 
     try {
       await deserializeAtomXmlResponse(["QueueName"], response._response);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(
-        err.message.startsWith(
-          "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements."
-        ),
-        true,
+        err.message,
+        "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
         `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements." `
       );
       assert.deepEqual(err.code, "PARSE_ERROR");
@@ -108,23 +105,25 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
     try {
       await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
     } catch (err) {
-      console.log("Ignoring clean up step");
+      log.httpAtomXml("Ignoring clean up step");
     }
     const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
-
+    response._response.parsedBody = undefined;
     response._response.status = 666;
-    response._response["parsedBody"] = undefined;
-
     try {
       await deserializeAtomXmlResponse(["QueueName"], response._response);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
-      assert.deepEqual(
-        err.message.startsWith("Service Error"),
-        true,
-        `"${err.message}" was expected to begin with "Service Error" `
+      assert.equal(
+        err.message,
+        "Service returned an error response.",
+        `Message expected to be "Service returned an error response." but received ${err.message}`
       );
-      assert.deepEqual(err.code.startsWith("UnrecognizedHttpResponseStatus"), true);
+      assert.deepEqual(
+        err.code,
+        "UnrecognizedHttpResponseStatus: 666",
+        `Code expected to be "UnrecognizedHttpResponseStatus: 666" but received ${err.code}`
+      );
     }
   });
 });

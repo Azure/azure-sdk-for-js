@@ -383,7 +383,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
  * @param parameter parsed SQL parameter instance
  */
 function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
-  if (!isJSONLikeObject(parameter)) {
+  if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
       `Expected SQL parameter input to be a JSON value but received ${JSON.stringify(
         parameter,

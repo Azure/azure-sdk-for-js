@@ -292,11 +292,16 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
  * @param value
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
+  let accessRights;
+  if (value["Rights"] != undefined) {
+    accessRights = value["Rights"]["AccessRights"];
+  }
+
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
     rights: {
-      accessRights: value["Rights"]["AccessRights"]
+      accessRights: accessRights
     },
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
@@ -345,7 +350,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
  * @param authorizationRule parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
-  if (!isJSONLikeObject(authorizationRule)) {
+  if (!isJSONLikeObject(authorizationRule) || authorizationRule === null) {
     throw new TypeError(
       `Expected authorizationRule input to be a JSON value but received ${JSON.stringify(
         authorizationRule,
