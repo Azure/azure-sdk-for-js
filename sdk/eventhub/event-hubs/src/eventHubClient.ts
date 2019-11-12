@@ -15,6 +15,9 @@ import {
   parseConnectionString,
   EventHubConnectionStringModel
 } from "@azure/core-amqp";
+import {
+  SpanOptions
+} from "@azure/core-tracing";
 
 import { ConnectionContext } from "./connectionContext";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
@@ -56,36 +59,25 @@ export interface AbortSignalOptions {
 }
 
 /**
- * The set of options to manually propagate `Span` context for distributed tracing.
- * - `parentSpan` : The `Span` or `SpanContext` for the operation to use as a `parent` when creating its own span.
- */
-export interface ParentSpanOptions {
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while calling operations that make a request to the service.
-   */
-  parentSpan?: Span | SpanContext;
-}
-
-/**
  * The set of options to configure the behavior of `getProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionIds`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {}
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -620,7 +612,7 @@ export class EventHubClient {
    */
   async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getProperties", options.parentSpan);
+    const clientSpan = this._createClientSpan("getProperties", options.parent);
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -649,11 +641,11 @@ export class EventHubClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", options.parentSpan);
+    const clientSpan = this._createClientSpan("getPartitionIds", options.parent);
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
-        parentSpan: clientSpan
+        parent: clientSpan
       });
       clientSpan.setStatus({ code: CanonicalCode.OK });
       return runtimeInfo.partitionIds;
@@ -684,7 +676,7 @@ export class EventHubClient {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "getPartitionProperties", "partitionId", partitionId);
     partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan("getPartitionProperties", options.parentSpan);
+    const clientSpan = this._createClientSpan("getPartitionProperties", options.parent);
     try {
       const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,

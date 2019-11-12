@@ -19,6 +19,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
+import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -147,15 +148,15 @@ export class EventPosition {
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
-export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
@@ -174,11 +175,6 @@ export interface LastEnqueuedEventInfo {
 }
 
 export { MessagingError }
-
-// @public
-export interface ParentSpanOptions {
-    parentSpan?: Span | SpanContext;
-}
 
 // @public
 export interface PartitionCheckpointer {

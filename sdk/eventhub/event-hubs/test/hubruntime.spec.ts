@@ -81,7 +81,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
     const rootSpan = tracer.startSpan("root");
     client = new EventHubClient(service.connectionString, service.path);
-    const ids = await client.getPartitionIds({ parentSpan: rootSpan });
+    const ids = await client.getPartitionIds({ parent: rootSpan });
     ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     rootSpan.end();
 
@@ -149,7 +149,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
-      const hubRuntimeInfo = await client.getProperties({ parentSpan: rootSpan });
+      const hubRuntimeInfo = await client.getProperties({ parent: rootSpan });
       hubRuntimeInfo.partitionIds.should.have.members(
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
       );
@@ -254,7 +254,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
       const partitionRuntimeInfo = await client.getPartitionProperties("0", {
-        parentSpan: rootSpan
+        parent: rootSpan
       });
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
