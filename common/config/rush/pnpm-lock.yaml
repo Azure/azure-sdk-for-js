@@ -10,7 +10,7 @@ dependencies:
   '@azure/storage-blob': 12.0.0
   '@microsoft/api-extractor': 7.5.6
   '@opencensus/web-types': 0.0.7
-  '@opentelemetry/types': 0.1.1
+  '@opentelemetry/types': 0.2.0
   '@rollup/plugin-replace': 2.2.1_rollup@1.20.1
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
@@ -701,12 +701,12 @@ packages:
       node: '>=6.0'
     resolution:
       integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==
-  /@opentelemetry/types/0.1.1:
+  /@opentelemetry/types/0.2.0:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-YqgW2WJ7L77N/Z3I5bFpagZbkhWBFLQ9/tpweDFzbbmtj301I6Ly/XL3VW5lB6tmifwun6J1MxfJYjADCuNSBA==
+      integrity: sha512-GtwNB6BNDdsIPAYEdpp3JnOGO/3AJxjPvny53s3HERBdXSJTGQw8IRhiaTEX0b3w9P8+FwFZde4k+qkjn67aVw==
   /@rollup/plugin-replace/2.2.1_rollup@1.20.1:
     dependencies:
       magic-string: 0.25.4
@@ -12698,7 +12698,7 @@ packages:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.5.6
       '@opencensus/web-types': 0.0.7
-      '@opentelemetry/types': 0.1.1
+      '@opentelemetry/types': 0.2.0
       '@rollup/plugin-replace': 2.2.1_rollup@1.20.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.52
@@ -12732,7 +12732,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-1Rb6gV5OIZH+XB5VUyVGk4pjcxkqtjISvjoNWrF3aLG/Xu9NBI1MY07AMfgOLfQKcduGqeTVRik9NhjPUTeD1A==
+      integrity: sha512-8rXStutpQzP/fjxwep1lN2JjMfoBe7OxqCOA18jW437F8F/ROhoyvDYELkOz43BBYLxgruCU8ZiqevXtydaPAg==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -13755,7 +13755,7 @@ specifiers:
   '@azure/storage-blob': 12.0.0
   '@microsoft/api-extractor': ^7.5.4
   '@opencensus/web-types': 0.0.7
-  '@opentelemetry/types': ^0.1.1
+  '@opentelemetry/types': ^0.2.0
   '@rollup/plugin-replace': ^2.2.0
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
