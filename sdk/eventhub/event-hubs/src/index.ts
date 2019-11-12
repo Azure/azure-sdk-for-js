@@ -9,8 +9,6 @@ export { LastEnqueuedEventInfo } from "./eventHubReceiver";
 export {
   AbortSignalOptions,
   EventHubClientOptions,
-  EventHubConsumerOptions,
-  EventHubProducerOptions,
   SendBatchOptions,
   CreateBatchOptions,
   GetPartitionIdsOptions,

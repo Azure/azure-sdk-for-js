@@ -105,13 +105,6 @@ export class EventHubConsumerClient {
 }
 
 // @public
-export interface EventHubConsumerOptions {
-    ownerLevel?: number;
-    retryOptions?: RetryOptions;
-    trackLastEnqueuedEventInfo?: boolean;
-}
-
-// @public
 export class EventHubProducerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
@@ -124,12 +117,6 @@ export class EventHubProducerClient {
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
-}
-
-// @public
-export interface EventHubProducerOptions {
-    partitionId?: string;
-    retryOptions?: RetryOptions;
 }
 
 // @public
