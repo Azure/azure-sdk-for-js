@@ -398,25 +398,30 @@ export class MessageReceiver extends LinkEntity {
                 bMessage.messageId as string,
                 setTimeout(async () => {
                   try {
-                    log.receiver(
-                      "[%s] Attempting to renew the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
-                    );
-                    log.receiver(
-                      "[%s] Successfully renewed the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    log.receiver(
-                      "[%s] Calling the autorenewlock task again for message with " + "id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    autoRenewLockTask();
+                    // Attempt to renew lock only if it is not already settled.
+                    // This is because a race condition may be possible where the request
+                    // to renew message lock may coincide with message settlement
+                    if (!bMessage.isSettled) {
+                      log.receiver(
+                        "[%s] Attempting to renew the lock for message with id '%s'.",
+                        connectionId,
+                        bMessage.messageId
+                      );
+                      bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
+                        lockToken
+                      );
+                      log.receiver(
+                        "[%s] Successfully renewed the lock for message with id '%s'.",
+                        connectionId,
+                        bMessage.messageId
+                      );
+                      log.receiver(
+                        "[%s] Calling the autorenewlock task again for message with " + "id '%s'.",
+                        connectionId,
+                        bMessage.messageId
+                      );
+                      autoRenewLockTask();
+                    }
                   } catch (err) {
                     log.error(
                       "[%s] An error occured while auto renewing the message lock '%s' " +
