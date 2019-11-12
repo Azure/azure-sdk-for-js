@@ -412,12 +412,21 @@ export class SessionReceiver {
     }
   }
 
-  private async _createMessageSessionIfDoesntExist(): Promise<void> {
+  private async _createMessageSessionIfDoesntExist(
+    onMessage?: OnMessage,
+    onError?: OnError
+  ): Promise<void> {
     if (this._messageSession) {
+      if (onMessage) {
+        this._messageSession._onMessage = onMessage;
+      }
+      if (onError) {
+        this._messageSession._onError = onError;
+      }
       return;
     }
     this._context.isSessionEnabled = true;
-    this._messageSession = await MessageSession.create(this._context, {
+    this._messageSession = await MessageSession.create(this._context, onMessage, onError, {
       sessionId: this._sessionOptions.sessionId,
       maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
         .maxSessionAutoRenewLockDurationInSeconds,
@@ -514,10 +523,7 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(
-      this.sessionId!,
-      state
-    );
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
   }
 
   /**
@@ -528,9 +534,7 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(
-      this.sessionId!
-    );
+    return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
   /**
@@ -696,7 +700,7 @@ export class SessionReceiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createMessageSessionIfDoesntExist()
+    this._createMessageSessionIfDoesntExist(onMessage, onError)
       .then(async () => {
         if (!this._messageSession) {
           return;

@@ -208,12 +208,12 @@ export class MessageSession extends LinkEntity {
    * @property {OnMessage} _onMessage The message handler provided by the user that will
    * be wrapped inside _onAmqpMessage.
    */
-  private _onMessage!: OnMessage;
+  _onMessage!: OnMessage;
   /**
    * @property {OnError} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
-  private _onError?: OnError;
+  _onError?: OnError;
   /**
    * @property {OnError} _notifyError If the user provided error handler is present then it will
    * notify the user's error handler about the error.
@@ -310,6 +310,10 @@ export class MessageSession extends LinkEntity {
             this.name,
             err
           );
+          // Let the user know that there was an error renewing the session lock.
+          if (this._onError) {
+            this._onError(err);
+          }
         }
       }, nextRenewalTimeout);
       log.messageSession(
@@ -1219,10 +1223,18 @@ export class MessageSession extends LinkEntity {
    */
   static async create(
     context: ClientEntityContext,
+    onMessage?: OnMessage,
+    onError?: OnError,
     options?: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context.namespace);
     const messageSession = new MessageSession(context, options);
+    if (onMessage) {
+      messageSession._onMessage = onMessage;
+    }
+    if (onError) {
+      messageSession._onError = onError;
+    }
     await messageSession._init();
     return messageSession;
   }
