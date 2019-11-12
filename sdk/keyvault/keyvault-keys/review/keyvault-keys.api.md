@@ -94,8 +94,10 @@ export interface DeletedKey {
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
+// Warning: (ae-forgotten-export) The symbol "JsonWebKeyEncryptionAlgorithm" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type EncryptionAlgorithm = JsonWebKeyEncryptionAlgorithm;
 
 // @public
 export interface EncryptOptions extends CryptographyOptions {
@@ -169,11 +171,15 @@ export class KeyClient {
     readonly vaultUrl: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JsonWebKeyCurveName" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type KeyCurveName = JsonWebKeyCurveName;
 
+// Warning: (ae-forgotten-export) The symbol "JsonWebKeyOperation" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+export type KeyOperation = JsonWebKeyOperation;
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -198,8 +204,10 @@ export interface KeyProperties {
     version?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = JsonWebKeyType;
 
 // @public
 export interface KeyVaultKey {
