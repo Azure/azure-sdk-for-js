@@ -235,8 +235,8 @@ console.log(state.completed);
 ### Enable logs
 
 Logs can be added at the discretion of the library implementing the Long Running Operation poller.
-For libraries part of our [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository,
-we recommend using [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+Packages inside of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) use
+[@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 

@@ -6,14 +6,14 @@ import { delay } from "@azure/core-http";
 
 // This sample implements a poller, a client and runs the poller operation until it finishes.
 
- /**
+/**
  * The return value of our long running operation.
  */
 interface ReturnValue {
-    /**
-     * Anything can be here. We're choosing a number value to make it easier for this sample.
-     */
-    value: number;
+  /**
+   * Anything can be here. We're choosing a number value to make it easier for this sample.
+   */
+  value: number;
 }
 
 /**
@@ -44,36 +44,36 @@ interface SamplePollOperation extends PollOperation<SamplePollOperationState, Re
 /**
  * A utility method that builds an instance of the sample poll operation with some default methods.
  */
-function makeSamplePollOperation(
-  state: SamplePollOperationState
-): SamplePollOperation {
+function makeSamplePollOperation(state: SamplePollOperationState): SamplePollOperation {
   return {
     /**
      * To ensure the state is always clean of previously used references, we're making a copy of it.
      */
     state: {
-      ...state
+      ...state,
+      previousResponses: [...state.previousResponses]
     },
     /**
      * The update method should change the operation's state.
      * In our case, we'll be calling the Client's makeRequest.
      */
     async update(): Promise<SamplePollOperation> {
-      const state = this.state;
+      const state: SamplePollOperationState = {
+        ...this.state
+      };
 
       if (!state.isStarted) {
         state.result = await state.client.makeRequest();
         state.isStarted = true;
-      } else
-      if (!state.isCompleted) {
+      } else if (!state.isCompleted) {
         state.result = await state.client.makeRequest();
-        if (state.client.isDone(state.result)) {
+        if (state.client.isDone(state.result!.value)) {
           state.isCompleted = true;
         }
       }
 
-      state.previousResponses.push(state.result);
-    
+      state.previousResponses.push(state.result!);
+
       return makeSamplePollOperation(state);
     },
     /**
@@ -86,7 +86,7 @@ function makeSamplePollOperation(
       state.result = await state.client.cancel();
 
       state.previousResponses.push(state.result);
-    
+
       return makeSamplePollOperation({
         ...state,
         isCancelled: true
@@ -112,20 +112,21 @@ function makeSamplePollOperation(
  * Once the polling is completed, it will return an instance of the ReturnValue interface.
  */
 class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
-
   public intervalInMs: number;
 
   constructor({
     client,
     intervalInMs = 2000,
-    resumeFrom,
+    resumeFrom
   }: {
     client: Client;
     intervalInMs?: number;
-    resumeFrom?: string;    
+    resumeFrom?: string;
   }) {
-
-    let state: SamplePollOperationState | undefined;
+    let state: SamplePollOperationState = {
+      client,
+      previousResponses: []
+    };
 
     // Here's an example of how to resume from the serialized version of a previously defined poller.
     if (resumeFrom) {
@@ -133,10 +134,7 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
     }
 
     // Making a new instance of the SamplePollOperation
-    const operation = makeSamplePollOperation({
-      ...state,
-      client
-    });
+    const operation = makeSamplePollOperation(state);
 
     super(operation);
     this.intervalInMs = intervalInMs;
@@ -155,54 +153,86 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
  * Our client will have four public methods:
  * `makeRequest()` attempts to emulate the network request,
  * `cancel()` which portrays how to tell the remote resource to cancel the long running operation,
- * and `longOperation()`, the method that returns the poller.
+ * and `beginLongOperation()`, the method that returns the poller.
  */
 class Client {
-    constructor() {};
+  constructor() {}
 
-    /**
-     * We'll keep track of the number of requests through this private property.
-     * This is just to demonstrate the poller's behavior.
-     */
-    private requestCount: number = 0;
+  /**
+   * We'll keep track of the number of requests through this private property.
+   * This is just to demonstrate the poller's behavior.
+   */
+  private requestCount: number = 0;
 
-    /**
-     * isDone is here to represent a way to determine if the response from the service indicates that the long running operation has finished.
-     * In this sample we're considering a number value of 3 to be the only indicator that the operation has finished.
-     */
-    public isDone(value: number): boolean {
-      return value === 3;
-    }
+  /**
+   * isDone is here to represent a way to determine if the response from the service indicates that the long running operation has finished.
+   * In this sample we're considering a number value of 3 to be the only indicator that the operation has finished.
+   */
+  public isDone(value: number): boolean {
+    return value === 3;
+  }
 
-    /**
-     * makeRequest simulates a method that reaches out to a remote resource that responds differently each time
-     */
-    public async makeRequest(): Promise<ReturnValue> {
-      // Let's assume the HTTP request happens here.
-      await delay(1000);
-      return {
-        value: this.requestCount++
-      }
-    }
+  /**
+   * cancel should reach out to the remote service to indicate that the
+   * long running operation should be cancelled. In our case it simply returns a value,
+   * the poller will stop nonetheless.
+   */
+  public async cancel(): Promise<ReturnValue> {
+    return {
+      value: 0
+    };
+  }
 
-    public async longOperation(): Promise<PollerLike<PollOperationState<ReturnValue>, ReturnValue>> {
-      const poller = new SamplePoller({
-        client: this,
-      });
-      // This will initialize the poller's operation (the deletion of the secret).
-      await poller.poll();
-      return poller;
-    }
+  /**
+   * makeRequest simulates a method that reaches out to a remote resource that responds differently each time
+   */
+  public async makeRequest(): Promise<ReturnValue> {
+    // Let's assume the HTTP request happens here.
+    await delay(1000);
+    return {
+      value: this.requestCount++
+    };
+  }
+
+  public async beginLongOperation(options?: {
+    resumeFrom?: string;
+  }): Promise<PollerLike<PollOperationState<ReturnValue>, ReturnValue>> {
+    const poller = new SamplePoller({
+      client: this,
+      ...options
+    });
+    await poller.poll();
+    return poller;
+  }
 }
 
 // Now let's see how the client is used.
 
 async function main(): Promise<void> {
   const client = new Client();
-  const poller = await client.longOperation();
-  console.log(poller.getResult()) // Should show: { value: 1 }
-  const result = await poller.pollUntilDone();
-  console.log(result) // Should show: { value: 3 }
+  let poller = await client.beginLongOperation();
+  console.log(poller.getResult()); // Should show: { value: 1 }
+  let result = await poller.pollUntilDone();
+  console.log(result); // Should show: { value: 3 }
+
+  // We can start again and do each call individually
+  poller = await client.beginLongOperation();
+  console.log(poller.getResult()); // Should show: { value: 1 }
+  await poller.poll();
+  console.log(poller.getResult()); // Should show: { value: 2 }
+  await poller.poll();
+  console.log(poller.getResult()); // Should show: { value: 3 }
+  console.log(poller.isDone()); // Should be: true
+
+  // We can also start it, then serialize it, then resume it with a different poller
+  poller = await client.beginLongOperation();
+  console.log(poller.getResult()); // Should show: { value: 1 }
+  const serialized = poller.toString();
+  poller = await client.beginLongOperation({ resumeFrom: serialized });
+  console.log(poller.getResult()); // Should show: { value: 2 }
+  await poller.poll();
+  console.log(poller.getResult()); // Should show: { value: 3 }
+  console.log(poller.isDone()); // Should be: true
 }
 
 main().catch((err) => {
