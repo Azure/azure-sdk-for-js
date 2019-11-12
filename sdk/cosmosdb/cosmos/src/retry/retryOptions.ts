@@ -5,9 +5,9 @@
  */
 export interface RetryOptions {
   /** Max number of retries to be performed for a request. Default value 9. */
-  maxTries: number;
+  maxRetryAttemptCount: number;
   /** Fixed retry interval in milliseconds to wait between each retry ignoring the retryAfter returned as part of the response. */
-  fixedRetryIntervalInMs: number;
+  fixedRetryIntervalInMilliseconds: number;
   /** Max wait time in seconds to wait for a request while the retries are happening. Default value 30 seconds. */
-  timeoutInSeconds: number;
+  maxWaitTimeInSeconds: number;
 }

@@ -52,9 +52,9 @@ export async function execute({
         requestContext.operationType
       ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        requestContext.connectionPolicy.retryOptions.maxTries,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMs,
-        requestContext.connectionPolicy.retryOptions.timeoutInSeconds
+        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
+        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
+        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         requestContext.globalEndpointManager,
