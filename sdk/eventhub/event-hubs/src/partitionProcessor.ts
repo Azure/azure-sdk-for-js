@@ -1,4 +1,4 @@
-import { CloseReason, PartitionManager } from "./eventProcessor";
+import { CloseReason, CheckpointManager } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventInfo } from "./eventHubReceiver";
 
@@ -8,10 +8,10 @@ import { LastEnqueuedEventInfo } from "./eventHubReceiver";
  *
  * When the `updateCheckpoint()` method on the `PartitionProcessor` class is called by the user, a
  * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
- * `PartitionManager` chosen by the user when creating an `EventProcessor`.
+ * `CheckpointManager` chosen by the user when creating an `EventProcessor`.
  *
  * Users are never expected to interact with `Checkpoint` directly. This interface exists to support the
- * internal workings of `EventProcessor` and `PartitionManager`.
+ * internal workings of `EventProcessor` and `CheckpointManager`.
  **/
 export interface Checkpoint {
   /**
@@ -59,7 +59,7 @@ export interface Checkpoint {
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
 export class PartitionProcessor {
-  private _partitionManager: PartitionManager | undefined;
+  private _checkpointManager: CheckpointManager | undefined;
   private _consumerGroupName: string | undefined;
   private _fullyQualifiedNamespace: string | undefined;
   private _eventHubName: string | undefined;
@@ -174,9 +174,9 @@ export class PartitionProcessor {
   /**
    * @property The Partition Manager used for checkpointing events. This is set by the `EventProcessor`
    */
-  public set partitionManager(partitionManager: PartitionManager) {
-    if (!this._partitionManager) {
-      this._partitionManager = partitionManager;
+  public set checkpointManager(checkpointManager: CheckpointManager) {
+    if (!this._checkpointManager) {
+      this._checkpointManager = checkpointManager;
     }
   }
 
@@ -256,6 +256,6 @@ export class PartitionProcessor {
       eTag: this._eTag
     };
 
-    this._eTag = await this._partitionManager!.updateCheckpoint(checkpoint);
+    this._eTag = await this._checkpointManager!.updateCheckpoint(checkpoint);
   }
 }

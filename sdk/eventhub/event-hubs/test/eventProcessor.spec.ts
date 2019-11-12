@@ -53,12 +53,15 @@ describe("Event Processor", function (): void {
     await client.close();
   });
 
-  it("should expose an id #RunnableInBrowser", async function(): Promise<void> {
+  it("should expose an id #RunnableInBrowser", async function (): Promise<void> {
+    const partitionManager = new InMemoryPartitionManager();
+
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       PartitionProcessor,
-      new InMemoryPartitionManager(),
+      partitionManager,
+      partitionManager,
       defaultOptions
     );
 
@@ -85,11 +88,15 @@ describe("Event Processor", function (): void {
         partitionProcessorInfo.push(this.consumerGroupName);
       }
     }
+
+    const partitionManager = new InMemoryPartitionManager();
+
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       SimpleEventProcessor,
-      new InMemoryPartitionManager(),
+      partitionManager,
+      partitionManager,
       {
         ...defaultOptions,
         trackLastEnqueuedEventInfo: false
@@ -139,11 +146,14 @@ describe("Event Processor", function (): void {
       }
     }
 
+    const partitionManager = new InMemoryPartitionManager();
+
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager(),
+      partitionManager,
+      partitionManager,
       defaultOptions
     );
 
@@ -209,11 +219,14 @@ describe("Event Processor", function (): void {
       }
     }
 
+    const partitionManager = new InMemoryPartitionManager();
+
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager(),
+      partitionManager, 
+      partitionManager,
       defaultOptions
     );
 
@@ -255,11 +268,14 @@ describe("Event Processor", function (): void {
       }
     }
 
+    const partitionManager = new InMemoryPartitionManager();
+
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager(),
+      partitionManager,
+      partitionManager,
       defaultOptions
     );
 
@@ -382,11 +398,14 @@ describe("Event Processor", function (): void {
         }
       }
 
+      const partitionManager = new InMemoryPartitionManager();
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        new InMemoryPartitionManager(),
+        partitionManager,
+        partitionManager,
         defaultOptions
       );
 
@@ -459,11 +478,14 @@ describe("Event Processor", function (): void {
         }
       }
 
+      const partitionManager = new InMemoryPartitionManager();
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        new InMemoryPartitionManager(),
+        partitionManager,
+        partitionManager,
         defaultOptions
       );
 
@@ -536,11 +558,14 @@ describe("Event Processor", function (): void {
         }
       }
 
+      const partitionManager = new InMemoryPartitionManager();
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         SimpleEventProcessor,
-        new InMemoryPartitionManager(),
+        partitionManager,
+        partitionManager,
         defaultOptions
       );
       processor.start();
@@ -662,6 +687,7 @@ describe("Event Processor", function (): void {
         client,
         FooPartitionProcessor,
         inMemoryPartitionManager,
+        inMemoryPartitionManager,
         defaultOptions
       );
 
@@ -706,6 +732,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
+        inMemoryPartitionManager,
         inMemoryPartitionManager,
         defaultOptions
       );
@@ -800,6 +827,7 @@ describe("Event Processor", function (): void {
         client,
         FooPartitionProcessor,
         partitionManager,
+        partitionManager,
         defaultOptions
       );
 
@@ -813,6 +841,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
+        partitionManager,
         partitionManager,
         defaultOptions
       );
@@ -893,6 +922,7 @@ describe("Event Processor", function (): void {
           client,
           FooPartitionProcessor,
           partitionManager,
+          partitionManager,
           defaultOptions
         );
         processorByName[processorName].start();
@@ -952,11 +982,15 @@ describe("Event Processor", function (): void {
           lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }
       }
+
+      const partitionManager = new InMemoryPartitionManager();
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         SimpleEventProcessor,
-        new InMemoryPartitionManager(),
+        partitionManager,
+        partitionManager,
         {
           ...defaultOptions,
           trackLastEnqueuedEventInfo: true
@@ -1001,11 +1035,15 @@ describe("Event Processor", function (): void {
           lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }
       }
+
+      const partitionManager = new InMemoryPartitionManager();
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         SimpleEventProcessor,
-        new InMemoryPartitionManager(),
+        partitionManager,
+        partitionManager,
         {
           ...defaultOptions,
           trackLastEnqueuedEventInfo: false

@@ -42,6 +42,12 @@ export interface Checkpoint {
 }
 
 // @public
+export interface CheckpointManager {
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
+
+// @public
 export enum CloseReason {
     OwnershipLost = "OwnershipLost",
     Shutdown = "Shutdown"
@@ -160,8 +166,10 @@ export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export class InMemoryPartitionManager implements PartitionManager {
+export class InMemoryPartitionManager implements OwnershipManager, CheckpointManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    // (undocumented)
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
@@ -175,6 +183,12 @@ export interface LastEnqueuedEventInfo {
 }
 
 export { MessagingError }
+
+// @public
+export interface OwnershipManager {
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+}
 
 // @public
 export interface PartitionCheckpointer {
@@ -193,11 +207,7 @@ export interface PartitionContext {
 }
 
 // @public
-export interface PartitionManager {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
-}
+export type PartitionManager = CheckpointManager & OwnershipManager;
 
 // @public
 export interface PartitionOwnership extends PartitionContext {

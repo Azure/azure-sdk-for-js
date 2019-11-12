@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { PartitionManager, PartitionOwnership } from "./eventProcessor";
+import { PartitionOwnership, OwnershipManager, CheckpointManager } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from './util/error';
@@ -17,8 +17,9 @@ import { throwTypeErrorIfParameterMissing } from './util/error';
  *
  * @class
  */
-export class InMemoryPartitionManager implements PartitionManager {
+export class InMemoryPartitionManager implements OwnershipManager, CheckpointManager {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
+  private _committedCheckpoints: Map<string, Map<string, Checkpoint>> = new Map();
 
   /**
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
@@ -81,8 +82,27 @@ export class InMemoryPartitionManager implements PartitionManager {
       partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
       partitionOwnership.offset = checkpoint.offset;
       partitionOwnership.eTag = generate_uuid();
+
+      const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroupName}`;
+      let partitionMap = this._committedCheckpoints.get(key);
+
+      if (partitionMap == null) {
+        partitionMap = new Map();
+        this._committedCheckpoints.set(key, partitionMap);
+      }
+
+      partitionMap.set(checkpoint.partitionId, checkpoint);
       return partitionOwnership.eTag;
     }
     return "";
+  }
+
+  async listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]> {
+    const key = `${fullyQualifiedNamespace}:${eventHubName}:${consumerGroup}`;
+    
+    const partitionMap = this._committedCheckpoints.get(key);
+    return partitionMap
+      ? [...partitionMap.values()]
+      : [];
   }
 }

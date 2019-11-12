@@ -304,6 +304,7 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
+        partitionManager,
         {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
@@ -331,6 +332,7 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
+        partitionManager,
         { ...defaultConsumerClientOptions, ...possibleOptions3 }
       );
     } else if (isSubscriptionOptions(optionsOrPartitionIdOrPartitionManager2)) {
@@ -348,6 +350,7 @@ export class EventHubConsumerClient {
         consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
+        partitionManager,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
