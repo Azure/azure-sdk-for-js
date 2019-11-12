@@ -113,7 +113,7 @@ export class TestSpan extends NoOpSpan {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     return true;
   }
 }

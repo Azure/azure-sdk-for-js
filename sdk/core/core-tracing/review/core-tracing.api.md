@@ -52,10 +52,9 @@ export { Link }
 // @public
 export class NoOpSpan implements Span {
     addEvent(_name: string, _attributes?: Attributes): this;
-    addLink(_spanContext: SpanContext, _attributes?: Attributes): this;
     context(): SpanContext;
     end(_endTime?: number): void;
-    isRecordingEvents(): boolean;
+    isRecording(): boolean;
     setAttribute(_key: string, _value: unknown): this;
     setAttributes(_attributes: Attributes): this;
     setStatus(_status: Status): this;
@@ -80,11 +79,10 @@ export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
     addEvent(name: string, attributes?: Attributes): this;
-    addLink(spanContext: SpanContext, attributes?: Attributes): this;
     context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
-    isRecordingEvents(): boolean;
+    isRecording(): boolean;
     setAttribute(key: string, value: unknown): this;
     setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
@@ -138,7 +136,7 @@ export class TestSpan extends NoOpSpan {
     context(): SpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
-    isRecordingEvents(): boolean;
+    isRecording(): boolean;
     kind: SpanKind;
     name: string;
     readonly parentSpanId?: string;

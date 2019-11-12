@@ -109,23 +109,6 @@ export class OpenCensusSpanWrapper implements Span {
   }
 
   /**
-   * Adds a link to the Span.
-   * @param spanContext the context of the linked span
-   * @param attributes attributes to be added that are associated with the link
-   */
-  addLink(spanContext: SpanContext, attributes?: Attributes): this {
-    // Since there is no way to specify the link relationship,
-    // it is set as Unspecified.
-    this._span.addLink(
-      spanContext.traceId,
-      spanContext.spanId,
-      0 /* LinkType.UNSPECIFIED */,
-      attributes as OpenCensusAttributes
-    );
-    return this;
-  }
-
-  /**
    * Sets a status on the span. Overrides the default of CanonicalCode.OK.
    * @param status The status to set.
    */
@@ -146,7 +129,7 @@ export class OpenCensusSpanWrapper implements Span {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     // NoRecordSpans have an empty traceId
     return !!this._span.traceId;
   }

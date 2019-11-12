@@ -52,15 +52,6 @@ export class NoOpSpan implements Span {
   }
 
   /**
-   * Adds a link to the Span.
-   * @param _spanContext the context of the linked span
-   * @param _attributes attributes to be added that are associated with the link
-   */
-  addLink(_spanContext: SpanContext, _attributes?: Attributes): this {
-    return this;
-  }
-
-  /**
    * Sets a status on the span. Overrides the default of CanonicalCode.OK.
    * @param _status The status to set.
    */
@@ -79,7 +70,7 @@ export class NoOpSpan implements Span {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     return false;
   }
 }
