@@ -33,8 +33,6 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
-  EventProcessorOptions,
-  EventProcessorBatchOptions,
   PartitionContext,
   PartitionManager,
   PartitionOwnership

@@ -10,6 +10,7 @@ import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
+import { SubscriptionOptions } from './eventHubConsumerClientModels';
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -131,46 +132,8 @@ export interface PartitionManager {
   updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
-/**
- * Configures batch related options for the event processor
- */
-export interface EventProcessorBatchOptions {
-  /**
-   * The max size of the batch of events passed each time to user code for processing.
-   */
-  maxBatchSize?: number;
-  /**
-   * The maximum amount of time to wait to build up the requested message count before
-   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
-   */
-  maxWaitTimeInSeconds?: number;
-}
-
-/**
- * Common options for configuring `EventProcessor`, minus options that are only 
- * used internally (like `partitionLoadBalancer`)
- */
-export interface EventProcessorOptions {
-  /**
-   * @property
-   * Indicates whether or not the consumer should request information on the last enqueued event on its
-   * associated partition, and track that information as events are received.
-
-   * When information about the partition's last enqueued event is being tracked, each event received 
-   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
-   * additional network bandwidth consumption that is generally a favorable trade-off when considered
-   * against periodically making requests for partition properties using the Event Hub client.
-   */
-  trackLastEnqueuedEventInfo?: boolean;
-
-  /**
-   * The event position to use when claiming a partition if not already
-   * initialized.
-   * 
-   * Defaults to EventPosition.earliest()
-   */
-  defaultEventPosition?: EventPosition;  
-}
+export type SubscriptionEventHandlers = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
+export type SubscriptionBatchOptions = 'maxBatchSize' | 'maxWaitTimeInSeconds';
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -188,7 +151,11 @@ export interface EventProcessorOptions {
   * ```
   * @internal
   */
-export interface FullEventProcessorOptions extends EventProcessorOptions, Required<EventProcessorBatchOptions> {
+export interface FullEventProcessorOptions extends
+  // make the 'maxBatchSize' and 'maxWaitTimeInSeconds' fields required for our internal classes
+  // (it's optional for users)
+  Required<Pick<SubscriptionOptions, SubscriptionBatchOptions>>,
+  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionBatchOptions | SubscriptionEventHandlers>> {
   /**
    * A load balancer to use
    */

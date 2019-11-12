@@ -1,7 +1,8 @@
 
-import { CloseReason, PartitionContext, EventProcessorOptions, EventProcessorBatchOptions } from './eventProcessor';
+import { CloseReason, PartitionContext } from './eventProcessor';
 import { PartitionCheckpointer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
+import { EventPosition } from './eventPosition';
 
 /**
  * Event handler called when events are received. The `context` parameter can be 
@@ -53,7 +54,36 @@ export interface SubscriptionEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers {
+    /**
+   * @property
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
+
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
+   * additional network bandwidth consumption that is generally a favorable trade-off when considered
+   * against periodically making requests for partition properties using the Event Hub client.
+   */
+  trackLastEnqueuedEventInfo?: boolean;
+
+  /**
+   * The event position to use when claiming a partition if not already
+   * initialized.
+   * 
+   * Defaults to EventPosition.earliest()
+   */
+  defaultEventPosition?: EventPosition;  
+
+  /**
+   * The max size of the batch of events passed each time to user code for processing.
+   */
+  maxBatchSize?: number;
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
+  maxWaitTimeInSeconds?: number;
 }
 
 /**

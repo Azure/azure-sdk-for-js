@@ -144,18 +144,6 @@ export class EventPosition {
     }
 
 // @public
-export interface EventProcessorBatchOptions {
-    maxBatchSize?: number;
-    maxWaitTimeInSeconds?: number;
-}
-
-// @public
-export interface EventProcessorOptions {
-    defaultEventPosition?: EventPosition;
-    trackLastEnqueuedEventInfo?: boolean;
-}
-
-// @public
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
@@ -285,7 +273,11 @@ export interface SubscriptionEventHandlers {
 }
 
 // @public
-export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers {
+    defaultEventPosition?: EventPosition;
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 export { TokenCredential }
