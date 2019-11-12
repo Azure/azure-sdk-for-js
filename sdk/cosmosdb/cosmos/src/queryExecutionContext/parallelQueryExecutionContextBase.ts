@@ -78,7 +78,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.pageSize = options["maxItemCount"];
     }
 
-    this.requestContinuation = options ? options.continuationToken : null;
+    this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
 

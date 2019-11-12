@@ -6,6 +6,10 @@ import { SharedOptions } from "./SharedOptions";
  * The feed options and query methods.
  */
 export interface FeedOptions extends SharedOptions {
+  /** Opaque token for continuing the enumeration. Default: undefined
+   * @deprecated Use continuationToken instead.
+   */
+  continuation?: string;
   /** Opaque token for continuing the enumeration. Default: undefined */
   continuationToken?: string;
   /**
