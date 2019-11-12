@@ -62,5 +62,6 @@ export interface ErrorResponse extends Error {
   headers?: CosmosHeaders;
   activityId?: string;
   retryAfterInMs?: number;
+  retryAfterInMilliseconds?: number;
   [key: string]: any;
 }
