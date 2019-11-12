@@ -96,7 +96,7 @@ export class EventHubConsumerClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
-    getPartitionIds(): Promise<string[]>;
+    getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;

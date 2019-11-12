@@ -452,7 +452,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
 
     let errorGetPartitionIds: string = "";
     try {
-      await client.getPartitionIds();
+      await client.getPartitionIds({});
     } catch (err) {
       errorGetPartitionIds = err.message;
     }

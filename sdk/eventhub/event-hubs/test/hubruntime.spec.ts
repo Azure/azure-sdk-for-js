@@ -43,7 +43,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   describe("getPartitionIds", function(): void {
     it("returns an array of partition IDs", async function(): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
-      const ids = await client.getPartitionIds();
+      const ids = await client.getPartitionIds({});
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
@@ -67,7 +67,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
           maxRetries: 0
         }
       });
-      const results = await Promise.all([client.getPartitionIds(), client.getPartitionIds()]);
+      const results = await Promise.all([client.getPartitionIds({}), client.getPartitionIds({})]);
 
       for (const result of results) {
         result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));

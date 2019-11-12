@@ -5,7 +5,8 @@ import {
   EventHubClientOptions,
   EventHubClient,
   GetPartitionPropertiesOptions,
-  GetPropertiesOptions
+  GetPropertiesOptions,
+  GetPartitionIdsOptions
 } from "./eventHubClient";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
@@ -193,8 +194,8 @@ export class EventHubConsumerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  getPartitionIds(): Promise<string[]> {
-    return this._eventHubClient.getPartitionIds();
+  getPartitionIds(option: GetPartitionIdsOptions = {}): Promise<string[]> {
+    return this._eventHubClient.getPartitionIds(option);
   }
 
   /**

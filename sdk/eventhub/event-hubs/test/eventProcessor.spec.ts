@@ -108,7 +108,7 @@ describe("Event Processor", function (): void {
   });
 
   it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<void> {
-    const partitionIds = await client.getPartitionIds();
+    const partitionIds = await client.getPartitionIds({});
 
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
@@ -224,7 +224,7 @@ describe("Event Processor", function (): void {
   });
 
   it("should support start after stopping #RunnableInBrowser", async function(): Promise<void> {
-    const partitionIds = await client.getPartitionIds();
+    const partitionIds = await client.getPartitionIds({});
     let partitionOwnerShip = new Set();
 
     // ensure we have at least 2 partitions
@@ -352,7 +352,7 @@ describe("Event Processor", function (): void {
     it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       const partitionOwnerShip = new Set();
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
@@ -437,7 +437,7 @@ describe("Event Processor", function (): void {
     it("should support processing events across multiple partitions without initialize or close", async function(): Promise<
       void
     > {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       const partitionOwnerShip = new Set();
 
       // ensure we have at least 2 partitions
@@ -625,7 +625,7 @@ describe("Event Processor", function (): void {
     });
 
     it("should receive events from the checkpoint", async function(): Promise<void> {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
 
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
@@ -742,7 +742,7 @@ describe("Event Processor", function (): void {
 
   describe("Load balancing", function(): void {
     beforeEach("validate partitions", async function(): Promise<void> {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       // ensure we have at least 3 partitions
       partitionIds.length.should.gte(
         3,
@@ -755,7 +755,7 @@ describe("Event Processor", function (): void {
     > {
       const processorByName: Dictionary<EventProcessor> = {};
       const partitionManager = new InMemoryPartitionManager();
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       const partitionOwnershipArr = new Set();
 
       const partitionResultsMap = new Map<
@@ -863,7 +863,7 @@ describe("Event Processor", function (): void {
       void
     > {
       const processorByName: Dictionary<EventProcessor> = {};
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       const partitionManager = new InMemoryPartitionManager();
       const partitionOwnershipArr = new Set();
       let didError = false;
@@ -937,7 +937,7 @@ describe("Event Processor", function (): void {
     it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
       void
     > {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
         await producer.send({ body: `Hello world - ${partitionId}` });
@@ -986,7 +986,7 @@ describe("Event Processor", function (): void {
     it("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
       void
     > {
-      const partitionIds = await client.getPartitionIds();
+      const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
         await producer.send({ body: `Hello world - ${partitionId}` });

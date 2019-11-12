@@ -647,7 +647,7 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
+  async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
     const clientSpan = this._createClientSpan("getPartitionIds", options.parentSpan);
     try {

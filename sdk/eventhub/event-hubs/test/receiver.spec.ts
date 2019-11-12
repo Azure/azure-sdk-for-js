@@ -39,7 +39,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
-    partitionIds = await client.getPartitionIds();
+    partitionIds = await client.getPartitionIds({});
   });
 
   after("close the connection", async function(): Promise<void> {
