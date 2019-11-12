@@ -57,6 +57,7 @@ import {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   CertificateClientInterface,
   CertificatePollerOptions,
   IssuerProperties,
@@ -197,6 +198,7 @@ export {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   X509CertificateProperties,
   logger
 };
