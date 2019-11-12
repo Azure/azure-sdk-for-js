@@ -67,9 +67,10 @@ export interface PipelineOptions {
 
 /**
  * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling newPipeline().
+ * You can create a default Pipeline by calling {@link newPipeline}.
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- * Refer to newPipeline() and provided policies as reference before
+ *
+ * Refer to {@link newPipeline} and provided policies as reference before
  * implementing your customized Pipeline.
  *
  * @export
@@ -119,7 +120,7 @@ export class Pipeline {
 }
 
 /**
- * Option interface for newPipeline() function.
+ * Option interface for {@link newPipeline} function.
  *
  * @export
  * @interface StoragePipelineOptions
@@ -160,7 +161,7 @@ export interface StoragePipelineOptions {
 }
 
 /**
- * Creates a new Pipeline object with Credential provided.
+ * Creates a new {@link Pipeline} object with {@link Credential} provided.
  *
  * @static
  * @param {Credential} credential Such as AnonymousCredential, StorageSharedKeyCredential.

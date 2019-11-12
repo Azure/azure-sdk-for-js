@@ -46,7 +46,7 @@ export class StorageSharedKeyCredential extends Credential {
   }
 
   /**
-   * Creates a StorageSharedKeyCredentialPolicy object.
+   * Creates a {@link StorageSharedKeyCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options

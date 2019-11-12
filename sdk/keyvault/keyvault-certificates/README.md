@@ -256,12 +256,43 @@ async function main() {
   // You can use the pending certificate immediately:
   const pendingCertificate = poller.getResult();
 
-  await poller.poll(); // On each poll, the poller checks whether the certificate has been fully created or not.
-  console.log(poller.isDone()); // The poller will be done once the certificate is fully created.
-
-  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+  // Or you can wait until the certificate finishes being signed:
   const keyVaultCertificate = await poller.pollUntilDone();
   console.log(keyVaultCertificate);
+}
+
+main();
+```
+
+Another way to wait until the certificate is signed is to do individual calls, as follows:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
+const { delay } = require("@azure/core-http");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+const client = new CertificateClient(url, credential);
+
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerName: "Self",
+  subject: "cn=MyCert"
+};
+
+async function main() {
+  const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
+
+  while (!poller.isDone()) {
+    await poller.poll();
+    await delay(5000);
+  }
+
+  console.log(`The certificate ${certificateName} is fully created`);
 }
 
 main();

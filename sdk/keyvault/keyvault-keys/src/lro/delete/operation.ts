@@ -7,7 +7,6 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { DeletedKey, KeyClientInterface } from "../../keysModels";
 
 /**
- * @interface
  * An interface representing the state of a delete key's poll operation
  */
 export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
@@ -26,7 +25,6 @@ export interface DeleteKeyPollOperationState extends PollOperationState<DeletedK
 }
 
 /**
- * @interface
  * An interface representing a delete key's poll operation
  */
 export interface DeleteKeyPollOperation

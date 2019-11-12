@@ -47,7 +47,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 
 /**
- * Options to configure Share - Create operation.
+ * Options to configure the {@link ShareClient.create} operation.
  *
  * @export
  * @interface ShareCreateOptions
@@ -80,7 +80,7 @@ export interface ShareCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Delete operation.
+ * Options to configure the {@link ShareClient.delete} operation.
  *
  * @export
  * @interface ShareDeleteMethodOptions
@@ -106,7 +106,7 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Metadata operation.
+ * Options to configure the {@link ShareClient.setMetadata} operation.
  *
  * @export
  * @interface ShareSetMetadataOptions
@@ -123,7 +123,7 @@ export interface ShareSetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Access Policy operation.
+ * Options to configure the {@link ShareClient.setAccessPolicy} operation.
  *
  * @export
  * @interface ShareSetAccessPolicyOptions
@@ -140,7 +140,7 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Access Policy operation.
+ * Options to configure the {@link ShareClient.getAccessPolicy} operation.
  *
  * @export
  * @interface ShareGetAccessPolicyOptions
@@ -157,7 +157,7 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Properties operation.
+ * Options to configure the {@link ShareClient.getProperties} operation.
  *
  * @export
  * @interface ShareGetPropertiesOptions
@@ -174,7 +174,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Quota operation.
+ * Options to configure the {@link ShareClient.setQuota} operation.
  *
  * @export
  * @interface ShareSetQuotaOptions
@@ -191,7 +191,7 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Statistics operation.
+ * Options to configure the {@link ShareClient.getStatistics} operation.
  *
  * @export
  * @interface ShareGetStatisticsOptions
@@ -223,13 +223,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
-    start: Date;
+    startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
-    expiry: Date;
+    expiresOn: Date;
     /**
      * @member {string} permissions the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
@@ -261,7 +261,7 @@ export declare type ShareGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Share - Create Snapshot operation.
+ * Options to configure the {@link ShareClient.createSnapshot} operation.
  *
  * @export
  * @interface ShareCreateSnapshotOptions
@@ -285,7 +285,7 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Create Permission operation.
+ * Options to configure the {@link ShareClient.createPermission} operation.
  *
  * @export
  * @interface ShareCreatePermissionOptions
@@ -301,7 +301,7 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 /**
- * Options to configure Share - Get Permission operation.
+ * Options to configure the {@link ShareClient.getPermission} operation.
  *
  * @export
  * @interface ShareGetPermissionOptions
@@ -318,7 +318,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 }
 
 /**
- * Response - Share Get Statistics Operation.
+ * Response data for the {@link ShareClient.getStatistics} Operation.
  *
  * @export
  * @interface ShareGetStatisticsResponse
@@ -497,7 +497,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a ShareDirectoryClient object.
+   * Creates a {@link ShareDirectoryClient} object.
    *
    * @param directoryName A directory name
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given directory name.
@@ -637,11 +637,12 @@ export class ShareClient extends StorageClient {
    * account's index and is no longer accessible to clients. The file's data is later
    * removed from the service during garbage collection.
    *
-   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * Delete File will fail with status code 409 (Conflict) and error code `SharingViolation`
    * if the file is open on an SMB client.
    *
    * Delete File is not supported on a share snapshot, which is a read-only copy of
-   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400
+   * (`InvalidQueryParameterValue`)
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
@@ -799,9 +800,9 @@ export class ShareClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiry: new Date(identifier.accessPolicy!.expiry!),
+            expiresOn: new Date(identifier.accessPolicy!.expiresOn!),
             permissions: identifier.accessPolicy!.permissions!,
-            start: new Date(identifier.accessPolicy!.start!)
+            startsOn: new Date(identifier.accessPolicy!.startsOn!)
           },
           id: identifier.id
         });
@@ -843,9 +844,9 @@ export class ShareClient extends StorageClient {
       for (const identifier of shareAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });

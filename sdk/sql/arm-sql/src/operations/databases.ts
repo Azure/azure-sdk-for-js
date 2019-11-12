@@ -405,7 +405,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failover(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  failover(resourceGroupName: string, serverName: string, databaseName: string, options?: Models.DatabasesFailoverOptionalParams): Promise<msRest.RestResponse> {
     return this.beginFailover(resourceGroupName,serverName,databaseName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -617,7 +617,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailover(resourceGroupName: string, serverName: string, databaseName: string, options?: Models.DatabasesBeginFailoverOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -1137,6 +1137,7 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.replicaType,
     Parameters.apiVersion3
   ],
   headerParameters: [

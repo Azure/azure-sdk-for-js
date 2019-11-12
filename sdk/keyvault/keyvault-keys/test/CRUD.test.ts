@@ -18,7 +18,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -26,7 +26,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -326,10 +326,20 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
-    assert.equal(poller.getResult()!.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      poller.getResult()!.name,
+      keyName,
+      "Unexpected key name in result from beginDeleteKey()."
+    );
     await poller.pollUntilDone();
-    const getResult = await poller.getResult();
-    assert.equal(getResult!.name, keyName, "Unexpected key name in result from getKey().");
+    let getResult = await poller.getResult();
+    assert.equal(
+      getResult!.name,
+      keyName,
+      "Unexpected key name in result from poller.getResult()."
+    );
+    getResult = await client.getDeletedKey(keyName);
+    assert.equal(getResult!.name, keyName, "Unexpected key name in result from getDeletedKey().");
     await testClient.purgeKey(keyName);
   });
 
@@ -348,5 +358,13 @@ describe("Keys client - create, read, update and delete operations", () => {
       `Key not found: ${keyName}`,
       "Unexpected key name in result from getKey()."
     );
+  });
+
+  it("can purge a deleted key", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    const poller = await client.beginDeleteKey(keyName, testPollerProperties);
+    await poller.pollUntilDone();
+    await client.purgeDeletedKey(keyName);
   });
 });

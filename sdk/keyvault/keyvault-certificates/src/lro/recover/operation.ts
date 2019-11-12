@@ -7,7 +7,6 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultCertificate, CertificateClientInterface } from "../../certificatesModels";
 
 /**
- * @interface
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface RecoverDeletedCertificatePollOperationState
@@ -27,7 +26,6 @@ export interface RecoverDeletedCertificatePollOperationState
 }
 
 /**
- * @interface
  * An interface representing a delete certificate's poll operation
  */
 export interface RecoverDeletedCertificatePollOperation
