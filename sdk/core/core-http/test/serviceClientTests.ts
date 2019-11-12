@@ -4,7 +4,13 @@
 import { assert } from "chai";
 import { HttpClient } from "../lib/httpClient";
 import { QueryCollectionFormat } from "../lib/queryCollectionFormat";
-import { DictionaryMapper, MapperType, Serializer, Mapper } from "../lib/serializer";
+import {
+  DictionaryMapper,
+  MapperType,
+  Serializer,
+  Mapper,
+  CompositeMapper
+} from "../lib/serializer";
 import {
   serializeRequestBody,
   ServiceClient,
@@ -16,7 +22,8 @@ import {
   HttpHeaders,
   deserializationPolicy,
   RestResponse,
-  isNode
+  isNode,
+  OperationSpec
 } from "../lib/coreHttp";
 import { ParameterPath } from "../lib/operationParameter";
 
@@ -960,6 +967,83 @@ describe("ServiceClient", function() {
       // tslint:disable-next-line:no-null-keyword
       assert.strictEqual(parameterValue, 5);
     });
+  });
+
+  it("should deserialize error response headers", async function() {
+    const BodyMapper: CompositeMapper = {
+      serializedName: "getproperties-body",
+      type: {
+        name: "Composite",
+        className: "PropertiesBody",
+        modelProperties: {
+          message: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const HeadersMapper: CompositeMapper = {
+      serializedName: "getproperties-headers",
+      type: {
+        name: "Composite",
+        className: "PropertiesHeaders",
+        modelProperties: {
+          errorCode: {
+            serializedName: "x-ms-error-code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const serializer = new Serializer(HeadersMapper, true);
+
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {
+          headersMapper: HeadersMapper,
+          bodyMapper: BodyMapper
+        }
+      },
+      baseUrl: "httpbin.org",
+      serializer
+    };
+
+    let request = new WebResource();
+    request.operationSpec = operationSpec;
+
+    const httpClient: HttpClient = {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({
+          request,
+          status: 500,
+          headers: new HttpHeaders({
+            "x-ms-error-code": "InvalidResourceNameHeader"
+          }),
+          bodyAsText: '{"message": "InvalidResourceNameBody"}'
+        });
+      }
+    };
+
+    const client = new ServiceClient(undefined, {
+      httpClient,
+      requestPolicyFactories: [deserializationPolicy()]
+    });
+
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex) {
+      assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
+    }
   });
 });
 

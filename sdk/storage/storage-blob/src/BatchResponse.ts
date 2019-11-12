@@ -1,6 +1,9 @@
-import { BatchSubRequest } from "./BatchRequest";
+import { BatchSubRequest } from "./BlobBatch";
 import { HttpHeaders } from "@azure/core-http";
 
+/**
+ * The response data associated with a single request within a batch operation.
+ */
 export interface BatchSubResponse {
   /**
    * The status code of the sub operation.
@@ -33,6 +36,9 @@ export interface BatchSubResponse {
   _request: BatchSubRequest;
 }
 
+/**
+ * The multipart/mixed response which contains the response for each subrequest.
+ */
 export interface ParsedBatchResponse {
   /**
    * The parsed sub responses.

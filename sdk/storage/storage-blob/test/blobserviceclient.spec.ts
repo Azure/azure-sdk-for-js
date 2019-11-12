@@ -65,7 +65,7 @@ describe("BlobServiceClient", () => {
       .byPage({ maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(result1.nextMarker);
+    assert.ok(result1.continuationToken);
     assert.equal(result1.containerItems!.length, 1);
     assert.ok(result1.containerItems![0].name.startsWith(containerNamePrefix));
     assert.ok(result1.containerItems![0].properties.etag.length > 0);
@@ -81,10 +81,10 @@ describe("BlobServiceClient", () => {
         includeMetadata: true,
         prefix: containerNamePrefix
       })
-      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(!result2.nextMarker);
+    assert.ok(!result2.continuationToken);
     assert.equal(result2.containerItems!.length, 1);
     assert.ok(result2.containerItems![0].name.startsWith(containerNamePrefix));
     assert.ok(result2.containerItems![0].properties.etag.length > 0);
@@ -238,7 +238,7 @@ describe("BlobServiceClient", () => {
       assert.deepEqual(container.metadata!.key, "val");
     }
     // Gets next marker
-    const marker = response.nextMarker;
+    const marker = response.continuationToken;
     // Passing next marker as continuationToken
     iter = blobServiceClient
       .listContainers({
@@ -289,7 +289,7 @@ describe("BlobServiceClient", () => {
 
     const serviceProperties = await blobServiceClient.getProperties();
 
-    serviceProperties.logging = {
+    serviceProperties.blobAnalyticsLogging = {
       deleteProperty: true,
       read: true,
       retentionPolicy: {
@@ -363,7 +363,7 @@ describe("BlobServiceClient", () => {
     blobServiceClient!
       .getStatistics()
       .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncTime);
+        assert.ok(result.geoReplication!.lastSyncOn);
         done();
       })
       .catch(done);
@@ -435,9 +435,9 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
     assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStart, undefined);
+    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiry, undefined);
+    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
   });
 });

@@ -1,7 +1,5 @@
-import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { BlobMetadata } from "../../src/generated/src/models";
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
@@ -68,26 +66,7 @@ export function base64decode(encodedString: string): string {
   return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
-export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
-  constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
-  public log(logLevel: HttpPipelineLogLevel, message: string): void {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
-    }
-  }
-}
+type BlobMetadata = { [propertyName: string]: string };
 
 /**
  * Validate if m1 is super set of m2.
@@ -95,7 +74,7 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
  * @param m1 BlobMetadata
  * @param m2 BlobMetadata
  */
-export function isSuperSet(m1: BlobMetadata, m2: BlobMetadata): boolean {
+export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   if (!m1 || !m2) {
     throw new RangeError("m1 or m2 is invalid");
   }

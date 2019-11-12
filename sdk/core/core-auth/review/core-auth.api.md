@@ -16,21 +16,27 @@ export interface AccessToken {
 }
 
 // @public
-export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    spanOptions?: SpanOptions;
-    timeout?: number;
+export interface GetTokenOptions extends OperationOptions {
 }
 
 // @public
 export function isTokenCredential(credential: any): credential is TokenCredential;
 
 // @public
-export class SimpleTokenCredential implements TokenCredential {
-    constructor(token: string, expiresOn?: Date);
-    expiresOn: Date;
-    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
-    token: string;
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public (undocumented)
+export interface OperationRequestOptions {
+    timeout?: number;
+}
+
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
 }
 
 // @public

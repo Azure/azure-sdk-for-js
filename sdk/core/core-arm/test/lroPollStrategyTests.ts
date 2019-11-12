@@ -2,14 +2,15 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, SimpleTokenCredential, WebResource } from "@azure/core-http";
+import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
 import { AzureServiceClient } from "../lib/azureServiceClient";
 import { getDelayInSeconds, isFinished } from "../lib/lroPollStrategy";
+import { TestTokenCredential } from "./testTokenCredential";
 
 describe("LROPollStrategy", function () {
   describe("getDelayInMilliseconds()", function () {
     it("with no AzureServiceClient.longRunningOperationRetryTimeout value and no retry-after header", function () {
-      const azureServiceClient = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const azureServiceClient = new AzureServiceClient(new TestTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -19,7 +20,7 @@ describe("LROPollStrategy", function () {
     });
 
     it("with 11 AzureServiceClient.longRunningOperationRetryTimeout and no retry-after header", function () {
-      const azureServiceClient = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 11 });
+      const azureServiceClient = new AzureServiceClient(new TestTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 11 });
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -29,7 +30,7 @@ describe("LROPollStrategy", function () {
     });
 
     it("with no AzureServiceClient.longRunningOperationRetryTimeout value and 12 retry-after header", function () {
-      const azureServiceClient = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const azureServiceClient = new AzureServiceClient(new TestTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -39,7 +40,7 @@ describe("LROPollStrategy", function () {
     });
 
     it("with no AzureServiceClient.longRunningOperationRetryTimeout value and spam retry-after header", function () {
-      const azureServiceClient = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const azureServiceClient = new AzureServiceClient(new TestTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -49,7 +50,7 @@ describe("LROPollStrategy", function () {
     });
 
     it("with 11 AzureServiceClient.longRunningOperationRetryTimeout and 12 retry-after header", function () {
-      const azureServiceClient = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 11 });
+      const azureServiceClient = new AzureServiceClient(new TestTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 11 });
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,

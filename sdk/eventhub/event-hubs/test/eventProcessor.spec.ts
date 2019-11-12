@@ -8,23 +8,27 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventHubClient,
   EventData,
-  EventProcessor,
-  delay,
   InMemoryPartitionManager,
   PartitionOwnership,
-  Checkpoint,
   CloseReason,
   ReceivedEventData,
-  PartitionProcessor,
   LastEnqueuedEventInfo
 } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
+import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';
+import { PartitionProcessor, Checkpoint } from '../src/partitionProcessor';
+import { delay } from '@azure/core-amqp';
 const env = getEnvVars();
 
-describe("Event Processor", function(): void {
+describe("Event Processor", function (): void {
+  const defaultOptions : FullEventProcessorOptions = {
+    maxBatchSize: 1,
+    maxWaitTimeInSeconds: 60
+  };
+  
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -42,7 +46,7 @@ describe("Event Processor", function(): void {
   });
 
   beforeEach("create the client", function() {
-    client = new EventHubClient(service.connectionString, service.path);
+    client = new EventHubClient(service.connectionString, service.path, {});
   });
 
   afterEach("close the connection", async function(): Promise<void> {
@@ -54,7 +58,8 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       PartitionProcessor,
-      new InMemoryPartitionManager()
+      new InMemoryPartitionManager(),
+      defaultOptions
     );
 
     const id = processor.id;
@@ -86,6 +91,7 @@ describe("Event Processor", function(): void {
       SimpleEventProcessor,
       new InMemoryPartitionManager(),
       {
+        ...defaultOptions,
         trackLastEnqueuedEventInfo: false
       }
     );
@@ -137,7 +143,8 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager()
+      new InMemoryPartitionManager(),
+      defaultOptions
     );
 
     processor.start();
@@ -206,7 +213,8 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager()
+      new InMemoryPartitionManager(),
+      defaultOptions
     );
 
     // shutdown the processor
@@ -251,7 +259,8 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      new InMemoryPartitionManager()
+      new InMemoryPartitionManager(),
+      defaultOptions
     );
 
     processor.start();
@@ -377,7 +386,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        new InMemoryPartitionManager()
+        new InMemoryPartitionManager(),
+        defaultOptions
       );
 
       processor.start();
@@ -453,7 +463,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        new InMemoryPartitionManager()
+        new InMemoryPartitionManager(),
+        defaultOptions
       );
 
       processor.start();
@@ -529,7 +540,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         SimpleEventProcessor,
-        new InMemoryPartitionManager()
+        new InMemoryPartitionManager(),
+        defaultOptions
       );
       processor.start();
 
@@ -649,7 +661,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        inMemoryPartitionManager
+        inMemoryPartitionManager,
+        defaultOptions
       );
 
       // start first processor
@@ -693,7 +706,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        inMemoryPartitionManager
+        inMemoryPartitionManager,
+        defaultOptions
       );
       // start second processor
       processor2.start();
@@ -785,7 +799,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        partitionManager
+        partitionManager,
+        defaultOptions
       );
 
       processorByName[`processor-1`].start();
@@ -798,7 +813,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        partitionManager
+        partitionManager,
+        defaultOptions
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -876,7 +892,8 @@ describe("Event Processor", function(): void {
           EventHubClient.defaultConsumerGroupName,
           client,
           FooPartitionProcessor,
-          partitionManager
+          partitionManager,
+          defaultOptions
         );
         processorByName[processorName].start();
         await delay(12000);
@@ -941,6 +958,7 @@ describe("Event Processor", function(): void {
         SimpleEventProcessor,
         new InMemoryPartitionManager(),
         {
+          ...defaultOptions,
           trackLastEnqueuedEventInfo: true
         }
       );
@@ -989,6 +1007,7 @@ describe("Event Processor", function(): void {
         SimpleEventProcessor,
         new InMemoryPartitionManager(),
         {
+          ...defaultOptions,
           trackLastEnqueuedEventInfo: false
         }
       );

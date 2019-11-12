@@ -18,17 +18,17 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start: string;
+  startsOn: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry: string;
+  expiresOn: string;
   /**
    * the permissions for the acl policy
    */
-  permission: string;
+  permissions: string;
 }
 
 /**
@@ -49,9 +49,9 @@ export interface ListQueuesSegmentResponse {
   serviceEndpoint: string;
   prefix: string;
   marker?: string;
-  maxResults: number;
+  maxPageSize: number;
   queueItems?: QueueItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -102,7 +102,7 @@ export interface GeoReplication {
    * to be available for read operations at the secondary. Primary writes after this point in time
    * may or may not be available for reads.
    */
-  lastSyncTime: Date;
+  lastSyncOn: Date;
 }
 
 /**
@@ -190,11 +190,11 @@ export interface DequeuedMessageItem {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this popreceipt then the
    * message has been dequeued by another client.
@@ -203,7 +203,7 @@ export interface DequeuedMessageItem {
   /**
    * The time that the message will again become visible in the Queue.
    */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
   /**
    * The number of times the message has been dequeued.
    */
@@ -225,11 +225,11 @@ export interface PeekedMessageItem {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * The number of times the message has been dequeued.
    */
@@ -251,11 +251,11 @@ export interface EnqueuedMessage {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this popreceipt then the
    * message has been dequeued by another client.
@@ -264,7 +264,7 @@ export interface EnqueuedMessage {
   /**
    * The time that the message will again become visible in the Queue.
    */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
 }
 
 /**
@@ -288,7 +288,7 @@ export interface QueueServiceProperties {
   /**
    * Azure Analytics Logging settings
    */
-  logging?: Logging;
+  queueAnalyticsLogging?: Logging;
   /**
    * A summary of request statistics grouped by API in hourly aggregates for queues
    */
@@ -322,7 +322,7 @@ export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -339,7 +339,7 @@ export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -356,7 +356,7 @@ export interface ServiceGetStatisticsOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -374,10 +374,11 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
   prefix?: string;
   /**
    * A string value that identifies the portion of the list of queues to be returned with the next
-   * listing operation. The operation returns the NextMarker value within the response body if the
-   * listing operation did not return all queues remaining to be listed with the current page. The
-   * NextMarker value can be used as the value for the marker parameter in a subsequent call to
-   * request the next page of list items. The marker value is opaque to the client.
+   * listing operation. The operation returns the ContinuationToken value within the response body
+   * if the listing operation did not return all queues remaining to be listed with the current
+   * page. The ContinuationToken value can be used as the value for the marker parameter in a
+   * subsequent call to request the next page of list items. The marker value is opaque to the
+   * client.
    */
   marker?: string;
   /**
@@ -388,7 +389,7 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify that the queues's metadata be returned as part of the
    * response body.
@@ -399,7 +400,7 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -416,7 +417,7 @@ export interface QueueCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Include this parameter to specify that the queue's metadata be returned as part of
    * the response body. Note that metadata requested with this parameter must be stored in
@@ -441,7 +442,7 @@ export interface QueueDeleteMethodOptionalParams extends coreHttp.RequestOptions
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -458,7 +459,7 @@ export interface QueueGetPropertiesOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -475,7 +476,7 @@ export interface QueueSetMetadataOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Include this parameter to specify that the queue's metadata be returned as part of
    * the response body. Note that metadata requested with this parameter must be stored in
@@ -500,7 +501,7 @@ export interface QueueGetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -521,7 +522,7 @@ export interface QueueSetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -546,13 +547,13 @@ export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBa
    * version 2011-08-18. The visibility timeout of a message can be set to a value later than the
    * expiry time.
    */
-  visibilitytimeout?: number;
+  visibilityTimeout?: number;
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -569,7 +570,7 @@ export interface MessagesClearOptionalParams extends coreHttp.RequestOptionsBase
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -588,7 +589,7 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBa
    * version 2011-08-18. The visibility timeout of a message can be set to a value later than the
    * expiry time.
    */
-  visibilitytimeout?: number;
+  visibilityTimeout?: number;
   /**
    * Optional. Specifies the time-to-live interval for the message, in seconds. Prior to version
    * 2017-07-29, the maximum time-to-live allowed is 7 days. For version 2017-07-29 or later, the
@@ -601,7 +602,7 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -624,7 +625,7 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -641,7 +642,7 @@ export interface MessageIdUpdateOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -658,7 +659,7 @@ export interface MessageIdDeleteMethodOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -671,11 +672,6 @@ export interface MessageIdDeleteMethodOptionalParams extends coreHttp.RequestOpt
  */
 export interface ServiceSetPropertiesHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -685,6 +681,11 @@ export interface ServiceSetPropertiesHeaders {
    * returned for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -693,11 +694,6 @@ export interface ServiceSetPropertiesHeaders {
  */
 export interface ServiceGetPropertiesHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -707,6 +703,11 @@ export interface ServiceGetPropertiesHeaders {
    * returned for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -715,11 +716,6 @@ export interface ServiceGetPropertiesHeaders {
  */
 export interface ServiceGetStatisticsHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -734,6 +730,11 @@ export interface ServiceGetStatisticsHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -742,11 +743,6 @@ export interface ServiceGetStatisticsHeaders {
  */
 export interface ServiceListQueuesSegmentHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -761,6 +757,11 @@ export interface ServiceListQueuesSegmentHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -769,11 +770,6 @@ export interface ServiceListQueuesSegmentHeaders {
  */
 export interface QueueCreateHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -788,6 +784,11 @@ export interface QueueCreateHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -796,11 +797,6 @@ export interface QueueCreateHeaders {
  */
 export interface QueueDeleteHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -815,6 +811,11 @@ export interface QueueDeleteHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -822,11 +823,6 @@ export interface QueueDeleteHeaders {
  * Defines headers for GetProperties operation.
  */
 export interface QueueGetPropertiesHeaders {
-  /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
   metadata?: { [propertyName: string]: string };
   /**
    * The approximate number of messages in the queue. This number is not lower than the actual
@@ -848,6 +844,11 @@ export interface QueueGetPropertiesHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -856,11 +857,6 @@ export interface QueueGetPropertiesHeaders {
  */
 export interface QueueSetMetadataHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -875,6 +871,11 @@ export interface QueueSetMetadataHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -883,11 +884,6 @@ export interface QueueSetMetadataHeaders {
  */
 export interface QueueGetAccessPolicyHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -902,6 +898,11 @@ export interface QueueGetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -910,11 +911,6 @@ export interface QueueGetAccessPolicyHeaders {
  */
 export interface QueueSetAccessPolicyHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -929,6 +925,11 @@ export interface QueueSetAccessPolicyHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -937,11 +938,6 @@ export interface QueueSetAccessPolicyHeaders {
  */
 export interface MessagesDequeueHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -956,6 +952,11 @@ export interface MessagesDequeueHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -964,11 +965,6 @@ export interface MessagesDequeueHeaders {
  */
 export interface MessagesClearHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -983,6 +979,11 @@ export interface MessagesClearHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -991,11 +992,6 @@ export interface MessagesClearHeaders {
  */
 export interface MessagesEnqueueHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -1010,6 +1006,11 @@ export interface MessagesEnqueueHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -1018,11 +1019,6 @@ export interface MessagesEnqueueHeaders {
  */
 export interface MessagesPeekHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -1037,6 +1033,11 @@ export interface MessagesPeekHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -1044,11 +1045,6 @@ export interface MessagesPeekHeaders {
  * Defines headers for Update operation.
  */
 export interface MessageIdUpdateHeaders {
-  /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1071,7 +1067,12 @@ export interface MessageIdUpdateHeaders {
   /**
    * A UTC date/time value that represents when the message will be visible on the queue.
    */
-  timeNextVisible?: Date;
+  nextVisibleOn?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -1079,11 +1080,6 @@ export interface MessageIdUpdateHeaders {
  * Defines headers for Delete operation.
  */
 export interface MessageIdDeleteHeaders {
-  /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1099,6 +1095,11 @@ export interface MessageIdDeleteHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -1117,11 +1118,13 @@ export interface MessageIdDeleteHeaders {
  * 'ServerBusy', 'UnsupportedHeader', 'UnsupportedXmlNode', 'UnsupportedQueryParameter',
  * 'UnsupportedHttpVerb', 'InvalidMarker', 'MessageNotFound', 'MessageTooLarge',
  * 'PopReceiptMismatch', 'QueueAlreadyExists', 'QueueBeingDeleted', 'QueueDisabled',
- * 'QueueNotEmpty', 'QueueNotFound'
+ * 'QueueNotEmpty', 'QueueNotFound', 'AuthorizationSourceIPMismatch',
+ * 'AuthorizationProtocolMismatch', 'AuthorizationPermissionMismatch',
+ * 'AuthorizationServiceMismatch', 'AuthorizationResourceTypeMismatch', 'FeatureVersionMismatch'
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'InvalidMarker' | 'MessageNotFound' | 'MessageTooLarge' | 'PopReceiptMismatch' | 'QueueAlreadyExists' | 'QueueBeingDeleted' | 'QueueDisabled' | 'QueueNotEmpty' | 'QueueNotFound';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'InvalidMarker' | 'MessageNotFound' | 'MessageTooLarge' | 'PopReceiptMismatch' | 'QueueAlreadyExists' | 'QueueBeingDeleted' | 'QueueDisabled' | 'QueueNotEmpty' | 'QueueNotFound' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch' | 'FeatureVersionMismatch';
 
 /**
  * Defines values for GeoReplicationStatusType.

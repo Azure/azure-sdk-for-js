@@ -103,9 +103,9 @@ describe("QueueClient", () => {
     const queueAcl = [
       {
         accessPolicy: {
-          expiry: new Date("2018-12-31T11:22:33.4567890Z"),
-          permission: "rwdl",
-          start: new Date("2017-12-31T11:22:33.4567890Z")
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: "rwdl",
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }
@@ -161,7 +161,7 @@ describe("QueueClient", () => {
   it("verify accountName and queueName passed to the client", async () => {
     const accountName = "myaccount";
     const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
-    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,
@@ -173,7 +173,7 @@ describe("QueueClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    await queueClient.getProperties({ spanOptions: { parent: rootSpan } });
+    await queueClient.getProperties({ tracingOptions: { spanOptions: { parent: rootSpan } } });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();

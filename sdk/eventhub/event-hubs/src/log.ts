@@ -47,7 +47,11 @@ export const context = debugModule("azure:event-hubs:connectionContext");
  * log statements for client
  */
 export const client = debugModule("azure:event-hubs:client");
-
+/**
+ * @ignore
+ * log statements for event hub consumer client
+ */
+export const consumerClient = debugModule("azure:event-hubs:consumerclient");
 /**
  * @ignore
  * log statements for iothub client

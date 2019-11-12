@@ -1,5 +1,24 @@
 # Release History
 
+## 4.0.0 (2019-10-31)
+
+- This release marks the general availability of the `@azure/keyvault-secrets` package.
+- All of the public API methods now have their custom option types.
+- All of the option types can now receive a `requestOptions` parameter to customize the options sent to the HTTP client.
+- Renamed `restoreSecret` to `restoreSecretBackup`.
+- Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
+
+## 4.0.0-preview.9 (2019-10-22)
+
+- `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
+  Use `beginDeleteSecret` and `beginRecoverDeletedSecret` instead.
+  They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
+- Renamed `Secret` to `KeyVaultSecret`.
+- Renamed most of the date properties to end in the `On` suffix.
+- All options should match the method's name.
+- All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
+- Flattened all the options bag to extend the `RequestOptionsBase` interface.
+
 ## 4.0.0-preview.8 (2019-10-09)
 
 - Updated to use the latest version of `@azure/core-tracing`, `@azure/identity`, `@azure/core-http` and `@azure/core-arm` packages

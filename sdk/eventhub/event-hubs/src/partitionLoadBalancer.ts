@@ -5,6 +5,54 @@ import { PartitionOwnership } from "./eventProcessor";
 import * as log from "./log";
 
 /**
+ * Implements a load balancing algorithm for determining which consumers 
+ * own which partitions.
+ */
+export interface PartitionLoadBalancer {
+  /**
+   * Implements load balancing by taking into account current ownership and
+   * the new set of partitions to add.
+   * @param partitionOwnershipMap The current ownerships for partitions
+   * @param partitionsToAdd New partitions to assign owners to
+   * @returns Partition ids to claim
+   */
+  loadBalance(
+    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    partitionsToAdd: string[]
+  ): string[];
+}
+
+/**
+ * This class does no load balancing - it's intended to be used when 
+ * you want to avoid load balancing and consume a set of partitions (or all 
+ * available partitions)
+ */
+export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
+  private partitionsToClaim?: Set<string>;
+
+  /**
+   * @param partitionIds An optional set of partition IDs. undefined means all partitions.
+   */
+  constructor(partitionIds?: string[]) {
+    log.partitionLoadBalancer(`GreedyPartitionLoadBalancer created. Watching ${partitionIds ? '(' + partitionIds.join(",") + ')' : "all"}.`);
+    this.partitionsToClaim = partitionIds && new Set(partitionIds);
+  }
+
+  loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
+    let potential: string[] = partitionsToAdd;
+
+    if (this.partitionsToClaim) {
+      const partitionsToClaim = this.partitionsToClaim;
+      potential = partitionsToAdd.filter(part => partitionsToClaim.has(part));
+    }
+
+    // now remove any partitions that are already claimed
+    potential = potential.filter(id => !partitionOwnershipMap.has(id));
+    return potential;
+  }
+}
+
+/**
  * This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
  * distributing the number of partitions uniformly among all the active EventProcessors.
  *
@@ -14,7 +62,7 @@ import * as log from "./log";
  * considered inactive and the partition is available for other EventProcessors to own.
  * @class PartitionLoadBalancer
  */
-export class PartitionLoadBalancer {
+export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
   private _ownerId: string;
   private _inactiveTimeLimitInMS: number;
 
@@ -26,6 +74,7 @@ export class PartitionLoadBalancer {
    * assuming the owner of the partition is inactive.
    * */
   constructor(ownerId: string, inactiveTimeLimitInMS: number) {
+    log.partitionLoadBalancer(`FairPartitionLoadBalancer created with owner ID ${ownerId}, inactive time limit: ${inactiveTimeLimitInMS}ms`);
     this._ownerId = ownerId;
     this._inactiveTimeLimitInMS = inactiveTimeLimitInMS;
   }
@@ -133,7 +182,7 @@ export class PartitionLoadBalancer {
   loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
-  ): string {
+  ): string[] {
     //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
     //  event processor that owned the partition is probably down and the partition is now eligible to be
     //  claimed by other event processors.
@@ -147,7 +196,9 @@ export class PartitionLoadBalancer {
       // If the active partition ownership map is empty, this is the first time an event processor is
       // running or all Event Processors are down for this Event Hub, consumer group combination. All
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
-      return partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)];
+      return [
+        partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]
+      ];
     }
 
     // Create a map of owner id and a list of partitions it owns
@@ -191,7 +242,7 @@ export class PartitionLoadBalancer {
     ) {
       log.partitionLoadBalancer(`[${this._ownerId}] Load is balanced.`);
       // If the partitions are evenly distributed among all active event processors, no change required.
-      return "";
+      return [];
     }
 
     if (
@@ -207,7 +258,7 @@ export class PartitionLoadBalancer {
         } partitions and shouldn't own more.`
       );
       // This event processor already has enough partitions and shouldn't own more yet
-      return "";
+      return [];
     }
     log.partitionLoadBalancer(
       `[${this._ownerId}] Load is unbalanced and this event processor should own more partitions.`
@@ -240,6 +291,6 @@ export class PartitionLoadBalancer {
         unOwnedPartitionIds[Math.floor(Math.random() * unOwnedPartitionIds.length)];
     }
 
-    return partitionToClaim;
+    return [partitionToClaim];
   }
 }

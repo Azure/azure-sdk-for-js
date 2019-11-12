@@ -226,9 +226,10 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
+    Parameters.transactionalContentMD5,
     Parameters.contentLength,
     Parameters.metadata,
     Parameters.tier0,
@@ -266,7 +267,8 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlockBlobUploadHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobUploadHeaders
     }
   },
   isXML: true,
@@ -281,7 +283,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.blockId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp16
   ],
   headerParameters: [
@@ -311,7 +313,8 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlockBlobStageBlockHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobStageBlockHeaders
     }
   },
   isXML: true,
@@ -326,7 +329,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.blockId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp16
   ],
   headerParameters: [
@@ -351,7 +354,8 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlockBlobStageBlockFromURLHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobStageBlockFromURLHeaders
     }
   },
   isXML: true,
@@ -365,7 +369,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp17
   ],
   headerParameters: [
@@ -403,7 +407,8 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlockBlobCommitBlockListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobCommitBlockListHeaders
     }
   },
   isXML: true,
@@ -419,7 +424,7 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.listType,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp17
   ],
   headerParameters: [
@@ -433,7 +438,8 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlockBlobGetBlockListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobGetBlockListHeaders
     }
   },
   isXML: true,

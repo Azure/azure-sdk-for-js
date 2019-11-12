@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RestError, TransferProgressEvent } from "@azure/core-http";
+import { TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignal, AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
@@ -31,7 +31,7 @@ export interface RetriableReadableStreamOptions {
    *
    * @memberof RetriableReadableStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Debug purpose only. Used to inject an unexpected end to existing internal stream,
@@ -48,7 +48,7 @@ export interface RetriableReadableStreamOptions {
   doInjectErrorOnce?: boolean;
 }
 
-const ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -67,7 +67,7 @@ export class RetriableReadableStream extends Readable {
   private source: NodeJS.ReadableStream;
   private retries: number = 0;
   private maxRetryRequests: number;
-  private progress?: (progress: TransferProgressEvent) => void;
+  private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
   private abortHandler = () => {
     this.source.pause();
@@ -101,7 +101,7 @@ export class RetriableReadableStream extends Readable {
     this.end = offset + count - 1;
     this.maxRetryRequests =
       options.maxRetryRequests && options.maxRetryRequests >= 0 ? options.maxRetryRequests : 0;
-    this.progress = options.progress;
+    this.onProgress = options.onProgress;
     this.options = options;
 
     this.aborter.addEventListener("abort", this.abortHandler);
@@ -131,8 +131,8 @@ export class RetriableReadableStream extends Readable {
       //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
       // );
       this.offset += data.length;
-      if (this.progress) {
-        this.progress({ loadedBytes: this.offset - this.start });
+      if (this.onProgress) {
+        this.onProgress({ loadedBytes: this.offset - this.start });
       }
       if (!this.push(data)) {
         this.source.pause();

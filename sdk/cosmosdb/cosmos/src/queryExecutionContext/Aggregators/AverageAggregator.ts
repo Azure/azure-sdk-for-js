@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { IAggregator } from "./IAggregator";
+import { Aggregator } from "./Aggregator";
 
 /** @hidden */
 export interface AverageAggregateResult {
@@ -9,7 +9,7 @@ export interface AverageAggregateResult {
 }
 
 /** @hidden */
-export class AverageAggregator implements IAggregator {
+export class AverageAggregator implements Aggregator {
   public sum: number;
   public count: number;
   /**

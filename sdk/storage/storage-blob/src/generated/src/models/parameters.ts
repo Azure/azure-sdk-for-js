@@ -899,10 +899,10 @@ export const marker1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: coreHttp.OperationQueryParameter = {
+export const maxPageSize: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxPageSize"
   ],
   mapper: {
     serializedName: "maxresults",
@@ -992,7 +992,10 @@ export const pageWrite1: coreHttp.OperationParameter = {
   }
 };
 export const pathRenameMode: coreHttp.OperationQueryParameter = {
-  parameterPath: "pathRenameMode",
+  parameterPath: [
+    "options",
+    "pathRenameMode"
+  ],
   mapper: {
     serializedName: "mode",
     type: {
@@ -1393,10 +1396,10 @@ export const tier1: coreHttp.OperationParameter = {
     }
   }
 };
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",

@@ -2,10 +2,14 @@ omitted_paths:
   - documentation/ServicePrincipal/*
   - eng/tools/analyze-deps/**
   - eng/tools/select-packages/**
+  - eng/tools/generate-doc/**
+  - eng/tools/generate-static-index/**
   - "sdk/*/arm-*"
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
   - "sdk/cosmosdb/cosmos/samples/*"
+  - eng/tools/versioning/*
+  - samples/Bundling/**
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -20,7 +24,8 @@ known_content_issues:
   - ["README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/appconfiguration/app-configuration/README.md", "#1583"]
-  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]  
+  - ["sdk/appconfiguration/app-configuration/samples/readme.md", "#1583"]
+  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]
   - ["sdk/batch/batch/README.md", "#1583"]
   - [
       "sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md",
@@ -100,10 +105,10 @@ known_content_issues:
   - ["sdk/storage/storage-blob/swagger/README.md", "#1583"]
   - ["sdk/storage/storage-blob/samples/README.md", "#1583"]
   - ["sdk/storage/storage-blob/test/README.md", "#1583"]
-  - ["sdk/storage/storage-file/README.md", "#1583"]
-  - ["sdk/storage/storage-file/swagger/README.md", "#1583"]
-  - ["sdk/storage/storage-file/samples/README.md", "#1583"]
-  - ["sdk/storage/storage-file/test/README.md", "#1583"]
+  - ["sdk/storage/storage-file-share/README.md", "#1583"]
+  - ["sdk/storage/storage-file-share/swagger/README.md", "#1583"]
+  - ["sdk/storage/storage-file-share/samples/README.md", "#1583"]
+  - ["sdk/storage/storage-file-share/test/README.md", "#1583"]
   - ["sdk/storage/storage-queue/README.md", "#1583"]
   - ["sdk/storage/storage-queue/swagger/README.md", "#1583"]
   - ["sdk/storage/storage-queue/samples/README.md", "#1583"]

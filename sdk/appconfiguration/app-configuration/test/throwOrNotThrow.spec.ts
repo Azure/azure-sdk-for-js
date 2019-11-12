@@ -5,7 +5,6 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -15,7 +14,7 @@ describe("Various error cases", () => {
   let client: AppConfigurationClient;
   const nonMatchingETag = "never-match-etag";
 
-  before(function () {
+  before(function() {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
@@ -37,18 +36,10 @@ describe("Various error cases", () => {
     });
 
     it("get: Non-existent key throws 404", async () => {
-      await assertThrowsRestError(() => client.getConfigurationSetting({ key: nonExistentKey }), 404);
-    });
-
-    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError on property access (derived from RestError)", async () => {
-      const response = await client.getConfigurationSetting(addedSetting, {
-        onlyIfChanged: true,
-      });
-
-      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
-        assert.equal("ResponseBodyNotFoundError", err.name);
-        return true;
-      });
+      await assertThrowsRestError(
+        () => client.getConfigurationSetting({ key: nonExistentKey }),
+        404
+      );
     });
 
     it("add: Setting already exists throws 412", async () => {
@@ -57,18 +48,28 @@ describe("Various error cases", () => {
 
     it("set: Existing key, (onlyIfUnchanged) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.setConfigurationSetting({
-          ...addedSetting,
-          etag: nonMatchingETag   // purposefully make the etag not match the server
-        }, { onlyIfUnchanged: true }),
+        () =>
+          client.setConfigurationSetting(
+            {
+              ...addedSetting,
+              etag: nonMatchingETag // purposefully make the etag not match the server
+            },
+            { onlyIfUnchanged: true }
+          ),
         412
       );
     });
 
     it("set: trying to modify a read-only setting throws 409", async () => {
-      await client.setReadOnly(addedSetting);
+      await client.setReadOnly(addedSetting, true);
 
       await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
+    });
+
+    it("delete: key that is set to read-only throws 409", async () => {
+      await client.setReadOnly(addedSetting, true);
+      await assertThrowsRestError(async () => client.deleteConfigurationSetting(addedSetting), 409);
+      await client.setReadOnly(addedSetting, false);
     });
   });
 
@@ -91,6 +92,15 @@ describe("Various error cases", () => {
 
     afterEach(async () => {
       await deleteKeyCompletely([addedSetting.key], client);
+    });
+
+    it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
+      const response = await client.getConfigurationSetting(addedSetting, {
+        onlyIfChanged: true
+      });
+
+      assert.equal(304, response.statusCode);
+      assert.ok(!response.value);
     });
 
     it("delete: non-existent key (no etag)", async () => {

@@ -1,10 +1,10 @@
-import * as crypto from "crypto";
+import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
 import { SimpleTokenCredential, env } from "./testutils.common";
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { getUniqueName } from "./testutils.common";
 import { newPipeline } from "../../src/Pipeline";
@@ -22,7 +22,7 @@ dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): SharedKeyCredential {
+export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -38,7 +38,7 @@ export function getGenericCredential(accountType: string): SharedKeyCredential {
     );
   }
 
-  return new SharedKeyCredential(accountName, accountKey);
+  return new StorageSharedKeyCredential(accountName, accountKey);
 }
 
 export function getGenericBSU(
@@ -48,7 +48,7 @@ export function getGenericBSU(
   if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
-    const credential = getGenericCredential(accountType) as SharedKeyCredential;
+    const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, {
       // Enable logger when debugging
@@ -149,8 +149,7 @@ export async function createRandomLocalFile(
     let offsetInMB = 0;
 
     function randomValueHex(len = blockSize) {
-      return crypto
-        .randomBytes(Math.ceil(len / 2))
+      return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
     }
@@ -188,16 +187,16 @@ export function getSASConnectionStringFromEnvironment(): string {
 
   const sas = generateAccountSASQueryParameters(
     {
-      expiryTime: tmr,
+      expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-      permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-      protocol: SASProtocol.HTTPSandHTTP,
+      permissions: AccountSASPermissions.parse("rwdlacup"),
+      protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
-      startTime: now,
+      startsOn: now,
       version: "2016-05-31"
     },
-    sharedKeyCredential as SharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential
   ).toString();
 
   const blobEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;

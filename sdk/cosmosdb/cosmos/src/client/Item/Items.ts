@@ -194,7 +194,7 @@ export class Items {
   }
 
   /**
-   * Create a item.
+   * Create an item.
    *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.

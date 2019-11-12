@@ -6,7 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy } from "./policies/logPolicy";
+import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -17,16 +17,17 @@ import {
 import { isStreamOperation, OperationSpec } from "./operationSpec";
 import {
   deserializationPolicy,
-  DeserializationContentTypes
+  DeserializationContentTypes,
+  DefaultDeserializationOptions
 } from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import {
   userAgentPolicy,
   getDefaultUserAgentHeaderName,
   getDefaultUserAgentValue
 } from "./policies/userAgentPolicy";
-import { redirectPolicy } from "./policies/redirectPolicy";
+import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
 import {
   RequestPolicy,
   RequestPolicyFactory,
@@ -42,22 +43,42 @@ import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 import { OperationResponse } from "./operationResponse";
-import { ServiceCallback } from "./util/utils";
+import { ServiceCallback, isNode } from "./util/utils";
 import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
+import { InternalPipelineOptions } from "./pipelineOptions";
+import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
- * HTTP proxy settings (Node.js only)
+ * Options to configure a proxy for outgoing requests (Node.js only).
  */
 export interface ProxySettings {
+  /*
+   * The proxy's host address.
+   */
   host: string;
+
+  /*
+   * The proxy host's port.
+   */
   port: number;
+
+  /**
+   * The user name to authenticate with the proxy, if required.
+   */
   username?: string;
+
+  /**
+   * The password to authenticate with the proxy, if required.
+   */
   password?: string;
 }
+
+export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.
 
 /**
  * Options to be provided while creating the client.
@@ -262,7 +283,7 @@ export class ServiceClient {
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(
+  async sendOperationRequest(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec,
     callback?: ServiceCallback<any>
@@ -431,9 +452,27 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest).then((res) =>
-        flattenResponse(res, operationSpec.responses[res.status])
-      );
+      let rawResponse: HttpOperationResponse;
+      let sendRequestError;
+      try {
+        rawResponse = await this.sendRequest(httpRequest);
+      } catch (error) {
+        sendRequestError = error;
+      }
+      if (sendRequestError) {
+        if (sendRequestError.response) {
+          sendRequestError.details = flattenResponse(
+            sendRequestError.response,
+            operationSpec.responses[sendRequestError.statusCode] ||
+              operationSpec.responses["default"]
+          );
+        }
+        result = Promise.reject(sendRequestError);
+      } else {
+        result = Promise.resolve(
+          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
+        );
+      }
     } catch (error) {
       result = Promise.reject(error);
     }
@@ -584,9 +623,90 @@ function createDefaultRequestPolicyFactories(
     factories.push(proxyPolicy(proxySettings));
   }
 
-  factories.push(logPolicy(logger.info, {}));
+  factories.push(logPolicy({ logger: logger.info }));
 
   return factories;
+}
+
+export function createPipelineFromOptions(
+  pipelineOptions: InternalPipelineOptions,
+  authPolicyFactory?: RequestPolicyFactory
+): ServiceClientOptions {
+  let requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  let userAgentValue = undefined;
+  if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
+    const userAgentInfo: string[] = [];
+    userAgentInfo.push(pipelineOptions.userAgentOptions.userAgentPrefix);
+
+    // Add the default user agent value if it isn't already specified
+    // by the userAgentPrefix option.
+    const defaultUserAgentInfo = getDefaultUserAgentValue();
+    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+      userAgentInfo.push(defaultUserAgentInfo);
+    }
+
+    userAgentValue = userAgentInfo.join(" ");
+  }
+
+  const keepAliveOptions = {
+    ...DefaultKeepAliveOptions,
+    ...pipelineOptions.keepAliveOptions
+  };
+
+  const retryOptions = {
+    ...DefaultRetryOptions,
+    ...pipelineOptions.retryOptions
+  };
+
+  const redirectOptions = {
+    ...DefaultRedirectOptions,
+    ...pipelineOptions.redirectOptions
+  };
+
+  const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
+  if (isNode && proxySettings) {
+    requestPolicyFactories.push(proxyPolicy(proxySettings));
+  }
+
+  const deserializationOptions = {
+    ...DefaultDeserializationOptions,
+    ...pipelineOptions.deserializationOptions
+  };
+
+  const loggingOptions: LogPolicyOptions = {
+    ...pipelineOptions.loggingOptions
+  };
+
+  requestPolicyFactories.push(
+    tracingPolicy(),
+    keepAlivePolicy(keepAliveOptions),
+    userAgentPolicy({ value: userAgentValue }),
+    generateClientRequestIdPolicy(),
+    deserializationPolicy(deserializationOptions.expectedContentTypes),
+    throttlingRetryPolicy(),
+    systemErrorRetryPolicy(),
+    exponentialRetryPolicy(
+      retryOptions.maxRetries,
+      retryOptions.retryDelayInMs,
+      retryOptions.maxRetryDelayInMs
+    )
+  );
+
+  if (redirectOptions.handleRedirects) {
+    requestPolicyFactories.push(redirectPolicy(redirectOptions.maxRetries));
+  }
+
+  if (authPolicyFactory) {
+    requestPolicyFactories.push(authPolicyFactory);
+  }
+
+  requestPolicyFactories.push(logPolicy(loggingOptions));
+
+  return {
+    httpClient: pipelineOptions.httpClient,
+    requestPolicyFactories
+  };
 }
 
 export type PropertyParent = { [propertyName: string]: any };

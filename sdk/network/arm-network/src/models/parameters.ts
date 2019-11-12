@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-07-01',
+    defaultValue: '2019-09-01',
     type: {
       name: "String"
     }
@@ -310,6 +310,16 @@ export const ipConfigurationName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ipGroupsName: msRest.OperationURLParameter = {
+  parameterPath: "ipGroupsName",
+  mapper: {
+    required: true,
+    serializedName: "ipGroupsName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const linkConnectionName: msRest.OperationURLParameter = {
   parameterPath: "linkConnectionName",
   mapper: {
@@ -462,16 +472,6 @@ export const outboundRuleName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "outboundRuleName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const p2SVpnServerConfigurationName: msRest.OperationURLParameter = {
-  parameterPath: "p2SVpnServerConfigurationName",
-  mapper: {
-    required: true,
-    serializedName: "p2SVpnServerConfigurationName",
     type: {
       name: "String"
     }
@@ -812,16 +812,6 @@ export const virtualRouterName: msRest.OperationURLParameter = {
     }
   }
 };
-export const virtualWanName: msRest.OperationURLParameter = {
-  parameterPath: "virtualWanName",
-  mapper: {
-    required: true,
-    serializedName: "virtualWanName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const virtualWANName0: msRest.OperationURLParameter = {
   parameterPath: "virtualWANName",
   mapper: {
@@ -837,6 +827,16 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const vpnServerConfigurationName: msRest.OperationURLParameter = {
+  parameterPath: "vpnServerConfigurationName",
+  mapper: {
+    required: true,
+    serializedName: "vpnServerConfigurationName",
     type: {
       name: "String"
     }

@@ -96,7 +96,7 @@ function getProxyUriFromDevConnString(connectionString: string): string {
   return proxyUri;
 }
 
-function getValueInConnString(
+export function getValueInConnString(
   connectionString: string,
   argument:
     | "BlobEndpoint"
@@ -120,7 +120,7 @@ function getValueInConnString(
  *
  * @export
  * @param {string} connectionString Connection string.
- * @returns {ConnString}  String key value pairs of the storage account's url and credentials.
+ * @returns {ConnectionString}  String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   let proxyUri = "";

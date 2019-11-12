@@ -2,12 +2,12 @@ import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { newPipeline } from "../../src";
 
-describe("MessagesClient Node.js only", () => {
+describe("QueueClient message methods, Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
@@ -37,16 +37,16 @@ describe("MessagesClient Node.js only", () => {
 
     let eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
-      visibilitytimeout: 0
+      visibilityTimeout: 0
     });
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
     assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
@@ -58,25 +58,25 @@ describe("MessagesClient Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
     let dResult = await queueClient.receiveMessages({
-      visibilitytimeout: 10,
+      visibilityTimeout: 10,
       numberOfMessages: 2
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(eResult.clientRequestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertionTime, eResult.insertionTime);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expirationTime, eResult.expirationTime);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].timeNextVisible);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
@@ -103,23 +103,23 @@ describe("MessagesClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -128,29 +128,29 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
@@ -159,8 +159,8 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
   });
@@ -174,8 +174,8 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
   });

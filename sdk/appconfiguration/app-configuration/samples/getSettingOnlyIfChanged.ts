@@ -35,25 +35,9 @@ export async function run() {
   // we return the response so you can still inspect the returned headers. The body, however, is blank
   console.log(`Received a response code of ${unchangedResponse.statusCode}`);   // will be HTTP status 304
 
-  try {
-    // To prevent any accidental usages of this model we throw on access to the properties - this model wasn't deserialized
-    // from an actual HTTP response body so it's invalid
-    //
-    // The _request and .statusCode properties, however, are valid and available
-    unchangedResponse.key;
-    throw new Error(
-      "We won't get here - accessing .key (or any members) will throw a ResponseBodyNotFoundError"
-    );
-  } catch (err) {
-    if (err.name === "ResponseBodyNotFoundError") {
-      // this means the setting has not changed
-      // for this example we'll just continue using the original value
-      console.log("The setting hasn't changed - we'll just continue using our current setting");
-    } else {
-      // other errors indicate actual failures in the service call
-      // should be handled (or propagated)
-      throw err;
-    }
+  // To prevent any accidental usages of this model all properties (except for 'key') are set to undefined.
+  if (unchangedResponse.value !== undefined) {
+    throw new Error("All properties should be undefined");
   }
 
   await cleanupSampleValues([key], client);
@@ -65,7 +49,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
   });
 
   for await (const setting of existingSettings) {
-    await client.clearReadOnly(setting);
+    await client.setReadOnly(setting, false);
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }

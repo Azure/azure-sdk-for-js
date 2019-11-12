@@ -18,7 +18,7 @@ export class ContainerSASPermissions {
    *
    * @static
    * @param {string} permissions
-   * @returns
+   * @returns {ContainerSASPermissions}
    * @memberof ContainerSASPermissions
    */
   public static parse(permissions: string) {

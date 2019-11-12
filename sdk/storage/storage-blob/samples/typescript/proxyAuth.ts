@@ -2,16 +2,16 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
@@ -20,7 +20,12 @@ async function main() {
       // proxy can either be a URL like "http://localhost:3128"
       // or
       // an option bag consisting {host, port, username, password }
-      proxy: { host: "http://localhost", port: 3128, username: "username", password: "password" }
+      proxyOptions: {
+        host: "http://localhost",
+        port: 3128,
+        username: "username",
+        password: "password"
+      }
       // if proxy is undefined, the library tries to load the proxy settings from the environment variables like HTTP_PROXY
     }
   );

@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates, updates and deletes certificate contacts.
@@ -13,7 +13,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Contacts are created independently of the certificates.
 
@@ -32,12 +32,12 @@ async function main() {
 
   let getResponse;
 
-  await client.setCertificateContacts(contacts);
+  await client.setContacts(contacts);
 
-  getResponse = await client.getCertificateContacts();
+  getResponse = await client.getContacts();
   console.log("Contact List:", getResponse.contactList);
 
-  await client.deleteCertificateContacts();
+  await client.deleteContacts();
 }
 
 main().catch((err) => {

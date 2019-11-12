@@ -34,3 +34,6 @@ run Google Chrome with web security disabled:
 ```
 google-chrome --disable-web-security
 ```
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2Ftest%2Fmanual%2FREADME.png)

@@ -181,7 +181,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.resource
   ],
   headerParameters: [
@@ -206,7 +206,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryCreateHeaders
     }
   },
   isXML: true,
@@ -220,7 +221,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.marker1,
     Parameters.pathRenameMode
   ],
@@ -252,7 +253,8 @@ const renameOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryRenameHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryRenameHeaders
     }
   },
   isXML: true,
@@ -266,7 +268,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.recursiveDirectoryDelete,
     Parameters.marker1
   ],
@@ -284,7 +286,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryDeleteHeaders
     }
   },
   isXML: true,
@@ -298,7 +301,7 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.action5
   ],
   headerParameters: [
@@ -319,7 +322,8 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectorySetAccessControlHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectorySetAccessControlHeaders
     }
   },
   isXML: true,
@@ -333,7 +337,7 @@ const getAccessControlOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.upn,
     Parameters.action6
   ],
@@ -351,7 +355,8 @@ const getAccessControlOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryGetAccessControlHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryGetAccessControlHeaders
     }
   },
   isXML: true,

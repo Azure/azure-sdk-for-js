@@ -10,28 +10,33 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - July 2019 Preview](#Client-July-2019-Preview)
-- [Client - Stable](#Client-Stable)
+- [Client - November 2019 Releases](#Client-November-2019-Releases)
+- [Client - Previous Versions](#Client-Previous-Versions)
 - [Management](#Management)
 
-### Client: July 2019 Preview
+### Client: November 2019 Releases
 
-New wave of packages that we are currently releasing in **Preview** and are released under the `npm` release named `next`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azure.github.io/azure-sdk/typescript/guidelines/) that they follow.
+New wave of packages that we are announcing as **GA** and several that are currently releasing in **preview** on `npm`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities found in the Azure Core package such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azure.github.io/azure-sdk/typescript/guidelines/) that they follow.
 
-The libraries released in July preview:
+The libraries released in the November 2019 GA release:
 
-- [@azure/storage-blob@next](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
-- [@azure/storage-queue@next](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue)
-- [@azure/storage-file@next](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
-- [@azure/keyvault-keys@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
-- [@azure/keyvault-secrets@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
+- [@azure/storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
+- [@azure/storage-queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
+- [@azure/keyvault-keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
+- [@azure/keyvault-secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
+- [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity)
+
+The libraries released in the November 2019 preview:
+- [@azure/storage-file-share@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
 - [@azure/event-hubs@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs)
+- [@azure/keyvault-certificates@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates)
+- [@azure/app-configuration@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration)
 
-> NOTE: If you need to ensure your code is ready for production use one of the stable libraries.
+> NOTE: If you need to ensure your code is ready for production use one of the stable, non-preview libraries.
 
-### Client: Stable
+### Client: Previous Versions
 
-Last stable versions of packages that have been provided for usage with Azure and are production-ready. These libraries provide you with similar functionalities to the Preview ones as they allow you to use and consume existing resources and interact with them, for example: upload a blob.
+Last stable versions of packages that have been provided for usage with Azure and are production-ready. These libraries provide you with similar functionalities to the Preview ones as they allow you to use and consume existing resources and interact with them, for example: upload a blob. They might not implement the [guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the Novemeber releases. They do however offer wider coverage of services. 
 
 ### Management
 

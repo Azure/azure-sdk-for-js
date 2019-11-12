@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { OperationOptions } from "./operationOptions";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -21,20 +21,7 @@ export interface TokenCredential {
 /**
  * Defines options for TokenCredential.getToken.
  */
-export interface GetTokenOptions {
-  /**
-   * An AbortSignalLike implementation that can be used to cancel
-   * the token request.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Timeout for pinging services
-   */
-  timeout?: number;
-  /**
-   * Options to create a span using the tracer if any was set.
-   */
-  spanOptions?: SpanOptions;
+export interface GetTokenOptions extends OperationOptions {
 }
 
 /**
@@ -42,12 +29,12 @@ export interface GetTokenOptions {
  */
 export interface AccessToken {
   /**
-   * The access token.
+   * The access token returned by the authentication service.
    */
   token: string;
 
   /**
-   * The access token's expiration timestamp.
+   * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
 }

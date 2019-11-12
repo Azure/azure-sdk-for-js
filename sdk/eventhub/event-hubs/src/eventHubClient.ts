@@ -111,6 +111,23 @@ export interface EventHubProducerOptions {
 }
 
 /**
+ * The set of options to configure the `send` operation on the `EventHubProducerClient`.
+ * - `abortSignal`  : A signal used to cancel the send operation.
+  */
+export interface SendBatchOptions {
+/**
+   * @property
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
+   */
+  parentSpan?: Span | SpanContext;
+}
+
+/**
  * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal used to cancel the send operation.
@@ -121,25 +138,17 @@ export interface EventHubProducerOptions {
  *     partitionKey: 'foo'
  * }
  * ```
+ * 
+ * @internal
  */
-export interface SendOptions {
+export interface SendOptions extends SendBatchOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
-  partitionKey?: string | null;
-  /**
-   * @property
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
-   */
-  parentSpan?: Span | SpanContext;
+  partitionKey?: string | null;  
 }
 
 /**
@@ -157,7 +166,7 @@ export interface SendOptions {
  * }
  * ```
  */
-export interface BatchOptions {
+export interface CreateBatchOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
@@ -307,6 +316,8 @@ export interface EventHubClientOptions {
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
  *
+ * @internal
+ * @ignore
  */
 export class EventHubClient {
   /**

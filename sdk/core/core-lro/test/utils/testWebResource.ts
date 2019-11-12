@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { WebResource } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 

@@ -334,16 +334,16 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
+    Parameters.tier0,
     Parameters.metadata,
     Parameters.blobContentLength,
     Parameters.blobSequenceNumber,
     Parameters.version,
     Parameters.requestId,
-    Parameters.tier0,
     Parameters.blobType0,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -365,7 +365,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobCreateHeaders
     }
   },
   isXML: true,
@@ -379,7 +380,7 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -418,7 +419,8 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUploadPagesHeaders
     }
   },
   isXML: true,
@@ -432,7 +434,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -458,7 +460,8 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobClearPagesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobClearPagesHeaders
     }
   },
   isXML: true,
@@ -472,7 +475,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -506,7 +509,8 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesFromURLHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUploadPagesFromURLHeaders
     }
   },
   isXML: true,
@@ -521,7 +525,7 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp13
   ],
   headerParameters: [
@@ -540,7 +544,8 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobGetPageRangesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobGetPageRangesHeaders
     }
   },
   isXML: true,
@@ -555,7 +560,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.prevsnapshot,
     Parameters.comp13
   ],
@@ -575,7 +580,8 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobGetPageRangesDiffHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobGetPageRangesDiffHeaders
     }
   },
   isXML: true,
@@ -589,7 +595,7 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -610,7 +616,8 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobResizeHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobResizeHeaders
     }
   },
   isXML: true,
@@ -624,7 +631,7 @@ const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -643,7 +650,8 @@ const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobUpdateSequenceNumberHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUpdateSequenceNumberHeaders
     }
   },
   isXML: true,
@@ -657,7 +665,7 @@ const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp14
   ],
   headerParameters: [
@@ -674,7 +682,8 @@ const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.PageBlobCopyIncrementalHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobCopyIncrementalHeaders
     }
   },
   isXML: true,

@@ -350,7 +350,7 @@ describe("Cross Partition", function() {
         query,
         options,
         expectedOrderIds: expectedOrderedIds,
-        expectedRus: 35
+        expectedRus: 37
       });
     });
 

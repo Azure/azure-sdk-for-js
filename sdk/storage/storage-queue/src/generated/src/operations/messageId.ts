@@ -34,7 +34,7 @@ export class MessageId {
    * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
-   * @param visibilitytimeout Optional. Specifies the new visibility timeout value, in seconds,
+   * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
    * relative to server time. The default value is 30 seconds. A specified value must be larger than
    * or equal to 1 second, and cannot be larger than 7 days, or larger than 2 hours on REST protocol
    * versions prior to version 2011-08-18. The visibility timeout of a message can be set to a value
@@ -42,24 +42,24 @@ export class MessageId {
    * @param [options] The optional parameters
    * @returns Promise<Models.MessageIdUpdateResponse>
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options?: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
-   * @param visibilitytimeout Optional. Specifies the new visibility timeout value, in seconds,
+   * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
    * relative to server time. The default value is 30 seconds. A specified value must be larger than
    * or equal to 1 second, and cannot be larger than 7 days, or larger than 2 hours on REST protocol
    * versions prior to version 2011-08-18. The visibility timeout of a message can be set to a value
    * later than the expiry time.
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, callback: coreHttp.ServiceCallback<void>): void;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
-   * @param visibilitytimeout Optional. Specifies the new visibility timeout value, in seconds,
+   * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
    * relative to server time. The default value is 30 seconds. A specified value must be larger than
    * or equal to 1 second, and cannot be larger than 7 days, or larger than 2 hours on REST protocol
    * versions prior to version 2011-08-18. The visibility timeout of a message can be set to a value
@@ -67,13 +67,13 @@ export class MessageId {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilitytimeout: number, options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
         popReceipt,
-        visibilitytimeout,
+        visibilityTimeout,
         options
       },
       updateOperationSpec,
@@ -122,8 +122,8 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.popReceipt,
-    Parameters.visibilitytimeout1,
-    Parameters.timeout
+    Parameters.visibilityTimeout1,
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -142,7 +142,8 @@ const updateOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessageIdUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessageIdUpdateHeaders
     }
   },
   isXML: true,
@@ -157,7 +158,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.popReceipt,
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -168,7 +169,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessageIdDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessageIdDeleteHeaders
     }
   },
   isXML: true,

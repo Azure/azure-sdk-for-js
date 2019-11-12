@@ -133,7 +133,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -161,7 +161,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AppendBlobCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobCreateHeaders
     }
   },
   isXML: true,
@@ -175,7 +176,7 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp15
   ],
   headerParameters: [
@@ -211,7 +212,8 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AppendBlobAppendBlockHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobAppendBlockHeaders
     }
   },
   isXML: true,
@@ -225,7 +227,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp15
   ],
   headerParameters: [
@@ -257,7 +259,8 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
     }
   },
   isXML: true,

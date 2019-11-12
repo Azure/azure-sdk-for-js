@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer } from "../../lib/coreHttp";
+import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../lib/coreHttp";
 import {
   DeserializationPolicy,
   deserializationPolicy,
@@ -500,6 +500,70 @@ describe("deserializationPolicy", function() {
         updated: "2018-10-09T19:56:35Z"
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with default response headers`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
+      }
     });
   });
 });

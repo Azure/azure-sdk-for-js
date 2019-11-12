@@ -5,35 +5,43 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { OnMessage, OnError, LastEnqueuedEventInfo } from "./eventHubReceiver";
-export { ReceiveHandler } from "./receiveHandler";
+export { LastEnqueuedEventInfo } from "./eventHubReceiver";
 export {
   AbortSignalOptions,
-  EventHubClient,
   EventHubClientOptions,
   EventHubConsumerOptions,
   EventHubProducerOptions,
-  SendOptions,
-  BatchOptions,
+  SendBatchOptions,
+  CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   GetPropertiesOptions,
   ParentSpanOptions
 } from "./eventHubClient";
+export { EventHubConsumerClient, PartitionCheckpointer } from "./eventHubConsumerClient";
+export { EventHubProducerClient } from "./eventHubProducerClient";
+export {
+  SubscriptionOptions,
+  Subscription,
+  SubscriptionEventHandlers,
+  ProcessErrorHandler,
+  ProcessInitializeHandler,
+  ProcessCloseHandler,
+  ProcessEvents
+} from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
-export { EventHubProducer } from "./sender";
-export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
+export { Checkpoint } from "./partitionProcessor";
 export {
-  EventProcessor,
   CloseReason,
   EventProcessorOptions,
+  EventProcessorBatchOptions,
+  PartitionContext,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 export {
   MessagingError,
@@ -41,6 +49,5 @@ export {
   DefaultDataTransformer,
   RetryOptions,
   TokenType,
-  TokenCredential,
-  delay
+  TokenCredential
 } from "@azure/core-amqp";

@@ -3,7 +3,15 @@
 
 import { HttpResponse, isNode } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
+import {
+  BlobDownloadResponseModel,
+  BlobType,
+  CopyStatusType,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType,
+  BlobDownloadHeaders
+} from "./generatedModels";
 import { Metadata } from "./models";
 import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
 import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
@@ -11,18 +19,18 @@ import { ReadableStreamGetter, RetriableReadableStream } from "./utils/Retriable
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * BlobDownloadResponse implements Models.BlobDownloadResponse interface, and in Node.js runtime it will
+ * BlobDownloadResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
- * The readableStreamBody stream will retry underlayer, you can just use it as a normal Node.js
+ * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
  *
  * @export
  * @class BlobDownloadResponse
- * @implements {Models.BlobDownloadResponse}
+ * @implements {BlobDownloadResponseModel}
  */
-export class BlobDownloadResponse implements Models.BlobDownloadResponse {
+export class BlobDownloadResponse implements BlobDownloadResponseModel {
   /**
    * Indicates that the service supports
    * requests for partial file content.
@@ -101,10 +109,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * 'BlockBlob', 'PageBlob', 'AppendBlob'.
    *
    * @readonly
-   * @type {(Models.BlobType | undefined)}
+   * @type {(BlobType | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get blobType(): Models.BlobType | undefined {
+  public get blobType(): BlobType | undefined {
     return this.originalResponse.blobType;
   }
 
@@ -172,8 +180,8 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get copyCompletionTime(): Date | undefined {
-    return this.originalResponse.copyCompletionTime;
+  public get copyCompletedOn(): Date | undefined {
+    return this.originalResponse.copyCompletedOn;
   }
 
   /**
@@ -221,10 +229,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(Models.CopyStatusType | undefined)}
+   * @type {(CopyStatusType | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get copyStatus(): Models.CopyStatusType | undefined {
+  public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
   }
 
@@ -247,10 +255,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * values include: 'infinite', 'fixed'.
    *
    * @readonly
-   * @type {(Models.LeaseDurationType | undefined)}
+   * @type {(LeaseDurationType | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get leaseDuration(): Models.LeaseDurationType | undefined {
+  public get leaseDuration(): LeaseDurationType | undefined {
     return this.originalResponse.leaseDuration;
   }
 
@@ -259,10 +267,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * values include: 'available', 'leased', 'expired', 'breaking', 'broken'.
    *
    * @readonly
-   * @type {(Models.LeaseStateType | undefined)}
+   * @type {(LeaseStateType | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get leaseState(): Models.LeaseStateType | undefined {
+  public get leaseState(): LeaseStateType | undefined {
     return this.originalResponse.leaseState;
   }
 
@@ -271,10 +279,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * blob. Possible values include: 'locked', 'unlocked'.
    *
    * @readonly
-   * @type {(Models.LeaseStatusType | undefined)}
+   * @type {(LeaseStatusType | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get leaseStatus(): Models.LeaseStatusType | undefined {
+  public get leaseStatus(): LeaseStatusType | undefined {
     return this.originalResponse.leaseStatus;
   }
 
@@ -310,10 +318,17 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(string | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get eTag(): string | undefined {
-    return this.originalResponse.eTag;
+  public get etag(): string | undefined {
+    return this.originalResponse.etag;
   }
 
+  /**
+   * The error code.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
   public get errorCode(): string | undefined {
     return this.originalResponse.errorCode;
   }
@@ -426,6 +441,9 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * true, then the request returns a crc64 for the range, as long as the range size is less than
    * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
    * specified in the same request, it will fail with 400(Bad Request)
+   *
+   * @type {(Uint8Array | undefined)}
+   * @memberof BlobDownloadResponse
    */
   public get contentCrc64(): Uint8Array | undefined {
     return this.originalResponse.contentCrc64;
@@ -439,7 +457,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(Promise<Blob> | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get blobBody(): Promise<Blob> | undefined {
+  public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
   }
 
@@ -457,19 +475,25 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
     return isNode ? this.blobDownloadStream : undefined;
   }
 
+  /**
+   * The HTTP response.
+   *
+   * @type {HttpResponse}
+   * @memberof BlobDownloadResponse
+   */
   public get _response(): HttpResponse & {
-    parsedHeaders: Models.BlobDownloadHeaders;
+    parsedHeaders: BlobDownloadHeaders;
   } {
     return this.originalResponse._response;
   }
 
-  private originalResponse: Models.BlobDownloadResponse;
+  private originalResponse: BlobDownloadResponseModel;
   private blobDownloadStream?: RetriableReadableStream;
 
   /**
    * Creates an instance of BlobDownloadResponse.
    *
-   * @param {Models.BlobDownloadResponse} originalResponse
+   * @param {BlobDownloadResponseModel} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
@@ -477,7 +501,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @memberof BlobDownloadResponse
    */
   public constructor(
-    originalResponse: Models.BlobDownloadResponse,
+    originalResponse: BlobDownloadResponseModel,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,

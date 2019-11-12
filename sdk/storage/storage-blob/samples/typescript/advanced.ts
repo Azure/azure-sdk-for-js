@@ -4,36 +4,14 @@
 
 import fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import {
-  AnonymousCredential,
-  BlobServiceClient,
-  newPipeline,
-  HttpPipelineLogLevel
-} from "../../src"; // Change to "@azure/storage-blob" in your package
+import { AnonymousCredential, BlobServiceClient, newPipeline } from "../../src"; // Change to "@azure/storage-blob" in your package
 
-class ConsoleHttpPipelineLogger {
-  minimumLogLevel: any;
-  constructor(minimumLogLevel: any) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel: number, message: any) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
-    }
-  }
-}
+// Enabling logging may help uncover useful information about failures.
+// In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
+// Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
+// `setLogLevel` can be imported from the `@azure/logger` package
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
 
 async function main() {
   // Fill in following settings before running this sample
@@ -43,10 +21,8 @@ async function main() {
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "AdvancedSample V1.0.0" }, // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false
@@ -72,8 +48,8 @@ async function main() {
   // BlockBlobClient.uploadFile() is only available in Node.js
   await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    concurrency: 20, // 20 concurrency
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
 
@@ -81,7 +57,7 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadStream success");
 
@@ -91,8 +67,8 @@ async function main() {
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    concurrency: 20, // 20 concurrency
+    onProgress: ev => console.log(ev)
   });
   */
 
@@ -103,8 +79,8 @@ async function main() {
   await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    concurrency: 20, // 20 concurrency
+    onProgress: (ev) => console.log(ev)
   });
   console.log("downloadToBuffer success");
 

@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -22,6 +23,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   applicationSecurityGroups: operations.ApplicationSecurityGroups;
   availableDelegations: operations.AvailableDelegations;
   availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
+  availableServiceAliases: operations.AvailableServiceAliases;
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
   bastionHosts: operations.BastionHosts;
@@ -43,6 +45,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteLinks: operations.ExpressRouteLinks;
   firewallPolicies: operations.FirewallPolicies;
   firewallPolicyRuleGroups: operations.FirewallPolicyRuleGroups;
+  ipGroups: operations.IpGroups;
   loadBalancers: operations.LoadBalancers;
   loadBalancerBackendAddressPools: operations.LoadBalancerBackendAddressPools;
   loadBalancerFrontendIPConfigurations: operations.LoadBalancerFrontendIPConfigurations;
@@ -93,14 +96,16 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   vpnSites: operations.VpnSites;
   vpnSiteLinks: operations.VpnSiteLinks;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
+  vpnServerConfigurations: operations.VpnServerConfigurations;
   virtualHubs: operations.VirtualHubs;
   hubVirtualNetworkConnections: operations.HubVirtualNetworkConnections;
   vpnGateways: operations.VpnGateways;
   vpnConnections: operations.VpnConnections;
   vpnSiteLinkConnections: operations.VpnSiteLinkConnections;
   vpnLinkConnections: operations.VpnLinkConnections;
-  p2sVpnServerConfigurations: operations.P2sVpnServerConfigurations;
   p2sVpnGateways: operations.P2sVpnGateways;
+  vpnServerConfigurationsAssociatedWithVirtualWan: operations.VpnServerConfigurationsAssociatedWithVirtualWan;
+  virtualHubRouteTableV2s: operations.VirtualHubRouteTableV2s;
   webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
 
   /**
@@ -116,6 +121,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.applicationSecurityGroups = new operations.ApplicationSecurityGroups(this);
     this.availableDelegations = new operations.AvailableDelegations(this);
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
+    this.availableServiceAliases = new operations.AvailableServiceAliases(this);
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
     this.bastionHosts = new operations.BastionHosts(this);
@@ -137,6 +143,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteLinks = new operations.ExpressRouteLinks(this);
     this.firewallPolicies = new operations.FirewallPolicies(this);
     this.firewallPolicyRuleGroups = new operations.FirewallPolicyRuleGroups(this);
+    this.ipGroups = new operations.IpGroups(this);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
     this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
@@ -187,14 +194,16 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.vpnSites = new operations.VpnSites(this);
     this.vpnSiteLinks = new operations.VpnSiteLinks(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);
+    this.vpnServerConfigurations = new operations.VpnServerConfigurations(this);
     this.virtualHubs = new operations.VirtualHubs(this);
     this.hubVirtualNetworkConnections = new operations.HubVirtualNetworkConnections(this);
     this.vpnGateways = new operations.VpnGateways(this);
     this.vpnConnections = new operations.VpnConnections(this);
     this.vpnSiteLinkConnections = new operations.VpnSiteLinkConnections(this);
     this.vpnLinkConnections = new operations.VpnLinkConnections(this);
-    this.p2sVpnServerConfigurations = new operations.P2sVpnServerConfigurations(this);
     this.p2sVpnGateways = new operations.P2sVpnGateways(this);
+    this.vpnServerConfigurationsAssociatedWithVirtualWan = new operations.VpnServerConfigurationsAssociatedWithVirtualWan(this);
+    this.virtualHubRouteTableV2s = new operations.VirtualHubRouteTableV2s(this);
     this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
   }
 
@@ -267,6 +276,45 @@ class NetworkManagementClient extends NetworkManagementClientContext {
       supportedSecurityProvidersOperationSpec,
       callback) as Promise<Models.SupportedSecurityProvidersResponse>;
   }
+
+  /**
+   * Generates a unique VPN profile for P2S clients for VirtualWan and associated
+   * VpnServerConfiguration combination in the specified resource group.
+   * @param resourceGroupName The resource group name.
+   * @param virtualWANName The name of the VirtualWAN whose associated VpnServerConfigurations is
+   * needed.
+   * @param vpnClientParams Parameters supplied to the generate VirtualWan VPN profile generation
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>
+   */
+  generatevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: Models.VirtualWanVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse> {
+    return this.beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName,virtualWANName,vpnClientParams,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
+  }
+
+  /**
+   * Generates a unique VPN profile for P2S clients for VirtualWan and associated
+   * VpnServerConfiguration combination in the specified resource group.
+   * @param resourceGroupName The resource group name.
+   * @param virtualWANName The name of the VirtualWAN whose associated VpnServerConfigurations is
+   * needed.
+   * @param vpnClientParams Parameters supplied to the generate VirtualWan VPN profile generation
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: Models.VirtualWanVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualWANName,
+        vpnClientParams,
+        options
+      },
+      beginGeneratevirtualwanvpnserverconfigurationvpnprofileOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
@@ -315,7 +363,40 @@ const supportedSecurityProvidersOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.VirtualWanSecurityProviders
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGeneratevirtualwanvpnserverconfigurationvpnprofileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualWANName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "vpnClientParams",
+    mapper: {
+      ...Mappers.VirtualWanVpnProfileParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.VpnProfileResponse
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

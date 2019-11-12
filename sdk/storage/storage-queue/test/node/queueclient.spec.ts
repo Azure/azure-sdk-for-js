@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
-import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
+import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 
@@ -36,9 +36,9 @@ describe("QueueClient Node.js only", () => {
     const queueAcl = [
       {
         accessPolicy: {
-          expiry: new Date("2018-12-31T11:22:33.4567890Z"),
-          permission: "raup",
-          start: new Date("2017-12-31T11:22:33.4567890Z")
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: "raup",
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }
@@ -51,7 +51,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -64,7 +64,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -81,7 +81,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 

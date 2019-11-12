@@ -1,4 +1,4 @@
-import { SecretsClient } from "../../src";
+import { SecretClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
@@ -10,7 +10,7 @@ async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword15";
   const storageAccountSecretName = "StorageAccountPassword15";
@@ -21,9 +21,9 @@ async function main(): Promise<void> {
 
   // List the secrets we have, by page
   console.log("Listing secrets by page");
-  for await (const page of client.listSecrets().byPage({ maxPageSize: 2 })) {
-    for (const secretAttr of page) {
-      const secret = await client.getSecret(secretAttr.name);
+  for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 2 })) {
+    for (const secretProperties of page) {
+      const secret = await client.getSecret(secretProperties.name);
       console.log("secret: ", secret);
     }
     console.log("--page--");
@@ -31,21 +31,21 @@ async function main(): Promise<void> {
 
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
-  for await (const secretAttr of client.listSecrets()) {
-    const secret = await client.getSecret(secretAttr.name);
+  for await (const secretProperties of client.listPropertiesOfSecrets()) {
+    const secret = await client.getSecret(secretProperties.name);
     console.log("secret: ", secret);
   }
 
   await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (const secretAttr of client.listSecretVersions(bankAccountSecretName)) {
-    const secret = await client.getSecret(secretAttr.name);
+  for await (const secretProperties of client.listPropertiesOfSecretVersions(bankAccountSecretName)) {
+    const secret = await client.getSecret(secretProperties.name);
     console.log("secret version: ", secret);
   }
 
-  await client.deleteSecret(bankAccountSecretName);
-  await client.deleteSecret(storageAccountSecretName);
+  await client.beginDeleteSecret(bankAccountSecretName);
+  await client.beginDeleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {

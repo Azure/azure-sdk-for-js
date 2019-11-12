@@ -100,19 +100,6 @@ export enum ConsistencyLevel {
 
 // @public (undocumented)
 export const Constants: {
-    MediaTypes: {
-        Any: string;
-        ImageJpeg: string;
-        ImagePng: string;
-        Javascript: string;
-        Json: string;
-        OctetStream: string;
-        QueryJson: string;
-        SQL: string;
-        TextHtml: string;
-        TextPlain: string;
-        Xml: string;
-    };
     HttpHeaders: {
         Authorization: string;
         ETag: string;
@@ -219,8 +206,6 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
-    Name: string;
-    DatabaseAccountEndpoint: string;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -228,20 +213,6 @@ export const Constants: {
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
-    DefaultPrecisions: {
-        DefaultNumberHashPrecision: number;
-        DefaultNumberRangePrecision: number;
-        DefaultStringHashPrecision: number;
-        DefaultStringRangePrecision: number;
-    };
-    ConsistentHashRing: {
-        DefaultVirtualNodesPerCollection: number;
-    };
-    RegularExpressions: {
-        TrimLeftSlashes: RegExp;
-        TrimRightSlashes: RegExp;
-        IllegalResourceIdCharacters: RegExp;
-    };
     Quota: {
         CollectionSize: string;
     };
@@ -664,11 +635,8 @@ export enum OperationType {
     Upsert = "upsert"
 }
 
-// Warning: (ae-forgotten-export) The symbol "Point" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "Range" needs to be exported by the entry point index.d.ts
-// 
 // @public (undocumented)
-export type PartitionKey = PartitionKeyDefinition | Point | Range | {};
+export type PartitionKey = PartitionKeyDefinition | string | number | {};
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
@@ -1042,27 +1010,27 @@ export interface SqlQuerySpec {
 
 // @public (undocumented)
 export const StatusCodes: {
-    Ok: number;
-    Created: number;
-    Accepted: number;
-    NoContent: number;
-    NotModified: number;
-    BadRequest: number;
-    Unauthorized: number;
-    Forbidden: number;
-    NotFound: number;
-    MethodNotAllowed: number;
-    RequestTimeout: number;
-    Conflict: number;
-    Gone: number;
-    PreconditionFailed: number;
-    RequestEntityTooLarge: number;
-    TooManyRequests: number;
-    RetryWith: number;
-    InternalServerError: number;
-    ServiceUnavailable: number;
-    OperationPaused: number;
-    OperationCancelled: number;
+    Ok: 200;
+    Created: 201;
+    Accepted: 202;
+    NoContent: 204;
+    NotModified: 304;
+    BadRequest: 400;
+    Unauthorized: 401;
+    Forbidden: 403;
+    NotFound: 404;
+    MethodNotAllowed: 405;
+    RequestTimeout: 408;
+    Conflict: 409;
+    Gone: 410;
+    PreconditionFailed: 412;
+    RequestEntityTooLarge: 413;
+    TooManyRequests: 429;
+    RetryWith: 449;
+    InternalServerError: 500;
+    ServiceUnavailable: 503;
+    OperationPaused: 1200;
+    OperationCancelled: 1201;
 };
 
 // @public

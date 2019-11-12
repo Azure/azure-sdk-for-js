@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { IdentityClientOptions } from "../src";
+import { TokenCredentialOptions } from "../src";
 import { _setDelayTestFunction } from "../src/util/delay";
 import {
   HttpHeaders,
@@ -29,7 +29,7 @@ export class MockAuthHttpClient implements HttpClient {
   private currentResponse: number = 0;
   private mockTimeout: boolean;
 
-  public identityClientOptions: IdentityClientOptions;
+  public tokenCredentialOptions: TokenCredentialOptions;
   public requests: WebResource[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
@@ -55,10 +55,12 @@ export class MockAuthHttpClient implements HttpClient {
 
     this.mockTimeout = options.mockTimeout !== undefined ? options.mockTimeout : false;
 
-    this.identityClientOptions = {
+    this.tokenCredentialOptions = {
       authorityHost: "https://authority",
       httpClient: this,
-      noRetryPolicy: true
+      retryOptions: {
+        maxRetries: 0
+      }
     };
   }
 
@@ -98,15 +100,50 @@ export function assertClientCredentials(
       true,
       "Request body doesn't contain expected tenantId"
     );
+
+    assert.strictEqual(
+      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      true,
+      "Request body doesn't contain expected clientId"
+    );
+
+    assert.strictEqual(
+      authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
+      true,
+      "Request body doesn't contain expected clientSecret"
+    );
+  }
+}
+
+export function assertClientUsernamePassword(
+  authRequest: WebResource,
+  expectedTenantId: string,
+  expectedClientId: string,
+  expectedUsername: string,
+  expectedPassword: string
+): void {
+  if (!authRequest) {
+    assert.fail("No authentication request was intercepted");
+  } else {
+    assert.strictEqual(
+      authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
+      true,
+      "Request body doesn't contain expected tenantId"
+    );
     assert.strictEqual(
       authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
     assert.strictEqual(
-      authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
+      authRequest.body.indexOf(`username=${expectedUsername}`) > -1,
       true,
-      "Request body doesn't contain expected clientSecret"
+      "Request body doesn't contain expected username"
+    );
+    assert.strictEqual(
+      authRequest.body.indexOf(`password=${expectedPassword}`) > -1,
+      true,
+      "Request body doesn't contain expected password"
     );
   }
 }

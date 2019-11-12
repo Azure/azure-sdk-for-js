@@ -2,16 +2,16 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential, Models } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageSharedKeyCredential, BlobDownloadResponseModel } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
@@ -68,7 +68,7 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(0);
+  const downloadBlockBlobResponse: BlobDownloadResponseModel = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody!)

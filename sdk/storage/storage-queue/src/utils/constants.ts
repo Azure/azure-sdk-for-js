@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.0.0-preview.4";
+export const SDK_VERSION: string = "12.0.1";
 export const SERVICE_VERSION: string = "2019-02-02";
 
+/**
+ * The OAuth scope to use with Azure Storage.
+ */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const URLConstants = {
@@ -14,7 +17,7 @@ export const URLConstants = {
   }
 };
 
-export const HTTPURLConnection = {
+export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
@@ -49,3 +52,52 @@ export const ETagAny = "*";
 export const DevelopmentConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;
   AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;
   QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;`;
+
+export const StorageQueueLoggingAllowedHeaderNames = [
+  "Access-Control-Allow-Origin",
+  "Cache-Control",
+  "Content-Length",
+  "Content-Type",
+  "Date",
+  "Request-Id",
+  "traceparent",
+  "Transfer-Encoding",
+  "User-Agent",
+  "x-ms-client-request-id",
+  "x-ms-date",
+  "x-ms-error-code",
+  "x-ms-request-id",
+  "x-ms-return-client-request-id",
+  "x-ms-version",
+  "x-ms-approximate-messages-count",
+  "x-ms-popreceipt",
+  "x-ms-time-next-visible"
+];
+
+export const StorageQueueLoggingAllowedQueryParameters = [
+  "comp",
+  "maxresults",
+  "rscc",
+  "rscd",
+  "rsce",
+  "rscl",
+  "rsct",
+  "se",
+  "si",
+  "sip",
+  "sp",
+  "spr",
+  "sr",
+  "srt",
+  "ss",
+  "st",
+  "sv",
+  "include",
+  "marker",
+  "prefix",
+  "messagettl",
+  "numofmessages",
+  "peekonly",
+  "popreceipt",
+  "visibilitytimeout"
+];

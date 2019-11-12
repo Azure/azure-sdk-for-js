@@ -19,7 +19,7 @@ export interface Recorder {
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
-  skip(runtime?: "node" | "browser"): void;
+  skip(runtime?: "node" | "browser", reason?: string): void;
   /**
    * In live test mode, random string is generated, appended to `prefix` and returned.
    *
@@ -95,10 +95,12 @@ export function record(testContext: Mocha.Context): Recorder {
     },
     /**
      * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
-     * If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
-     * @param runtime Can either be "node" or "browser"
+     * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
+     * @param runtime Can either be `"node"` or `"browser"` or `undefined`
+     * @param reason Reason for skipping the test
      */
-    skip: function(runtime?: "node" | "browser"): void {
+    skip: function(runtime?: "node" | "browser", reason?: string): void {
+      if (!reason) reason = "Reason to skip the test is not specified";
       // 1. skipping the test only in node
       // 2. skipping the test only in browser
       // 3. skipping the test in both the node and browser runtimes
@@ -107,12 +109,14 @@ export function record(testContext: Mocha.Context): Recorder {
         (runtime === "browser" && isBrowser()) ||
         !runtime
       ) {
-        if (isRecordMode()) {
-          // record mode - recorder is stopped, test is skipped
-          recorder.stop();
-          testContext.skip();
-        } else if (isPlaybackMode()) {
-          // playback mode - test is skipped
+        // record mode - recorder is stopped
+        if (isRecordMode()) recorder.stop();
+
+        // record/playback modes
+        // - test title is updated with the given reason
+        // - test is skipped
+        if (isRecordMode() || isPlaybackMode()) {
+          testContext.test!.title = testContext.test!.title + ` (${reason})`;
           testContext.skip();
         } else {
           // live mode - no effect

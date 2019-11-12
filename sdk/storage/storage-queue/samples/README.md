@@ -5,14 +5,14 @@
 Copy the sample file you want to a folder of your choice and run the following command in your samples folder to install the npm package for Azure Storage Queue library.
 
 ```bash
-npm install @azure/storage-queue@12.0.0-preview.4
+npm install @azure/storage-queue
 ```
 
 Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-queue package.
 
 ```bash
 npm init -y
-npm install @azure/storage-queue@12.0.0-preview.4
+npm install @azure/storage-queue
 ```
 
 ### Running Samples
@@ -53,4 +53,26 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ts-node sample.ts
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-queue/samples/README.png)
+## Browser sample
+
+Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
+
+First, install webpack and webpack-cli.
+
+```bash
+npm install --save-dev webpack webpack-cli
+```
+
+Next, run webpack on the sample code to produce an optimized browser bundle.
+
+```bash
+npx webpack sample.js
+```
+
+This will produce `dist/main.js`. Reference this file in an HTML file script tag and open the file in a browser to run the sample.
+
+```html
+<script src="./dist/main.js"></script>
+```
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fsamples%2FREADME.png)

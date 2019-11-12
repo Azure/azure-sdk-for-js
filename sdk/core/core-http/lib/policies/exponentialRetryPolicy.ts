@@ -28,7 +28,6 @@ export interface RetryError extends Error {
 export function exponentialRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
-  minRetryInterval?: number,
   maxRetryInterval?: number
 ): RequestPolicyFactory {
   return {
@@ -38,7 +37,6 @@ export function exponentialRetryPolicy(
         options,
         retryCount,
         retryInterval,
-        minRetryInterval,
         maxRetryInterval
       );
     }
@@ -48,7 +46,48 @@ export function exponentialRetryPolicy(
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
 const DEFAULT_CLIENT_RETRY_COUNT = 3;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
-const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
+
+/**
+ * Describes the Retry Mode type. Currently supporting only Exponential.
+ * @enum RetryMode
+ */
+export enum RetryMode {
+  Exponential
+}
+
+/**
+ * Options that control how to retry failed requests.
+ */
+export interface RetryOptions {
+  /**
+   * The maximum number of retry attempts.  Defaults to 3.
+   */
+  maxRetries?: number;
+
+  /**
+   * The amount of delay in milliseconds between retry attempts. Defaults to 30000
+   * (30 seconds). The delay increases exponentially with each retry up to a maximum
+   * specified by maxRetryDelayInMs.
+   */
+  retryDelayInMs?: number;
+
+  /**
+   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
+   * to 90000 (90 seconds).
+   */
+  maxRetryDelayInMs?: number;
+
+  /**
+   * Currently supporting only Exponential mode.
+   */
+  mode?: RetryMode;
+}
+
+export const DefaultRetryOptions: RetryOptions = {
+  maxRetries: DEFAULT_CLIENT_RETRY_COUNT,
+  retryDelayInMs: DEFAULT_CLIENT_RETRY_INTERVAL,
+  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL
+}
 
 /**
  * @class
@@ -63,10 +102,6 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
    * The client retry interval in milliseconds.
    */
   retryInterval: number;
-  /**
-   * The minimum retry interval in milliseconds.
-   */
-  minRetryInterval: number;
   /**
    * The maximum retry interval in milliseconds.
    */
@@ -86,7 +121,6 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     options: RequestPolicyOptions,
     retryCount?: number,
     retryInterval?: number,
-    minRetryInterval?: number,
     maxRetryInterval?: number
   ) {
     super(nextPolicy, options);
@@ -95,9 +129,6 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     }
     this.retryCount = isNumber(retryCount) ? retryCount : DEFAULT_CLIENT_RETRY_COUNT;
     this.retryInterval = isNumber(retryInterval) ? retryInterval : DEFAULT_CLIENT_RETRY_INTERVAL;
-    this.minRetryInterval = isNumber(minRetryInterval)
-      ? minRetryInterval
-      : DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
     this.maxRetryInterval = isNumber(maxRetryInterval)
       ? maxRetryInterval
       : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
@@ -181,7 +212,7 @@ function updateRetryData(
   incrementDelta *= boundedRandDelta;
 
   retryData.retryInterval = Math.min(
-    policy.minRetryInterval + incrementDelta,
+    incrementDelta,
     policy.maxRetryInterval
   );
 

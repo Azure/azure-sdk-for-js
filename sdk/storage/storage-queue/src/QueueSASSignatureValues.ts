@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
@@ -41,7 +41,7 @@ export interface QueueSASSignatureValues {
    * @type {Date}
    * @memberof QueueSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
@@ -49,17 +49,17 @@ export interface QueueSASSignatureValues {
    * @type {Date}
    * @memberof QueueSASSignatureValues
    */
-  expiryTime?: Date;
+  expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
    * Please refer to {@link QueueSASPermissions}
    * being accessed for help constructing the permissions string.
    *
-   * @type {string}
+   * @type {QueueSASPermissions}
    * @memberof QueueSASSignatureValues
    */
-  permissions?: string;
+  permissions?: QueueSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -94,27 +94,27 @@ export interface QueueSASSignatureValues {
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: When identifier is not provided, permissions and expiryTime are required.
- * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
+ * WARNING: When identifier is not provided, permissions and expiresOn are required.
+ * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
  * @export
  * @param {QueueSASSignatureValues} queueSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !queueSASSignatureValues.identifier &&
-    (!queueSASSignatureValues.permissions && !queueSASSignatureValues.expiryTime)
+    (!queueSASSignatureValues.permissions && !queueSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiryTime' for Queue SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided."
     );
   }
 
@@ -125,17 +125,19 @@ export function generateQueueSASQueryParameters(
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
-    verifiedPermissions = QueueSASPermissions.parse(queueSASSignatureValues.permissions).toString();
+    verifiedPermissions = QueueSASPermissions.parse(
+      queueSASSignatureValues.permissions.toString()
+    ).toString();
   }
 
   // Signature is generated on the un-url-encoded values.
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
-    queueSASSignatureValues.startTime
-      ? truncatedISO8061Date(queueSASSignatureValues.startTime, false)
+    queueSASSignatureValues.startsOn
+      ? truncatedISO8061Date(queueSASSignatureValues.startsOn, false)
       : "",
-    queueSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(queueSASSignatureValues.expiryTime, false)
+    queueSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(queueSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(sharedKeyCredential.accountName, queueSASSignatureValues.queueName),
     queueSASSignatureValues.identifier,
@@ -153,8 +155,8 @@ export function generateQueueSASQueryParameters(
     undefined,
     undefined,
     queueSASSignatureValues.protocol,
-    queueSASSignatureValues.startTime,
-    queueSASSignatureValues.expiryTime,
+    queueSASSignatureValues.startsOn,
+    queueSASSignatureValues.expiresOn,
     queueSASSignatureValues.ipRange,
     queueSASSignatureValues.identifier
   );

@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../../src";
+import { CertificateClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates, updates and deletes certificate issuers.
@@ -13,12 +13,12 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const issuerName = "issuerName";
 
   // Create
-  await client.setCertificateIssuer(issuerName, "Test", {
+  await client.createIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
@@ -35,21 +35,24 @@ async function main(): Promise<void> {
   });
 
   // We can create a certificate with that issuer's name.
-  await client.createCertificate("MyCertificate", {
+  const createPoller = await client.beginCreateCertificate("MyCertificate", {
     issuerName,
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
-
-  // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy("MyCertificate");
-  console.log("Certificate: ", certificate);
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   // We can retrieve the issuer this way:
-  const getResponse = await client.getCertificateIssuer(issuerName);
+  const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
+  // We can also list properties for all issuers:
+  for await (const issuerProperties of client.listPropertiesOfIssuers()) {
+    console.log("Certificate properties: ", issuerProperties)
+  }
+
   // We can also delete the issuer.
-  await client.deleteCertificateIssuer(issuerName);
+  await client.deleteIssuer(issuerName);
 }
 
 main().catch((err) => {

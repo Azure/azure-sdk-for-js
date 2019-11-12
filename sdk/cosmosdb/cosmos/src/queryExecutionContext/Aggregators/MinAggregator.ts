@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
-import { IAggregator } from "./IAggregator";
+import { Aggregator } from "./Aggregator";
 
 export interface MinAggregateResult {
   min: number;
@@ -9,7 +9,7 @@ export interface MinAggregateResult {
 }
 
 /** @hidden */
-export class MinAggregator implements IAggregator {
+export class MinAggregator implements Aggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
   /**

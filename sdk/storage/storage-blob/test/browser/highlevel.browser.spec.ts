@@ -61,7 +61,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -72,11 +72,11 @@ describe("Highlevel", () => {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
-        parallelism: 2
+        concurrency: 2
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -88,8 +88,8 @@ describe("Highlevel", () => {
       await blockBlobClient.uploadBrowserData(tempFile1, {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
-        parallelism: 2,
-        progress: (ev) => {
+        concurrency: 2,
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -107,8 +107,8 @@ describe("Highlevel", () => {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
-        parallelism: 2,
-        progress: (ev) => {
+        concurrency: 2,
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -121,7 +121,7 @@ describe("Highlevel", () => {
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
-      parallelism: 2
+      concurrency: 2
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -155,7 +155,7 @@ describe("Highlevel", () => {
 
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
-      parallelism: 2
+      concurrency: 2
     });
 
     const downloadResponse = await blockBlobClient.download(0);

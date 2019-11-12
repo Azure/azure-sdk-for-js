@@ -127,8 +127,8 @@ describe("PageBlobClient", () => {
     const page1 = await pageBlobClient.getPageRanges(0, 512);
     const page2 = await pageBlobClient.getPageRanges(512, 512);
 
-    assert.equal(page1.pageRange![0].end, 511);
-    assert.equal(page2.pageRange![0].end, 1023);
+    assert.equal((page1.pageRange![0].count || 0) + page1.pageRange![0].offset, 511);
+    assert.equal((page2.pageRange![0].count || 0) + page2.pageRange![0].offset, 1023);
   });
 
   it("getPageRangesDiff", async () => {
@@ -146,10 +146,11 @@ describe("PageBlobClient", () => {
     await pageBlobClient.clearPages(512, 512);
 
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
-    assert.equal(rangesDiff.pageRange![0].start, 0);
-    assert.equal(rangesDiff.pageRange![0].end, 511);
-    assert.equal(rangesDiff.clearRange![0].start, 512);
-    assert.equal(rangesDiff.clearRange![0].end, 1023);
+
+    assert.equal(rangesDiff.pageRange![0].offset, 0);
+    assert.equal(rangesDiff.pageRange![0].count, 511);
+    assert.equal(rangesDiff.clearRange![0].offset, 512);
+    assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
   it("updateSequenceNumber", async () => {

@@ -1,8 +1,81 @@
 # Breaking Changes
 
-### 2019.10 12.0.0-preview.5
+## 2019.11 12.0.0
 
-- `IPRange` is renamed to `SasIPRange`.
+- The custom browser and retry policies that are specific to the Storage libraries have been
+  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
+  Below are the entities that now have the Storage prefix
+  - BrowserPolicy
+  - BrowserPolicyFactory
+  - RetryPolicy
+  - RetryPolicyType
+  - RetryOptions
+  - RetryPolicyFactory
+- `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
+- The properties in the StoragePipelineOptions interface have been updated as below
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`.
+  - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-blob/README.md#troubleshooting) section of our readme.
+  - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+    corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Updates to `BlockBlobClient.uploadStream`
+  - `maxBuffers` attribute of is renamed to `maxConcurrency`
+- Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
+- The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## 2019.10 12.0.0-preview.5
+
+- [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
+- [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported. In the case where convenience layer already defined a type with conflicting name, the model type is aliased with `Model` suffix. [PR #5567](https://github.com/Azure/azure-sdk-for-js/pull/5567)
+- [Breaking] Cancelling an operation now throws a standardized error with the name `AbortError`. [PR #5633](https://github.com/Azure/azure-sdk-for-js/pull/5663)
+- [Breaking] `blobName` on `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient` is renamed to `name`. [PR #5613](https://github.com/Azure/azure-sdk-for-js/pull/5613)
+- [Breaking] New `BlobBatchClient` allowing batched requests to the Azure Storage Blob service. [PR #5634](https://github.com/Azure/azure-sdk-for-js/pull/5634)
+  - Renamed `BatchRequest` to `BlobBatch`, flattened `BatchDeleteRequest` and `BatchSetTierRequest` into `BlobBatch`
+  - Moved `submitBatch` code from `BlobServiceClient` into new `BlobBatchClient`, created new `deleteBlobs` and `setBlobsAccessTier` helpers on `BlobBatchClient`
+    `BlobBatchClient` contains `setBlobsAccessTier`, `submitBatch` and `deleteBlobs` helper methods. `BlobBatch` represents an aggregated set of operations on blobs, `delete` and `setAccessTier` functionalities are supported currently.
+- [Breaking] Flattened the conditions type `BlobRequestConditions` instead of current nested one. It replaces `ContainerAccessConditions` and `BlobAccessConditions`.
+  In addition, various conditions fields are renamed into simply `conditions` except `sourceModifiedAccessConditions` which is renamed to `sourceConditions`.
+  This makes it more convenient to pass in conditional request options. [PR #5672](https://github.com/Azure/azure-sdk-for-js/pull/5672).
+
+  An example:
+
+  ```js
+  {
+    blobAccessConditions: {
+      modifiedAccessConditions: {
+        ifMatch: uploadResponse.eTag
+    }
+  }
+  ```
+
+  turns into
+
+  ```js
+  {
+    conditions: {
+      ifMatch: uploadResponse.eTag
+  }
+  ```
+
+- [Breaking] `eTag` attribute is renamed to `etag`. [PR #5674](https://github.com/Azure/azure-sdk-for-js/pull/5674)
+- [Breaking] `body` field from `RestError` Object in core-http Library is removed, the `response` property on the error will now have the `parsedBody` & `headers` along with raw body & headers that are already present. PRs [#5670](https://github.com/Azure/azure-sdk-for-js/pull/5670), [#5437](https://github.com/Azure/azure-sdk-for-js/pull/5437)
+  - Errors from the storage service can be seen in an extra field `details` with the expected error code. [#5688](https://github.com/Azure/azure-sdk-for-js/pull/5688)
+- [Breaking] `progress` callback in the option bags of all the helper methods is renamed to `onProgress`. [PR #5676](https://github.com/Azure/azure-sdk-for-js/pull/5676)
+- [Breaking] Consolidated `PageRange` and `ClearRange` types. They now have `offset` and `count` attributes as opposed to the older `start` and `end` attributes.
+  [PR #5632](https://github.com/Azure/azure-sdk-for-js/pull/5632)
+- [Breaking] Type of the `permissions` attribute in the options bag `BlobSASSignatureValues` to be passed into `generateBlobSASQueryParameters` is changed to `BlobSASPermissions` from type `string`. [PR #5626](https://github.com/Azure/azure-sdk-for-js/pull/5626)
+  - Similarly, `AccountSASPermissions` for `generateAccountSASQueryParameters` instead of type `string`.
+  - Example - permissions attribute in `generateBlobSASQueryParameters`
+    - `permissions: BlobSASPermissions.parse("racwd").toString()` changes to `BlobSASPermissions.parse("racwd")`
+- [Breaking] Appropriate attribute renames in all the interfaces. PRs [#5580](https://github.com/Azure/azure-sdk-for-js/pull/5580),[#5630](https://github.com/Azure/azure-sdk-for-js/pull/5630)
+  - Example - `nextMarker` -> `continuationToken`, `HTTPClient` -> `HttpClient`, `permission` -> `permissions`, `parallelism` -> `concurrency`
+- [Breaking] `encrypted` attribute is removed from `BlobMetadata` interface. [PR #5612](https://github.com/Azure/azure-sdk-for-js/pull/5612)
+- [Breaking] Return type of `downloadToBuffer` helper method on `BlobClient` is changed to `Promise<Buffer>` from `Promise<void>` [PR #5624](https://github.com/Azure/azure-sdk-for-js/pull/5624)
+- [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
 ### 2019.10 Version 12.0.0-preview.4
 

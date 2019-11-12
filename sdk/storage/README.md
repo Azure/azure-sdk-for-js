@@ -4,13 +4,13 @@ Azure Storage is a Microsoft-managed service providing cloud storage that is hig
 
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Storage service.
 
-- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
-- [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
-- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue)
+- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
+- [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
+- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
-- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
-- @azure/storage-file [Package (npm)](https://www.npmjs.com/package/@azure/storage-file/v/12.0.0-preview.4)
-- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.4)
+- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
+- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
+- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
@@ -55,6 +55,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.repeat`
 - `String.prototype.includes`
 - `Array.prototype.includes`
+- `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 
@@ -89,51 +90,29 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ## Getting Started
 
-### NPM
-
 The preferred way to install the Azure Storage client libraries for JavaScript is to use the npm package manager. Take "@azure/storage-blob" for example.
 
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.4
+npm install @azure/storage-blob
 ```
 
 In your TypeScript or JavaScript file, import via following:
 
 ```JavaScript
-import * as Azure from "@azure/storage-blob";
+import * as AzureStorageBlob from "@azure/storage-blob";
 ```
 
 Or
 
 ```JavaScript
-const Azure = require("@azure/storage-blob");
+conss AzureStorageBlob = require("@azure/storage-blob");
 ```
-
-### JavaScript Bundle
-
-To use the client libraries with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-blob.min.js"></script>
-<script src="https://mydomain/azure-storage-file.min.js"></script>
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azblob`
-- `azfile`
-- `azqueue`
-
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases).
 
 ### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/zh-cn/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -249,7 +228,7 @@ async function main() {
     response = (await iterator.next()).value;
   } while (response);
 
-  // 7. Passing marker as an argument (similar to the previous example)
+  // 7. Passing the page marker as an argument (similar to the previous example)
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
   response = (await iterator.next()).value;
@@ -257,10 +236,10 @@ async function main() {
   for (const blob of response.segment.blobItems) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
-  // Gets next marker
-  let marker = response.nextMarker;
-  // Passing next marker as continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+  // Passing the continuationToken
+  iterator = containerClient
+    .listBlobsFlat()
+    .byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {
@@ -320,12 +299,12 @@ const queueServiceClient = new QueueServiceClient(
 
 More samples
 
-- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/test/)
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/test)
-- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples)
-- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/test)
+- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
+- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test)
 
 ## Contributing
 
@@ -340,3 +319,6 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

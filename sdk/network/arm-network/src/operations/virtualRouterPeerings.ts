@@ -77,46 +77,6 @@ export class VirtualRouterPeerings {
   }
 
   /**
-   * Updates a Virtual Router Peering.
-   * @param resourceGroupName The resource group name of the Virtual Router Peering.
-   * @param virtualRouterName The name of the Virtual Router.
-   * @param peeringName The name of the Virtual Router Peering being updated.
-   * @param parameters Parameters supplied to update Virtual Router Peering operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualRouterPeeringsUpdateResponse>
-   */
-  update(resourceGroupName: string, virtualRouterName: string, peeringName: string, parameters: Models.VirtualRouterPeering, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRouterPeeringsUpdateResponse>;
-  /**
-   * @param resourceGroupName The resource group name of the Virtual Router Peering.
-   * @param virtualRouterName The name of the Virtual Router.
-   * @param peeringName The name of the Virtual Router Peering being updated.
-   * @param parameters Parameters supplied to update Virtual Router Peering operation.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, virtualRouterName: string, peeringName: string, parameters: Models.VirtualRouterPeering, callback: msRest.ServiceCallback<Models.VirtualRouterPeering>): void;
-  /**
-   * @param resourceGroupName The resource group name of the Virtual Router Peering.
-   * @param virtualRouterName The name of the Virtual Router.
-   * @param peeringName The name of the Virtual Router Peering being updated.
-   * @param parameters Parameters supplied to update Virtual Router Peering operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, virtualRouterName: string, peeringName: string, parameters: Models.VirtualRouterPeering, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouterPeering>): void;
-  update(resourceGroupName: string, virtualRouterName: string, peeringName: string, parameters: Models.VirtualRouterPeering, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterPeering>, callback?: msRest.ServiceCallback<Models.VirtualRouterPeering>): Promise<Models.VirtualRouterPeeringsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualRouterName,
-        peeringName,
-        parameters,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.VirtualRouterPeeringsUpdateResponse>;
-  }
-
-  /**
    * Creates or updates the specified Virtual Router Peering.
    * @param resourceGroupName The name of the resource group.
    * @param virtualRouterName The name of the Virtual Router.
@@ -250,39 +210,6 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualRouterPeering
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualRouterName,
-    Parameters.peeringName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.VirtualRouterPeering,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouterPeering

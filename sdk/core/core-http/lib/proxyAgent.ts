@@ -27,10 +27,8 @@ export function createProxyAgent(
     tunnelOptions.proxy!.proxyAuth = `${proxySettings.username}:${proxySettings.password}`;
   }
 
-  const requestScheme = URLBuilder.parse(requestUrl).getScheme() || "";
-  const isRequestHttps = requestScheme.toLowerCase() === "https";
-  const proxyScheme = URLBuilder.parse(proxySettings.host).getScheme() || "";
-  const isProxyHttps = proxyScheme.toLowerCase() === "https";
+  const isRequestHttps = isUrlHttps(requestUrl);
+  const isProxyHttps = isUrlHttps(proxySettings.host);
 
   const proxyAgent = {
     isHttps: isRequestHttps,
@@ -38,6 +36,11 @@ export function createProxyAgent(
   };
 
   return proxyAgent;
+}
+
+export function isUrlHttps(url: string): boolean {
+  const urlScheme = URLBuilder.parse(url).getScheme() || "";
+  return urlScheme.toLowerCase() === "https";
 }
 
 export function createTunnel(

@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0-preview.5",
+  "version": "1.0.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -30,16 +30,15 @@
   "module": "./es/lib/coreHttp.js",
   "types": "./es/lib/coreHttp.d.ts",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
+    "dist/**/*.node.js",
+    "dist/**/*.node.js.map",
     "es/lib/**/*.js",
     "es/lib/**/*.js.map",
     "es/lib/**/*.d.ts",
     "es/lib/**/*.d.ts.map",
     "lib/**/*.ts",
     "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
@@ -69,6 +68,7 @@
     "build:test-browser": "webpack --config webpack.testconfig.ts",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist",
+    "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -110,12 +110,12 @@
     "all": true
   },
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-auth": "1.0.0-preview.3",
-    "@azure/core-tracing": "1.0.0-preview.4",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-auth": "^1.0.0",
+    "@azure/core-tracing": "1.0.0-preview.5",
+    "@azure/logger": "^1.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
-    "@azure/logger": "1.0.0-preview.1",
     "form-data": "^2.5.0",
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
@@ -161,7 +161,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-typescript-es6-transform": "^4.0.0",
     "karma-webpack": "^4.0.0-rc.6",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.2",
     "mocha-chrome": "^2.0.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",
@@ -183,12 +183,20 @@
     "terser": "^4.0.2",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.3.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-middleware": "^3.1.2",
     "xhr-mock": "^2.4.1",
     "yarn": "^1.6.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "lib/util/constants.ts",
+        "prefix": "coreHttpVersion"
+      }
+    ]
   }
 }

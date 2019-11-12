@@ -183,7 +183,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.metadata,
@@ -198,7 +198,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueCreateHeaders
     }
   },
   isXML: true,
@@ -212,7 +213,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -223,7 +224,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueDeleteHeaders
     }
   },
   isXML: true,
@@ -237,7 +239,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp3
   ],
   headerParameters: [
@@ -249,7 +251,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -263,7 +266,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp3
   ],
   headerParameters: [
@@ -276,7 +279,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueSetMetadataHeaders
     }
   },
   isXML: true,
@@ -290,7 +294,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -315,7 +319,8 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueGetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueGetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -329,7 +334,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -362,7 +367,8 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.QueueSetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueSetAccessPolicyHeaders
     }
   },
   isXML: true,

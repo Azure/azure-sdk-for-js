@@ -1,4 +1,4 @@
-const { SecretsClient } = require("../../src");
+const { SecretClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 function delay(t, value) {
@@ -14,7 +14,7 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword1112923";
   const storageAccountSecretName = "StorageAccountPassword1112923";
@@ -27,8 +27,8 @@ async function main() {
 
   // Oops, what happens if we delete the wrong one?
   console.log("Deleting secret: ", bankAccountSecretName);
-  await client.deleteSecret(bankAccountSecretName);
-  await delay(30000);
+  let deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
+  await deletePoller.pollUntilDone();
 
   console.log("Showing deleted secrets");
   let listDeletedSecrets = client.listDeletedSecrets();
@@ -43,15 +43,15 @@ async function main() {
   // That's okay, it's not gone until it's fully deleted (purged)
   // Note: this only works if soft-delete is enabled on your vault
   console.log("Recovering secret");
-  const recoveredSecret = await client.recoverDeletedSecret(bankAccountSecretName);
-  await delay(30000);
+  const recoverPoller = await client.beginRecoverDeletedSecret(bankAccountSecretName);
+  const recoveredSecret = await recoverPoller.pollUntilDone();
   console.log(recoveredSecret);
 
   // To actually delete it, we delete and then purge the secret
   // Delete the secret
   console.log("about to delete");
-  await client.deleteSecret(bankAccountSecretName);
-  await delay(30000);
+  deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
+  await deletePoller.pollUntilDone();
 
   // Purge the deleted secret
   console.log("about to purge");
@@ -67,7 +67,8 @@ async function main() {
     console.log(value);
   }
 
-  await client.deleteSecret(storageAccountSecretName);
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {

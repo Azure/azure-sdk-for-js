@@ -1,3 +1,16 @@
+# 1.0.0-preview.7 (2019-11-01)
+
+- Updated to use the latest versions of the `@azure/core-*` packages
+- Added a listRevisions.ts sample to show how the listRevisions() API works
+
+# 1.0.0-preview.6 (2019-10-22)
+
+Breaking changes from 1.0.0-preview.5:
+
+- The `ConfigurationSetting`'s `locked` property has been renamed to `readOnly` to match the nomenclature used throughout
+  the SDK.
+- `listConfigurationSettings` and `listRevisions` now take `readOnly` as a value in `fields`, rather than `locked`.
+
 # 1.0.0-preview.5 (2019-10-09)
 
 - Updated to use the latest version of `@azure/core-tracing`, `@azure/core-http` and `@azure/core-arm` packages

@@ -4,7 +4,7 @@
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -14,10 +14,10 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * AccountSASSignatureValues is used to generate a Shared Access Signature (SAS) for an Azure Storage account. Once
- * all the values here are set appropriately, call generateSASQueryParameters() to obtain a representation of the SAS
- * which can actually be applied to blob urls. Note: that both this class and {@link SASQueryParameters} exist because
- * the former is mutable and a logical representation while the latter is immutable and used to generate actual REST
- * requests.
+ * all the values here are set appropriately, call {@link generateAccountSASQueryParameters} to obtain a representation
+ * of the SAS which can actually be applied to blob urls. Note: that both this class and {@link SASQueryParameters}
+ * exist because the former is mutable and a logical representation while the latter is immutable and used to generate
+ * actual REST requests.
  *
  * @see https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
  * for more conceptual information on SAS
@@ -51,7 +51,7 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * The time after which the SAS will no longer work.
@@ -59,16 +59,16 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  expiryTime: Date;
+  expiresOn: Date;
 
   /**
    * Specifies which operations the SAS user may perform. Please refer to {@link AccountSASPermissions} for help
    * constructing the permissions string.
    *
-   * @type {string}
+   * @type {AccountSASPermissions}
    * @memberof AccountSASSignatureValues
    */
-  permissions: string;
+  permissions: AccountSASPermissions;
 
   /**
    * Optional. IP range allowed.
@@ -105,21 +105,22 @@ export interface AccountSASSignatureValues {
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {AccountSASSignatureValues} accountSASSignatureValues
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  * @memberof AccountSASSignatureValues
  */
 export function generateAccountSASQueryParameters(
   accountSASSignatureValues: AccountSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   const version = accountSASSignatureValues.version
     ? accountSASSignatureValues.version
     : SERVICE_VERSION;
 
   const parsedPermissions = AccountSASPermissions.parse(
-    accountSASSignatureValues.permissions
-  ).toString();
+    accountSASSignatureValues.permissions.toString()
+  );
   const parsedServices = AccountSASServices.parse(accountSASSignatureValues.services).toString();
   const parsedResourceTypes = AccountSASResourceTypes.parse(
     accountSASSignatureValues.resourceTypes
@@ -130,10 +131,10 @@ export function generateAccountSASQueryParameters(
     parsedPermissions,
     parsedServices,
     parsedResourceTypes,
-    accountSASSignatureValues.startTime
-      ? truncatedISO8061Date(accountSASSignatureValues.startTime, false)
+    accountSASSignatureValues.startsOn
+      ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
       : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiryTime, false),
+    truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
     accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
     accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
     version,
@@ -145,12 +146,12 @@ export function generateAccountSASQueryParameters(
   return new SASQueryParameters(
     version,
     signature,
-    parsedPermissions,
+    parsedPermissions.toString(),
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,
-    accountSASSignatureValues.startTime,
-    accountSASSignatureValues.expiryTime,
+    accountSASSignatureValues.startsOn,
+    accountSASSignatureValues.expiresOn,
     accountSASSignatureValues.ipRange
   );
 }

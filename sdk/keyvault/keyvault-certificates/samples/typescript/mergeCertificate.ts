@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as childProcess from "child_process";
-import { CertificatesClient } from "../../src";
+import { CertificateClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
@@ -16,17 +16,18 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
-  await client.createCertificate("MyCertificate", {
+  await client.beginCreateCertificate("MyCertificate", {
     issuerName: "Unknown",
     certificateTransparency: false,
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request
-  const { csr } = await client.getCertificateOperation("MyCertificate");
+  const operationPoller = await client.getCertificateOperation("MyCertificate");
+  const { csr } = operationPoller.getResult()!;
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

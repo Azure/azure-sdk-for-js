@@ -15,7 +15,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyInfo",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -23,7 +23,7 @@ export const KeyInfo: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -57,7 +57,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedStart: {
+      signedStartsOn: {
         xmlName: "SignedStart",
         required: true,
         serializedName: "SignedStart",
@@ -65,7 +65,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedExpiry: {
+      signedExpiresOn: {
         xmlName: "SignedExpiry",
         required: true,
         serializedName: "SignedExpiry",
@@ -166,7 +166,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -174,7 +174,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -182,7 +182,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      permission: {
+      permissions: {
         xmlName: "Permission",
         required: true,
         serializedName: "Permission",
@@ -201,7 +201,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobProperties",
     modelProperties: {
-      creationTime: {
+      createdOn: {
         xmlName: "Creation-Time",
         serializedName: "Creation-Time",
         type: {
@@ -362,7 +362,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         xmlName: "CopyCompletionTime",
         serializedName: "CopyCompletionTime",
         type: {
@@ -397,7 +397,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      deletedTime: {
+      deletedOn: {
         xmlName: "DeletedTime",
         serializedName: "DeletedTime",
         type: {
@@ -439,36 +439,12 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      accessTierChangeTime: {
+      accessTierChangedOn: {
         xmlName: "AccessTierChangeTime",
         serializedName: "AccessTierChangeTime",
         type: {
           name: "DateTimeRfc1123"
         }
-      }
-    }
-  }
-};
-
-export const BlobMetadata: coreHttp.CompositeMapper = {
-  xmlName: "Metadata",
-  serializedName: "BlobMetadata",
-  type: {
-    name: "Composite",
-    className: "BlobMetadata",
-    modelProperties: {
-      encrypted: {
-        xmlIsAttribute: true,
-        xmlName: "Encrypted",
-        serializedName: "Encrypted",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "String"
       }
     }
   }
@@ -518,9 +494,8 @@ export const BlobItem: coreHttp.CompositeMapper = {
         xmlName: "Metadata",
         serializedName: "Metadata",
         type: {
-          name: "Composite",
-          className: "BlobMetadata",
-          additionalProperties: {
+          name: "Dictionary",
+          value: {
             type: {
               name: "String"
             }
@@ -596,18 +571,11 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
           name: "Number"
-        }
-      },
-      delimiter: {
-        xmlName: "Delimiter",
-        serializedName: "Delimiter",
-        type: {
-          name: "String"
         }
       },
       segment: {
@@ -619,7 +587,7 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
           className: "BlobFlatListSegment"
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -727,7 +695,7 @@ export const ListBlobsHierarchySegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
@@ -750,7 +718,7 @@ export const ListBlobsHierarchySegmentResponse: coreHttp.CompositeMapper = {
           className: "BlobHierarchyListSegment"
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -1030,7 +998,7 @@ export const ListContainersSegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
@@ -1053,7 +1021,7 @@ export const ListContainersSegmentResponse: coreHttp.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -1131,7 +1099,7 @@ export const GeoReplication: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastSyncTime: {
+      lastSyncOn: {
         xmlName: "LastSyncTime",
         required: true,
         serializedName: "LastSyncTime",
@@ -1418,7 +1386,7 @@ export const BlobServiceProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobServiceProperties",
     modelProperties: {
-      logging: {
+      blobAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {
@@ -2006,12 +1974,6 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceSubmitBatchHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       contentType: {
         serializedName: "content-type",
         type: {
@@ -2026,6 +1988,12 @@ export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -2046,7 +2014,7 @@ export const ContainerCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2110,7 +2078,7 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
         },
         headerCollectionPrefix: "x-ms-meta-"
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2253,7 +2221,7 @@ export const ContainerSetMetadataHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerSetMetadataHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2311,7 +2279,7 @@ export const ContainerGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2363,7 +2331,7 @@ export const ContainerSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerSetAccessPolicyHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2415,7 +2383,7 @@ export const ContainerAcquireLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerAcquireLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2473,7 +2441,7 @@ export const ContainerReleaseLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerReleaseLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2525,7 +2493,7 @@ export const ContainerRenewLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerRenewLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2583,7 +2551,7 @@ export const ContainerBreakLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerBreakLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2641,7 +2609,7 @@ export const ContainerChangeLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerChangeLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2855,7 +2823,7 @@ export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DirectoryCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2913,7 +2881,7 @@ export const DirectoryRenameHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3011,7 +2979,7 @@ export const DirectorySetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3057,7 +3025,7 @@ export const DirectoryGetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3157,7 +3125,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3210,7 +3178,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         serializedName: "x-ms-copy-completion-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3367,7 +3335,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      creationTime: {
+      createdOn: {
         serializedName: "x-ms-creation-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3396,7 +3364,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         serializedName: "x-ms-copy-completion-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3495,7 +3463,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3603,7 +3571,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      accessTierChangeTime: {
+      accessTierChangedOn: {
         serializedName: "x-ms-access-tier-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3671,7 +3639,7 @@ export const BlobSetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3717,7 +3685,7 @@ export const BlobGetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3781,7 +3749,7 @@ export const BlobRenameHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobRenameHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3833,7 +3801,7 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3903,7 +3871,7 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AppendBlobCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -3973,7 +3941,7 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlockBlobUploadHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4083,7 +4051,7 @@ export const BlobSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobSetHTTPHeadersHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4141,7 +4109,7 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobSetMetadataHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4205,7 +4173,7 @@ export const BlobAcquireLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobAcquireLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4263,7 +4231,7 @@ export const BlobReleaseLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobReleaseLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4315,7 +4283,7 @@ export const BlobRenewLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobRenewLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4373,7 +4341,7 @@ export const BlobChangeLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobChangeLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4431,7 +4399,7 @@ export const BlobBreakLeaseHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobBreakLeaseHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4495,7 +4463,7 @@ export const BlobCreateSnapshotHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4553,7 +4521,7 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobStartCopyFromURLHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4623,7 +4591,7 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobCopyFromURLHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -4956,7 +4924,7 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlockBlobCommitBlockListHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5038,7 +5006,7 @@ export const BlockBlobGetBlockListHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5096,7 +5064,7 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobUploadPagesHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5178,7 +5146,7 @@ export const PageBlobClearPagesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobClearPagesHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5248,7 +5216,7 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobUploadPagesFromURLHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5330,7 +5298,7 @@ export const PageBlobGetPageRangesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5388,7 +5356,7 @@ export const PageBlobGetPageRangesDiffHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5440,7 +5408,7 @@ export const PageBlobResizeHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobResizeHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5498,7 +5466,7 @@ export const PageBlobUpdateSequenceNumberHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobUpdateSequenceNumberHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5556,7 +5524,7 @@ export const PageBlobCopyIncrementalHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobCopyIncrementalHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5626,7 +5594,7 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AppendBlobAppendBlockHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5714,7 +5682,7 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AppendBlobAppendBlockFromUrlHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -5772,6 +5740,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-encryption-key-sha256",
         type: {
           name: "String"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {

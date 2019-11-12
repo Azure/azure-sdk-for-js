@@ -2,16 +2,16 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { QueueServiceClient, SharedKeyCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
@@ -90,7 +90,7 @@ async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.nextMarker;
+  let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();

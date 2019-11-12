@@ -233,31 +233,19 @@ describe("BlobClient", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
-    assert.ok(result.copyId);
-
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobClient.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
-  });
-
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
+    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
     try {
-      await newBlobClient.startCopyFromURL(result.copyId!);
+      await newBlobClient.beginCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).body.Code === "InvalidHeaderValue");
+      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
     }
   });
 
@@ -400,13 +388,13 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("startCopyFromURL with rehydrate priority", async () => {
+  it("beginCopyFromURL with rehydrate priority", async () => {
     const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
-    const result = await newBlobURL.startCopyFromURL(blobClient.url, {
+    const result = await (await newBlobURL.beginCopyFromURL(blobClient.url, {
       tier: initialTier,
       rehydratePriority: "Standard"
-    });
+    })).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
@@ -438,7 +426,9 @@ describe("BlobClient", () => {
     const rootSpan = tracer.startSpan("root");
 
     const result = await blobClient.download(undefined, undefined, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
@@ -536,7 +526,7 @@ describe("BlobClient", () => {
       containerName,
       "Container name is not the same as the one provided."
     );
-    assert.equal(newClient.blobName, blobName, "Blob name is not the same as the one provided.");
+    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

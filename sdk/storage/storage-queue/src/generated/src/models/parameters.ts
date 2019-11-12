@@ -103,10 +103,10 @@ export const marker: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: coreHttp.OperationQueryParameter = {
+export const maxPageSize: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxPageSize"
   ],
   mapper: {
     serializedName: "maxresults",
@@ -224,10 +224,10 @@ export const restype: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",
@@ -263,10 +263,10 @@ export const version: coreHttp.OperationParameter = {
     }
   }
 };
-export const visibilitytimeout0: coreHttp.OperationQueryParameter = {
+export const visibilityTimeout0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "visibilitytimeout"
+    "visibilityTimeout"
   ],
   mapper: {
     serializedName: "visibilitytimeout",
@@ -279,8 +279,8 @@ export const visibilitytimeout0: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const visibilitytimeout1: coreHttp.OperationQueryParameter = {
-  parameterPath: "visibilitytimeout",
+export const visibilityTimeout1: coreHttp.OperationQueryParameter = {
+  parameterPath: "visibilityTimeout",
   mapper: {
     required: true,
     serializedName: "visibilitytimeout",

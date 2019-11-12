@@ -11,6 +11,27 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 
+/**
+ * Options for how redirect responses are handled.
+ */
+export interface RedirectOptions {
+  /*
+   * When true, redirect responses are followed.  Defaults to true.
+   */
+  handleRedirects: boolean;
+
+  /*
+   * The maximum number of times the redirect URL will be tried before
+   * failing.  Defaults to 20.
+   */
+  maxRetries?: number;
+}
+
+export const DefaultRedirectOptions: RedirectOptions = {
+  handleRedirects: true,
+  maxRetries: 20
+}
+
 export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {

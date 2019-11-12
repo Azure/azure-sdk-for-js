@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/core-http";
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -16,11 +16,11 @@ export interface KeyInfo {
   /**
    * The date-time the key is active in ISO 8601 UTC time
    */
-  start: string;
+  startsOn: string;
   /**
    * The date-time the key expires in ISO 8601 UTC time
    */
-  expiry: string;
+  expiresOn: string;
 }
 
 /**
@@ -40,13 +40,13 @@ export interface UserDelegationKey {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedStart: string;
+  signedStartsOn: string;
   /**
    * The date-time the key expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  signedExpiry: string;
+  signedExpiresOn: string;
   /**
    * Abbreviation of the Azure Storage service that accepts the key
    */
@@ -101,24 +101,24 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start: string;
+  startsOn: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry: string;
+  expiresOn: string;
   /**
    * the permissions for the acl policy
    */
-  permission: string;
+  permissions: string;
 }
 
 /**
  * Properties of a blob
  */
 export interface BlobProperties {
-  creationTime?: Date;
+  createdOn?: Date;
   lastModified: Date;
   etag: string;
   /**
@@ -155,12 +155,12 @@ export interface BlobProperties {
   copyStatus?: CopyStatusType;
   copySource?: string;
   copyProgress?: string;
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   copyStatusDescription?: string;
   serverEncrypted?: boolean;
   incrementalCopy?: boolean;
   destinationSnapshot?: string;
-  deletedTime?: Date;
+  deletedOn?: Date;
   remainingRetentionDays?: number;
   /**
    * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
@@ -173,19 +173,7 @@ export interface BlobProperties {
    */
   archiveStatus?: ArchiveStatus;
   customerProvidedKeySha256?: string;
-  accessTierChangeTime?: Date;
-}
-
-/**
- * An interface representing BlobMetadata.
- */
-export interface BlobMetadata {
-  encrypted?: string;
-  /**
-   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
-   * to valid TS constraints we have modeled this as a union of `string | any`.
-   */
-  [property: string]: string | any;
+  accessTierChangedOn?: Date;
 }
 
 /**
@@ -196,7 +184,7 @@ export interface BlobItem {
   deleted: boolean;
   snapshot: string;
   properties: BlobProperties;
-  metadata?: BlobMetadata;
+  metadata?: { [propertyName: string]: string };
 }
 
 /**
@@ -214,10 +202,9 @@ export interface ListBlobsFlatSegmentResponse {
   containerName: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
-  delimiter?: string;
+  maxPageSize?: number;
   segment: BlobFlatListSegment;
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 /**
@@ -243,10 +230,10 @@ export interface ListBlobsHierarchySegmentResponse {
   containerName: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
+  maxPageSize?: number;
   delimiter?: string;
   segment: BlobHierarchyListSegment;
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 /**
@@ -322,9 +309,9 @@ export interface ListContainersSegmentResponse {
   serviceEndpoint: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
+  maxPageSize?: number;
   containerItems: ContainerItem[];
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 /**
@@ -375,7 +362,7 @@ export interface GeoReplication {
    * to be available for read operations at the secondary. Primary writes after this point in time
    * may or may not be available for reads.
    */
-  lastSyncTime: Date;
+  lastSyncOn: Date;
 }
 
 /**
@@ -492,7 +479,7 @@ export interface StaticWebsite {
  * Storage Service Properties.
  */
 export interface BlobServiceProperties {
-  logging?: Logging;
+  blobAnalyticsLogging?: Logging;
   hourMetrics?: Metrics;
   minuteMetrics?: Metrics;
   /**
@@ -702,16 +689,6 @@ export interface AppendPositionAccessConditions {
 }
 
 /**
- * An interface representing StorageClientOptions.
- */
-export interface StorageClientOptions extends ServiceClientOptions {
-  /**
-   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
-   */
-  pathRenameMode?: PathRenameMode;
-}
-
-/**
  * Optional Parameters.
  */
 export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
@@ -720,7 +697,7 @@ export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -737,7 +714,7 @@ export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -754,7 +731,7 @@ export interface ServiceGetStatisticsOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -772,10 +749,11 @@ export interface ServiceListContainersSegmentOptionalParams extends coreHttp.Req
   prefix?: string;
   /**
    * A string value that identifies the portion of the list of containers to be returned with the
-   * next listing operation. The operation returns the NextMarker value within the response body if
-   * the listing operation did not return all containers remaining to be listed with the current
-   * page. The NextMarker value can be used as the value for the marker parameter in a subsequent
-   * call to request the next page of list items. The marker value is opaque to the client.
+   * next listing operation. The operation returns the ContinuationToken value within the response
+   * body if the listing operation did not return all containers remaining to be listed with the
+   * current page. The ContinuationToken value can be used as the value for the marker parameter in
+   * a subsequent call to request the next page of list items. The marker value is opaque to the
+   * client.
    */
   marker?: string;
   /**
@@ -786,7 +764,7 @@ export interface ServiceListContainersSegmentOptionalParams extends coreHttp.Req
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify that the container's metadata be returned as part of the
    * response body. Possible values include: 'metadata'
@@ -797,7 +775,7 @@ export interface ServiceListContainersSegmentOptionalParams extends coreHttp.Req
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -814,7 +792,7 @@ export interface ServiceGetUserDelegationKeyOptionalParams extends coreHttp.Requ
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -831,7 +809,7 @@ export interface ServiceSubmitBatchOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -848,7 +826,7 @@ export interface ContainerCreateOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -880,7 +858,7 @@ export interface ContainerGetPropertiesOptionalParams extends coreHttp.RequestOp
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -901,7 +879,7 @@ export interface ContainerDeleteMethodOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -926,7 +904,7 @@ export interface ContainerSetMetadataOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -961,7 +939,7 @@ export interface ContainerGetAccessPolicyOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -986,7 +964,7 @@ export interface ContainerSetAccessPolicyOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies whether data in the container may be accessed publicly and the level of access.
    * Possible values include: 'container', 'blob'
@@ -1016,7 +994,7 @@ export interface ContainerAcquireLeaseOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never
    * expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be
@@ -1049,7 +1027,7 @@ export interface ContainerReleaseLeaseOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1070,7 +1048,7 @@ export interface ContainerRenewLeaseOptionalParams extends coreHttp.RequestOptio
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1091,7 +1069,7 @@ export interface ContainerBreakLeaseOptionalParams extends coreHttp.RequestOptio
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * For a break operation, proposed duration the lease should continue before it is broken, in
    * seconds, between 0 and 60. This break period is only used if it is shorter than the time
@@ -1122,7 +1100,7 @@ export interface ContainerChangeLeaseOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1144,10 +1122,11 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
   prefix?: string;
   /**
    * A string value that identifies the portion of the list of containers to be returned with the
-   * next listing operation. The operation returns the NextMarker value within the response body if
-   * the listing operation did not return all containers remaining to be listed with the current
-   * page. The NextMarker value can be used as the value for the marker parameter in a subsequent
-   * call to request the next page of list items. The marker value is opaque to the client.
+   * next listing operation. The operation returns the ContinuationToken value within the response
+   * body if the listing operation did not return all containers remaining to be listed with the
+   * current page. The ContinuationToken value can be used as the value for the marker parameter in
+   * a subsequent call to request the next page of list items. The marker value is opaque to the
+   * client.
    */
   marker?: string;
   /**
@@ -1158,7 +1137,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -1168,7 +1147,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1186,10 +1165,11 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHtt
   prefix?: string;
   /**
    * A string value that identifies the portion of the list of containers to be returned with the
-   * next listing operation. The operation returns the NextMarker value within the response body if
-   * the listing operation did not return all containers remaining to be listed with the current
-   * page. The NextMarker value can be used as the value for the marker parameter in a subsequent
-   * call to request the next page of list items. The marker value is opaque to the client.
+   * next listing operation. The operation returns the ContinuationToken value within the response
+   * body if the listing operation did not return all containers remaining to be listed with the
+   * current page. The ContinuationToken value can be used as the value for the marker parameter in
+   * a subsequent call to request the next page of list items. The marker value is opaque to the
+   * client.
    */
   marker?: string;
   /**
@@ -1200,7 +1180,7 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHtt
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -1210,7 +1190,7 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHtt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1227,7 +1207,7 @@ export interface DirectoryCreateOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
@@ -1278,7 +1258,7 @@ export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * When renaming a directory, the number of paths that are renamed with each invocation is
    * limited.  If the number of paths to be renamed exceeds this limit, a continuation token is
@@ -1287,6 +1267,10 @@ export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBa
    * directory.
    */
   marker?: string;
+  /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
   /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
@@ -1346,7 +1330,7 @@ export interface DirectoryDeleteMethodOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * When renaming a directory, the number of paths that are renamed with each invocation is
    * limited.  If the number of paths to be renamed exceeds this limit, a continuation token is
@@ -1379,7 +1363,7 @@ export interface DirectorySetAccessControlOptionalParams extends coreHttp.Reques
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. The owner of the blob or directory.
    */
@@ -1425,7 +1409,7 @@ export interface DirectoryGetAccessControlOptionalParams extends coreHttp.Reques
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the
    * identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
@@ -1464,7 +1448,7 @@ export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase 
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return only the bytes of the blob in the specified range.
    */
@@ -1514,7 +1498,7 @@ export interface BlobGetPropertiesOptionalParams extends coreHttp.RequestOptions
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1550,7 +1534,7 @@ export interface BlobDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Required if the blob has associated snapshots. Specify one of the following two options:
    * include: Delete the base blob and all of its snapshots. only: Delete only the blob's snapshots
@@ -1581,7 +1565,7 @@ export interface BlobSetAccessControlOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. The owner of the blob or directory.
    */
@@ -1627,7 +1611,7 @@ export interface BlobGetAccessControlOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the
    * identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
@@ -1659,7 +1643,11 @@ export interface BlobRenameOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
+  /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
   /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
@@ -1719,7 +1707,7 @@ export interface BlobUndeleteOptionalParams extends coreHttp.RequestOptionsBase 
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1736,7 +1724,7 @@ export interface BlobSetHTTPHeadersOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1765,7 +1753,7 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -1804,7 +1792,7 @@ export interface BlobAcquireLeaseOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never
    * expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be
@@ -1837,7 +1825,7 @@ export interface BlobReleaseLeaseOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1858,7 +1846,7 @@ export interface BlobRenewLeaseOptionalParams extends coreHttp.RequestOptionsBas
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1879,7 +1867,7 @@ export interface BlobChangeLeaseOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1900,7 +1888,7 @@ export interface BlobBreakLeaseOptionalParams extends coreHttp.RequestOptionsBas
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * For a break operation, proposed duration the lease should continue before it is broken, in
    * seconds, between 0 and 60. This break period is only used if it is shorter than the time
@@ -1931,7 +1919,7 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -1970,7 +1958,7 @@ export interface BlobStartCopyFromURLOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2019,7 +2007,7 @@ export interface BlobCopyFromURLOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2063,7 +2051,7 @@ export interface BlobAbortCopyFromURLOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2084,7 +2072,7 @@ export interface BlobSetTierOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional: Indicates the priority with which to rehydrate an archived blob. Possible values
    * include: 'High', 'Standard'
@@ -2110,7 +2098,12 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
+  /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2132,11 +2125,6 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
-  /**
-   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
-   */
-  tier?: AccessTier;
   /**
    * Additional parameters for the operation
    */
@@ -2172,7 +2160,7 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return only the bytes of the blob in the specified range.
    */
@@ -2209,7 +2197,7 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return only the bytes of the blob in the specified range.
    */
@@ -2254,7 +2242,7 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2298,7 +2286,7 @@ export interface PageBlobGetPageRangesOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return only the bytes of the blob in the specified range.
    */
@@ -2334,7 +2322,7 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends coreHttp.Reques
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional in version 2015-07-08 and newer. The prevsnapshot parameter is a DateTime value that
    * specifies that the response will contain only pages that were changed between target blob and
@@ -2372,7 +2360,7 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2401,7 +2389,7 @@ export interface PageBlobUpdateSequenceNumberOptionalParams extends coreHttp.Req
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Set for page blobs only. The sequence number is a user-controlled value that you can use to
    * track requests. The value of the sequence number must be between 0 and 2^63 - 1. Default
@@ -2432,7 +2420,7 @@ export interface PageBlobCopyIncrementalOptionalParams extends coreHttp.RequestO
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2453,7 +2441,7 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2496,7 +2484,7 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specify the transactional md5 for the body, to be validated by the service.
    */
@@ -2549,7 +2537,7 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specify the transactional md5 for the body, to be validated by the service.
    */
@@ -2590,7 +2578,11 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
+  /**
+   * Specify the transactional md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
   /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
@@ -2646,7 +2638,7 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2683,7 +2675,7 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2712,7 +2704,7 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specify the transactional md5 for the body, to be validated by the service.
    */
@@ -2775,7 +2767,7 @@ export interface BlockBlobGetBlockListOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2948,11 +2940,6 @@ export interface ServiceGetAccountInfoHeaders {
  */
 export interface ServiceSubmitBatchHeaders {
   /**
-   * If a client request id header is sent in the request, this header will be present in the
-   * response with the same value.
-   */
-  clientRequestId?: string;
-  /**
    * The media type of the body of the response. For batch requests, this is multipart/mixed;
    * boundary=batchresponse_GUID
    */
@@ -2967,6 +2954,11 @@ export interface ServiceSubmitBatchHeaders {
    * for requests made against version 2009-09-19 and above.
    */
   version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   errorCode?: string;
 }
 
@@ -2978,7 +2970,7 @@ export interface ContainerCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3017,7 +3009,7 @@ export interface ContainerGetPropertiesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3109,7 +3101,7 @@ export interface ContainerSetMetadataHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3152,7 +3144,7 @@ export interface ContainerGetAccessPolicyHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3190,7 +3182,7 @@ export interface ContainerSetAccessPolicyHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3228,7 +3220,7 @@ export interface ContainerAcquireLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3270,7 +3262,7 @@ export interface ContainerReleaseLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3308,7 +3300,7 @@ export interface ContainerRenewLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3350,7 +3342,7 @@ export interface ContainerBreakLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3392,7 +3384,7 @@ export interface ContainerChangeLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -3531,7 +3523,7 @@ export interface DirectoryCreateHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3576,7 +3568,7 @@ export interface DirectoryRenameHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3650,7 +3642,7 @@ export interface DirectorySetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3683,7 +3675,7 @@ export interface DirectoryGetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -3753,7 +3745,7 @@ export interface BlobDownloadHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -3796,7 +3788,7 @@ export interface BlobDownloadHeaders {
    * Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation
    * using Set Blob Properties, Put Blob, or Put Block List.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal
    * or non-fatal copy operation failure. This header does not appear if this blob has never been
@@ -3914,7 +3906,7 @@ export interface BlobGetPropertiesHeaders {
   /**
    * Returns the date and time the blob was created.
    */
-  creationTime?: Date;
+  createdOn?: Date;
   metadata?: { [propertyName: string]: string };
   /**
    * The blob's type. Possible values include: 'BlockBlob', 'PageBlob', 'AppendBlob'
@@ -3927,7 +3919,7 @@ export interface BlobGetPropertiesHeaders {
    * Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation
    * using Set Blob Properties, Put Blob, or Put Block List.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal
    * or non-fatal copy operation failure. This header does not appear if this blob has never been
@@ -3986,7 +3978,8 @@ export interface BlobGetPropertiesHeaders {
    */
   leaseStatus?: LeaseStatusType;
   /**
-   * The number of bytes present in the response body.
+   * The size of the blob in bytes. For a page blob, this header returns the value of the
+   * x-ms-blob-content-length header that is stored with the blob.
    */
   contentLength?: number;
   /**
@@ -3998,7 +3991,7 @@ export interface BlobGetPropertiesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -4094,7 +4087,7 @@ export interface BlobGetPropertiesHeaders {
    * The time the tier was changed on the object. This is only returned if the tier on the block
    * blob was ever set.
    */
-  accessTierChangeTime?: Date;
+  accessTierChangedOn?: Date;
   errorCode?: string;
 }
 
@@ -4137,7 +4130,7 @@ export interface BlobSetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -4170,7 +4163,7 @@ export interface BlobGetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -4218,7 +4211,7 @@ export interface BlobRenameHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -4256,7 +4249,7 @@ export interface PageBlobCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4309,7 +4302,7 @@ export interface AppendBlobCreateHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4362,7 +4355,7 @@ export interface BlockBlobUploadHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4442,7 +4435,7 @@ export interface BlobSetHTTPHeadersHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4485,7 +4478,7 @@ export interface BlobSetMetadataHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4533,7 +4526,7 @@ export interface BlobAcquireLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4575,7 +4568,7 @@ export interface BlobReleaseLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4613,7 +4606,7 @@ export interface BlobRenewLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4655,7 +4648,7 @@ export interface BlobChangeLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4697,7 +4690,7 @@ export interface BlobBreakLeaseHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the blob was last modified. Any operation that modifies the blob,
    * including an update of the blob's metadata or properties, changes the last-modified time of
@@ -4744,7 +4737,7 @@ export interface BlobCreateSnapshotHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4788,7 +4781,7 @@ export interface BlobStartCopyFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -4836,7 +4829,7 @@ export interface BlobCopyFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5065,7 +5058,7 @@ export interface BlockBlobCommitBlockListHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5131,7 +5124,7 @@ export interface BlockBlobGetBlockListHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The media type of the body of the response. For Get Block List this is 'application/xml'
    */
@@ -5171,7 +5164,7 @@ export interface PageBlobUploadPagesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5234,7 +5227,7 @@ export interface PageBlobClearPagesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5287,7 +5280,7 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5330,8 +5323,8 @@ export interface PageBlobUploadPagesFromURLHeaders {
    */
   isServerEncrypted?: boolean;
   /**
-   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
-   * when the pages were encrypted with a customer-provided key.
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
   errorCode?: string;
@@ -5351,7 +5344,7 @@ export interface PageBlobGetPageRangesHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the blob in bytes.
    */
@@ -5393,7 +5386,7 @@ export interface PageBlobGetPageRangesDiffHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the blob in bytes.
    */
@@ -5429,7 +5422,7 @@ export interface PageBlobResizeHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5472,7 +5465,7 @@ export interface PageBlobUpdateSequenceNumberHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5515,7 +5508,7 @@ export interface PageBlobCopyIncrementalHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5563,7 +5556,7 @@ export interface AppendBlobAppendBlockHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5632,7 +5625,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the container was last modified. Any operation that modifies the
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
@@ -5680,6 +5673,11 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
   errorCode?: string;
 }
 
@@ -5782,11 +5780,14 @@ export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
  * 'PreviousSnapshotOperationNotSupported', 'SequenceNumberConditionNotMet',
  * 'SequenceNumberIncrementTooLarge', 'SnapshotCountExceeded', 'SnaphotOperationRateExceeded',
  * 'SnapshotsPresent', 'SourceConditionNotMet', 'SystemInUse', 'TargetConditionNotMet',
- * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived'
+ * 'UnauthorizedBlobOverwrite', 'BlobBeingRehydrated', 'BlobArchived', 'BlobNotArchived',
+ * 'AuthorizationSourceIPMismatch', 'AuthorizationProtocolMismatch',
+ * 'AuthorizationPermissionMismatch', 'AuthorizationServiceMismatch',
+ * 'AuthorizationResourceTypeMismatch'
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch';
 
 /**
  * Defines values for GeoReplicationStatusType.

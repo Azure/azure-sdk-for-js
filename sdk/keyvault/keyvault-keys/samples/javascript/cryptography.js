@@ -1,4 +1,4 @@
-const { KeysClient, CryptographyClient } = require("../../src");
+const { KeyClient, CryptographyClient } = require("../../src");
 const { DefaultAzureCredential } = require("@azure/identity");
 const crypto = require("crypto");
 
@@ -13,14 +13,14 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
 
   // Connection to Azure Key Vault
-  const client = new KeysClient(url, credential);
+  const client = new KeyClient(url, credential);
 
   let keyName = "localWorkKey11241";
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
 
-  const cryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial.kid, credential);
+  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
@@ -50,7 +50,7 @@ async function main() {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.deleteKey(keyName);
+  await client.beginDeleteKey(keyName)
 }
 main().catch((err) => {
   console.log("error code: ", err.code);

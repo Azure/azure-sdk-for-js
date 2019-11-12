@@ -1,14 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface PollOperationState<TResult> {
-  started?: boolean;
-  completed?: boolean;
-  cancelled?: boolean;
+  isStarted?: boolean;
+  isCompleted?: boolean;
+  isCancelled?: boolean;
   error?: Error;
   result?: TResult;
 }
 
-export interface PollOperationBase<TState, TResult> {
+export interface PollOperation<TState, TResult> {
   state: TState;
   update(options?: {
     abortSignal?: AbortSignalLike;
@@ -17,7 +20,3 @@ export interface PollOperationBase<TState, TResult> {
   cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult>>;
   toString(): string;
 }
-
-export type PollOperation<TState, TResult> = PollOperationBase<TState, TResult> & {
-  [prop: string]: any;
-};

@@ -85,6 +85,6 @@ async function main() {
 
 main()
   .then(() => {
-    "Successfully executed sample";
+    console.log("Successfully executed sample");
   })
   .catch(console.error);

@@ -12,7 +12,7 @@ import {
   createDelayController,
   DelayController
 } from "../authTestUtils";
-import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
+import { AuthenticationError, OAuthErrorResponse } from "../../src/client/errors";
 import {
   DeviceCodeCredential,
   DeviceCodeResponse
@@ -27,7 +27,7 @@ const deviceCodeResponse: DeviceCodeResponse = {
   message: "Visit https://contoso.com/devicelogin and enter code B3920934"
 };
 
-const pendingResponse: ErrorResponse = {
+const pendingResponse: OAuthErrorResponse = {
   error: "authorization_pending",
   error_description: "Waiting for user to authenticate"
 };
@@ -55,7 +55,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     const accessToken = await credential.getToken("scope");
@@ -92,7 +92,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -136,7 +136,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions, }
     );
 
     await credential.getToken("scope");
@@ -161,7 +161,7 @@ describe("DeviceCodeCredential", function() {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: { error: "authorization_declined", error_description: "" } }
+        { status: 400, parsedBody: { error: "authorization_declined", error_description: "", correlation_id: "correlation_id", trace_id: "trace_id", error_codes: [ 1, 2, 3], timestamp: "timestamp" } as OAuthErrorResponse }
       ]
     });
 
@@ -169,13 +169,17 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "authorization_declined");
+      assert.strictEqual(authError.errorResponse.correlationId, "correlation_id");
+      assert.strictEqual(authError.errorResponse.traceId, "trace_id");
+      assert.strictEqual(authError.errorResponse.timestamp, "timestamp");
+      assert.deepStrictEqual(authError.errorResponse.errorCodes, [ 1, 2, 3]);
       return true;
     });
   });
@@ -194,7 +198,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -217,7 +221,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -248,7 +252,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -279,7 +283,7 @@ describe("DeviceCodeCredential", function() {
         "tenant",
         "client",
         (details) => assert.equal(details.message, deviceCodeResponse.message),
-        mockHttpClient.identityClientOptions
+        { ...mockHttpClient.tokenCredentialOptions }
       );
 
       const abortController = new AbortController();
@@ -317,12 +321,14 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -342,11 +348,35 @@ describe("DeviceCodeCredential", function() {
               children: [
                 {
                   name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 },
                 {
                   name: "Azure.Identity.DeviceCodeCredential-pollForToken",
-                  children: []
+                  children: [
+                    // We see 4 traces from core-http here because the client in
+                    // this test polls 4 times for the authorization code.
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 }
               ]
             }
