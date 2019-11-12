@@ -117,15 +117,11 @@ async function main(argv) {
 
   // Update any references to internal projects with the new versions
   for (const package of Object.keys(rushPackages)) {
-    if ((rushPackages[package].versionPolicy == "client"||rushPackages[package].versionPolicy == "core")){
-       rushPackages = updateInternalDependencyVersions(rushPackages, package);
-    }
+    rushPackages = updateInternalDependencyVersions(rushPackages, package);
   }
 
   for (const package of Object.keys(rushPackages)) {
-    if ((rushPackages[package].versionPolicy == "client"||rushPackages[package].versionPolicy == "core")){
       await commitChanges(rushPackages, package);
-    }
   }
 };
 
