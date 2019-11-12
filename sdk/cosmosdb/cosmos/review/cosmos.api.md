@@ -367,13 +367,23 @@ export class DatabaseAccount {
     constructor(body: {
         [key: string]: any;
     }, headers: CosmosHeaders);
+    // @deprecated
     readonly ConsistencyPolicy: ConsistencyLevel;
+    readonly consistencyPolicy: ConsistencyLevel;
+    // @deprecated
     readonly CurrentMediaStorageUsageInMB: number;
+    readonly currentMediaStorageUsageInMB: number;
+    // @deprecated
     readonly DatabasesLink: string;
+    readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
-    readonly MaxMediaStorageUsageInMB: number;
+    // @deprecated
+    readonly MaxMediaStorageUsageInMB: string;
+    readonly maxMediaStorageUsageInMB: number;
+    // @deprecated
     readonly MediaLink: string;
+    readonly mediaLink: string;
     readonly readableLocations: Location[];
     readonly writableLocations: Location[];
 }
