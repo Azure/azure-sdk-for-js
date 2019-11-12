@@ -43,7 +43,7 @@ export interface FeedOptions extends SharedOptions {
    */
   maxItemCount?: number;
   /**
-   * Note: consider using readChangeFeed instead.
+   * Note: consider using changeFeed instead.
    *
    * Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. Default: false
    */
