@@ -608,7 +608,7 @@ export class KeyClient {
   }
 
   /**
-   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
+   * The getKey method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
    *
    * Example usage:

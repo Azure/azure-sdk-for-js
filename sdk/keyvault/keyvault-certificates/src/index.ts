@@ -1173,7 +1173,7 @@ export class CertificateClient {
   }
 
   /**
-   * Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission.
+   * Updates the certificate policy for the specified certificate. This operation requires the certificates/update permission.
    * @summary Gets a certificate's policy
    * @param certificateName The name of the certificate
    * @param policy The certificate policy
@@ -1252,7 +1252,7 @@ export class CertificateClient {
   }
 
   /**
-   * Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
+   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    *
    * Example usage:
    * ```ts
