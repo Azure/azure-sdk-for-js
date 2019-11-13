@@ -6,33 +6,17 @@
 
 import { Attributes } from '@opentelemetry/types';
 import { BinaryFormat } from '@opentelemetry/types';
-import { CanonicalCode } from '@opentelemetry/types';
-import { Event } from '@opentelemetry/types';
-import { HrTime } from '@opentelemetry/types';
 import { HttpTextFormat } from '@opentelemetry/types';
-import { Link } from '@opentelemetry/types';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
-import { Sampler } from '@opentelemetry/types';
 import { Span } from '@opentelemetry/types';
 import { SpanContext } from '@opentelemetry/types';
 import { SpanKind } from '@opentelemetry/types';
 import { SpanOptions } from '@opentelemetry/types';
 import { Status } from '@opentelemetry/types';
-import { TimedEvent } from '@opentelemetry/types';
 import { TimeInput } from '@opentelemetry/types';
-import { TraceFlags } from '@opentelemetry/types';
 import { Tracer } from '@opentelemetry/types';
 import { TracerBase } from '@opencensus/web-types';
-import { TraceState } from '@opentelemetry/types';
-
-export { Attributes }
-
-export { BinaryFormat }
-
-export { CanonicalCode }
-
-export { Event }
 
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
@@ -42,12 +26,6 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 
 // @public
 export function getTracer(): Tracer;
-
-export { HrTime }
-
-export { HttpTextFormat }
-
-export { Link }
 
 // @public
 export class NoOpSpan implements Span {
@@ -104,14 +82,8 @@ export class OpenCensusTracerWrapper implements Tracer {
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
 
-export { Sampler }
-
 // @public
 export function setTracer(tracer: Tracer): void;
-
-export { Span }
-
-export { SpanContext }
 
 // @public
 export interface SpanGraph {
@@ -123,12 +95,6 @@ export interface SpanGraphNode {
     children: SpanGraphNode[];
     name: string;
 }
-
-export { SpanKind }
-
-export { SpanOptions }
-
-export { Status }
 
 // @public
 export class TestSpan extends NoOpSpan {
@@ -154,16 +120,6 @@ export class TestTracer extends NoOpTracer {
     getSpanGraph(traceId: string): SpanGraph;
     startSpan(name: string, options?: SpanOptions): TestSpan;
     }
-
-export { TimedEvent }
-
-export { TimeInput }
-
-export { TraceFlags }
-
-export { Tracer }
-
-export { TraceState }
 
 
 // (No @packageDocumentation comment for this package)

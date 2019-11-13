@@ -11,28 +11,6 @@ export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWr
 export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
 export { TestSpan } from "./tracers/test/testSpan";
 
-// Interfaces
-export {
-  Attributes,
-  BinaryFormat,
-  Event,
-  HttpTextFormat,
-  Link,
-  Sampler,
-  SpanContext,
-  SpanKind,
-  Span,
-  SpanOptions,
-  HrTime,
-  TimeInput,
-  Status,
-  CanonicalCode,
-  TimedEvent,
-  TraceFlags,
-  TraceState,
-  Tracer
-} from "@opentelemetry/types";
-
 // Utilities
 export {
   extractSpanContextFromTraceParentHeader,
