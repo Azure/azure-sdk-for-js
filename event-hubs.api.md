@@ -5,18 +5,10 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AmqpError } from 'rhea-promise';
-import { AwaitableSender } from 'rhea-promise';
-import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
-import { Dictionary } from 'rhea-promise';
-import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { Receiver } from 'rhea-promise';
-import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
-import { SharedKeyCredential } from '@azure/core-amqp';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
@@ -30,21 +22,9 @@ export interface AbortSignalOptions {
 }
 
 // @public
-export interface Checkpoint {
-    consumerGroupName: string;
-    eTag: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
+export interface Checkpoint extends PartitionContext {
     offset: number;
-    ownerId: string;
-    partitionId: string;
     sequenceNumber: number;
-}
-
-// @public
-export interface CheckpointManager {
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public
@@ -57,6 +37,7 @@ export enum CloseReason {
 export interface CreateBatchOptions {
     abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
+    partitionId?: string;
     partitionKey?: string;
 }
 
@@ -73,17 +54,14 @@ export interface EventData {
 }
 
 // @public
-export class EventDataBatch {
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
-    // 
+export interface EventDataBatch {
+    batchMessage: Buffer | undefined;
+    count: number;
     // @internal
-    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
-    readonly batchMessage: Buffer | undefined;
-    readonly count: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
-    readonly partitionKey: string | undefined;
-    readonly sizeInBytes: number;
+    _messageSpanContexts: SpanContext[];
+    partitionId?: string;
+    partitionKey?: string;
+    sizeInBytes: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
@@ -103,12 +81,12 @@ export class EventHubConsumerClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-    subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionManager: PartitionManager, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -120,10 +98,9 @@ export class EventHubProducerClient {
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
-    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
 }
 
 // @public
@@ -154,6 +131,10 @@ export class EventPosition {
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
+export interface GetEventHubPropertiesOptions extends AbortSignalOptions, SpanOptions {
+}
+
+// @public
 export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {
 }
 
@@ -162,11 +143,7 @@ export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanO
 }
 
 // @public
-export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {
-}
-
-// @public
-export class InMemoryPartitionManager implements OwnershipManager, CheckpointManager {
+export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     // (undocumented)
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
@@ -185,12 +162,6 @@ export interface LastEnqueuedEventInfo {
 export { MessagingError }
 
 // @public
-export interface OwnershipManager {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-}
-
-// @public
 export interface PartitionCheckpointer {
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
@@ -207,16 +178,19 @@ export interface PartitionContext {
 }
 
 // @public
-export type PartitionManager = CheckpointManager & OwnershipManager;
+export interface PartitionManager {
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
 
 // @public
 export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
     lastModifiedTimeInMS?: number;
-    offset?: number;
     ownerId: string;
     ownerLevel: number;
-    sequenceNumber?: number;
 }
 
 // @public
@@ -233,13 +207,13 @@ export interface PartitionProperties {
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessEvents = (receivedEvent: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -267,19 +241,19 @@ export interface SendBatchOptions {
 // @public
 export interface Subscription {
     close(): Promise<void>;
-    isRunning(): boolean;
+    isRunning: boolean;
 }
 
 // @public
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
     processError?: ProcessErrorHandler;
-    processEvent: ProcessEvents;
+    processEvents: ProcessEvents;
     processInitialize?: ProcessInitializeHandler;
 }
 
 // @public
-export interface SubscriptionOptions extends SubscriptionEventHandlers {
+export interface SubscriptionOptions {
     defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
