@@ -1,5 +1,4 @@
 parameters:
-  RunUnitTests: true
   Artifacts: []
   ServiceDirectory: not-specified
   Matrix:
