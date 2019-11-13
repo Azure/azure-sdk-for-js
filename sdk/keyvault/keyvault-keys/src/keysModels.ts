@@ -2,8 +2,39 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import { JsonWebKeyOperation, JsonWebKeyCurveName, JsonWebKeyType } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
+
+/**
+ * Defines values for EncryptionAlgorithm.
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+/**
+ * Defines values for KeyCurveName.
+ * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+/**
+ * Defines values for KeyOperation.
+ * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+
+/**
+ * Defines values for KeyType.
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * @internal
@@ -46,12 +77,12 @@ export interface JsonWebKey {
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  kty?: JsonWebKeyType;
+  kty?: KeyType;
   /**
    * Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * RSA modulus.
    */
@@ -93,10 +124,10 @@ export interface JsonWebKey {
    */
   t?: Uint8Array;
   /**
-   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * Elliptic curve name. For valid values, see KeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  crv?: JsonWebKeyCurveName;
+  crv?: KeyCurveName;
   /**
    * X component of an EC public key.
    */
@@ -128,11 +159,11 @@ export interface KeyVaultKey {
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: JsonWebKeyType;
+  keyType?: KeyType;
   /**
    * Operations allowed on this key
    */
-  keyOperations?: JsonWebKeyOperation[];
+  keyOperations?: KeyOperation[];
   /**
    * The properties of the key.
    */
@@ -221,11 +252,11 @@ export interface DeletedKey {
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: JsonWebKeyType;
+  keyType?: KeyType;
   /**
    * Operations allowed on this key
    */
-  keyOperations?: JsonWebKeyOperation[];
+  keyOperations?: KeyOperation[];
   /**
    * The properties of the key.
    */
@@ -261,9 +292,9 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
   tags?: { [propertyName: string]: string };
   /**
    * Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * Determines whether the object is enabled.
    */
@@ -315,10 +346,10 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
-   * Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+   * Elliptic curve name. For valid values, see KeyCurveName.
    * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curve?: JsonWebKeyCurveName;
+  curve?: KeyCurveName;
   /**
    * Whether to import as a hardware key (HSM) or software key.
    */
@@ -368,14 +399,14 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing optional parameters that can be passed to {@link updateKeyProperties}.
+ * Options for {@link updateKeyProperties}.
  */
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**
    * Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
+   * information on possible key operations, see KeyOperation.
    */
-  keyOps?: JsonWebKeyOperation[];
+  keyOps?: KeyOperation[];
   /**
    * Determines whether the object is enabled.
    */
@@ -395,7 +426,7 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 /**
- * An interface representing optional parameters that can be passed to {@link getKey}.
+ * Options for {@link getKey}.
  */
 export interface GetKeyOptions extends coreHttp.OperationOptions {
   /**
@@ -426,36 +457,36 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link getDeletedKey}.
+ * Options for {@link getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link purgeDeletedKey}.
+ * Options for {@link purgeDeletedKey}.
  */
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link recoverDeletedKey}.
+ * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
  * @ignore
- * An interface representing the optional parameters that can be passed to {@link deleteKey}.
+ * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link backupKey}.
+ * Options for {@link backupKey}.
  */
 export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link restoreKeyBackup}.
+ * Options for {@link restoreKeyBackup}.
  */
 export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 

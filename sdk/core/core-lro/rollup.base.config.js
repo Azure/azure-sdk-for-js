@@ -21,7 +21,7 @@ const banner = [
   " * Licensed under the MIT License. See License.txt in the project root for",
   " * license information.",
   " * ",
-  ` * Azure KeyVault Keys SDK for JavaScript - ${version}`,
+  ` * Azure Core LRO SDK for JavaScript - ${version}`,
   " */"
 ].join("\n");
 
@@ -36,7 +36,7 @@ export function nodeConfig(test = false) {
     output: {
       file: "dist/index.js",
       format: "cjs",
-      name: "azurekeyvaultkeys",
+      name: "azurecorelro",
       sourcemap: true,
       banner: banner
     },
@@ -82,10 +82,10 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.js",
     output: {
-      file: "browser/azure-keyvault-keys.js",
+      file: "browser/azure-core-lro.js",
       banner: banner,
       format: "umd",
-      name: "azurekeyvaultkeys",
+      name: "azurecorelro",
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
         "@azure/core-arm": "Azure.Core.ARM"
@@ -137,7 +137,7 @@ export function browserConfig(test = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "browser/azure-keyvault-keys.min.js";
+    baseConfig.output.file = "browser/azure-core-lro.min.js";
     baseConfig.plugins.push(
       terser({
         output: {

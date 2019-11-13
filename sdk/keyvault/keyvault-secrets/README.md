@@ -1,10 +1,7 @@
 # Azure Key Vault Secret client library for JS
 
-Azure Key Vault is a service that allows you to encrypt authentication keys,
-storage account keys, data encryption keys, .pfx files, and passwords by using
-keys that are protected by hardware security modules (HSMs). If you would like
-to know more about Azure Key Vault, you may want to review "[What is Azure Key
-Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
+Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
@@ -370,12 +367,39 @@ async function main() {
   // You can use the deleted secret immediately:
   let deletedSecret = poller.getResult();
 
-  await poller.poll(); // On each poll, the poller checks whether the secret has been deleted or not.
-  console.log(poller.isDone()) // The poller will be done once the secret is fully deleted.
-
-  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+  // Or you can wait until the secret finishes being deleted:
   deletedSecret = await poller.pollUntilDone();
   console.log(deletedSecret);
+}
+
+main();
+```
+
+Another way to wait until the secret is fully deleted is to do individual calls, as follows:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { delay } = require("@azure/core-http");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+const client = new SecretClient(url, credential);
+
+const secretName = "MySecretName";
+
+async function main() {
+  const poller = await client.beginDeleteSecret(secretName);
+
+  while (!poller.isDone()) {
+    await poller.poll();
+    await delay(5000);
+  }
+
+  console.log(`The secret ${secretName} is fully deleted`);
 }
 
 main();

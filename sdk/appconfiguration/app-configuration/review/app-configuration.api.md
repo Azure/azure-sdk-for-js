@@ -67,12 +67,11 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-    lastModifiedHeader?: string;
 }
 
 // @public
 export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
-    acceptDatetime?: string;
+    acceptDateTime?: Date;
 }
 
 // @public
@@ -122,7 +121,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 
 // @public
 export interface ListSettingsOptions extends OptionalFields {
-    acceptDatetime?: string;
+    acceptDateTime?: Date;
     keys?: string[];
     labels?: string[];
 }

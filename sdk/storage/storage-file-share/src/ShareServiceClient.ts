@@ -27,7 +27,12 @@ import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 
 /**
- * Options to configure List Shares Segment operation.
+ * Options to configure Share - List Shares Segment operations.
+ *
+ * See:
+ * - {@link ShareServiceClient.listSegments}
+ * - {@link ShareServiceClient.listItems}
+ * - {@link ShareServiceClient.listSharesSegment}
  *
  * @interface ServiceListSharesSegmentOptions
  */
@@ -69,7 +74,7 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure List Shares operation.
+ * Options to configure the {@link ShareServiceClient.listShares} operation.
  *
  * @export
  * @interface ServiceListSharesOptions
@@ -110,7 +115,7 @@ export interface ServiceListSharesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File Service - Get Properties operation.
+ * Options to configure the {@link ShareServiceClient.getProperties} operation.
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -127,7 +132,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File Service - Set Properties operation.
+ * Options to configure the {@link ShareServiceClient.setProperties} operation.
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -248,6 +253,13 @@ export class ShareServiceClient extends StorageClient {
    * @param shareName Name of a share.
    * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof ShareServiceClient
+   *
+   * @example
+   * ```js
+   * const shareClient = serviceClient.getShareClient("<share name>");
+   * await shareClient.create();
+   * console.log("Created share successfully!");
+   * ```
    */
   public getShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
@@ -390,7 +402,7 @@ export class ShareServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListSharesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link ServiceListSharesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of

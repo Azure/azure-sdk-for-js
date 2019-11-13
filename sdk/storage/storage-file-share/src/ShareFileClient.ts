@@ -60,7 +60,7 @@ import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 
 /**
- * Options to configure File - Create operation.
+ * Options to configure the {@link ShareFileClient.create} operation.
  *
  * @export
  * @interface FileCreateOptions
@@ -112,7 +112,7 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
 
 /**
- * Options to configure File - Delete operation.
+ * Options to configure the {@link ShareFileClient.delete} operation.
  *
  * @export
  * @interface FileDeleteOptions
@@ -129,7 +129,11 @@ export interface FileDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Download operation.
+ * Options to configure File - Download operations.
+ *
+ * See:
+ * - {@link ShareFileClient.download}
+ * - {@link ShareFileClient.downloadToFile}
  *
  * @export
  * @interface FileDownloadOptions
@@ -179,7 +183,7 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Upload Range operation.
+ * Options to configure the {@link ShareFileClient.uploadRange} operation.
  *
  * @export
  * @interface FileUploadRangeOptions
@@ -215,7 +219,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Upload Range from URL operation.
+ * Options to configure the {@link ShareFileClient.uploadRangeFromURL} operation.
  *
  * @export
  * @interface FileUploadRangeFromURLOptions
@@ -269,7 +273,7 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
 // }
 
 /**
- * Options to configure File - Get Range List operation.
+ * Options to configure the {@link ShareFileClient.getRangeList} operation.
  *
  * @export
  * @interface FileGetRangeListOptions
@@ -293,7 +297,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Get Properties operation.
+ * Options to configure the {@link ShareFileClient.getProperties} operation.
  *
  * @export
  * @interface FileGetPropertiesOptions
@@ -310,7 +314,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Contains response data for the getRangeList operation.
+ * Contains response data for the {@link ShareFileClient.getRangeList} operation.
  */
 export type FileGetRangeListResponse = FileGetRangeListHeaders & {
   /**
@@ -340,7 +344,7 @@ export type FileGetRangeListResponse = FileGetRangeListHeaders & {
 };
 
 /**
- * Options to configure File - Start Copy operation.
+ * Options to configure the {@link ShareFileClient.startCopyFromURL} operation.
  *
  * @export
  * @interface FileStartCopyOptions
@@ -364,7 +368,7 @@ export interface FileStartCopyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Set Metadata operation.
+ * Options to configure the {@link ShareFileClient.setMetadata} operation.
  *
  * @export
  * @interface FileSetMetadataOptions
@@ -381,7 +385,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - HTTP Headers operation.
+ * Options to configure the {@link ShareFileClient.setHttpHeaders} operation.
  *
  * @export
  * @interface FileSetHttpHeadersOptions
@@ -400,7 +404,7 @@ export interface FileSetHttpHeadersOptions
 }
 
 /**
- * Options to configure File - Abort Copy From URL operation.
+ * Options to configure the {@link ShareFileClient.abortCopyFromURL} operation.
  *
  * @export
  * @interface FileAbortCopyFromURLOptions
@@ -417,7 +421,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - Resize operation.
+ * Options to configure the {@link ShareFileClient.resize} operation.
  *
  * @export
  * @interface FileResizeOptions
@@ -436,7 +440,7 @@ export interface FileResizeOptions
 }
 
 /**
- * Options to configure File - Clear Range operation.
+ * Options to configure the {@link ShareFileClient.clearRange} operation.
  *
  * @export
  * @interface FileClearRangeOptions
@@ -453,7 +457,12 @@ export interface FileClearRangeOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - File List Handles Segment.
+ * Options to configure File - List Handles Segment operations.
+ *
+ * See:
+ * - {@link ShareFileClient.listHandlesSegment}
+ * - {@link ShareFileClient.iterateHandleSegments}
+ * - {@link ShareFileClient.listHandleItems}
  *
  * @export
  * @interface FileListHandlesSegmentOptions
@@ -489,7 +498,12 @@ export interface FileListHandlesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File - File Force Close Handles Options.
+ * Options to configure File - Force Close Handles operations.
+ *
+ * See:
+ * - {@link ShareFileClient.forceCloseHandlesSegment}
+ * - {@link ShareFileClient.forceCloseAllHandles}
+ * - {@link ShareFileCLient.forceCloseHandle}
  *
  * @export
  * @interface FileForceCloseHandlesOptions
@@ -544,7 +558,11 @@ export interface FileUploadStreamOptions extends CommonOptions {
 }
 
 /**
- * Option interface for ShareFileClient.uploadFile() and ShareFileClient.uploadSeekableStream().
+ * Option interface for File - Upload operations
+ *
+ * See:
+ * - {@link ShareFileClient.uploadFile}
+ * - {@link ShareFileClient.uploadSeekableStream}
  *
  * @export
  * @interface FileParallelUploadOptions
@@ -601,7 +619,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
 }
 
 /**
- * Option interface for DownloadAzurefileToBuffer.
+ * Option interface for the {@link ShareFileClient.downloadToBuffer} operation.
  *
  * @export
  * @interface FileDownloadToBufferOptions
@@ -676,15 +694,39 @@ export class ShareFileClient extends StorageClient {
    * @memberof ShareFileClient
    */
   private context: File;
+
   private _shareName: string;
   private _path: string;
+  private _name: string;
 
+  /**
+   * The share name corresponding to this file client
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
   public get shareName(): string {
     return this._shareName;
   }
 
+  /**
+   * The full path of the file
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
   public get path(): string {
     return this._path;
+  }
+
+  /**
+   * The name of the file
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
+  public get name(): string {
+    return this._name;
   }
 
   /**
@@ -737,8 +779,9 @@ export class ShareFileClient extends StorageClient {
 
     super(url, pipeline);
     ({
+      baseName: this._name,
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._path
+      path: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
@@ -751,6 +794,19 @@ export class ShareFileClient extends StorageClient {
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
    * @memberof ShareFileClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!";
+   *
+   * // Create the file
+   * await fileClient.create(content.length);
+   * console.log("Created file successfully!");
+   *
+   * // Then upload data to the file
+   * await fileClient.uploadRange(content, 0, content.length);
+   * console.log("Updated file successfully!")
+   * ```
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
     const { span, spanOptions } = createSpan("ShareFileClient-create", options.tracingOptions);
@@ -807,6 +863,52 @@ export class ShareFileClient extends StorageClient {
    * @param {FileDownloadOptions} [options] Options to File Download operation.
    * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
    * @memberof ShareFileClient
+   *
+   * @example
+   * ```js
+   * // Download a file to a string (Node.js only)
+   * const downloadFileResponse = await fileClient.download();
+   * console.log(
+   *   "Downloaded file content:",
+   *   await streamToString(downloadFileResponse.readableStreamBody)}
+   * );
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into string
+   * async function streamToString(readableStream) {
+   *   return new Promise((resolve, reject) => {
+   *     const chunks = [];
+   *     readableStream.on("data", (data) => {
+   *       chunks.push(data.toString());
+   *     });
+   *     readableStream.on("end", () => {
+   *       resolve(chunks.join(""));
+   *     });
+   *     readableStream.on("error", reject);
+   *   });
+   * }
+   * ```
+   *
+   * @example
+   * ```js
+   * // Download a file to a string (Browser only)
+   * const downloadFileResponse = await fileClient.download(0);
+   * console.log(
+   *   "Downloaded file content:",
+   *   await streamToString(downloadFileResponse.blobBody)}
+   * );
+   *
+   * // [Browser only] A helper method used to convert a browser Blob into string.
+   * export async function blobToString(blob: Blob): Promise<string> {
+   *   const fileReader = new FileReader();
+   *   return new Promise<string>((resolve, reject) => {
+   *     fileReader.onloadend = (ev: any) => {
+   *       resolve(ev.target!.result);
+   *     };
+   *     fileReader.onerror = reject;
+   *     fileReader.readAsText(blob);
+   *   });
+   * }
+   * ```
    */
   public async download(
     offset: number = 0,
@@ -1141,6 +1243,19 @@ export class ShareFileClient extends StorageClient {
    * @param {FileUploadRangeOptions} [options={}] Options to File Upload Range operation.
    * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof ShareFileClient
+   *
+   * @example
+   * ```js
+   * const content = "Hello world!";
+   *
+   * // Create the file
+   * await fileClient.create(content.length);
+   * console.log("Created file successfully!");
+   *
+   * // Then upload data to the file
+   * await fileClient.uploadRange(content, 0, content.length);
+   * console.log("Updated file successfully!")
+   * ```
    */
   public async uploadRange(
     body: HttpRequestBody,
@@ -2113,7 +2228,7 @@ export class ShareFileClient extends StorageClient {
    *
    * @param {string} handleId Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseAllHandles() to close all handles.
-   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
+   * @param FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<FileForceCloseHandlesResponse>}
    * @memberof ShareFileClient
    */
