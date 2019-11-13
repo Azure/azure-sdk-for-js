@@ -164,8 +164,8 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     partitionOwnershipMap.forEach((partitionOwnership: PartitionOwnership, partitionId: string) => {
       var date = new Date();
       if (
-        partitionOwnership.lastModifiedTimeInMS &&
-        date.getTime() - partitionOwnership.lastModifiedTimeInMS < this._inactiveTimeLimitInMS &&
+        partitionOwnership.lastModifiedTimeInMs &&
+        date.getTime() - partitionOwnership.lastModifiedTimeInMs < this._inactiveTimeLimitInMS &&
         partitionOwnership.ownerId
       ) {
         activePartitionOwnershipMap.set(partitionId, partitionOwnership);

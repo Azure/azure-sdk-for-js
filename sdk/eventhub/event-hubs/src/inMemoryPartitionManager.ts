@@ -54,7 +54,7 @@ export class InMemoryPartitionManager implements PartitionManager {
       ) {
         ownership.eTag = generate_uuid();
         var date = new Date();
-        ownership.lastModifiedTimeInMS = date.getTime();
+        ownership.lastModifiedTimeInMs = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }

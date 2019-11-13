@@ -69,7 +69,7 @@ export interface PartitionOwnership extends PartitionContext {
   /**
    * @property The last modified time.
    */
-  lastModifiedTimeInMS?: number;
+  lastModifiedTimeInMs?: number;
   /**
    * @property The unique identifier for the operation.
    */
