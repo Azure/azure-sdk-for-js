@@ -37,6 +37,76 @@ export interface TryAddOptions {
 }
 
 /**
+ * A interface representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
+ * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
+ *
+ * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
+ * instead of using `new EventDataBatch()`. You can specify an upper limit for the size of the batch
+ * via options when calling `createBatch()`.
+ *
+ * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
+ * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
+ */
+export interface EventDataBatch {
+  /**
+   * The partitionKey set during `EventDataBatch` creation. This value is hashed to
+   * produce a partition assignment when the producer is created without a `partitionId`
+   * If this value is set then partitionId can not be set.
+   * @readonly
+   */
+  partitionKey?: string;
+
+  /**
+   * The partitionId set during `EventDataBatch` creation. 
+   * If this value is set then partitionKey can not be set.
+   * @readonly
+   */
+  partitionId?: string;  
+
+  /**
+   * Size of the `EventDataBatch` instance after the events added to it have been
+   * encoded into a single AMQP message.
+   * @readonly
+   */
+  sizeInBytes: number;
+
+  /**
+   * Number of events in the `EventDataBatch` instance.
+   * @readonly
+   */
+  count: number;
+
+ /**
+   * Tries to add an event data to the batch if permitted by the batch's size limit.
+   * **NOTE**: Always remember to check the return value of this method, before calling it again
+   * for the next event.
+   *
+   * @param eventData  An individual event data object.
+   * @returns A boolean value indicating if the event data has been added to the batch or not.
+   */
+  tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+  
+  /**
+   * Represents the single AMQP message which is the result of encoding all the events
+   * added into the `EventDataBatch` instance.
+   *
+   * This is not meant for the user to use directly.
+   *
+   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
+   * this single batched AMQP message is what gets sent over the wire to the service.
+   * @readonly
+   */
+  batchMessage: Buffer | undefined;
+
+    /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * @internal
+   * @ignore
+   */
+  _messageSpanContexts: SpanContext[];
+}
+
+/**
  * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
  * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
  *
@@ -47,8 +117,10 @@ export interface TryAddOptions {
  * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
  * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
  * @class
+ * @internal
+ * @ignore
  */
-export class EventDataBatch {
+export class EventDataBatchImpl implements EventDataBatch {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -147,6 +219,7 @@ export class EventDataBatch {
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
   }
+
   /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again

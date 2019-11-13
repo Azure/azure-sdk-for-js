@@ -7,7 +7,7 @@ import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./even
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
@@ -127,7 +127,7 @@ export class EventHubProducer {
       }
       maxMessageSize = options.maxSizeInBytes;
     }
-    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
+    return new EventDataBatchImpl(this._context, maxMessageSize, options.partitionKey);
   }
 
   /**
@@ -160,11 +160,11 @@ export class EventHubProducer {
       log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
-    if (eventData instanceof EventDataBatch && eventData.count === 0) {
+    if (isEventDataBatch(eventData) && eventData.count === 0) {
       log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
-    if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
+    if (!Array.isArray(eventData) && !isEventDataBatch(eventData)) {
       eventData = [eventData];
     }
 

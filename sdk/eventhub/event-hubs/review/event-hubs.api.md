@@ -5,18 +5,10 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { AmqpError } from 'rhea-promise';
-import { AwaitableSender } from 'rhea-promise';
-import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
-import { Dictionary } from 'rhea-promise';
-import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { Receiver } from 'rhea-promise';
-import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
-import { SharedKeyCredential } from '@azure/core-amqp';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
@@ -57,6 +49,7 @@ export enum CloseReason {
 export interface CreateBatchOptions {
     abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
+    partitionId?: string;
     partitionKey?: string;
 }
 
@@ -73,17 +66,14 @@ export interface EventData {
 }
 
 // @public
-export class EventDataBatch {
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
-    // 
+export interface EventDataBatch {
+    batchMessage: Buffer | undefined;
+    count: number;
     // @internal
-    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
-    readonly batchMessage: Buffer | undefined;
-    readonly count: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
-    readonly partitionKey: string | undefined;
-    readonly sizeInBytes: number;
+    _messageSpanContexts: SpanContext[];
+    partitionId?: string;
+    partitionKey?: string;
+    sizeInBytes: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
@@ -123,7 +113,6 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
-    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
 }
 
 // @public
