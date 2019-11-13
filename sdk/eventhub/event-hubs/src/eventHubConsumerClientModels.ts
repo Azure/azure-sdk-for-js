@@ -10,7 +10,7 @@ import { LastEnqueuedEventProperties } from './eventHubReceiver';
 export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
   /**
    * Information on the last enqueued event in the partition that is being processed.
-   * This property is only updated if the `trackLastEnqueuedEventInfo` option is set to true
+   * This property is only updated if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    * @readonly
    */

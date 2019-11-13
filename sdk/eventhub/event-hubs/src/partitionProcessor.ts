@@ -40,25 +40,25 @@ export class PartitionProcessor {
   private _eventHubName: string | undefined;
   private _eventProcessorId: string | undefined;
   private _partitionId: string | undefined;
-  private _lastEnqueuedEventInfo: LastEnqueuedEventProperties | undefined;
+  private _lastEnqueuedEventProperties: LastEnqueuedEventProperties | undefined;
 
   /**
    * @property Information on the last enqueued event in the partition that is being processed.
-   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventInfo` option is set to true
+   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    * @readonly
    */
-  public get lastEnqueuedEventInfo(): LastEnqueuedEventProperties {
-    return this._lastEnqueuedEventInfo!;
+  public get lastEnqueuedEventProperties(): LastEnqueuedEventProperties {
+    return this._lastEnqueuedEventProperties!;
   }
 
   /**
    * @property Information on the last enqueued event in the partition that is being processed.
-   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventInfo` option is set to true
+   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    */
-  public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventProperties) {
-    this._lastEnqueuedEventInfo = lastEnqueuedEventInfo;
+  public set lastEnqueuedEventProperties(properties: LastEnqueuedEventProperties) {
+    this._lastEnqueuedEventProperties = properties;
   }
 
   /**

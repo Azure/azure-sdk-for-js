@@ -1035,8 +1035,8 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventInfo", function (): void {
-    it("should have lastEnqueuedEventInfo populated", async function (): Promise<void> {
+  describe("with trackLastEnqueuedEventProperties", function (): void {
+    it("should have lastEnqueuedEventProperties populated", async function (): Promise<void> {
       const partitionId = partitionIds[0];
       const producer = client.createProducer({partitionId: partitionId});
       for (let i = 0; i < 10; i++) {
@@ -1055,18 +1055,18 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         partitionId,
         EventPosition.earliest(),
         {
-          trackLastEnqueuedEventInfo: true
+          trackLastEnqueuedEventProperties: true
         }
       );
       
       let data = await receiver.receiveBatch(1, 10);
-      debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventInfo);
+      debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventProperties);
       data.length.should.equal(1);
-      should.exist(receiver.lastEnqueuedEventInfo);
-      receiver.lastEnqueuedEventInfo!.offset!.should.equal(pInfo.lastEnqueuedOffset);
-      receiver.lastEnqueuedEventInfo!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventInfo!.enqueuedTime!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-      receiver.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+      should.exist(receiver.lastEnqueuedEventProperties);
+      receiver.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
+      receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
+      receiver.lastEnqueuedEventProperties!.enqueuedTime!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
+      receiver.lastEnqueuedEventProperties!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
     });
   });
 

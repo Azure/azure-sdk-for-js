@@ -43,7 +43,7 @@ interface CreateReceiverOptions {
 /**
  * A set of information about the last enqueued event of a partition, as observed by the consumer as
  * events are received from the Event Hubs service
- * @interface LastEnqueuedEventInfo
+ * @interface LastEnqueuedEventProperties
  */
 export interface LastEnqueuedEventProperties {
   /**
@@ -228,7 +228,7 @@ export class EventHubReceiver extends LinkEntity {
 
     this._checkpoint = receivedEventData.sequenceNumber;
 
-    if (this.options.trackLastEnqueuedEventInfo && data) {
+    if (this.options.trackLastEnqueuedEventProperties && data) {
       this.runtimeInfo.sequenceNumber = data.lastSequenceNumber;
       this.runtimeInfo.enqueuedTime = data.lastEnqueuedTime;
       this.runtimeInfo.offset = data.lastEnqueuedOffset;
@@ -831,7 +831,7 @@ export class EventHubReceiver extends LinkEntity {
       };
     }
 
-    if (this.options.trackLastEnqueuedEventInfo) {
+    if (this.options.trackLastEnqueuedEventProperties) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
 

@@ -140,7 +140,7 @@ export class InMemoryPartitionManager implements PartitionManager {
 }
 
 // @public
-export interface LastEnqueuedEventInfo {
+export interface LastEnqueuedEventProperties {
     enqueuedTime?: Date;
     offset?: string;
     retrievalTime?: Date;
@@ -250,7 +250,7 @@ export interface SubscriptionOptions {
 
 // @public
 export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
-    lastEnqueuedEventProperties?: LastEnqueuedEventInfo;
+    lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
 }
 
 // @public

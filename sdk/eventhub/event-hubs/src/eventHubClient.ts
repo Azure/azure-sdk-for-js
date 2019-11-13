@@ -202,7 +202,7 @@ export interface CreateBatchOptions {
  *     retryOptions: {
  *         maxRetries: 4
  *     },
- *     trackLastEnqueuedEventInfo: false
+ *     trackLastEnqueuedEventProperties: false
  * }
  * ```
  */
@@ -233,7 +233,7 @@ export interface EventHubConsumerOptions {
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
    */
-  trackLastEnqueuedEventInfo?: boolean;
+  trackLastEnqueuedEventProperties?: boolean;
 }
 
 /**

@@ -13,7 +13,7 @@ import {
   PartitionOwnership,
   CloseReason,
   ReceivedEventData,
-  LastEnqueuedEventInfo
+  LastEnqueuedEventProperties
 } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -938,8 +938,8 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventInfo #RunnableInBrowser", function(): void {
-    it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
+  describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
+    it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds({});
@@ -950,11 +950,11 @@ describe("Event Processor", function (): void {
       }
 
       let partitionIdsSet = new Set();
-      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
+      const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
         async processEvent(event: ReceivedEventData) {
           partitionIdsSet.add(this.partitionId);
-          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
+          lastEnqueuedEventPropertiesMap.set(this.partitionId, this.lastEnqueuedEventProperties);
         }
       }
 
@@ -982,7 +982,7 @@ describe("Event Processor", function (): void {
         debug("Getting the partition information");
         const patitionInfo = await client.getPartitionProperties(partitionId);
         debug("partition info: ", patitionInfo);
-        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        const results = lastEnqueuedEventPropertiesMap.get(partitionId)!;
         should.exist(results);
         results!.offset!.should.equal(patitionInfo.lastEnqueuedOffset);
         results!.sequenceNumber!.should.equal(patitionInfo.lastEnqueuedSequenceNumber);
@@ -991,7 +991,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
+    it("should not have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to false", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds({});
@@ -1002,11 +1002,11 @@ describe("Event Processor", function (): void {
       }
 
       let partitionIdsSet = new Set();
-      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
+      const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
         async processEvent(event: ReceivedEventData) {
           partitionIdsSet.add(this.partitionId);
-          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
+          lastEnqueuedEventPropertiesMap.set(this.partitionId, this.lastEnqueuedEventProperties);
         }
       }
 
@@ -1030,7 +1030,7 @@ describe("Event Processor", function (): void {
       await processor.stop();
 
       for (const partitionId of partitionIds) {
-        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        const results = lastEnqueuedEventPropertiesMap.get(partitionId)!;
         should.not.exist(results);
       }
     });
