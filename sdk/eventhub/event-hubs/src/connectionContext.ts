@@ -99,7 +99,8 @@ export namespace ConnectionContext {
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
-      dataTransformer: options.dataTransformer,
+      // TODO: no longer customizable (for now)
+      // dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
       connectionProperties: {
         product: "MSJSClient",

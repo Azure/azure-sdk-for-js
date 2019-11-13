@@ -39,8 +39,6 @@ export {
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export {
   MessagingError,
-  DataTransformer,
-  DefaultDataTransformer,
   RetryOptions,
   TokenType,
   TokenCredential
