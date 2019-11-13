@@ -273,13 +273,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         processEvent: async (event, context) => {
           receivedEvents.push(event.body);
         },
-        processInitialize: async (_) => {
+        processInitialize: async (context) => {
           initialized = true;
+          context.setStartPosition(EventPosition.latest());
         }
       }, {
         maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
-        maxWaitTimeInSeconds: 60,
-        defaultEventPosition: EventPosition.latest(),
+        maxWaitTimeInSeconds: 60
       });
       
       while (!initialized) {

@@ -2,7 +2,6 @@
 import { CloseReason, PartitionContext } from './eventProcessor';
 import { PartitionCheckpointer, SubscriptionPartitionInitializer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
-import { EventPosition } from './eventPosition';
 import { LastEnqueuedEventInfo } from './eventHubReceiver';
 
 /**
@@ -22,7 +21,7 @@ export interface SubscriptionPartitionContext extends PartitionContext, Partitio
  * Event handler called when events are received. The `context` parameter can be 
  * used to get partition information as well as to checkpoint.
  */
-export type ProcessEvent = (
+export type ProcessEventHandler = (
   receivedEvent: ReceivedEventData,
   context: PartitionContext & PartitionCheckpointer
 ) => Promise<void>;
@@ -49,7 +48,7 @@ export interface SubscriptionEventHandlers {
   /**
    * Event handler called when events are received.    
    */
-  processEvent: ProcessEvent
+  processEvent: ProcessEventHandler
   /**
    * Called when errors occur during event receiving.
    */
@@ -79,14 +78,6 @@ export interface SubscriptionOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventInfo?: boolean;
-
-  /**
-   * The event position to use when claiming a partition if not already
-   * initialized.
-   * 
-   * Defaults to EventPosition.earliest()
-   */
-  defaultEventPosition?: EventPosition;  
 
   /**
    * The max size of the batch of events passed each time to user code for processing.

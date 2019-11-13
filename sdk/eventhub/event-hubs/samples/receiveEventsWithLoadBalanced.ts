@@ -18,9 +18,6 @@
 
 import {
   EventHubConsumerClient,
-  ReceivedEventData,
-  PartitionContext,
-  PartitionCheckpointer
 } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
@@ -33,37 +30,28 @@ const containerName = "";
 
 async function main() {
   // The callback where you add your code to process incoming events
-  const processEvents = async (
-    events: ReceivedEventData[],
-    context: PartitionContext & PartitionCheckpointer
-  ) => {
-    if (events.length === 0) {
-      return;
-    }
-
-    for (const event of events) {
-      console.log(
-        `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
-      );
-    }
-
-    // checkpoint using the last event in the batch
-    const lastEvent = events[events.length - 1];
-    await context.updateCheckpoint(lastEvent).catch((err: any) => {
-      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-    });
-    console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
-    );
-  };
-
   const consumerClient = new EventHubConsumerClient(connectionString, eventHubName);
+  
+  // this client will be used by our eventhubs-checkpointstore-blob, which 
+  // persists any checkpoints in this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
   await containerClient.create();
+
   const subscription = consumerClient.subscribe(
     EventHubConsumerClient.defaultConsumerGroupName,
     new BlobPartitionManager(containerClient), {
-      processEvents: processEvents
+      processEvent: async (event, context) => {
+        console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`);
+    
+        // checkpoint using the last event in the batch
+        await context.updateCheckpoint(event).catch((err: any) => {
+          console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
+        });
+
+        console.log(
+          `Successfully checkpointed event with sequence number: ${event.sequenceNumber} from partition: 'partitionContext.partitionId'`
+        );
+      }
     }
   );
 

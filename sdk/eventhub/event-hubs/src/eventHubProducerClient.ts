@@ -108,28 +108,28 @@ export class EventHubProducerClient {
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(
-    host: string,
+    fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
   );
   constructor(
-    hostOrConnectionString1: string,
+    fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?: TokenCredential | EventHubClientOptions,
     options4?: EventHubClientOptions
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._client = new EventHubClient(hostOrConnectionString1, eventHubNameOrOptions2);
+      this._client = new EventHubClient(fullyQualifiedNamespaceOrConnectionString1, eventHubNameOrOptions2);
     } else if (!isTokenCredential(credentialOrOptions3)) {
       this._client = new EventHubClient(
-        hostOrConnectionString1,
+        fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3
       );
     } else {
       this._client = new EventHubClient(
-        hostOrConnectionString1,
+        fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3,
         options4

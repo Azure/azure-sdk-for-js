@@ -1,5 +1,5 @@
-import { CloseReason, ReceivedEventData, EventPosition, EventHubProducerClient, PartitionCheckpointer } from "../../src/";
-import { SubscriptionEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
+import { CloseReason, ReceivedEventData, EventHubProducerClient, PartitionCheckpointer, SubscriptionPartitionInitializer, EventHubConsumerClient } from "../../src/";
+import { SubscriptionEventHandlers, SubscriptionOptions, SubscriptionPartitionContext } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
 import { delay } from '@azure/core-amqp';
@@ -19,8 +19,6 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
-
-  public defaultEventPosition: EventPosition = EventPosition.latest();
 
   /**
    * Creates a ReceivedMessagesTester
@@ -71,8 +69,10 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     receivedData.lastError = error;
   }
 
-  async processInitialize(context: PartitionContext): Promise<void> {
+  async processInitialize(context: SubscriptionPartitionContext & SubscriptionPartitionInitializer): Promise<void> {
     this.contextIsOk(context);
+
+    context.setStartPosition("latest");
 
     if (!this.multipleConsumers) {
       // this'll happen because for our multi-consumer tests we share the same

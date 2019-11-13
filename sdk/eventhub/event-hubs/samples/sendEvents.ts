@@ -20,14 +20,23 @@ async function main(): Promise<void> {
 
   console.log("Creating and sending a batch of events...");
   try {
-    const batch = await producer.createBatch();
+    // create a batch targeted to a particular partition
+    const batch = await producer.createBatch({
+      partitionId: "0"
+    });
+
+    // add events to our batch
     for (let index = 0; index < 10; index++) {
+      // messages can fail to be added to the batch if they exceed the maximum size configured for
+      // the EventHub.
       const isAdded = batch.tryAdd({ body: "Sent along with 9 other events using batch" });
+      
       if (!isAdded) {
         console.log(`Unable to add event ${index} to the batch`);
         break;
       }
     }
+
     await producer.sendBatch(batch);
   } catch (err) {
     console.log("Error when creating & sending a batch of events: ", err);
