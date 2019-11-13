@@ -306,7 +306,7 @@ export class KeyClient {
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param {string} name The name of the key.
-   * @param {JsonWebKeyType} keyType The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
+   * @param {KeyType} keyType The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
    * @param {CreateKeyOptions} [options] The optional parameters.
    */
   public async createKey(
@@ -608,7 +608,7 @@ export class KeyClient {
   }
 
   /**
-   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
+   * The getKey method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
    *
    * Example usage:

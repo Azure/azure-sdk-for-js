@@ -145,7 +145,13 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
  * Well known issuers for choosing a default
  */
 export enum WellKnownIssuer {
+  /**
+   * For self signed certificates
+   */
   Self = "Self",
+  /**
+   * For certificates whose issuer will be defined later
+   */
   Unknown = "Unknown",
 }
 
