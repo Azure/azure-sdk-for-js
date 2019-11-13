@@ -411,7 +411,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * @type {(Promise<Blob> | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get blobBody(): Promise<Blob> | undefined {
+  public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
   }
 
