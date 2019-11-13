@@ -51,7 +51,11 @@ export function nodeConfig(test = false) {
         }
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        namedExports: {
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
+      })
     ]
   };
 
@@ -118,7 +122,8 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual"]
+          assert: ["ok", "equal", "strictEqual"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ]
