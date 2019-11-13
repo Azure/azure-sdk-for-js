@@ -262,18 +262,4 @@ directive:
       delete $.format;
 ```
 
-### Update date type for "fileCreatedOn" and "fileLastWriteOn" from `DateTimeRfc1123` -> `string`
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.FileCreationTime
-    transform: >
-      delete $.format;
-  - from: swagger-document
-    where: $.parameters.FileLastWriteTime
-    transform: >
-      delete $.format;
-```
-
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
