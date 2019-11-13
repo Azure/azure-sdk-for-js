@@ -146,7 +146,7 @@ export class QueueClient implements Client {
    * @returns SessionReceiver A receiver to receive from a session in the Queue.
    * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
    * @throws {Error} Thrown if an open receiver already exists on the QueueClient for given sessionId.
-   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` Thrown if the Queue does not have sessions enabled (in which
+   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
