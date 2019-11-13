@@ -51,11 +51,7 @@ export function nodeConfig(test = false) {
         }
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs({
-        namedExports: {
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
-        }
-      })
+      cjs()
     ]
   };
 

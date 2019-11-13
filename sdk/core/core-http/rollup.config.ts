@@ -45,11 +45,7 @@ const nodeConfig = {
     nodeResolve({
       mainFields: ["module", "main"]
     }),
-    commonjs({
-      namedExports: {
-        "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
-      }
-    }),
+    commonjs(),
     sourcemaps(),
     json(),
     visualizer({
