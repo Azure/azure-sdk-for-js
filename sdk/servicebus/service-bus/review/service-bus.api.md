@@ -178,7 +178,6 @@ export class QueueClient implements Client {
 export interface QueueDetails {
     accessedAt?: string;
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle: string;
     createdAt?: string;
     deadLetteringOnMessageExpiration: boolean;
     defaultMessageTimeToLive: string;
@@ -193,6 +192,7 @@ export interface QueueDetails {
     lockDuration: string;
     maxDeliveryCount: number;
     maxSizeInMegabytes: number;
+    maxWaitTimeForAutoDelete: string;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     path?: string;
@@ -209,7 +209,6 @@ export interface QueueDetails {
 // @public
 export interface QueueOptions {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
@@ -220,6 +219,7 @@ export interface QueueOptions {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
+    maxWaitTimeForAutoDelete?: string;
     messageCount?: number;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
@@ -486,7 +486,6 @@ export class SubscriptionClient implements Client {
 // @public
 export interface SubscriptionDetails {
     accessedAt?: string;
-    autoDeleteOnIdle: string;
     createdAt: string;
     deadLetteringOnFilterEvaluationExceptions: boolean;
     deadLetteringOnMessageExpiration: boolean;
@@ -500,6 +499,7 @@ export interface SubscriptionDetails {
     lockDuration: string;
     maxDeliveryCount: number;
     maxSizeInMegabytes?: number;
+    maxWaitTimeForAutoDelete: string;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     requiresSession: boolean;
@@ -513,7 +513,6 @@ export interface SubscriptionDetails {
 
 // @public
 export interface SubscriptionOptions {
-    autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
@@ -525,6 +524,7 @@ export interface SubscriptionOptions {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
+    maxWaitTimeForAutoDelete?: string;
     messageCount?: number;
     requiresSession?: boolean;
     sizeInBytes?: number;
@@ -555,7 +555,6 @@ export class TopicClient implements Client {
 export interface TopicDetails {
     accessedAt?: string;
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle: string;
     createdAt?: string;
     defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
@@ -572,6 +571,7 @@ export interface TopicDetails {
     maxSizeInMegabytes: number;
     maxSqlFiltersPerTopic?: number;
     maxSubscriptionsPerTopic?: number;
+    maxWaitTimeForAutoDelete: string;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     requiresDuplicateDetection: boolean;
@@ -587,7 +587,6 @@ export interface TopicDetails {
 // @public
 export interface TopicOptions {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
@@ -601,6 +600,7 @@ export interface TopicOptions {
     maxSizeInMegabytes?: number;
     maxSqlFiltersPerTopic?: number;
     maxSubscriptionsPerTopic?: number;
+    maxWaitTimeForAutoDelete?: string;
     messageCount?: number;
     requiresDuplicateDetection?: boolean;
     sizeInBytes?: number;
