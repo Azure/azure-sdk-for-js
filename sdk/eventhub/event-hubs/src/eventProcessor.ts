@@ -62,11 +62,6 @@ export interface PartitionOwnership extends PartitionContext {
    */
   ownerId: string;  
   /**
-   * @property
-   * The owner level
-   */
-  ownerLevel: number;
-  /**
    * @property The last modified time.
    */
   lastModifiedTimeInMs?: number;
