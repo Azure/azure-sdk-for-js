@@ -1,6 +1,7 @@
-### 2019-10-23 2.1.2
+### 2019-11-14 2.1.2
 
 - Errors thrown in the user-provided message and error handlers to `client.receive` are now properly caught and logged by the library.
+- Ensures that stale receivers no longer accumulate when recovering from failures while receiving.
 
 ### 2019-07-15 2.1.1
 

@@ -462,6 +462,9 @@ export class EventHubReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
+        // Remove the existing receiver from the internal cache.
+        // A new one will be created with a different name (newName: true).
+        this._deleteFromCache();
         const rcvrOptions: CreateReceiverOptions = {
           onMessage: this._onAmqpMessage,
           onError: this._onAmqpError,
