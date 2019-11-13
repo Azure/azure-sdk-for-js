@@ -462,9 +462,6 @@ export class EventHubReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
-        // Remove the existing receiver from the internal cache.
-        // A new one will be created with a different name (newName: true).
-        this._deleteFromCache();
         const rcvrOptions: CreateReceiverOptions = {
           onMessage: this._onAmqpMessage,
           onError: this._onAmqpError,
@@ -589,7 +586,23 @@ export class EventHubReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
+        if (!this._context.receivers[this.name]) {
+          // Check if the receiver already exists and remove the existing reference from the cache.
+          let existingReceiverAlias: string | undefined;
+          for (const name of Object.keys(this._context.receivers)) {
+            if (this._context.receivers[name] === this) {
+              existingReceiverAlias = name;
+              break;
+            }
+          }
+          if (existingReceiverAlias) {
+            // Remove the existing alias since a new name has been created for this receiver.
+            delete this._context.receivers[existingReceiverAlias];
+          }
+
+          this._context.receivers[this.name] = this;
+        }
+
         await this._ensureTokenRenewal();
       } else {
         log.error(
