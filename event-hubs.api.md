@@ -19,6 +19,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
+import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -38,6 +39,12 @@ export interface Checkpoint {
     ownerId: string;
     partitionId: string;
     sequenceNumber: number;
+}
+
+// @public
+export interface CheckpointManager {
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public
@@ -96,19 +103,12 @@ export class EventHubConsumerClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
-    getPartitionIds(): Promise<string[]>;
+    getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
-}
-
-// @public
-export interface EventHubConsumerOptions {
-    ownerLevel?: number;
-    retryOptions?: RetryOptions;
-    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public
@@ -127,16 +127,10 @@ export class EventHubProducerClient {
 }
 
 // @public
-export interface EventHubProducerOptions {
-    partitionId?: string;
-    retryOptions?: RetryOptions;
-}
-
-// @public
 export interface EventHubProperties {
     createdAt: Date;
+    name: string;
     partitionIds: string[];
-    path: string;
 }
 
 // @public
@@ -157,35 +151,25 @@ export class EventPosition {
     }
 
 // @public
-export interface EventProcessorBatchOptions {
-    maxBatchSize?: number;
-    maxWaitTimeInSeconds?: number;
-}
-
-// @public
-export interface EventProcessorOptions {
-    defaultEventPosition?: EventPosition;
-    trackLastEnqueuedEventInfo?: boolean;
-}
-
-// @public
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
-export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
-export class InMemoryPartitionManager implements PartitionManager {
+export class InMemoryPartitionManager implements OwnershipManager, CheckpointManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    // (undocumented)
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
@@ -201,8 +185,9 @@ export interface LastEnqueuedEventInfo {
 export { MessagingError }
 
 // @public
-export interface ParentSpanOptions {
-    parentSpan?: Span | SpanContext;
+export interface OwnershipManager {
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
 }
 
 // @public
@@ -222,11 +207,7 @@ export interface PartitionContext {
 }
 
 // @public
-export interface PartitionManager {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
-}
+export type PartitionManager = CheckpointManager & OwnershipManager;
 
 // @public
 export interface PartitionOwnership extends PartitionContext {
@@ -255,7 +236,7 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
 export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessEvents = (receivedEvent: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
@@ -293,12 +274,16 @@ export interface Subscription {
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
     processError?: ProcessErrorHandler;
-    processEvents: ProcessEvents;
+    processEvent: ProcessEvents;
     processInitialize?: ProcessInitializeHandler;
 }
 
 // @public
-export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
+export interface SubscriptionOptions extends SubscriptionEventHandlers {
+    defaultEventPosition?: EventPosition;
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 export { TokenCredential }
