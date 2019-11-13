@@ -115,7 +115,7 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws {Error} Thrown if the underlying connection, client or sender is closed.
-   * @throws {MessagingError} Thrown if any error occurs while sending messages to the service.
+   * @throws {MessagingError} Thrown if any error occurs during the scheduleMessage operation.
    */
   async scheduleMessage(
     scheduledEnqueueTimeUtc: Date,
@@ -147,7 +147,7 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws {Error} Thrown if the underlying connection, client or sender is closed.
-   * @throws {MessagingError} Thrown if any error occurs while sending messages to the service.
+   * @throws {MessagingError} Thrown if any error occurs during the scheduleMessages operation.
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
@@ -172,7 +172,7 @@ export class Sender {
    * @param sequenceNumber - The sequence number of the message to be cancelled.
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection, client or sender is closed.
-   * @throws {MessagingError} Thrown if any error occurs while sending messages to the service.
+   * @throws {MessagingError} Thrown if any error occurs during the cancelScheduleMessage operation.
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -195,7 +195,7 @@ export class Sender {
    * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
    * @returns Promise<void>
    * @throws {Error} Thrown if the underlying connection, client or sender is closed.
-   * @throws {MessagingError} Thrown if any error occurs while sending messages to the service.
+   * @throws {MessagingError} Thrown if any error occurs during the cancelScheduleMessages operation.
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
