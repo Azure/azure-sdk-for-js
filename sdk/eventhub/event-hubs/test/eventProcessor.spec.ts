@@ -95,7 +95,7 @@ describe("Event Processor", function (): void {
       partitionManager,
       {
         ...defaultOptions,
-        trackLastEnqueuedEventInfo: false
+        trackLastEnqueuedEventProperties: false
       }
     );
     processor.start();
@@ -967,7 +967,7 @@ describe("Event Processor", function (): void {
         partitionManager,
         {
           ...defaultOptions,
-          trackLastEnqueuedEventInfo: true
+          trackLastEnqueuedEventProperties: true
         }
       );
 
@@ -1019,7 +1019,7 @@ describe("Event Processor", function (): void {
         partitionManager,
         {
           ...defaultOptions,
-          trackLastEnqueuedEventInfo: false
+          trackLastEnqueuedEventProperties: false
         }
       );
       processor.start();

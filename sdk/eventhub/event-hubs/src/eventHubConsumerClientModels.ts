@@ -77,7 +77,7 @@ export interface SubscriptionOptions {
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
    */
-  trackLastEnqueuedEventInfo?: boolean;
+  trackLastEnqueuedEventProperties?: boolean;
 
   /**
    * The max size of the batch of events passed each time to user code for processing.

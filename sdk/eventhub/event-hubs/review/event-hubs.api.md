@@ -245,7 +245,7 @@ export interface SubscriptionOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
-    trackLastEnqueuedEventInfo?: boolean;
+    trackLastEnqueuedEventProperties?: boolean;
 }
 
 // @public

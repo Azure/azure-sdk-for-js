@@ -54,7 +54,7 @@ export class PartitionPump {
       this._initialEventPosition,
       {
         ownerLevel: 0,
-        trackLastEnqueuedEventInfo: this._processorOptions.trackLastEnqueuedEventInfo
+        trackLastEnqueuedEventInfo: this._processorOptions.trackLastEnqueuedEventProperties
       }
     );
 
@@ -66,7 +66,7 @@ export class PartitionPump {
           this._abortController.signal
         );
         if (
-          this._processorOptions.trackLastEnqueuedEventInfo &&
+          this._processorOptions.trackLastEnqueuedEventProperties &&
           this._receiver.lastEnqueuedEventInfo
         ) {
           this._partitionProcessor.lastEnqueuedEventInfo = this._receiver.lastEnqueuedEventInfo;
