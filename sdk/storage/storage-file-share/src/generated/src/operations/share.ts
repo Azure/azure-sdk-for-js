@@ -436,6 +436,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
       required: true
     }
   },
+  contentType: "application/xml; charset=utf-8",
   responses: {
     201: {
       headersMapper: Mappers.ShareCreatePermissionHeaders
