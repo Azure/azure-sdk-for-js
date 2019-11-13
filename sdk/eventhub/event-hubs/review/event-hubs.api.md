@@ -123,9 +123,6 @@ export class EventPosition {
     }
 
 // @public
-export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
-
-// @public
 export interface GetEventHubPropertiesOptions extends SpanOptions {
     abortSignal?: AbortSignalLike;
 }

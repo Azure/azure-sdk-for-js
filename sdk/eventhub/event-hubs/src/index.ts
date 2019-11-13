@@ -37,7 +37,6 @@ export {
   PartitionOwnership
 } from "./eventProcessor";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 export {
   MessagingError,
   DataTransformer,
