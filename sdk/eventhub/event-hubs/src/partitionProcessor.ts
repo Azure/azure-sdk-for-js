@@ -175,10 +175,10 @@ export class PartitionProcessor {
    *
    * This is also a good place to update checkpoints as appropriate.
    *
-   * @param events The received events to be processed.
+   * @param event The received events to be processed.
    * @return {Promise<void>}
    */
-  async processEvents(events: ReceivedEventData[]): Promise<void> {}
+  async processEvent(event: ReceivedEventData): Promise<void> {}
 
   /**
    * This method is called when an error occurs while receiving events from Event Hubs.

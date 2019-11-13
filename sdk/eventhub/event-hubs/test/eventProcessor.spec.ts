@@ -78,10 +78,8 @@ describe("Event Processor", function (): void {
     let partitionProcessorInfo: string[] = [];
     let receivedEvents = [];
     class SimpleEventProcessor extends PartitionProcessor {
-      async processEvents(events: ReceivedEventData[]) {
-        for (const event of events) {
-          receivedEvents.push(event);
-        }
+      async processEvent(event: ReceivedEventData) {
+        receivedEvents.push(event);
         partitionProcessorInfo.push(this.fullyQualifiedNamespace);
         partitionProcessorInfo.push(this.eventHubName);
         partitionProcessorInfo.push(this.consumerGroupName);
@@ -134,10 +132,10 @@ describe("Event Processor", function (): void {
       async close(reason: CloseReason) {
         partitionResultsMap.get(this.partitionId)!.closeReason = reason;
       }
-      async processEvents(events: ReceivedEventData[]) {
+      async processEvent(event: ReceivedEventData) {
         partitionOwnerShip.add(this.partitionId);
         const existingEvents = partitionResultsMap.get(this.partitionId)!.events;
-        events.forEach((event) => existingEvents.push(event.body));
+        existingEvents.push(event.body);
       }
       async processError() {
         didError = true;
@@ -208,7 +206,7 @@ describe("Event Processor", function (): void {
       async close() {
         didPartitionProcessorStart = true;
       }
-      async processEvents() {
+      async processEvent() {
         didPartitionProcessorStart = true;
       }
       async processError() {
@@ -254,10 +252,10 @@ describe("Event Processor", function (): void {
       async close(reason: CloseReason) {
         partitionResultsMap.get(this.partitionId)!.closeReason = reason;
       }
-      async processEvents(events: ReceivedEventData[]) {
+      async processEvent(event: ReceivedEventData) {
         partitionOwnerShip.add(this.partitionId);
         const existingEvents = partitionResultsMap.get(this.partitionId)!.events;
-        events.forEach((event) => existingEvents.push(event.body));
+        existingEvents.push(event.body);
       }
       async processError() {
         didError = true;
@@ -383,10 +381,10 @@ describe("Event Processor", function (): void {
         async close(reason: CloseReason) {
           partitionResultsMap.get(this.partitionId)!.closeReason = reason;
         }
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionOwnerShip.add(this.partitionId);
           const existingEvents = partitionResultsMap.get(this.partitionId)!.events;
-          events.forEach((event) => existingEvents.push(event.body));
+          existingEvents.push(event.body);
         }
         async processError() {
           didError = true;
@@ -462,10 +460,10 @@ describe("Event Processor", function (): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor extends PartitionProcessor {
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionOwnerShip.add(this.partitionId);
           const existingEvents = partitionResultsMap.get(this.partitionId)!;
-          events.forEach((event) => existingEvents.push(event.body));
+          existingEvents.push(event.body);
         }
         async processError() {
           didError = true;
@@ -533,11 +531,9 @@ describe("Event Processor", function (): void {
           isinitializeCalled = true;
           debug(`Started processing`);
         }
-        async processEvents(events: ReceivedEventData[]) {
-          for (const event of events) {
-            receivedEvents.push(event);
-            debug("Received event", event.body);
-          }
+        async processEvent(event: ReceivedEventData) {
+          receivedEvents.push(event);
+          debug("Received event", event.body);
         }
 
         async processError(error: Error) {
@@ -650,18 +646,16 @@ describe("Event Processor", function (): void {
 
       let partionCount: { [x: string]: number } = {};
       class FooPartitionProcessor extends PartitionProcessor {
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionOwnerShip.add(this.partitionId);
           !partionCount[this.partitionId]
             ? (partionCount[this.partitionId] = 1)
             : partionCount[this.partitionId]++;
           const existingEvents = checkpointMap.get(this.partitionId)!;
-          for (const event of events) {
-            debug("Received event: '%s' from partition: '%s'", event.body, this.partitionId);
-            if (partionCount[this.partitionId] <= 50) {
-              await this.updateCheckpoint(event);
-              existingEvents.push(event);
-            }
+          debug("Received event: '%s' from partition: '%s'", event.body, this.partitionId);
+          if (partionCount[this.partitionId] <= 50) {
+            await this.updateCheckpoint(event);
+            existingEvents.push(event);
           }
         }
         async processError() {
@@ -787,12 +781,10 @@ describe("Event Processor", function (): void {
         async close(reason: CloseReason) {
           partitionResultsMap.get(this.partitionId)!.closeReason = reason;
         }
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionOwnershipArr.add(this.partitionId);
           const existingEvents = partitionResultsMap.get(this.partitionId)!.events;
-          events.forEach((event) => {
-            existingEvents.push(event.body);
-          });
+          existingEvents.push(event.body);
         }
         async processError(err: Error) {
           didError = true;
@@ -883,7 +875,7 @@ describe("Event Processor", function (): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor extends PartitionProcessor {
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionOwnershipArr.add(this.partitionId);
         }
         async processError() {
@@ -960,7 +952,7 @@ describe("Event Processor", function (): void {
       let partitionIdsSet = new Set();
       const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionIdsSet.add(this.partitionId);
           lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }
@@ -1012,7 +1004,7 @@ describe("Event Processor", function (): void {
       let partitionIdsSet = new Set();
       const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
-        async processEvents(events: ReceivedEventData[]) {
+        async processEvent(event: ReceivedEventData) {
           partitionIdsSet.add(this.partitionId);
           lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }

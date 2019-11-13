@@ -25,7 +25,7 @@ export {
   ProcessErrorHandler,
   ProcessInitializeHandler,
   ProcessCloseHandler,
-  ProcessEvents
+  ProcessEvent
 } from "./eventHubConsumerClientModels";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";

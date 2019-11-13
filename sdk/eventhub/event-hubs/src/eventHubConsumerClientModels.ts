@@ -22,8 +22,8 @@ export interface SubscriptionPartitionContext extends PartitionContext, Partitio
  * Event handler called when events are received. The `context` parameter can be 
  * used to get partition information as well as to checkpoint.
  */
-export type ProcessEvents = (
-  receivedEvents: ReceivedEventData[],
+export type ProcessEvent = (
+  receivedEvent: ReceivedEventData,
   context: PartitionContext & PartitionCheckpointer
 ) => Promise<void>;
 
@@ -49,7 +49,7 @@ export interface SubscriptionEventHandlers {
   /**
    * Event handler called when events are received.    
    */
-  processEvents: ProcessEvents
+  processEvent: ProcessEvent
   /**
    * Called when errors occur during event receiving.
    */

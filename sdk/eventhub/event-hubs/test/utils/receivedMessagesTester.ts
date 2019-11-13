@@ -41,19 +41,14 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     this.done = false;
   }
 
-  async processEvents(
-    receivedEvents: ReceivedEventData[],
+  async processEvent(
+    event: ReceivedEventData,
     context: PartitionContext & PartitionCheckpointer
   ): Promise<void> {
     this.contextIsOk(context);
 
-    if (receivedEvents.length > 0) {
-      await context.updateCheckpoint(receivedEvents[receivedEvents.length - 1]);
-    }
-
-    for (const event of receivedEvents) {
-      this.expectedMessageBodies.delete(event.body);
-    }
+    await context.updateCheckpoint(event);
+    this.expectedMessageBodies.delete(event.body);
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;

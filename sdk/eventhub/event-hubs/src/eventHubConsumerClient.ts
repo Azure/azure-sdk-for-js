@@ -387,9 +387,9 @@ export function createPartitionProcessorType(
   class DefaultPartitionProcessor extends PartitionProcessor {
     private _partitionCheckpointer?: SimplePartitionCheckpointer;
 
-    async processEvents(events: ReceivedEventData[]): Promise<void> {
-      await options.processEvents(
-        events,
+    async processEvent(event: ReceivedEventData): Promise<void> {
+      await options.processEvent(
+        event,
         this._partitionCheckpointer!
       );
     }
@@ -443,7 +443,7 @@ export function isPartitionManager(
  * @ignore
  */
 function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers): possible is SubscriptionEventHandlers {
-  return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
+  return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
 }
 
 class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext, SubscriptionPartitionInitializer {

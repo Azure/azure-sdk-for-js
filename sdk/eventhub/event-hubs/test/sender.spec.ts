@@ -270,8 +270,8 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       let initialized = false;
 
       const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {        
-        processEvents: async (events, context) => {
-          receivedEvents.push(...events.map(e => e.body));
+        processEvent: async (event, context) => {
+          receivedEvents.push(event.body);
         },
         processInitialize: async (_) => {
           initialized = true;
