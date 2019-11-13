@@ -1260,7 +1260,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
           onUploadProgress: options.onProgress,
-          optionalbody: body,
+          body: body,
           spanOptions
         }
       );
