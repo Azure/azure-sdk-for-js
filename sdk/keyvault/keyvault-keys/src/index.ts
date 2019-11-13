@@ -306,7 +306,7 @@ export class KeyClient {
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param {string} name The name of the key.
-   * @param {JsonWebKeyType} keyType The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
+   * @param {KeyType} keyType The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
    * @param {CreateKeyOptions} [options] The optional parameters.
    */
   public async createKey(
