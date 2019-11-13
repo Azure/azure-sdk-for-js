@@ -91,7 +91,11 @@ describe("EventHubConsumerClient", () => {
       const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        tester
+        tester,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 10      
+        }
       );
 
       subscriptions.push(subscription);
@@ -115,7 +119,11 @@ describe("EventHubConsumerClient", () => {
 
       const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
-        tester
+        tester,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 10      
+        }
       );
 
       await tester.runTestAndPoll(producerClient);
@@ -138,12 +146,16 @@ describe("EventHubConsumerClient", () => {
         [log.consumerClient,
         log.partitionLoadBalancer]);
 
-      const tester = new ReceivedMessagesTester(partitionIds, true, 1, 60);
+      const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
         inMemoryPartitionManager,
-        tester
+        tester,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 60
+        }
       );
 
       subscriptions.push(subscriber1);
@@ -151,7 +163,11 @@ describe("EventHubConsumerClient", () => {
       const subscriber2 = await client.subscribe(
          EventHubClient.defaultConsumerGroupName,
          inMemoryPartitionManager,
-         tester
+        tester,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 60      
+        }
       );
 
       subscriptions.push(subscriber2);

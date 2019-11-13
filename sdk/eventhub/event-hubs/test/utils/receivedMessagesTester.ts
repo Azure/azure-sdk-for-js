@@ -34,9 +34,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
    */
   constructor(
     private expectedPartitions: string[],
-    private multipleConsumers: boolean, 
-    public maxBatchSize: number = 1,
-    public maxWaitTimeInSeconds: number = 10
+    private multipleConsumers: boolean
   ) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();

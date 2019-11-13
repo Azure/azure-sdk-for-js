@@ -236,7 +236,8 @@ export class EventHubConsumerClient {
    */
   subscribe(
     consumerGroupName: string,
-    options: SubscriptionOptions
+    handlers:  SubscriptionEventHandlers,
+    options?: SubscriptionOptions
   ): Subscription; // #1
   /**
    * Subscribe to all messages from a subset of partitions.
@@ -253,7 +254,8 @@ export class EventHubConsumerClient {
   subscribe(
     consumerGroupName: string,
     partitionId: string,
-    options: SubscriptionOptions
+    handlers:  SubscriptionEventHandlers,
+    options?: SubscriptionOptions
   ): Subscription; // #2
   /**
    * Subscribes to multiple partitions.
@@ -269,25 +271,24 @@ export class EventHubConsumerClient {
   subscribe(
     consumerGroupName: string,
     partitionManager: PartitionManager,
-    options: SubscriptionOptions
+    handlers:  SubscriptionEventHandlers,
+    options?: SubscriptionOptions
   ): Subscription; // #3
   subscribe(
     consumerGroupName1: string, 
-    optionsOrPartitionIdOrPartitionManager2:
-      | SubscriptionOptions
+    handlersOrPartitionIdOrPartitionManager2?:
+      | SubscriptionEventHandlers
       | string
       | PartitionManager,
-    possibleOptions3?: SubscriptionOptions
+    optionsOrHandlers3?: SubscriptionOptions | SubscriptionEventHandlers,
+    possibleOptions4?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (typeof optionsOrPartitionIdOrPartitionManager2 === "string") {
+    if (typeof handlersOrPartitionIdOrPartitionManager2 === "string" && isSubscriptionEventHandlers(optionsOrHandlers3)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      if (possibleOptions3 == null) {
-        throw new TypeError("SubscriptionOptions is not defined");
-      }
+      const partitionId = handlersOrPartitionIdOrPartitionManager2;
       
-      const partitionId = optionsOrPartitionIdOrPartitionManager2;
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no coordination.`
       );
@@ -296,7 +297,7 @@ export class EventHubConsumerClient {
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        possibleOptions3
+        optionsOrHandlers3
       );
 
       eventProcessor = new EventProcessor(
@@ -306,24 +307,20 @@ export class EventHubConsumerClient {
         partitionManager,
         {
           ...defaultConsumerClientOptions,
-          ...possibleOptions3,
+          ...possibleOptions4,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId])
         }
       );
-    } else if (isPartitionManager(optionsOrPartitionIdOrPartitionManager2)) {
+    } else if (isPartitionManager(handlersOrPartitionIdOrPartitionManager2) && isSubscriptionEventHandlers(optionsOrHandlers3)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
-      if (possibleOptions3 == null) {
-        throw new TypeError("SubscriptionOptions is not defined");
-      }
-
-      const partitionManager = optionsOrPartitionIdOrPartitionManager2;
+      const partitionManager = handlersOrPartitionIdOrPartitionManager2;
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        possibleOptions3
+        optionsOrHandlers3
       );
 
       eventProcessor = new EventProcessor(
@@ -331,9 +328,9 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        { ...defaultConsumerClientOptions, ...possibleOptions3 }
+        { ...defaultConsumerClientOptions, ...possibleOptions4 }
       );
-    } else if (isSubscriptionOptions(optionsOrPartitionIdOrPartitionManager2)) {
+    } if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager2)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 
@@ -341,7 +338,7 @@ export class EventHubConsumerClient {
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        optionsOrPartitionIdOrPartitionManager2
+        handlersOrPartitionIdOrPartitionManager2
       );
 
       eventProcessor = new EventProcessor(
@@ -351,7 +348,7 @@ export class EventHubConsumerClient {
         partitionManager,
         {
           ...defaultConsumerClientOptions,
-          ...(optionsOrPartitionIdOrPartitionManager2 as SubscriptionOptions),
+          ...(optionsOrHandlers3 as SubscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -424,7 +421,7 @@ export function createPartitionProcessorType(
  * @ignore
  */
 export function isPartitionManager(
-  possible: SubscriptionOptions | string | PartitionManager
+  possible: PartitionManager | any
 ): possible is PartitionManager {
   if (!possible) {
     return false;
@@ -443,8 +440,8 @@ export function isPartitionManager(
  * @internal
  * @ignore
  */
-function isSubscriptionOptions(possible: SubscriptionOptions | string | PartitionManager) : possible is SubscriptionOptions{
-  return typeof (possible as SubscriptionOptions).processEvents === "function";
+function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers): possible is SubscriptionEventHandlers {
+  return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
 class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {

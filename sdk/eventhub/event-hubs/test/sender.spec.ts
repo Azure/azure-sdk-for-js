@@ -269,16 +269,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       let receivedEvents: string[] = [];
       let initialized = false;
 
-      const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {
-        maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
-        maxWaitTimeInSeconds: 60,
-        defaultEventPosition: EventPosition.latest(),
+      const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {        
         processEvents: async (events, context) => {
           receivedEvents.push(...events.map(e => e.body));
         },
         processInitialize: async (_) => {
           initialized = true;
         }
+      }, {
+        maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
+        maxWaitTimeInSeconds: 60,
+        defaultEventPosition: EventPosition.latest(),
       });
       
       while (!initialized) {

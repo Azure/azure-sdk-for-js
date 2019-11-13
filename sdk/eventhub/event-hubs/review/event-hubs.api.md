@@ -84,9 +84,9 @@ export class EventHubConsumerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionManager: PartitionManager, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -253,7 +253,7 @@ export interface SubscriptionEventHandlers {
 }
 
 // @public
-export interface SubscriptionOptions extends SubscriptionEventHandlers {
+export interface SubscriptionOptions {
     defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;

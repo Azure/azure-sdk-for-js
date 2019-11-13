@@ -48,13 +48,12 @@ export interface SubscriptionEventHandlers {
    * Called when we stop processing events from a partition.
    */
   processClose?: ProcessCloseHandler;
-
 }
 
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions extends SubscriptionEventHandlers {
+export interface SubscriptionOptions {
     /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
