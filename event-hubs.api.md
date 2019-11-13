@@ -178,11 +178,6 @@ export interface PartitionContext {
 }
 
 // @public
-export interface PartitionInitializer {
-    setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
-}
-
-// @public
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
@@ -209,16 +204,16 @@ export interface PartitionProperties {
 }
 
 // @public
-export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessCloseHandler = (reason: CloseReason, context: SubscriptionPartitionContext) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionContext) => Promise<void>;
 
 // @public
 export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer & PartitionInitializer) => Promise<void>;
+export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -263,6 +258,16 @@ export interface SubscriptionOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     trackLastEnqueuedEventInfo?: boolean;
+}
+
+// @public
+export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
+    lastEnqueuedEventInfo?: LastEnqueuedEventInfo;
+}
+
+// @public
+export interface SubscriptionPartitionInitializer {
+    setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
 }
 
 export { TokenCredential }
