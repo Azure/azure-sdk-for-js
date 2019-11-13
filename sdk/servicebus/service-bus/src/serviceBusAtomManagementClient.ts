@@ -768,27 +768,21 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    return new Promise<HttpOperationResponse>(async (resolve, reject) => {
-      try {
-        const response = await executeAtomXmlOperation(this, webResource, serializer);
-        if (
-          response.parsedBody == undefined ||
-          (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
-        ) {
-          const err = new RestError(
-            `The messaging entity "${name}" being requested cannot be found.`,
-            "404",
-            404,
-            stripRequest(webResource),
-            stripResponse(response)
-          );
-          throw err;
-        }
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
+    const response = await executeAtomXmlOperation(this, webResource, serializer);
+    if (
+      response.parsedBody == undefined ||
+      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+    ) {
+      const err = new RestError(
+        `The messaging entity "${name}" being requested cannot be found.`,
+        "404",
+        404,
+        stripRequest(webResource),
+        stripResponse(response)
+      );
+      throw err;
+    }
+    return response;
   }
 
   /**
