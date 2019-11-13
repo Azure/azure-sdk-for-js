@@ -52,6 +52,44 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   {
     entityType: EntityType.QUEUE,
     alwaysBeExistingEntity: alwaysBeExistingQueue,
+    alwaysBeDeletedEntity: alwaysBeDeletedQueue
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: alwaysBeExistingTopic,
+    alwaysBeDeletedEntity: alwaysBeDeletedTopic
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Clean namespace for "${testCase.entityType}"`, function(): void {
+    it(`Deletes all ${testCase.entityType} entities successfully`, async () => {
+      let moreToDelete = true;
+      let entities;
+      while (moreToDelete) {
+        try {
+          entities = await listEntities(testCase.entityType, undefined, undefined, undefined, 500);
+          entities.forEach(async (entity: any) => {
+            await deleteEntity(
+              testCase.entityType,
+              entity[testCase.entityType.toLowerCase() + "Name"]
+            );
+            log.httpAtomXml("deleted - ", entity[testCase.entityType.toLowerCase() + "Name"]);
+          });
+          if (entities == undefined || entities.length == 0) {
+            moreToDelete = false;
+          }
+        } catch (err) {
+          log.httpAtomXml("Ignoring clean up step - ", err);
+          moreToDelete = false;
+        }
+      }
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: alwaysBeExistingQueue,
     alwaysBeDeletedEntity: alwaysBeDeletedQueue,
     parentTopicName: undefined,
     parentSubscriptionName: undefined
@@ -76,6 +114,154 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   }
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+    it(`Lists on non-existing entities for type ${testCase.entityType} returns empty array successfully`, async () => {
+      let response;
+      try {
+        await deleteEntity(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      response = await listEntities(
+        testCase.entityType,
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
+
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+      should.equal(
+        response.length,
+        testCase.entityType == EntityType.RULE ? 1 : 0,
+        "Result must be an empty array except for rules"
+      );
+    });
+
+    it(`Lists on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
+      let response;
+
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeDeletedEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      response = await listEntities(
+        testCase.entityType,
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName,
+        undefined,
+        1
+      );
+
+      try {
+        await deleteEntity(
+          testCase.entityType,
+          testCase.alwaysBeDeletedEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+      should.equal(response.length, 1, "Result must be an empty array");
+      should.equal(
+        response[0][testCase.entityType.toLowerCase() + "Name"],
+        testCase.entityType == EntityType.RULE ? "$Default" : testCase.alwaysBeDeletedEntity,
+        "Entity name mismatch"
+      );
+    });
+
+    it(`Lists on existing entities for type ${testCase.entityType} with skip 1 returns entities skipping first one`, async () => {
+      let response;
+
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeDeletedEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      response = await listEntities(
+        testCase.entityType,
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName,
+        1,
+        undefined
+      );
+
+      try {
+        await deleteEntity(
+          testCase.entityType,
+          testCase.alwaysBeDeletedEntity,
+          testCase.parentTopicName,
+          testCase.parentSubscriptionName
+        );
+      } catch (err) {
+        log.httpAtomXml("Ignoring clean up step");
+      }
+
+      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+      should.equal(
+        response.length,
+        testCase.entityType == EntityType.RULE ? 2 : 1,
+        "Result must be an empty array"
+      );
+      should.equal(
+        response[0][testCase.entityType.toLowerCase() + "Name"],
+        testCase.entityType == EntityType.RULE
+          ? testCase.alwaysBeDeletedEntity
+          : testCase.alwaysBeExistingEntity,
+        "Entity name mismatch"
+      );
+    });
+
     it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
       let response;
 
@@ -98,7 +284,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
         testCase.alwaysBeExistingEntity,
-        "Rule name mismatch"
+        "Entity name mismatch"
       );
     });
 
@@ -127,7 +313,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
     });
 
-    it(`Lists available ${testCase.entityType} entities successfully`, async () => {
+    it.skip(`Lists available ${testCase.entityType} entities successfully`, async () => {
       let response;
 
       response = await listEntities(
@@ -151,7 +337,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
         testCase.alwaysBeExistingEntity,
-        "Rule name mismatch"
+        "Entity name mismatch"
       );
     });
 
@@ -202,7 +388,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
         testCase.alwaysBeExistingEntity,
-        "Rule name mismatch"
+        "Entity name mismatch"
       );
     });
 
@@ -1591,14 +1777,22 @@ async function deleteEntity(
 async function listEntities(
   testEntityType: EntityType,
   topicPath?: string,
-  subscriptionPath?: string
+  subscriptionPath?: string,
+  skip?: number,
+  top?: number
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.listQueues({ top: 10 });
+      const queueResponse = await serviceBusAtomManagementClient.listQueues({
+        skip: skip,
+        top: top
+      });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.listTopics({ top: 10 });
+      const topicResponse = await serviceBusAtomManagementClient.listTopics({
+        skip: skip,
+        top: top
+      });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -1608,7 +1802,7 @@ async function listEntities(
       }
       const subscriptionResponse = await serviceBusAtomManagementClient.listSubscriptions(
         topicPath,
-        { top: 10 }
+        { skip: skip, top: top }
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -1620,7 +1814,7 @@ async function listEntities(
       const ruleResponse = await serviceBusAtomManagementClient.listRules(
         topicPath,
         subscriptionPath,
-        { top: 10 }
+        { skip: skip, top: top }
       );
       return ruleResponse;
   }
