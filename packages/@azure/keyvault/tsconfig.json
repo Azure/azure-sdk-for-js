@@ -9,7 +9,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6"],
+    "lib": [
+      "dom",
+      "es6"
+    ],
     "declaration": true,
     "outDir": "./esm",
     "importHelpers": true
