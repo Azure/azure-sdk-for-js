@@ -919,18 +919,22 @@ export class MessageSession extends LinkEntity {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
    * - **Default**: `60` seconds.
+   * @param idleTimeoutInSeconds The maximum amount of idle time the
+   * receiver will wait after a message has been received. If receiver is idle and no messages are received by this
+   * time then the receive operation will end and messages collected successfully so far get returned.
+   * - **Default**: `1` second.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      idleTimeoutInSeconds = this.newMessageWaitTimeoutInSeconds;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -943,7 +947,7 @@ export class MessageSession extends LinkEntity {
         this.newMessageWaitTimeoutInSeconds = value;
       };
 
-      setnewMessageWaitTimeoutInSeconds(1);
+      setnewMessageWaitTimeoutInSeconds(idleTimeoutInSeconds);
 
       // Action to be performed on the "receiver_drained" event.
       const onReceiveDrain: OnAmqpEvent = () => {
@@ -1103,10 +1107,6 @@ export class MessageSession extends LinkEntity {
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
-        totalWaitTimer = setTimeout(
-          actionAfterWaitTimeout,
-          (idleTimeoutInSeconds as number) * 1000
-        );
       };
 
       if (this.isOpen()) {
@@ -1120,6 +1120,10 @@ export class MessageSession extends LinkEntity {
         log.error("[%s] %s", this._context.namespace.connectionId, msg);
         reject(new Error(msg));
       }
+      totalWaitTimer = setTimeout(
+        actionAfterWaitTimeout,
+        (maxWaitTimeInSeconds as number) * 1000
+      );
     });
   }
 

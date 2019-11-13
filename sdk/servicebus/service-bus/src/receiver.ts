@@ -155,14 +155,18 @@ export class Receiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
    * - **Default**: `60` seconds.
+   * @param idleTimeoutInSeconds The maximum amount of idle time the
+   * receiver will wait after a message has been received. If receiver is idle and no messages are received by this
+   * time then the receive operation will end and messages collected successfully so far get returned.
+   * - **Default**: `1` second.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -176,7 +180,11 @@ export class Receiver {
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    return this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
+    return this._context.batchingReceiver.receive(
+      maxMessageCount,
+      maxWaitTimeInSeconds,
+      idleTimeoutInSeconds
+    );
   }
 
   /**
@@ -514,10 +522,7 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(
-      this.sessionId!,
-      state
-    );
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
   }
 
   /**
@@ -528,9 +533,7 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(
-      this.sessionId!
-    );
+    return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
   /**
@@ -644,20 +647,28 @@ export class SessionReceiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
    * - **Default**: `60` seconds.
+   * @param idleTimeoutInSeconds The maximum amount of idle time the
+   * receiver will wait after a message has been received. If receiver is idle and no messages are received by this
+   * time then the receive operation will end and messages collected successfully so far get returned.
+   * - **Default**: `1` second.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number
+    maxWaitTimeInSeconds?: number,
+    idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
-    return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
+    return this._messageSession!.receiveMessages(
+      maxMessageCount,
+      maxWaitTimeInSeconds,
+      idleTimeoutInSeconds
+    );
   }
 
   /**
