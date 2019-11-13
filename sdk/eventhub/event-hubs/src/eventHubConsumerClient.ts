@@ -365,7 +365,7 @@ export class EventHubConsumerClient {
     eventProcessor.start();
 
     return {
-      isRunning: () => eventProcessor.isRunning(),
+      get isRunning() { return eventProcessor.isRunning() },
       close: () => eventProcessor.stop()
     };
   }

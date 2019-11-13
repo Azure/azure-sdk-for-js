@@ -256,7 +256,7 @@ export interface SendBatchOptions {
 // @public
 export interface Subscription {
     close(): Promise<void>;
-    isRunning(): boolean;
+    isRunning: boolean;
 }
 
 // @public

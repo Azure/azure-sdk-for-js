@@ -97,9 +97,9 @@ export interface Subscription {
    */
   close(): Promise<void>;
   /**
-   * @property Indicates whether the receiver is running.
+   * Indicates whether the receiver is running.
    * `true` - is running; `false` otherwise.
    * @readonly
    */
-  isRunning(): boolean;
+  isRunning: boolean;
 }
