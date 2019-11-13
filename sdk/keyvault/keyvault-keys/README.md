@@ -1,17 +1,14 @@
 # Azure Key Vault Key client library for JS
 
-Azure Key Vault is a service that allows you to encrypt authentication
-keys, storage account keys, data encryption keys, .pfx files, and
-passwords by using keys that are protected by hardware security
-modules (HSMs). If you would like to know more about Azure Key Vault, you may
-want to review "[What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
+Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
 
-Azure Key Vault Key management allows you to create and control
+Azure Key Vault Key management allows you to create and control 
 encryption keys that encrypt your data.
 
 Use the client library for Azure Key Vault Keys in your Node.js application to
 
-- Create keys (using eliptic curve or RSA encryption, optionally backed by an HSM).
+- Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
 - Import keys.
 - Delete keys.
 - Update keys.
@@ -197,7 +194,12 @@ main();
 ```
 
 The second parameter sent to `createKey` is the type of the key. Keys can
-either be of type: `EC`, `EC-HSM`, `RSA` or `RSA-HSM`.
+either be of either one of the following types:
+
+- `EC` for a key generated using Elliptic Curve cryptography.
+- `EC-HSM` for a key generated with Elliptic Curve cryptography with Hardware Security Modules.
+- `RSA` for Rivest, Shamir, and Adelman cryptography.
+- `RSA-HSM` for Rivest, Shamir, and Adelman cryptography with Hardware Security Modules.
 
 ### Getting a key
 
