@@ -22,7 +22,7 @@ export class EventHubConsumerClient {
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
-    getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(consumerGroupName: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
