@@ -136,14 +136,14 @@ export class InMemoryPartitionManager implements PartitionManager {
     // (undocumented)
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // @public
 export interface LastEnqueuedEventProperties {
-    enqueuedTime?: Date;
+    enqueuedOn?: Date;
     offset?: string;
-    retrievalTime?: Date;
+    retrievalOn?: Date;
     sequenceNumber?: number;
 }
 
@@ -170,7 +170,7 @@ export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // @public
