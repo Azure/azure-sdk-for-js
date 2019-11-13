@@ -78,15 +78,6 @@ const updateDependencySection = (rushPackages, dependencySection,buildId) => {
         rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
         dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
       }
-      //console.log(semver.satisfies("1.0.0-dev-2019.02.34","^1.0.0-dev"));
-      // // If the dependency range is satisfied by the package's current version,
-      // // replace it with an exact match to the package's new version
-      // if (semver.satisfies(packageVersion, depVersionRange)) {
-      //   // Commit the dependency version to the JSON document
-      //   if(rushPackages[depName].newVer !== undefined){
-      //     dependencySection[depName] = rushPackages[depName].newVer;
-      //   }
-      // }
     }
   }
   return rushPackages;
@@ -135,6 +126,10 @@ async function main(argv) {
   for (const package of Object.keys(rushPackages)) {
       await commitChanges(rushPackages, package);
   }
+  // console.log(semver.satisfies("1.0.0-dev-20191112.1", "^1.0.0"));//false
+  // console.log(semver.satisfies("1.0.0-dev-20191112.1", "^1.0.0-dev"));//true
+  // console.log(semver.satisfies("1.0.0", "^1.0.0-dev"));//true
+
 };
 
 main(argv);
