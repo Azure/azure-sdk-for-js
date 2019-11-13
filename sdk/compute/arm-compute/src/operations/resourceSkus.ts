@@ -31,7 +31,7 @@ export class ResourceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceSkusListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ResourceSkusListResponse>;
+  list(options?: Models.ResourceSkusListOptionalParams): Promise<Models.ResourceSkusListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,8 +40,8 @@ export class ResourceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListResponse> {
+  list(options: Models.ResourceSkusListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
+  list(options?: Models.ResourceSkusListOptionalParams | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -88,7 +88,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion1,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage

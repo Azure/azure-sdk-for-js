@@ -20,6 +20,8 @@ import {
   BeginRecoverDeletedCertificateOptions,
   CancelCertificateOperationOptions,
   CertificateIssuer,
+  CertificateContact,
+  CertificateContacts,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
@@ -39,9 +41,11 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
+  KeyType,
+  KeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
-  ListIssuersOptions,
+  ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   PurgeDeletedCertificateOptions,
@@ -53,12 +57,15 @@ import {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   CertificateClientInterface,
-  CertificatePollerOptions
+  CertificatePollerOptions,
+  IssuerProperties,
+  CertificateContactAll,
+  RequireAtLeastOne
 } from "./certificatesModels";
 import {
   CertificateBundle,
-  Contacts as CertificateContacts,
   KeyVaultClientGetCertificatesOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
@@ -76,9 +83,6 @@ import {
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
-  JsonWebKeyType as KeyType,
-  JsonWebKeyCurveName as KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   LifetimeAction,
   OrganizationDetails,
@@ -111,7 +115,8 @@ import {
   AdministratorDetails as AdministratorContact,
   ActionType,
   DeletionRecoveryLevel,
-  CertificateAttributes
+  CertificateAttributes,
+  Contacts as CoreContacts
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -148,6 +153,9 @@ export {
   CertificatePollerOptions,
   CoreSubjectAlternativeNames,
   Contact,
+  RequireAtLeastOne,
+  CertificateContactAll,
+  CertificateContact,
   CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
@@ -167,16 +175,16 @@ export {
   IssuerAttributes,
   IssuerCredentials,
   IssuerParameters,
+  IssuerProperties,
   KeyType,
   KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
-  ListIssuersOptions,
+  ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
   OrganizationDetails,
@@ -190,6 +198,7 @@ export {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   X509CertificateProperties,
   logger
 };
@@ -632,7 +641,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -670,7 +679,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -704,13 +713,13 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
-  private async *listIssuersPage(
+  private async *listPropertiesOfIssuersPage(
     continuationState: PageSettings,
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<CertificateIssuer[]> {
+  ): AsyncIterableIterator<IssuerProperties[]> {
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -739,12 +748,12 @@ export class CertificateClient {
     }
   }
 
-  private async *listIssuersAll(
+  private async *listPropertiesOfIssuersAll(
     options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<CertificateIssuer> {
+  ): AsyncIterableIterator<IssuerProperties> {
     const f = {};
 
-    for await (const page of this.listIssuersPage(f, options)) {
+    for await (const page of this.listPropertiesOfIssuersPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -770,16 +779,16 @@ export class CertificateClient {
    * }
    * ```
    * @summary List the certificate issuers.
-   * @param {ListIssuersOptions} [options] The optional parameters
+   * @param {ListPropertiesOfIssuersOptions} [options] The optional parameters
    */
-  public listIssuers(
-    options: ListIssuersOptions = {}
-  ): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
+  public listPropertiesOfIssuers(
+    options: ListPropertiesOfIssuersOptions = {}
+  ): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listIssuers", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
 
-    const iter = this.listIssuersAll(updatedOptions);
+    const iter = this.listPropertiesOfIssuersAll(updatedOptions);
 
     span.end();
     let result = {
@@ -789,7 +798,8 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listIssuersPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfIssuersPage(settings, updatedOptions)
     };
 
     return result;
@@ -1955,6 +1965,13 @@ export class CertificateClient {
     return {
       name: parsedId.name,
       properties: abstractProperties
+    };
+  }
+
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
+    return {
+      id: contacts.id,
+      contactList: contacts.contactList && (contacts.contactList as CertificateContact[])
     };
   }
 

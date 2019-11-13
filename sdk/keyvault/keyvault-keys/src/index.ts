@@ -28,10 +28,6 @@ import {
   GetDeletedKeyResponse,
   GetKeyResponse,
   ImportKeyResponse,
-  JsonWebKeyCurveName as KeyCurveName,
-  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
-  JsonWebKeyOperation as KeyOperation,
-  JsonWebKeyType as KeyType,
   KeyBundle,
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
@@ -54,12 +50,16 @@ import {
   CryptographyOptions,
   DeletedKey,
   DeleteKeyOptions,
+  EncryptionAlgorithm,
   GetDeletedKeyOptions,
   GetKeyOptions,
   ImportKeyOptions,
   JsonWebKey,
   KeyClientInterface,
+  KeyCurveName,
+  KeyOperation,
   KeyPollerOptions,
+  KeyType,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -348,7 +348,7 @@ export class KeyClient {
   }
 
   /**
-   * The createEcKey method creates a new eliptic curve key in Azure Key Vault. If the named key
+   * The createEcKey method creates a new elliptic curve key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
    *
@@ -463,7 +463,7 @@ export class KeyClient {
   public async importKey(
     name: string,
     key: JsonWebKey,
-    options: ImportKeyOptions
+    options?: ImportKeyOptions
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -509,7 +509,7 @@ export class KeyClient {
    * The delete operation applies to any key stored in Azure Key Vault. Individual versions
    * of a key can not be deleted, only all versions of a given key at once.
    *
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the key is deleted.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the key is deleted.
    *
    * This operation requires the keys/delete permission.
    *
@@ -708,7 +708,7 @@ export class KeyClient {
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault.
    *
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the deleted key is recovered.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the deleted key is recovered.
    *
    * This operation requires the keys/recover permission.
    *

@@ -10,7 +10,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "module": "esNext",
+    "module": "commonjs",
     "outDir": "./dist-esm",
     "declaration": true,
     "declarationMap": true,

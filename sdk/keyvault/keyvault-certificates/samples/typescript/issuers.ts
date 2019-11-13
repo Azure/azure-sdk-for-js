@@ -46,6 +46,11 @@ async function main(): Promise<void> {
   const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
+  // We can also list properties for all issuers:
+  for await (const issuerProperties of client.listPropertiesOfIssuers()) {
+    console.log("Certificate properties: ", issuerProperties)
+  }
+
   // We can also delete the issuer.
   await client.deleteIssuer(issuerName);
 }

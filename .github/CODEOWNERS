@@ -31,6 +31,8 @@
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
 
+/sdk/test-utils/ @HarshaNalluru
+
 # Management Plane
 /**/*Management*.ts @qiaozha
 /**/arm-*/ @qiaozha
