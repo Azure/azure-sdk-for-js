@@ -19,6 +19,18 @@ import * as log from "./log";
 import { SubscriptionOptions, Subscription, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
+import { EventPosition } from './eventPosition';
+
+/**
+ * Allows for configuring initialization of partition processors
+ */
+export interface PartitionInitializer {
+  /**
+   * Allows for setting the start position of a partition.
+   * Default (if not called) is `EventPosition.earliest()`
+   */
+  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
+}
 
 /**
  * Allow for checkpointing
@@ -434,7 +446,7 @@ function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers):
   return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
-class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {
+class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext, PartitionInitializer {
   // private _eTag: string = "";
 
   constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }
@@ -470,4 +482,8 @@ class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionCon
     // this._eTag = await this._manager.updateCheckpoint(checkpoint);
     await this._manager.updateCheckpoint(checkpoint);
   }
+
+  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void {
+    // TODO: fill in once I remove this class entirely
+  } 
 }

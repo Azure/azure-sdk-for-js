@@ -15,7 +15,7 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions
 } from "./eventHubClient";
-export { EventHubConsumerClient, PartitionCheckpointer } from "./eventHubConsumerClient";
+export { EventHubConsumerClient, PartitionCheckpointer, PartitionInitializer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
   SubscriptionOptions,

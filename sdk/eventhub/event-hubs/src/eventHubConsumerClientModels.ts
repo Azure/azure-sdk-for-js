@@ -1,6 +1,6 @@
 
 import { CloseReason, PartitionContext } from './eventProcessor';
-import { PartitionCheckpointer } from './eventHubConsumerClient';
+import { PartitionCheckpointer, PartitionInitializer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
 import { EventPosition } from './eventPosition';
 
@@ -21,7 +21,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext & Par
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer & PartitionInitializer) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
