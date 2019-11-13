@@ -51,16 +51,7 @@
                 "verify",
                 "wrapKey"
               ],
-              "secrets": [
-                "backup",
-                "delete",
-                "get",
-                "list",
-                "purge",
-                "recover",
-                "restore",
-                "set"
-              ],
+              "secrets": ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"],
               "certificates": [
                 "backup",
                 "create",
@@ -78,7 +69,7 @@
                 "restore",
                 "setissuers",
                 "update"
-              ]  
+              ]
             }
           }
         ],

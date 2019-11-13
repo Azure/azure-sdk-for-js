@@ -88,7 +88,9 @@ export function browserConfig(test = false) {
       name: "azurekeyvaultkeys",
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM"
+        "@azure/core-arm": "Azure.Core.ARM",
+        constants: "constants",
+        crypto: "crypto"
       },
       sourcemap: true
     },
@@ -125,11 +127,18 @@ export function browserConfig(test = false) {
   };
 
   baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
+  baseConfig.onwarn = function(message) {
+    // Even though our browser bundler references constants, it doesn't use it.
+    // We can't get rid of the reference because require() is forbidden.
+    if (/constants/.test(message)) {
+      return;
+    }
+    console.warn(message.toString());
+  };
   if (test) {
     baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
