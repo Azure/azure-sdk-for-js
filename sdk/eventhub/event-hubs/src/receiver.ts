@@ -4,7 +4,7 @@
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./eventHubClient";
-import { OnMessage, OnError, EventHubReceiver, LastEnqueuedEventInfo } from "./eventHubReceiver";
+import { OnMessage, OnError, EventHubReceiver, LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
   RetryConfig,
@@ -85,7 +85,7 @@ export class EventHubConsumer {
   /**
    * @property A set of information about the last enqueued event of a partition.
    */
-  private _lastEnqueuedEventInfo: LastEnqueuedEventInfo;
+  private _lastEnqueuedEventInfo: LastEnqueuedEventProperties;
 
   /**
    * @property The last enqueued event information. This property will only
@@ -93,7 +93,7 @@ export class EventHubConsumer {
    * `client.createConsumer()` method.
    * @readonly
    */
-  public get lastEnqueuedEventInfo(): LastEnqueuedEventInfo {
+  public get lastEnqueuedEventInfo(): LastEnqueuedEventProperties {
     return this._lastEnqueuedEventInfo;
   }
 

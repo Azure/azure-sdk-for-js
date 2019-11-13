@@ -45,7 +45,7 @@ interface CreateReceiverOptions {
  * events are received from the Event Hubs service
  * @interface LastEnqueuedEventInfo
  */
-export interface LastEnqueuedEventInfo {
+export interface LastEnqueuedEventProperties {
   /**
    * @property The sequence number of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
@@ -97,7 +97,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * @property runtimeInfo The receiver runtime info.
    */
-  runtimeInfo: LastEnqueuedEventInfo;
+  runtimeInfo: LastEnqueuedEventProperties;
   /**
    * @property [ownerLevel] The Receiver ownerLevel.
    */

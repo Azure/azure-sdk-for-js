@@ -5,7 +5,7 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { LastEnqueuedEventInfo } from "./eventHubReceiver";
+export { LastEnqueuedEventProperties as LastEnqueuedEventInfo } from "./eventHubReceiver";
 export {
   EventHubClientOptions,
   SendBatchOptions,

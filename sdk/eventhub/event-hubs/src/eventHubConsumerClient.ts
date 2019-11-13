@@ -131,7 +131,7 @@ export class EventHubConsumerClient {
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
   /**
    * @constructor
-   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
@@ -148,13 +148,13 @@ export class EventHubConsumerClient {
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(
-    host: string,
+    fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
   ); // #3
   constructor(
-    hostOrConnectionString1: string,
+    fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?: TokenCredential | EventHubClientOptions,
     options4?: EventHubClientOptions
@@ -164,7 +164,7 @@ export class EventHubConsumerClient {
       log.consumerClient("Creating client with TokenCredential");
 
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString1,
+        fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2 as string,
         credentialOrOptions3,
         options4
@@ -174,7 +174,7 @@ export class EventHubConsumerClient {
       log.consumerClient("Creating client with connection string and event hub name");
 
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString1,
+        fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3 as EventHubClientOptions
       );
@@ -183,7 +183,7 @@ export class EventHubConsumerClient {
       log.consumerClient("Creating client with connection string");
 
       this._eventHubClient = new EventHubClient(
-        hostOrConnectionString1,
+        fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2 as EventHubClientOptions
       );
     }

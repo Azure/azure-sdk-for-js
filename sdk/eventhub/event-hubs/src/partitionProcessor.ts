@@ -1,6 +1,6 @@
 import { CloseReason, PartitionManager, PartitionContext } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
-import { LastEnqueuedEventInfo } from "./eventHubReceiver";
+import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -40,7 +40,7 @@ export class PartitionProcessor {
   private _eventHubName: string | undefined;
   private _eventProcessorId: string | undefined;
   private _partitionId: string | undefined;
-  private _lastEnqueuedEventInfo: LastEnqueuedEventInfo | undefined;
+  private _lastEnqueuedEventInfo: LastEnqueuedEventProperties | undefined;
 
   /**
    * @property Information on the last enqueued event in the partition that is being processed.
@@ -48,7 +48,7 @@ export class PartitionProcessor {
    * when creating an instance of EventProcessor
    * @readonly
    */
-  public get lastEnqueuedEventInfo(): LastEnqueuedEventInfo {
+  public get lastEnqueuedEventInfo(): LastEnqueuedEventProperties {
     return this._lastEnqueuedEventInfo!;
   }
 
@@ -57,7 +57,7 @@ export class PartitionProcessor {
    * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventInfo` option is set to true
    * when creating an instance of EventProcessor
    */
-  public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventInfo) {
+  public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventProperties) {
     this._lastEnqueuedEventInfo = lastEnqueuedEventInfo;
   }
 

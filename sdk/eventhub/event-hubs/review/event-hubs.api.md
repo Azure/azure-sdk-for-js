@@ -66,7 +66,7 @@ export interface EventHubClientOptions {
 export class EventHubConsumerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
@@ -250,7 +250,7 @@ export interface SubscriptionOptions {
 
 // @public
 export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
-    lastEnqueuedEventInfo?: LastEnqueuedEventInfo;
+    lastEnqueuedEventProperties?: LastEnqueuedEventInfo;
 }
 
 // @public

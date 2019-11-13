@@ -2,7 +2,7 @@
 import { CloseReason, PartitionContext } from './eventProcessor';
 import { PartitionCheckpointer, SubscriptionPartitionInitializer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
-import { LastEnqueuedEventInfo } from './eventHubReceiver';
+import { LastEnqueuedEventProperties } from './eventHubReceiver';
 
 /**
  * An interface with identifying information for a partition that can also update checkpoints.
@@ -14,7 +14,7 @@ export interface SubscriptionPartitionContext extends PartitionContext, Partitio
    * when creating an instance of EventProcessor
    * @readonly
    */
-  lastEnqueuedEventInfo?: LastEnqueuedEventInfo;
+  lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
 }
 
 /**
