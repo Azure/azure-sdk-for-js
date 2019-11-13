@@ -313,7 +313,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
     });
 
-    it.skip(`Lists available ${testCase.entityType} entities successfully`, async () => {
+    it(`Lists available ${testCase.entityType} entities successfully`, async () => {
       let response;
 
       response = await listEntities(
