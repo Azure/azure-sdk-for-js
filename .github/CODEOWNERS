@@ -16,6 +16,7 @@
 /sdk/core/core-amqp/ @ramya-rao-a @chradek
 /sdk/core/core-auth/ @daviwil
 /sdk/core/core-http/ @daviwil
+/sdk/core/core-lro/ @sadasant
 /sdk/core/core-paging/ @daviwil
 /sdk/core/core-tracing/ @xirzec
 /sdk/core/logger @xirzec
