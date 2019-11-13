@@ -68,16 +68,17 @@ const updateDependencySection = (rushPackages, dependencySection,buildId) => {
       // Compare the dependency version range with the package's current version
       const packageVersion = rushPackages[depName].json.version;
 
-      console.log(`version in package's dep = ${depVersionRange}`);
-      console.log(`dep's version = ${packageVersion}`);
+      console.log(`version in package's dep = ${depVersionRange}`);//^1.0.0
+      console.log(`dep's version = ${packageVersion}`);//1.0.0
 
       const parsedPackageVersion = semver.parse(packageVersion);
-      const parsedDepVersion = semver.parse(depVersionRange);
-
-      if (parsedDepVersion.major == parsedPackageVersion.major && parsedDepVersion.minor == parsedPackageVersion.minor && parsedDepVersion.patch == parsedPackageVersion.patch) {
+      const parsedDepMinVersion = semver.minVersion(depVersionRange);
+    
+      if (parsedDepMinVersion.major == parsedPackageVersion.major && parsedDepMinVersion.minor == parsedPackageVersion.minor && parsedDepMinVersion.patch == parsedPackageVersion.patch) {
         rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
         dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
       }
+      //console.log(semver.satisfies("1.0.0-dev-2019.02.34","^1.0.0-dev"));
       // // If the dependency range is satisfied by the package's current version,
       // // replace it with an exact match to the package's new version
       // if (semver.satisfies(packageVersion, depVersionRange)) {
