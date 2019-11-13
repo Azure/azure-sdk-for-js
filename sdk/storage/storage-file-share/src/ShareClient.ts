@@ -351,9 +351,17 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   private context: Share;
-  private _shareName: string;
-  public get shareName(): string {
-    return this._shareName;
+
+  private _name: string;
+
+  /**
+   * The name of the share
+   *
+   * @type {string}
+   * @memberof ShareClient
+   */
+  public get name(): string {
+    return this._name;
   }
 
   /**
@@ -363,11 +371,11 @@ export class ShareClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} shareName Share name.
+   * @param {string} name Share name.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
+  constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -420,22 +428,22 @@ export class ShareClient extends StorageClient {
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
-      // (connectionString: string, shareName: string, options?: StoragePipelineOptions)
+      // (connectionString: string, name: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const shareName = credentialOrPipelineOrShareName;
+      const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = appendToURLPath(extractedCreds.url, shareName);
+          url = appendToURLPath(extractedCreds.url, name);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        url = appendToURLPath(extractedCreds.url, shareName) + "?" + extractedCreds.accountSas;
+        url = appendToURLPath(extractedCreds.url, name) + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -443,10 +451,10 @@ export class ShareClient extends StorageClient {
         );
       }
     } else {
-      throw new Error("Expecting non-empty strings for shareName parameter");
+      throw new Error("Expecting non-empty strings for name parameter");
     }
     super(url, pipeline);
-    this._shareName = getShareNameAndPathFromUrl(this.url).shareName;
+    this._name = getShareNameAndPathFromUrl(this.url).shareName;
     this.context = new Share(this.storageClientContext);
   }
 
