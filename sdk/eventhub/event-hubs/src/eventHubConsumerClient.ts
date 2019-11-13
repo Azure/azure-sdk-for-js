@@ -24,7 +24,7 @@ import { EventPosition } from './eventPosition';
 /**
  * Allows for configuring initialization of partition processors
  */
-export interface PartitionInitializer {
+export interface SubscriptionPartitionInitializer {
   /**
    * Allows for setting the start position of a partition.
    * Default (if not called) is `EventPosition.earliest()`
@@ -446,7 +446,7 @@ function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers):
   return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
-class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext, PartitionInitializer {
+class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext, SubscriptionPartitionInitializer {
   // private _eTag: string = "";
 
   constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }

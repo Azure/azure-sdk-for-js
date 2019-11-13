@@ -15,12 +15,13 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions
 } from "./eventHubClient";
-export { EventHubConsumerClient, PartitionCheckpointer, PartitionInitializer } from "./eventHubConsumerClient";
+export { EventHubConsumerClient, PartitionCheckpointer, SubscriptionPartitionInitializer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
   SubscriptionOptions,
   Subscription,
   SubscriptionEventHandlers,
+  SubscriptionPartitionContext,
   ProcessErrorHandler,
   ProcessInitializeHandler,
   ProcessCloseHandler,

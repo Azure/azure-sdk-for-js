@@ -1,8 +1,22 @@
 
 import { CloseReason, PartitionContext } from './eventProcessor';
-import { PartitionCheckpointer, PartitionInitializer } from './eventHubConsumerClient';
+import { PartitionCheckpointer, SubscriptionPartitionInitializer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
 import { EventPosition } from './eventPosition';
+import { LastEnqueuedEventInfo } from './eventHubReceiver';
+
+/**
+ * An interface with identifying information for a partition that can also update checkpoints.
+ */
+export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
+  /**
+   * Information on the last enqueued event in the partition that is being processed.
+   * This property is only updated if the `trackLastEnqueuedEventInfo` option is set to true
+   * when creating an instance of EventProcessor
+   * @readonly
+   */
+  lastEnqueuedEventInfo?: LastEnqueuedEventInfo;
+}
 
 /**
  * Event handler called when events are received. The `context` parameter can be 
@@ -16,17 +30,17 @@ export type ProcessEvents = (
 /**
  * Called when errors occur during event receiving.
  */
-export type ProcessErrorHandler = (error: Error, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionContext) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer & PartitionInitializer) => Promise<void>;
+export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
  */
-export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessCloseHandler = (reason: CloseReason, context: SubscriptionPartitionContext) => Promise<void>;
 
 /**
  * Optional event handlers that provide more context when subscribing to events.
