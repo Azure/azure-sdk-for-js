@@ -38,7 +38,7 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
     EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
     SizeInBytes: getStringOrUndefined(topicOptions.sizeInBytes),
 
-    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
+    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.maxWaitTimeForAutoDelete),
     AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
     SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
     MaxSubscriptionsPerTopic: getStringOrUndefined(topicOptions.maxSubscriptionsPerTopic),
@@ -85,7 +85,10 @@ export function buildTopic(rawTopic: any): TopicDetails {
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTimeToLive"
     ),
-    autoDeleteOnIdle: getString(rawTopic[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+    maxWaitTimeForAutoDelete: getString(
+      rawTopic[Constants.AUTO_DELETE_ON_IDLE],
+      "maxWaitTimeForAutoDelete"
+    ),
 
     requiresDuplicateDetection: getBoolean(
       rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
@@ -179,10 +182,10 @@ export interface TopicOptions {
   enableBatchedOperations?: boolean;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
-  autoDeleteOnIdle?: string;
+  maxWaitTimeForAutoDelete?: string;
 
   /**
    * The entity's message count.
@@ -298,7 +301,7 @@ export interface InternalTopicOptions {
   EnableBatchedOperations?: string;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
   AutoDeleteOnIdle?: string;
@@ -421,10 +424,10 @@ export interface TopicDetails {
   enableBatchedOperations: boolean;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
-  autoDeleteOnIdle: string;
+  maxWaitTimeForAutoDelete: string;
 
   /**
    * The entity's message count.

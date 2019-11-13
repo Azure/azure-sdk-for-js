@@ -49,7 +49,7 @@ export function buildSubscriptionOptions(
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
       subscriptionOptions.forwardDeadLetteredMessagesTo
     ),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
+    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.maxWaitTimeForAutoDelete)
   };
 }
 
@@ -82,7 +82,10 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTimeToLive"
     ),
-    autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+    maxWaitTimeForAutoDelete: getString(
+      rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
+      "maxWaitTimeForAutoDelete"
+    ),
 
     deadLetteringOnMessageExpiration: getBoolean(
       rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
@@ -165,10 +168,10 @@ export interface SubscriptionOptions {
   defaultRuleDescription?: any;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
-  autoDeleteOnIdle?: string;
+  maxWaitTimeForAutoDelete?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
@@ -258,7 +261,7 @@ export interface InternalSubscriptionOptions {
   DefaultRuleDescription?: any;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
   AutoDeleteOnIdle?: string;
@@ -363,7 +366,7 @@ export interface SubscriptionDetails {
    * Max idle time before entity is deleted
    *
    */
-  autoDeleteOnIdle: string;
+  maxWaitTimeForAutoDelete: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
