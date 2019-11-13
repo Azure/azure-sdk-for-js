@@ -144,7 +144,11 @@ export function browserConfig({ test = false, production = false } = {}) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          long: ["ZERO"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
