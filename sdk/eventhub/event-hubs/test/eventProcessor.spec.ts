@@ -585,16 +585,14 @@ describe("Event Processor", function (): void {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
         ownerId: generate_uuid(),
-        partitionId: "0",
-        ownerLevel: 10
+        partitionId: "0"
       };
       const partitionOwnership2: PartitionOwnership = {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
         ownerId: generate_uuid(),
-        partitionId: "1",
-        ownerLevel: 10
+        partitionId: "1"
       };
       const partitionOwnership = await inMemoryPartitionManager.claimOwnership([
         partitionOwnership1,

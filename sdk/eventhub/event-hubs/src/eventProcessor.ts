@@ -248,8 +248,7 @@ export class EventProcessor {
       fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
       consumerGroupName: this._consumerGroupName,
       eventHubName: this._eventHubClient.eventHubName,
-      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined,
-      ownerLevel: 0
+      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined
     };
 
     return partitionOwnership;

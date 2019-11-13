@@ -178,7 +178,6 @@ export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
     lastModifiedTimeInMs?: number;
     ownerId: string;
-    ownerLevel: number;
 }
 
 // @public

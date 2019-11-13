@@ -30,7 +30,6 @@ describe("PartitionLoadBalancer", () => {
         fullyQualifiedNamespace: "",
         eventHubName: "",
         ownerId: "",
-        ownerLevel: 0,
         partitionId: ""        
       });
 
