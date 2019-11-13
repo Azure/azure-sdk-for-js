@@ -34,8 +34,6 @@ export {
   CloseReason,
   PartitionContext,
   PartitionManager,
-  CheckpointManager,
-  OwnershipManager,
   PartitionOwnership
 } from "./eventProcessor";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";

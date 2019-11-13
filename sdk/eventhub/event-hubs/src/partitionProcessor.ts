@@ -1,4 +1,4 @@
-import { CloseReason, CheckpointManager } from "./eventProcessor";
+import { CloseReason, PartitionManager, PartitionContext } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventInfo } from "./eventHubReceiver";
 
@@ -13,28 +13,7 @@ import { LastEnqueuedEventInfo } from "./eventHubReceiver";
  * Users are never expected to interact with `Checkpoint` directly. This interface exists to support the
  * internal workings of `EventProcessor` and `CheckpointManager`.
  **/
-export interface Checkpoint {
-  /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   */
-  fullyQualifiedNamespace: string;
-  /**
-   * @property The event hub name
-   */
-  eventHubName: string;
-  /**
-   * @property The consumer group name
-   */
-  consumerGroupName: string;
-  /**
-   * @property The unique identifier of the event processor
-   */
-  ownerId: string;
-  /**
-   * @property The identifier of the Event Hub partition
-   */
-  partitionId: string;
+export interface Checkpoint extends PartitionContext {
   /**
    * @property The sequence number of the event
    */
@@ -43,10 +22,6 @@ export interface Checkpoint {
    * @property The offset of the event.
    */
   offset: number;
-  /**
-   * @property The unique identifier for the operation
-   */
-  eTag: string;
 }
 
 /**
@@ -59,13 +34,12 @@ export interface Checkpoint {
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
 export class PartitionProcessor {
-  private _checkpointManager: CheckpointManager | undefined;
+  private _partitionManager: PartitionManager | undefined;
   private _consumerGroupName: string | undefined;
   private _fullyQualifiedNamespace: string | undefined;
   private _eventHubName: string | undefined;
   private _eventProcessorId: string | undefined;
   private _partitionId: string | undefined;
-  private _eTag: string = "";
   private _lastEnqueuedEventInfo: LastEnqueuedEventInfo | undefined;
 
   /**
@@ -174,9 +148,9 @@ export class PartitionProcessor {
   /**
    * @property The Partition Manager used for checkpointing events. This is set by the `EventProcessor`
    */
-  public set checkpointManager(checkpointManager: CheckpointManager) {
-    if (!this._checkpointManager) {
-      this._checkpointManager = checkpointManager;
+  public set checkpointManager(checkpointManager: PartitionManager) {
+    if (!this._partitionManager) {
+      this._partitionManager = checkpointManager;
     }
   }
 
@@ -243,7 +217,6 @@ export class PartitionProcessor {
       fullyQualifiedNamespace: this._fullyQualifiedNamespace!,
       eventHubName: this._eventHubName!,
       consumerGroupName: this._consumerGroupName!,
-      ownerId: this._eventProcessorId!,
       partitionId: this._partitionId!,
       sequenceNumber:
         typeof eventDataOrSequenceNumber === "number"
@@ -253,9 +226,12 @@ export class PartitionProcessor {
         typeof offset === "number"
           ? offset
           : (eventDataOrSequenceNumber as ReceivedEventData).offset,
-      eTag: this._eTag
+      // TODO: this doesn't seem quite right...
+      // eTag: this._eTag
     };
 
-    this._eTag = await this._checkpointManager!.updateCheckpoint(checkpoint);
+    // TODO: bring this back in the right way...
+    // this._eTag = await this._partitionManager!.updateCheckpoint(checkpoint);
+    await this._partitionManager!.updateCheckpoint(checkpoint);
   }
 }

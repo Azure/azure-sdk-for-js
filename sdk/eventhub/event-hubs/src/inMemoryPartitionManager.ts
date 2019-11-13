@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { PartitionOwnership, OwnershipManager, CheckpointManager } from "./eventProcessor";
+import { PartitionOwnership, PartitionManager } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from './util/error';
@@ -17,7 +17,7 @@ import { throwTypeErrorIfParameterMissing } from './util/error';
  *
  * @class
  */
-export class InMemoryPartitionManager implements OwnershipManager, CheckpointManager {
+export class InMemoryPartitionManager implements PartitionManager {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
   private _committedCheckpoints: Map<string, Map<string, Checkpoint>> = new Map();
 
@@ -69,7 +69,7 @@ export class InMemoryPartitionManager implements OwnershipManager, CheckpointMan
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     // these checks should mirror what we do in checkpointStoreBlob
-    throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
+    // throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
     throwTypeErrorIfParameterMissing("", 
       "updateCheckpoint",
       "sequenceNumber",
@@ -79,8 +79,6 @@ export class InMemoryPartitionManager implements OwnershipManager, CheckpointMan
     
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
-      partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
-      partitionOwnership.offset = checkpoint.offset;
       partitionOwnership.eTag = generate_uuid();
 
       const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroupName}`;

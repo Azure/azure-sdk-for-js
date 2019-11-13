@@ -304,7 +304,6 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        partitionManager,
         {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
@@ -332,7 +331,6 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        partitionManager,
         { ...defaultConsumerClientOptions, ...possibleOptions3 }
       );
     } else if (isSubscriptionOptions(optionsOrPartitionIdOrPartitionManager2)) {
@@ -350,7 +348,6 @@ export class EventHubConsumerClient {
         consumerGroupName1,
         this._eventHubClient,
         partitionProcessorType,
-        partitionManager,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -451,7 +448,7 @@ function isSubscriptionOptions(possible: SubscriptionOptions | string | Partitio
 }
 
 class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext {
-  private _eTag: string = "";
+  // private _eTag: string = "";
 
   constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }
 
@@ -470,7 +467,6 @@ class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionCon
       fullyQualifiedNamespace: this._processor.fullyQualifiedNamespace!,
       eventHubName: this._processor.eventHubName!,
       consumerGroupName: this._processor.consumerGroupName!,
-      ownerId: this._processor.eventProcessorId!,
       partitionId: this._processor.partitionId!,
       sequenceNumber:
         typeof eventDataOrSequenceNumber === "number"
@@ -480,9 +476,11 @@ class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionCon
         typeof offset === "number"
           ? offset
           : (eventDataOrSequenceNumber as ReceivedEventData).offset,
-      eTag: this._eTag
+      // TODO: doesn't seem right...
+      // eTag: this._eTag
     };
 
-    this._eTag = await this._manager.updateCheckpoint(checkpoint);
+    // this._eTag = await this._manager.updateCheckpoint(checkpoint);
+    await this._manager.updateCheckpoint(checkpoint);
   }
 }

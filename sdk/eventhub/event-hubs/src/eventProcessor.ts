@@ -67,14 +67,6 @@ export interface PartitionOwnership extends PartitionContext {
    */
   ownerLevel: number;
   /**
-   * @property The offset of the event.
-   */
-  offset?: number;
-  /**
-   * @property The sequence number of the event.
-   */
-  sequenceNumber?: number;
-  /**
    * @property The last modified time.
    */
   lastModifiedTimeInMS?: number;
@@ -85,34 +77,21 @@ export interface PartitionOwnership extends PartitionContext {
 }
 
 /**
- * A CheckpointManager stores checkpoint details for each partition in a given consumer group 
- * of an event hub instance.
+ * A Partition manager stores and retrieves partition ownership information (OwnershipManager) and checkpoint details
+ * for each partition in a given consumer group of an event hub instance (CheckpointManager).
+ *
+ * Users are not meant to implement an `PartitionManager`.
+ * Users are expected to choose existing implementations of this interface, instantiate it, and pass
+ * it to the constructor of `EventProcessor`.
+ *
+ * To get started, you can use the `InMemoryPartitionManager` which will store the relevant information in memory.
+ * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * store the checkpoints and partition ownerships to a durable store instead.
+ *
+ * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
-export interface CheckpointManager {
-  /**
-   * Updates the checkpoint in the data store for a partition.
-   *
-   * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update.
-   */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
-
-  /**
-   * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
-   * 
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
-   */
-  listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-}
-
+export interface PartitionManager {
 /**
- * An OwnershipManager stores and retrieves partition ownership information.
- */
-export interface OwnershipManager {
-  /**
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
@@ -135,23 +114,25 @@ export interface OwnershipManager {
    * @return A list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-}
 
-/**
- * A Partition manager stores and retrieves partition ownership information (OwnershipManager) and checkpoint details
- * for each partition in a given consumer group of an event hub instance (CheckpointManager).
- *
- * Users are not meant to implement an `PartitionManager`.
- * Users are expected to choose existing implementations of this interface, instantiate it, and pass
- * it to the constructor of `EventProcessor`.
- *
- * To get started, you can use the `InMemoryPartitionManager` which will store the relevant information in memory.
- * But in production, you should choose an implementation of the `PartitionManager` interface that will
- * store the checkpoints and partition ownerships to a durable store instead.
- *
- * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
- */
-export type PartitionManager = CheckpointManager & OwnershipManager;
+  /**
+   * Updates the checkpoint in the data store for a partition.
+   *
+   * @param checkpoint The checkpoint.
+   * @return The new eTag on successful update.
+   */
+  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+
+  /**
+   * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
+   * 
+   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
+   * @param eventHubName The event hub name.
+   * @param consumerGroupName The consumer group name.
+   */
+  listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+}
 export type SubscriptionEventHandlers = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
 export type SubscriptionBatchOptions = 'maxBatchSize' | 'maxWaitTimeInSeconds';
 
@@ -240,8 +221,7 @@ export class EventProcessor {
     consumerGroupName: string,
     eventHubClient: EventHubClient,
     PartitionProcessorClass: typeof PartitionProcessor,
-    private _ownershipManager: OwnershipManager,
-    private _checkpointManager: CheckpointManager,
+    private _partitionManager: PartitionManager,
     options: FullEventProcessorOptions
   ) {
     this._consumerGroupName = consumerGroupName;
@@ -273,10 +253,6 @@ export class EventProcessor {
       fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
       consumerGroupName: this._consumerGroupName,
       eventHubName: this._eventHubClient.eventHubName,
-      sequenceNumber: previousPartitionOwnership
-        ? previousPartitionOwnership.sequenceNumber
-        : undefined,
-      offset: previousPartitionOwnership ? previousPartitionOwnership.offset : undefined,
       eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined,
       ownerLevel: 0
     };
@@ -299,7 +275,7 @@ export class EventProcessor {
       partitionIdToClaim
     );
     try {
-      await this._ownershipManager.claimOwnership([ownershipRequest]);
+      await this._partitionManager.claimOwnership([ownershipRequest]);
       log.partitionLoadBalancer(
         `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
       );
@@ -312,12 +288,25 @@ export class EventProcessor {
       partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
       partitionProcessor.consumerGroupName = this._consumerGroupName;
       partitionProcessor.partitionId = ownershipRequest.partitionId;
-      partitionProcessor.checkpointManager = this._checkpointManager;
+      partitionProcessor.checkpointManager = this._partitionManager;
       partitionProcessor.eventProcessorId = this.id;
 
-      const eventPosition = ownershipRequest.sequenceNumber
-        ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
+      // TODO: why can't I just _ask_ for a particular checkpoint? Is "efficiency" the answer?
+      const availableCheckpoints = await this._partitionManager.listCheckpoints(partitionProcessor.fullyQualifiedNamespace, partitionProcessor.eventHubName, partitionProcessor.consumerGroupName);
+
+      const validCheckpoints = availableCheckpoints.filter(chk => chk.partitionId === partitionIdToClaim);
+
+      let eventPosition: EventPosition;
+
+      if (validCheckpoints.length == 0) {
+        eventPosition = (this._processorOptions.defaultEventPosition || EventPosition.earliest());
+      } else {
+        eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
+      }
+
+      // const eventPosition = ownershipRequest.sequenceNumber
+      //   ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
+      //   : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -346,7 +335,7 @@ export class EventProcessor {
       try {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
         // Retrieve current partition ownership details from the datastore.
-        const partitionOwnership = await this._ownershipManager.listOwnership(
+        const partitionOwnership = await this._partitionManager.listOwnership(
           this._eventHubClient.fullyQualifiedNamespace,
           this._eventHubClient.eventHubName,
           this._consumerGroupName

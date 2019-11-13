@@ -61,7 +61,6 @@ describe("Event Processor", function (): void {
       client,
       PartitionProcessor,
       partitionManager,
-      partitionManager,
       defaultOptions
     );
 
@@ -95,7 +94,6 @@ describe("Event Processor", function (): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       SimpleEventProcessor,
-      partitionManager,
       partitionManager,
       {
         ...defaultOptions,
@@ -152,7 +150,6 @@ describe("Event Processor", function (): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      partitionManager,
       partitionManager,
       defaultOptions
     );
@@ -226,7 +223,6 @@ describe("Event Processor", function (): void {
       client,
       FooPartitionProcessor,
       partitionManager, 
-      partitionManager,
       defaultOptions
     );
 
@@ -274,7 +270,6 @@ describe("Event Processor", function (): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       FooPartitionProcessor,
-      partitionManager,
       partitionManager,
       defaultOptions
     );
@@ -405,7 +400,6 @@ describe("Event Processor", function (): void {
         client,
         FooPartitionProcessor,
         partitionManager,
-        partitionManager,
         defaultOptions
       );
 
@@ -484,7 +478,6 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        partitionManager,
         partitionManager,
         defaultOptions
       );
@@ -565,7 +558,6 @@ describe("Event Processor", function (): void {
         client,
         SimpleEventProcessor,
         partitionManager,
-        partitionManager,
         defaultOptions
       );
       processor.start();
@@ -624,11 +616,9 @@ describe("Event Processor", function (): void {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
-        ownerId: generate_uuid(),
         partitionId: "0",
         sequenceNumber: 10,
-        offset: 50,
-        eTag: generate_uuid()
+        offset: 50
       };
 
       await inMemoryPartitionManager.updateCheckpoint(checkpoint);
@@ -638,8 +628,6 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName
       );
       partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
-      partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
-      partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
       partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(
         "myNamespace.servicebus.windows.net"
       );
@@ -687,7 +675,6 @@ describe("Event Processor", function (): void {
         client,
         FooPartitionProcessor,
         inMemoryPartitionManager,
-        inMemoryPartitionManager,
         defaultOptions
       );
 
@@ -732,7 +719,6 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        inMemoryPartitionManager,
         inMemoryPartitionManager,
         defaultOptions
       );
@@ -827,7 +813,6 @@ describe("Event Processor", function (): void {
         client,
         FooPartitionProcessor,
         partitionManager,
-        partitionManager,
         defaultOptions
       );
 
@@ -841,7 +826,6 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         FooPartitionProcessor,
-        partitionManager,
         partitionManager,
         defaultOptions
       );
@@ -922,7 +906,6 @@ describe("Event Processor", function (): void {
           client,
           FooPartitionProcessor,
           partitionManager,
-          partitionManager,
           defaultOptions
         );
         processorByName[processorName].start();
@@ -990,7 +973,6 @@ describe("Event Processor", function (): void {
         client,
         SimpleEventProcessor,
         partitionManager,
-        partitionManager,
         {
           ...defaultOptions,
           trackLastEnqueuedEventInfo: true
@@ -1042,7 +1024,6 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroupName,
         client,
         SimpleEventProcessor,
-        partitionManager,
         partitionManager,
         {
           ...defaultOptions,
