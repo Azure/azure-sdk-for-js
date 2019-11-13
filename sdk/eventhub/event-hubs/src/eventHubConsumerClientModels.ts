@@ -97,6 +97,12 @@ export interface SubscriptionOptions {
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   maxWaitTimeInSeconds?: number;
+
+  /**
+   * The owner level to use as this subscription subscribes to partitions.
+   */
+  // TODO: plumb this through
+  ownerLevel?: number;
 }
 
 /**

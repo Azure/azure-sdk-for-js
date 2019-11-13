@@ -17,11 +17,6 @@ import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
-export interface AbortSignalOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export interface Checkpoint extends PartitionContext {
     offset: number;
     sequenceNumber: number;
@@ -131,15 +126,18 @@ export class EventPosition {
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
-export interface GetEventHubPropertiesOptions extends AbortSignalOptions, SpanOptions {
+export interface GetEventHubPropertiesOptions extends SpanOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
-export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {
+export interface GetPartitionIdsOptions extends SpanOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {
+export interface GetPartitionPropertiesOptions extends SpanOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -257,6 +255,7 @@ export interface SubscriptionOptions {
     defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
+    ownerLevel?: number;
     trackLastEnqueuedEventInfo?: boolean;
 }
 

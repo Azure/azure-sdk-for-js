@@ -47,10 +47,11 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
 }
 
 /**
- * The set of options to configure request cancellation.
- * - `abortSignal` : A signal used to cancel an asynchronous operation.
+ * The set of options to configure the behavior of `getEventHubProperties`.
+ * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface AbortSignalOptions {
+export interface GetEventHubPropertiesOptions extends SpanOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -59,25 +60,30 @@ export interface AbortSignalOptions {
 }
 
 /**
- * The set of options to configure the behavior of `getEventHubProperties`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetEventHubPropertiesOptions extends AbortSignalOptions, SpanOptions {}
-
-/**
  * The set of options to configure the behavior of `getPartitionProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {}
+export interface GetPartitionPropertiesOptions extends SpanOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * The set of options to configure the behavior of `getPartitionIds`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {}
+export interface GetPartitionIdsOptions extends SpanOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
