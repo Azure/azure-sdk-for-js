@@ -16,12 +16,12 @@ export type ProcessEvents = (
 /**
  * Called when errors occur during event receiving.
  */
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.

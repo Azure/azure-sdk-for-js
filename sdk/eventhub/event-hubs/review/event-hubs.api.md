@@ -207,13 +207,13 @@ export interface PartitionProperties {
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {

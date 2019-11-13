@@ -384,12 +384,7 @@ export function createPartitionProcessorType(
 
     async processError(error: Error): Promise<void> {
       if (options.processError) {
-        await options.processError(error, {
-          partitionId: this.partitionId,
-          consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName,
-          fullyQualifiedNamespace: this.fullyQualifiedNamespace
-        });
+        await options.processError(error, this._partitionCheckpointer!);
       }
     }
 
@@ -397,12 +392,7 @@ export function createPartitionProcessorType(
       this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
 
       if (options.processInitialize) {
-        await options.processInitialize({
-          partitionId: this.partitionId,
-          consumerGroupName: this.consumerGroupName,
-          eventHubName: this.eventHubName,
-          fullyQualifiedNamespace: this.fullyQualifiedNamespace
-        });
+        await options.processInitialize(this._partitionCheckpointer);
       }
     }
 
