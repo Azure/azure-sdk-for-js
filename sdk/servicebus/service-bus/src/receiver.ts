@@ -109,8 +109,8 @@ export class Receiver {
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
+   * Following errors are bubbled up to be handled by user provided `onError` handler
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the registerMessageHandler operation.
    */
@@ -166,7 +166,6 @@ export class Receiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
-   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the receiveMessages operation.
    */
@@ -197,7 +196,6 @@ export class Receiver {
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    * @throws {Error} Thrown if the underlying connection is closed.
-   * @throws {Error} Thrown if an receiver is already receiving messages.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the getMessageIterator operation.
    */
@@ -707,6 +705,7 @@ export class SessionReceiver {
    * before closing the receiver.
    *
    * @returns void
+   * Following errors are bubbled up to be handled by user provided `onError` handler
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
    * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
