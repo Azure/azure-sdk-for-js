@@ -21,6 +21,8 @@
 /sdk/core/logger @xirzec
 
 # Service teams
+/sdk/appconfiguration/ @richardpark-msft
+
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
