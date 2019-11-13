@@ -40,11 +40,16 @@ const nodeConfig = {
     sourcemap: true,
     banner
   },
+  preserveSymlinks: false,
   plugins: [
     nodeResolve({
       mainFields: ["module", "main"]
     }),
-    commonjs(),
+    commonjs({
+      namedExports: {
+        "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+      }
+    }),
     sourcemaps(),
     json(),
     visualizer({
@@ -67,11 +72,16 @@ const browserConfig = {
     sourcemap: true,
     banner
   },
+  preserveSymlinks: false,
   plugins: [
     nodeResolve({
       mainFields: ["module", "browser"]
     }),
-    commonjs(),
+    commonjs({
+      namedExports: {
+        "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+      }
+    }),
     sourcemaps(),
     visualizer({
       filename: "dist/browser-stats.html",
