@@ -44,6 +44,7 @@ export interface EventData {
 
 // @public
 export interface EventDataBatch {
+    // @internal
     batchMessage: Buffer | undefined;
     count: number;
     // @internal
