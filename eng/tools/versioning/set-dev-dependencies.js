@@ -52,10 +52,12 @@ const updatePackageVersion = (rushPackages, package, buildId) => {
   return rushPackages;
 };
 
-const updateDependencySection = (rushPackages, dependencySection) => {
+const updateDependencySection = (rushPackages, dependencySection,buildId) => {
   console.log(dependencySection);
-  if(dependencySection){
-    for (const [depName, depVersionRange] of Object.entries(dependencySection)) {
+  if (dependencySection) {
+    for (const [depName, depVersionRange] of Object.entries(
+      dependencySection
+    )) {
       console.log(`checking ${depName}:${depVersionRange}...`);
 
       // If the dependency isn't part of the Rush workspace, skip it
@@ -69,29 +71,36 @@ const updateDependencySection = (rushPackages, dependencySection) => {
       console.log(`version in package's dep = ${depVersionRange}`);
       console.log(`dep's version = ${packageVersion}`);
 
-      // If the dependency range is satisfied by the package's current version,
-      // replace it with an exact match to the package's new version
-      if (semver.satisfies(packageVersion, depVersionRange)) {
-        // Commit the dependency version to the JSON document
-        if(rushPackages[depName].newVer !== undefined){
-          dependencySection[depName] = rushPackages[depName].newVer;
-        }
+      const parsedPackageVersion = semver.parse(packageVersion);
+      const parsedDepVersion = semver.parse(depVersionRange);
+
+      if (parsedDepVersion.major == parsedPackageVersion.major && parsedDepVersion.minor == parsedPackageVersion.minor && parsedDepVersion.patch == parsedPackageVersion.patch) {
+        rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
+        dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
       }
+      // // If the dependency range is satisfied by the package's current version,
+      // // replace it with an exact match to the package's new version
+      // if (semver.satisfies(packageVersion, depVersionRange)) {
+      //   // Commit the dependency version to the JSON document
+      //   if(rushPackages[depName].newVer !== undefined){
+      //     dependencySection[depName] = rushPackages[depName].newVer;
+      //   }
+      // }
     }
   }
   return rushPackages;
 };
 
-const updateInternalDependencyVersions = (rushPackages, package) => {
+const updateInternalDependencyVersions = (rushPackages, package, buildId) => {
   console.log(package);
   console.log("checking dependencies ..");
-  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.dependencies);
+  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.dependencies,buildId);
 
   console.log("checking devDependencies ..");
-  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.devDependencies);
+  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.devDependencies,buildId);
 
   console.log("checking peerDependencies ..");
-  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.peerDependencies);
+  rushPackages = updateDependencySection(rushPackages,rushPackages[package].json.peerDependencies,buildId);
 
   return rushPackages;
 };
@@ -117,7 +126,9 @@ async function main(argv) {
 
   // Update any references to internal projects with the new versions
   for (const package of Object.keys(rushPackages)) {
-    rushPackages = updateInternalDependencyVersions(rushPackages, package);
+    if ((rushPackages[package].versionPolicy == "client"||rushPackages[package].versionPolicy == "core") && (rushPackages[package].projectFolder.startsWith(`sdk/${service}`))){
+      rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
+    }
   }
 
   for (const package of Object.keys(rushPackages)) {
