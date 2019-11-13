@@ -176,6 +176,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
+  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"
@@ -202,6 +203,8 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
+
+// Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
 const certificatePolicy = {
   issuerName: "Self",
   subject: "cn=MyCert"
@@ -436,6 +439,7 @@ const certificateName = "MyCertificateName";
 
 async function main() {
   const result = client.getCertificate(certificateName);
+  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"

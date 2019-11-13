@@ -957,6 +957,8 @@ export class CertificateClient {
    * Creates a new certificate. If this is the first version, the certificate resource is created.
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the certificate is fully recovered.
    *
+   * **Note:** Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
+   *
    * This operation requires the certificates/create permission.
    *
    * Example usage:
