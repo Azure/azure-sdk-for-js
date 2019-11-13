@@ -7,7 +7,7 @@ import {
   EventHubClient,
   EventHubClientOptions,
   GetPartitionIdsOptions,
-  GetPropertiesOptions,
+  GetEventHubPropertiesOptions,
   CreateBatchOptions,
   SendBatchOptions
 } from "./eventHubClient";
@@ -233,7 +233,7 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
+  async getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._client.getProperties(options);
   }
 

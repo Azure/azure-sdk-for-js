@@ -312,8 +312,8 @@ async function main() {
   const client = new EventHubConsumerClient(
     "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
   );
-  await client.getProperties();
-  // retrieve partitionIds from client.getProperties() or client.getPartitionIds()
+  await client.getEventHubProperties();
+  // retrieve partitionIds from client.getEventHubProperties() or client.getPartitionIds()
   const partitionId = "0";
   await client.getPartitionProperties(partitionId);
 

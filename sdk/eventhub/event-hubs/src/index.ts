@@ -13,7 +13,7 @@ export {
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetPropertiesOptions
+  GetEventHubPropertiesOptions
 } from "./eventHubClient";
 export { EventHubConsumerClient, PartitionCheckpointer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";

@@ -103,9 +103,9 @@ export class EventHubConsumerClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
     subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
@@ -120,8 +120,8 @@ export class EventHubProducerClient {
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
     sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
 }
@@ -154,15 +154,15 @@ export class EventPosition {
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
 
 // @public
+export interface GetEventHubPropertiesOptions extends AbortSignalOptions, SpanOptions {
+}
+
+// @public
 export interface GetPartitionIdsOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public
 export interface GetPartitionPropertiesOptions extends AbortSignalOptions, SpanOptions {
-}
-
-// @public
-export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {
 }
 
 // @public

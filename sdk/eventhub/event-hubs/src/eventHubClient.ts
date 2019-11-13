@@ -29,7 +29,7 @@ import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
-type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
+type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
@@ -59,11 +59,11 @@ export interface AbortSignalOptions {
 }
 
 /**
- * The set of options to configure the behavior of `getProperties`.
+ * The set of options to configure the behavior of `getEventHubProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPropertiesOptions extends AbortSignalOptions, SpanOptions {}
+export interface GetEventHubPropertiesOptions extends AbortSignalOptions, SpanOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionProperties`.
@@ -610,9 +610,9 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
+  async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getProperties", options.parent);
+    const clientSpan = this._createClientSpan("getEventHubProperties", options.parent);
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
