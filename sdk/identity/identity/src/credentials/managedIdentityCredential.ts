@@ -12,7 +12,7 @@ import {
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
@@ -51,8 +51,10 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @internal
    * @ignore
    */
-  constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
-
+  constructor(
+    clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
+  ) {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
@@ -176,7 +178,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = this.identityClient.createWebResource(request);
-      webResource.timeout = options.requestOptions && options.requestOptions.timeout || 500;
+      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
 
       try {
         logger.info(`ManagedIdentityCredential: pinging IMDS endpoint`);

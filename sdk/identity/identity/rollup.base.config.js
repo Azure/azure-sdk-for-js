@@ -29,7 +29,11 @@ export function nodeConfig(test = false) {
         }
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        namedExports: {
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
+      })
     ]
   };
 
@@ -82,7 +86,10 @@ export function browserConfig(test = false, production = false) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
