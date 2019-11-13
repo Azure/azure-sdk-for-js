@@ -6,8 +6,6 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import * as log from "../src/log";
-
 import {
   executeAtomXmlOperation,
   AtomXmlSerializer,
@@ -15,26 +13,30 @@ import {
 } from "../src/util/atomXmlHelper";
 import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
 
-import { HttpOperationResponse, WebResource } from "@azure/core-http";
+import { HttpOperationResponse, WebResource, HttpHeaders } from "@azure/core-http";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
-const env = getEnvVars();
-
-const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
+  "Endpoint=dummy/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=dummy"
 );
 
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
-    const request: WebResource = new WebResource("https://xyz.com", "PUT");
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request,
+        status: 200,
+        headers: new HttpHeaders({}),
+        bodyAsText: `{ hello: "this is a JSON response body" }`
+      };
+    };
+    const request: WebResource = new WebResource("dummy", "PUT");
     request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
-
     const testSerializer = new DummySerializer();
     try {
-      await executeAtomXmlOperation(serviceBusAtomManagementClient, request, testSerializer);
+      await executeAtomXmlOperation(mockServiceBusAtomManagementClient, request, testSerializer);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(
@@ -51,15 +53,18 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should properly serialize when using valid inputs and serializer", async function() {
     const request: WebResource = new WebResource("dummy", "PUT");
     request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
 
     const testSerializer = new DummySerializer();
 
-    try {
-      await executeAtomXmlOperation(serviceBusAtomManagementClient, request, testSerializer);
-      assert.deepEqual(true, false, "Error must be thrown");
-    } catch (err) {
-      log.httpAtomXml("Ignore test HTTP request");
-    }
+    await executeAtomXmlOperation(mockServiceBusAtomManagementClient, request, testSerializer);
+
     const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
 
     const requestBody: string = request.body.toString();
@@ -80,16 +85,17 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
 
 describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
-    try {
-      await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
-    } catch (err) {
-      log.httpAtomXml("Ignoring clean up step");
-    }
-    const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
-    response._response.parsedBody = { notAnEntry: "" };
+    const request: WebResource = new WebResource("dummy", "GET");
+    const _response = {
+      request,
+      status: 200,
+      headers: new HttpHeaders({}),
+      bodyAsText: null,
+      parsedBody: { notAnEntry: "" }
+    };
 
     try {
-      await deserializeAtomXmlResponse(["QueueName"], response._response);
+      await deserializeAtomXmlResponse(["QueueName"], _response);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(
@@ -102,16 +108,16 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   });
 
   it("should throw appropriate error if unrecognized HTTP code is returned by service", async function() {
+    const request: WebResource = new WebResource("dummy", "GET");
+    const _response = {
+      request,
+      status: 666,
+      headers: new HttpHeaders({}),
+      bodyAsText: null,
+      parsedBody: undefined
+    };
     try {
-      await serviceBusAtomManagementClient.deleteQueue("alwaysBeExistingQueue");
-    } catch (err) {
-      log.httpAtomXml("Ignoring clean up step");
-    }
-    const response = await serviceBusAtomManagementClient.createQueue("alwaysBeExistingQueue");
-    response._response.parsedBody = undefined;
-    response._response.status = 666;
-    try {
-      await deserializeAtomXmlResponse(["QueueName"], response._response);
+      await deserializeAtomXmlResponse(["QueueName"], _response);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.equal(
