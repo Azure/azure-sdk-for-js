@@ -136,7 +136,8 @@ export function browserConfig(test = false, production = false) {
             "notDeepEqual",
             "notEqual",
             "strictEqual"
-          ]
+          ],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ]

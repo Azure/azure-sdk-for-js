@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, Span, SpanOptions, SpanKind } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span, SpanOptions, SpanKind } from "@opentelemetry/types";
 import { OperationTracingOptions } from "../StorageClient";
 
 /**
@@ -23,7 +24,7 @@ export function createSpan(
   span.setAttribute("component", "storage");
 
   let newOptions = tracingOptions.spanOptions || {};
-  if (span.isRecordingEvents()) {
+  if (span.isRecording()) {
     newOptions = {
       ...tracingOptions,
       parent: span
