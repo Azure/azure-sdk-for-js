@@ -205,9 +205,10 @@ export class EventHubReceiver extends LinkEntity {
       offset: "0",
       sequenceNumber: -1
     };
+    const logMessageInterval = 1000;
     this._onAmqpMessage = (context: EventContext) => {
       this._receivedMessageCount++;
-      const logMessageInterval = 1000;
+      
       // log every 1000 messages
       if (this._receivedMessageCount === logMessageInterval) {
         log.receiver(
