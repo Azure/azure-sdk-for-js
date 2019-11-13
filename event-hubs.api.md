@@ -178,6 +178,11 @@ export interface PartitionContext {
 }
 
 // @public
+export interface PartitionInitializer {
+    setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
+}
+
+// @public
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
@@ -213,7 +218,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext & Par
 export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext & PartitionCheckpointer & PartitionInitializer) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
