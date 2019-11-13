@@ -5,8 +5,6 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { DataTransformer } from '@azure/core-amqp';
-import { DefaultDataTransformer } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { Span } from '@azure/core-tracing';
@@ -36,10 +34,6 @@ export interface CreateBatchOptions {
     partitionKey?: string;
 }
 
-export { DataTransformer }
-
-export { DefaultDataTransformer }
-
 // @public
 export interface EventData {
     body: any;
@@ -62,7 +56,6 @@ export interface EventDataBatch {
 
 // @public
 export interface EventHubClientOptions {
-    dataTransformer?: DataTransformer;
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocket?: WebSocketImpl;
