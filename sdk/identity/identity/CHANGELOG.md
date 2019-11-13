@@ -2,7 +2,7 @@
 
 ## 1.0.1 - Coming Soon
 
-- Fixed an issue that occurs when using a user-assigned managed identity with `ManagedIdentityCredential` ([PR #6134](https://github.com/Azure/azure-sdk-for-js/pull/6134))
+- Fixed an issue where an authorization error occurs due to wrong access token being returned by the MSI endpoint when using a user-assigned managed identity with `ManagedIdentityCredential` ([PR #6134](https://github.com/Azure/azure-sdk-for-js/pull/6134))
 
 ## 1.0.0 - 2019-10-29
 
