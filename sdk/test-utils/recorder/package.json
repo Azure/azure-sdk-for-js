@@ -76,5 +76,8 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "typescript": "~3.6.4"
   }
 }
