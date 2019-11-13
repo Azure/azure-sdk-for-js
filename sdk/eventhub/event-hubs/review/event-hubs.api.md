@@ -88,7 +88,7 @@ export class EventHubConsumerClient {
 export class EventHubProducerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     readonly eventHubName: string;
@@ -208,7 +208,7 @@ export type ProcessCloseHandler = (reason: CloseReason, context: SubscriptionPar
 export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionContext) => Promise<void>;
 
 // @public
-export type ProcessEvent = (receivedEvent: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
 
 // @public
 export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
@@ -246,13 +246,12 @@ export interface Subscription {
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
     processError?: ProcessErrorHandler;
-    processEvent: ProcessEvent;
+    processEvent: ProcessEventHandler;
     processInitialize?: ProcessInitializeHandler;
 }
 
 // @public
 export interface SubscriptionOptions {
-    defaultEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;

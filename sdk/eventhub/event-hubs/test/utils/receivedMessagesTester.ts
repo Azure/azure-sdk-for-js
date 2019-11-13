@@ -1,5 +1,5 @@
-import { CloseReason, ReceivedEventData, EventHubProducerClient, PartitionCheckpointer, SubscriptionPartitionInitializer, EventHubConsumerClient } from "../../src/";
-import { SubscriptionEventHandlers, SubscriptionOptions, SubscriptionPartitionContext } from "../../src/eventHubConsumerClientModels";
+import { CloseReason, ReceivedEventData, EventHubProducerClient, PartitionCheckpointer, SubscriptionPartitionInitializer } from "../../src/";
+import { SubscriptionEventHandlers, SubscriptionPartitionContext } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
 import { delay } from '@azure/core-amqp';
@@ -15,7 +15,7 @@ interface ReceivedMessages {
  * A simple tester that lets you easily poll for messages and check that they've
  * all been received at least once.
  */
-export class ReceivedMessagesTester implements Required<SubscriptionEventHandlers>, SubscriptionOptions {
+export class ReceivedMessagesTester implements Required<SubscriptionEventHandlers> {
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
