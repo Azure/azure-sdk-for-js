@@ -11,7 +11,7 @@ import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
 import { assertThrowsAbortError } from "./utils/utils.common";
 
-describe("Certificates client - Long Running Operations - recoverDelete", () => {
+describe("Certificates client - LRO - recoverDelete", () => {
   const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;

@@ -69,7 +69,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     // only.
     if (
       this.multipleConsumers &&
-      error.message.indexOf("New receiver with higher epoch of") >= 0
+      error.name === 'ReceiverDisconnectedError'
     ) {
       return;
     }

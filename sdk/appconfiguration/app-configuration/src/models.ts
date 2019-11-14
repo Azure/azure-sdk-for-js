@@ -198,10 +198,6 @@ export interface SetConfigurationSettingResponse
  * Headers from getting a ConfigurationSetting.
  */
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-  /**
-   * A UTC datetime that specifies the last time the resource was modified.
-   */
-  lastModifiedHeader?: string;
 }
 
 /**
@@ -223,7 +219,7 @@ export interface GetConfigurationSettingOptions
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 }
 
 /**
@@ -234,7 +230,7 @@ export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.

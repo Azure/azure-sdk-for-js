@@ -75,7 +75,7 @@ export class CertificateClient {
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     listPropertiesOfCertificates(options?: ListPropertiesOfCertificatesOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     listPropertiesOfCertificateVersions(certificateName: string, options?: ListPropertiesOfCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
-    listPropertiesOfIssuers(options?: ListIssuersOptions): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]>;
+    listPropertiesOfIssuers(options?: ListPropertiesOfIssuersOptions): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]>;
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificate>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     restoreCertificateBackup(certificateBackup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificate>;
@@ -85,7 +85,7 @@ export class CertificateClient {
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     }
 
-// @public (undocumented)
+// @public
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
 
 // @public
@@ -135,7 +135,7 @@ export interface CertificatePolicy {
     readonly createdOn?: Date;
     enabled?: boolean;
     enhancedKeyUsage?: string[];
-    issuerName?: string;
+    issuerName?: WellKnownIssuer | string;
     keyCurveName?: KeyCurveName;
     keySize?: number;
     keyType?: KeyType;
@@ -148,10 +148,9 @@ export interface CertificatePolicy {
     validityInMonths?: number;
 }
 
-// @public (undocumented)
+// @public
 export module CertificatePolicy {
-    const // (undocumented)
-    Default: CertificatePolicy;
+    const Default: CertificatePolicy;
 }
 
 // @public
@@ -299,15 +298,6 @@ export interface IssuerProperties {
 export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export interface KeyProperties {
-    curve?: KeyCurveName;
-    exportable?: boolean;
-    keySize?: number;
-    keyType?: KeyType;
-    reuseKey?: boolean;
-}
-
-// @public
 export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
@@ -357,11 +347,6 @@ export interface ListDeletedCertificatesOptions extends coreHttp.OperationOption
 }
 
 // @public
-export interface ListIssuersOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
-}
-
-// @public
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
     maxresults?: number;
@@ -369,6 +354,11 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 
 // @public
 export interface ListPropertiesOfCertificateVersionsOptions extends ListPropertiesOfCertificatesOptions, coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
+    maxresults?: number;
 }
 
 // @public
@@ -390,7 +380,7 @@ export { PipelineOptions }
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type RequireAtLeastOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
@@ -425,6 +415,12 @@ export interface UpdateCertificatePolicyOptions extends CertificateProperties, c
 
 // @public
 export interface UpdateIssuerOptions extends KeyVaultClientUpdateCertificateIssuerOptionalParams, coreHttp.OperationOptions {
+}
+
+// @public
+export enum WellKnownIssuer {
+    Self = "Self",
+    Unknown = "Unknown"
 }
 
 // @public

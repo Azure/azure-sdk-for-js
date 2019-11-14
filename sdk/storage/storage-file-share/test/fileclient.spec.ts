@@ -516,6 +516,18 @@ describe("FileClient", () => {
     );
   });
 
+  it("verify FileClient name matches file name", async () => {
+    const accountName = "myaccount";
+    const newClient = new ShareFileClient(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  });
+
   it("create with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);

@@ -18,7 +18,7 @@ describe("Keys client - list keys in various ways", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -26,13 +26,14 @@ describe("Keys client - list keys in various ways", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
   // The tests follow
 
-  it("can purge all keys", async function() {
+  // This test is only useful while developing locally
+  it.skip("can purge all keys", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const properties of client.listPropertiesOfKeys()) {
       try {

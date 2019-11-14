@@ -41,6 +41,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
+  KeyType,
+  KeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -55,6 +57,7 @@ import {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   CertificateClientInterface,
   CertificatePollerOptions,
   IssuerProperties,
@@ -80,9 +83,6 @@ import {
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
-  JsonWebKeyType as KeyType,
-  JsonWebKeyCurveName as KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   LifetimeAction,
   OrganizationDetails,
@@ -178,7 +178,6 @@ export {
   IssuerProperties,
   KeyType,
   KeyCurveName,
-  KeyProperties,
   KeyUsageType,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
@@ -199,6 +198,7 @@ export {
   UpdateIssuerOptions,
   UpdateCertificateOptions,
   UpdateCertificatePolicyOptions,
+  WellKnownIssuer,
   X509CertificateProperties,
   logger
 };
@@ -798,7 +798,8 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfIssuersPage(settings, updatedOptions)
     };
 
     return result;
@@ -955,6 +956,8 @@ export class CertificateClient {
   /**
    * Creates a new certificate. If this is the first version, the certificate resource is created.
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the certificate is fully recovered.
+   *
+   * **Note:** Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
    *
    * This operation requires the certificates/create permission.
    *
@@ -1172,7 +1175,7 @@ export class CertificateClient {
   }
 
   /**
-   * Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission.
+   * Updates the certificate policy for the specified certificate. This operation requires the certificates/update permission.
    * @summary Gets a certificate's policy
    * @param certificateName The name of the certificate
    * @param policy The certificate policy
@@ -1251,7 +1254,7 @@ export class CertificateClient {
   }
 
   /**
-   * Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
+   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    *
    * Example usage:
    * ```ts

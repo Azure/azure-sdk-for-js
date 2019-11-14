@@ -18,7 +18,6 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "javascript.preferences.quoteStyle": "double",
-  "prettier.eslintIntegration": true,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.preferences.quoteStyle": "double",
   "git.ignoreLimitWarning": true

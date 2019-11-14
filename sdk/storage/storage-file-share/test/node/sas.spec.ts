@@ -189,7 +189,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl"),
         protocol: SASProtocol.HttpsAndHttp,
-        shareName: shareClient.shareName,
+        shareName: shareClient.name,
         startsOn: now,
         version: "2018-03-28"
       },
