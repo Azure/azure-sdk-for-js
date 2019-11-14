@@ -93,7 +93,6 @@ export interface SubscriptionOptions {
   /**
    * The owner level to use as this subscription subscribes to partitions.
    */
-  // TODO: plumb this through
   ownerLevel?: number;
 
 
