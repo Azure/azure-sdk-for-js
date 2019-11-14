@@ -25,7 +25,7 @@ import { EventPosition } from "../eventPosition";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
-import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
+import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
 type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
