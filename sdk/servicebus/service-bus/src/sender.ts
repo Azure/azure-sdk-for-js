@@ -71,7 +71,7 @@ export class Sender {
    * @param message - Message to send.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs while sending messages to the service.
+   * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -93,7 +93,7 @@ export class Sender {
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs while sending messages to the service.
+   * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -115,7 +115,7 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs during the scheduleMessage operation.
+   * @throws MessagingError if the service returns an error while scheduling a message.
    */
   async scheduleMessage(
     scheduledEnqueueTimeUtc: Date,
@@ -147,7 +147,7 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs during the scheduleMessages operation.
+   * @throws MessagingError if the service returns an error while scheduling messages.
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
@@ -172,7 +172,7 @@ export class Sender {
    * @param sequenceNumber - The sequence number of the message to be cancelled.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs during the cancelScheduleMessage operation.
+   * @throws MessagingError if the service returns an error while canceling a scheduled message.
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -195,7 +195,7 @@ export class Sender {
    * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if any error occurs during the cancelScheduleMessages operation.
+   * @throws MessagingError if the service returns an error while canceling scheduled messages.
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();

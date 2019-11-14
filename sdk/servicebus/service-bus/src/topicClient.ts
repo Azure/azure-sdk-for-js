@@ -63,6 +63,8 @@ export class TopicClient implements Client {
    * Closes the AMQP link for the sender created by this client.
    * Once closed, neither the TopicClient nor its senders can be used for any
    * further operations.
+   *
+   * @returns {Promise<void>}
    */
   async close(): Promise<void> {
     try {
