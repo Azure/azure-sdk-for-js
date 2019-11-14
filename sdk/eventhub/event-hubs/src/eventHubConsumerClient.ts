@@ -109,7 +109,7 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(connectionString: string, options?: EventHubClientOptions); // #1
+  constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
@@ -242,12 +242,13 @@ export class EventHubConsumerClient {
    * Use this overload if you want to read from all partitions and not coordinate with
    * other subscribers.
    *
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param handlers Handlers for the lifecycle of the subscription - initialization 
+   *                 per partition, receiving events, handling errors and the closing 
+   *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
-    consumerGroupName: string,
     handlers:  SubscriptionEventHandlers,
     options?: SubscriptionOptions
   ): Subscription; // #1
@@ -257,14 +258,15 @@ export class EventHubConsumerClient {
    * Use this overload if you want to read from a specific set of partitions and not coordinate with
    * other subscribers.
    *
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param partitionId A partition id to subscribe to.
+   * @param handlers Handlers for the lifecycle of the subscription - initialization 
+   *                 per partition, receiving events, handling errors and the closing 
+   *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
 
   subscribe(
-    consumerGroupName: string,
     partitionId: string,
     handlers:  SubscriptionEventHandlers,
     options?: SubscriptionOptions
@@ -274,32 +276,31 @@ export class EventHubConsumerClient {
    *
    * Use this overload if you want to coordinate with other subscribers using a `PartitionManager`
    *
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
-   *                         This is also a good place to update checkpoints as appropriate.
    * @param partitionManager A partition manager that manages ownership information and checkpoint details.
+   * @param handlers Handlers for the lifecycle of the subscription - initialization 
+   *                 per partition, receiving events, handling errors and the closing 
+   *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
-    consumerGroupName: string,
     partitionManager: PartitionManager,
     handlers:  SubscriptionEventHandlers,
     options?: SubscriptionOptions
   ): Subscription; // #3
   subscribe(
-    consumerGroupName1: string, 
-    handlersOrPartitionIdOrPartitionManager2?:
+    handlersOrPartitionIdOrPartitionManager1?:
       | SubscriptionEventHandlers
       | string
       | PartitionManager,
-    optionsOrHandlers3?: SubscriptionOptions | SubscriptionEventHandlers,
-    possibleOptions4?: SubscriptionOptions
+    optionsOrHandlers2?: SubscriptionOptions | SubscriptionEventHandlers,
+    possibleOptions3?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (typeof handlersOrPartitionIdOrPartitionManager2 === "string" && isSubscriptionEventHandlers(optionsOrHandlers3)) {
+    if (typeof handlersOrPartitionIdOrPartitionManager1 === "string" && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const partitionId = handlersOrPartitionIdOrPartitionManager2;
+      const partitionId = handlersOrPartitionIdOrPartitionManager1;
       
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no coordination.`
@@ -309,40 +310,40 @@ export class EventHubConsumerClient {
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        optionsOrHandlers3
+        optionsOrHandlers2
       );
 
       eventProcessor = new EventProcessor(
-        consumerGroupName1,
+        this._consumerGroup,
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
-          ...possibleOptions4,
+          ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId])
         }
       );
-    } else if (isPartitionManager(handlersOrPartitionIdOrPartitionManager2) && isSubscriptionEventHandlers(optionsOrHandlers3)) {
+    } else if (isPartitionManager(handlersOrPartitionIdOrPartitionManager1) && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
 
-      const partitionManager = handlersOrPartitionIdOrPartitionManager2;
+      const partitionManager = handlersOrPartitionIdOrPartitionManager1;
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        optionsOrHandlers3
+        optionsOrHandlers2
       );
 
       eventProcessor = new EventProcessor(
-        consumerGroupName1,
+        this._consumerGroup,
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        { ...defaultConsumerClientOptions, ...possibleOptions4 }
+        { ...defaultConsumerClientOptions, ...possibleOptions3 }
       );
-    } if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager2)) {
+    } if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 
@@ -350,17 +351,17 @@ export class EventHubConsumerClient {
 
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
-        handlersOrPartitionIdOrPartitionManager2
+        handlersOrPartitionIdOrPartitionManager1
       );
 
       eventProcessor = new EventProcessor(
-        consumerGroupName1,
+        this._consumerGroup,
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
-          ...(optionsOrHandlers3 as SubscriptionOptions),
+          ...(optionsOrHandlers2 as SubscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
