@@ -295,7 +295,7 @@ export interface EventHubClientOptions {
 }
 
 /**
- * Options related to websockets
+ * Options for the websocket implementation used for AMQP.
  */
 interface WebSocketOptions {
 /**
@@ -367,61 +367,8 @@ export class EventHubClient {
     return this._context.config.host;
   }
 
-  /**
-   * @constructor
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
-   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
-   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(connectionString: string, options?: EventHubClientOptions);
-  /**
-   * @constructor
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
-   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
-   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-  /**
-   * @constructor
-   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(
     host: string,
     eventHubName: string,

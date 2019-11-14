@@ -94,22 +94,21 @@ export class EventHubConsumerClient {
 
   /**
    * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
    */
   constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
    * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
@@ -117,16 +116,14 @@ export class EventHubConsumerClient {
    * @param options - A set of options to apply when configuring the client.
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
+  constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
   /**
    * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
@@ -134,51 +131,50 @@ export class EventHubConsumerClient {
    * @param options - A set of options to apply when configuring the client.
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(
+    consumerGroup: string,
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
   ); // #3
   constructor(
-    fullyQualifiedNamespaceOrConnectionString1: string,
-    eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
-    options4?: EventHubClientOptions
+    private _consumerGroup: string,
+    fullyQualifiedNamespaceOrConnectionString2: string,
+    eventHubNameOrOptions3?: string | EventHubClientOptions,
+    credentialOrOptions4?: TokenCredential | EventHubClientOptions,
+    options5?: EventHubClientOptions
   ) {
-    if (isTokenCredential(credentialOrOptions3)) {
+    if (isTokenCredential(credentialOrOptions4)) {
       // #3
       log.consumerClient("Creating client with TokenCredential");
 
       this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString1,
-        eventHubNameOrOptions2 as string,
-        credentialOrOptions3,
-        options4
+        fullyQualifiedNamespaceOrConnectionString2,
+        eventHubNameOrOptions3 as string,
+        credentialOrOptions4,
+        options5
       );
-    } else if (typeof eventHubNameOrOptions2 === "string") {
+    } else if (typeof eventHubNameOrOptions3 === "string") {
       // #2
       log.consumerClient("Creating client with connection string and event hub name");
 
       this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString1,
-        eventHubNameOrOptions2,
-        credentialOrOptions3 as EventHubClientOptions
+        fullyQualifiedNamespaceOrConnectionString2,
+        eventHubNameOrOptions3,
+        credentialOrOptions4 as EventHubClientOptions
       );
     } else {
       // #1
       log.consumerClient("Creating client with connection string");
 
       this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString1,
-        eventHubNameOrOptions2 as EventHubClientOptions
+        fullyQualifiedNamespaceOrConnectionString2,
+        eventHubNameOrOptions3 as EventHubClientOptions
       );
     }
   }
