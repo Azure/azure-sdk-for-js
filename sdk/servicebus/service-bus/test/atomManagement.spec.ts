@@ -111,48 +111,48 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       });
 
       it(`Creating an existent ${entityType} entity throws an error`, async () => {
-        let response;
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
             try {
               await createEntity(entityType, alwaysBeExistingQueue);
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.TOPIC:
             try {
-              response = await createEntity(entityType, alwaysBeExistingTopic);
+              error = await createEntity(entityType, alwaysBeExistingTopic);
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
 
           case EntityType.SUBSCRIPTION:
             try {
-              response = await createEntity(
+              error = await createEntity(
                 entityType,
                 alwaysBeExistingSubscription,
                 alwaysBeExistingTopic
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
 
           case EntityType.RULE:
             try {
-              response = await createEntity(
+              error = await createEntity(
                 entityType,
                 alwaysBeExistingRule,
                 alwaysBeExistingTopic,
                 alwaysBeExistingSubscription
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
@@ -161,7 +161,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(response.statusCode, 409, "Error must not be undefined");
+        should.equal(error.statusCode, 409, "Error must not be undefined");
       });
 
       it(`Lists available ${entityType} entities successfully`, async () => {
@@ -266,42 +266,42 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       });
 
       it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
-        let response;
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
             try {
-              response = await deleteEntity(entityType, "notexisting");
+              error = await deleteEntity(entityType, "notexisting");
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.SUBSCRIPTION:
             try {
-              response = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+              error = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.RULE:
             try {
-              response = await deleteEntity(
+              error = await deleteEntity(
                 entityType,
                 "notexisting",
                 alwaysBeExistingTopic,
                 alwaysBeExistingSubscription
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-        should.equal(response.statusCode, 404);
+        should.equal(error.statusCode, 404);
       });
 
       it(`Deletes an existent ${entityType} entity successfully`, async () => {
@@ -364,119 +364,59 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       });
 
       it(`Get on non-existent ${entityType} entity throws an error`, async () => {
-        let response;
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
             try {
-              await deleteEntity(entityType, alwaysBeExistingQueue);
+              await getEntity(entityType, "notexisting");
             } catch (err) {
-              console.log("Ignoring clean up step");
-            }
-            try {
-              await getEntity(entityType, alwaysBeExistingQueue);
-            } catch (err) {
-              response = err;
-            }
-            try {
-              await createEntity(entityType, alwaysBeExistingQueue);
-            } catch (err) {
-              console.log("Ignoring clean up step");
+              error = err;
             }
             break;
 
           case EntityType.TOPIC:
             try {
-              await deleteEntity(entityType, alwaysBeExistingTopic);
+              error = await getEntity(entityType, "notexisting");
             } catch (err) {
-              console.log("Ignoring clean up step");
-            }
-            try {
-              response = await getEntity(entityType, alwaysBeExistingTopic);
-            } catch (err) {
-              response = err;
-            }
-            try {
-              await createEntity(entityType, alwaysBeExistingTopic);
-            } catch (err) {
-              console.log("Ignoring clean up step");
+              error = err;
             }
 
             break;
 
           case EntityType.SUBSCRIPTION:
             try {
-              await deleteEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
+              error = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
             } catch (err) {
-              console.log("Ignoring clean up step");
+              error = err;
             }
-            try {
-              response = await getEntity(
-                entityType,
-                alwaysBeExistingSubscription,
-                alwaysBeExistingTopic
-              );
-            } catch (err) {
-              response = err;
-            }
-            try {
-              await createEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
-            } catch (err) {
-              console.log("Ignoring clean up step");
-            }
-
             break;
 
           case EntityType.RULE:
             try {
-              await deleteEntity(
+              error = await getEntity(
                 entityType,
-                alwaysBeExistingRule,
+                "notexisting",
                 alwaysBeExistingTopic,
                 alwaysBeExistingSubscription
               );
             } catch (err) {
-              console.log("Ignoring clean up step");
+              error = err;
             }
-            try {
-              response = await getEntity(
-                entityType,
-                alwaysBeExistingRule,
-                alwaysBeExistingTopic,
-                alwaysBeExistingSubscription
-              );
-            } catch (err) {
-              response = err;
-            }
-            try {
-              await createEntity(
-                entityType,
-                alwaysBeExistingRule,
-                alwaysBeExistingTopic,
-                alwaysBeExistingSubscription
-              );
-            } catch (err) {
-              console.log("Ignoring clean up step");
-            }
-
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(response.statusCode, 404, "Error must not be undefined");
+        should.equal(error.statusCode, 404, "Error must not be undefined");
+        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
         should.equal(
-          response.code,
-          "404",
-          `Code expected to be "404" but received ${response.code}`
-        );
-        should.equal(
-          response.message.startsWith("The messaging entity") ||
-            response.message.startsWith("Entity") ||
-            response.message.startsWith("SubCode") ||
-            response.message.startsWith("No service"),
+          error.message.startsWith("The messaging entity") ||
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
           true,
-          `Expected error message to be a textual content but got "${response.message}"`
+          `Expected error message to be a textual content but got "${error.message}"`
         );
       });
     });

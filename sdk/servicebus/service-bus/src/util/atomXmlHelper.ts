@@ -365,7 +365,7 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
   }
 
   const error: RestError = new RestError(
-    `ATOM Service Error: ${errorMessage}`,
+    errorMessage,
     normalizedError.code,
     response.status,
     stripRequest(response.request),
