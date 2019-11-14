@@ -705,10 +705,10 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: [
       "options",
-      "optionalbody"
+      "body"
     ],
     mapper: {
-      serializedName: "optionalbody",
+      serializedName: "body",
       type: {
         name: "Stream"
       }
