@@ -109,10 +109,9 @@ export class Receiver {
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
-   * Following errors are bubbled up to be handled by user provided `onError` handler
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
-   * @throws {MessagingError}  Thrown if the service returns an error for the registerMessageHandler operation.
+   * @throws {MessagingError} Thrown if the service returns an error for the registerMessageHandler operation. These are bubbled up to be handled by user provided `onError` handler.
    */
   registerMessageHandler(
     onMessage: OnMessage,
@@ -705,10 +704,9 @@ export class SessionReceiver {
    * before closing the receiver.
    *
    * @returns void
-   * Following errors are bubbled up to be handled by user provided `onError` handler
    * @throws {Error} Thrown if the underlying connection or receiver is closed.
    * @throws {Error} Thrown if the receiver is already in state of receiving messages.
-   * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service.
+   * @throws {MessagingError} Thrown if any error occurs while receiving messages from the service. These are bubbled up to be handled by user provided `onError` handler.
    */
   registerMessageHandler(
     onMessage: OnMessage,
