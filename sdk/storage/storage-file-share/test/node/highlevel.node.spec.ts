@@ -61,6 +61,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should success for large data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileLarge, {
       concurrency: 20,
       rangeSize: 4 * 1024 * 1024
@@ -78,6 +79,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should success for small data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       concurrency: 20,
       rangeSize: 4 * 1024 * 1024
@@ -95,6 +97,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should abort for large data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const aborter = AbortController.timeout(1);
 
     try {
@@ -110,6 +113,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should abort for small data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const aborter = AbortController.timeout(1);
 
     try {
@@ -125,6 +129,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should update progress for large data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -146,6 +151,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should update progress for small data", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -167,6 +173,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadStream should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
 
@@ -183,6 +190,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadStream should abort", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
 
@@ -197,6 +205,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadStream should update progress event", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
@@ -210,6 +219,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("downloadToBuffer should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
 
@@ -265,6 +275,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("downloadToBuffer should abort", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
 
@@ -282,6 +293,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("downloadToBuffer should update progress event", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileSmall);
     await fileClient.uploadStream(rs, tempFileSmallLength, 4 * 1024 * 1024, 10);
 
@@ -305,6 +317,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("fileClient.download should success when internal stream unexcepted ends at the stream end", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -333,6 +346,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("fileClient.download should download full data successfully when internal stream unexcepted ends", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -362,6 +376,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("fileClient.download should download partial data when internal stream unexcepted ends", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -393,6 +408,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("fileClient.download should download data failed when exceeding max stream retry requests", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -424,6 +440,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("fileClient.download should abort after retrys", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -459,6 +476,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("downloadToFile should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const downloadedFilePath = recorder.getUniqueName("downloadedtofile.");
     const rs = fs.createReadStream(tempFileSmall);
     await fileClient.uploadStream(rs, tempFileSmallLength, 4 * 1024 * 1024, 20);
