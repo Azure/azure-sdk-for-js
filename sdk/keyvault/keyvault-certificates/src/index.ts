@@ -313,7 +313,7 @@ export class CertificateClient {
   /**
    * The base URL to the vault
    */
-  private readonly vaultUrl: string;
+  public readonly vaultUrl: string;
 
   private readonly client: KeyVaultClient;
 
