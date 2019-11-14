@@ -8,13 +8,15 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  isIE
+  isIE,
+  setupEnvironment
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

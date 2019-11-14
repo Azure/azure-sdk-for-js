@@ -4,7 +4,7 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU } from "../utils";
+import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
@@ -12,6 +12,7 @@ import { readStreamToLocalFile } from "../../src/utils/utils.node";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

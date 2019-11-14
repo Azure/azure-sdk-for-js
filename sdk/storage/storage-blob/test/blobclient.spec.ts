@@ -4,13 +4,19 @@ import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

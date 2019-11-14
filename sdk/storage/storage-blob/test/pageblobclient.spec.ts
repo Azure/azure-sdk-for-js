@@ -1,11 +1,17 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
 import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -13,7 +19,7 @@ describe("PageBlobClient", () => {
   let blobClient: BlobClient;
   let pageBlobClient: PageBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

@@ -2,13 +2,14 @@ import * as assert from "assert";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

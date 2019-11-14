@@ -5,9 +5,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "./utils/testutils.common";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
+import { setupEnvironment, testPollerProperties } from "./utils/testutils.common";
 import {
   BlobClient,
   BlockBlobClient,
@@ -19,6 +18,7 @@ import {
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient beginCopyFromURL Poller", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

@@ -6,11 +6,13 @@ import {
   sanitizeURL,
   extractConnectionStringParts
 } from "../src/utils/utils.common";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";

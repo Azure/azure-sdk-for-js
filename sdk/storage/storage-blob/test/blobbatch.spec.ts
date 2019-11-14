@@ -4,7 +4,8 @@ import {
   getGenericBSU,
   getGenericCredential,
   getTokenCredential,
-  SimpleTokenCredential
+  SimpleTokenCredential,
+  setupEnvironment
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { BlobBatch } from "../src/BlobBatch";
@@ -13,6 +14,7 @@ import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from
 dotenv.config({ path: "../.env" });
 
 describe("BlobBatch", () => {
+  setupEnvironment();
   const blobServiceClient = getGenericBSU("");
   const blobBatchClient = blobServiceClient.getBlobBatchClient();
   const credential = getGenericCredential("");
