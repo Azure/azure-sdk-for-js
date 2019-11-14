@@ -129,7 +129,7 @@ export interface PartitionManager {
   listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
 }
 export type SubscriptionEventHandlers = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
-export type SubscriptionOptionsToMakeRequired = 'maxBatchSize' | 'maxWaitTimeInSeconds' | 'ownerLevel';
+export type SubscriptionOptionsToMakeRequired = 'maxWaitTimeInSeconds' | 'ownerLevel';
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -155,7 +155,11 @@ export interface FullEventProcessorOptions extends
   /**
    * A load balancer to use
    */
-  partitionLoadBalancer ?: PartitionLoadBalancer
+  partitionLoadBalancer?: PartitionLoadBalancer
+  /**
+   * The number of events to request per batch
+   */
+  maxBatchSize: number;
 }
 
 /**

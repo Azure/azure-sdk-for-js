@@ -79,11 +79,6 @@ export interface SubscriptionOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventProperties?: boolean;
-
-  /**
-   * The max size of the batch of events passed each time to user code for processing.
-   */
-  maxBatchSize?: number;
   /**
    * The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.

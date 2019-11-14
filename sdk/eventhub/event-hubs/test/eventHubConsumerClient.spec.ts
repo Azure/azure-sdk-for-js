@@ -15,11 +15,11 @@ const env = getEnvVars();
 
 // setting these to be really small since our tests deal with a
 // very low volume of messages.
-const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxBatchSize' | 'maxWaitTimeInSeconds' | 'initialPosition'> = {
-  maxBatchSize: 1,
+const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds' | 'initialPosition'> = {
   maxWaitTimeInSeconds: 10,
 
 
+  
   // TODO: temporary
   initialPosition: EventPosition.latest()
 };

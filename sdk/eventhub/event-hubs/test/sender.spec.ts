@@ -278,7 +278,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           context.setStartPosition(EventPosition.latest());
         }
       }, {
-        maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
         maxWaitTimeInSeconds: 60
       });
       
@@ -288,7 +287,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       await producerClient.sendBatch(batch);
       
-      while (receivedEvents.length === 0) {
+      // Mike didn't make it - the message was too big for the batch 
+      // and was rejected above.
+      while (receivedEvents.length !== (3-1)) {
         await delay(1000);
       }
 

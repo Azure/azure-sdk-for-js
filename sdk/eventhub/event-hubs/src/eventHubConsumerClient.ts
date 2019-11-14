@@ -11,7 +11,7 @@ import {
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, CloseReason, PartitionContext } from "./eventProcessor";
+import { EventProcessor, PartitionManager, CloseReason, PartitionContext, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
@@ -67,8 +67,10 @@ export interface PartitionCheckpointer {
   ): Promise<void>;
 }
 
-const defaultConsumerClientOptions : Required<Pick<SubscriptionOptions, 'maxBatchSize' | 'maxWaitTimeInSeconds'>> = {
-  maxBatchSize: 10,
+const defaultConsumerClientOptions: Required<Pick<FullEventProcessorOptions, 'maxWaitTimeInSeconds' | 'maxBatchSize'>> = {  
+  // to support our current "process single event only" workflow we'll also purposefully 
+  // only request a single event at a time.
+  maxBatchSize: 1,
   maxWaitTimeInSeconds: 10
 };
 

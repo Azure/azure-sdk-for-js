@@ -77,7 +77,6 @@ export class PartitionPump {
         }
         
         for (const event of receivedEvents) {
-          // TODO: in reality we're going to hardcode the size of the batch to be 1
           await this._partitionProcessor.processEvent(event);
         }
       } catch (err) {

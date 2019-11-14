@@ -243,7 +243,6 @@ export interface SubscriptionEventHandlers {
 export interface SubscriptionOptions {
     // (undocumented)
     initialPosition?: EventPosition;
-    maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     trackLastEnqueuedEventProperties?: boolean;
