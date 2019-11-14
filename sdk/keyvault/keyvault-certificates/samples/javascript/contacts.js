@@ -1,4 +1,4 @@
-const { CertificateClient } = require("../../dist");
+ const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates, updates and deletes certificate contacts.

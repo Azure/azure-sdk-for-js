@@ -768,13 +768,13 @@ export class CertificateClient {
    * const client = new CertificateClient(url, credentials);
    * await client.createIssuer("IssuerName", "Provider");
    * // All in one call
-   * for await (const issuer of client.listIssuers()) {
-   *   console.log(issuer);
+   * for await (const issuerProperties of client.listPropertiesOfIssuers()) {
+   *   console.log(issuerProperties);
    * }
    * // By pages
-   * for await (const page of client.listIssuers().byPage()) {
-   *   for (const issuer of page) {
-   *     console.log(issuer);
+   * for await (const page of client.listPropertiesOfIssuers().byPage()) {
+   *   for (const issuerProperties of page) {
+   *     console.log(issuerProperties);
    *   }
    * }
    * ```
@@ -1297,13 +1297,13 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.beginCreateCertificate("MyCertificate", {
+   * const createPoller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * const poller = await client.getCertificateOperation("MyCertificate");
-   * const pendingCertificate = poller.getResult();
+   * const pendingCertificate = createPoller.getResult();
    * console.log(pendingCertificate);
+   * const poller = await client.getCertificateOperation("MyCertificate");
    * const certificateOperation = poller.getResult();
    * console.log(certificateOperation);
    * ```

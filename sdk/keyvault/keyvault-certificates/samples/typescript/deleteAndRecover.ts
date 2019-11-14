@@ -31,7 +31,8 @@ async function main(): Promise<void> {
   const deletedCertificate = await deletePoller.pollUntilDone();
   console.log("Deleted certificate: ", deletedCertificate);
 
-  const certificateWithPolicy = await client.beginRecoverDeletedCertificate("MyCertificate");
+  const recoverPoller = await client.beginRecoverDeletedCertificate("MyCertificate");
+  const certificateWithPolicy = await recoverPoller.pollUntilDone();
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 

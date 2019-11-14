@@ -32,9 +32,9 @@ async function main() {
 
   // Listing all the available certificates in a single call.
   // The certificates we just created are still pending at this point.
-  let listCertificates = client.listCertificates({ includePending: true });
+  let listPropertiesOfCertificates = client.listPropertiesOfCertificates({ includePending: true });
   while (true) {
-    let { done, value } = await listCertificates.next();
+    let { done, value } = await listPropertiesOfCertificates.next();
     if (done) {
       break;
     }
@@ -43,14 +43,14 @@ async function main() {
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listCertificatesByPage = client.listCertificates({ includePending: true }).byPage();
+  let listPropertiesOfCertificatesByPage = client.listPropertiesOfCertificates({ includePending: true }).byPage();
   while (true) {
-    let { done, value } = await listCertificatesByPage.next();
+    let { done, value } = await listPropertiesOfCertificatesByPage.next();
     if (done) {
       break;
     }
-    for (const certificate of value) {
-      console.log(`Certificate from page ${pageCount}: `, certificate);
+    for (const certificateProperties of value) {
+      console.log(`Certificate properties from page ${pageCount}: `, certificateProperties);
     }
     pageCount++;
   }
@@ -64,15 +64,15 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listCertificateVersions = client.listCertificateVersions(certificateName1, {
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {
     includePending: true
   });
   while (true) {
-    let { done, value } = await listCertificateVersions.next();
+    let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {
       break;
     }
-    const version = value.properties.version;
+    const version = value.version;
     const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
