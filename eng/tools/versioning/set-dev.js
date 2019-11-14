@@ -126,34 +126,33 @@ async function main(argv) {
 
   var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
 
-  // Set all the new versions
-  console.log(`Updating packages with build ID ${buildId}`);
+  let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
     if (
-      (rushPackages[package].versionPolicy == "client" ||
-        rushPackages[package].versionPolicy == "core") &&
-      rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
+      ["client", "core"].includes(rushPackages[package].versionPolicy)
+      && rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
     ) {
-      console.log("package updated = ");
-      console.log(package);
-      rushPackages = updatePackageVersion(rushPackages, package, buildId);
-      console.log(rushPackages[package].newVer);
+      targetPackages.push(package);
     }
   }
 
+
+  // Set all the new versions
+  console.log(`Updating packages with build ID ${buildId}`);
+  for (const package of targetPackages) {
+    console.log("package updated = ");
+    console.log(package);
+    rushPackages = updatePackageVersion(rushPackages, package, buildId);
+    console.log(rushPackages[package].newVer);
+  }
+
   // Update any references to internal projects with the new versions
-  for (const package of Object.keys(rushPackages)) {
-    if (
-      (rushPackages[package].versionPolicy == "client" ||
-        rushPackages[package].versionPolicy == "core") &&
-      rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
-    ) {
-      rushPackages = updateInternalDependencyVersions(
-        rushPackages,
-        package,
-        buildId
-      );
-    }
+  for (const package of targetPackages) {
+    rushPackages = updateInternalDependencyVersions(
+      rushPackages,
+      package,
+      buildId
+    );
   }
 
   for (const package of Object.keys(rushPackages)) {
