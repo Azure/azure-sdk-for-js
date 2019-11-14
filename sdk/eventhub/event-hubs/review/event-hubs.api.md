@@ -157,11 +157,11 @@ export interface PartitionCheckpointer {
     updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PartitionContextBase" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface PartitionContext {
-    consumerGroupName: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
+export interface PartitionContext extends PartitionContextBase {
+    lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
     partitionId: string;
 }
 
@@ -241,10 +241,10 @@ export interface SubscriptionEventHandlers {
 
 // @public
 export interface SubscriptionOptions {
-    // (undocumented)
-    initialPosition?: EventPosition;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    // (undocumented)
+    tempDefaultEventPosition?: EventPosition;
     trackLastEnqueuedEventProperties?: boolean;
 }
 

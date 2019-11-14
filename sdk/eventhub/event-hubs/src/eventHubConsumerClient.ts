@@ -8,10 +8,9 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
 } from "./impl/eventHubClient";
-import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, CloseReason, PartitionContext, FullEventProcessorOptions } from "./eventProcessor";
+import { EventProcessor, PartitionManager, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
@@ -301,15 +300,10 @@ export class EventHubConsumerClient {
 
       const partitionManager = new InMemoryPartitionManager();
 
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        optionsOrHandlers2
-      );
-
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
-        partitionProcessorType,
+        optionsOrHandlers2,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -325,15 +319,10 @@ export class EventHubConsumerClient {
       const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
       const partitionManager = handlersOrPartitionIdOrPartitionManager1;
 
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        optionsOrHandlers2
-      );
-
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
-        partitionProcessorType,
+        optionsOrHandlers2,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -346,15 +335,11 @@ export class EventHubConsumerClient {
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
       const subscriptionOptions = optionsOrHandlers2 as (SubscriptionOptions | undefined);
       const partitionManager = new InMemoryPartitionManager();
-      const partitionProcessorType = createPartitionProcessorType(
-        partitionManager,
-        handlersOrPartitionIdOrPartitionManager1
-      );
 
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
-        partitionProcessorType,
+        handlersOrPartitionIdOrPartitionManager1,
         partitionManager,
         {
           ...defaultConsumerClientOptions,
@@ -374,47 +359,6 @@ export class EventHubConsumerClient {
       close: () => eventProcessor.stop()
     };
   }
-}
-
-/**
- * @ignore
- */
-export function createPartitionProcessorType(
-  partitionManager: PartitionManager,
-  options: SubscriptionEventHandlers
-): typeof PartitionProcessor {
-  class DefaultPartitionProcessor extends PartitionProcessor {
-    private _partitionCheckpointer?: SimplePartitionCheckpointer;
-
-    async processEvent(event: ReceivedEventData): Promise<void> {
-      await options.processEvent(
-        event,
-        this._partitionCheckpointer!
-      );
-    }
-
-    async processError(error: Error): Promise<void> {
-      if (options.processError) {
-        await options.processError(error, this._partitionCheckpointer!);
-      }
-    }
-
-    async initialize() {
-      this._partitionCheckpointer = new SimplePartitionCheckpointer(partitionManager, this, this.eventHubName, this.consumerGroupName, this.partitionId, this.fullyQualifiedNamespace);
-
-      if (options.processInitialize) {
-        await options.processInitialize(this._partitionCheckpointer);
-      }
-    }
-
-    async close(reason: CloseReason) {
-      if (options.processClose) {
-        await options.processClose(reason, this._partitionCheckpointer!);
-      }
-    }
-  }
-
-  return DefaultPartitionProcessor;
 }
 
 /**
@@ -443,51 +387,6 @@ export function isPartitionManager(
  */
 function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers): possible is SubscriptionEventHandlers {
   return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
-}
-
-class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionContext, SubscriptionPartitionInitializer {
-  // private _eTag: string = "";
-
-  constructor(private _manager: PartitionManager, private _processor: PartitionProcessor, public eventHubName: string, public consumerGroupName: string, public partitionId: string, public fullyQualifiedNamespace: string) {   }
-
-  async updateCheckpoint(
-    eventData: ReceivedEventData
-  ): Promise<void>;
-  async updateCheckpoint(
-    sequenceNumber: number,
-    offset: number
-  ): Promise<void>;
-  async updateCheckpoint(
-    eventDataOrSequenceNumber: ReceivedEventData | number,
-    offset?: number
-  ): Promise<void> {
-    const checkpoint: Checkpoint = {
-      fullyQualifiedNamespace: this._processor.fullyQualifiedNamespace!,
-      eventHubName: this._processor.eventHubName!,
-      consumerGroupName: this._processor.consumerGroupName!,
-      partitionId: this._processor.partitionId!,
-      sequenceNumber:
-        typeof eventDataOrSequenceNumber === "number"
-          ? eventDataOrSequenceNumber
-          : eventDataOrSequenceNumber.sequenceNumber,
-      offset:
-        typeof offset === "number"
-          ? offset
-          : (eventDataOrSequenceNumber as ReceivedEventData).offset,
-      // TODO: doesn't seem right...
-      // I believe this isn't needed anymore because it's primary purpose was to prevent
-      // issues with checkpoints and ownership being stored in the same blob's metadata.
-      // TOOD: check with @chradek.
-      // eTag: this._eTag
-    };
-
-    // this._eTag = await this._manager.updateCheckpoint(checkpoint);
-    await this._manager.updateCheckpoint(checkpoint);
-  }
-
-  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void {
-    // TODO: fill in once I remove this class entirely
-  } 
 }
 
 function getOwnerLevel(options?: SubscriptionOptions) : number {

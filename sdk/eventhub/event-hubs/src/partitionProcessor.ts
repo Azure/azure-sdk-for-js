@@ -1,6 +1,9 @@
 import { CloseReason, PartitionManager, PartitionContext } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
+import { SubscriptionEventHandlers, SubscriptionPartitionContext } from './eventHubConsumerClientModels';
+import { PartitionCheckpointer, EventPosition } from '.';
+import { SubscriptionPartitionInitializer } from './eventHubConsumerClient';
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -33,14 +36,16 @@ export interface Checkpoint extends PartitionContext {
  * - Optionally override the `initialize()` method to implement any set up related tasks you would want to carry out before starting to receive events from the partition
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
-export class PartitionProcessor {
-  private _partitionManager: PartitionManager | undefined;
-  private _consumerGroupName: string | undefined;
-  private _fullyQualifiedNamespace: string | undefined;
-  private _eventHubName: string | undefined;
-  private _eventProcessorId: string | undefined;
-  private _partitionId: string | undefined;
-  private _lastEnqueuedEventProperties: LastEnqueuedEventProperties | undefined;
+export class PartitionProcessor implements PartitionCheckpointer, SubscriptionPartitionContext {
+  private _lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
+
+  constructor(
+    private _eventHandlers: SubscriptionEventHandlers,
+    private _partitionManager: PartitionManager,
+    private _context: PartitionContext & {
+    eventProcessorId: string
+  }) {
+  }
 
   /**
    * @property Information on the last enqueued event in the partition that is being processed.
@@ -66,16 +71,7 @@ export class PartitionProcessor {
    * @readonly
    */
   public get fullyQualifiedNamespace() {
-    return this._fullyQualifiedNamespace!;
-  }
-
-  /**
-   * @property The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
-   */
-  public set fullyQualifiedNamespace(fullyQualifiedNamespace: string) {
-    if (!this._fullyQualifiedNamespace) {
-      this._fullyQualifiedNamespace = fullyQualifiedNamespace;
-    }
+    return this._context.fullyQualifiedNamespace;
   }
 
   /**
@@ -83,16 +79,7 @@ export class PartitionProcessor {
    * @readonly
    */
   public get consumerGroupName() {
-    return this._consumerGroupName!;
-  }
-
-  /**
-   * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
-   */
-  public set consumerGroupName(consumerGroupName: string) {
-    if (!this._consumerGroupName) {
-      this._consumerGroupName = consumerGroupName;
-    }
+    return this._context.consumerGroupName!;
   }
 
   /**
@@ -100,16 +87,7 @@ export class PartitionProcessor {
    * @readonly
    */
   public get eventHubName() {
-    return this._eventHubName!;
-  }
-
-  /**
-   * @property The name of the event hub to which the current partition belongs. It is set by the `EventProcessor`
-   */
-  public set eventHubName(eventHubName: string) {
-    if (!this._eventHubName) {
-      this._eventHubName = eventHubName;
-    }
+    return this._context.eventHubName;
   }
 
   /**
@@ -117,41 +95,14 @@ export class PartitionProcessor {
    * @readonly
    */
   public get partitionId() {
-    return this._partitionId!;
-  }
-
-  /**
-   * @property The identifier of the Event Hub partition that is being processed. It is set by the `EventProcessor`
-   */
-  public set partitionId(partitionId: string) {
-    if (!this._partitionId) {
-      this._partitionId = partitionId;
-    }
+    return this._context.partitionId;
   }
 
   /**
    * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
    */
   public get eventProcessorId() {
-    return this._eventProcessorId!;
-  }
-
-  /**
-   * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
-   */
-  public set eventProcessorId(eventProcessorId: string) {
-    if (!this._eventProcessorId) {
-      this._eventProcessorId = eventProcessorId;
-    }
-  }
-
-  /**
-   * @property The Partition Manager used for checkpointing events. This is set by the `EventProcessor`
-   */
-  public set checkpointManager(checkpointManager: PartitionManager) {
-    if (!this._partitionManager) {
-      this._partitionManager = checkpointManager;
-    }
+    return this._context.eventProcessorId;
   }
 
   /**
@@ -160,7 +111,21 @@ export class PartitionProcessor {
    *
    * @return {Promise<void>}
    */
-  async initialize(): Promise<void> {}
+  async initialize(partitionInitializer: SubscriptionPartitionInitializer): Promise<void> {
+    if (this._eventHandlers.processInitialize) {
+      await this._eventHandlers.processInitialize({
+        consumerGroupName: this.consumerGroupName,
+        eventHubName: this.eventHubName,
+        fullyQualifiedNamespace: this.fullyQualifiedNamespace,
+        lastEnqueuedEventProperties: this.lastEnqueuedEventProperties,
+        partitionId: this.partitionId,
+        setStartPosition: (startPosition: EventPosition | "earliest" | "latest") => {
+          partitionInitializer.setStartPosition(startPosition);
+        },
+        updateCheckpoint: this.updateCheckpoint
+      });
+    }
+  }
 
   /**
    * This method is called before the partition processor is closed by the EventProcessor.
@@ -168,7 +133,11 @@ export class PartitionProcessor {
    * @param reason The reason for closing this partition processor.
    * @return {Promise<void>}
    */
-  async close(reason: CloseReason): Promise<void> {}
+  async close(reason: CloseReason): Promise<void> {
+    if (this._eventHandlers.processClose) {
+      await this._eventHandlers.processClose(reason, this);
+    }
+  }
 
   /**
    * This method is called when new events are received.
@@ -178,7 +147,9 @@ export class PartitionProcessor {
    * @param event The received events to be processed.
    * @return {Promise<void>}
    */
-  async processEvent(event: ReceivedEventData): Promise<void> {}
+  async processEvent(event: ReceivedEventData): Promise<void> {
+    await this._eventHandlers.processEvent(event, this);
+  }
 
   /**
    * This method is called when an error occurs while receiving events from Event Hubs.
@@ -186,7 +157,11 @@ export class PartitionProcessor {
    * @param error The error to be processed.
    * @return {Promise<void>}
    */
-  async processError(error: Error): Promise<void> {}
+  async processError(error: Error): Promise<void> {
+    if (this._eventHandlers.processError) {
+      await this._eventHandlers.processError(error, this);
+    }
+  }
 
   /**
    * Updates the checkpoint using the event data.
@@ -208,16 +183,24 @@ export class PartitionProcessor {
    * @param offset The offset of the event that you want to update the checkpoint with.
    * @return  Promise<void>.
    */
+
+  // TODO: this means I can also get rid of my Simple Checkpointer adapter since this code is hosted in partition processor
   public async updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
   public async updateCheckpoint(
     eventDataOrSequenceNumber: ReceivedEventData | number,
     offset?: number
   ): Promise<void> {
+    
+    
+    console.log(`updating checkpointing with ${this._context}`);
+
+
+    
     const checkpoint: Checkpoint = {
-      fullyQualifiedNamespace: this._fullyQualifiedNamespace!,
-      eventHubName: this._eventHubName!,
-      consumerGroupName: this._consumerGroupName!,
-      partitionId: this._partitionId!,
+      fullyQualifiedNamespace: this._context.fullyQualifiedNamespace,
+      eventHubName: this._context.eventHubName,
+      consumerGroupName: this._context.consumerGroupName,
+      partitionId: this._context.partitionId,
       sequenceNumber:
         typeof eventDataOrSequenceNumber === "number"
           ? eventDataOrSequenceNumber

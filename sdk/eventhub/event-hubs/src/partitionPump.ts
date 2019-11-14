@@ -4,7 +4,7 @@
 import * as log from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition } from "./eventPosition";
+import { EventPosition, isEarliestEventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
@@ -39,7 +39,27 @@ export class PartitionPump {
   async start(): Promise<void> {
     this._isReceiving = true;
     try {
-      await this._partitionProcessor.initialize();
+      await this._partitionProcessor.initialize({
+        setStartPosition: (startPosition) => {
+          if (isEarliestEventPosition(this._initialEventPosition)) {
+
+            if (typeof startPosition === "string") {
+              switch (startPosition) {
+                case "earliest":
+                  this._initialEventPosition = EventPosition.earliest();
+                  break;
+                case "latest":
+                  this._initialEventPosition = EventPosition.latest();
+                  break;
+                default:
+                  throw new TypeError(`Invalid start position name ${startPosition}`);
+              }
+            } else {
+              this._initialEventPosition = startPosition;
+            }
+          }
+        }
+      });
     } catch {
       // swallow the error from the user-defined code
     }

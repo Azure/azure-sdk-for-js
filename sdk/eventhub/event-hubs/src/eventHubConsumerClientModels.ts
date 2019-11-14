@@ -35,6 +35,8 @@ export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionC
 /**
  * Called when we first start processing events from a partition.
  */
+
+ // TODO: combine the various Subscription<blah> types into a single type (for the usages needed)
 export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
 
 /**
@@ -92,7 +94,7 @@ export interface SubscriptionOptions {
 
 
   // TODO: temporary
-  initialPosition?: EventPosition;
+  tempDefaultEventPosition?: EventPosition;
 }
 
 /**

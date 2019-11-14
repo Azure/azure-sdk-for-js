@@ -15,13 +15,13 @@ const env = getEnvVars();
 
 // setting these to be really small since our tests deal with a
 // very low volume of messages.
-const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds' | 'initialPosition'> = {
+const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds' | 'tempDefaultEventPosition'> = {
   maxWaitTimeInSeconds: 10,
 
 
   
   // TODO: temporary
-  initialPosition: EventPosition.latest()
+  tempDefaultEventPosition: EventPosition.latest()
 };
 
 describe("EventHubConsumerClient", () => {
