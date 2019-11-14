@@ -6,7 +6,7 @@ import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 
@@ -15,7 +15,7 @@ describe("RetryPolicy", () => {
   let queueName: string;
   let queueClient: QueueClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

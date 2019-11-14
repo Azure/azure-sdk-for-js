@@ -3,7 +3,7 @@ import { AbortController } from "@azure/abort-controller";
 
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -13,7 +13,7 @@ describe("Aborter", () => {
   let queueName: string;
   let queueClient: QueueClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

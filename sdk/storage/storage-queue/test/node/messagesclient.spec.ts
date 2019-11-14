@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
@@ -13,7 +13,7 @@ describe("QueueClient message methods, Node.js only", () => {
   let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -11,7 +11,7 @@ describe("QueueClient", () => {
   let queueName: string;
   let queueClient: QueueClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

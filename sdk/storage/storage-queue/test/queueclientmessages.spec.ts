@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
@@ -12,7 +12,7 @@ describe("QueueClient message methods", () => {
   let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
