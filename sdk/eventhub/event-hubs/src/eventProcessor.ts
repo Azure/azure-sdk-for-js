@@ -293,7 +293,12 @@ export class EventProcessor {
       let eventPosition: EventPosition;
 
       if (validCheckpoints.length == 0) {
-        eventPosition = EventPosition.earliest();
+
+        if (this._processorOptions.initialPosition) {
+          eventPosition = this._processorOptions.initialPosition;
+        } else {
+          eventPosition = EventPosition.earliest();
+        }
       } else {
         eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
       }

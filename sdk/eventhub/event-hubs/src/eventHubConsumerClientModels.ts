@@ -3,6 +3,7 @@ import { CloseReason, PartitionContext } from './eventProcessor';
 import { PartitionCheckpointer, SubscriptionPartitionInitializer } from './eventHubConsumerClient';
 import { ReceivedEventData } from './eventData';
 import { LastEnqueuedEventProperties } from './eventHubReceiver';
+import { EventPosition } from './eventPosition';
 
 /**
  * An interface with identifying information for a partition that can also update checkpoints.
@@ -94,6 +95,10 @@ export interface SubscriptionOptions {
    */
   // TODO: plumb this through
   ownerLevel?: number;
+
+
+  // TODO: temporary
+  initialPosition?: EventPosition;
 }
 
 /**

@@ -44,7 +44,6 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     context: PartitionContext & PartitionCheckpointer
   ): Promise<void> {
     this.contextIsOk(context);
-
     await context.updateCheckpoint(event);
     this.expectedMessageBodies.delete(event.body);
 

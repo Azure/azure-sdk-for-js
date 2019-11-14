@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient, Subscription, SubscriptionOptions } from "../src";
+import { InMemoryPartitionManager, EventHubProducerClient, Subscription, SubscriptionOptions, EventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -15,16 +15,20 @@ const env = getEnvVars();
 
 // setting these to be really small since our tests deal with a
 // very low volume of messages.
-const defaultSubscriptionOptions: Pick<SubscriptionOptions, 'maxBatchSize' | 'maxWaitTimeInSeconds'> = {
+const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxBatchSize' | 'maxWaitTimeInSeconds' | 'initialPosition'> = {
   maxBatchSize: 1,
-  maxWaitTimeInSeconds: 10
+  maxWaitTimeInSeconds: 10,
+
+
+  // TODO: temporary
+  initialPosition: EventPosition.latest()
 };
 
-describe.only("EventHubConsumerClient", () => {
+describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
-        ...defaultSubscriptionOptions,
+        ...defaultSubscriptionOptionsForTests,
         processEvents: async () => { },
         processClose: async () => {}
       }).should.not.ok;
@@ -94,10 +98,7 @@ describe.only("EventHubConsumerClient", () => {
       const subscription = await client.subscribe(
         "0",
         tester,
-        {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 10      
-        }
+        defaultSubscriptionOptionsForTests
       );
 
       subscriptions.push(subscription);
@@ -106,7 +107,7 @@ describe.only("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it.only("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
       void
     > {
       const logTester = new LogTester(
@@ -121,10 +122,7 @@ describe.only("EventHubConsumerClient", () => {
 
       const subscription = await client.subscribe(
         tester,
-        {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 10      
-        }
+        defaultSubscriptionOptionsForTests
       );
 
       await tester.runTestAndPoll(producerClient);
@@ -153,7 +151,7 @@ describe.only("EventHubConsumerClient", () => {
         inMemoryPartitionManager,
         tester,
         {
-          maxBatchSize: 1,
+          ...defaultSubscriptionOptionsForTests,
           maxWaitTimeInSeconds: 60
         }
       );
@@ -164,7 +162,7 @@ describe.only("EventHubConsumerClient", () => {
          inMemoryPartitionManager,
         tester,
         {
-          maxBatchSize: 1,
+          ...defaultSubscriptionOptionsForTests,
           maxWaitTimeInSeconds: 60      
         }
       );

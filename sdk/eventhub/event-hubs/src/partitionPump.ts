@@ -53,7 +53,13 @@ export class PartitionPump {
       partitionId,
       this._initialEventPosition,
       {
+
+
+// TODO: let's get this owner level configurable up higher.
+
         ownerLevel: 0,
+
+
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
       }
     );
