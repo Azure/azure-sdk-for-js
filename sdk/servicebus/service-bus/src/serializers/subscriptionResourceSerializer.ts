@@ -49,7 +49,7 @@ export function buildSubscriptionOptions(
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
       subscriptionOptions.forwardDeadLetteredMessagesTo
     ),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.maxWaitTimeForAutoDelete)
+    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
   };
 }
 
@@ -82,10 +82,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTimeToLive"
     ),
-    maxWaitTimeForAutoDelete: getString(
-      rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
-      "maxWaitTimeForAutoDelete"
-    ),
+    autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
     deadLetteringOnMessageExpiration: getBoolean(
       rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
@@ -171,7 +168,7 @@ export interface SubscriptionOptions {
    * Max idle time before entity is deleted.
    *
    */
-  maxWaitTimeForAutoDelete?: string;
+  autoDeleteOnIdle?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
@@ -366,7 +363,7 @@ export interface SubscriptionDetails {
    * Max idle time before entity is deleted
    *
    */
-  maxWaitTimeForAutoDelete: string;
+  autoDeleteOnIdle: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.

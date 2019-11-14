@@ -44,7 +44,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
     MessageCount: getStringOrUndefined(queueOptions.messageCount),
     AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
-    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.maxWaitTimeForAutoDelete),
+    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
@@ -83,7 +83,7 @@ export function buildQueue(rawQueue: any): QueueDetails {
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTimeToLive"
     ),
-    maxWaitTimeForAutoDelete: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
+    autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
     requiresDuplicateDetection: getBoolean(
       rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION],
@@ -161,7 +161,7 @@ export interface QueueOptions {
    * Max idle time before entity is deleted.
    *
    */
-  maxWaitTimeForAutoDelete?: string;
+  autoDeleteOnIdle?: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
@@ -372,7 +372,7 @@ export interface QueueDetails {
    * Max idle time before entity is deleted.
    *
    */
-  maxWaitTimeForAutoDelete: string;
+  autoDeleteOnIdle: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.

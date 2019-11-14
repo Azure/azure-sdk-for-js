@@ -430,7 +430,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     input: undefined,
     output: {
       authorizationRules: undefined,
-      maxWaitTimeForAutoDelete: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
@@ -471,7 +471,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
       enableBatchedOperations: false,
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -508,7 +508,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: 8,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -583,7 +583,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     input: undefined,
     output: {
       authorizationRules: undefined,
-      maxWaitTimeForAutoDelete: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
@@ -633,7 +633,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       enablePartitioning: true,
       supportOrdering: false
     },
@@ -644,7 +644,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: 20,
       defaultMessageTimeToLive: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
@@ -712,7 +712,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
-      maxWaitTimeForAutoDelete: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
@@ -744,7 +744,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // This should be a proper URL else the service returns an error
       // forwardDeadLetteredMessagesTo: "",
       defaultMessageTimeToLive: "P2D",
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -764,7 +764,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
       defaultMessageTimeToLive: "P2D",
-      maxWaitTimeForAutoDelete: "PT1H",
+      autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
