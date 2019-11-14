@@ -1,10 +1,7 @@
 # Azure Key Vault Certificates client library for JS
 
-Azure Key Vault is a service that allows you to encrypt authentication
-keys, storage account keys, data encryption keys, .pfx files, and
-passwords by using keys that are protected by hardware security
-modules (HSMs). If you would like to know more about Azure Key Vault, you may
-want to review "[What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
+Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Certificates allows you to securely manage, store and
 tightly control your certificates.
@@ -176,6 +173,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
+  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"
@@ -202,6 +200,8 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
+
+// Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
 const certificatePolicy = {
   issuerName: "Self",
   subject: "cn=MyCert"
@@ -436,6 +436,7 @@ const certificateName = "MyCertificateName";
 
 async function main() {
   const result = client.getCertificate(certificateName);
+  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"
