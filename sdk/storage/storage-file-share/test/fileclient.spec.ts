@@ -452,7 +452,8 @@ describe("FileClient", () => {
       assert.fail();
       // tslint:disable-next-line:no-empty
     } catch (err) {
-      assert.ok((err.message as string).toLowerCase().includes("aborted"));
+      assert.equal(err.name, "AbortError");
+      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
   });
