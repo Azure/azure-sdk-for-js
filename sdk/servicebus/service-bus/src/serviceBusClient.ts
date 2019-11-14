@@ -201,7 +201,6 @@ export class ServiceBusClient {
    * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
-   * @throws {Error} Thrown if the connection string contents were malformed.
    */
   static createFromTokenProvider(
     host: string,
@@ -241,7 +240,6 @@ export class ServiceBusClient {
    * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
-   * @throws {Error} Thrown if the connection string contents were malformed.
    * @throws {Error} Thrown if `createFromAadTokenCredentials` is accessed in browser context, as AAD support is not present in browser.
    */
   static createFromAadTokenCredentials(
