@@ -9,7 +9,7 @@ import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe.only("Aborter", () => {
+describe("Aborter", () => {
   setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
