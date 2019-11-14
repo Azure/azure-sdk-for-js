@@ -83,7 +83,8 @@ export class CertificateClient {
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateCertificatePolicy(certificateName: string, certificatePolicy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
-    }
+    readonly vaultUrl: string;
+}
 
 // @public
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
