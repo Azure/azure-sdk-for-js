@@ -1,8 +1,9 @@
-import { getBSU } from "../utils";
+import { getBSU, setupEnvironment } from "../utils";
 import { ShareClient } from "../../src";
 import { Recorder, record } from "@azure/test-utils-recorder";
 
 describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

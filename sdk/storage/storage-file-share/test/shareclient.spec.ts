@@ -1,11 +1,12 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
 import { ShareClient } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

@@ -1,12 +1,13 @@
 import * as assert from "assert";
 
-import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
+  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(function() {

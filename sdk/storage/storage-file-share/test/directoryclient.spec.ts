@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -9,6 +9,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

@@ -3,13 +3,14 @@ import * as assert from "assert";
 import { AbortController } from "@azure/abort-controller";
 import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

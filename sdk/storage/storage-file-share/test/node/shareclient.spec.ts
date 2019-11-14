@@ -1,9 +1,10 @@
 import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment } from "./../utils";
+import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "./../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("ShareClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

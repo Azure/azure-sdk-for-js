@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU } from "../utils";
+import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
@@ -12,6 +12,7 @@ dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Highlevel Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

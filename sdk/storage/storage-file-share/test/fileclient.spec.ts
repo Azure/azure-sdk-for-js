@@ -5,7 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { getBSU, bodyToString } from "./utils";
+import { getBSU, bodyToString, setupEnvironment } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -13,6 +13,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

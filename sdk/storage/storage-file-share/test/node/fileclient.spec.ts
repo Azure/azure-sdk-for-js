@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU } from "../utils";
+import { bodyToString, getBSU, setupEnvironment } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -14,6 +14,7 @@ import {
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;

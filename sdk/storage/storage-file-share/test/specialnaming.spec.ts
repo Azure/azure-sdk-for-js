@@ -1,5 +1,5 @@
 import { ShareFileClient } from "../src/ShareFileClient";
-import { getBSU } from "./utils/index";
+import { getBSU, setupEnvironment } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
@@ -9,6 +9,7 @@ import { ShareClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
