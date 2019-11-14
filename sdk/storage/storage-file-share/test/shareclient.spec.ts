@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { ShareClient } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
@@ -10,7 +10,7 @@ describe("ShareClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

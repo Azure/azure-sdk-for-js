@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -15,7 +15,7 @@ describe("DirectoryClient", () => {
   let dirName: string;
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
-  let recorder: any;
+  let recorder: Recorder;
   let fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
@@ -213,7 +213,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -269,7 +269,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -330,7 +330,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -372,7 +372,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -420,7 +420,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -469,7 +469,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );

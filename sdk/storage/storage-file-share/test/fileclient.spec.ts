@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
@@ -23,7 +23,7 @@ describe("FileClient", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let fullFileAttributes = new FileSystemAttributes();
   fullFileAttributes.readonly = true;

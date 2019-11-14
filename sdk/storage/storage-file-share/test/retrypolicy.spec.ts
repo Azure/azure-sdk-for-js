@@ -5,7 +5,7 @@ import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 
@@ -14,7 +14,7 @@ describe("RetryPolicy", () => {
   let shareName: string;
   let shareClient: ShareClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

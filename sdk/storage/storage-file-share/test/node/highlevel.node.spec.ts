@@ -7,7 +7,7 @@ import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
@@ -25,7 +25,7 @@ describe("Highlevel Node.js only", () => {
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

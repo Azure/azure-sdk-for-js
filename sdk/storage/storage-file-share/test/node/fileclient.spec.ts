@@ -11,7 +11,7 @@ import {
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
   const serviceClient = getBSU();
@@ -23,7 +23,7 @@ describe("FileClient Node.js only", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -159,7 +159,7 @@ describe("FileClient Node.js only", () => {
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiresOn = recorder.newDate();
+    const expiresOn = recorder.newDate("now");
     expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
