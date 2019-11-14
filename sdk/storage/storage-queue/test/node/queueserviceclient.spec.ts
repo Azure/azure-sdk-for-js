@@ -6,8 +6,10 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { newPipeline } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { setupEnvironment } from "../utils/testutils.common";
 
 describe("QueueServiceClient Node.js only", () => {
+  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(function() {

@@ -4,9 +4,11 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;

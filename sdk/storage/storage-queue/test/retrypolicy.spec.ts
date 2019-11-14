@@ -7,10 +7,12 @@ import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "./utils/testutils.common";
 
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;

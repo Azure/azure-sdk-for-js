@@ -5,10 +5,12 @@ import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe("Aborter", () => {
+describe.only("Aborter", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
@@ -32,6 +34,10 @@ describe("Aborter", () => {
   });
 
   it("should abort when calling abort() before request finishes", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     const aborter = new AbortController();
     const response = queueClient.create({ abortSignal: aborter.signal });
     aborter.abort();
@@ -52,6 +58,10 @@ describe("Aborter", () => {
   });
 
   it("should abort after aborter timeout", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     try {
       await queueClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
@@ -62,6 +72,10 @@ describe("Aborter", () => {
   });
 
   it("should abort after parent aborter calls abort()", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     try {
       const aborter = new AbortController();
       const childAborter = new AbortController(

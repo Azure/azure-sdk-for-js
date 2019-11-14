@@ -4,9 +4,11 @@ import { QueueClient } from "../src/QueueClient";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient messageId methods", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;

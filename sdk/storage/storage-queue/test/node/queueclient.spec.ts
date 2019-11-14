@@ -4,8 +4,10 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { setupEnvironment } from "../utils/testutils.common";
 
 describe("QueueClient Node.js only", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;

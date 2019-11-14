@@ -6,8 +6,10 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { newPipeline } from "../../src";
+import { setupEnvironment } from "../utils/testutils.common";
 
 describe("QueueClient message methods, Node.js only", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
