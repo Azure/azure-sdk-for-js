@@ -25,16 +25,16 @@ The environment variables needed are:
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
-Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see the section below).
+Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
 
 ## Regenerating recordings
 
 If you modify the test files, the API shape of this library, or the underlying network calls, the recordings need to be re-generated before you run the unit tests.
 
-To re-generate the recordings, populate the environment variable `TEST_MODE` with the value `record` before running the integration tests. Once the integration tests finish,
+To re-generate the recordings, set the environment variable `TEST_MODE` to `record` and then run the integration tests. Once the integration tests finish,
 the recordings will be updated.
 
 ## The common recorder
 
 Our tests use our library [test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder).
-For any other question or if you want to help us get better at testing, please continue reading the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
+For any other question or if you want to help us get better at testing, please read the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
