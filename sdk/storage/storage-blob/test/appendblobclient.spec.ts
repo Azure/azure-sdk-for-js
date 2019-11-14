@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });

@@ -6,7 +6,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts
 } from "../src/utils/utils.common";
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {

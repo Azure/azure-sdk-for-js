@@ -2,7 +2,7 @@ import { BlockBlobClient } from "../src";
 import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });

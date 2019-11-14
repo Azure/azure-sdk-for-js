@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, isSuperSet } from "./utils";
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import { ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });

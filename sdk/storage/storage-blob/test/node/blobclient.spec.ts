@@ -14,7 +14,7 @@ import {
 import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "../utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {

@@ -10,7 +10,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "../utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 
 describe("ContainerClient Node.js only", () => {
   const blobServiceClient = getBSU();

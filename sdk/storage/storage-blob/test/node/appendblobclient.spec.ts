@@ -12,7 +12,7 @@ import {
 import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "../utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 dotenv.config({ path: "../.env" });
 

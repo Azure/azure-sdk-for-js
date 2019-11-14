@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { base64encode, bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
@@ -210,6 +210,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("can be created with a sas connection string", async () => {
+    recorder.skip("node", "SAS token is not handled in playback");
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,

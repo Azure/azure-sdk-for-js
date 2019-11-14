@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 dotenv.config({ path: "../.env" });
 

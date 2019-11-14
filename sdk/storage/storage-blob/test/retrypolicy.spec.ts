@@ -7,7 +7,7 @@ import { ContainerClient, RestError } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 

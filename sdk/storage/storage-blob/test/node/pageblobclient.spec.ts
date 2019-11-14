@@ -12,7 +12,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "../utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 
 describe("PageBlobClient Node.js only", () => {

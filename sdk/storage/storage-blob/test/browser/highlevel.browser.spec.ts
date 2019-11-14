@@ -10,7 +10,7 @@ import {
   getBSU,
   isIE
 } from "../utils/index.browser";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 
 // tslint:disable:no-empty
@@ -26,7 +26,7 @@ describe("Highlevel", () => {
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -53,6 +53,7 @@ describe("Highlevel", () => {
   after(async () => {});
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     const aborter = AbortController.timeout(1);
 
     try {
@@ -66,6 +67,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     const aborter = AbortController.timeout(1);
 
     try {
@@ -81,6 +83,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -100,6 +103,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -119,6 +123,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 2
@@ -132,6 +137,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0
@@ -145,6 +151,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     if (isIE()) {
       assert.ok(
         true,

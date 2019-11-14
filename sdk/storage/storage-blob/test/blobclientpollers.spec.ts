@@ -5,7 +5,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record, testPollerProperties } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "./utils/testutils.common";
 import {
   BlobClient,
@@ -28,7 +29,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   let destinationContainerName: string;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -51,6 +52,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports automatic polling via pollUntilDone", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
@@ -72,6 +74,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports manual polling via poll", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
@@ -99,6 +102,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   // these tests will only run with the unit tests with pre-recorded service responses.
   if (env.TEST_MODE === "playback") {
     it("supports cancellation of the copy", async () => {
+      recorder.skip("browser");
       const newBlobClient = destinationContainerClient.getBlobClient(
         recorder.getUniqueName("copiedblob")
       );
@@ -116,6 +120,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     });
 
     it("supports updating on progress events", async () => {
+      recorder.skip("browser");
       const newBlobClient = destinationContainerClient.getBlobClient(
         recorder.getUniqueName("copiedblob")
       );
@@ -135,6 +140,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   }
 
   it("supports restoring poller state from another poller", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );

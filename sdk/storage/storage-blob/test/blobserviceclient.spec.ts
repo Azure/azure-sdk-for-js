@@ -8,7 +8,7 @@ import {
   getSASConnectionStringFromEnvironment,
   getTokenBSU
 } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {

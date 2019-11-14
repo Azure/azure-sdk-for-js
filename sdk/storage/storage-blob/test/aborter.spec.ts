@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
 import { getBSU } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -13,7 +13,7 @@ describe("Aborter", () => {
   let containerName: string;
   let containerClient: ContainerClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -26,6 +26,10 @@ describe("Aborter", () => {
   });
 
   it("Should abort after aborter timeout", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     try {
       await containerClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
@@ -40,6 +44,10 @@ describe("Aborter", () => {
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     const aborter = new AbortController();
     const response = containerClient.create({ abortSignal: aborter.signal });
     aborter.abort();
@@ -59,6 +67,10 @@ describe("Aborter", () => {
   });
 
   it("Should abort after father aborter calls abort()", async () => {
+    recorder.skip(
+      "browser",
+      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
+    );
     try {
       const aborter = new AbortController();
       const childAborter = new AbortController(
