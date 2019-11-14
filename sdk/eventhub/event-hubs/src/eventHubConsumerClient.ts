@@ -333,7 +333,7 @@ export class EventHubConsumerClient {
         partitionManager,
         { ...defaultConsumerClientOptions, ...possibleOptions3 }
       );
-    } if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager1)) {
+    } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
 

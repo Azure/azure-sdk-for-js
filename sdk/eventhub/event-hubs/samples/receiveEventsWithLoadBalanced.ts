@@ -30,7 +30,7 @@ const containerName = "";
 
 async function main() {
   // The callback where you add your code to process incoming events
-  const consumerClient = new EventHubConsumerClient(connectionString, eventHubName);
+  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, connectionString, eventHubName);
   
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints in this session in Azure Storage

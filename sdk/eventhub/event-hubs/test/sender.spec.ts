@@ -24,7 +24,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   const producerClient = new EventHubProducerClient(service.connectionString, service.path);
-  const consumerClient = new EventHubConsumerClient(service.connectionString, service.path);
+  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, service.connectionString, service.path);
 
   before("validate environment", function(): void {
     should.exist(
@@ -269,7 +269,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       let receivedEvents: string[] = [];
       let initialized = false;
 
-      const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {        
+      const subscriber = consumerClient.subscribe("0", {
         processEvent: async (event, context) => {
           receivedEvents.push(event.body);
         },

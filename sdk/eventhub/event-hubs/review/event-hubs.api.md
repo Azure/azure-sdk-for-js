@@ -58,23 +58,23 @@ export interface EventDataBatch {
 export interface EventHubClientOptions {
     retryOptions?: RetryOptions;
     userAgent?: string;
-    webSocket?: WebSocketImpl;
-    webSocketConstructorOptions?: any;
+    // Warning: (ae-forgotten-export) The symbol "WebSocketOptions" needs to be exported by the entry point index.d.ts
+    webSocketOptions?: WebSocketOptions;
 }
 
 // @public
 export class EventHubConsumerClient {
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    subscribe(consumerGroupName: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, partitionManager: PartitionManager, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(partitionManager: PartitionManager, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
 }
 
 // @public

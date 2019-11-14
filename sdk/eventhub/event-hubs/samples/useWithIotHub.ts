@@ -12,7 +12,7 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 const connectionString = "";
 
 async function main(): Promise<void> {
-  const client = new EventHubConsumerClient(connectionString);
+  const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, connectionString);
   /*
    Refer to other samples, and place your code here to receive events using the above client.
    Please note that send operations are not supported when this client is used against an IotHub instance

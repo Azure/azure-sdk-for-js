@@ -20,7 +20,7 @@ const defaultSubscriptionOptions: Pick<SubscriptionOptions, 'maxBatchSize' | 'ma
   maxWaitTimeInSeconds: 10
 };
 
-describe("EventHubConsumerClient", () => {
+describe.only("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
@@ -56,7 +56,10 @@ describe("EventHubConsumerClient", () => {
         "define EVENTHUB_NAME in your environment before running integration tests."
       );
 
-      client = new EventHubConsumerClient(service.connectionString!, service.path);
+      client = new EventHubConsumerClient(
+        EventHubClient.defaultConsumerGroupName,
+        service.connectionString!,
+        service.path);
 
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
@@ -89,7 +92,6 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(["0"], false);
 
       const subscription = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
         "0",
         tester,
         {
@@ -104,7 +106,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
+    it.only("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
       void
     > {
       const logTester = new LogTester(
@@ -118,7 +120,6 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
       const subscription = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
         tester,
         {
           maxBatchSize: 1,
@@ -149,7 +150,6 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
         inMemoryPartitionManager,
         tester,
         {
@@ -161,7 +161,6 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscriber1);
 
       const subscriber2 = await client.subscribe(
-         EventHubClient.defaultConsumerGroupName,
          inMemoryPartitionManager,
         tester,
         {
