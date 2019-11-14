@@ -45,7 +45,7 @@ export class TopicClient implements Client {
    * @internal
    * @param topicName - The topic name.
    * @param context - The connection context to create the TopicClient.
-   * @throws {Error} Thrown if the TopicClient or the underlying connection is closed.
+   * @throws Error if the TopicClient or the underlying connection is closed.
    */
   constructor(topicName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
@@ -86,8 +86,8 @@ export class TopicClient implements Client {
    *
    * If the Topic has session enabled Subscriptions, then messages sent without the `sessionId`
    * property will go to the dead letter queue of such subscriptions.
-   * @throws {Error} Thrown if the TopicClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open sender already exists on the TopicClient.
+   * @throws Error if the TopicClient or the underlying connection is closed.
+   * @throws Error if an open sender already exists on the TopicClient.
    */
   createSender(): Sender {
     throwErrorIfClientOrConnectionClosed(

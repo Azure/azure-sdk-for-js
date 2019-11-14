@@ -68,7 +68,7 @@ export class SubscriptionClient implements Client {
    * @param topicName - The Topic name.
    * @param subscriptionName - The Subscription name.
    * @param context - The connection context to create the SubscriptionClient.
-   * @throws {Error} Thrown if the underlying connection is closed.
+   * @throws Error if the underlying connection is closed.
    */
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
@@ -121,9 +121,9 @@ export class SubscriptionClient implements Client {
    *
    * @returns Receiver A receiver to receive messages from a Subscription which does not have
    * sessions enabled.
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient.
-   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the SubscriptionClient.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
@@ -142,9 +142,9 @@ export class SubscriptionClient implements Client {
    * the session receiver.
    *
    * @returns SessionReceiver A receiver to receive from a session in the Subscription.
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient for given sessionId.
-   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the SubscriptionClient for given sessionId.
+   * @throws Error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
@@ -163,12 +163,12 @@ export class SubscriptionClient implements Client {
    *
    * @returns Receiver|SessionReceiver A receiver to receive from a session in the Subscription if
    * `sessionOptions` were provided. Else, a receiver to receive messages from the Subscription.
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the SubscriptionClient and for given sessionId if creating SessionReceiver.
-   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the SubscriptionClient and for given sessionId if creating SessionReceiver.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
-   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * @throws Error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
@@ -206,8 +206,8 @@ export class SubscriptionClient implements Client {
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the peek operation.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the peek operation.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -228,8 +228,8 @@ export class SubscriptionClient implements Client {
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the peekBySequenceNumber operation.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the peekBySequenceNumber operation.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -251,8 +251,8 @@ export class SubscriptionClient implements Client {
 
   /**
    * Gets all rules associated with the subscription
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the getRules operation.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the getRules operation.
    */
   async getRules(): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -269,8 +269,8 @@ export class SubscriptionClient implements Client {
    * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
    * any more messages.
    * @param ruleName
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the removeRule operation.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the removeRule operation.
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
@@ -292,8 +292,8 @@ export class SubscriptionClient implements Client {
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
    * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
    * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
-   * @throws {Error} Thrown if the SubscriptionClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the addRule operation.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the addRule operation.
    */
   async addRule(
     ruleName: string,

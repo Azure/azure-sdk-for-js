@@ -51,7 +51,7 @@ export class QueueClient implements Client {
    * @internal
    * @param queueName The Queue name.
    * @param context The connection context to create the QueueClient.
-   * @throws {Error} Thrown if the underlying connection is closed.
+   * @throws Error if the underlying connection is closed.
    */
   constructor(queueName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
@@ -91,8 +91,8 @@ export class QueueClient implements Client {
   /**
    * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open sender already exists on the QueueClient.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open sender already exists on the QueueClient.
    */
   createSender(): Sender {
     throwErrorIfClientOrConnectionClosed(
@@ -122,9 +122,9 @@ export class QueueClient implements Client {
    *
    * @returns Receiver A receiver to receive messages from a Queue which does not have
    * sessions enabled.
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the QueueClient.
-   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the QueueClient.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
@@ -144,9 +144,9 @@ export class QueueClient implements Client {
    * the session receiver.
    *
    * @returns SessionReceiver A receiver to receive from a session in the Queue.
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the QueueClient for given sessionId.
-   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the QueueClient for given sessionId.
+   * @throws Error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
@@ -166,12 +166,12 @@ export class QueueClient implements Client {
    * @returns Receiver|SessionReceiver A receiver to receive from a session in the Queue if
    * `sessionOptions` were provided. Else, a receiver to receive messages from the Queue.
    * @returns SessionReceiver A receiver to receive from a session in the Queue.
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {Error} Thrown if an open receiver already exists on the QueueClient and for given sessionId if creating SessionReceiver.
-   * @throws {MessagingError} Throws this error with name `InvalidOperationError` if the Queue has sessions enabled
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the QueueClient and for given sessionId if creating SessionReceiver.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
-   * @throws {Error} Throws this error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * @throws Error with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
    * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
    * the session (in which case try again after some time)
    */
@@ -209,8 +209,8 @@ export class QueueClient implements Client {
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the peek operation.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the peek operation.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -231,8 +231,8 @@ export class QueueClient implements Client {
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
-   * @throws {Error} Thrown if the QueueClient or the underlying connection is closed.
-   * @throws {MessagingError} Thrown if the service returns an error for the peekBySequence operation.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error for the peekBySequence operation.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
