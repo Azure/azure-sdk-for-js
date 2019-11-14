@@ -98,7 +98,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
               name: "Azure.EventHubs.getPartitionIds",
               children: [
                 {
-                  name: "Azure.EventHubs.getProperties",
+                  name: "Azure.EventHubs.getEventHubProperties",
                   children: []
                 }
               ]
@@ -165,7 +165,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.EventHubs.getProperties",
+                name: "Azure.EventHubs.getEventHubProperties",
                 children: []
               }
             ]

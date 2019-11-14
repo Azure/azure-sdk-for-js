@@ -467,6 +467,9 @@ class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionCon
           ? offset
           : (eventDataOrSequenceNumber as ReceivedEventData).offset,
       // TODO: doesn't seem right...
+      // I believe this isn't needed anymore because it's primary purpose was to prevent
+      // issues with checkpoints and ownership being stored in the same blob's metadata.
+      // TOOD: check with @chradek.
       // eTag: this._eTag
     };
 
