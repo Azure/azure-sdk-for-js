@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
+import * as log from "../log";
 import { WebSocketImpl } from "rhea-promise";
 import {
   TokenCredential,
@@ -18,13 +18,13 @@ import {
   SpanOptions
 } from "@azure/core-tracing";
 
-import { ConnectionContext } from "./connectionContext";
-import { PartitionProperties, EventHubProperties } from "./managementClient";
-import { EventPosition } from "./eventPosition";
+import { ConnectionContext } from "../connectionContext";
+import { PartitionProperties, EventHubProperties } from "../managementClient";
+import { EventPosition } from "../eventPosition";
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { EventHubProducer } from "./sender";
-import { EventHubConsumer } from "./receiver";
+import { EventHubProducer } from "../sender";
+import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
@@ -285,7 +285,7 @@ export interface EventHubClientOptions {
    * @property
    * Options related to websockets
    */
-  webSocketOptions: WebSocketOptions;
+  webSocketOptions?: WebSocketOptions;
   /**
    * @property
    * The retry options for all the operations on the client/producer/consumer.

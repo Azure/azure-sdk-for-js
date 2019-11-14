@@ -14,7 +14,7 @@ import {
   MessagingError,
   ReceivedEventData,
 } from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { EventHubConsumer } from '../src/receiver';

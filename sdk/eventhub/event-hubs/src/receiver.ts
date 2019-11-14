@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import { OnMessage, OnError, EventHubReceiver, LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {

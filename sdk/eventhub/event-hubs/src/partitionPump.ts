@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
-import { EventHubClient } from "./eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";

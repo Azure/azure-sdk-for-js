@@ -21,7 +21,7 @@ import {
   RetryConfig
 } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { EventHubConsumerOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";

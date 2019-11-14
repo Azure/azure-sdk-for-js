@@ -15,7 +15,7 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties
 } from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';

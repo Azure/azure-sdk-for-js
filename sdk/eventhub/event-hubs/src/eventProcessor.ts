@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { EventHubClient } from "./eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";

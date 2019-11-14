@@ -7,7 +7,7 @@ import {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
-} from "./eventHubClient";
+} from "./impl/eventHubClient";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";

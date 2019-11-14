@@ -13,7 +13,7 @@ export {
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions
-} from "./eventHubClient";
+} from "./impl/eventHubClient";
 export { EventHubConsumerClient, PartitionCheckpointer, SubscriptionPartitionInitializer } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {

@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventData, EventHubProducerClient, EventHubConsumerClient, EventPosition } from "../src";
-import { SendOptions, EventHubClient } from "../src/eventHubClient";
+import { SendOptions, EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";

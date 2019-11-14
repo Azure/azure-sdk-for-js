@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { InMemoryPartitionManager, EventHubProducerClient, Subscription, SubscriptionOptions } from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";

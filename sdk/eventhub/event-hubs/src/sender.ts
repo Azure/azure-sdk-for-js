@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";

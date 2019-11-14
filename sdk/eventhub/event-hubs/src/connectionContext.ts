@@ -16,7 +16,7 @@ import {
   SharedKeyCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { EventHubClientOptions } from "./eventHubClient";
+import { EventHubClientOptions } from "./impl/eventHubClient";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
@@ -92,9 +92,9 @@ export namespace ConnectionContext {
   ): ConnectionContext {
     if (!options) options = {};
 
-    config.webSocket = options.webSocket;
+    config.webSocket = options.webSocketOptions && options.webSocketOptions.webSocket;
     config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options.webSocketConstructorOptions;
+    config.webSocketConstructorOptions = options.webSocketOptions && options.webSocketOptions.webSocketConstructorOptions;
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,

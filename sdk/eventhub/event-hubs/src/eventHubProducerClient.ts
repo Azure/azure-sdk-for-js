@@ -10,7 +10,7 @@ import {
   GetEventHubPropertiesOptions,
   CreateBatchOptions,
   SendBatchOptions
-} from "./eventHubClient";
+} from "./impl/eventHubClient";
 import { EventHubProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 

@@ -14,7 +14,7 @@ import {
   EventPosition,
   TokenCredential,
 } from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";

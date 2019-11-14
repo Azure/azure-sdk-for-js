@@ -25,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./impl/eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
