@@ -152,7 +152,7 @@ export enum WellKnownIssuer {
   /**
    * For certificates whose issuer will be defined later
    */
-  Unknown = "Unknown",
+  Unknown = "Unknown"
 }
 
 /**

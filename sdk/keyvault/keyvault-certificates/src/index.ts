@@ -431,13 +431,13 @@ export class CertificateClient {
    * ```ts
    * const client = new CertificateClient(url, credentials);
    * // All in one call
-   * for await (const certificate of client.listPropertiesOfCertificates()) {
-   *   console.log(certificate);
+   * for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+   *   console.log(certificateProperties);
    * }
    * // By pages
    * for await (const page of client.listPropertiesOfCertificates().byPage()) {
-   *   for (const certificate of page) {
-   *     console.log(certificate);
+   *   for (const certificateProperties of page) {
+   *     console.log(certificateProperties);
    *   }
    * }
    * ```
@@ -528,8 +528,8 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * for await (const item of client.listPropertiesOfCertificateVersions("MyCertificate")) {
-   *   console.log(item.version!);
+   * for await (const certificateProperties of client.listPropertiesOfCertificateVersions("MyCertificate")) {
+   *   console.log(certificateProperties.version!);
    * }
    * ```
    * @summary List the versions of a certificate.
@@ -1012,10 +1012,11 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
+   * await poller.pollUntilDone();
    * const certificate = await client.getCertificate("MyCertificate");
    * console.log(certificate);
    * ```
@@ -1052,10 +1053,11 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
+   * await poller.pollUntilDone();
    * const certificateWithPolicy = await client.getCertificate("MyCertificate");
    * const certificate = await client.getCertificateVersion("MyCertificate", certificateWithPolicy.properties.version!);
    * console.log(certificate);
@@ -1139,7 +1141,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1212,7 +1214,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1257,7 +1259,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1335,7 +1337,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1374,11 +1376,12 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Unknown",
    *   subject: "cn=MyCert"
    * });
-   * const { csr } = await client.getCertificateOperation(certificateName);
+   * const poller = await client.getCertificateOperation("MyCertificate");
+   * const { csr } = poller.getResult();
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    * fs.writeFileSync("test.csr", wrappedCsr);
@@ -1390,7 +1393,7 @@ export class CertificateClient {
    * childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
    * const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
    *
-   * await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
+   * await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
    * ```
    * @summary Merges a signed certificate request into a pending certificate
    * @param certificateName The name of the certificate
@@ -1426,7 +1429,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1463,7 +1466,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createCertificate("MyCertificate", {
+   * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
@@ -1549,12 +1552,12 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * for await (const certificate of client.listDeletedCertificates()) {
-   *   console.log(certificate);
+   * for await (const deletedCertificate of client.listDeletedCertificates()) {
+   *   console.log(deletedCertificate);
    * }
    * for await (const page of client.listDeletedCertificates().byPage()) {
-   *   for (const certificate of page) {
-   *     console.log(certificate);
+   *   for (const deletedCertificate of page) {
+   *     console.log(deletedCertificate);
    *   }
    * }
    * ```
@@ -1626,7 +1629,8 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.deleteCertificate("MyCertificate");
+   * const deletePoller = await client.beginDeleteCertificate("MyCertificate");
+   * await deletePoller.pollUntilDone();
    * // Deleting a certificate takes time, make sure to wait before purging it
    * client.purgeDeletedCertificate("MyCertificate");
    * ```
@@ -1664,7 +1668,7 @@ export class CertificateClient {
    * ```ts
    * const client = new CertificateClient(url, credentials);
    *
-   * const deletePoller = await client.deleteCertificate("MyCertificate");
+   * const deletePoller = await client.beginDeleteCertificate("MyCertificate");
    * await deletePoller.pollUntilDone();
    *
    * const recoverPoller = await client.beginRecoverDeletedCertificate("MyCertificate");
