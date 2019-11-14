@@ -9,7 +9,7 @@ tightly control your certificates.
 Use the client library for Azure Key Vault Certificates in your Node.js application to:
 
 - Get, set and delete a certificate.
-- Update a certificate, it's attributes, issuer, policy, operation and contacts.
+- Update a certificate, its attributes, issuer, policy, operation and contacts.
 - Backup and restore a certificate.
 - Get, purge or recover a deleted certificate.
 - Get all the versions of a certificate.
