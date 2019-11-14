@@ -165,7 +165,7 @@ export class Receiver {
    * the returned promise gets resolved to an empty array.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
-   * @throws {Error} Thrown if the underlying connection or receiver is closed.
+   * @throws {Error} Thrown if the underlying connection, client or receiver is closed.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the receiveMessages operation.
    */
@@ -195,7 +195,7 @@ export class Receiver {
    * property on the receiver.
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
-   * @throws {Error} Thrown if the underlying connection is closed.
+   * @throws {Error} Thrown if the underlying connection, client or receiver is closed.
    * @throws {Error} Thrown if current receiver is already in state of receiving messages.
    * @throws {MessagingError}  Thrown if the service returns an error for the getMessageIterator operation.
    */
@@ -216,7 +216,7 @@ export class Receiver {
    *
    * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws {Error} Thrown if the underlying connection or receiver is closed.
+   * @throws {Error} Thrown if the underlying connection, client or receiver is closed.
    * @throws {MessagingError}  Thrown if the service returns an error for the renewMessageLock operation.
    */
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
@@ -246,7 +246,7 @@ export class Receiver {
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
-   * @throws {Error} Thrown if the underlying connection or receiver is closed.
+   * @throws {Error} Thrown if the underlying connection, client or receiver is closed.
    * @throws {MessagingError}  Thrown if the service returns an error for the receiveDeferredMessage operation.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
@@ -275,7 +275,7 @@ export class Receiver {
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
-   * @throws {Error} Thrown if the underlying connection or receiver is closed.
+   * @throws {Error} Thrown if the underlying connection, client or receiver is closed.
    * @throws {MessagingError} Thrown if the service returns an error for the receiveDeferredMessages operation.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
