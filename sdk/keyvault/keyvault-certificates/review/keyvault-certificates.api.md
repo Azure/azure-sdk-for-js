@@ -135,7 +135,7 @@ export interface CertificatePolicy {
     readonly createdOn?: Date;
     enabled?: boolean;
     enhancedKeyUsage?: string[];
-    issuerName?: string;
+    issuerName?: WellKnownIssuer | string;
     keyCurveName?: KeyCurveName;
     keySize?: number;
     keyType?: KeyType;
@@ -415,6 +415,12 @@ export interface UpdateCertificatePolicyOptions extends CertificateProperties, c
 
 // @public
 export interface UpdateIssuerOptions extends KeyVaultClientUpdateCertificateIssuerOptionalParams, coreHttp.OperationOptions {
+}
+
+// @public
+export enum WellKnownIssuer {
+    Self = "Self",
+    Unknown = "Unknown"
 }
 
 // @public

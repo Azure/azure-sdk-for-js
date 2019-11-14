@@ -2,12 +2,6 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import {
-  JsonWebKeyOperation,
-  JsonWebKeyCurveName,
-  JsonWebKeyType,
-  JsonWebKeyEncryptionAlgorithm
-} from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
@@ -16,7 +10,7 @@ import { DeletionRecoveryLevel } from "./core/models";
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = JsonWebKeyEncryptionAlgorithm;
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for KeyCurveName.
@@ -24,7 +18,7 @@ export type EncryptionAlgorithm = JsonWebKeyEncryptionAlgorithm;
  * @readonly
  * @enum {string}
  */
-export type KeyCurveName = JsonWebKeyCurveName;
+export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for KeyOperation.
@@ -32,7 +26,7 @@ export type KeyCurveName = JsonWebKeyCurveName;
  * @readonly
  * @enum {string}
  */
-export type KeyOperation = JsonWebKeyOperation;
+export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
 
 /**
  * Defines values for KeyType.
@@ -40,7 +34,7 @@ export type KeyOperation = JsonWebKeyOperation;
  * @readonly
  * @enum {string}
  */
-export type KeyType = JsonWebKeyType;
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * @internal

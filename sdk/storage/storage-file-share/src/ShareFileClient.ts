@@ -694,15 +694,39 @@ export class ShareFileClient extends StorageClient {
    * @memberof ShareFileClient
    */
   private context: File;
+
   private _shareName: string;
   private _path: string;
+  private _name: string;
 
+  /**
+   * The share name corresponding to this file client
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
   public get shareName(): string {
     return this._shareName;
   }
 
+  /**
+   * The full path of the file
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
   public get path(): string {
     return this._path;
+  }
+
+  /**
+   * The name of the file
+   *
+   * @type {string}
+   * @memberof ShareFileClient
+   */
+  public get name(): string {
+    return this._name;
   }
 
   /**
@@ -755,8 +779,9 @@ export class ShareFileClient extends StorageClient {
 
     super(url, pipeline);
     ({
+      baseName: this._name,
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._path
+      path: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
@@ -829,7 +854,7 @@ export class ShareFileClient extends StorageClient {
    * Reads or downloads a file from the system, including its metadata and properties.
    *
    * * In Node.js, data returns in a Readable stream `readableStreamBody`
-   * * In browsers, data returns in a promise `blobBody`
+   * * In browsers, data returns in a promise `contentAsBlob`
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
@@ -869,7 +894,7 @@ export class ShareFileClient extends StorageClient {
    * const downloadFileResponse = await fileClient.download(0);
    * console.log(
    *   "Downloaded file content:",
-   *   await streamToString(downloadFileResponse.blobBody)}
+   *   await streamToString(downloadFileResponse.contentAsBlob)}
    * );
    *
    * // [Browser only] A helper method used to convert a browser Blob into string.
@@ -1260,7 +1285,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
           onUploadProgress: options.onProgress,
-          optionalbody: body,
+          body: body,
           spanOptions
         }
       );
