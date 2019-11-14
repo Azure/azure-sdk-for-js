@@ -854,7 +854,7 @@ export class ShareFileClient extends StorageClient {
    * Reads or downloads a file from the system, including its metadata and properties.
    *
    * * In Node.js, data returns in a Readable stream `readableStreamBody`
-   * * In browsers, data returns in a promise `blobBody`
+   * * In browsers, data returns in a promise `contentAsBlob`
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
@@ -894,7 +894,7 @@ export class ShareFileClient extends StorageClient {
    * const downloadFileResponse = await fileClient.download(0);
    * console.log(
    *   "Downloaded file content:",
-   *   await streamToString(downloadFileResponse.blobBody)}
+   *   await streamToString(downloadFileResponse.contentAsBlob)}
    * );
    *
    * // [Browser only] A helper method used to convert a browser Blob into string.
@@ -1285,7 +1285,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
           onUploadProgress: options.onProgress,
-          optionalbody: body,
+          body: body,
           spanOptions
         }
       );
