@@ -26,7 +26,8 @@ const env = getEnvVars();
 describe("Event Processor", function (): void {
   const defaultOptions : FullEventProcessorOptions = {
     maxBatchSize: 1,
-    maxWaitTimeInSeconds: 60
+    maxWaitTimeInSeconds: 60,
+    ownerLevel: 0
   };
   
   const service = {

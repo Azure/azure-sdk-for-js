@@ -290,6 +290,7 @@ export class EventHubConsumerClient {
 
     if (typeof handlersOrPartitionIdOrPartitionManager1 === "string" && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
+      const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
       const partitionId = handlersOrPartitionIdOrPartitionManager1;
       
       log.consumerClient(
@@ -312,13 +313,14 @@ export class EventHubConsumerClient {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId])
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
+          ownerLevel: getOwnerLevel(subscriptionOptions)
         }
       );
     } else if (isPartitionManager(handlersOrPartitionIdOrPartitionManager1) && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
-
+      const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
       const partitionManager = handlersOrPartitionIdOrPartitionManager1;
 
       const partitionProcessorType = createPartitionProcessorType(
@@ -331,14 +333,17 @@ export class EventHubConsumerClient {
         this._eventHubClient,
         partitionProcessorType,
         partitionManager,
-        { ...defaultConsumerClientOptions, ...possibleOptions3 }
+        {
+          ...defaultConsumerClientOptions,
+          ...possibleOptions3,
+          ownerLevel: getOwnerLevel(subscriptionOptions)
+        }
       );
     } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
-
+      const subscriptionOptions = optionsOrHandlers2 as (SubscriptionOptions | undefined);
       const partitionManager = new InMemoryPartitionManager();
-
       const partitionProcessorType = createPartitionProcessorType(
         partitionManager,
         handlersOrPartitionIdOrPartitionManager1
@@ -352,6 +357,7 @@ export class EventHubConsumerClient {
         {
           ...defaultConsumerClientOptions,
           ...(optionsOrHandlers2 as SubscriptionOptions),
+          ownerLevel: getOwnerLevel(subscriptionOptions),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -480,4 +486,12 @@ class SimplePartitionCheckpointer implements PartitionCheckpointer, PartitionCon
   setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void {
     // TODO: fill in once I remove this class entirely
   } 
+}
+
+function getOwnerLevel(options?: SubscriptionOptions) : number {
+  if (options && options.ownerLevel) {
+    return options.ownerLevel;
+  }
+
+  return 0;
 }

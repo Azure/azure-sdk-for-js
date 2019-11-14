@@ -129,7 +129,7 @@ export interface PartitionManager {
   listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
 }
 export type SubscriptionEventHandlers = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
-export type SubscriptionBatchOptions = 'maxBatchSize' | 'maxWaitTimeInSeconds';
+export type SubscriptionOptionsToMakeRequired = 'maxBatchSize' | 'maxWaitTimeInSeconds' | 'ownerLevel';
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -142,16 +142,16 @@ export type SubscriptionBatchOptions = 'maxBatchSize' | 'maxWaitTimeInSeconds';
  * ```ts
  * {
   *     maxBatchSize: 1,
-  *     maxWaitTimeInSeconds: 60
+  *     maxWaitTimeInSeconds: 60,
   * }
   * ```
   * @internal
   */
 export interface FullEventProcessorOptions extends
-  // make the 'maxBatchSize' and 'maxWaitTimeInSeconds' fields required for our internal classes
-  // (it's optional for users)
-  Required<Pick<SubscriptionOptions, SubscriptionBatchOptions>>,
-  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionBatchOptions | SubscriptionEventHandlers>> {
+  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required 
+  // for our internal classes (these are optional for external users)
+  Required<Pick<SubscriptionOptions, SubscriptionOptionsToMakeRequired>>,
+  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionOptionsToMakeRequired | SubscriptionEventHandlers>> {
   /**
    * A load balancer to use
    */
