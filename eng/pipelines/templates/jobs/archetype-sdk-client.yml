@@ -1,6 +1,6 @@
 parameters:
   Artifacts: []
-  RunUnitTests: true
+  RunUnitTests: ${{ coalesce(parameters.RunUnitTests, true )}}
   ServiceDirectory: not-specified
   Matrix:
     Linux_Node8:
