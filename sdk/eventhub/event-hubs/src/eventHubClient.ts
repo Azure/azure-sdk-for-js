@@ -283,12 +283,29 @@ export interface EventHubClientOptions {
   userAgent?: string;
   /**
    * @property
+   * Options related to websockets
+   */
+  webSocketOptions: WebSocketOptions;
+  /**
+   * @property
+   * The retry options for all the operations on the client/producer/consumer.
+   * This can be overridden by the retry options set on the producer and consumer.
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * Options related to websockets
+ */
+interface WebSocketOptions {
+/**
+   * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios:
-   * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
+   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
    * - Your application needs to be run behind a proxy server
    * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
-   * instead of the built-in WebSocket in the browser.
+   *   instead of the built-in WebSocket in the browser.
    */
   webSocket?: WebSocketImpl;
   /**
@@ -297,12 +314,6 @@ export interface EventHubClientOptions {
    * the WebSocket.
    */
   webSocketConstructorOptions?: any;
-  /**
-   * @property
-   * The retry options for all the operations on the client/producer/consumer.
-   * This can be overridden by the retry options set on the producer and consumer.
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**

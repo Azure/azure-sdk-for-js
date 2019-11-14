@@ -98,8 +98,6 @@ export class EventHubConsumerClient {
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
    * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
@@ -117,8 +115,6 @@ export class EventHubConsumerClient {
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
    * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
    * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
@@ -136,8 +132,6 @@ export class EventHubConsumerClient {
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
    * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
    * to the service.
    * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
