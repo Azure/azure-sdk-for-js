@@ -35,7 +35,7 @@ export class DatabaseAccount {
    * @deprecated use `maxMediaStorageUsageInMB
    */
   public get MaxMediaStorageUsageInMB() {
-    return this.mediaLink;
+    return this.maxMediaStorageUsageInMB;
   }
   /** Attachment content (media) storage quota in MBs ( Retrieved from gateway ). */
   public readonly maxMediaStorageUsageInMB: number;
