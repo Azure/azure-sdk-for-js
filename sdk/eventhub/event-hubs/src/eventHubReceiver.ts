@@ -208,7 +208,7 @@ export class EventHubReceiver extends LinkEntity {
     const logMessageInterval = 1000;
     this._onAmqpMessage = (context: EventContext) => {
       this._receivedMessageCount++;
-      
+
       // log every 1000 messages
       if (this._receivedMessageCount === logMessageInterval) {
         log.receiver(
@@ -587,21 +587,16 @@ export class EventHubReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (!this._context.receivers[this.name]) {
+        const receiverName = options.name || this.name;
+        if (!this._context.receivers[receiverName]) {
           // Check if the receiver already exists and remove the existing reference from the cache.
-          let existingReceiverAlias: string | undefined;
-          for (const name of Object.keys(this._context.receivers)) {
-            if (this._context.receivers[name] === this) {
-              existingReceiverAlias = name;
-              break;
-            }
-          }
-          if (existingReceiverAlias) {
-            // Remove the existing alias since a new name has been created for this receiver.
-            delete this._context.receivers[existingReceiverAlias];
+          const existingReceiverName = this.name;
+          if (this._context.receivers[existingReceiverName]) {
+            delete this._context.receivers[existingReceiverName];
+            this.name = receiverName;
           }
 
-          this._context.receivers[this.name] = this;
+          this._context.receivers[receiverName] = this;
         }
 
         await this._ensureTokenRenewal();
@@ -634,9 +629,9 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    */
   protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
-    if (options.newName) this.name = `${uuid()}`;
+    //if (options.newName) this.name = `${uuid()}`;
     const rcvrOptions: ReceiverOptions = {
-      name: this.name,
+      name: options.newName ? uuid() : this.name,
       autoaccept: true,
       source: {
         address: this.address
