@@ -170,7 +170,6 @@ export class ServiceBusClient {
    * @param {ServiceBusClientOptions} [options] Options to control ways to interact with the
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
-   * @throws {Error} Thrown if the connection string contents were malformed.
    */
   static createFromConnectionString(
     connectionString: string,
