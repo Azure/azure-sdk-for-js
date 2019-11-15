@@ -145,7 +145,6 @@ export {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
-  CancelCertificateOperationOptions,
   CertificateContentType,
   CertificateProperties,
   CertificateIssuer,
@@ -1275,6 +1274,8 @@ export class CertificateClient {
   }
 
   /**
+   * @internal
+   * @ignore
    * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    *
    * Example usage:
@@ -1291,7 +1292,7 @@ export class CertificateClient {
    * @param cancel Whether to cancel the operation or not
    * @param {CancelCertificateOperationOptions} [options] The optional parameters
    */
-  public async cancelCertificateOperation(
+  private async cancelCertificateOperation(
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {

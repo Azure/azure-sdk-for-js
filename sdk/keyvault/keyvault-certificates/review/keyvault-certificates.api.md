@@ -54,17 +54,12 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 }
 
 // @public
-export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<BackupCertificateResult>;
     beginCreateCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
-    cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
