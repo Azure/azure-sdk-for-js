@@ -473,7 +473,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Queue creation with differing options #RunInBrowser`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
@@ -612,7 +612,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Topic creation with differing options #RunInBrowser`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
@@ -723,7 +723,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Subscription creation with differing options #RunInBrowser`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -851,7 +851,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Rule creation with differing options #RunInBrowser`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -993,7 +993,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Queue update with differing options #RunInBrowser`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
@@ -1148,7 +1148,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Topic update with differing options #RunInBrowser`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1243,7 +1243,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Subscription update with differing options #RunInBrowser`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1349,7 +1349,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Rule update with differing options #RunInBrowser`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
