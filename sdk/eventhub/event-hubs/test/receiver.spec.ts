@@ -155,46 +155,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data[0].properties!.stamp.should.equal(uid);
     });
 
-    it("'after a particular offset with isInclusive true' should receive messages correctly", async function(): Promise<
-      void
-    > {
-      const partitionId = partitionIds[0];
-      const uid = uuid();
-      const ed: EventData = {
-        body: "New message after last enqueued offset",
-        properties: {
-          stamp: uid
-        }
-      };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
-      debug(`Sent message 1 with stamp: ${uid}.`);
-      const pInfo = await client.getPartitionProperties(partitionId);
-      const uid2 = uuid();
-      const ed2: EventData = {
-        body: "New message after last enqueued offset",
-        properties: {
-          stamp: uid2
-        }
-      };
-      await client.createProducer({ partitionId: partitionId }).send([ed2]);
-      debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
-      debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
-        partitionId,
-        EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
-      );
-      debug("We should receive the last 2 messages.");
-      const data = await receiver.receiveBatch(10, 30);
-      debug("received messages: ", data);
-      data.length.should.equal(2, "Failed to receive the two expected messages");
-      data[0].properties!.stamp.should.equal(uid, "First message has unexpected uid");
-      data[1].properties!.stamp.should.equal(uid2, "Second message has unexpected uid");
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await receiver.receiveBatch(10, 10);
-      data2.length.should.equal(0, "Unexpected message received");
-    });
-
     it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<
       void
     > {

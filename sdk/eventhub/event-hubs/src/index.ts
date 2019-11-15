@@ -40,6 +40,5 @@ export {
 export {
   MessagingError,
   RetryOptions,
-  TokenType,
   TokenCredential
 } from "@azure/core-amqp";

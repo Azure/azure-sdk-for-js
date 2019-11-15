@@ -11,7 +11,6 @@ import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
-import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
@@ -62,7 +61,6 @@ export interface EventDataBatch {
 export interface EventHubClientOptions {
     retryOptions?: RetryOptions;
     userAgent?: string;
-    // Warning: (ae-forgotten-export) The symbol "WebSocketOptions" needs to be exported by the entry point index.d.ts
     webSocketOptions?: WebSocketOptions;
 }
 
@@ -111,7 +109,7 @@ export class EventPosition {
     static earliest(): EventPosition;
     enqueuedTime?: Date | number;
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
-    static fromOffset(offset: number, isInclusive?: boolean): EventPosition;
+    static fromOffset(offset: number): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
     isInclusive: boolean;
     static latest(): EventPosition;
@@ -132,6 +130,11 @@ export interface GetPartitionIdsOptions extends SpanOptions {
 // @public
 export interface GetPartitionPropertiesOptions extends SpanOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface InitializationContext extends PartitionContext {
+    setStartPosition(startPosition: EventPosition): void;
 }
 
 // @public
@@ -192,8 +195,6 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 // @public
 export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext) => Promise<void>;
 
-// Warning: (ae-forgotten-export) The symbol "InitializationContext" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
 
@@ -243,14 +244,18 @@ export interface SubscriptionOptions {
 
 export { TokenCredential }
 
-export { TokenType }
-
 // @public
 export interface TryAddOptions {
     parentSpan?: Span | SpanContext;
 }
 
 export { WebSocketImpl }
+
+// @public
+export interface WebSocketOptions {
+    webSocket?: WebSocketImpl;
+    webSocketConstructorOptions?: any;
+}
 
 
 // (No @packageDocumentation comment for this package)
