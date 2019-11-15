@@ -123,7 +123,7 @@ export class SessionManager {
           }
         };
         // Create the MessageSession.
-        const messageSession = await MessageSession.create(this._context, onMessage, onError, {
+        const messageSession = await MessageSession.create(this._context, {
           sessionId: undefined,
           callee: SessionCallee.sessionManager,
           ...options

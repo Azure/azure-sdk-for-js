@@ -412,21 +412,12 @@ export class SessionReceiver {
     }
   }
 
-  private async _createMessageSessionIfDoesntExist(
-    onMessage?: OnMessage,
-    onError?: OnError
-  ): Promise<void> {
+  private async _createMessageSessionIfDoesntExist(): Promise<void> {
     if (this._messageSession) {
-      if (onMessage) {
-        this._messageSession._onMessage = onMessage;
-      }
-      if (onError) {
-        this._messageSession._onError = onError;
-      }
       return;
     }
     this._context.isSessionEnabled = true;
-    this._messageSession = await MessageSession.create(this._context, onMessage, onError, {
+    this._messageSession = await MessageSession.create(this._context, {
       sessionId: this._sessionOptions.sessionId,
       maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
         .maxSessionAutoRenewLockDurationInSeconds,
@@ -700,7 +691,7 @@ export class SessionReceiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createMessageSessionIfDoesntExist(onMessage, onError)
+    this._createMessageSessionIfDoesntExist()
       .then(async () => {
         if (!this._messageSession) {
           return;
