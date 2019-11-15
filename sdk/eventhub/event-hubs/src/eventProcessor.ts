@@ -12,7 +12,6 @@ import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscriptionOptions } from './eventHubConsumerClientModels';
 import { SubscriptionEventHandlers } from './eventHubConsumerClientModels';
-import { LastEnqueuedEventProperties } from './eventHubReceiver';
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -29,12 +28,8 @@ export enum CloseReason {
   Shutdown = "Shutdown"
 }
 
-/**
- * Common properties between various partition contexts.
- */
-// TODO: fix this. The interfaces are getting out of control...
-export interface PartitionContextBase {
-    /**
+export interface PartitionContextError {
+  /**
    * @property The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
@@ -47,9 +42,6 @@ export interface PartitionContextBase {
    * @property The consumer group name
    */
   consumerGroupName: string;
-}
-
-export interface PartitionContextError extends PartitionContextBase {
   /**
    * @property The identifier of the Event Hub partition. Undefined in cases
    * where the error is not partition specific
@@ -58,31 +50,29 @@ export interface PartitionContextError extends PartitionContextBase {
 }
 
 /**
- * An interface representing data that can identify a partition.
- */
-export interface PartitionContext extends PartitionContextBase {
-  /**
-   * @property The identifier of the Event Hub partition
-   */
-  partitionId: string;
-
-  /**
-   * Information about the last enqueued event of a partition, as observed by the consumer
-   *  as events are received from the Event Hubs service.
-   * 
-   * This data is only filled out if `trackLastEnqueuedEventProperties` is set as part of the options for
-   * your consumer.
-   */
-  lastEnqueuedEventProperties?: LastEnqueuedEventProperties
-}
-
-/**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
  * of a given partition from a consumer group of an Event Hub instance.
  *
  * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
  */
-export interface PartitionOwnership extends PartitionContext {
+export interface PartitionOwnership {
+  /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
+   * @property The event hub name
+   */
+  eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
+  consumerGroupName: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  partitionId: string;
   /**
    * @property The unique identifier of the event processor.
    */
@@ -154,7 +144,7 @@ export interface PartitionManager {
    */
   listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
 }
-export type SubscriptionEventHandlers = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
+export type SubscriptionEventHandlersKeys = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
 export type SubscriptionOptionsToMakeRequired = 'maxWaitTimeInSeconds' | 'ownerLevel';
 
 /**
@@ -177,7 +167,7 @@ export interface FullEventProcessorOptions extends
   // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required 
   // for our internal classes (these are optional for external users)
   Required<Pick<SubscriptionOptions, SubscriptionOptionsToMakeRequired>>,
-  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionOptionsToMakeRequired | SubscriptionEventHandlers>> {
+  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionOptionsToMakeRequired | SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
@@ -317,7 +307,10 @@ export class EventProcessor {
         });
 
       // TODO: why can't I just _ask_ for a particular checkpoint? Is "efficiency" the answer?
-      const availableCheckpoints = await this._partitionManager.listCheckpoints(partitionProcessor.fullyQualifiedNamespace, partitionProcessor.eventHubName, partitionProcessor.consumerGroupName);
+      const availableCheckpoints = await this._partitionManager.listCheckpoints(
+        this._eventHubClient.fullyQualifiedNamespace,
+        this._eventHubClient.eventHubName,
+        this._consumerGroupName);
 
       const validCheckpoints = availableCheckpoints.filter(chk => chk.partitionId === partitionIdToClaim);
 

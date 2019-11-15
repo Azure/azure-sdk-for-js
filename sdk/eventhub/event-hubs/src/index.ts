@@ -14,13 +14,13 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions
 } from "./impl/eventHubClient";
-export { EventHubConsumerClient, PartitionCheckpointer, SubscriptionPartitionInitializer } from "./eventHubConsumerClient";
+export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
   SubscriptionOptions,
   Subscription,
   SubscriptionEventHandlers,
-  SubscriptionPartitionContext,
+  PartitionContext,
   ProcessErrorHandler,
   ProcessInitializeHandler,
   ProcessCloseHandler,
@@ -32,7 +32,6 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
-  PartitionContext,
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";

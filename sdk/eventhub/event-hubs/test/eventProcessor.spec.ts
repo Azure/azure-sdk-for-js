@@ -15,15 +15,15 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition,
-  PartitionCheckpointer,
+  EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
-import { EventProcessor, FullEventProcessorOptions, PartitionContext, PartitionContextError } from '../src/eventProcessor';
+import { EventProcessor, FullEventProcessorOptions, PartitionContextError } from '../src/eventProcessor';
 import { Checkpoint } from '../src/partitionProcessor';
 import { delay } from '@azure/core-amqp';
+import { InitializationContext, PartitionContext } from '../src/eventHubConsumerClientModels';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
@@ -320,7 +320,7 @@ describe("Event Processor", function (): void {
 
       let partionCount: { [x: string]: number } = {};
       class FooPartitionProcessor  {
-        async processEvent(event: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) {
+        async processEvent(event: ReceivedEventData, context: PartitionContext) {
           partitionOwnerShip.add(context.partitionId);
 
           !partionCount[context.partitionId]
@@ -687,7 +687,7 @@ class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers>
 
   public events: { partitionId: string, body: string }[] = [];
 
-  async processInitialize(context: PartitionContext) {
+  async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
   }
 

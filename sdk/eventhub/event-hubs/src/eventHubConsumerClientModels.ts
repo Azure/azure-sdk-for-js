@@ -1,14 +1,55 @@
 
-import { CloseReason, PartitionContext } from './eventProcessor';
-import { PartitionCheckpointer, SubscriptionPartitionInitializer } from './eventHubConsumerClient';
+import { CloseReason } from './eventProcessor';
 import { ReceivedEventData } from './eventData';
 import { LastEnqueuedEventProperties } from './eventHubReceiver';
 import { EventPosition } from './eventPosition';
 
 /**
- * An interface with identifying information for a partition that can also update checkpoints.
+ * @internal
+ * @ignore
  */
-export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
+export interface BasicPartitionProperties {
+  /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
+   * @property The event hub name
+   */
+  eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
+  consumerGroupName: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  partitionId: string;
+}
+
+/**
+ * Provides a set of basic information about the partition as well as the 
+ * ability to checkpoint.
+ */
+export interface PartitionContext {
+  /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
+   * @property The event hub name
+   */
+  eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
+  consumerGroupName: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  partitionId: string;
   /**
    * Information on the last enqueued event in the partition that is being processed.
    * This property is only updated if the `trackLastEnqueuedEventProperties` option is set to true
@@ -16,6 +57,28 @@ export interface SubscriptionPartitionContext extends PartitionContext, Partitio
    * @readonly
    */
   lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
+  /**
+   * Updates the checkpoint using the event data.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
+   * @return Promise<void>
+   */
+  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+}
+
+/**
+ * A `PartitionContext` with the ability to also provide a default start
+ * position if no checkpoint is found.
+ */
+export interface InitializationContext extends PartitionContext {
+  /**
+   * Allows for setting the start position of a partition.
+   * Default (if not called) is `EventPosition.earliest()`
+   */
+  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
 }
 
 /**
@@ -24,25 +87,25 @@ export interface SubscriptionPartitionContext extends PartitionContext, Partitio
  */
 export type ProcessEventHandler = (
   receivedEvent: ReceivedEventData,
-  context: PartitionContext & PartitionCheckpointer
+  context: PartitionContext
 ) => Promise<void>;
 
 /**
  * Called when errors occur during event receiving.
  */
-export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.
  */
 
  // TODO: combine the various Subscription<blah> types into a single type (for the usages needed)
-export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
+export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
  */
-export type ProcessCloseHandler = (reason: CloseReason, context: SubscriptionPartitionContext) => Promise<void>;
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext) => Promise<void>;
 
 /**
  * Optional event handlers that provide more context when subscribing to events.

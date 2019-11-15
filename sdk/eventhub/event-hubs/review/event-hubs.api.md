@@ -15,8 +15,12 @@ import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
-export interface Checkpoint extends PartitionContext {
+export interface Checkpoint {
+    consumerGroupName: string;
+    eventHubName: string;
+    fullyQualifiedNamespace: string;
     offset: number;
+    partitionId: string;
     sequenceNumber: number;
 }
 
@@ -150,19 +154,13 @@ export interface LastEnqueuedEventProperties {
 export { MessagingError }
 
 // @public
-export interface PartitionCheckpointer {
-    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-    // @internal (undocumented)
-    updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
-}
-
-// Warning: (ae-forgotten-export) The symbol "PartitionContextBase" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export interface PartitionContext extends PartitionContextBase {
+export interface PartitionContext {
+    consumerGroupName: string;
+    eventHubName: string;
+    fullyQualifiedNamespace: string;
     lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
     partitionId: string;
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
 }
 
 // @public
@@ -174,10 +172,14 @@ export interface PartitionManager {
 }
 
 // @public
-export interface PartitionOwnership extends PartitionContext {
+export interface PartitionOwnership {
+    consumerGroupName: string;
     eTag?: string;
+    eventHubName: string;
+    fullyQualifiedNamespace: string;
     lastModifiedTimeInMs?: number;
     ownerId: string;
+    partitionId: string;
 }
 
 // @public
@@ -191,16 +193,18 @@ export interface PartitionProperties {
 }
 
 // @public
-export type ProcessCloseHandler = (reason: CloseReason, context: SubscriptionPartitionContext) => Promise<void>;
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: SubscriptionPartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext) => Promise<void>;
 
+// Warning: (ae-forgotten-export) The symbol "InitializationContext" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type ProcessInitializeHandler = (context: SubscriptionPartitionContext & SubscriptionPartitionInitializer) => Promise<void>;
+export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -246,16 +250,6 @@ export interface SubscriptionOptions {
     // (undocumented)
     tempDefaultEventPosition?: EventPosition;
     trackLastEnqueuedEventProperties?: boolean;
-}
-
-// @public
-export interface SubscriptionPartitionContext extends PartitionContext, PartitionCheckpointer {
-    lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
-}
-
-// @public
-export interface SubscriptionPartitionInitializer {
-    setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
 }
 
 export { TokenCredential }

@@ -15,19 +15,17 @@ export class PartitionPump {
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: FullEventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
-  private _initialEventPosition: EventPosition;
   private _isReceiving: boolean = false;
   private _abortController: AbortController;
 
   constructor(
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
-    initialEventPosition: EventPosition,
+    private _initialEventPosition: EventPosition,
     options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
-    this._initialEventPosition = initialEventPosition;
     this._processorOptions = options;
     this._abortController = new AbortController();
   }
@@ -39,27 +37,12 @@ export class PartitionPump {
   async start(): Promise<void> {
     this._isReceiving = true;
     try {
-      await this._partitionProcessor.initialize({
-        setStartPosition: (startPosition) => {
-          if (isEarliestEventPosition(this._initialEventPosition)) {
+      const requestedDefaultPosition = await this._partitionProcessor.initialize();
 
-            if (typeof startPosition === "string") {
-              switch (startPosition) {
-                case "earliest":
-                  this._initialEventPosition = EventPosition.earliest();
-                  break;
-                case "latest":
-                  this._initialEventPosition = EventPosition.latest();
-                  break;
-                default:
-                  throw new TypeError(`Invalid start position name ${startPosition}`);
-              }
-            } else {
-              this._initialEventPosition = startPosition;
-            }
-          }
-        }
-      });
+      if (isEarliestEventPosition(this._initialEventPosition) && requestedDefaultPosition) {
+        this._initialEventPosition = requestedDefaultPosition;
+      }
+
     } catch {
       // swallow the error from the user-defined code
     }

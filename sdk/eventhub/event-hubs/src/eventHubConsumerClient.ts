@@ -8,7 +8,6 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
 } from "./impl/eventHubClient";
-import { ReceivedEventData } from "./eventData";
 import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 import { EventProcessor, PartitionManager, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
@@ -18,53 +17,6 @@ import * as log from "./log";
 import { SubscriptionOptions, Subscription, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
-import { EventPosition } from './eventPosition';
-
-/**
- * Allows for configuring initialization of partition processors
- */
-export interface SubscriptionPartitionInitializer {
-  /**
-   * Allows for setting the start position of a partition.
-   * Default (if not called) is `EventPosition.earliest()`
-   */
-  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
-}
-
-/**
- * Allow for checkpointing
- */
-export interface PartitionCheckpointer {
-  /**
-   * Updates the checkpoint using the event data.
-   *
-   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
-   * partition of a consumer group in an Event Hub instance.
-   *
-   * @param eventData The event that you want to update the checkpoint with.
-   * @return Promise<void>
-   */
-  updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-  /**
-   * Updates the checkpoint using the given offset and sequence number.
-   *
-   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
-   * partition of a consumer group in an Event Hub instance.
-   *
-   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
-   * @param offset The offset of the event that you want to update the checkpoint with.
-   * @return  Promise<void>.
-   */
-  updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-  /**
-   * @internal
-   * @ignore
-   */
-  updateCheckpoint(
-    eventDataOrSequenceNumber: ReceivedEventData | number,
-    offset?: number
-  ): Promise<void>;
-}
 
 const defaultConsumerClientOptions: Required<Pick<FullEventProcessorOptions, 'maxWaitTimeInSeconds' | 'maxBatchSize'>> = {  
   // to support our current "process single event only" workflow we'll also purposefully 

@@ -1,9 +1,8 @@
-import { CloseReason, PartitionManager, PartitionContext } from "./eventProcessor";
+import { CloseReason, PartitionManager } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
-import { SubscriptionEventHandlers, SubscriptionPartitionContext } from './eventHubConsumerClientModels';
-import { PartitionCheckpointer, EventPosition } from '.';
-import { SubscriptionPartitionInitializer } from './eventHubConsumerClient';
+import { SubscriptionEventHandlers, InitializationContext, BasicPartitionProperties } from './eventHubConsumerClientModels';
+import { EventPosition } from '.';
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -16,7 +15,24 @@ import { SubscriptionPartitionInitializer } from './eventHubConsumerClient';
  * Users are never expected to interact with `Checkpoint` directly. This interface exists to support the
  * internal workings of `EventProcessor` and `CheckpointManager`.
  **/
-export interface Checkpoint extends PartitionContext {
+export interface Checkpoint {
+  /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
+   * @property The event hub name
+   */
+  eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
+  consumerGroupName: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  partitionId: string;
   /**
    * @property The sequence number of the event
    */
@@ -36,13 +52,14 @@ export interface Checkpoint extends PartitionContext {
  * - Optionally override the `initialize()` method to implement any set up related tasks you would want to carry out before starting to receive events from the partition
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
-export class PartitionProcessor implements PartitionCheckpointer, SubscriptionPartitionContext {
+export class PartitionProcessor implements InitializationContext {
   private _lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
+  private _defaultPosition?: EventPosition;
 
   constructor(
     private _eventHandlers: SubscriptionEventHandlers,
     private _partitionManager: PartitionManager,
-    private _context: PartitionContext & {
+    private _context: BasicPartitionProperties & {
     eventProcessorId: string
   }) {
   }
@@ -105,26 +122,22 @@ export class PartitionProcessor implements PartitionCheckpointer, SubscriptionPa
     return this._context.eventProcessorId;
   }
 
+  public get initialPosition() {
+    return this._defaultPosition;
+  }
+
   /**
    * This method is called when the `EventProcessor` takes ownership of a new partition and before any
    * events are received.
    *
-   * @return {Promise<void>}
+   * @return {Promise<EventPosition>}
    */
-  async initialize(partitionInitializer: SubscriptionPartitionInitializer): Promise<void> {
+  async initialize(): Promise<EventPosition|undefined> {
     if (this._eventHandlers.processInitialize) {
-      await this._eventHandlers.processInitialize({
-        consumerGroupName: this.consumerGroupName,
-        eventHubName: this.eventHubName,
-        fullyQualifiedNamespace: this.fullyQualifiedNamespace,
-        lastEnqueuedEventProperties: this.lastEnqueuedEventProperties,
-        partitionId: this.partitionId,
-        setStartPosition: (startPosition: EventPosition | "earliest" | "latest") => {
-          partitionInitializer.setStartPosition(startPosition);
-        },
-        updateCheckpoint: this.updateCheckpoint
-      });
+      await this._eventHandlers.processInitialize(this);      
     }
+    
+    return this._defaultPosition;
   }
 
   /**
@@ -163,6 +176,10 @@ export class PartitionProcessor implements PartitionCheckpointer, SubscriptionPa
     }
   }
 
+  setStartPosition(eventPosition: EventPosition) {
+    this._defaultPosition = eventPosition;
+  }
+
   /**
    * Updates the checkpoint using the event data.
    *
@@ -172,49 +189,16 @@ export class PartitionProcessor implements PartitionCheckpointer, SubscriptionPa
    * @param eventData The event that you want to update the checkpoint with.
    * @return Promise<void>
    */
-  public async updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-  /**
-   * Updates the checkpoint using the given offset and sequence number.
-   *
-   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
-   * partition of a consumer group in an Event Hub instance.
-   *
-   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
-   * @param offset The offset of the event that you want to update the checkpoint with.
-   * @return  Promise<void>.
-   */
-
-  // TODO: this means I can also get rid of my Simple Checkpointer adapter since this code is hosted in partition processor
-  public async updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-  public async updateCheckpoint(
-    eventDataOrSequenceNumber: ReceivedEventData | number,
-    offset?: number
-  ): Promise<void> {
-    
-    
-    console.log(`updating checkpointing with ${this._context}`);
-
-
-    
+  public async updateCheckpoint(eventData: ReceivedEventData): Promise<void> {
     const checkpoint: Checkpoint = {
       fullyQualifiedNamespace: this._context.fullyQualifiedNamespace,
       eventHubName: this._context.eventHubName,
       consumerGroupName: this._context.consumerGroupName,
       partitionId: this._context.partitionId,
-      sequenceNumber:
-        typeof eventDataOrSequenceNumber === "number"
-          ? eventDataOrSequenceNumber
-          : eventDataOrSequenceNumber.sequenceNumber,
-      offset:
-        typeof offset === "number"
-          ? offset
-          : (eventDataOrSequenceNumber as ReceivedEventData).offset,
-      // TODO: this doesn't seem quite right...
-      // eTag: this._eTag
+      sequenceNumber: eventData.sequenceNumber,
+      offset: eventData.offset,
     };
 
-    // TODO: bring this back in the right way...
-    // this._eTag = await this._partitionManager!.updateCheckpoint(checkpoint);
     await this._partitionManager!.updateCheckpoint(checkpoint);
   }
 }

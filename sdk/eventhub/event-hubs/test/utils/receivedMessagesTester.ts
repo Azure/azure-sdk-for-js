@@ -1,6 +1,6 @@
-import { CloseReason, ReceivedEventData, EventHubProducerClient, PartitionCheckpointer, SubscriptionPartitionInitializer } from "../../src/";
-import { SubscriptionEventHandlers, SubscriptionPartitionContext } from "../../src/eventHubConsumerClientModels";
-import { PartitionContext, PartitionContextError } from "../../src/eventProcessor";
+import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
+import { SubscriptionEventHandlers, PartitionContext, InitializationContext } from "../../src/eventHubConsumerClientModels";
+import { PartitionContextError } from "../../src/eventProcessor";
 import chai from "chai";
 import { delay } from '@azure/core-amqp';
 
@@ -41,7 +41,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
 
   async processEvent(
     event: ReceivedEventData,
-    context: PartitionContext & PartitionCheckpointer
+    context: PartitionContext
   ): Promise<void> {
     this.contextIsOk(context);
     await context.updateCheckpoint(event);
@@ -74,7 +74,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     }
   }
 
-  async processInitialize(context: SubscriptionPartitionContext & SubscriptionPartitionInitializer): Promise<void> {
+  async processInitialize(context: InitializationContext): Promise<void> {
     this.contextIsOk(context);
 
     context.setStartPosition("latest");
