@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient, Subscription, SubscriptionOptions, EventPosition } from "../src";
+import { EventHubProducerClient, Subscription, SubscriptionOptions } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -9,19 +9,15 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
 import { LogTester } from "./utils/logTester";
+import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
 
 const should = chai.should();
 const env = getEnvVars();
 
 // setting these to be really small since our tests deal with a
 // very low volume of messages.
-const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds' | 'tempDefaultEventPosition'> = {
-  maxWaitTimeInSeconds: 10,
-
-
-  
-  // TODO: temporary
-  tempDefaultEventPosition: EventPosition.latest()
+const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds'> = {
+  maxWaitTimeInSeconds: 10
 };
 
 describe("EventHubConsumerClient", () => {

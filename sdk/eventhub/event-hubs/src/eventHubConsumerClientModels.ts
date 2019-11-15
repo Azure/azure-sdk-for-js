@@ -78,7 +78,7 @@ export interface InitializationContext extends PartitionContext {
    * Allows for setting the start position of a partition.
    * Default (if not called) is `EventPosition.earliest()`
    */
-  setStartPosition(startPosition: EventPosition | "earliest" | "latest"): void;
+  setStartPosition(startPosition: EventPosition): void;
 }
 
 /**
@@ -154,10 +154,6 @@ export interface SubscriptionOptions {
    * The owner level to use as this subscription subscribes to partitions.
    */
   ownerLevel?: number;
-
-
-  // TODO: temporary
-  tempDefaultEventPosition?: EventPosition;
 }
 
 /**

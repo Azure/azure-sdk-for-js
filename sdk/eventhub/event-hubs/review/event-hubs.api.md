@@ -135,15 +135,6 @@ export interface GetPartitionPropertiesOptions extends SpanOptions {
 }
 
 // @public
-export class InMemoryPartitionManager implements PartitionManager {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    // (undocumented)
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
-}
-
-// @public
 export interface LastEnqueuedEventProperties {
     enqueuedTime?: Date;
     offset?: string;
@@ -247,8 +238,6 @@ export interface SubscriptionEventHandlers {
 export interface SubscriptionOptions {
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
-    // (undocumented)
-    tempDefaultEventPosition?: EventPosition;
     trackLastEnqueuedEventProperties?: boolean;
 }
 

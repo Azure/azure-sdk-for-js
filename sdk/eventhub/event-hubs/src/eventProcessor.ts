@@ -316,16 +316,14 @@ export class EventProcessor {
 
       let eventPosition: EventPosition;
 
-      if (validCheckpoints.length == 0) {
-
-        if (this._processorOptions.tempDefaultEventPosition) {
-          eventPosition = this._processorOptions.tempDefaultEventPosition;
-        } else {
-          eventPosition = EventPosition.earliest();
-        }
-      } else {
+      if (validCheckpoints.length > 0) {
         eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
+      } else {
+        eventPosition = EventPosition.earliest();
+        
       }
+
+      
 
       // const eventPosition = ownershipRequest.sequenceNumber
       //   ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)

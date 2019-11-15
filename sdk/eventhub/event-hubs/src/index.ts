@@ -35,7 +35,6 @@ export {
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
-export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export {
   MessagingError,
   RetryOptions,

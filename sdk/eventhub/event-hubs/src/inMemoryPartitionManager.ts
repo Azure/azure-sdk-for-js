@@ -16,6 +16,8 @@ import { throwTypeErrorIfParameterMissing } from './util/error';
  * store the checkpoints and partition ownerships to a durable store instead.
  *
  * @class
+ * @internal
+ * @ignore
  */
 export class InMemoryPartitionManager implements PartitionManager {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();

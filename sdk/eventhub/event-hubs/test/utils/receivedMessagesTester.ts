@@ -1,4 +1,4 @@
-import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
+import { CloseReason, ReceivedEventData, EventHubProducerClient, EventPosition } from "../../src/";
 import { SubscriptionEventHandlers, PartitionContext, InitializationContext } from "../../src/eventHubConsumerClientModels";
 import { PartitionContextError } from "../../src/eventProcessor";
 import chai from "chai";
@@ -77,7 +77,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   async processInitialize(context: InitializationContext): Promise<void> {
     this.contextIsOk(context);
 
-    context.setStartPosition("latest");
+    context.setStartPosition(EventPosition.latest());
 
     if (!this.multipleConsumers) {
       // this'll happen because for our multi-consumer tests we share the same

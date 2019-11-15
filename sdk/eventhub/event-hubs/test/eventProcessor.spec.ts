@@ -9,7 +9,6 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
   EventData,
-  InMemoryPartitionManager,
   PartitionOwnership,
   CloseReason,
   ReceivedEventData,
@@ -24,14 +23,14 @@ import { EventProcessor, FullEventProcessorOptions, PartitionContextError } from
 import { Checkpoint } from '../src/partitionProcessor';
 import { delay } from '@azure/core-amqp';
 import { InitializationContext, PartitionContext } from '../src/eventHubConsumerClientModels';
+import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
   const defaultOptions : FullEventProcessorOptions = {
     maxBatchSize: 1,
     maxWaitTimeInSeconds: 60,
-    ownerLevel: 0,
-    tempDefaultEventPosition: EventPosition.latest()
+    ownerLevel: 0
   };
   
   const service = {
@@ -64,6 +63,7 @@ describe("Event Processor", function (): void {
       client,
       {
         processEvent: async () => { },
+        processInitialize: async (context) => context.setStartPosition(EventPosition.latest())
       },
       new InMemoryPartitionManager(),
       defaultOptions
@@ -133,8 +133,9 @@ describe("Event Processor", function (): void {
       {
         processInitialize: async (context) => {
           didPartitionProcessorStart = true;
+          context.setStartPosition(EventPosition.latest())
         },
-        processEvent: async (event, context) => {}
+        processEvent: async (event, context) => {},
       },
       new InMemoryPartitionManager(),
       defaultOptions
@@ -320,6 +321,10 @@ describe("Event Processor", function (): void {
 
       let partionCount: { [x: string]: number } = {};
       class FooPartitionProcessor  {
+        async processInitialize(context: InitializationContext) {
+          context.setStartPosition(EventPosition.latest());
+        }
+
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
           partitionOwnerShip.add(context.partitionId);
 
@@ -348,8 +353,7 @@ describe("Event Processor", function (): void {
         new FooPartitionProcessor(),
         inMemoryPartitionManager,
         {
-          ...defaultOptions,
-          tempDefaultEventPosition: EventPosition.earliest()
+          ...defaultOptions
         }
       );
 
@@ -456,8 +460,9 @@ describe("Event Processor", function (): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
-        async processInitialize(context: PartitionContext) {
-          partitionResultsMap.get(context.partitionId)!.initialized = true;
+        async processInitialize(context: InitializationContext) {
+          partitionResultsMap.get(context.partitionId)!.initialized = true;          
+          context.setStartPosition(EventPosition.latest());
         }
         async processClose(reason: CloseReason, context: PartitionContext) {
           partitionResultsMap.get(context.partitionId)!.closeReason = reason;
@@ -486,7 +491,7 @@ describe("Event Processor", function (): void {
         client,
         new FooPartitionProcessor(),
         partitionManager,
-        { ...defaultOptions, tempDefaultEventPosition: EventPosition.earliest() }
+        { ...defaultOptions }
       );
 
       processorByName[`processor-1`].start();
@@ -556,6 +561,9 @@ describe("Event Processor", function (): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
+        async processInitialization(context: InitializationContext) {
+          context.setStartPosition(EventPosition.latest());
+        }
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
@@ -633,6 +641,9 @@ describe("Event Processor", function (): void {
       let partitionIdsSet = new Set();
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
+        async processInitialization(context: InitializationContext) {
+          context.setStartPosition(EventPosition.latest());
+        }
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
           partitionIdsSet.add(context.partitionId);
           lastEnqueuedEventPropertiesMap.set(context.partitionId, context.lastEnqueuedEventProperties!);
@@ -645,8 +656,7 @@ describe("Event Processor", function (): void {
         new SimpleEventProcessor(),
         new InMemoryPartitionManager(),
         {
-          ...defaultOptions,
-          tempDefaultEventPosition: EventPosition.earliest(),
+          ...defaultOptions,          
           trackLastEnqueuedEventProperties: true
         }
       );
@@ -689,6 +699,7 @@ class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers>
 
   async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
+    context.setStartPosition(EventPosition.latest());
   }
 
   async processClose(reason: CloseReason, context: PartitionContext) {
