@@ -80,76 +80,38 @@ const subscriptionProperties = [
 
 const ruleProperties = ["Filter", "Action", "Name"];
 
-const dummyRequest: WebResource = new WebResource("dummy", "PUT");
-
 const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  "Endpoint=dummy/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=dummy"
+  "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
 const mockHappyServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  "Endpoint=dummy/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=dummy"
+  "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 mockHappyServiceBusAtomManagementClient.sendRequest = async () => {
   return {
-    request: dummyRequest,
+    request: new WebResource(),
     status: 200,
     headers: new HttpHeaders({})
   };
 };
 
-class DummySerializer implements AtomXmlSerializer {
-  serialize(resource: any): object {
-    const property1 = "LockDuration";
-    const property2 = "MaxSizeInMegabytes";
-
-    const serializedContent = {
-      $: {
-        type: "application/xml"
-      },
-      QueueDescription: {
-        $: {
-          xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-          "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
-        },
-        LockDuration: "PT1M",
-        MaxSizeInMegabytes: "1024"
-      }
-    };
-    serializedContent.QueueDescription[property1] = resource["lockDuration"];
-    serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
-
-    return {
-      $: {
-        xmlns: "http://www.w3.org/2005/Atom"
-      },
-      updated: new Date().toISOString(),
-      content: serializedContent
-    };
-  }
-
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return response;
-  }
-}
-
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
+    const request = new WebResource();
     mockServiceBusAtomManagementClient.sendRequest = async () => {
       return {
-        request: dummyRequest,
+        request: request,
         status: 200,
         headers: new HttpHeaders({}),
         bodyAsText: `{ hello: "this is a JSON response body" }`
       };
     };
 
-    dummyRequest.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
-    const testSerializer = new DummySerializer();
     try {
       await executeAtomXmlOperation(
         mockServiceBusAtomManagementClient,
-        dummyRequest,
-        testSerializer
+        request,
+        new MockSerializer()
       );
       assert.equal(true, false, "Error must be thrown");
     } catch (err) {
@@ -165,19 +127,17 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
   });
 
   it("should properly serialize when using valid inputs and serializer", async function() {
-    dummyRequest.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
-
-    const testSerializer = new DummySerializer();
-
+    const request = new WebResource();
+    request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
     await executeAtomXmlOperation(
       mockHappyServiceBusAtomManagementClient,
-      dummyRequest,
-      testSerializer
+      request,
+      new MockSerializer()
     );
 
     const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
 
-    const requestBody: string = dummyRequest.body.toString();
+    const requestBody: string = request.body.toString();
     const indexOfOpenUpdateTag = requestBody.indexOf("<updated>");
     const indexOfCloseUpdateTag = requestBody.indexOf("</updated>");
     assert.equal(
@@ -195,7 +155,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
 
 describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
-    const request: WebResource = new WebResource("dummy", "GET");
+    const request: WebResource = new WebResource();
     const _response = {
       request,
       status: 200,
@@ -218,7 +178,7 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   });
 
   it("should throw appropriate error if unrecognized HTTP code is returned by service", async function() {
-    const request: WebResource = new WebResource("dummy", "GET");
+    const request: WebResource = new WebResource();
     const _response = {
       request,
       status: 666,
@@ -283,7 +243,7 @@ describe("Serializer construct requests with properties in specific order #RunIn
       enablePartitioning: true
     };
 
-    const request: WebResource = new WebResource("dummy", "PUT");
+    const request: WebResource = new WebResource();
     request.body = JSON.stringify(queueOptions);
 
     const serializer = new QueueResourceSerializer();
@@ -330,7 +290,7 @@ describe("Serializer construct requests with properties in specific order #RunIn
       ]
     };
 
-    const request: WebResource = new WebResource("dummy", "PUT");
+    const request: WebResource = new WebResource();
     request.body = JSON.stringify(topicOptions);
 
     const serializer = new TopicResourceSerializer();
@@ -352,7 +312,7 @@ describe("Serializer construct requests with properties in specific order #RunIn
       maxDeliveryCount: 20
     };
 
-    const request: WebResource = new WebResource("dummy", "PUT");
+    const request: WebResource = new WebResource();
     request.body = JSON.stringify(subscriptionOptions);
 
     const serializer = new SubscriptionResourceSerializer();
@@ -374,7 +334,7 @@ describe("Serializer construct requests with properties in specific order #RunIn
       action: { sqlExpression: "SET a='b'" }
     };
 
-    const request: WebResource = new WebResource("dummy", "PUT");
+    const request: WebResource = new WebResource();
     request.body = JSON.stringify(ruleOptions);
 
     const serializer = new RuleResourceSerializer();
@@ -383,6 +343,7 @@ describe("Serializer construct requests with properties in specific order #RunIn
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), ruleProperties);
   });
+});
 
 function checkXmlHasPropertiesInExpectedOrder(
   xml: string,
@@ -406,5 +367,40 @@ function checkXmlHasPropertiesInExpectedOrder(
       true,
       "The properties in constructed request are not in expected order"
     );
+  }
+}
+
+class MockSerializer implements AtomXmlSerializer {
+  serialize(resource: any): object {
+    const property1 = "LockDuration";
+    const property2 = "MaxSizeInMegabytes";
+
+    const serializedContent = {
+      $: {
+        type: "application/xml"
+      },
+      QueueDescription: {
+        $: {
+          xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+          "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+        },
+        LockDuration: "PT1M",
+        MaxSizeInMegabytes: "1024"
+      }
+    };
+    serializedContent.QueueDescription[property1] = resource["lockDuration"];
+    serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
+
+    return {
+      $: {
+        xmlns: "http://www.w3.org/2005/Atom"
+      },
+      updated: new Date().toISOString(),
+      content: serializedContent
+    };
+  }
+
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return response;
   }
 }
