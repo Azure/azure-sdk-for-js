@@ -225,10 +225,12 @@ function toCorePolicy(
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
-    const propertyName = policy.subjectAlternativeNames.subjectType;
     subjectAlternativeNames = {
-      [propertyName]: policy.subjectAlternativeNames.subjectValues
-    };
+      emails: policy.subjectAlternativeNames.emails,
+      dnsNames: policy.subjectAlternativeNames.dnsNames,
+      upns: policy.subjectAlternativeNames.userPrincipalNames,
+    }
+
   }
 
   return {

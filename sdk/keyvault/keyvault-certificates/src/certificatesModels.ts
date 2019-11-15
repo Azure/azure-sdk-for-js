@@ -156,9 +156,55 @@ export enum WellKnownIssuer {
 }
 
 /**
+ * An array with one property at minimum
+ */
+export type ArrayOneOrMore<T> = {
+  0: T
+} & Array<T>
+
+/**
+ * An interface representing the alternative names of the subject of a certificate contact.
+ */
+export interface SubjectAlternativeNamesAll {
+  /**
+   * Email addresses.
+   */
+  emails: ArrayOneOrMore<string>;
+  /**
+   * Domain names.
+   */
+  dnsNames: ArrayOneOrMore<string>;
+  /**
+   * User principal names.
+   */
+  userPrincipalNames: ArrayOneOrMore<string>;
+}
+
+/**
+ * Alternatives to the subject property.
+ * If present, it should at least have one of the properties of SubjectAlternativeNamesAll.
+ */
+export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
+
+/**
+ * Subject, or subject alternative properties.
+ */
+export type SubjectPropertiesAll = {
+    /**
+   * The subject name. Should be a valid X509 distinguished Name.
+   */
+  subject?: string;
+} | {
+  /**
+   * The subject alternative names.
+   */
+  subjectAlternativeNames: SubjectAlternativeNames;
+};
+
+/**
  * An interface representing a certificate's policy
  */
-export interface CertificatePolicy {
+export interface CertificatePolicyAll {
   /**
    * Indicates if the certificates generated under this policy should be published to certificate
    * transparency logs.
@@ -214,14 +260,6 @@ export interface CertificatePolicy {
    */
   reuseKey?: boolean;
   /**
-   * The subject name. Should be a valid X509 distinguished Name.
-   */
-  subject?: string;
-  /**
-   * The subject alternative names.
-   */
-  subjectAlternativeNames?: SubjectAlternativeNames;
-  /**
    * When the object was updated.
    */
   readonly updatedOn?: Date;
@@ -230,6 +268,8 @@ export interface CertificatePolicy {
    */
   validityInMonths?: number;
 }
+
+export type CertificatePolicy = CertificatePolicyAll & SubjectPropertiesAll;
 
 /**
  * The CertificatePolicy module exports values that
@@ -245,20 +285,6 @@ export module CertificatePolicy {
     issuerName: "Self",
     subject: "cn=MyCert"
   };
-}
-
-/**
- * An interface representing the alternative names of the subject of a certificate contact.
- */
-export interface SubjectAlternativeNames {
-  /**
-   * The subject type, either emails, DNS names or UPNs
-   */
-  subjectType: "emails" | "dnsNames" | "upns";
-  /**
-   * The subject values
-   */
-  subjectValues: string[];
 }
 
 /**
