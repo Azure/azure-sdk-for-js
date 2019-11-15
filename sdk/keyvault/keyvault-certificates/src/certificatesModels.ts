@@ -152,15 +152,15 @@ export enum WellKnownIssuer {
   /**
    * For certificates whose issuer will be defined later
    */
-  Unknown = "Unknown",
+  Unknown = "Unknown"
 }
 
 /**
  * An array with one property at minimum
  */
 export type ArrayOneOrMore<T> = {
-  0: T
-} & Array<T>
+  0: T;
+} & Array<T>;
 
 /**
  * An interface representing the alternative names of the subject of a certificate contact.

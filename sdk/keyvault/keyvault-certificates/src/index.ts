@@ -229,9 +229,8 @@ function toCorePolicy(
     subjectAlternativeNames = {
       emails: policy.subjectAlternativeNames.emails,
       dnsNames: policy.subjectAlternativeNames.dnsNames,
-      upns: policy.subjectAlternativeNames.userPrincipalNames,
-    }
-
+      upns: policy.subjectAlternativeNames.userPrincipalNames
+    };
   }
 
   return {
@@ -295,19 +294,19 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
           emails: <ArrayOneOrMore<string>>names.emails
-        }
+        };
       }
       if (names.dnsNames && names.dnsNames.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
           dnsNames: <ArrayOneOrMore<string>>names.dnsNames
-        }
+        };
       }
       if (names.upns && names.upns.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
           userPrincipalNames: <ArrayOneOrMore<string>>names.upns
-        }
+        };
       }
     }
     certificatePolicy = {
