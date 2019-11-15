@@ -39,6 +39,7 @@
     "dist/",
     "dist-esm/lib/",
     "src/",
+    "lib/",
     "types/core-tracing.d.ts",
     "ThirdPartyNotices.txt"
   ],
