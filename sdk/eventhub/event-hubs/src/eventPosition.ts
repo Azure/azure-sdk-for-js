@@ -120,11 +120,11 @@ export class EventPosition {
    * Default: `false`.
    * @returns EventPosition
    */
-  static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
+  static fromOffset(offset: number): EventPosition {
     if (typeof offset !== "number" && typeof offset !== "string") {
       throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
     }
-    return new EventPosition({ offset: offset, isInclusive: isInclusive });
+    return new EventPosition({ offset: offset });
   }
 
   /**
