@@ -333,13 +333,7 @@ export class BatchingReceiver extends MessageReceiver {
               connectionId,
               id
             );
-            const deleteResult = this._deliveryDispositionMap.delete(id);
-            log.receiver(
-              "[%s] Successfully deleted the delivery with id %d from the map.",
-              connectionId,
-              id,
-              deleteResult
-            );
+            
             if (state && state.error && (state.error.condition || state.error.description)) {
               const error = translate(state.error);
               return promise.reject(error);
