@@ -63,7 +63,11 @@ import {
   IssuerProperties,
   CertificateContactAll,
   RequireAtLeastOne,
-  ArrayOneOrMore
+  ArrayOneOrMore,
+  CertificatePolicySubject,
+  CertificatePolicySubjectAlternativeNames,
+  SubjectAlternativeNamesAll,
+  CertificatePolicyAll
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -136,6 +140,7 @@ export {
   Action,
   ActionType,
   AdministratorContact,
+  ArrayOneOrMore,
   BackupCertificateResult,
   BeginCreateCertificateOptions,
   BeginDeleteCertificateOptions,
@@ -149,6 +154,9 @@ export {
   CertificateIssuer,
   CertificateOperation,
   CertificatePolicy,
+  CertificatePolicyAll,
+  CertificatePolicySubject,
+  CertificatePolicySubjectAlternativeNames,
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
@@ -193,6 +201,7 @@ export {
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
+  SubjectAlternativeNamesAll,
   CreateIssuerOptions,
   SubjectAlternativeNames,
   Trigger,
