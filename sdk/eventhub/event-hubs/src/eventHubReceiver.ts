@@ -498,6 +498,24 @@ export class EventHubReceiver extends LinkEntity {
         this.address,
         err
       );
+      if (typeof this._onError === "function") {
+        log.error(
+          "[%s] Unable to automatically reconnect Receiver '%s' with address '%s'. " +
+            "Invoking user-defined error handler.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
+        try {
+          this._onError(err);
+        } catch (err) {
+          log.error(
+            "[%s] User-code error in error handler called after disconnect: %O",
+            this._context.connectionId,
+            err
+          );
+        }
+      }
     }
   }
 
