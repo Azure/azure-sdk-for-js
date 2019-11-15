@@ -172,7 +172,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   }
 
   private contextIsOk(context: PartitionContext | PartitionContextError): void {
-    context.consumerGroupName.should.be.ok;
+    context.consumerGroup.should.be.ok;
     context.eventHubName.should.be.ok;
     context.fullyQualifiedNamespace.should.be.ok;
 

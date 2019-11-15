@@ -16,7 +16,7 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface Checkpoint {
-    consumerGroupName: string;
+    consumerGroup: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;
     offset: number;
@@ -72,7 +72,7 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
-    static defaultConsumerGroupName: string;
+    static defaultConsumerGroup: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(option?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
@@ -139,7 +139,7 @@ export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     // (undocumented)
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
@@ -155,7 +155,7 @@ export { MessagingError }
 
 // @public
 export interface PartitionContext {
-    consumerGroupName: string;
+    consumerGroup: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;
     lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
@@ -167,13 +167,13 @@ export interface PartitionContext {
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // @public
 export interface PartitionOwnership {
-    consumerGroupName: string;
+    consumerGroup: string;
     eTag?: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;

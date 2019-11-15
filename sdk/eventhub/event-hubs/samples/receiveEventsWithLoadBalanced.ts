@@ -30,7 +30,7 @@ const containerName = "";
 
 async function main() {
   // The callback where you add your code to process incoming events
-  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, connectionString, eventHubName);
+  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
   
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints in this session in Azure Storage
@@ -38,10 +38,10 @@ async function main() {
   await containerClient.create();
 
   const subscription = consumerClient.subscribe(
-    EventHubConsumerClient.defaultConsumerGroupName,
+    EventHubConsumerClient.defaultConsumerGroup,
     new BlobPartitionManager(containerClient), {
       processEvent: async (event, context) => {
-        console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`);
+        console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
     
         // checkpoint using the last event in the batch
         await context.updateCheckpoint(event).catch((err: any) => {

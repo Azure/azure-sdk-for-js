@@ -41,7 +41,7 @@ export interface PartitionContextError {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition. Undefined in cases
    * where the error is not partition specific
@@ -68,7 +68,7 @@ export interface PartitionOwnership {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition
    */
@@ -109,13 +109,13 @@ export interface PartitionManager {
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
+   * @param consumerGroup The consumer group name.
    * @return A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroupName: string
+    consumerGroup: string
   ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
@@ -140,7 +140,7 @@ export interface PartitionManager {
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
+   * @param consumerGroup The consumer group name.
    */
   listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
 }
@@ -209,7 +209,7 @@ export interface FullEventProcessorOptions extends
  * @class EventProcessor
  */
 export class EventProcessor {
-  private _consumerGroupName: string;
+  private _consumerGroup: string;
   private _eventHubClient: EventHubClient;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
@@ -220,7 +220,7 @@ export class EventProcessor {
   private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
    * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
    * This class will be responsible for processing and checkpointing events.
@@ -232,13 +232,13 @@ export class EventProcessor {
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   constructor(
-    consumerGroupName: string,
+    consumerGroup: string,
     eventHubClient: EventHubClient,
     private _subscriptionEventHandlers: SubscriptionEventHandlers,
     private _partitionManager: PartitionManager,
     options: FullEventProcessorOptions
   ) {
-    this._consumerGroupName = consumerGroupName;
+    this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
@@ -264,7 +264,7 @@ export class EventProcessor {
       ownerId: this._id,
       partitionId: partitionIdToClaim,
       fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
-      consumerGroupName: this._consumerGroupName,
+      consumerGroup: this._consumerGroup,
       eventHubName: this._eventHubClient.eventHubName,
       eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined
     };
@@ -301,7 +301,7 @@ export class EventProcessor {
         {
           fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
           eventHubName: this._eventHubClient.eventHubName,
-          consumerGroupName: this._consumerGroupName,
+          consumerGroup: this._consumerGroup,
           partitionId: ownershipRequest.partitionId,
           eventProcessorId: this.id,
         });
@@ -310,7 +310,7 @@ export class EventProcessor {
       const availableCheckpoints = await this._partitionManager.listCheckpoints(
         this._eventHubClient.fullyQualifiedNamespace,
         this._eventHubClient.eventHubName,
-        this._consumerGroupName);
+        this._consumerGroup);
 
       const validCheckpoints = availableCheckpoints.filter(chk => chk.partitionId === partitionIdToClaim);
 
@@ -362,7 +362,7 @@ export class EventProcessor {
         const partitionOwnership = await this._partitionManager.listOwnership(
           this._eventHubClient.fullyQualifiedNamespace,
           this._eventHubClient.eventHubName,
-          this._consumerGroupName
+          this._consumerGroup
         );
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
@@ -409,7 +409,7 @@ export class EventProcessor {
       await this._subscriptionEventHandlers.processError(err, {
         fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
         eventHubName: this._eventHubClient.eventHubName,
-        consumerGroupName: this._consumerGroupName,
+        consumerGroup: this._consumerGroup,
 
         // TODO: this isn't quite right. Need to fix it.
         partitionId: partitionId || "",

@@ -60,7 +60,7 @@ describe("Event Processor", function (): void {
 
   it("should expose an id #RunnableInBrowser", async function (): Promise<void> {
     const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubClient.defaultConsumerGroup,
       client,
       {
         processEvent: async () => { },
@@ -88,7 +88,7 @@ describe("Event Processor", function (): void {
     const subscriptionEventHandler = new SubscriptionHandlerForTests();
 
     const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubClient.defaultConsumerGroup,
       client,
       subscriptionEventHandler,
       new InMemoryPartitionManager(),
@@ -128,7 +128,7 @@ describe("Event Processor", function (): void {
     let didPartitionProcessorStart = false;
 
     const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubClient.defaultConsumerGroup,
       client,
       {
         processInitialize: async (context) => {
@@ -155,7 +155,7 @@ describe("Event Processor", function (): void {
     let subscriptionEventHandler = new SubscriptionHandlerForTests();
 
     const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubClient.defaultConsumerGroup,
       client,
       subscriptionEventHandler,
       new InMemoryPartitionManager(),
@@ -216,7 +216,7 @@ describe("Event Processor", function (): void {
       const subscriptionEventHandler = new SubscriptionHandlerForTests();
 
       const processor = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         subscriptionEventHandler,
         new InMemoryPartitionManager(),
@@ -259,14 +259,14 @@ describe("Event Processor", function (): void {
       const partitionOwnership1: PartitionOwnership = {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
-        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        consumerGroup: EventHubClient.defaultConsumerGroup,
         ownerId: generate_uuid(),
         partitionId: "0"
       };
       const partitionOwnership2: PartitionOwnership = {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
-        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        consumerGroup: EventHubClient.defaultConsumerGroup,
         ownerId: generate_uuid(),
         partitionId: "1"
       };
@@ -278,14 +278,14 @@ describe("Event Processor", function (): void {
       const ownershiplist = await inMemoryPartitionManager.listOwnership(
         "myNamespace.servicebus.windows.net",
         "myEventHub",
-        EventHubClient.defaultConsumerGroupName
+        EventHubClient.defaultConsumerGroup
       );
       ownershiplist.length.should.equals(2);
 
       const checkpoint: Checkpoint = {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
-        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        consumerGroup: EventHubClient.defaultConsumerGroup,
         partitionId: "0",
         sequenceNumber: 10,
         offset: 50
@@ -295,15 +295,15 @@ describe("Event Processor", function (): void {
       const partitionOwnershipList = await inMemoryPartitionManager.listOwnership(
         "myNamespace.servicebus.windows.net",
         "myEventHub",
-        EventHubClient.defaultConsumerGroupName
+        EventHubClient.defaultConsumerGroup
       );
       partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
       partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(
         "myNamespace.servicebus.windows.net"
       );
       partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
-      partitionOwnershipList[0].consumerGroupName!.should.equals(
-        EventHubClient.defaultConsumerGroupName
+      partitionOwnershipList[0].consumerGroup!.should.equals(
+        EventHubClient.defaultConsumerGroup
       );
     });
 
@@ -343,7 +343,7 @@ describe("Event Processor", function (): void {
 
       const inMemoryPartitionManager = new InMemoryPartitionManager();
       const processor1 = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
         inMemoryPartitionManager,
@@ -391,7 +391,7 @@ describe("Event Processor", function (): void {
       partitionOwnerShip = new Set();
 
       const processor2 = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
         inMemoryPartitionManager,
@@ -482,7 +482,7 @@ describe("Event Processor", function (): void {
       }
 
       processorByName[`processor-1`] = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
         partitionManager,
@@ -496,7 +496,7 @@ describe("Event Processor", function (): void {
       }
 
       processorByName[`processor-2`] = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
         partitionManager,
@@ -518,7 +518,7 @@ describe("Event Processor", function (): void {
       const partitionOwnership = await partitionManager.listOwnership(
         client.fullyQualifiedNamespace,
         client.eventHubName,
-        EventHubClient.defaultConsumerGroupName
+        EventHubClient.defaultConsumerGroup
       );
 
       for (const ownership of partitionOwnership) {
@@ -575,7 +575,7 @@ describe("Event Processor", function (): void {
       for (let i = 0; i < 2; i++) {
         const processorName = `processor-${i}`;
         processorByName[processorName] = new EventProcessor(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubClient.defaultConsumerGroup,
           client,
           new FooPartitionProcessor(),
           partitionManager,
@@ -600,7 +600,7 @@ describe("Event Processor", function (): void {
       const partitionOwnership = await partitionManager.listOwnership(
         client.fullyQualifiedNamespace,
         client.eventHubName,
-        EventHubClient.defaultConsumerGroupName
+        EventHubClient.defaultConsumerGroup
       );
       for (const ownership of partitionOwnership) {
         if (!partitionOwnershipMap.has(ownership.ownerId)) {
@@ -640,7 +640,7 @@ describe("Event Processor", function (): void {
       }
 
       const processor = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         client,
         new SimpleEventProcessor(),
         new InMemoryPartitionManager(),

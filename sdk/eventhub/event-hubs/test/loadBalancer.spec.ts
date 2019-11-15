@@ -26,7 +26,7 @@ describe("PartitionLoadBalancer", () => {
       const m = new Map<string, PartitionOwnership>();
 
       m.set("1", {
-        consumerGroupName: "",
+        consumerGroup: "",
         fullyQualifiedNamespace: "",
         eventHubName: "",
         ownerId: "",

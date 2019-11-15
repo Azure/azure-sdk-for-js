@@ -52,7 +52,7 @@ export class PartitionPump {
 
   private async _receiveEvents(partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
-      this._partitionProcessor.consumerGroupName,
+      this._partitionProcessor.consumerGroup,
       partitionId,
       this._initialEventPosition,
       {

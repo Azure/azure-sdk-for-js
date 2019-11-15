@@ -61,7 +61,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       client = new EventHubConsumerClient(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubClient.defaultConsumerGroup,
         service.connectionString!,
         service.path);
 

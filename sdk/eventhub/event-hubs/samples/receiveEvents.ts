@@ -20,13 +20,13 @@ const connectionString = "";
 const eventHubName = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, connectionString, eventHubName);
+  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
 
-  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, {
+  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroup, {
     // The callback where you add your code to process incoming events
     processEvent: async (event, context) => {
         console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroupName}'`
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
         );
       }
   });

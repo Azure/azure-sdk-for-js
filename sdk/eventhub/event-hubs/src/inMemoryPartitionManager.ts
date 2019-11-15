@@ -28,13 +28,13 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
+   * @param consumerGroup The consumer group name.
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroupName: string
+    consumerGroup: string
   ): Promise<PartitionOwnership[]> {
     return Array.from(this._partitionOwnershipMap.values());
   }
@@ -81,7 +81,7 @@ export class InMemoryPartitionManager implements PartitionManager {
     if (partitionOwnership) {
       partitionOwnership.eTag = generate_uuid();
 
-      const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroupName}`;
+      const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroup}`;
       let partitionMap = this._committedCheckpoints.get(key);
 
       if (partitionMap == null) {

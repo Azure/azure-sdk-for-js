@@ -28,7 +28,7 @@ export interface Checkpoint {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition
    */
@@ -95,8 +95,8 @@ export class PartitionProcessor implements InitializationContext {
    * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
-  public get consumerGroupName() {
-    return this._context.consumerGroupName!;
+  public get consumerGroup() {
+    return this._context.consumerGroup!;
   }
 
   /**
@@ -193,7 +193,7 @@ export class PartitionProcessor implements InitializationContext {
     const checkpoint: Checkpoint = {
       fullyQualifiedNamespace: this._context.fullyQualifiedNamespace,
       eventHubName: this._context.eventHubName,
-      consumerGroupName: this._context.consumerGroupName,
+      consumerGroup: this._context.consumerGroup,
       partitionId: this._context.partitionId,
       sequenceNumber: eventData.sequenceNumber,
       offset: eventData.offset,

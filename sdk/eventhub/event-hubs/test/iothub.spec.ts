@@ -46,7 +46,7 @@ describe("EventHub Client with iothub connection string #RunnableInBrowser", fun
   it("should be able to receive messages from the event hub", async function(): Promise<void> {
     client = new EventHubClient(service.connectionString);
     const receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubClient.defaultConsumerGroup,
       "0",
       EventPosition.earliest()
     );

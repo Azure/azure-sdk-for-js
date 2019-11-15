@@ -21,7 +21,7 @@ export interface BasicPartitionProperties {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition
    */
@@ -45,7 +45,7 @@ export interface PartitionContext {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition
    */

@@ -33,7 +33,7 @@ const eventHubName = "";
 
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, evenHubsEndpoint, eventHubName, credential);
+  const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, evenHubsEndpoint, eventHubName, credential);
   /*
    Refer to other samples, and place your code here
    to send/receive events
