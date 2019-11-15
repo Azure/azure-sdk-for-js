@@ -134,15 +134,7 @@ export interface CertificateOperation {
 }
 
 // @public
-export type CertificatePolicy = CertificatePolicySubject | CertificatePolicySubjectAlternativeNames;
-
-// @public
-export module CertificatePolicy {
-    const Default: CertificatePolicy;
-}
-
-// @public
-export interface CertificatePolicyAll {
+export interface CertificatePolicy {
     certificateTransparency?: boolean;
     certificateType?: CertificateContentType;
     contentType?: string;
@@ -156,20 +148,15 @@ export interface CertificatePolicyAll {
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
     reuseKey?: boolean;
+    subject?: string;
+    subjectAlternativeNames?: SubjectAlternativeNames;
     readonly updatedOn?: Date;
     validityInMonths?: number;
 }
 
 // @public
-export interface CertificatePolicySubject extends CertificatePolicyAll {
-    subject?: string;
-    subjectAlternativeNames?: undefined;
-}
-
-// @public
-export interface CertificatePolicySubjectAlternativeNames extends CertificatePolicyAll {
-    subject?: undefined;
-    subjectAlternativeNames?: SubjectAlternativeNames;
+export module CertificatePolicy {
+    const Default: CertificatePolicy;
 }
 
 // @public

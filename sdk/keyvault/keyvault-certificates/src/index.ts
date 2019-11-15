@@ -64,10 +64,7 @@ import {
   CertificateContactAll,
   RequireAtLeastOne,
   ArrayOneOrMore,
-  CertificatePolicySubject,
-  CertificatePolicySubjectAlternativeNames,
-  SubjectAlternativeNamesAll,
-  CertificatePolicyAll
+  SubjectAlternativeNamesAll
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -154,9 +151,6 @@ export {
   CertificateIssuer,
   CertificateOperation,
   CertificatePolicy,
-  CertificatePolicyAll,
-  CertificatePolicySubject,
-  CertificatePolicySubjectAlternativeNames,
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
@@ -322,13 +316,10 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
       ...certificatePolicy,
       enhancedKeyUsage: x509Properties.ekus,
       keyUsage: x509Properties.keyUsage,
-      validityInMonths: x509Properties.validityInMonths
+      validityInMonths: x509Properties.validityInMonths,
+      subject: x509Properties.subject,
+      subjectAlternativeNames,
     };
-    if (subjectAlternativeNames) {
-      certificatePolicy.subjectAlternativeNames = subjectAlternativeNames;
-    } else {
-      certificatePolicy.subject = x509Properties.subject;
-    }
   }
 
   return certificatePolicy;

@@ -187,9 +187,9 @@ export interface SubjectAlternativeNamesAll {
 export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
 
 /**
- * An interface representing a certificate's policy (without subject or subject alternative names).
+ * An interface representing a certificate's policy.
  */
-export interface CertificatePolicyAll {
+export interface CertificatePolicy {
   /**
    * Indicates if the certificates generated under this policy should be published to certificate
    * transparency logs.
@@ -252,40 +252,15 @@ export interface CertificatePolicyAll {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
-}
-
-/**
- * An interface representing a certificate policy with a subject.
- */
-export interface CertificatePolicySubject extends CertificatePolicyAll {
   /**
    * The subject name. Should be a valid X509 distinguished Name.
    */
   subject?: string;
   /**
-   * The subject alternative names is undefined if there's a subject property.
-   */
-  subjectAlternativeNames?: undefined;
-}
-
-/**
- * An interface representing a certificate policy with subject alternative names.
- */
-export interface CertificatePolicySubjectAlternativeNames extends CertificatePolicyAll {
-  /**
    * The subject alternative names.
    */
   subjectAlternativeNames?: SubjectAlternativeNames;
-  /**
-   * The subject is undefined if there's a subjectAlternativeNames property.
-   */
-  subject?: undefined;
 }
-
-/**
- * All the certificate policy properties, either with subject or subject alternative names.
- */
-export type CertificatePolicy = CertificatePolicySubject | CertificatePolicySubjectAlternativeNames;
 
 /**
  * The CertificatePolicy module exports values that
