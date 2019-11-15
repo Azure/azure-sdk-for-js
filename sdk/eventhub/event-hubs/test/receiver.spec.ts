@@ -1025,8 +1025,8 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       should.exist(receiver.lastEnqueuedEventProperties);
       receiver.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
       receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventProperties!.enqueuedTime!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-      receiver.lastEnqueuedEventProperties!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+      receiver.lastEnqueuedEventProperties!.enqueuedAt!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
+      receiver.lastEnqueuedEventProperties!.retrievedAt!.getTime().should.be.greaterThan(Date.now() - 60000);
     });
   });
 
