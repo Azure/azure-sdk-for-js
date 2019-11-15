@@ -169,6 +169,16 @@ export class EventHubReceiver extends LinkEntity {
   protected _checkpoint: CheckpointData;
 
   /**
+   * Keeps track of the number of messages that have been received.
+   */
+  private _receivedMessageCount = 0;
+
+  /**
+   * Keeps track of the last time the number of messages received were logged.
+   */
+  private _lastTimestamp = new Date().toISOString();
+
+  /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
@@ -195,7 +205,25 @@ export class EventHubReceiver extends LinkEntity {
       offset: "0",
       sequenceNumber: -1
     };
+    const logMessageInterval = 1000;
     this._onAmqpMessage = (context: EventContext) => {
+      this._receivedMessageCount++;
+
+      // log every 1000 messages
+      if (this._receivedMessageCount === logMessageInterval) {
+        log.receiver(
+          "[%s] Receiver '%s' has received %i messages since %s.",
+          this._context.connectionId,
+          this.name,
+          this._receivedMessageCount,
+          this._lastTimestamp
+        );
+
+        // reset tracking values
+        this._receivedMessageCount = 0;
+        this._lastTimestamp = new Date().toISOString();
+      }
+
       const evData = EventData.fromAmqpMessage(context.message!);
       evData.body = this._context.dataTransformer.decode(context.message!.body);
       this._checkpoint = {
@@ -215,7 +243,11 @@ export class EventHubReceiver extends LinkEntity {
           this.runtimeInfo
         );
       }
-      this._onMessage!(evData);
+      try {
+        this._onMessage!(evData);
+      } catch (err) {
+        log.error("[%s] User-code error: %O", this._context.connectionId, err);
+      }
     };
 
     this._onAmqpError = (context: EventContext) => {
@@ -231,7 +263,11 @@ export class EventHubReceiver extends LinkEntity {
                 "retryable, we let the user know about it by calling the user's error handler.",
               this._context.connectionId
             );
-            this._onError!(ehError);
+            try {
+              this._onError!(ehError);
+            } catch (err) {
+              log.error("[%s] User-code error in error handler: %O", this._context.connectionId, err);
+            }
           } else {
             log.error(
               "[%s] The received error is not retryable. However, the receiver was " +
@@ -265,7 +301,11 @@ export class EventHubReceiver extends LinkEntity {
               "retryable, we let the user know about it by calling the user's error handler.",
             this._context.connectionId
           );
-          this._onError!(ehError);
+          try {
+            this._onError!(ehError);
+          } catch (err) {
+            log.error("[%s] User-code error in error handler: %O", this._context.connectionId, err);
+          }
         }
       }
     };
@@ -547,7 +587,18 @@ export class EventHubReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
+        const receiverName = options.name || this.name;
+        if (!this._context.receivers[receiverName]) {
+          // Check if the receiver already exists and remove the existing reference from the cache.
+          const existingReceiverName = this.name;
+          if (this._context.receivers[existingReceiverName]) {
+            delete this._context.receivers[existingReceiverName];
+            this.name = receiverName;
+          }
+
+          this._context.receivers[receiverName] = this;
+        }
+
         await this._ensureTokenRenewal();
       } else {
         log.error(
@@ -578,9 +629,9 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    */
   protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
-    if (options.newName) this.name = `${uuid()}`;
+    //if (options.newName) this.name = `${uuid()}`;
     const rcvrOptions: ReceiverOptions = {
-      name: this.name,
+      name: options.newName ? uuid() : this.name,
       autoaccept: true,
       source: {
         address: this.address

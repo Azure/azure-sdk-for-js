@@ -156,7 +156,11 @@ export class StreamingReceiver extends EventHubReceiver {
     this._onError = onError;
     if (!this.isOpen()) {
       this._init().catch(err => {
-        this._onError!(err);
+        try {
+          this._onError!(err);
+        } catch (err) {
+          log.error("User-code error in error handler: %O", err);
+        }
       });
     } else {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
