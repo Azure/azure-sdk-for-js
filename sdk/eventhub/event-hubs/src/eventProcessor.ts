@@ -408,8 +408,6 @@ export class EventProcessor {
         fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
         eventHubName: this._eventHubClient.eventHubName,
         consumerGroup: this._consumerGroup,
-
-        // TODO: this isn't quite right. Need to fix it.
         partitionId: partitionId || "",
         updateCheckpoint: async () => { }
       });

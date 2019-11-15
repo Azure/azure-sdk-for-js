@@ -98,8 +98,6 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 /**
  * Called when we first start processing events from a partition.
  */
-
- // TODO: combine the various Subscription<blah> types into a single type (for the usages needed)
 export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
 
 /**
