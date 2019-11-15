@@ -47,7 +47,7 @@ To run the samples using the published version of the package:
 ```bash
 npm install @azure/storage-file-share
 ```
-2. Copy and modify the sample code, replacing the relative `require('../../')` statements with `require('@azure/storage-file-share')`
+2. Copy and modify the sample code, replacing the relative `import { ... } from '../../src'` statements with `import { ... } from '@azure/storage-file-share'`
 3. Compile the sample
 ```bash
 tsc --out basic.js basic.ts
