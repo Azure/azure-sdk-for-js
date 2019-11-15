@@ -32,7 +32,7 @@ export function buildSubscriptionOptions(
   return {
     LockDuration: subscriptionOptions.lockDuration,
     RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTimeToLive),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTtl),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnMessageExpiration
     ),
@@ -78,9 +78,9 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTimeToLive: getString(
+    defaultMessageTtl: getString(
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTtl"
     ),
     autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
@@ -156,7 +156,7 @@ export interface SubscriptionOptions {
   /**
    * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
    */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTtl?: string;
 
   /**
    * Indicates the default rule description.
@@ -351,7 +351,7 @@ export interface SubscriptionDetails {
   /**
    * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
    */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTtl?: string;
 
   /**
    * Indicates the default rule description.

@@ -31,7 +31,7 @@ import {
  */
 export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topicOptions.defaultMessageTimeToLive,
+    DefaultMessageTimeToLive: topicOptions.defaultMessageTtl,
     MaxSizeInMegabytes: getStringOrUndefined(topicOptions.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topicOptions.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
@@ -81,9 +81,9 @@ export function buildTopic(rawTopic: any): TopicDetails {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTimeToLive: getString(
+    defaultMessageTtl: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTtl"
     ),
     autoDeleteOnIdle: getString(rawTopic[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
@@ -205,7 +205,7 @@ export interface TopicOptions {
   /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
    */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTtl?: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
@@ -447,7 +447,7 @@ export interface TopicDetails {
   /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
    */
-  defaultMessageTimeToLive: string;
+  defaultMessageTtl: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.

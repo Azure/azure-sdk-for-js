@@ -34,7 +34,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
     RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
-    DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
+    DefaultMessageTimeToLive: queueOptions.defaultMessageTtl,
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       queueOptions.deadLetteringOnMessageExpiration
     ),
@@ -79,9 +79,9 @@ export function buildQueue(rawQueue: any): QueueDetails {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTimeToLive: getString(
+    defaultMessageTtl: getString(
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTtl"
     ),
     autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -144,7 +144,7 @@ export interface QueueOptions {
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
    */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTtl?: string;
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
@@ -355,7 +355,7 @@ export interface QueueDetails {
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
    */
-  defaultMessageTimeToLive: string;
+  defaultMessageTtl: string;
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
