@@ -62,7 +62,8 @@ import {
   CertificatePollerOptions,
   IssuerProperties,
   CertificateContactAll,
-  RequireAtLeastOne
+  RequireAtLeastOne,
+  ArrayOneOrMore
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -290,19 +291,36 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
     let subjectAlternativeNames: SubjectAlternativeNames | undefined;
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
-      subjectAlternativeNames = {
-        subjectType: names.emails ? "emails" : names.dnsNames ? "dnsNames" : "upns",
-        subjectValues: names.emails || names.dnsNames || names.upns || []
-      };
+      if (names.emails && names.emails.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          emails: <ArrayOneOrMore<string>>names.emails
+        }
+      }
+      if (names.dnsNames && names.dnsNames.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          dnsNames: <ArrayOneOrMore<string>>names.dnsNames
+        }
+      }
+      if (names.upns && names.upns.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          userPrincipalNames: <ArrayOneOrMore<string>>names.upns
+        }
+      }
     }
     certificatePolicy = {
       ...certificatePolicy,
-      subject: x509Properties.subject,
       enhancedKeyUsage: x509Properties.ekus,
-      subjectAlternativeNames,
       keyUsage: x509Properties.keyUsage,
       validityInMonths: x509Properties.validityInMonths
     };
+    if (subjectAlternativeNames) {
+      certificatePolicy.subjectAlternativeNames = subjectAlternativeNames;
+    } else {
+      certificatePolicy.subject = x509Properties.subject;
+    }
   }
 
   return certificatePolicy;

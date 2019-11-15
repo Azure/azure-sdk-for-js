@@ -128,26 +128,11 @@ export interface CertificateOperation {
     target?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CertificatePolicySubject" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CertificatePolicySubjectAlternativeNames" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface CertificatePolicy {
-    certificateTransparency?: boolean;
-    certificateType?: CertificateContentType;
-    contentType?: string;
-    readonly createdOn?: Date;
-    enabled?: boolean;
-    enhancedKeyUsage?: string[];
-    issuerName?: WellKnownIssuer | string;
-    keyCurveName?: KeyCurveName;
-    keySize?: number;
-    keyType?: KeyType;
-    keyUsage?: KeyUsageType[];
-    lifetimeActions?: LifetimeAction[];
-    reuseKey?: boolean;
-    subject?: string;
-    subjectAlternativeNames?: SubjectAlternativeNames;
-    readonly updatedOn?: Date;
-    validityInMonths?: number;
-}
+export type CertificatePolicy = CertificatePolicySubject | CertificatePolicySubjectAlternativeNames;
 
 // @public
 export module CertificatePolicy {
@@ -394,11 +379,10 @@ export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptio
 export interface SetContactsOptions extends coreHttp.OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "SubjectAlternativeNamesAll" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface SubjectAlternativeNames {
-    subjectType: "emails" | "dnsNames" | "upns";
-    subjectValues: string[];
-}
+export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
 
 // @public
 export interface Trigger {
