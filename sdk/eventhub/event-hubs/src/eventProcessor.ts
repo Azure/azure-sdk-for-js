@@ -130,9 +130,8 @@ export interface PartitionManager {
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.

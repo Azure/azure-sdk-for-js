@@ -67,9 +67,8 @@ export class InMemoryPartitionManager implements PartitionManager {
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update
    */
-  async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
+  async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     // these checks should mirror what we do in checkpointStoreBlob
     // throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
     throwTypeErrorIfParameterMissing("", 
@@ -92,9 +91,7 @@ export class InMemoryPartitionManager implements PartitionManager {
       }
 
       partitionMap.set(checkpoint.partitionId, checkpoint);
-      return partitionOwnership.eTag;
     }
-    return "";
   }
 
   async listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]> {
