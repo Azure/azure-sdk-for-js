@@ -43,7 +43,7 @@ export function buildRule(rawRule: any): Rule {
     subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
     filter: getTopicFilter(rawRule["Filter"]),
     action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdAt: getString(rawRule["CreatedAt"], "createdAt")
+    onCreatedAt: getString(rawRule["CreatedAt"], "onCreatedAt")
   };
 }
 
@@ -156,7 +156,7 @@ export interface Rule {
   /**
    * Created at timestamp
    */
-  createdAt: string;
+  onCreatedAt: string;
 }
 
 /**

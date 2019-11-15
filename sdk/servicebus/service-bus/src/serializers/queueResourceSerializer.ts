@@ -109,9 +109,9 @@ export function buildQueue(rawQueue: any): QueueDetails {
     entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
 
     status: rawQueue[Constants.STATUS],
-    createdAt: rawQueue[Constants.CREATED_AT],
-    updatedAt: rawQueue[Constants.UPDATED_AT],
-    accessedAt: rawQueue[Constants.ACCESSED_AT]
+    onCreatedAt: rawQueue[Constants.CREATED_AT],
+    onUpdatedAt: rawQueue[Constants.UPDATED_AT],
+    onAccessedAt: rawQueue[Constants.ACCESSED_AT]
   };
 }
 
@@ -460,17 +460,17 @@ export interface QueueDetails {
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  onCreatedAt?: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: string;
+  onUpdatedAt?: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  onAccessedAt?: string;
 }
 
 /**

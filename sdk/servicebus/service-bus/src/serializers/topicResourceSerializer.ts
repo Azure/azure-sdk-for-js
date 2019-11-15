@@ -122,9 +122,9 @@ export function buildTopic(rawTopic: any): TopicDetails {
 
     entityAvailabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
     status: rawTopic[Constants.STATUS],
-    createdAt: rawTopic[Constants.CREATED_AT],
-    updatedAt: rawTopic[Constants.UPDATED_AT],
-    accessedAt: rawTopic[Constants.ACCESSED_AT]
+    onCreatedAt: rawTopic[Constants.CREATED_AT],
+    onUpdatedAt: rawTopic[Constants.UPDATED_AT],
+    onAccessedAt: rawTopic[Constants.ACCESSED_AT]
   };
 }
 
@@ -510,17 +510,17 @@ export interface TopicDetails {
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  onCreatedAt?: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: string;
+  onUpdatedAt?: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  onAccessedAt?: string;
 }
 
 /**

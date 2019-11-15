@@ -105,9 +105,9 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       "entityAvailabilityStatus"
     ),
     status: getString(rawSubscription[Constants.STATUS], "status"),
-    createdAt: getString(rawSubscription[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getString(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
-    accessedAt: rawSubscription[Constants.ACCESSED_AT]
+    onCreatedAt: getString(rawSubscription[Constants.CREATED_AT], "onCreatedAt"),
+    onUpdatedAt: getString(rawSubscription[Constants.UPDATED_AT], "onUpdatedAt"),
+    onAccessedAt: rawSubscription[Constants.ACCESSED_AT]
   };
 }
 
@@ -415,17 +415,17 @@ export interface SubscriptionDetails {
   /**
    * Created at timestamp
    */
-  createdAt: string;
+  onCreatedAt: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt: string;
+  onUpdatedAt: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  onAccessedAt?: string;
 }
 
 /**
