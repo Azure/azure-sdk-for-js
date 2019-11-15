@@ -9,6 +9,7 @@
 export {
   discriminators,
   AacAudio,
+  AbsoluteClipTime,
   AccountFilter,
   AkamaiAccessControl,
   AkamaiSignatureHeaderAuthenticationKey,
@@ -26,6 +27,7 @@ export {
   BuiltInStandardEncoderPreset,
   CbcsDrmConfiguration,
   CencDrmConfiguration,
+  ClipTime,
   Codec,
   CommonEncryptionCbcs,
   CommonEncryptionCenc,
