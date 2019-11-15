@@ -9,9 +9,10 @@ import {
   GetPartitionIdsOptions,
   GetEventHubPropertiesOptions,
   CreateBatchOptions,
-  SendBatchOptions
+  SendBatchOptions,
+  GetPartitionPropertiesOptions
 } from "./impl/eventHubClient";
-import { EventHubProperties } from "./managementClient";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 
 /**
@@ -228,5 +229,20 @@ export class EventHubProducerClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
     return this._client.getPartitionIds(options);
+  }
+
+  /**
+   * Provides information about the specified partition.
+   * @param partitionId Partition ID for which partition information is required.
+   * @param [options] The set of options to apply to the operation call.
+   * @returns A promise that resoloves with PartitionProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
+  getPartitionProperties(
+    partitionId: string,
+    options: GetPartitionPropertiesOptions = {}
+  ): Promise<PartitionProperties> {
+    return this._client.getPartitionProperties(partitionId, options);
   }
 }
