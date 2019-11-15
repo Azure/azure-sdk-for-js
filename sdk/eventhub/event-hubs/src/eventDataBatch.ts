@@ -95,6 +95,8 @@ export interface EventDataBatch {
    * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
+   * @internal
+   * @ignore
    */
   batchMessage: Buffer | undefined;
 

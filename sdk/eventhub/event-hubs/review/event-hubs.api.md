@@ -47,6 +47,7 @@ export interface EventData {
 
 // @public
 export interface EventDataBatch {
+    // @internal
     batchMessage: Buffer | undefined;
     count: number;
     // @internal
@@ -139,9 +140,9 @@ export interface InitializationContext extends PartitionContext {
 
 // @public
 export interface LastEnqueuedEventProperties {
-    enqueuedTime?: Date;
+    enqueuedAt?: Date;
     offset?: string;
-    retrievalTime?: Date;
+    retrievedAt?: Date;
     sequenceNumber?: number;
 }
 
