@@ -176,7 +176,7 @@ export interface SubscriptionOptions {
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
@@ -187,7 +187,7 @@ export interface SubscriptionOptions {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount?: number;
@@ -269,7 +269,7 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnMessageExpiration?: string;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
@@ -280,7 +280,7 @@ export interface InternalSubscriptionOptions {
   ForwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -371,7 +371,7 @@ export interface SubscriptionDetails {
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
@@ -382,7 +382,7 @@ export interface SubscriptionDetails {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the deadletter queue.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount: number;
