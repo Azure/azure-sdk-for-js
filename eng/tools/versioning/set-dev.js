@@ -56,7 +56,7 @@ const updatePackageVersion = (rushPackages, package, buildId) => {
 };
 
 const updateDependencySection = (rushPackages, dependencySection, buildId) => {
-  console.log(dependencySection);
+  //console.log(dependencySection);
   if (dependencySection) {
     for (const [depName, depVersionRange] of Object.entries(
       dependencySection
@@ -82,8 +82,11 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
         parsedDepMinVersion.minor == parsedPackageVersion.minor &&
         parsedDepMinVersion.patch == parsedPackageVersion.patch
       ) {
-        rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
-        dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
+          rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
+          dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
+          for (const pkg of Object.keys(rushPackages)) {
+            rushPackages = makeInternalDependenciesConsistent(rushPackages, pkg,depName);
+          }
       }
     }
   }
@@ -158,7 +161,7 @@ const makeInternalDependenciesConsistent = (rushPackages, package,depName) => {
   console.log("package = "+ package);
   console.log("depName="+depName);
   console.log("checking dependencies ..");
-  console.log(rushPackages);
+
   rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.dependencies,depName);
 
   console.log("checking devDependencies ..");
