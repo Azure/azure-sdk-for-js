@@ -14,6 +14,10 @@ import {
 import * as Constants from "../src/util/constants";
 import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
 import { QueueResourceSerializer } from "../src/serializers/queueResourceSerializer";
+import { HttpOperationResponse, WebResource, HttpHeaders } from "@azure/core-http";
+import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
+import { SubscriptionResourceSerializer } from "../src/serializers/subscriptionResourceSerializer";
+import { RuleResourceSerializer } from "../src/serializers/ruleResourceSerializer";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -76,15 +80,6 @@ const subscriptionProperties = [
 
 const ruleProperties = ["Filter", "Action", "Name"];
 
-import { HttpOperationResponse, WebResource, HttpHeaders } from "@azure/core-http";
-
-import * as dotenv from "dotenv";
-import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
-import { SubscriptionResourceSerializer } from "../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../src/serializers/ruleResourceSerializer";
-
-dotenv.config();
-
 const dummyRequest: WebResource = new WebResource("dummy", "PUT");
 
 const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
@@ -94,7 +89,6 @@ const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new S
 const mockHappyServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
   "Endpoint=dummy/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=dummy"
 );
-
 mockHappyServiceBusAtomManagementClient.sendRequest = async () => {
   return {
     request: dummyRequest,
@@ -102,6 +96,41 @@ mockHappyServiceBusAtomManagementClient.sendRequest = async () => {
     headers: new HttpHeaders({})
   };
 };
+
+class DummySerializer implements AtomXmlSerializer {
+  serialize(resource: any): object {
+    const property1 = "LockDuration";
+    const property2 = "MaxSizeInMegabytes";
+
+    const serializedContent = {
+      $: {
+        type: "application/xml"
+      },
+      QueueDescription: {
+        $: {
+          xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+          "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+        },
+        LockDuration: "PT1M",
+        MaxSizeInMegabytes: "1024"
+      }
+    };
+    serializedContent.QueueDescription[property1] = resource["lockDuration"];
+    serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
+
+    return {
+      $: {
+        xmlns: "http://www.w3.org/2005/Atom"
+      },
+      updated: new Date().toISOString(),
+      content: serializedContent
+    };
+  }
+
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return response;
+  }
+}
 
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
@@ -377,40 +406,5 @@ function checkXmlHasPropertiesInExpectedOrder(
       true,
       "The properties in constructed request are not in expected order"
     );
-  }
-}
-
-class DummySerializer implements AtomXmlSerializer {
-  serialize(resource: any): object {
-    const property1 = "LockDuration";
-    const property2 = "MaxSizeInMegabytes";
-
-    const serializedContent = {
-      $: {
-        type: "application/xml"
-      },
-      QueueDescription: {
-        $: {
-          xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-          "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
-        },
-        LockDuration: "PT1M",
-        MaxSizeInMegabytes: "1024"
-      }
-    };
-    serializedContent.QueueDescription[property1] = resource["lockDuration"];
-    serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
-
-    return {
-      $: {
-        xmlns: "http://www.w3.org/2005/Atom"
-      },
-      updated: new Date().toISOString(),
-      content: serializedContent
-    };
-  }
-
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return response;
   }
 }
