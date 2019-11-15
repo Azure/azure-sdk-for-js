@@ -9,8 +9,6 @@ import {
   RuleOptions
 } from "../src";
 
-import * as log from "../src/log";
-
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
@@ -58,46 +56,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     entityType: EntityType.TOPIC,
     alwaysBeExistingEntity: alwaysBeExistingTopic,
     alwaysBeDeletedEntity: alwaysBeDeletedTopic
-  }
-].forEach((testCase) => {
-  describe(`Atom management - Clean namespace for "${testCase.entityType}"`, function(): void {
-    it(`Deletes all ${testCase.entityType} entities successfully`, async () => {
-      let moreToDelete = true;
-      let entities;
-      while (moreToDelete) {
-        try {
-          entities = await listEntities(testCase.entityType, undefined, undefined, undefined, 500);
-          entities.forEach(async (entity: any) => {
-            await deleteEntity(
-              testCase.entityType,
-              entity[testCase.entityType.toLowerCase() + "Name"]
-            );
-            log.httpAtomXml("deleted - ", entity[testCase.entityType.toLowerCase() + "Name"]);
-          });
-          if (entities == undefined || entities.length == 0) {
-            moreToDelete = false;
-          }
-        } catch (err) {
-          log.httpAtomXml("Ignoring clean up step - ", err);
-          moreToDelete = false;
-        }
-      }
-    });
-  });
-});
-
-[
-  {
-    entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue,
-    alwaysBeDeletedEntity: alwaysBeDeletedQueue,
-    parentTopicName: undefined,
-    parentSubscriptionName: undefined
-  },
-  {
-    entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: alwaysBeExistingTopic,
-    alwaysBeDeletedEntity: alwaysBeDeletedTopic
   },
   {
     entityType: EntityType.SUBSCRIPTION,
@@ -114,69 +72,49 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   }
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
-    it(`Lists on non-existing entities for type ${testCase.entityType} returns empty array successfully`, async () => {
-      let response;
+    before(async () => {
+      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+
       try {
-        await deleteEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
+        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
       } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
+        // Ignoring as creating topic test with input variations may fail
+        // and handling this clean along with test case results in resource conflict error
+      }
+      try {
+        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic2");
+      } catch (err) {
+        // Ignoring as creating topic test with input variations may fail
+        // and handling this clean along with test case results in resource conflict error
       }
 
-      response = await listEntities(
+      await createEntity(
+        EntityType.SUBSCRIPTION,
+        alwaysBeExistingSubscription,
+        alwaysBeExistingTopic
+      );
+      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await createEntity(
+        EntityType.RULE,
+        alwaysBeExistingRule,
+        alwaysBeExistingTopic,
+        alwaysBeExistingSubscription
+      );
+    });
+
+    after(async () => {
+      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await deleteEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+    });
+
+    it(`List on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
+      const allEntities = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
 
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
-      should.equal(
-        response.length,
-        testCase.entityType == EntityType.RULE ? 1 : 0,
-        "Result must be an empty array except for rules"
-      );
-    });
-
-    it(`Lists on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
-      let response;
-
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-
-      response = await listEntities(
+      const topOneEntity = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
         testCase.parentSubscriptionName,
@@ -184,51 +122,23 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         1
       );
 
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
-      should.equal(response.length, 1, "Result must be an empty array");
+      should.equal(Array.isArray(topOneEntity), true, "Result must be any array for list requests");
+      should.equal(topOneEntity.length, 1, "Result must be an empty array");
       should.equal(
-        response[0][testCase.entityType.toLowerCase() + "Name"],
-        testCase.entityType == EntityType.RULE ? "$Default" : testCase.alwaysBeDeletedEntity,
+        allEntities[0][testCase.entityType.toLowerCase() + "Name"],
+        topOneEntity[0][testCase.entityType.toLowerCase() + "Name"],
         "Entity name mismatch"
       );
     });
 
-    it(`Lists on existing entities for type ${testCase.entityType} with skip 1 returns entities skipping first one`, async () => {
-      let response;
+    it(`List on existing entities for type ${testCase.entityType} with skip 1 returns all entities skipping 1`, async () => {
+      const allEntities = await listEntities(
+        testCase.entityType,
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
 
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-
-      response = await listEntities(
+      const skipEntitiesResult = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
         testCase.parentSubscriptionName,
@@ -236,61 +146,46 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         undefined
       );
 
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
       should.equal(
-        response.length,
-        testCase.entityType == EntityType.RULE ? 2 : 1,
-        "Result must be an empty array"
+        Array.isArray(skipEntitiesResult),
+        true,
+        "Result must be any array for list requests"
       );
       should.equal(
-        response[0][testCase.entityType.toLowerCase() + "Name"],
-        testCase.entityType == EntityType.RULE
-          ? testCase.alwaysBeDeletedEntity
-          : testCase.alwaysBeExistingEntity,
-        "Entity name mismatch"
+        skipEntitiesResult.length,
+        allEntities.length - 1,
+        "Result must be an empty array"
       );
     });
 
     it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
-      let response;
-
       try {
-        response = await deleteEntity(
+        await deleteEntity(
           testCase.entityType,
-          testCase.alwaysBeExistingEntity,
+          "newEntity",
           testCase.parentTopicName,
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
+        // Ignore this as an error may be thrown if delete non-existent entity test failed.
       }
-      response = await createEntity(
+
+      const response = await createEntity(
         testCase.entityType,
-        testCase.alwaysBeExistingEntity,
+        "newEntity",
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
+
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.alwaysBeExistingEntity,
+        "newEntity",
         "Entity name mismatch"
       );
     });
 
     it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
-      let response;
-
+      let error;
       try {
         await createEntity(
           testCase.entityType,
@@ -299,24 +194,22 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        response = err;
+        error = err;
       }
 
-      should.equal(response.statusCode, 409, "Error must not be undefined");
+      should.equal(error.statusCode, 409, "Error must not be undefined");
       should.equal(
-        response.message.startsWith("The messaging entity") ||
-          response.message.startsWith("Entity") ||
-          response.message.startsWith("SubCode") ||
-          response.message.startsWith("No service"),
+        error.message.startsWith("The messaging entity") ||
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${response.message}"`
+        `Expected error message to be a textual content but got "${error.message}"`
       );
     });
 
     it(`Lists available ${testCase.entityType} entities successfully`, async () => {
-      let response;
-
-      response = await listEntities(
+      const response = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
@@ -326,9 +219,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     });
 
     it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
-      let response: any;
-
-      response = await updateEntity(
+      const response = await updateEntity(
         testCase.entityType,
         testCase.alwaysBeExistingEntity,
         testCase.parentTopicName,
@@ -342,44 +233,31 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     });
 
     it(`Update on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let response;
-
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
+      let error;
       try {
         await updateEntity(
           testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
+          "nonexisting",
           testCase.parentTopicName,
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        response = err;
+        error = err;
       }
 
-      should.equal(response.statusCode, 404, "Error must not be undefined");
+      should.equal(error.statusCode, 404, "Error must not be undefined");
       should.equal(
-        response.message.startsWith("The messaging entity") ||
-          response.message.startsWith("Entity") ||
-          response.message.startsWith("SubCode") ||
-          response.message.startsWith("No service"),
+        error.message.startsWith("The messaging entity") ||
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${response.message}"`
+        `Expected error message to be a textual content but got "${error.message}"`
       );
     });
 
     it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
-      let response;
-
-      response = await getEntity(
+      const response = await getEntity(
         testCase.entityType,
         testCase.alwaysBeExistingEntity,
         testCase.parentTopicName,
@@ -393,8 +271,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     });
 
     it(`Deletes a non-existent ${testCase.entityType} entity returns an error`, async () => {
-      let response;
-
+      let error;
       try {
         await deleteEntity(
           testCase.entityType,
@@ -403,36 +280,35 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        response = err;
+        error = err;
       }
 
-      should.equal(response.statusCode, 404);
+      should.equal(error.statusCode, 404);
       should.equal(
-        response.message.startsWith("The messaging entity") ||
-          response.message.startsWith("Entity") ||
-          response.message.startsWith("SubCode") ||
-          response.message.startsWith("No service"),
+        error.message.startsWith("The messaging entity") ||
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${response.message}"`
+        `Expected error message to be a textual content but got "${error.message}"`
       );
     });
 
     it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
-      let response;
-
       try {
         await createEntity(
           testCase.entityType,
-          testCase.alwaysBeDeletedEntity,
+          "newEntity",
           testCase.parentTopicName,
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
+        // Ignore this as an error may be thrown if create non-existent entity test failed.
       }
-      response = await deleteEntity(
+
+      const response = await deleteEntity(
         testCase.entityType,
-        testCase.alwaysBeDeletedEntity,
+        "newEntity",
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
@@ -441,47 +317,27 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     });
 
     it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let response;
+      let error;
       try {
-        await deleteEntity(
+        error = await getEntity(
           testCase.entityType,
-          testCase.alwaysBeExistingEntity,
+          "nonexisting",
           testCase.parentTopicName,
           testCase.parentSubscriptionName
         );
       } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
-      try {
-        response = await getEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        response = err;
-      }
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
+        error = err;
       }
 
-      should.equal(response.statusCode, 404, "Error must not be undefined");
-      should.equal(response.code, "404", `Code expected to be "404" but received ${response.code}`);
+      should.equal(error.statusCode, 404, "Error must not be undefined");
+      should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
       should.equal(
-        response.message.startsWith("The messaging entity") ||
-          response.message.startsWith("Entity") ||
-          response.message.startsWith("SubCode") ||
-          response.message.startsWith("No service"),
+        error.message.startsWith("The messaging entity") ||
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${response.message}"`
+        `Expected error message to be a textual content but got "${error.message}"`
       );
     });
   });
@@ -616,11 +472,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 ].forEach((testCase) => {
   describe(`Queue creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
-      try {
-        await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
       const response = await createEntity(
         EntityType.QUEUE,
         alwaysBeExistingQueue,
@@ -629,6 +480,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         true,
         testCase.input
       );
+      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
@@ -747,11 +599,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 ].forEach((testCase) => {
   describe(`Topic creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
-      try {
-        await deleteEntity(EntityType.TOPIC, testCase.topicName);
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
       const response = await createEntity(
         EntityType.TOPIC,
         testCase.topicName,
@@ -777,7 +624,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 [
   {
     subscriptionName: "alwaysBeExistingSubscription1",
-    topicName: alwaysBeExistingTopic,
+    topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -801,7 +648,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       sizeInBytes: undefined,
       status: "Active",
       subscriptionName: "alwaysBeExistingSubscription1",
-      topicName: alwaysBeExistingTopic
+      topicName: "alwaysBeExistingTopic1"
     }
   },
   {
@@ -825,7 +672,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         Name: "test1",
         Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
       },
-
       messageCount: 5,
       enablePartitioning: true,
       maxSizeInMegabytes: 2048,
@@ -862,11 +708,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 ].forEach((testCase) => {
   describe(`Subscription creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
-      try {
-        await deleteEntity(EntityType.SUBSCRIPTION, testCase.subscriptionName, testCase.topicName);
-      } catch (err) {
-        log.httpAtomXml("Ignoring clean up step");
-      }
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
         testCase.subscriptionName,
@@ -877,6 +718,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         undefined,
         testCase.input
       );
+
       should.equal(
         response.subscriptionName,
         testCase.subscriptionName,
@@ -1005,6 +847,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         undefined,
         testCase.input
       );
+
       should.equal(
         response.subscriptionName,
         testCase.subscriptionName,
@@ -1131,6 +974,51 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   }
 ].forEach((testCase) => {
   describe(`Queue update with differing options #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
+        // This should be a proper URL else the service returns an error
+        // forwardDeadLetteredMessagesTo: "",
+        lockDuration: "PT45S",
+        messageCount: 5,
+        sizeInBytes: 250,
+        requiresDuplicateDetection: true,
+        requiresSession: true,
+        defaultMessageTimeToLive: "P2D",
+        deadLetteringOnMessageExpiration: true,
+        duplicateDetectionHistoryTimeWindow: "PT1M",
+        maxDeliveryCount: 8,
+        enableBatchedOperations: false,
+        autoDeleteOnIdle: "PT1H",
+        authorizationRules: [
+          {
+            claimType: "SharedAccessKey",
+            claimValue: "None",
+            rights: {
+              accessRights: ["Manage", "Send", "Listen"]
+            },
+            keyName: "allClaims_v2",
+            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          },
+          {
+            claimType: "SharedAccessKey",
+            claimValue: "None",
+            rights: {
+              accessRights: ["Manage", "Send", "Listen"]
+            },
+            keyName: "allClaims_v3",
+            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          }
+        ],
+        enablePartitioning: true
+        // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
+      });
+    });
+    afterEach(async () => {
+      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1277,7 +1165,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   },
   {
-    topicName: alwaysBeExistingTopic,
+    topicName: "alwaysBeExistingTopic1",
     subscriptionName: "alwaysbeExistingSubscription1",
     testCaseTitle: "all properties",
     input: {
@@ -1329,7 +1217,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       status: "Active",
 
       subscriptionName: "alwaysbeExistingSubscription1",
-      topicName: alwaysBeExistingTopic
+      topicName: "alwaysBeExistingTopic1"
     }
   }
 ].forEach((testCase) => {
@@ -1453,6 +1341,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
           undefined,
           testCase.input
         );
+
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdAt",
