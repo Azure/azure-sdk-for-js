@@ -198,7 +198,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
@@ -211,7 +211,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
@@ -258,7 +258,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       });
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
       rootSpan.end();

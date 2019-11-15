@@ -679,8 +679,8 @@ describe("Event Processor", function (): void {
 
         results!.offset!.should.equal(partitionInfo.lastEnqueuedOffset);
         results!.sequenceNumber!.should.equal(partitionInfo.lastEnqueuedSequenceNumber);
-        results!.enqueuedAt!.getTime().should.equal(partitionInfo.lastEnqueuedTimeUtc.getTime());
-        results!.retrievedAt!.getTime().should.be.greaterThan(Date.now() - 60000);
+        results!.enqueuedOn!.getTime().should.equal(partitionInfo.lastEnqueuedOnUtc.getTime());
+        results!.retrievedOn!.getTime().should.be.greaterThan(Date.now() - 60000);
       }
     });
   });

@@ -55,7 +55,7 @@ export interface LastEnqueuedEventProperties {
    * @property The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
    * which this event was received.
    */
-  enqueuedAt?: Date;
+  enqueuedOn?: Date;
   /**
    * @property The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
@@ -64,7 +64,7 @@ export interface LastEnqueuedEventProperties {
   /**
    * @property The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
-  retrievedAt?: Date;
+  retrievedOn?: Date;
 }
 
 /**
@@ -230,9 +230,9 @@ export class EventHubReceiver extends LinkEntity {
 
     if (this.options.trackLastEnqueuedEventProperties && data) {
       this.runtimeInfo.sequenceNumber = data.lastSequenceNumber;
-      this.runtimeInfo.enqueuedAt = data.lastEnqueuedTime;
+      this.runtimeInfo.enqueuedOn = data.lastEnqueuedTime;
       this.runtimeInfo.offset = data.lastEnqueuedOffset;
-      this.runtimeInfo.retrievedAt = data.retrievalTime;
+      this.runtimeInfo.retrievedOn = data.retrievalTime;
       log.receiver(
         "[%s] RuntimeInfo of Receiver '%s' is %O",
         this._context.connectionId,

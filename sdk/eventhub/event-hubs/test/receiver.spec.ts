@@ -160,13 +160,13 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     > {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionProperties(partitionId);
-      debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
+      debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedOnUtc}".`);
       debug("Establishing the receiver link...");
 
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
-        body: "New message after last enqueued time " + pInfo.lastEnqueuedTimeUtc,
+        body: "New message after last enqueued time " + pInfo.lastEnqueuedOnUtc,
         properties: {
           stamp: uid
         }
@@ -179,7 +179,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroup,
         partitionId,
-        EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
+        EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedOnUtc)
       );
       const data = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data);
@@ -1025,8 +1025,8 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       should.exist(receiver.lastEnqueuedEventProperties);
       receiver.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
       receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventProperties!.enqueuedAt!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-      receiver.lastEnqueuedEventProperties!.retrievedAt!.getTime().should.be.greaterThan(Date.now() - 60000);
+      receiver.lastEnqueuedEventProperties!.enqueuedOn!.getTime().should.equal(pInfo.lastEnqueuedOnUtc.getTime());
+      receiver.lastEnqueuedEventProperties!.retrievedOn!.getTime().should.be.greaterThan(Date.now() - 60000);
     });
   });
 

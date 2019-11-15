@@ -107,13 +107,13 @@ describe("EventPosition #RunnableInBrowser", function(): void {
     it("should accept a number", function(): void {
       const enqueuedTime = Date.now();
       const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
-      pos.enqueuedTime!.should.equal(enqueuedTime);
+      pos.enqueuedOn!.should.equal(enqueuedTime);
     });
 
     it("should accept a Date", function(): void {
       const enqueuedTime = new Date();
       const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
-      pos.enqueuedTime!.should.equal(enqueuedTime);
+      pos.enqueuedOn!.should.equal(enqueuedTime);
     });
 
     it("should not accept non-number/non-date inputs", function(): void {

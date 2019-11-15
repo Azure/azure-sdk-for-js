@@ -52,9 +52,9 @@ export class InMemoryPartitionManager implements PartitionManager {
     for (const ownership of partitionOwnership) {
       if (
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
-        this._partitionOwnershipMap.get(ownership.partitionId)!.eTag === ownership.eTag
+        this._partitionOwnershipMap.get(ownership.partitionId)!.etag === ownership.etag
       ) {
-        ownership.eTag = generate_uuid();
+        ownership.etag = generate_uuid();
         var date = new Date();
         ownership.lastModifiedTimeInMs = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
@@ -80,7 +80,7 @@ export class InMemoryPartitionManager implements PartitionManager {
     
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
-      partitionOwnership.eTag = generate_uuid();
+      partitionOwnership.etag = generate_uuid();
 
       const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroup}`;
       let partitionMap = this._committedCheckpoints.get(key);

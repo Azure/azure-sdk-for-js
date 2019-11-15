@@ -74,7 +74,7 @@ export interface PartitionProperties {
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
-  lastEnqueuedTimeUtc: Date;
+  lastEnqueuedOnUtc: Date;
 }
 
 /**
@@ -209,7 +209,7 @@ export class ManagementClient extends LinkEntity {
       beginningSequenceNumber: info.begin_sequence_number,
       eventHubName: info.name,
       lastEnqueuedOffset: info.last_enqueued_offset,
-      lastEnqueuedTimeUtc: new Date(info.last_enqueued_time_utc),
+      lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
       lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
       partitionId: info.partition
     };

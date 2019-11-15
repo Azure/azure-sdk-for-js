@@ -84,7 +84,7 @@ export interface PartitionOwnership {
   /**
    * @property The unique identifier for the operation.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -265,7 +265,7 @@ export class EventProcessor {
       fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
       consumerGroup: this._consumerGroup,
       eventHubName: this._eventHubClient.eventHubName,
-      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined
+      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined
     };
 
     return partitionOwnership;

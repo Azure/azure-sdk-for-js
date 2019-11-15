@@ -108,8 +108,8 @@ export class EventPosition {
     // @internal
     constructor(options?: EventPositionOptions);
     static earliest(): EventPosition;
-    enqueuedTime?: Date | number;
-    static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
+    enqueuedOn?: Date | number;
+    static fromEnqueuedTime(enqueuedOn: Date | number): EventPosition;
     static fromOffset(offset: number): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
     isInclusive: boolean;
@@ -140,9 +140,9 @@ export interface InitializationContext extends PartitionContext {
 
 // @public
 export interface LastEnqueuedEventProperties {
-    enqueuedAt?: Date;
+    enqueuedOn?: Date;
     offset?: string;
-    retrievedAt?: Date;
+    retrievedOn?: Date;
     sequenceNumber?: number;
 }
 
@@ -169,7 +169,7 @@ export interface PartitionManager {
 // @public
 export interface PartitionOwnership {
     consumerGroup: string;
-    eTag?: string;
+    etag?: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;
     lastModifiedTimeInMs?: number;
@@ -182,8 +182,8 @@ export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubName: string;
     lastEnqueuedOffset: number;
+    lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
-    lastEnqueuedTimeUtc: Date;
     partitionId: string;
 }
 
