@@ -525,6 +525,13 @@ export class MessageSession extends LinkEntity {
             connectionId,
             id
           );
+          const deleteResult = this._deliveryDispositionMap.delete(id);
+          log.receiver(
+            "[%s] Successfully deleted the delivery with id %d from the map.",
+            connectionId,
+            id,
+            deleteResult
+          );
           if (state && state.error && (state.error.condition || state.error.description)) {
             const error = translate(state.error);
             return promise.reject(error);
@@ -1194,6 +1201,7 @@ export class MessageSession extends LinkEntity {
     try {
       return retry<Promise<any>>(config);
     } catch (err) {
+      this._deliveryDispositionMap.delete(message.delivery.id);
       log.error(
         "[%s] Disposition for delivery id: %d, failed with error: %0",
         this._context.namespace.connectionId,
@@ -1202,13 +1210,6 @@ export class MessageSession extends LinkEntity {
       );
       throw err;
     } finally {
-      const deleteResult = this._deliveryDispositionMap.delete(message.delivery.id);
-      log.receiver(
-        "[%s] Successfully deleted the delivery with id %d from the map.",
-        this._context.namespace.connectionId,
-        message.delivery.id,
-        deleteResult
-      );
       if (this._sessionLockRenewalTimer) {
         clearTimeout(this._sessionLockRenewalTimer as NodeJS.Timer);
       }

@@ -1064,6 +1064,7 @@ export class MessageReceiver extends LinkEntity {
     try {
       return retry<Promise<any>>(config);
     } catch (err) {
+      this._deliveryDispositionMap.delete(message.delivery.id);
       log.error(
         "[%s] Disposition for delivery id: %d, failed with error: %0",
         this._context.namespace.connectionId,
@@ -1072,13 +1073,6 @@ export class MessageReceiver extends LinkEntity {
       );
       throw err;
     } finally {
-      const deleteResult = this._deliveryDispositionMap.delete(message.delivery.id);
-      log.receiver(
-        "[%s] Successfully deleted the delivery with id %d from the map.",
-        this._context.namespace.connectionId,
-        message.delivery.id,
-        deleteResult
-      );
       this._clearMessageLockRenewTimer(message.messageId as string);
     }
   }
