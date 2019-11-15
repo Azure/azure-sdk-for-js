@@ -149,8 +149,8 @@ export class EventHubConsumerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  getPartitionIds(option: GetPartitionIdsOptions = {}): Promise<string[]> {
-    return this._eventHubClient.getPartitionIds(option);
+  getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<string[]> {
+    return this._eventHubClient.getPartitionIds(options);
   }
 
   /**
