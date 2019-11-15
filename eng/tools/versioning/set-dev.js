@@ -50,7 +50,7 @@ const updatePackageVersion = (rushPackages, package, buildId) => {
   rushPackages[package].newVer = `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}-dev.${buildId}`;
   console.log(`version updated for ${package}`);
   for (const pkg of Object.keys(rushPackages)) {
-    rushPackages = makeInternalDependenciesConsistent(rushPackages, pkg,package);
+    rushPackages = updateOtherProjectDependencySections(rushPackages, pkg,package);
    }
   return rushPackages;
 };
@@ -82,11 +82,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
         parsedDepMinVersion.minor == parsedPackageVersion.minor &&
         parsedDepMinVersion.patch == parsedPackageVersion.patch
       ) {
-          rushPackages[depName].newVer = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev.${buildId}`;
-          dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
-          for (const pkg of Object.keys(rushPackages)) {
-            rushPackages = makeInternalDependenciesConsistent(rushPackages, pkg,depName);
-          }
+          rushPackages = updatePackageVersion(rushPackages,depName,buildId);
       }
     }
   }
@@ -147,17 +143,17 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       parsedDepMinVersion.patch == parsedPackageVersion.patch &&
       rushPackages[depName].newVer !== undefined
     ) {
-      // Commit the dependency version to the JSON document
-      dependencySection[
-        depName
-      ] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
+
+      // Setting version to ^[major.minor.patch]-dev so that this automatically matches 
+      // with the latest dev version published on npm
+      dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-dev`;
     }
   }
   return rushPackages;
 };
 
-const makeInternalDependenciesConsistent = (rushPackages, package,depName) => {
-  console.log("makeInternalDepConsistent");
+const updateOtherProjectDependencySections = (rushPackages, package,depName) => {
+  console.log("updateOtherProjectDependencySections");
   console.log("package = "+ package);
   console.log("depName="+depName);
   console.log("checking dependencies ..");
@@ -189,30 +185,19 @@ async function main(argv) {
     }
   }
 
-  // Set all the new versions
+  // Set all the new versions & update any references to internal projects with the new versions
   console.log(`Updating packages with build ID ${buildId}`);
   for (const package of targetPackages) {
     console.log("package updated = ");
     console.log(package);
     rushPackages = updatePackageVersion(rushPackages, package, buildId);
+    rushPackages = updateInternalDependencyVersions(rushPackages,package,buildId);
     console.log(rushPackages[package].newVer);
-  }
-
-  // Update any references to internal projects with the new versions
-  for (const package of targetPackages) {
-    rushPackages = updateInternalDependencyVersions(
-      rushPackages,
-      package,
-      buildId
-    );
   }
 
   for (const package of Object.keys(rushPackages)) {
     await commitChanges(rushPackages, package);
   }
-  // console.log(semver.satisfies("1.0.0-dev-20191112.1", "^1.0.0"));//false
-  // console.log(semver.satisfies("1.0.0-dev-20191112.1", "^1.0.0-dev"));//true
-  // console.log(semver.satisfies("1.0.0", "^1.0.0-dev"));//true
 }
 
 main(argv);
