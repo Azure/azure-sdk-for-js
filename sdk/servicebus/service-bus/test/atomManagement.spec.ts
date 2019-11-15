@@ -380,6 +380,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "all properties",
     input: {
       // This should be a proper URL else the service returns an error
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT45S",
       messageCount: 5,
@@ -415,7 +416,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         }
       ],
       enablePartitioning: true
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
+      // maxSizeInMegabytes: 2048,
+      // For partitioned entities, above value is 16384
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -537,6 +540,10 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       messageCount: 7,
       subscriptionCount: 6,
       maxDeliveryCount: 20,
+
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+
       // enableExpress: true,
 
       // maxSubscriptionsPerTopic: 3,
@@ -574,6 +581,10 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxSubscriptionsPerTopic: undefined,
       maxSqlFiltersPerTopic: undefined,
       maxCorrelationFiltersPerTopic: undefined,
+
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
       // maxCorrelationFiltersPerTopic: 5,
@@ -585,6 +596,10 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
+
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+
       // isExpress: true,
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
@@ -659,6 +674,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
       // This should be a proper URL else the service returns an error
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       defaultMessageTimeToLive: "P2D",
       autoDeleteOnIdle: "PT1H",
@@ -668,6 +684,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       requiresSession: true,
 
       // None of below work
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       defaultRuleDescription: {
         Name: "test1",
         Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
@@ -876,6 +893,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "all properties",
     input: {
       // This should be a proper URL else the service returns an error
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
       messageCount: 6,
@@ -915,7 +933,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       requiresSession: true,
 
       maxSizeInMegabytes: 3072
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
+      // maxSizeInMegabytes: 2048,
+      // For partitioned entities, this is 16384
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -977,6 +997,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
+        // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
         // forwardDeadLetteredMessagesTo: "",
         lockDuration: "PT45S",
         messageCount: 5,
@@ -1172,6 +1193,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
       // This should be a proper URL else the service returns an error
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "PT2H",
