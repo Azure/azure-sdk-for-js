@@ -1771,18 +1771,58 @@ export class ShareFileClient extends StorageClient {
    * @param {number} offset From which position of the Azure File to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
    * @param {FileDownloadToBufferOptions} [options]
-   * @returns {Promise<void>}
+   * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
-    offset: number = 0,
+    offset?: number,
     count?: number,
-    options: FileDownloadToBufferOptions = {}
-  ): Promise<void> {
+    options?: FileDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME
+   *
+   * Downloads an Azure file in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to download the entire file
+   *
+   * @param {number} offset From which position of the Azure file to download
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+   * @param {FileDownloadToBufferOptions} [options]
+   * @returns {Promise<Buffer>}
+   */
+  public async downloadToBuffer(
+    offset?: number,
+    count?: number,
+    options?: FileDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  public async downloadToBuffer(
+    bufferOrOffset?: Buffer | number,
+    offsetOrCount?: number,
+    countOrOptions?: FileDownloadToBufferOptions | number,
+    optOptions: FileDownloadToBufferOptions = {}
+  ): Promise<Buffer> {
+    let buffer: Buffer | undefined = undefined;
+    let offset: number;
+    let count: number;
+    let options: FileDownloadToBufferOptions = optOptions;
+
+    if (bufferOrOffset instanceof Buffer) {
+      buffer = bufferOrOffset;
+      offset = offsetOrCount || 0;
+      count = typeof countOrOptions === "number" ? countOrOptions : 0;
+    } else {
+      offset = typeof bufferOrOffset === "number" ? bufferOrOffset : 0;
+      count = typeof offsetOrCount === "number" ? offsetOrCount : 0;
+      options = (countOrOptions as FileDownloadToBufferOptions) || {};
+    }
+
     const { span, spanOptions } = createSpan(
       "ShareFileClient-downloadToBuffer",
       options.tracingOptions
     );
+
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -1820,6 +1860,18 @@ export class ShareFileClient extends StorageClient {
         }
       }
 
+      if (!buffer) {
+        try {
+          buffer = Buffer.alloc(count);
+        } catch (error) {
+          throw new Error(
+            `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
+              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+              `\t ${error.message}`
+          );
+        }
+      }
+
       if (buffer.length < count) {
         throw new RangeError(
           `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
@@ -1841,7 +1893,7 @@ export class ShareFileClient extends StorageClient {
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
           const stream = response.readableStreamBody!;
-          await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+          await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
           // Update progress after block is downloaded, in case of block trying
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
@@ -1852,6 +1904,7 @@ export class ShareFileClient extends StorageClient {
         });
       }
       await batch.do();
+      return buffer;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
