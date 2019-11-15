@@ -160,13 +160,13 @@ export interface CertificatePolicyAll {
     validityInMonths?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface CertificatePolicySubject extends CertificatePolicyAll {
     subject?: string;
     subjectAlternativeNames?: undefined;
 }
 
-// @public (undocumented)
+// @public
 export interface CertificatePolicySubjectAlternativeNames extends CertificatePolicyAll {
     subject?: undefined;
     subjectAlternativeNames?: SubjectAlternativeNames;

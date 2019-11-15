@@ -156,14 +156,14 @@ export enum WellKnownIssuer {
 }
 
 /**
- * An array with one property at minimum
+ * An array with one property at minimum.
  */
 export type ArrayOneOrMore<T> = {
   0: T;
 } & Array<T>;
 
 /**
- * An interface representing the alternative names of the subject of a certificate contact.
+ * An interface representing the alternative names of the subject of a certificate policy.
  */
 export interface SubjectAlternativeNamesAll {
   /**
@@ -187,7 +187,7 @@ export interface SubjectAlternativeNamesAll {
 export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
 
 /**
- * An interface representing a certificate's policy
+ * An interface representing a certificate's policy (without subject or subject alternative names).
  */
 export interface CertificatePolicyAll {
   /**
@@ -254,6 +254,9 @@ export interface CertificatePolicyAll {
   validityInMonths?: number;
 }
 
+/**
+ * An interface representing a certificate policy with a subject.
+ */
 export interface CertificatePolicySubject extends CertificatePolicyAll {
   /**
    * The subject name. Should be a valid X509 distinguished Name.
@@ -265,6 +268,9 @@ export interface CertificatePolicySubject extends CertificatePolicyAll {
   subjectAlternativeNames?: undefined;
 }
 
+/**
+ * An interface representing a certificate policy with subject alternative names.
+ */
 export interface CertificatePolicySubjectAlternativeNames extends CertificatePolicyAll {
   /**
    * The subject alternative names.
@@ -277,7 +283,7 @@ export interface CertificatePolicySubjectAlternativeNames extends CertificatePol
 }
 
 /**
- * All the certificate policy properties, either with subject or subjectAlternativeProperties.
+ * All the certificate policy properties, either with subject or subject alternative names.
  */
 export type CertificatePolicy = CertificatePolicySubject | CertificatePolicySubjectAlternativeNames;
 
