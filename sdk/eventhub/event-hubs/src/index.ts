@@ -12,11 +12,13 @@ export {
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions
+  GetEventHubPropertiesOptions,
+  WebSocketOptions
 } from "./impl/eventHubClient";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
+  InitializationContext,
   SubscriptionOptions,
   Subscription,
   SubscriptionEventHandlers,

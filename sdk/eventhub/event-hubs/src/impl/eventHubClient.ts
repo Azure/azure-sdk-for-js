@@ -297,7 +297,7 @@ export interface EventHubClientOptions {
 /**
  * Options for the websocket implementation used for AMQP.
  */
-interface WebSocketOptions {
+export interface WebSocketOptions {
 /**
    * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
