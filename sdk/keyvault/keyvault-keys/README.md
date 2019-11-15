@@ -807,21 +807,11 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 To run our tests, first install the dependencies (with `npm install` or `rush install`),
 then run the unit tests with: `npm run unit-test`.
-Our unit tests that target the behavior of our library against remotely
-available endpoints are executed using previously recorded HTTP request and
+
+Some of our tests aim to reproduce the behavior of our library against remotely
+available endpoints. These are executed using previously recorded HTTP request and
 responses.
 
-Our integration tests will run against the live resources, which are determined
-by the environment variables you provide. To run the integration tests, you can
-run `npm run integration-test`, but make sure to provide the following
-environment variables:
-
-- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
-- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
-- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
-- `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
-
-**WARNING:**
-Integration tests will wipe all of the existing records in the targeted Key Vault.
+You can read more about the tests of this project [here](test/README.md).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)

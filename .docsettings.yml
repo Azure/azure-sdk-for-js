@@ -8,6 +8,7 @@ omitted_paths:
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
   - "sdk/cosmosdb/cosmos/samples/*"
+  - sdk/keyvault/*/test/**
   - eng/tools/versioning/*
   - samples/Bundling/**
 language: js
