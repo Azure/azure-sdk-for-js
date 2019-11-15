@@ -860,10 +860,7 @@ export class ManagementClient extends LinkEntity {
       await defaultLock.acquire(this.managementLock, () => {
         return this._init();
       });
-      await this._mgmtReqResLink!.sendRequest(request, {
-        delayInSeconds: Constants.defaultDelayBetweenRetriesInSeconds,
-        times: Constants.defaultRetryAttempts
-      });
+      await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
       log.error(

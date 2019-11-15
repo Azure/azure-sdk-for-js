@@ -1016,7 +1016,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          10 * 1000
+          Constants.defaultOperationTimeoutInSeconds * 1000
         );
         const e: AmqpError = {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
@@ -1025,7 +1025,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, 10 * 1000);
+      }, Constants.defaultOperationTimeoutInSeconds * 1000);
 
       // This takes care of resolving the promise by waiting on the onSettled event
       this._deliveryDispositionMap.set(delivery.id, {

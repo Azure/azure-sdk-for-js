@@ -109,7 +109,7 @@ describe("Unpartitioned Queue - Lock Renewal for Sessions #RunInBrowser", functi
       delayBeforeAttemptingToCompleteMessageInSeconds: 80,
       expectSessionLockLostErrorToBeThrown: true
     });
-  }).timeout(95000);
+  });
 
   it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
     void
@@ -180,7 +180,7 @@ describe("Partitioned Queue - Lock Renewal for Sessions", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 80,
       expectSessionLockLostErrorToBeThrown: true
     });
-  }).timeout(95000);
+  });
 
   it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
     void
@@ -251,7 +251,7 @@ describe("Unpartitioned Subscription - Lock Renewal for Sessions", function(): v
       delayBeforeAttemptingToCompleteMessageInSeconds: 80,
       expectSessionLockLostErrorToBeThrown: true
     });
-  }).timeout(95000);
+  });
 
   it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
     void
@@ -322,7 +322,7 @@ describe("Partitioned Subscription - Lock Renewal for Sessions", function(): voi
       delayBeforeAttemptingToCompleteMessageInSeconds: 80,
       expectSessionLockLostErrorToBeThrown: true
     });
-  }).timeout(95000);
+  });
 
   it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
     void
