@@ -568,9 +568,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "onCreatedAt",
-        "onUpdatedAt",
-        "onAccessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -698,9 +698,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "onCreatedAt",
-        "onUpdatedAt",
-        "onAccessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -808,9 +808,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "onCreatedAt",
-        "onUpdatedAt",
-        "onAccessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
 
       try {
@@ -950,9 +950,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "onCreatedAt",
-        "onUpdatedAt",
-        "onAccessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
 
       try {
