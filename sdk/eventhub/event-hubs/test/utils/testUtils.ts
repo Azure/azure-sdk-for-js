@@ -52,7 +52,7 @@ export async function loopUntil(args: {
       return;
     }
 
-    loggerForTest(`[${name}: delaying for ${args.timeBetweenRunsMs}ms]`);
+    loggerForTest(`[${args.name}: delaying for ${args.timeBetweenRunsMs}ms]`);
     await delay(args.timeBetweenRunsMs);
   }
 

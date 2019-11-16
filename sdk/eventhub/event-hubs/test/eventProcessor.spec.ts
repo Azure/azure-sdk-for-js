@@ -14,7 +14,9 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition
+  EventPosition,
+  EventHubProducerClient,
+  EventHubConsumerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -80,13 +82,7 @@ describe("Event Processor", function (): void {
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
-    const partitionResultsMap = new Map<
-      string,
-      { events: string[]; initialized: boolean; closeReason?: CloseReason }
-    >();
-    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
-
-    const subscriptionEventHandler = new SubscriptionHandlerForTests();
+    const subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
 
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroup,
@@ -102,24 +98,13 @@ describe("Event Processor", function (): void {
 
     await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
-    // create messages
-    const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
-    for (const partitionId of partitionIds) {
-      const producer = client.createProducer({ partitionId });
-      await producer.send({ body: expectedMessagePrefix + partitionId });
-      await producer.close();
-    }
-
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
     // shutdown the processor
     await processor.stop();
 
-    receivedEvents.should.deep.equal([
-      { partitionId: "0", body: "EventProcessor test - multiple partitions - 0" },
-      { partitionId: "1", body: "EventProcessor test - multiple partitions - 1" },
-      { partitionId: "2", body: "EventProcessor test - multiple partitions - 2" }
-    ]);
+    receivedEvents.should.deep.equal(expectedMessages);
 
     subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
@@ -154,7 +139,7 @@ describe("Event Processor", function (): void {
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
-    let subscriptionEventHandler = new SubscriptionHandlerForTests();
+    let subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
 
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroup,
@@ -168,23 +153,12 @@ describe("Event Processor", function (): void {
 
     await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
-    // create messages
-    const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
-    for (const partitionId of partitionIds) {
-      const producer = client.createProducer({ partitionId });
-      await producer.send({ body: expectedMessagePrefix + partitionId });
-      await producer.close();
-    }
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+    const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
-    // wait until all partitions have received at least 1 event
-    let receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
     await processor.stop();
 
-    receivedEvents.should.deep.equal([
-      { partitionId: "0", body: "EventProcessor test - multiple partitions - 0" },
-      { partitionId: "1", body: "EventProcessor test - multiple partitions - 1" },
-      { partitionId: "2", body: "EventProcessor test - multiple partitions - 2" }
-    ]);
+    receivedEvents.should.deep.equal(expectedMessages);
 
     subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
@@ -196,7 +170,6 @@ describe("Event Processor", function (): void {
     // EventProcessor will retrieve events from the initialEventPosition.
     subscriptionEventHandler.clear();
     processor.start();
-
     await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
     await processor.stop();
@@ -215,7 +188,7 @@ describe("Event Processor", function (): void {
       void
     > {
       const partitionIds = await client.getPartitionIds({});
-      const subscriptionEventHandler = new SubscriptionHandlerForTests();
+      const subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
 
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroup,
@@ -229,15 +202,8 @@ describe("Event Processor", function (): void {
 
       await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
-      // create messages
-      const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
-      for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
-        await producer.send({ body: expectedMessagePrefix + partitionId });
-        await producer.close();
-      }
-
-      const events = await subscriptionEventHandler.waitForEvents(partitionIds);
+      const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+      const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
       // shutdown the processor
       await processor.stop();
@@ -245,11 +211,7 @@ describe("Event Processor", function (): void {
       subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
       subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
 
-      events.should.deep.equal([
-        { partitionId: "0", body: "EventProcessor test - multiple partitions - 0" },
-        { partitionId: "1", body: "EventProcessor test - multiple partitions - 1" },
-        { partitionId: "2", body: "EventProcessor test - multiple partitions - 2" }        
-      ]);
+      receivedEvents.should.deep.equal(expectedMessages);
     });
   });
 
@@ -717,9 +679,26 @@ describe("Event Processor", function (): void {
   });
 }).timeout(90000);
 
+type SequenceNumberMap = Map<string, number>;
 
 class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
   maxTimeToWaitSeconds = 120;
+
+  constructor(private _initialSequenceNumbers?: SequenceNumberMap) {
+  }
+
+  static async startingFromHere(client: EventHubClient | EventHubProducerClient | EventHubConsumerClient) {
+    const partitionIds = await client.getPartitionIds({});
+
+    const sequenceNumbers = new Map<string, number>();
+
+    for (const partitionId of partitionIds) {
+      const props = await client.getPartitionProperties(partitionId);
+      sequenceNumbers.set(props.partitionId, props.lastEnqueuedSequenceNumber);
+    }
+
+    return new SubscriptionHandlerForTests(sequenceNumbers);
+  }
 
   public data: Map<string, {
     closeReason?: CloseReason;
@@ -730,7 +709,16 @@ class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers>
 
   async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
-    context.setStartPosition(EventPosition.latest());
+
+    let startPosition = EventPosition.latest();
+
+    if (this._initialSequenceNumbers && this._initialSequenceNumbers.get(context.partitionId)) {
+      const sequenceNumber = this._initialSequenceNumbers.get(context.partitionId)!;
+      loggerForTest(`Overriding initial event position for partition ${context.partitionId} with ${sequenceNumber}`);
+      startPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
+    }
+
+    context.setStartPosition(startPosition);
   }
 
   async processClose(reason: CloseReason, context: PartitionContext) {
@@ -756,15 +744,12 @@ class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers>
   }
 
   async waitUntilInitialized(partitionIds: string[]): Promise<void> {
-    const startTime = Date.now();
-
-    while (this.data.size !== partitionIds.length) {
-      await delay(1000);
-
-      if ((Date.now() - startTime) > this.maxTimeToWaitSeconds * 1000) {
-        throw new Error("Waiting _way_ too long in initialize");
-      }
-    }
+    await loopUntil({
+      name: "waiting until initialized",
+      maxTimes: 60,
+      timeBetweenRunsMs: 1000,
+      until: async () => { return this.data.size === partitionIds.length }
+    });
   }
 
   async waitForEvents(partitionIds: string[]): Promise<{ partitionId: string, body: string }[]>{
@@ -815,4 +800,22 @@ class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers>
 
     return true;
   }
+}
+
+async function sendOneMessagePerPartition(partitionIds: string[], client: EventHubClient): Promise<{ body: string, partitionId: string}[]>{
+  const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+  const sentMessages = [];
+
+  for (const partitionId of partitionIds) {
+    const producer = client.createProducer({ partitionId });
+    const body = expectedMessagePrefix + partitionId;
+    await producer.send({ body });
+    await producer.close();
+    sentMessages.push({
+      body,
+      partitionId
+    });
+  }
+
+  return sentMessages;
 }
