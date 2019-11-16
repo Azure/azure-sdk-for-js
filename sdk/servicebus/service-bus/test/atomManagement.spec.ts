@@ -111,48 +111,48 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       });
 
       it(`Creating an existent ${entityType} entity throws an error`, async () => {
-        let response;
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
             try {
               await createEntity(entityType, alwaysBeExistingQueue);
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.TOPIC:
             try {
-              response = await createEntity(entityType, alwaysBeExistingTopic);
+              error = await createEntity(entityType, alwaysBeExistingTopic);
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
 
           case EntityType.SUBSCRIPTION:
             try {
-              response = await createEntity(
+              error = await createEntity(
                 entityType,
                 alwaysBeExistingSubscription,
                 alwaysBeExistingTopic
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
 
           case EntityType.RULE:
             try {
-              response = await createEntity(
+              error = await createEntity(
                 entityType,
                 alwaysBeExistingRule,
                 alwaysBeExistingTopic,
                 alwaysBeExistingSubscription
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
 
             break;
@@ -161,7 +161,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(response.statusCode, 409, "Error must not be undefined");
+        should.equal(error.statusCode, 409, "Error must not be undefined");
       });
 
       it(`Lists available ${entityType} entities successfully`, async () => {
@@ -266,42 +266,42 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       });
 
       it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
-        let response;
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
             try {
-              response = await deleteEntity(entityType, "notexisting");
+              error = await deleteEntity(entityType, "notexisting");
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.SUBSCRIPTION:
             try {
-              response = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+              error = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           case EntityType.RULE:
             try {
-              response = await deleteEntity(
+              error = await deleteEntity(
                 entityType,
                 "notexisting",
                 alwaysBeExistingTopic,
                 alwaysBeExistingSubscription
               );
             } catch (err) {
-              response = err;
+              error = err;
             }
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-        should.equal(response.statusCode, 404);
+        should.equal(error.statusCode, 404);
       });
 
       it(`Deletes an existent ${entityType} entity successfully`, async () => {
@@ -363,44 +363,61 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         should.equal(response._response.status, 200);
       });
 
-      it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
-        let response;
-
-        let skipTest = false;
+      it(`Get on non-existent ${entityType} entity throws an error`, async () => {
+        let error;
         switch (entityType) {
           case EntityType.QUEUE:
+            try {
+              await getEntity(entityType, "notexisting");
+            } catch (err) {
+              error = err;
+            }
+            break;
+
           case EntityType.TOPIC:
-            response = await getEntity(entityType, "notexisting");
+            try {
+              error = await getEntity(entityType, "notexisting");
+            } catch (err) {
+              error = err;
+            }
 
             break;
 
           case EntityType.SUBSCRIPTION:
-            skipTest = true;
-            // response = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            try {
+              error = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            } catch (err) {
+              error = err;
+            }
             break;
 
           case EntityType.RULE:
-            skipTest = true;
-            // response = await getEntity(
-            //   entityType,
-            //   "notexisting",
-            //   alwaysBeExistingTopic,
-            //   alwaysBeExistingSubscription
-            // );
+            try {
+              error = await getEntity(
+                entityType,
+                "notexisting",
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              error = err;
+            }
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        if (!skipTest) {
-          should.equal(
-            response.createdAt,
-            undefined,
-            "Should receive empty result and just the raw response"
-          );
-        }
-        // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
+        should.equal(error.statusCode, 404, "Error must not be undefined");
+        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+        should.equal(
+          error.message.startsWith("The messaging entity") ||
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
+          true,
+          `Expected error message to be a textual content but got "${error.message}"`
+        );
       });
     });
   }
@@ -416,7 +433,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enableExpress: false,
@@ -449,7 +466,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
@@ -485,7 +502,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       lockDuration: "PT45S",
       messageCount: 5,
       sizeInBytes: 250,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
@@ -551,9 +568,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -568,7 +585,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enableExpress: false,
@@ -584,6 +601,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
       messageCount: undefined,
+      userMetadata: undefined,
       requiresDuplicateDetection: false,
       sizeInBytes: 0,
       status: "Active",
@@ -611,7 +629,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
       requiresDuplicateDetection: true,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
@@ -624,7 +642,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       messageCount: 7,
       subscriptionCount: 6,
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       autoDeleteOnIdle: "PT1H",
       enableBatchedOperations: false,
@@ -644,6 +662,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // enableExpress: true,
       enableExpress: false,
       authorizationRules: undefined,
+      userMetadata: undefined,
 
       isExpress: false,
       enableSubscriptionPartitioning: false,
@@ -679,9 +698,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -697,7 +716,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
       forwardTo: undefined,
@@ -724,7 +743,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: 20,
       // This should be a proper URL else the service returns an error
       // forwardDeadLetteredMessagesTo: "",
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -744,7 +763,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     output: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -789,9 +808,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
 
       try {
@@ -931,9 +950,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
 
       try {

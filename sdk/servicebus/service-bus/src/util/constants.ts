@@ -135,7 +135,7 @@ export const STATUS = "Status";
 export const PATH = "Path";
 
 /**
- * The entity to forward to
+ * The URL of Service Bus entity to forward messages to.
  *
  */
 export const FORWARD_TO = "ForwardTo";
@@ -177,7 +177,10 @@ export const REQUIRES_SESSION = "RequiresSession";
 export const REQUIRES_DUPLICATE_DETECTION = "RequiresDuplicateDetection";
 
 /**
- * The indication if dead lettering on message expiration.
+ * The indication if dead lettering on message expiration. If it is enabled and a message expires,
+ * the Service Bus moves the message from the queue into the entity dead-letter sub-queue.
+ * If disabled, message will be permanently deleted from the main entity.
+ * Settable only at entity creation time.
  *
  */
 export const DEAD_LETTERING_ON_MESSAGE_EXPIRATION = "DeadLetteringOnMessageExpiration";
@@ -214,7 +217,7 @@ export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
 export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
 /**
- * The maximum delivery count.
+ * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
  *
  */
 export const MAX_DELIVERY_COUNT = "MaxDeliveryCount";
@@ -238,7 +241,7 @@ export const SUPPORT_ORDERING = "SupportOrdering";
 export const ENABLE_PARTITIONING = "EnablePartitioning";
 
 /**
- * Entity to forward deadlettered messages to
+ * The URL of Service Bus entity to forward deadlettered messages to.
  *
  */
 export const FORWARD_DEADLETTERED_MESSAGES_TO = "ForwardDeadLetteredMessagesTo";

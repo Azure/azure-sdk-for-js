@@ -441,7 +441,7 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
   /**
    * @property {string} [deadLetterSource] The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
-   * and subsequently auto-forwarded from the dead-letter queue to another entity. Indicates the
+   * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
    * @readonly
    */
@@ -769,7 +769,7 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * @property The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
-   * and subsequently auto-forwarded from the dead-letter queue to another entity. Indicates the
+   * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
    * @readonly
    */
