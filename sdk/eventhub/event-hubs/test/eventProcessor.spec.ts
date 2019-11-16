@@ -308,7 +308,8 @@ describe("Event Processor", function (): void {
       );
     });
 
-    it("should receive events from the checkpoint", async function(): Promise<void> {
+    // TODO: this actually seems like it could just be a unit test.
+    it.only("should receive events from the checkpoint", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds({});
 
       // ensure we have at least 2 partitions
@@ -316,17 +317,21 @@ describe("Event Processor", function (): void {
 
       let checkpointMap = new Map<string, ReceivedEventData[]>();
       partitionIds.forEach((id) => checkpointMap.set(id, []));
+
+
       let didError = false;
-      let partitionOwnerShip = new Set();
+      let processedAtLeastOneEvent = new Set();
+      let checkpointSequenceNumbers: Map<string, number> = new Map();
 
       let partionCount: { [x: string]: number } = {};
+
       class FooPartitionProcessor  {
         async processInitialize(context: InitializationContext) {
-          context.setStartPosition(EventPosition.latest());
+          context.setStartPosition(EventPosition.earliest());
         }
 
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
-          partitionOwnerShip.add(context.partitionId);
+          processedAtLeastOneEvent.add(context.partitionId);
 
           !partionCount[context.partitionId]
             ? (partionCount[context.partitionId] = 1)
@@ -337,6 +342,7 @@ describe("Event Processor", function (): void {
           debug("Received event: '%s' from partition: '%s'", event.body, context.partitionId);
 
           if (partionCount[context.partitionId] <= 50) {
+            checkpointSequenceNumbers.set(context.partitionId, event.sequenceNumber);
             await context.updateCheckpoint(event);
             existingEvents.push(event);
           }
@@ -357,6 +363,7 @@ describe("Event Processor", function (): void {
         }
       );
 
+
       // start first processor
       processor1.start();
 
@@ -374,7 +381,7 @@ describe("Event Processor", function (): void {
       }
 
       // set a delay to give a consumers a chance to receive a message
-      while (partitionOwnerShip.size !== partitionIds.length) {
+      while (checkpointSequenceNumbers.size !== partitionIds.length) {
         await delay(5000);
       }
 
@@ -392,7 +399,7 @@ describe("Event Processor", function (): void {
       checkpointMap = new Map<string, ReceivedEventData[]>();
       partitionIds.forEach((id) => checkpointMap.set(id, []));
       partionCount = {};
-      partitionOwnerShip = new Set();
+      processedAtLeastOneEvent = new Set();
 
       const processor2 = new EventProcessor(
         EventHubClient.defaultConsumerGroup,
@@ -400,12 +407,24 @@ describe("Event Processor", function (): void {
         new FooPartitionProcessor(),
         inMemoryPartitionManager,
         defaultOptions
-      );
+      )
+
+      const checkpoints = await inMemoryPartitionManager.listCheckpoints(client.fullyQualifiedNamespace, client.eventHubName, EventHubClient.defaultConsumerGroup);
+
+      checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+      for (const checkpoint of checkpoints) {
+        const expectedSequenceNumber = checkpointSequenceNumbers.get(checkpoint.partitionId);
+        should.exist(expectedSequenceNumber);
+
+        expectedSequenceNumber!.should.equal(checkpoint.sequenceNumber);
+      }
+
       // start second processor
       processor2.start();
 
       // set a delay to give a consumers a chance to receive a message
-      while (partitionOwnerShip.size !== partitionIds.length) {
+      while (processedAtLeastOneEvent.size !== partitionIds.length) {
         await delay(5000);
       }
 
