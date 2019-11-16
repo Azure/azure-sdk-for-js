@@ -309,7 +309,7 @@ describe("Event Processor", function (): void {
     });
 
     // TODO: this actually seems like it could just be a unit test.
-    it.only("should receive events from the checkpoint", async function(): Promise<void> {
+    it("should receive events from the checkpoint", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds({});
 
       // ensure we have at least 2 partitions
@@ -451,7 +451,7 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe("Load balancing", function(): void {
+  describe.only("Load balancing", function(): void {
     beforeEach("validate partitions", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds({});
       // ensure we have at least 3 partitions
