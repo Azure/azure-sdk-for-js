@@ -29,6 +29,7 @@ export interface PartitionLoadBalancer {
  */
 export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   private partitionsToClaim?: Set<string>;
+  private _shouldReclaim: boolean;
 
   /**
    * @param partitionIds An optional set of partition IDs. undefined means all partitions.
@@ -36,6 +37,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   constructor(partitionIds?: string[]) {
     log.partitionLoadBalancer(`GreedyPartitionLoadBalancer created. Watching ${partitionIds ? '(' + partitionIds.join(",") + ')' : "all"}.`);
     this.partitionsToClaim = partitionIds && new Set(partitionIds);
+    this._shouldReclaim = false;
   }
 
   loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
@@ -47,8 +49,30 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
     }
 
     // now remove any partitions that are already claimed
-    potential = potential.filter(id => !partitionOwnershipMap.has(id));
-    return potential;
+    // unless we're basically reclaiming partitions in which
+    // case ignore that.
+    if (this._shouldReclaim) {
+      log.partitionLoadBalancer(`GreedyPartitionLoadBalancer: reclaiming partitions`);
+      this._shouldReclaim = false;
+      return potential;
+    }
+    
+    // don't try to reclaim partitions that are already owned
+    return potential.filter(id => !partitionOwnershipMap.has(id));
+  }
+
+  /**
+   * Makes it so the next load balancing interval forces partitions to be "reclaimed"
+   * 
+   * This is useful in testing when you want to stop a processor and go through the 
+   * entire cycle again without having to wait for the "expiration" interval for each 
+   * claim.
+   * 
+   * @internal
+   * @ignore
+   */
+  public expireAll() : void {
+    this._shouldReclaim = true;
   }
 }
 

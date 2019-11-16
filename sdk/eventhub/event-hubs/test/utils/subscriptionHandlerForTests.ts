@@ -89,8 +89,10 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
     // wait until all partitions have received at least 1 event
     while (true) {
+      loggerForTest(`Received ${this.events.length} messages (need ${partitionIds.length})`);
+
       if (this.events.length !== partitionIds.length && !this.hasErrors(partitionIds)) {
-        await delay(100);
+        await delay(500);
 
         if ((Date.now() - startTime) > this.maxTimeToWaitSeconds * 1000) {
           throw new Error("Waiting _way_ too long in initialize");

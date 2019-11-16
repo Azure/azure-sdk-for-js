@@ -26,6 +26,7 @@ import { InitializationContext, PartitionContext } from '../src/eventHubConsumer
 import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
 import { loggerForTest } from './utils/logHelpers';
 import { SubscriptionHandlerForTests, sendOneMessagePerPartition } from './utils/subscriptionHandlerForTests';
+import { GreedyPartitionLoadBalancer } from '../src/partitionLoadBalancer';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
@@ -95,8 +96,6 @@ describe("Event Processor", function (): void {
     processor.start();
     processor.start();
 
-    await subscriptionEventHandler.waitUntilInitialized(partitionIds);
-
     const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
@@ -139,20 +138,26 @@ describe("Event Processor", function (): void {
     partitionIds.length.should.gte(2);
 
     let subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
+    const partitionLoadBalancer = new GreedyPartitionLoadBalancer();
 
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroup,
       client,
       subscriptionEventHandler,
       new InMemoryPartitionManager(),
-      defaultOptions
+      {
+        partitionLoadBalancer,
+        ...defaultOptions
+      }
     );
 
+    loggerForTest(`Starting processor for the first time`);
     processor.start();
 
     const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
+    loggerForTest(`Stopping processor for the first time`);
     await processor.stop();
 
     receivedEvents.should.deep.equal(expectedMessages);
@@ -163,21 +168,19 @@ describe("Event Processor", function (): void {
     // validate correct events captured for each partition
 
     // start it again
-    // note: since checkpointing isn't implemented yet,
-    // EventProcessor will retrieve events from the initialEventPosition.
+    loggerForTest(`Starting processor again`);
     subscriptionEventHandler.clear();
+    partitionLoadBalancer.expireAll();
+
     processor.start();
+    
     await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
+    loggerForTest(`Stopping processor again`);
     await processor.stop();
 
     subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
-
-    // TODO: well, we have checkpointing now. 
-    //
-    // validate that partitionProcessor methods were called
-    // do not check events until checkpointing is implemented
   });
 
   describe("Partition processor #RunnableInBrowser", function(): void {
@@ -196,8 +199,6 @@ describe("Event Processor", function (): void {
       );
 
       processor.start();
-
-      await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
       const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
       const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
