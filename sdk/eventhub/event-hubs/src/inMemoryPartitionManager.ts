@@ -69,8 +69,6 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @param checkpoint The checkpoint.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
-    // these checks should mirror what we do in checkpointStoreBlob
-    // throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
     throwTypeErrorIfParameterMissing("", 
       "updateCheckpoint",
       "sequenceNumber",
