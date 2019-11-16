@@ -8,7 +8,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
-import { LogTester } from "./utils/logTester";
+import { LogTester } from "./utils/logHelpers";
 import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
 
 const should = chai.should();

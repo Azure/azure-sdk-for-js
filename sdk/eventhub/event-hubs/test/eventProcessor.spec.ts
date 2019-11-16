@@ -17,13 +17,14 @@ import {
   EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions, PartitionContextError } from '../src/eventProcessor';
 import { Checkpoint } from '../src/partitionProcessor';
 import { delay } from '@azure/core-amqp';
 import { InitializationContext, PartitionContext } from '../src/eventHubConsumerClientModels';
 import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
+import { loggerForTest } from './utils/logHelpers';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
@@ -451,7 +452,7 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe.only("Load balancing", function(): void {
+  describe("Load balancing", function(): void {
     beforeEach("validate partitions", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds({});
       // ensure we have at least 3 partitions
@@ -461,9 +462,11 @@ describe("Event Processor", function (): void {
       );
     });
 
-    it("should 'steal' partitions until all the  processors have reached a steady-state", async function(): Promise<
+    it("should 'steal' partitions until all the processors have reached a steady-state", async function(): Promise<
       void
-    > {
+      > {
+      loggerForTest("starting up the stealing test");
+        
       const processorByName: Dictionary<EventProcessor> = {};
       const partitionManager = new InMemoryPartitionManager();
       const partitionIds = await client.getPartitionIds({});
@@ -480,10 +483,12 @@ describe("Event Processor", function (): void {
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
         async processInitialize(context: InitializationContext) {
+          loggerForTest(`processInitialize(${context.partitionId})`)
           partitionResultsMap.get(context.partitionId)!.initialized = true;          
-          context.setStartPosition(EventPosition.latest());
+          context.setStartPosition(EventPosition.earliest());
         }
         async processClose(reason: CloseReason, context: PartitionContext) {
+          loggerForTest(`processClose(${context.partitionId})`)
           partitionResultsMap.get(context.partitionId)!.closeReason = reason;
         }
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
@@ -492,6 +497,7 @@ describe("Event Processor", function (): void {
           existingEvents.push(event.body);
         }
         async processError(err: Error, context: PartitionContextError) {
+          loggerForTest(`processError(${context.partitionId})`)
           didError = true;
           errorName = err.name;
         }
@@ -516,6 +522,7 @@ describe("Event Processor", function (): void {
       processorByName[`processor-1`].start();
 
       while (partitionOwnershipArr.size !== partitionIds.length) {
+        loggerForTest("Waiting for partition ownership");
         await delay(5000);
       }
 
@@ -530,7 +537,9 @@ describe("Event Processor", function (): void {
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       processorByName[`processor-2`].start();
 
+      loggerForTest(`Just before the big arbitrary delay`)
       await delay(12000);
+      loggerForTest(`Just after the big arbitrary delay`)
 
       for (const processor in processorByName) {
         await processorByName[processor].stop();
@@ -581,7 +590,7 @@ describe("Event Processor", function (): void {
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
         async processInitialization(context: InitializationContext) {
-          context.setStartPosition(EventPosition.latest());
+          context.setStartPosition(EventPosition.earliest());
         }
         async processEvent(event: ReceivedEventData, context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
@@ -612,9 +621,12 @@ describe("Event Processor", function (): void {
         await delay(12000);
       }
 
-      while (partitionOwnershipArr.size !== partitionIds.length) {
-        await delay(5000);
-      }
+      await loopUntil({
+        name: "partitionownership",
+        timeBetweenRunsMs: 5000,
+        maxTimes: 10,
+        until: async () => partitionOwnershipArr.size === partitionIds.length
+      })
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       for (const processor in processorByName) {

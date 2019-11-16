@@ -3,6 +3,8 @@
 
 import debugModule from "debug";
 
+export const loggerForTest = debugModule("azure:tests");
+
 export class LogTester {
   private _attachedLoggers: { logger: debugModule.Debugger, wasEnabled: boolean, previousLogFunction: (message: string) => void }[];
   private _previousEnabledLoggers: string = "";

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
+import { loggerForTest } from './logHelpers';
+import { delay } from "@azure/core-amqp";
 dotenv.config();
 
 export const isNode =
@@ -35,4 +37,24 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
     [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
   };
+}
+
+export async function loopUntil(args: {
+  name: string,
+  timeBetweenRunsMs: number,
+  maxTimes: number,
+  until: () => Promise<boolean>
+}): Promise<void> {
+  for (let i = 0; i < args.maxTimes + 1; ++i) {
+    const finished = await args.until();
+
+    if (finished) {
+      return;
+    }
+
+    loggerForTest(`[${name}: delaying for ${args.timeBetweenRunsMs}ms]`);
+    await delay(args.timeBetweenRunsMs);
+  }
+
+  throw new Error(`Waited way too long for ${args.name}`);
 }
