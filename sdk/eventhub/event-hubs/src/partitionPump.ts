@@ -46,6 +46,9 @@ export class PartitionPump {
     } catch {
       // swallow the error from the user-defined code
     }
+
+    // this is intentionally not await'd - the _receiveEvents loop will continue to 
+    // execute and can be stopped by calling .stop()
     this._receiveEvents(this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
