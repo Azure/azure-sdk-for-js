@@ -352,7 +352,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   if (!isJSONLikeObject(authorizationRule) || authorizationRule === null) {
     throw new TypeError(
-      `Expected authorizationRule input to be a JSON value but received ${JSON.stringify(
+      `Expected authorizationRule input to be a JS object value, but received ${JSON.stringify(
         authorizationRule,
         undefined,
         2

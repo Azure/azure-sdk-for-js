@@ -246,9 +246,11 @@ describe("Serializer construct requests with properties in specific order #RunIn
     const request: WebResource = new WebResource();
     request.body = JSON.stringify(queueOptions);
 
-    const serializer = new QueueResourceSerializer();
-
-    await executeAtomXmlOperation(mockHappyServiceBusAtomManagementClient, request, serializer);
+    await executeAtomXmlOperation(
+      mockHappyServiceBusAtomManagementClient,
+      request,
+      new QueueResourceSerializer()
+    );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), queueProperties);
   });
@@ -293,9 +295,11 @@ describe("Serializer construct requests with properties in specific order #RunIn
     const request: WebResource = new WebResource();
     request.body = JSON.stringify(topicOptions);
 
-    const serializer = new TopicResourceSerializer();
-
-    await executeAtomXmlOperation(mockHappyServiceBusAtomManagementClient, request, serializer);
+    await executeAtomXmlOperation(
+      mockHappyServiceBusAtomManagementClient,
+      request,
+      new TopicResourceSerializer()
+    );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), topicProperties);
   });
@@ -315,9 +319,11 @@ describe("Serializer construct requests with properties in specific order #RunIn
     const request: WebResource = new WebResource();
     request.body = JSON.stringify(subscriptionOptions);
 
-    const serializer = new SubscriptionResourceSerializer();
-
-    await executeAtomXmlOperation(mockHappyServiceBusAtomManagementClient, request, serializer);
+    await executeAtomXmlOperation(
+      mockHappyServiceBusAtomManagementClient,
+      request,
+      new SubscriptionResourceSerializer()
+    );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), subscriptionProperties);
   });
@@ -337,9 +343,11 @@ describe("Serializer construct requests with properties in specific order #RunIn
     const request: WebResource = new WebResource();
     request.body = JSON.stringify(ruleOptions);
 
-    const serializer = new RuleResourceSerializer();
-
-    await executeAtomXmlOperation(mockHappyServiceBusAtomManagementClient, request, serializer);
+    await executeAtomXmlOperation(
+      mockHappyServiceBusAtomManagementClient,
+      request,
+      new RuleResourceSerializer()
+    );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), ruleProperties);
   });
@@ -404,3 +412,175 @@ class MockSerializer implements AtomXmlSerializer {
     return response;
   }
 }
+
+[
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule filter input has SQL parameters that uses an unsupported type",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: [
+          { notey: "@intParam", value: 1, type: "int" },
+          { key: "@stringParam", value: "b", type: "notAKnownType" }
+        ]
+      },
+      action: { sqlExpression: "SET a='b'" }
+    },
+    output: {
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule filter input has SQL parameters as not an array",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: "notAnArray"
+      },
+      action: { sqlExpression: "SET a='b'" }
+    },
+    output: {
+      testErrorMessage: `parameters must be an array of SqlParameter objects or undefined, but received "notAnArray"`,
+      testErrorType: TypeError
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule filter input has SQL parameter information in not a JS object like representation",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: ["notAJsObjectLikeValue"]
+      },
+      action: { sqlExpression: "SET a='b'" }
+    },
+    output: {
+      testErrorMessage: `Expected SQL parameter input to be a JS object value, but received "notAJsObjectLikeValue"`,
+      testErrorType: TypeError
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule action input has SQL parameters that uses an unsupported type",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = 'abc'"
+      },
+      action: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: [
+          { notKey: "@intParam", value: 1, type: "int" },
+          { key: "@stringParam", value: "b", type: "notAKnownType" }
+        ]
+      }
+    },
+    output: {
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule action input has SQL parameters as not an array",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = 'abc'"
+      },
+      action: { sqlExpression: "SET a='b'", sqlParameters: "notAnArray" }
+    },
+    output: {
+      testErrorMessage: `parameters must be an array of SqlParameter objects or undefined, but received "notAnArray"`,
+      testErrorType: TypeError
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule action input has SQL parameter information in not a JS object like representation",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = 'abc'"
+      },
+      action: { sqlExpression: "SET a='b'", sqlParameters: ["notAJsObjectLikeValue"] }
+    },
+    output: {
+      testErrorMessage: `Expected SQL parameter input to be a JS object value, but received "notAJsObjectLikeValue"`,
+      testErrorType: TypeError
+    }
+  }
+].forEach((testCase) => {
+  describe(`Type validation errors on SQL parameter inputs #RunInBrowser`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        const request = new WebResource();
+        request.body = JSON.stringify(testCase.input);
+
+        await executeAtomXmlOperation(
+          mockHappyServiceBusAtomManagementClient,
+          request,
+          new RuleResourceSerializer()
+        );
+        assert.equal(true, false, "Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          testCase.output.testErrorMessage,
+          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
+        );
+
+        assert.equal(
+          err instanceof testCase.output.testErrorType,
+          true,
+          `Expected error type to be "${testCase.output.testErrorType}"`
+        );
+      }
+    });
+  });
+});
+
+[
+  {
+    testCaseTitle: "Create queue throws Error if authorization rules input is not an array",
+    input: {
+      authorizationRules: "notAnArray"
+    },
+    output: {
+      testErrorMessage: `authorizationRules must be an array of AuthorizationRule objects or undefined, but received "notAnArray"`,
+      testErrorType: TypeError
+    }
+  },
+  {
+    testCaseTitle:
+      "Create queue throws Error if authorization rule information is not a JS object like representation",
+    input: {
+      authorizationRules: ["notAJsObjectLikeValue"]
+    },
+    output: {
+      testErrorMessage: `Expected authorizationRule input to be a JS object value, but received "notAJsObjectLikeValue"`,
+      testErrorType: TypeError
+    }
+  }
+].forEach((testCase) => {
+  describe(`Type validation errors on authorization rule inputs #RunInBrowser`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        await mockHappyServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        assert.equal(true, false, "Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          testCase.output.testErrorMessage,
+          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
+        );
+
+        assert.equal(
+          err instanceof testCase.output.testErrorType,
+          true,
+          `Expected error type to be "${testCase.output.testErrorType}"`
+        );
+      }
+    });
+  });
+});

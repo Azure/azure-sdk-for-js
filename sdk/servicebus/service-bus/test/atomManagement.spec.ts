@@ -1385,7 +1385,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
       true,
-      `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err}"`
+      `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err.message}"`
     );
   }
 

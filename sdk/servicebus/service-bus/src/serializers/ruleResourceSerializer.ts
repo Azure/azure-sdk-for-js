@@ -385,7 +385,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
 function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
   if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
-      `Expected SQL parameter input to be a JSON value but received ${JSON.stringify(
+      `Expected SQL parameter input to be a JS object value, but received ${JSON.stringify(
         parameter,
         undefined,
         2
@@ -410,7 +410,7 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
 
     default:
       throw new Error(
-        `Invalid type "${parameter.type}"supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
+        `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
       );
   }
 
