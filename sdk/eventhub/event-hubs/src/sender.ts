@@ -127,7 +127,7 @@ export class EventHubProducer {
       }
       maxMessageSize = options.maxSizeInBytes;
     }
-    return new EventDataBatchImpl(this._context, maxMessageSize, options.partitionKey);
+    return new EventDataBatchImpl(this._context, maxMessageSize, options.partitionKey, options.partitionId);
   }
 
   /**

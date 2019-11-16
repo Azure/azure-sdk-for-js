@@ -165,7 +165,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @internal
    * @ignore
    */
-  constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string) {
+  constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string, private _partitionId?: string) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._partitionKey = partitionKey;
@@ -180,6 +180,15 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   get partitionKey(): string | undefined {
     return this._partitionKey;
+  }
+  
+  /**
+   * The partitionId set during `EventDataBatch` creation. 
+   * If this value is set then partitionKey can not be set.
+   * @readonly
+   */
+  get partitionId(): string | undefined {
+    return this._partitionId;
   }
 
   /**
