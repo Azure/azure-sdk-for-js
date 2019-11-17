@@ -65,7 +65,10 @@ describe("Certificates client - create, read, update and delete", () => {
         const poller = await client.beginCreateCertificate(
           certificateName,
           basicCertificatePolicy,
-          testPollerProperties
+          {
+            ...testPollerProperties,
+            abortSignal: controller.signal
+          }
         );
         controller.abort();
         await poller.pollUntilDone();
