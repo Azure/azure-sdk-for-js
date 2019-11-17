@@ -28,6 +28,11 @@ export interface AdministratorContact {
 }
 
 // @public
+export type ArrayOneOrMore<T> = {
+    0: T;
+} & Array<T>;
+
+// @public
 export interface BackupCertificateOptions extends coreHttp.OperationOptions {
 }
 
@@ -395,9 +400,13 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface SubjectAlternativeNames {
-    subjectType: "emails" | "dnsNames" | "upns";
-    subjectValues: string[];
+export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
+
+// @public
+export interface SubjectAlternativeNamesAll {
+    dnsNames: ArrayOneOrMore<string>;
+    emails: ArrayOneOrMore<string>;
+    userPrincipalNames: ArrayOneOrMore<string>;
 }
 
 // @public

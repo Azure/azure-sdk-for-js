@@ -62,7 +62,9 @@ import {
   CertificatePollerOptions,
   IssuerProperties,
   CertificateContactAll,
-  RequireAtLeastOne
+  RequireAtLeastOne,
+  ArrayOneOrMore,
+  SubjectAlternativeNamesAll
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -135,6 +137,7 @@ export {
   Action,
   ActionType,
   AdministratorContact,
+  ArrayOneOrMore,
   BackupCertificateResult,
   BeginCreateCertificateOptions,
   BeginDeleteCertificateOptions,
@@ -192,6 +195,7 @@ export {
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
+  SubjectAlternativeNamesAll,
   CreateIssuerOptions,
   SubjectAlternativeNames,
   Trigger,
@@ -225,9 +229,10 @@ function toCorePolicy(
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
-    const propertyName = policy.subjectAlternativeNames.subjectType;
     subjectAlternativeNames = {
-      [propertyName]: policy.subjectAlternativeNames.subjectValues
+      emails: policy.subjectAlternativeNames.emails,
+      dnsNames: policy.subjectAlternativeNames.dnsNames,
+      upns: policy.subjectAlternativeNames.userPrincipalNames
     };
   }
 
@@ -288,18 +293,32 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
     let subjectAlternativeNames: SubjectAlternativeNames | undefined;
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
-      subjectAlternativeNames = {
-        subjectType: names.emails ? "emails" : names.dnsNames ? "dnsNames" : "upns",
-        subjectValues: names.emails || names.dnsNames || names.upns || []
-      };
+      if (names.emails && names.emails.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          emails: <ArrayOneOrMore<string>>names.emails
+        };
+      }
+      if (names.dnsNames && names.dnsNames.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          dnsNames: <ArrayOneOrMore<string>>names.dnsNames
+        };
+      }
+      if (names.upns && names.upns.length) {
+        subjectAlternativeNames = {
+          ...subjectAlternativeNames,
+          userPrincipalNames: <ArrayOneOrMore<string>>names.upns
+        };
+      }
     }
     certificatePolicy = {
       ...certificatePolicy,
-      subject: x509Properties.subject,
       enhancedKeyUsage: x509Properties.ekus,
-      subjectAlternativeNames,
       keyUsage: x509Properties.keyUsage,
-      validityInMonths: x509Properties.validityInMonths
+      validityInMonths: x509Properties.validityInMonths,
+      subject: x509Properties.subject,
+      subjectAlternativeNames,
     };
   }
 
