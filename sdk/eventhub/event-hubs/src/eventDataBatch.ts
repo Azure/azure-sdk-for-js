@@ -54,33 +54,33 @@ export interface EventDataBatch {
    * If this value is set then partitionId can not be set.
    * @readonly
    */
-  partitionKey?: string;
+  readonly partitionKey?: string;
 
   /**
    * The partitionId set during `EventDataBatch` creation. 
    * If this value is set then partitionKey can not be set.
    * @readonly
    */
-  partitionId?: string;  
+  readonly partitionId?: string;  
 
   /**
    * Size of the `EventDataBatch` instance after the events added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
-  sizeInBytes: number;
+  readonly sizeInBytes: number;
 
   /**
    * Number of events in the `EventDataBatch` instance.
    * @readonly
    */
-  count: number;
+  readonly count: number;
 
   /**
    * The maximum size of the batch, in bytes
    * @readonly.
    */
-  maxSizeInBytes: number;
+  readonly maxSizeInBytes: number;
 
  /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
@@ -104,14 +104,14 @@ export interface EventDataBatch {
    * @internal
    * @ignore
    */
-  batchMessage: Buffer | undefined;
+  readonly batchMessage: Buffer | undefined;
 
     /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    * @ignore
    */
-  _messageSpanContexts: SpanContext[];
+  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**

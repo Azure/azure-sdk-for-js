@@ -48,14 +48,14 @@ export interface EventData {
 // @public
 export interface EventDataBatch {
     // @internal
-    batchMessage: Buffer | undefined;
-    count: number;
-    maxSizeInBytes: number;
+    readonly batchMessage: Buffer | undefined;
+    readonly count: number;
+    readonly maxSizeInBytes: number;
     // @internal
-    _messageSpanContexts: SpanContext[];
-    partitionId?: string;
-    partitionKey?: string;
-    sizeInBytes: number;
+    readonly _messageSpanContexts: SpanContext[];
+    readonly partitionId?: string;
+    readonly partitionKey?: string;
+    readonly sizeInBytes: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
@@ -152,11 +152,11 @@ export { MessagingError }
 
 // @public
 export interface PartitionContext {
-    consumerGroup: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
-    lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
-    partitionId: string;
+    readonly consumerGroup: string;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
+    readonly lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
+    readonly partitionId: string;
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
 }
 

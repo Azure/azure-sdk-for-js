@@ -37,26 +37,26 @@ export interface PartitionContext {
    * @property The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
-  fullyQualifiedNamespace: string;
+  readonly fullyQualifiedNamespace: string;
   /**
    * @property The event hub name
    */
-  eventHubName: string;
+  readonly eventHubName: string;
   /**
    * @property The consumer group name
    */
-  consumerGroup: string;
+  readonly consumerGroup: string;
   /**
    * @property The identifier of the Event Hub partition
    */
-  partitionId: string;
+  readonly partitionId: string;
   /**
    * Information on the last enqueued event in the partition that is being processed.
    * This property is only updated if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    * @readonly
    */
-  lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
+  readonly lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
   /**
    * Updates the checkpoint using the event data.
    *
