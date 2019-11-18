@@ -1,4 +1,4 @@
-### 2019-11-14 2.1.2
+### 2019-11-18 2.1.2
 
 - Errors thrown in the user-provided message and error handlers to `client.receive` are now properly caught and logged by the library. [PR 5781](https://github.com/Azure/azure-sdk-for-js/pull/5781)
 - Ensures that stale receivers no longer accumulate when recovering from failures while receiving. [PR 5781](https://github.com/Azure/azure-sdk-for-js/pull/5781)
