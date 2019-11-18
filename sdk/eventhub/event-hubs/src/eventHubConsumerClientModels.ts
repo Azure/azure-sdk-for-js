@@ -15,15 +15,15 @@ export interface BasicPartitionProperties {
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * @property The event hub name.
    */
   eventHubName: string;
   /**
-   * @property The consumer group name
+   * @property The consumer group name.
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition.
    */
   partitionId: string;
 }
