@@ -20,14 +20,14 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 |[anonymousCred.ts][anonymousCred]|authenticate with the service anonymously using a SAS URL|
 |[proxyAuth.ts][proxyAuth]|connect to the service using a proxy and authenticate with an account name & key|
 |[iterators-shares.ts][iterators-shares]|connect to the service and iterate through the shares in the account|
-|[iterators-files-and-directories.ts][iterators-files-and-directories]|create a few directories and iterate through them individually (using async `for await` syntax), by page, and resuming paging using a marker|
+|[iterators-files-and-directories.ts][iterators-files-and-directories]|create a few directories and iterate through them individually (using async `for await` syntax), by page, and resume paging using a marker|
 |[iterators-handles.ts][iterators-handles]|connect to the service and iterate through open handles|
 |[customPipeline.ts][customPipeline]|use custom HTTP pipeline options when connecting to the service|
 |[advanced.ts][advanced]|use custom logging and pipeline options, then upload a local file to a share|
 
 ## Prerequisites
 
-The sample code is compatible with Node.js. The samples are compatible with Node.js >= 8.0.0, except the samples that use the async `for await` syntax. Samples that use the async `for await` syntax require a version of Node that is compatible with that syntax (>= 10.0.0).
+The samples are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require a Node.js >= 10.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -43,18 +43,17 @@ Adapting the samples to run in the browser requires some additional consideratio
 
 To run the samples using the published version of the package:
 
-1. Install the client library using `npm`:
+1. Install the dependencies using `npm`:
 ```bash
-npm install @azure/storage-file-share
+npm install
 ```
-2. Copy and modify the sample code, replacing the relative `import { ... } from '../../src'` statements with `import { ... } from '@azure/storage-file-share'`
-3. Compile the sample
+2. Compile the samples
 ```bash
-tsc --out basic.js basic.ts
+npm run build
 ```
-4. Run the sample with the correct environment variables set, for example (cross-platform):
+3. Run the sample with the correct environment variables set, for example (cross-platform):
 ```bash
-npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node basic.js
+npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/basic.js
 ```
 
 ## Next Steps
