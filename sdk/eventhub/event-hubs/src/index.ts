@@ -35,7 +35,7 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export {
   CloseReason,
-  PartitionManager,
+  CheckpointStore,
   PartitionOwnership
 } from "./eventProcessor";
 export {

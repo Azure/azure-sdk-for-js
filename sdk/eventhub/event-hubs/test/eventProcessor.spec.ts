@@ -23,7 +23,7 @@ import { EventProcessor, FullEventProcessorOptions, PartitionContextError } from
 import { Checkpoint } from '../src/partitionProcessor';
 import { delay } from '@azure/core-amqp';
 import { InitializationContext, PartitionContext } from '../src/eventHubConsumerClientModels';
-import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
+import { InMemoryCheckpointStore } from '../src/inMemoryCheckpointStore';
 import { loggerForTest } from './utils/logHelpers';
 import { SubscriptionHandlerForTests, sendOneMessagePerPartition } from './utils/subscriptionHandlerForTests';
 import { GreedyPartitionLoadBalancer } from '../src/partitionLoadBalancer';
@@ -68,7 +68,7 @@ describe("Event Processor", function (): void {
         processEvent: async () => { },
         processInitialize: async (context) => context.setStartPosition(EventPosition.latest())
       },
-      new InMemoryPartitionManager(),
+      new InMemoryCheckpointStore(),
       defaultOptions
     );
 
@@ -88,7 +88,7 @@ describe("Event Processor", function (): void {
       EventHubClient.defaultConsumerGroup,
       client,
       subscriptionEventHandler,
-      new InMemoryPartitionManager(),
+      new InMemoryCheckpointStore(),
       defaultOptions
     );
 
@@ -121,7 +121,7 @@ describe("Event Processor", function (): void {
         },
         processEvent: async (event, context) => {},
       },
-      new InMemoryPartitionManager(),
+      new InMemoryCheckpointStore(),
       defaultOptions
     );
 
@@ -144,7 +144,7 @@ describe("Event Processor", function (): void {
       EventHubClient.defaultConsumerGroup,
       client,
       subscriptionEventHandler,
-      new InMemoryPartitionManager(),
+      new InMemoryCheckpointStore(),
       {
         partitionLoadBalancer,
         ...defaultOptions
@@ -194,7 +194,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroup,
         client,
         subscriptionEventHandler,
-        new InMemoryPartitionManager(),
+        new InMemoryCheckpointStore(),
         defaultOptions
       );
 
@@ -217,7 +217,7 @@ describe("Event Processor", function (): void {
     it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
       void
     > {
-      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const inMemoryCheckpointStore = new InMemoryCheckpointStore();
       const partitionOwnership1: PartitionOwnership = {
         fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
@@ -232,12 +232,12 @@ describe("Event Processor", function (): void {
         ownerId: generate_uuid(),
         partitionId: "1"
       };
-      const partitionOwnership = await inMemoryPartitionManager.claimOwnership([
+      const partitionOwnership = await inMemoryCheckpointStore.claimOwnership([
         partitionOwnership1,
         partitionOwnership2
       ]);
       partitionOwnership.length.should.equals(2);
-      const ownershiplist = await inMemoryPartitionManager.listOwnership(
+      const ownershiplist = await inMemoryCheckpointStore.listOwnership(
         "myNamespace.servicebus.windows.net",
         "myEventHub",
         EventHubClient.defaultConsumerGroup
@@ -253,8 +253,8 @@ describe("Event Processor", function (): void {
         offset: 50
       };
 
-      await inMemoryPartitionManager.updateCheckpoint(checkpoint);
-      const partitionOwnershipList = await inMemoryPartitionManager.listOwnership(
+      await inMemoryCheckpointStore.updateCheckpoint(checkpoint);
+      const partitionOwnershipList = await inMemoryCheckpointStore.listOwnership(
         "myNamespace.servicebus.windows.net",
         "myEventHub",
         EventHubClient.defaultConsumerGroup
@@ -313,12 +313,12 @@ describe("Event Processor", function (): void {
         }
       }
 
-      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const inMemoryCheckpointStore = new InMemoryCheckpointStore();
       const processor1 = new EventProcessor(
         EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
-        inMemoryPartitionManager,
+        inMemoryCheckpointStore,
         {
           ...defaultOptions
         }
@@ -366,11 +366,11 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
-        inMemoryPartitionManager,
+        inMemoryCheckpointStore,
         defaultOptions
       )
 
-      const checkpoints = await inMemoryPartitionManager.listCheckpoints(client.fullyQualifiedNamespace, client.eventHubName, EventHubClient.defaultConsumerGroup);
+      const checkpoints = await inMemoryCheckpointStore.listCheckpoints(client.fullyQualifiedNamespace, client.eventHubName, EventHubClient.defaultConsumerGroup);
 
       checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
@@ -428,7 +428,7 @@ describe("Event Processor", function (): void {
       loggerForTest("starting up the stealing test");
         
       const processorByName: Dictionary<EventProcessor> = {};
-      const partitionManager = new InMemoryPartitionManager();
+      const checkpointStore = new InMemoryCheckpointStore();
       const partitionIds = await client.getPartitionIds({});
       const partitionOwnershipArr = new Set();
 
@@ -475,7 +475,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
-        partitionManager,
+        checkpointStore,
         { ...defaultOptions }
       );
 
@@ -490,7 +490,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroup,
         client,
         new FooPartitionProcessor(),
-        partitionManager,
+        checkpointStore,
         defaultOptions
       );
 
@@ -508,7 +508,7 @@ describe("Event Processor", function (): void {
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
-      const partitionOwnership = await partitionManager.listOwnership(
+      const partitionOwnership = await checkpointStore.listOwnership(
         client.fullyQualifiedNamespace,
         client.eventHubName,
         EventHubClient.defaultConsumerGroup
@@ -543,7 +543,7 @@ describe("Event Processor", function (): void {
     > {
       const processorByName: Dictionary<EventProcessor> = {};
       const partitionIds = await client.getPartitionIds({});
-      const partitionManager = new InMemoryPartitionManager();
+      const checkpointStore = new InMemoryCheckpointStore();
       const partitionOwnershipArr = new Set();
       let didError = false;
 
@@ -574,7 +574,7 @@ describe("Event Processor", function (): void {
           EventHubClient.defaultConsumerGroup,
           client,
           new FooPartitionProcessor(),
-          partitionManager,
+          checkpointStore,
           defaultOptions
         );
         processorByName[processorName].start();
@@ -596,7 +596,7 @@ describe("Event Processor", function (): void {
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
-      const partitionOwnership = await partitionManager.listOwnership(
+      const partitionOwnership = await checkpointStore.listOwnership(
         client.fullyQualifiedNamespace,
         client.eventHubName,
         EventHubClient.defaultConsumerGroup
@@ -645,7 +645,7 @@ describe("Event Processor", function (): void {
         EventHubClient.defaultConsumerGroup,
         client,
         new SimpleEventProcessor(),
-        new InMemoryPartitionManager(),
+        new InMemoryCheckpointStore(),
         {
           ...defaultOptions,          
           trackLastEnqueuedEventProperties: true

@@ -80,7 +80,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
  * This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
  * distributing the number of partitions uniformly among all the active EventProcessors.
  *
- * This load balancer will retrieve partition ownership details from the PartitionManager to find the number of
+ * This load balancer will retrieve partition ownership details from the CheckpointStore to find the number of
  * active EventProcessor. It uses the last modified time to decide if an EventProcessor is active. If a
  * partition ownership entry has not be updated for a specified duration of time, the owner of that partition is
  * considered inactive and the partition is available for other EventProcessors to own.
@@ -177,7 +177,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
 
   /*
    * This method will create a new map of partition id and PartitionOwnership containing only those partitions
-   * that are actively owned. All entries in the original map returned by PartitionManager that haven't been
+   * that are actively owned. All entries in the original map returned by CheckpointStore that haven't been
    * modified for a duration of time greater than the allowed inactivity time limit are assumed to be owned by
    * dead event processors. These will not be included in the map returned by this method.
    */

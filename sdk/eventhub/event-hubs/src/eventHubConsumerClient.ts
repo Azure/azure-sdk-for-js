@@ -8,8 +8,8 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
 } from "./impl/eventHubClient";
-import { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-import { EventProcessor, PartitionManager, FullEventProcessorOptions } from "./eventProcessor";
+import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
+import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
@@ -217,9 +217,9 @@ export class EventHubConsumerClient {
   /**
    * Subscribes to multiple partitions.
    *
-   * Use this overload if you want to coordinate with other subscribers using a `PartitionManager`
+   * Use this overload if you want to coordinate with other subscribers using a `CheckpointStore`
    *
-   * @param partitionManager A partition manager that manages ownership information and checkpoint details.
+   * @param checkpointStore A checkpoint store that manages ownership information and checkpoint details.
    * @param handlers Handlers for the lifecycle of the subscription - initialization 
    *                 per partition, receiving events, handling errors and the closing 
    *                 of a subscription per partition.
@@ -227,76 +227,76 @@ export class EventHubConsumerClient {
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
-    partitionManager: PartitionManager,
+    checkpointStore: CheckpointStore,
     handlers:  SubscriptionEventHandlers,
     options?: SubscriptionOptions
   ): Subscription; // #3
   subscribe(
-    handlersOrPartitionIdOrPartitionManager1?:
+    handlersOrPartitionIdOrCheckpointStore1?:
       | SubscriptionEventHandlers
       | string
-      | PartitionManager,
+      | CheckpointStore,
     optionsOrHandlers2?: SubscriptionOptions | SubscriptionEventHandlers,
     possibleOptions3?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (typeof handlersOrPartitionIdOrPartitionManager1 === "string" && isSubscriptionEventHandlers(optionsOrHandlers2)) {
+    if (typeof handlersOrPartitionIdOrCheckpointStore1 === "string" && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
       const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
-      const partitionId = handlersOrPartitionIdOrPartitionManager1;
+      const partitionId = handlersOrPartitionIdOrCheckpointStore1;
       
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no coordination.`
       );
 
-      const partitionManager = new InMemoryPartitionManager();
+      const checkpointStore = new InMemoryCheckpointStore();
 
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
         optionsOrHandlers2,
-        partitionManager,
+        checkpointStore,
         {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
-          ownerLevel: getOwnerLevel(subscriptionOptions)
+          ownerLevel: getOwnerLevel(subscriptionOptions, "noOwner")
         }
       );
-    } else if (isPartitionManager(handlersOrPartitionIdOrPartitionManager1) && isSubscriptionEventHandlers(optionsOrHandlers2)) {
+    } else if (isCheckpointStore(handlersOrPartitionIdOrCheckpointStore1) && isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
       const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
-      const partitionManager = handlersOrPartitionIdOrPartitionManager1;
+      const checkpointStore = handlersOrPartitionIdOrCheckpointStore1;
 
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
         optionsOrHandlers2,
-        partitionManager,
+        checkpointStore,
         {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
-          ownerLevel: getOwnerLevel(subscriptionOptions)
+          ownerLevel: getOwnerLevel(subscriptionOptions, 0)
         }
       );
-    } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrPartitionManager1)) {
+    } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrCheckpointStore1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
       const subscriptionOptions = optionsOrHandlers2 as (SubscriptionOptions | undefined);
-      const partitionManager = new InMemoryPartitionManager();
+      const checkpointStore = new InMemoryCheckpointStore();
 
       eventProcessor = new EventProcessor(
         this._consumerGroup,
         this._eventHubClient,
-        handlersOrPartitionIdOrPartitionManager1,
-        partitionManager,
+        handlersOrPartitionIdOrCheckpointStore1,
+        checkpointStore,
         {
           ...defaultConsumerClientOptions,
           ...(optionsOrHandlers2 as SubscriptionOptions),
-          ownerLevel: getOwnerLevel(subscriptionOptions),
+          ownerLevel: getOwnerLevel(subscriptionOptions, "noOwner"),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -317,19 +317,19 @@ export class EventHubConsumerClient {
  * @internal
  * @ignore
  */
-export function isPartitionManager(
-  possible: PartitionManager | any
-): possible is PartitionManager {
+export function isCheckpointStore(
+  possible: CheckpointStore | any
+): possible is CheckpointStore {
   if (!possible) {
     return false;
   }
 
-  const partitionManager = possible as PartitionManager;
+  const checkpointStore = possible as CheckpointStore;
 
   return (
-    typeof partitionManager.claimOwnership === "function" &&
-    typeof partitionManager.listOwnership === "function" &&
-    typeof partitionManager.updateCheckpoint === "function"
+    typeof checkpointStore.claimOwnership === "function" &&
+    typeof checkpointStore.listOwnership === "function" &&
+    typeof checkpointStore.updateCheckpoint === "function"
   );
 }
 
@@ -341,10 +341,13 @@ function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers):
   return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
 }
 
-function getOwnerLevel(options?: SubscriptionOptions) : number {
+function getOwnerLevel(
+  options: SubscriptionOptions | undefined,
+  defaultOwnerLevel: number | "noOwner"
+): number | undefined {
   if (options && options.ownerLevel) {
     return options.ownerLevel;
   }
 
-  return 0;
+  return typeof defaultOwnerLevel === "string" ? undefined : defaultOwnerLevel;
 }

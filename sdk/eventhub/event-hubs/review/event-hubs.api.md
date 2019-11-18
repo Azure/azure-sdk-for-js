@@ -24,6 +24,14 @@ export interface Checkpoint {
 }
 
 // @public
+export interface CheckpointStore {
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
+// @public
 export enum CloseReason {
     OwnershipLost = "OwnershipLost",
     Shutdown = "Shutdown"
@@ -77,7 +85,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
-    subscribe(partitionManager: PartitionManager, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(checkpointStore: CheckpointStore, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -162,14 +170,6 @@ export interface PartitionContext {
     readonly lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
     readonly partitionId: string;
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-}
-
-// @public
-export interface PartitionManager {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // @public

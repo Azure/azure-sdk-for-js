@@ -3,28 +3,28 @@
 
 import { EventHubProducerClient, Subscription } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
+import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
 import { LogTester } from "./utils/logHelpers";
-import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
+import { InMemoryCheckpointStore } from '../src/inMemoryCheckpointStore';
 
 const should = chai.should();
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
-    it("isPartitionManager", () => {
-      isPartitionManager({
+    it("isCheckpointStore", () => {
+      isCheckpointStore({
         processEvents: async () => { },
         processClose: async () => {}
       }).should.not.ok;
 
-      isPartitionManager("hello").should.not.ok;
+      isCheckpointStore("hello").should.not.ok;
 
-      isPartitionManager(new InMemoryPartitionManager()).should.ok;
+      isCheckpointStore(new InMemoryCheckpointStore()).should.ok;
     });
   });
 
@@ -123,7 +123,7 @@ describe("EventHubConsumerClient", () => {
     > {
       // fast forward our partition manager so it starts reading from the latest offset
       // instead of the beginning of time.
-      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const inMemoryCheckpointStore = new InMemoryCheckpointStore();
 
       const logTester = new LogTester([
         "Subscribing to all partitions, coordinating using a partition manager.",
@@ -135,14 +135,14 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = await client.subscribe(
-        inMemoryPartitionManager,
+        inMemoryCheckpointStore,
         tester
       );
 
       subscriptions.push(subscriber1);
 
       const subscriber2 = await client.subscribe(
-         inMemoryPartitionManager,
+         inMemoryCheckpointStore,
         tester
       );
 

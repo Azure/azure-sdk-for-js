@@ -17,7 +17,7 @@
 */
 
 import {
-  EventHubConsumerClient, PartitionManager,
+  EventHubConsumerClient, CheckpointStore,
 } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
@@ -39,7 +39,7 @@ async function main() {
     await containerClient.create();
   }
 
-  const checkpointStore : PartitionManager = new BlobPartitionManager(containerClient);
+  const checkpointStore : CheckpointStore = new BlobPartitionManager(containerClient);
 
   const subscription = consumerClient.subscribe(
     checkpointStore, {

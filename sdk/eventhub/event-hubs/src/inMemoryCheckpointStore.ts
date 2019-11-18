@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { PartitionOwnership, PartitionManager } from "./eventProcessor";
+import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from './util/error';
 
 /**
- * The `EventProcessor` relies on a `PartitionManager` to store checkpoints and handle partition
- * ownerships. `InMemoryPartitionManager` is simple partition manager that stores checkpoints and
+ * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
+ * ownerships. `InMemoryCheckpointStore` is simple partition manager that stores checkpoints and
  * partition ownerships in memory of your program.
  *
- * You can use the `InMemoryPartitionManager` to get started with using the `EventProcessor`.
- * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * You can use the `InMemoryCheckpointStore` to get started with using the `EventProcessor`.
+ * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
  * @class
  * @internal
  * @ignore
  */
-export class InMemoryPartitionManager implements PartitionManager {
+export class InMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
   private _committedCheckpoints: Map<string, Map<string, Checkpoint>> = new Map();
 

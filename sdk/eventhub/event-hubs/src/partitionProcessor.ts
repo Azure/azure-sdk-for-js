@@ -1,4 +1,4 @@
-import { CloseReason, PartitionManager } from "./eventProcessor";
+import { CloseReason, CheckpointStore } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { SubscriptionEventHandlers, InitializationContext, BasicPartitionProperties } from './eventHubConsumerClientModels';
@@ -58,7 +58,7 @@ export class PartitionProcessor implements InitializationContext {
 
   constructor(
     private _eventHandlers: SubscriptionEventHandlers,
-    private _partitionManager: PartitionManager,
+    private _checkpointStore: CheckpointStore,
     private _context: BasicPartitionProperties & {
     eventProcessorId: string
   }) {
@@ -199,6 +199,6 @@ export class PartitionProcessor implements InitializationContext {
       offset: eventData.offset,
     };
 
-    await this._partitionManager!.updateCheckpoint(checkpoint);
+    await this._checkpointStore!.updateCheckpoint(checkpoint);
   }
 }
