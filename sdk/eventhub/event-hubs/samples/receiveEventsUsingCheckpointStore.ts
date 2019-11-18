@@ -17,7 +17,7 @@
 */
 
 import {
-  EventHubConsumerClient,
+  EventHubConsumerClient, PartitionManager,
 } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
@@ -29,24 +29,30 @@ const storageConnectionString = "";
 const containerName = "";
 
 async function main() {
-  // The callback where you add your code to process incoming events
   const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
   
   // this client will be used by our eventhubs-checkpointstore-blob, which 
-  // persists any checkpoints in this session in Azure Storage
+  // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
-  await containerClient.create();
+
+  if (!containerClient.exists()) {
+    await containerClient.create();
+  }
+
+  const checkpointStore : PartitionManager = new BlobPartitionManager(containerClient);
 
   const subscription = consumerClient.subscribe(
-    EventHubConsumerClient.defaultConsumerGroup,
-    new BlobPartitionManager(containerClient), {
+    checkpointStore, {
       processEvent: async (event, context) => {
         console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
     
-        // checkpoint using the last event in the batch
-        await context.updateCheckpoint(event).catch((err: any) => {
+        try {
+          // save a checkpoint now that we've processed this event.
+          await context.updateCheckpoint(event)
+        } catch (err) {
           console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-        });
+          throw err;
+        };
 
         console.log(
           `Successfully checkpointed event with sequence number: ${event.sequenceNumber} from partition: 'partitionContext.partitionId'`

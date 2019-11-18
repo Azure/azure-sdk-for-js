@@ -22,7 +22,7 @@ const eventHubName = "";
 async function main() {
   const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
 
-  const subscription = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroup, {
+  const subscription = consumerClient.subscribe({
     // The callback where you add your code to process incoming events
     processEvent: async (event, context) => {
         console.log(

@@ -32,8 +32,10 @@ const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
   const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName, {
-    webSocket: WebSocket,
-    webSocketConstructorOptions: { agent: proxyAgent }
+    webSocketOptions: {
+      webSocket: WebSocket,
+      webSocketConstructorOptions: { agent: proxyAgent }
+    }    
   });
   /*
    Refer to other samples, and place your code here to send/receive events
