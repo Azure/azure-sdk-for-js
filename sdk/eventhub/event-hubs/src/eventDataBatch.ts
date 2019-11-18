@@ -142,7 +142,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * @property The maximum size allowed for the batch.
    */
-  public readonly _maxSizeInBytes: number;
+  private _maxSizeInBytes: number;
   /**
    * @property Current size of the batch in bytes.
    */
