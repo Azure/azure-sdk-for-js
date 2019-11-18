@@ -60,54 +60,35 @@ describe("Event Processor", function (): void {
     await client.close();
   });
 
-  describe.only("_addSubscriptionHandleError", () => {
+  it("error thrown from user's processError handler doesn't bubble up", async () => {
     let eventProcessor: EventProcessor;
-    let userCallback: () => void | undefined;
     let errorFromCallback: Error | undefined;
     let contextFromCallback: PartitionContext | undefined;
 
-    beforeEach(() => {
-      // note: we're not starting this event processor so there's nothing to stop()
-      // it's only here so we can call a few private methods on it.
-      eventProcessor = new EventProcessor(
-        EventHubClient.defaultConsumerGroup,
-        client,
-        {
-          processEvent: async () => { },
-          processError: async (err, context) => {
-            // simulate the user messing up and accidentally throwing an error
-            // we should just log it and not kill anything.
-            errorFromCallback = err;
-            contextFromCallback = context;
-            
-            if (userCallback) {
-              userCallback();
-            }
-          }
-        },
-        new InMemoryCheckpointStore(),
-        defaultOptions
-      );
-    });
+    // note: we're not starting this event processor so there's nothing to stop()
+    // it's only here so we can call a few private methods on it.
+    eventProcessor = new EventProcessor(
+      EventHubClient.defaultConsumerGroup,
+      client,
+      {
+        processEvent: async () => { },
+        processError: async (err, context) => {
+          // simulate the user messing up and accidentally throwing an error
+          // we should just log it and not kill anything.
+          errorFromCallback = err;
+          contextFromCallback = context;
+          
+          throw new Error("Error thrown from the user's error handler");
+        }
+      },
+      new InMemoryCheckpointStore(),
+      defaultOptions
+    );
 
-    it("undefined partition ID", async () => {
-      // an undefined partition ID indicates an error that is not partition specific which is sent
-      // to the user as an empty string
-      await eventProcessor['_addSubscriptionHandleError'](new Error("test error"), undefined);
+    await eventProcessor['_handleSubscriptionError'](new Error("test error"));
 
-      errorFromCallback!.message.should.equal("test error");
-      contextFromCallback!.partitionId.should.equal("");
-    });
-    
-    it("error thrown from user's processError handler", async () => {
-      // the user's error handler will throw an error - won't escape from this function
-      userCallback = () => { throw new Error("Error thrown from the user's error handler"); }
-
-      await eventProcessor['_addSubscriptionHandleError'](new Error("test error"), "0");
-
-      errorFromCallback!.message.should.equal("test error");
-      contextFromCallback!.partitionId.should.equal("0");
-    });
+    errorFromCallback!.message.should.equal("test error");
+    contextFromCallback!.partitionId.should.equal("");
   });
 
   it("should expose an id #RunnableInBrowser", async function (): Promise<void> {

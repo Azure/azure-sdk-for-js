@@ -323,14 +323,7 @@ export class EventProcessor {
         eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
       } else {
         eventPosition = EventPosition.earliest();
-        
       }
-
-      
-
-      // const eventPosition = ownershipRequest.sequenceNumber
-      //   ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-      //   : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -338,7 +331,7 @@ export class EventProcessor {
       log.error(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
-      await this._addSubscriptionHandleError(err);
+      await this._handleSubscriptionError(err);
     }
   }
 
@@ -395,24 +388,27 @@ export class EventProcessor {
         await delay(waitIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
-        await this._addSubscriptionHandleError(err);
+        await this._handleSubscriptionError(err);
       }
     }
   }
 
-  private async _addSubscriptionHandleError(err: Error, partitionId?: string): Promise<void> {
+  /**
+   * This is called when there are errors that are not specific to a partition (ex: load balancing)
+   */
+  private async _handleSubscriptionError(err: Error): Promise<void> {
     // filter out any internal "expected" errors
     if (err.name === "AbortError") {
       return;
     }
 
-    if (this._subscriptionEventHandlers.processError) {
+    if (this._subscriptionEventHandlers.processError) { 
       try {
         await this._subscriptionEventHandlers.processError(err, {
           fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
           eventHubName: this._eventHubClient.eventHubName,
           consumerGroup: this._consumerGroup,
-          partitionId: partitionId || "",
+          partitionId: "",
           updateCheckpoint: async () => { }
         });
       } catch (err) {
