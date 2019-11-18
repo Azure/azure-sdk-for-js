@@ -82,6 +82,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.5.4",
+    "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
@@ -129,7 +130,6 @@
     "rollup": "^1.16.3",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-inject": "^3.0.0",
-    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-shim": "^1.0.0",
