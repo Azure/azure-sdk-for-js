@@ -35,9 +35,10 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isEndpointUnavailable: boolean | null = null;
 
   /**
-   * Creates an instance of ManagedIdentityCredential with a client ID
+   * Creates an instance of ManagedIdentityCredential with the client ID of a
+   * user-assigned identity.
    *
-   * @param clientId The client (application) ID of an App Registration in the tenant.
+   * @param clientId The client ID of the user-assigned identity.
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
@@ -115,7 +116,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
 
     if (clientId) {
-      queryParameters.client_id = clientId;
+      queryParameters.clientid = clientId;
     }
 
     return {

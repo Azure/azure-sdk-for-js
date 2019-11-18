@@ -137,7 +137,6 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { BlockBlobUploadOptions, BlobDeleteOptions } from "./Clients";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.

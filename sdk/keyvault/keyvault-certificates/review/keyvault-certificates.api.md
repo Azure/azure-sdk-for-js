@@ -28,6 +28,11 @@ export interface AdministratorContact {
 }
 
 // @public
+export type ArrayOneOrMore<T> = {
+    0: T;
+} & Array<T>;
+
+// @public
 export interface BackupCertificateOptions extends coreHttp.OperationOptions {
 }
 
@@ -49,17 +54,12 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 }
 
 // @public
-export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<BackupCertificateResult>;
     beginCreateCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
-    cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContacts>;
@@ -83,7 +83,8 @@ export class CertificateClient {
     updateCertificate(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateCertificatePolicy(certificateName: string, certificatePolicy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
-    }
+    readonly vaultUrl: string;
+}
 
 // @public
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
@@ -394,9 +395,13 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface SubjectAlternativeNames {
-    subjectType: "emails" | "dnsNames" | "upns";
-    subjectValues: string[];
+export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
+
+// @public
+export interface SubjectAlternativeNamesAll {
+    dnsNames: ArrayOneOrMore<string>;
+    emails: ArrayOneOrMore<string>;
+    userPrincipalNames: ArrayOneOrMore<string>;
 }
 
 // @public

@@ -8,6 +8,7 @@ omitted_paths:
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
   - "sdk/cosmosdb/cosmos/samples/*"
+  - sdk/keyvault/*/test/**
   - eng/tools/versioning/*
   - samples/Bundling/**
 language: js
@@ -94,7 +95,7 @@ known_content_issues:
   - ["sdk/eventhub/event-processor-host/samples/README.md", "#1583"]
   - ["sdk/eventhub/testhub/README.md", "#1583"]
   - ["sdk/graphrbac/graph/README.md", "#1583"]
-  - ["sdk/keyvault/keyvault/README.md", "#1583"]
+  - ["sdk/keyvault/README.md", "#1583"]
   - ["sdk/operationalinsights/loganalytics/README.md", "#1583"]
   - ["sdk/servicebus/service-bus/README.md", "#1583"]
   - ["sdk/servicebus/service-bus/samples/README.md", "#1583"]

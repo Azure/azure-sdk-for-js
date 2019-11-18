@@ -616,7 +616,7 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  private readonly vaultUrl: string;
+  public readonly vaultUrl: string;
 
   /**
    * @internal
