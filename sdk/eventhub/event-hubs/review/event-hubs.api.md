@@ -50,6 +50,7 @@ export interface EventDataBatch {
     // @internal
     batchMessage: Buffer | undefined;
     count: number;
+    maxSizeInBytes: number;
     // @internal
     _messageSpanContexts: SpanContext[];
     partitionId?: string;
@@ -91,6 +92,7 @@ export class EventHubProducerClient {
     readonly fullyQualifiedNamespace: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
 }
 

@@ -76,6 +76,12 @@ export interface EventDataBatch {
    */
   count: number;
 
+  /**
+   * The maximum size of the batch, in bytes
+   * @readonly.
+   */
+  maxSizeInBytes: number;
+
  /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
@@ -136,7 +142,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * @property The maximum size allowed for the batch.
    */
-  private readonly _maxSizeInBytes: number;
+  public readonly _maxSizeInBytes: number;
   /**
    * @property Current size of the batch in bytes.
    */
@@ -171,6 +177,14 @@ export class EventDataBatchImpl implements EventDataBatch {
     this._partitionKey = partitionKey;
     this._sizeInBytes = 0;
     this._count = 0;
+  }
+
+  /**
+   * @property The maximum size of the batch, in bytes.
+   * @readonly
+   */
+  get maxSizeInBytes(): number {
+    return this._maxSizeInBytes;
   }
 
   /**

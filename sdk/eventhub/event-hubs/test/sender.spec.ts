@@ -261,6 +261,10 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const batch = await producerClient.createBatch({
         partitionId: "0"
       });
+      
+      batch.partitionId!.should.equal("0");
+      should.not.exist(batch.partitionKey);
+      batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
       batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
