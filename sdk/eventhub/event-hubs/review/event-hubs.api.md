@@ -30,7 +30,7 @@ export enum CloseReason {
 }
 
 // @public
-export interface CreateBatchOptions {
+export interface CreateBatchOptions extends OperationOptions {
     abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
     partitionId?: string;
@@ -121,18 +121,15 @@ export class EventPosition {
     }
 
 // @public
-export interface GetEventHubPropertiesOptions extends SpanOptions {
-    abortSignal?: AbortSignalLike;
+export interface GetEventHubPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface GetPartitionIdsOptions extends SpanOptions {
-    abortSignal?: AbortSignalLike;
+export interface GetPartitionIdsOptions extends OperationOptions {
 }
 
 // @public
-export interface GetPartitionPropertiesOptions extends SpanOptions {
-    abortSignal?: AbortSignalLike;
+export interface GetPartitionPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -149,6 +146,14 @@ export interface LastEnqueuedEventProperties {
 }
 
 export { MessagingError }
+
+// @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
+}
 
 // @public
 export interface PartitionContext {
@@ -219,9 +224,7 @@ export interface ReceivedEventData {
 export { RetryOptions }
 
 // @public
-export interface SendBatchOptions {
-    abortSignal?: AbortSignalLike;
-    parentSpan?: Span | SpanContext;
+export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public

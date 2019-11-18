@@ -14,9 +14,6 @@ import {
   parseConnectionString,
   EventHubConnectionStringModel
 } from "@azure/core-amqp";
-import {
-  SpanOptions
-} from "@azure/core-tracing";
 
 import { ConnectionContext } from "../connectionContext";
 import { PartitionProperties, EventHubProperties } from "../managementClient";
@@ -27,6 +24,7 @@ import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { getParentSpan, OperationOptions } from '../util/operationOptions';
 
 type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
@@ -50,12 +48,7 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetEventHubPropertiesOptions extends SpanOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
+export interface GetEventHubPropertiesOptions extends OperationOptions {
 }
 
 /**
@@ -63,12 +56,7 @@ export interface GetEventHubPropertiesOptions extends SpanOptions {
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionPropertiesOptions extends SpanOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
+export interface GetPartitionPropertiesOptions extends OperationOptions {
 }
 
 /**
@@ -76,12 +64,7 @@ export interface GetPartitionPropertiesOptions extends SpanOptions {
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionIdsOptions extends SpanOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
+export interface GetPartitionIdsOptions extends OperationOptions {
 }
 
 /**
@@ -111,17 +94,7 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
   */
-export interface SendBatchOptions {
-/**
-   * @property
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
-   */
-  parentSpan?: Span | SpanContext;
+export interface SendBatchOptions extends OperationOptions {
 }
 
 /**
@@ -163,7 +136,7 @@ export interface SendOptions extends SendBatchOptions {
  * }
  * ```
  */
-export interface CreateBatchOptions {
+export interface CreateBatchOptions extends OperationOptions {
   /**
    * A value that is hashed to produce a partition assignment. It guarantees that messages 
    * with the same partitionKey end up in the same partition.
@@ -580,7 +553,7 @@ export class EventHubClient {
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getEventHubProperties", options.parent);
+    const clientSpan = this._createClientSpan("getEventHubProperties", getParentSpan(options));
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -609,11 +582,15 @@ export class EventHubClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", options.parent);
+    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options));
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
-        parent: clientSpan
+        tracingOptions: {
+          spanOptions: {
+            parent: getParentSpan(options)
+          }
+        }
       });
       clientSpan.setStatus({ code: CanonicalCode.OK });
       return runtimeInfo.partitionIds;
@@ -644,7 +621,7 @@ export class EventHubClient {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "getPartitionProperties", "partitionId", partitionId);
     partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan("getPartitionProperties", options.parent);
+    const clientSpan = this._createClientSpan("getPartitionProperties", getParentSpan(options));
     try {
       const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,

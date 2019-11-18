@@ -11,6 +11,7 @@ import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDat
 import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { getParentSpan } from './util/operationOptions';
 
 /**
  * A producer responsible for sending events to an Event Hub.
@@ -174,7 +175,7 @@ export class EventHubProducer {
       for (let i = 0; i < eventData.length; i++) {
         const event = eventData[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(options.parentSpan);
+          const messageSpan = createMessageSpan(getParentSpan(options));
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -186,7 +187,7 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(options.parentSpan);
+    const sendSpan = this._createSendSpan(getParentSpan(options));
     for (const spanContext of spanContextsToLink) {
       sendSpan.addLink(spanContext);
     }

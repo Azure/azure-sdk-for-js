@@ -123,8 +123,14 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       await producer.send(
         { body: "single message - manual trace propagation" },
-        { parentSpan: rootSpan }
-      );
+        {
+          tracingOptions: {
+            spanOptions: {
+              parent: rootSpan
+            }
+          }
+        });
+      
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -410,7 +416,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
       }
-      await producerClient.sendBatch(eventDataBatch, { parentSpan: rootSpan });
+      await producerClient.sendBatch(eventDataBatch, { 
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -633,7 +645,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       for (let i = 0; i < 5; i++) {
         events.push({ body: `multiple messages - manual trace propgation: ${i}` });
       }
-      await producer.send(events, { parentSpan: rootSpan });
+      await producer.send(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -693,7 +711,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         events.push({ body: `multiple messages - manual trace propgation: ${i}` });
       }
       events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
-      await producer.send(events, { parentSpan: rootSpan });
+      await producer.send(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();

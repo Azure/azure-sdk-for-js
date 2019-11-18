@@ -216,7 +216,7 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
+  getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._client.getProperties(options);
   }
 
@@ -227,7 +227,7 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
+  getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
     return this._client.getPartitionIds(options);
   }
 
@@ -239,7 +239,7 @@ export class EventHubProducerClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionProperties(
+  getPartitionProperties(
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
