@@ -77,7 +77,7 @@ export interface EventDataBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes
+   * The maximum size of the batch, in bytes.
    * @readonly.
    */
   readonly maxSizeInBytes: number;
