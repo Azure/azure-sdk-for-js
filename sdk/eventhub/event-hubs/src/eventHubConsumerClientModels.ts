@@ -15,15 +15,15 @@ export interface BasicPartitionProperties {
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * @property The event hub name.
    */
   eventHubName: string;
   /**
-   * @property The consumer group name
+   * @property The consumer group name.
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition.
    */
   partitionId: string;
 }
@@ -39,21 +39,21 @@ export interface PartitionContext {
    */
   readonly fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * @property The event hub name.
    */
   readonly eventHubName: string;
   /**
-   * @property The consumer group name
+   * @property The consumer group name.
    */
   readonly consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition.
    */
   readonly partitionId: string;
   /**
    * Information on the last enqueued event in the partition that is being processed.
    * This property is only updated if the `trackLastEnqueuedEventProperties` option is set to true
-   * when creating an instance of EventProcessor
+   * when creating an instance of EventProcessor.
    * @readonly
    */
   readonly lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
@@ -76,7 +76,7 @@ export interface PartitionContext {
 export interface InitializationContext extends PartitionContext {
   /**
    * Allows for setting the start position of a partition.
-   * Default (if not called) is `EventPosition.earliest()`
+   * Default (if not called) is `EventPosition.earliest()`.
    */
   setStartPosition(startPosition: EventPosition): void;
 }

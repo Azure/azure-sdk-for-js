@@ -70,7 +70,7 @@ export interface PartitionOwnership {
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition.
    */
   partitionId: string;
   /**
