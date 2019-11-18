@@ -31,7 +31,6 @@ export enum CloseReason {
 
 // @public
 export interface CreateBatchOptions extends OperationOptions {
-    abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
     partitionId?: string;
     partitionKey?: string;
@@ -243,7 +242,6 @@ export interface SubscriptionEventHandlers {
 
 // @public
 export interface SubscriptionOptions {
-    maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     trackLastEnqueuedEventProperties?: boolean;
 }

@@ -287,8 +287,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           initialized = true;
           context.setStartPosition(EventPosition.latest());
         }
-      }, {
-        maxWaitTimeInSeconds: 60
       });
       
       while (!initialized) {

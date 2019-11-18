@@ -19,7 +19,6 @@ import { ConnectionContext } from "../connectionContext";
 import { PartitionProperties, EventHubProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 
-import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
@@ -153,12 +152,6 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
-  /**
-   * @property
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -549,7 +542,7 @@ export class EventHubClient {
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal3.
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);

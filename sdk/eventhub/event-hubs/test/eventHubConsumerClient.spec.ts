@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubProducerClient, Subscription, SubscriptionOptions } from "../src";
+import { EventHubProducerClient, Subscription } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -14,17 +14,10 @@ import { InMemoryPartitionManager } from '../src/inMemoryPartitionManager';
 const should = chai.should();
 const env = getEnvVars();
 
-// setting these to be really small since our tests deal with a
-// very low volume of messages.
-const defaultSubscriptionOptionsForTests: Pick<SubscriptionOptions, 'maxWaitTimeInSeconds'> = {
-  maxWaitTimeInSeconds: 10
-};
-
 describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
-        ...defaultSubscriptionOptionsForTests,
         processEvents: async () => { },
         processClose: async () => {}
       }).should.not.ok;
@@ -93,8 +86,7 @@ describe("EventHubConsumerClient", () => {
 
       const subscription = await client.subscribe(
         "0",
-        tester,
-        defaultSubscriptionOptionsForTests
+        tester
       );
 
       subscriptions.push(subscription);
@@ -117,8 +109,7 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
       const subscription = await client.subscribe(
-        tester,
-        defaultSubscriptionOptionsForTests
+        tester
       );
 
       await tester.runTestAndPoll(producerClient);
@@ -145,22 +136,14 @@ describe("EventHubConsumerClient", () => {
 
       const subscriber1 = await client.subscribe(
         inMemoryPartitionManager,
-        tester,
-        {
-          ...defaultSubscriptionOptionsForTests,
-          maxWaitTimeInSeconds: 60
-        }
+        tester
       );
 
       subscriptions.push(subscriber1);
 
       const subscriber2 = await client.subscribe(
          inMemoryPartitionManager,
-        tester,
-        {
-          ...defaultSubscriptionOptionsForTests,
-          maxWaitTimeInSeconds: 60      
-        }
+        tester
       );
 
       subscriptions.push(subscriber2);

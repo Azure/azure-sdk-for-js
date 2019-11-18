@@ -22,7 +22,7 @@ const defaultConsumerClientOptions: Required<Pick<FullEventProcessorOptions, 'ma
   // to support our current "process single event only" workflow we'll also purposefully 
   // only request a single event at a time.
   maxBatchSize: 1,
-  maxWaitTimeInSeconds: 10
+  maxWaitTimeInSeconds: 60
 };
 
 /**

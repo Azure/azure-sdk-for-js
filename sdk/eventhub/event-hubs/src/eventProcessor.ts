@@ -144,7 +144,7 @@ export interface PartitionManager {
   listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
 }
 export type SubscriptionEventHandlersKeys = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
-export type SubscriptionOptionsToMakeRequired = 'maxWaitTimeInSeconds' | 'ownerLevel';
+export type SubscriptionOptionsToMakeRequired = 'ownerLevel';
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -175,6 +175,12 @@ export interface FullEventProcessorOptions extends
    * The number of events to request per batch
    */
   maxBatchSize: number;
+
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
+  maxWaitTimeInSeconds: number;
 }
 
 /**
