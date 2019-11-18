@@ -1,6 +1,6 @@
 import resolve from "rollup-plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 
 export default {
@@ -12,16 +12,16 @@ export default {
   },
   plugins: [
     shim({
-        fs: `
+      fs: `
       export function stat() { }
       export function createReadStream() { }
       export function createWriteStream() { }
     `,
-        os: `
+      os: `
       export const type = 1;
       export const release = 1;
     `,
-        util: `
+      util: `
         export function promisify() { }
     `
     }),
