@@ -1,8 +1,8 @@
-import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from "@azure/core-tracing";
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
+import { AbortSignalLike } from '@azure/abort-controller';
+import { Span, SpanContext, SpanOptions } from "@azure/core-tracing";
 
 /**
  * Options for configuring tracing and the abortSignal.
@@ -26,6 +26,13 @@ export interface OperationOptions {
   abortSignal?: AbortSignalLike;
 }
 
-export function getParentSpan(options: Pick<OperationOptions, 'tracingOptions'>) {
-  return options && options.tracingOptions && options.tracingOptions.spanOptions && options.tracingOptions.spanOptions.parent
+export function getParentSpan(
+  options: Pick<OperationOptions, "tracingOptions">
+): Span | SpanContext | undefined {
+  return (
+    options &&
+    options.tracingOptions &&
+    options.tracingOptions.spanOptions &&
+    options.tracingOptions.spanOptions.parent
+  );
 }
