@@ -14,7 +14,8 @@ import {
   DataTransformer,
   TokenProvider,
   EventHubConnectionConfig,
-  AadTokenProvider
+  AadTokenProvider,
+  Constants
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
@@ -89,11 +90,11 @@ export interface ClientOptionsBase {
    * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
    * instead of the built-in WebSocket in the browser.
    */
-   webSocket?: WebSocketImpl;
+  webSocket?: WebSocketImpl;
   /**
    * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
    */
-   webSocketConstructorOptions?: any;
+  webSocketConstructorOptions?: any;
 }
 
 /**
@@ -170,7 +171,9 @@ export class EventHubClient {
         log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
+      const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(
+        err
+      )}`;
       log.error(msg);
       throw new Error(msg);
     }
@@ -426,6 +429,9 @@ export class EventHubClient {
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
           "MSITokenCredentials."
       );
+    }
+    if (credentials instanceof MSITokenCredentials) {
+      credentials.resource = Constants.aadEventHubsAudience;
     }
     const tokenProvider = new AadTokenProvider(credentials);
     return EventHubClient.createFromTokenProvider(host, entityPath, tokenProvider, options);
