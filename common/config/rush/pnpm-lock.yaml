@@ -108,7 +108,7 @@ dependencies:
   fs-extra: 8.1.0
   glob: 7.1.6
   guid-typescript: 1.0.9
-  https-proxy-agent: 2.2.4
+  https-proxy-agent: 3.0.1
   inherits: 2.0.4
   is-buffer: 2.0.4
   jssha: 2.3.1
@@ -10158,7 +10158,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
-      https-proxy-agent: 2.2.4
+      https-proxy-agent: 3.0.1
       is-buffer: 2.0.4
       jssha: 2.3.1
       karma: 4.4.1
@@ -10198,7 +10198,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xZHfKrGlFr+OhSk+Q1gS59ecYH0LGLA7IC8V9NIyVfh88+nyz7D1dCEFS2cNgAPiEYFVQwpuDPXajZq35Bf9yw==
+      integrity: sha512-d6jpwof7UHFCBguimFxAoxFL8Z63/Vu9Cj5nSv5rzUA7RfDlunk9c5kSOAZnyt+yY53dup4aSjW2yJv0SM0ZUg==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10234,7 +10234,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
-      https-proxy-agent: 2.2.4
+      https-proxy-agent: 3.0.1
       mocha: 6.2.2
       mocha-junit-reporter: 1.23.1_mocha@6.2.2
       mocha-multi: 1.1.3_mocha@6.2.2
@@ -10256,7 +10256,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-TD3zybvXvyqYUSlXoGYi6g/lR9JTgQ6mwHk5yDDdsnfwU8Z58TJaLvQxBBOkiesX5e+g240sMqUJ0pL9TAREww==
+      integrity: sha512-M9GP48PI/sQfXVD7u+W2rN/7S7bd/DxJmTtbrA6lsr/a6pIUE7wcm7Bk6b4zhn+P+raqHOc3mKVUVzbzg2uswg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -10664,7 +10664,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
-      https-proxy-agent: 2.2.4
+      https-proxy-agent: 3.0.1
       is-buffer: 2.0.4
       karma: 4.4.1
       karma-chrome-launcher: 3.1.0
@@ -10705,7 +10705,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-b2hDAdc1VwOGd/A44fWyHWSGt351XwIAaBS+4cSpEGL/mN/T5gSk+BE3M6DgPj/9EM+S6p6VyXYUUZknjsRxVA==
+      integrity: sha512-S6WqBosReaKHZMNXvv6QiiHoL9XRP9M0ujNZExQK4OQ5P0UcA7ZvIdyztIwl5FQIfXpTcV090zPv3q3XllM0oA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11013,6 +11013,7 @@ packages:
       integrity: sha512-6jUfppPxKsY6RdpJHavDDzxLMnGtdYrT/xCWSLgpZKnQeNXdcOD1sWNyccw6MKOLvxssR0VYJrq0KYGa74i4tA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -11123,7 +11124,7 @@ specifiers:
   fs-extra: ^8.1.0
   glob: ^7.1.2
   guid-typescript: ^1.0.9
-  https-proxy-agent: ^2.2.1
+  https-proxy-agent: ^3.0.1
   inherits: ^2.0.3
   is-buffer: ^2.0.3
   jssha: ^2.3.1
