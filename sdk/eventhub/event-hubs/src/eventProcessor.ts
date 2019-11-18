@@ -407,13 +407,17 @@ export class EventProcessor {
     }
 
     if (this._subscriptionEventHandlers.processError) {
-      await this._subscriptionEventHandlers.processError(err, {
-        fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
-        eventHubName: this._eventHubClient.eventHubName,
-        consumerGroup: this._consumerGroup,
-        partitionId: partitionId || "",
-        updateCheckpoint: async () => { }
-      });
+      try {
+        await this._subscriptionEventHandlers.processError(err, {
+          fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+          eventHubName: this._eventHubClient.eventHubName,
+          consumerGroup: this._consumerGroup,
+          partitionId: partitionId || "",
+          updateCheckpoint: async () => { }
+        });
+      } catch (err) {
+        log.error(`[${this._id}] An error was thrown from the user's processError handler: ${err}`);
+      }
     }
   }
 
