@@ -7,7 +7,7 @@ import { RetryContext } from "./RetryContext";
  * @ignore
  */
 export interface RetryPolicy {
-  retryAfterInMilliseconds: number;
+  retryAfterInMs: number;
   shouldRetry: (
     errorResponse: ErrorResponse,
     retryContext?: RetryContext,

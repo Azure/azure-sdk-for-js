@@ -115,11 +115,13 @@ async function httpRequest(requestContext: RequestContext) {
       errorResponse.substatus = substatus;
     }
 
-    if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
-      errorResponse.retryAfterInMilliseconds = parseInt(
-        headers[Constants.HttpHeaders.RetryAfterInMilliseconds],
-        10
-      );
+    if (Constants.HttpHeaders.RetryAfterInMs in headers) {
+      errorResponse.retryAfterInMs = parseInt(headers[Constants.HttpHeaders.RetryAfterInMs], 10);
+      Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
+        get: () => {
+          return errorResponse.retryAfterInMs;
+        }
+      });
     }
 
     throw errorResponse;

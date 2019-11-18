@@ -168,6 +168,7 @@ export const Constants: {
         CollectionPartitionInfo: string;
         CollectionServiceInfo: string;
         RetryAfterInMilliseconds: string;
+        RetryAfterInMs: string;
         IsFeedUnfiltered: string;
         ResourceTokenExpiry: string;
         EnableScanInQuery: string;
@@ -257,6 +258,7 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // Warning: (ae-forgotten-export) The symbol "PartitionedQueryExecutionInfo" needs to be exported by the entry point index.d.ts
     // 
@@ -267,6 +269,7 @@ export class Container {
     item(id: string, partitionKey: any): Item;
     readonly items: Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
+    readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
@@ -364,13 +367,23 @@ export class DatabaseAccount {
     constructor(body: {
         [key: string]: any;
     }, headers: CosmosHeaders);
+    // @deprecated
     readonly ConsistencyPolicy: ConsistencyLevel;
+    readonly consistencyPolicy: ConsistencyLevel;
+    // @deprecated
     readonly CurrentMediaStorageUsageInMB: number;
+    readonly currentMediaStorageUsageInMB: number;
+    // @deprecated
     readonly DatabasesLink: string;
+    readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
-    readonly MaxMediaStorageUsageInMB: number;
+    // @deprecated
+    readonly MaxMediaStorageUsageInMB: string;
+    readonly maxMediaStorageUsageInMB: number;
+    // @deprecated
     readonly MediaLink: string;
+    readonly mediaLink: string;
     readonly readableLocations: Location[];
     readonly writableLocations: Location[];
 }
@@ -429,6 +442,8 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     retryAfterInMilliseconds?: number;
     // (undocumented)
+    retryAfterInMs?: number;
+    // (undocumented)
     substatus?: number;
 }
 
@@ -444,7 +459,9 @@ export interface FeedOptions extends SharedOptions {
         condition: string;
     };
     bufferItems?: boolean;
+    // @deprecated
     continuation?: string;
+    continuationToken?: string;
     continuationTokenLimitInKB?: number;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
@@ -461,6 +478,8 @@ export class FeedResponse<TResource> {
     readonly activityId: string;
     // (undocumented)
     readonly continuation: string;
+    // (undocumented)
+    readonly continuationToken: string;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -542,6 +561,10 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    changeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -551,9 +574,14 @@ export class Items {
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
+    // 
+    // @deprecated
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
