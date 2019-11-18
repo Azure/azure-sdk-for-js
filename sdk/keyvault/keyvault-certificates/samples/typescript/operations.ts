@@ -16,8 +16,6 @@ async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
   const certificateName = "MyCertificate";
 
-  let getResponse: any;
-
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
@@ -28,13 +26,14 @@ async function main(): Promise<void> {
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)
-  getResponse = await client.getCertificateOperation(certificateName);
-  console.log("Certificate operation:", getResponse);
+  const operationPoller = await client.getCertificateOperation(certificateName);
+  let operation = operationPoller.getResult();
+  console.log("Certificate operation:", operation);
 
   // Cancelling the certificate's operation
-  await client.cancelCertificateOperation(certificateName);
-  getResponse = await client.getCertificateOperation(certificateName);
-  console.log("Cancelled certificate operation:", getResponse);
+  await operationPoller.cancelOperation();
+  operation = operationPoller.getResult();
+  console.log("Cancelled certificate operation:", operation);
 
   // Deleting the certificate's operation
   await client.deleteCertificateOperation(certificateName);
