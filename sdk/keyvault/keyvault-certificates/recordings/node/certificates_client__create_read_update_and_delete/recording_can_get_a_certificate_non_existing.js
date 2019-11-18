@@ -23,11 +23,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0aaa14fc-3372-4a02-83f9-670d9d9c945a',
+  '0c8458dc-1645-4e95-b35d-38649709067e',
   'x-ms-keyvault-service-version',
   '1.1.0.882',
   'x-ms-keyvault-network-info',
-  'addr=52.175.209.7;act_addr_fam=InterNetwork;',
+  'addr=52.183.68.201;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 06 Nov 2019 16:32:13 GMT'
+  'Fri, 15 Nov 2019 23:18:10 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,19 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '7155c0ef-bf6f-432b-906c-e2213d3e1d00',
+  'd4ac5f97-71b1-4d88-9385-dbeb66180500',
   'x-ms-ests-server',
-  '2.1.9645.6 - EUS ProdSlices',
+  '2.1.9677.8 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AoT3wLDKU5lLjI9lcudpyOM_aSJHAQAAAI3sVNUOAAAA; expires=Fri, 06-Dec-2019 16:32:13 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhGKEEmDco9NknViQtMs6nI_aSJHAQAAADIpYdUOAAAA; expires=Sun, 15-Dec-2019 23:18:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 06 Nov 2019 16:32:13 GMT',
+  'Fri, 15 Nov 2019 23:18:10 GMT',
   'Content-Length',
   '1231'
 ]);
@@ -82,7 +82,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Pragma',
   'no-cache',
   'Content-Length',
-  '146',
+  '145',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -92,11 +92,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6541c4eb-b71f-41d4-8fa3-44c18cb0dd79',
+  '81acf198-77b8-411c-9fd1-b7f87a9a7449',
   'x-ms-keyvault-service-version',
   '1.1.0.882',
   'x-ms-keyvault-network-info',
-  'addr=52.175.209.7;act_addr_fam=InterNetwork;',
+  'addr=52.183.68.201;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -106,5 +106,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 06 Nov 2019 16:32:13 GMT'
+  'Fri, 15 Nov 2019 23:18:10 GMT'
 ]);

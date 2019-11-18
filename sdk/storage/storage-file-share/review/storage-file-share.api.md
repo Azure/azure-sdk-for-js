@@ -803,7 +803,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 // 
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
+    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
@@ -825,12 +825,11 @@ export class ShareClient extends StorageClient {
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
+    readonly name: string;
     readonly rootDirectoryClient: ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
-    // (undocumented)
-    readonly shareName: string;
     withSnapshot(snapshot: string): ShareClient;
 }
 
@@ -925,11 +924,10 @@ export class ShareDirectoryClient extends StorageClient {
         kind: "directory";
     } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    // (undocumented)
+    readonly name: string;
     readonly path: string;
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    // (undocumented)
     readonly shareName: string;
     }
 
@@ -942,20 +940,20 @@ export class ShareFileClient extends StorageClient {
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    // (undocumented)
+    readonly name: string;
     readonly path: string;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    // (undocumented)
     readonly shareName: string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;

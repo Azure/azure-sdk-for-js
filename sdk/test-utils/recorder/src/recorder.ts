@@ -132,7 +132,11 @@ export function record(testContext: Mocha.Context): Recorder {
         name = getUniqueName(prefix);
         recorder.uniqueTestInfo["uniqueName"][label] = name;
       } else if (isPlaybackMode()) {
-        name = recorder.uniqueTestInfo["uniqueName"][label];
+        if (recorder.uniqueTestInfo["uniqueName"]) {
+          name = recorder.uniqueTestInfo["uniqueName"][label];
+        } else {
+          name = (recorder.uniqueTestInfo as any)[label];
+        }
       } else {
         name = getUniqueName(prefix);
       }
@@ -144,7 +148,11 @@ export function record(testContext: Mocha.Context): Recorder {
         date = new Date();
         recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
       } else if (isPlaybackMode()) {
-        date = new Date(recorder.uniqueTestInfo["newDate"][label]);
+        if (recorder.uniqueTestInfo["newDate"]) {
+          date = new Date(recorder.uniqueTestInfo["newDate"][label]);
+        } else {
+          date = new Date((recorder.uniqueTestInfo as any)[label]);
+        }
       } else {
         date = new Date();
       }

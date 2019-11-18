@@ -912,7 +912,7 @@ export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Initial data.
    */
-  optionalbody?: coreHttp.HttpRequestBody;
+  body?: coreHttp.HttpRequestBody;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
