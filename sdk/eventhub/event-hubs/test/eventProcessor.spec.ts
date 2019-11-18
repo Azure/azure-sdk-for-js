@@ -27,6 +27,7 @@ import { InMemoryCheckpointStore } from '../src/inMemoryCheckpointStore';
 import { loggerForTest } from './utils/logHelpers';
 import { SubscriptionHandlerForTests, sendOneMessagePerPartition } from './utils/subscriptionHandlerForTests';
 import { GreedyPartitionLoadBalancer } from '../src/partitionLoadBalancer';
+import { AbortError } from '@azure/abort-controller';
 const env = getEnvVars();
 
 describe("Event Processor", function (): void {
@@ -60,35 +61,59 @@ describe("Event Processor", function (): void {
     await client.close();
   });
 
-  it("error thrown from user's processError handler doesn't bubble up", async () => {
+  describe("_handleSubscriptionError", () => {
     let eventProcessor: EventProcessor;
+    let userCallback: (() => void) | undefined;
     let errorFromCallback: Error | undefined;
     let contextFromCallback: PartitionContext | undefined;
 
-    // note: we're not starting this event processor so there's nothing to stop()
-    // it's only here so we can call a few private methods on it.
-    eventProcessor = new EventProcessor(
-      EventHubClient.defaultConsumerGroup,
-      client,
-      {
-        processEvent: async () => { },
-        processError: async (err, context) => {
-          // simulate the user messing up and accidentally throwing an error
-          // we should just log it and not kill anything.
-          errorFromCallback = err;
-          contextFromCallback = context;
-          
-          throw new Error("Error thrown from the user's error handler");
-        }
-      },
-      new InMemoryCheckpointStore(),
-      defaultOptions
-    );
+    beforeEach(() => {
+      userCallback = undefined;
+      errorFromCallback = undefined;
+      contextFromCallback = undefined;
 
-    await eventProcessor['_handleSubscriptionError'](new Error("test error"));
+      // note: we're not starting this event processor so there's nothing to stop()
+      // it's only here so we can call a few private methods on it.
+      eventProcessor = new EventProcessor(
+        EventHubClient.defaultConsumerGroup,
+        client,
+        {
+          processEvent: async () => { },
+          processError: async (err, context) => {
+            // simulate the user messing up and accidentally throwing an error
+            // we should just log it and not kill anything.
+            errorFromCallback = err;
+            contextFromCallback = context;
+            
+            if (userCallback) {
+              userCallback();
+            }
+          }
+        },
+        new InMemoryCheckpointStore(),
+        defaultOptions
+      );
+    });
+    
+    it("error thrown from user's processError handler", async () => {
+      // the user's error handler will throw an error - won't escape from this function
+      userCallback = () => { throw new Error("Error thrown from the user's error handler"); }
 
-    errorFromCallback!.message.should.equal("test error");
-    contextFromCallback!.partitionId.should.equal("");
+      await eventProcessor['_handleSubscriptionError'](new Error("test error"));
+
+      errorFromCallback!.message.should.equal("test error");
+      contextFromCallback!.partitionId.should.equal("");
+    });
+
+    it("non-useful errors are filtered out", async () => {
+      // the user's error handler will throw an error - won't escape from this function
+
+      await eventProcessor['_handleSubscriptionError'](new AbortError("test error"));
+
+      // we don't call the user's handler for abort errors
+      should.not.exist(errorFromCallback);
+      should.not.exist(contextFromCallback);
+    });
   });
 
   it("should expose an id #RunnableInBrowser", async function (): Promise<void> {
