@@ -22,7 +22,7 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
@@ -940,7 +940,8 @@ export class ShareFileClient extends StorageClient {
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;

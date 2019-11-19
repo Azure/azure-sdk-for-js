@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   DeleteSnapshotsOptionType,

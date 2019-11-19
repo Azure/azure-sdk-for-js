@@ -107,7 +107,7 @@ import * as AzureStorageBlob from "@azure/storage-blob";
 Or
 
 ```JavaScript
-conss AzureStorageBlob = require("@azure/storage-blob");
+const AzureStorageBlob = require("@azure/storage-blob");
 ```
 
 ### CORS

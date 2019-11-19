@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@azure/core-tracing";
+import { Span, SpanContext } from "@opentelemetry/types";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 

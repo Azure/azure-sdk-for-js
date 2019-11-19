@@ -7,9 +7,9 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
-import { SpanOptions } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/types';
+import { SpanContext } from '@opentelemetry/types';
+import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
@@ -113,7 +113,7 @@ export interface EventHubProperties {
 // @public
 export class EventPosition {
     // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // @internal
     constructor(options?: EventPositionOptions);
     static earliest(): EventPosition;

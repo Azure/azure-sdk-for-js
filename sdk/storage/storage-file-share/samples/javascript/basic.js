@@ -65,7 +65,7 @@ async function main() {
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
     `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
