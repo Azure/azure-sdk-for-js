@@ -592,7 +592,7 @@ export class EventHubClient {
         ...options,
         tracingOptions: {
           spanOptions: {
-            parent: getParentSpan(options)
+            parent: clientSpan
           }
         }
       });
