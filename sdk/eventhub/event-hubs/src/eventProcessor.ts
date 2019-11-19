@@ -299,21 +299,7 @@ export class EventProcessor {
         }
       );
 
-      const availableCheckpoints = await this._checkpointStore.listCheckpoints(
-        this._eventHubClient.fullyQualifiedNamespace,
-        this._eventHubClient.eventHubName,
-        this._consumerGroup
-      );
-
-      const validCheckpoints = availableCheckpoints.filter(
-        (chk) => chk.partitionId === partitionIdToClaim
-      );
-
-      let eventPosition: EventPosition | undefined;
-
-      if (validCheckpoints.length > 0) {
-        eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
-      }
+      const eventPosition = await this._getStartPosition(partitionIdToClaim);
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -323,6 +309,21 @@ export class EventProcessor {
       );
       await this._handleSubscriptionError(err);
     }
+  }
+
+  private async _getStartPosition(partitionIdToClaim: string) {
+    const availableCheckpoints = await this._checkpointStore.listCheckpoints(
+      this._eventHubClient.fullyQualifiedNamespace,
+      this._eventHubClient.eventHubName,
+      this._consumerGroup);
+    
+    const validCheckpoints = availableCheckpoints.filter((chk) => chk.partitionId === partitionIdToClaim);
+
+    if (validCheckpoints.length > 0) {
+      return EventPosition.fromOffset(validCheckpoints[0].offset);
+    }
+    
+    return undefined;
   }
 
   /**

@@ -14,7 +14,8 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition
+  EventPosition,
+  CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -62,6 +63,60 @@ describe("Event Processor", function(): void {
 
   afterEach("close the connection", async function(): Promise<void> {
     await client.close();
+  });
+
+  it("_getStartPosition", async () => {
+    let checkpoints: Checkpoint[] = [
+      {
+        fullyQualifiedNamespace: "not-used-for-this-test",
+        consumerGroup: "not-used-for-this-test",
+        eventHubName: "not-used-for-this-test",
+        offset: 1009,
+        sequenceNumber: 1010,
+        partitionId: "0"
+      },
+      {
+        fullyQualifiedNamespace: "not-used-for-this-test",
+        consumerGroup: "not-used-for-this-test",
+        eventHubName: "not-used-for-this-test",
+        // this caused a bug for us before - it's a perfectly valid offset
+        // but we were thrown off by its falsy-ness. (actually it was 
+        // sequence number before but the concept is the same)
+        offset: 0,        
+        sequenceNumber: 0,
+        partitionId: "1"
+      },
+    ];
+
+    const checkpointStore: CheckpointStore = {
+      claimOwnership: async () => { return [] },
+      listCheckpoints: async () => { return checkpoints },
+      listOwnership: async () => { return [] },
+      updateCheckpoint: async () => { }      
+    };
+
+    // we're not actually going to start anything here so there's nothing
+    // to stop
+    const processor = new EventProcessor(EventHubClient.defaultConsumerGroupName, client, {
+      processEvent: async () => { }
+    }, checkpointStore, {
+        maxBatchSize: 1,
+      maxWaitTimeInSeconds: 1
+    });
+
+    // checkpoint is available for partition 0
+    let eventPosition = await processor['_getStartPosition']("0");
+    eventPosition!.offset!.should.equal(1009);
+    should.not.exist(eventPosition!.sequenceNumber);
+
+    //checkpoint is available for partition 1
+    eventPosition = await processor['_getStartPosition']("1");
+    eventPosition!.offset!.should.equal(0);
+    should.not.exist(eventPosition!.sequenceNumber);
+
+    // no checkpoint available for partition 2
+    eventPosition = await processor['_getStartPosition']("2");
+    should.not.exist(eventPosition);
   });
 
   describe("_handleSubscriptionError", () => {
