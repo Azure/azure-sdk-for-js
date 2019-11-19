@@ -158,32 +158,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
     });
 
-    it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          "newEntity",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        // Ignore this as an error may be thrown if delete non-existent entity test failed.
-      }
-
-      const response = await createEntity(
-        testCase.entityType,
-        "newEntity",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        "newEntity",
-        "Entity name mismatch"
-      );
-    });
-
     it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
       let error;
       try {
@@ -294,28 +268,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       );
     });
 
-    it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
-      try {
-        await createEntity(
-          testCase.entityType,
-          "newEntity",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        // Ignore this as an error may be thrown if create non-existent entity test failed.
-      }
-
-      const response = await deleteEntity(
-        testCase.entityType,
-        "newEntity",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(response._response.status, 200);
-    });
-
     it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
       let error;
       try {
@@ -338,6 +290,45 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
           error.message.startsWith("No service"),
         true,
         `Expected error message to be a textual content but got "${error.message}"`
+      );
+    });
+
+    it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
+      await createEntity(
+        testCase.entityType,
+        "entity1",
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
+      const response = await deleteEntity(
+        testCase.entityType,
+        "entity1",
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
+
+      should.equal(response._response.status, 200);
+    });
+
+    it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
+      const response = await createEntity(
+        testCase.entityType,
+        "entity2",
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
+
+      await deleteEntity(
+        testCase.entityType,
+        "entity2",
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
+      );
+
+      should.equal(
+        response[testCase.entityType.toLowerCase() + "Name"],
+        "entity2",
+        "Entity name mismatch"
       );
     });
   });
