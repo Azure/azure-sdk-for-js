@@ -35,38 +35,27 @@ enum EntityType {
 }
 
 const alwaysBeExistingQueue = "alwaysbeexistingqueue";
-const alwaysBeDeletedQueue = "alwaysbedeletedqueue";
-
 const alwaysBeExistingTopic = "alwaysbeexistingtopic";
-const alwaysBeDeletedTopic = "alwaysbedeletedtopic";
-
 const alwaysBeExistingSubscription = "alwaysbeexistingsubscription";
-const alwaysBeDeletedSubscription = "alwaysbedeletedsubscription";
-
 const alwaysBeExistingRule = "alwaysbeexistingrule";
-const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue,
-    alwaysBeDeletedEntity: alwaysBeDeletedQueue
+    alwaysBeExistingEntity: alwaysBeExistingQueue
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: alwaysBeExistingTopic,
-    alwaysBeDeletedEntity: alwaysBeDeletedTopic
+    alwaysBeExistingEntity: alwaysBeExistingTopic
   },
   {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: alwaysBeExistingSubscription,
-    alwaysBeDeletedEntity: alwaysBeDeletedSubscription,
     parentTopicName: alwaysBeExistingTopic
   },
   {
     entityType: EntityType.RULE,
     alwaysBeExistingEntity: alwaysBeExistingRule,
-    alwaysBeDeletedEntity: alwaysBeDeletedRule,
     parentTopicName: alwaysBeExistingTopic,
     parentSubscriptionName: alwaysBeExistingSubscription
   }
