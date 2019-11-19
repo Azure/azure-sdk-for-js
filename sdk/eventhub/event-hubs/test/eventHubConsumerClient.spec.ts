@@ -9,7 +9,7 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
 import { LogTester } from "./utils/logHelpers";
-import { InMemoryCheckpointStore } from '../src/inMemoryCheckpointStore';
+import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -18,7 +18,7 @@ describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isCheckpointStore", () => {
       isCheckpointStore({
-        processEvents: async () => { },
+        processEvents: async () => {},
         processClose: async () => {}
       }).should.not.ok;
 
@@ -52,7 +52,8 @@ describe("EventHubConsumerClient", () => {
       client = new EventHubConsumerClient(
         EventHubClient.defaultConsumerGroup,
         service.connectionString!,
-        service.path);
+        service.path
+      );
 
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
@@ -84,10 +85,7 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(["0"], false);
 
-      const subscription = await client.subscribe(
-        "0",
-        tester
-      );
+      const subscription = await client.subscribe("0", tester);
 
       subscriptions.push(subscription);
 
@@ -108,9 +106,7 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
-      const subscription = await client.subscribe(
-        tester
-      );
+      const subscription = await client.subscribe(tester);
 
       await tester.runTestAndPoll(producerClient);
       subscriptions.push(subscription);
@@ -125,31 +121,26 @@ describe("EventHubConsumerClient", () => {
       // instead of the beginning of time.
       const inMemoryCheckpointStore = new InMemoryCheckpointStore();
 
-      const logTester = new LogTester([
-        "Subscribing to all partitions, coordinating using a partition manager.",
-        "FairPartitionLoadBalancer created with owner ID"
-      ],
-        [log.consumerClient,
-        log.partitionLoadBalancer]);
+      const logTester = new LogTester(
+        [
+          "Subscribing to all partitions, coordinating using a partition manager.",
+          "FairPartitionLoadBalancer created with owner ID"
+        ],
+        [log.consumerClient, log.partitionLoadBalancer]
+      );
 
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = await client.subscribe(
-        inMemoryCheckpointStore,
-        tester
-      );
+      const subscriber1 = await client.subscribe(inMemoryCheckpointStore, tester);
 
       subscriptions.push(subscriber1);
 
-      const subscriber2 = await client.subscribe(
-         inMemoryCheckpointStore,
-        tester
-      );
+      const subscriber2 = await client.subscribe(inMemoryCheckpointStore, tester);
 
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
-      
+
       logTester.assert();
     });
   });

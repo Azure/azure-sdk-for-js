@@ -23,7 +23,7 @@ import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
-import { getParentSpan, OperationOptions } from '../util/operationOptions';
+import { getParentSpan, OperationOptions } from "../util/operationOptions";
 
 type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
@@ -47,24 +47,21 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetEventHubPropertiesOptions extends OperationOptions {
-}
+export interface GetEventHubPropertiesOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionPropertiesOptions extends OperationOptions {
-}
+export interface GetPartitionPropertiesOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionIds`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionIdsOptions extends OperationOptions {
-}
+export interface GetPartitionIdsOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -92,9 +89,8 @@ export interface EventHubProducerOptions {
 /**
  * The set of options to configure the `send` operation on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
-  */
-export interface SendBatchOptions extends OperationOptions {
-}
+ */
+export interface SendBatchOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the `send` operation on the `EventHubProducer`.
@@ -137,7 +133,7 @@ export interface SendOptions extends SendBatchOptions {
  */
 export interface CreateBatchOptions extends OperationOptions {
   /**
-   * A value that is hashed to produce a partition assignment. It guarantees that messages 
+   * A value that is hashed to produce a partition assignment. It guarantees that messages
    * with the same partitionKey end up in the same partition.
    * If this value is set then partitionId can not be set.
    */
@@ -264,7 +260,7 @@ export interface EventHubClientOptions {
  * Options for the websocket implementation used for AMQP.
  */
 export interface WebSocketOptions {
-/**
+  /**
    * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios:

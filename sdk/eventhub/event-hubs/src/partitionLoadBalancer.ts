@@ -5,7 +5,7 @@ import { PartitionOwnership } from "./eventProcessor";
 import * as log from "./log";
 
 /**
- * Implements a load balancing algorithm for determining which consumers 
+ * Implements a load balancing algorithm for determining which consumers
  * own which partitions.
  */
 export interface PartitionLoadBalancer {
@@ -23,8 +23,8 @@ export interface PartitionLoadBalancer {
 }
 
 /**
- * This class does no load balancing - it's intended to be used when 
- * you want to avoid load balancing and consume a set of partitions (or all 
+ * This class does no load balancing - it's intended to be used when
+ * you want to avoid load balancing and consume a set of partitions (or all
  * available partitions)
  */
 export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
@@ -35,17 +35,24 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
    * @param partitionIds An optional set of partition IDs. undefined means all partitions.
    */
   constructor(partitionIds?: string[]) {
-    log.partitionLoadBalancer(`GreedyPartitionLoadBalancer created. Watching ${partitionIds ? '(' + partitionIds.join(",") + ')' : "all"}.`);
+    log.partitionLoadBalancer(
+      `GreedyPartitionLoadBalancer created. Watching ${
+        partitionIds ? "(" + partitionIds.join(",") + ")" : "all"
+      }.`
+    );
     this.partitionsToClaim = partitionIds && new Set(partitionIds);
     this._shouldReclaim = false;
   }
 
-  loadBalance(partitionOwnershipMap: Map<string, PartitionOwnership>, partitionsToAdd: string[]): string[] {
+  loadBalance(
+    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    partitionsToAdd: string[]
+  ): string[] {
     let potential: string[] = partitionsToAdd;
 
     if (this.partitionsToClaim) {
       const partitionsToClaim = this.partitionsToClaim;
-      potential = partitionsToAdd.filter(part => partitionsToClaim.has(part));
+      potential = partitionsToAdd.filter((part) => partitionsToClaim.has(part));
     }
 
     // now remove any partitions that are already claimed
@@ -56,22 +63,22 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
       this._shouldReclaim = false;
       return potential;
     }
-    
+
     // don't try to reclaim partitions that are already owned
-    return potential.filter(id => !partitionOwnershipMap.has(id));
+    return potential.filter((id) => !partitionOwnershipMap.has(id));
   }
 
   /**
    * Makes it so the next load balancing interval forces partitions to be "reclaimed"
-   * 
-   * This is useful in testing when you want to stop a processor and go through the 
-   * entire cycle again without having to wait for the "expiration" interval for each 
+   *
+   * This is useful in testing when you want to stop a processor and go through the
+   * entire cycle again without having to wait for the "expiration" interval for each
    * claim.
-   * 
+   *
    * @internal
    * @ignore
    */
-  public expireAll() : void {
+  public expireAll(): void {
     this._shouldReclaim = true;
   }
 }
@@ -98,7 +105,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
    * assuming the owner of the partition is inactive.
    * */
   constructor(ownerId: string, inactiveTimeLimitInMS: number) {
-    log.partitionLoadBalancer(`FairPartitionLoadBalancer created with owner ID ${ownerId}, inactive time limit: ${inactiveTimeLimitInMS}ms`);
+    log.partitionLoadBalancer(
+      `FairPartitionLoadBalancer created with owner ID ${ownerId}, inactive time limit: ${inactiveTimeLimitInMS}ms`
+    );
     this._ownerId = ownerId;
     this._inactiveTimeLimitInMS = inactiveTimeLimitInMS;
   }
@@ -220,9 +229,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       // If the active partition ownership map is empty, this is the first time an event processor is
       // running or all Event Processors are down for this Event Hub, consumer group combination. All
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
-      return [
-        partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]
-      ];
+      return [partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]];
     }
 
     // Create a map of owner id and a list of partitions it owns

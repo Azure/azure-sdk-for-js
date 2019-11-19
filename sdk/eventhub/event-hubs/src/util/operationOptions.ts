@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import { AbortSignalLike } from "@azure/abort-controller";
 import { Span, SpanContext, SpanOptions } from "@opentelemetry/types";
 
 /**
  * Options for configuring tracing and the abortSignal.
  */
-// NOTE: This class is intended to mirror the relevant fields and structure from 
+// NOTE: This class is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
 export interface OperationOptions {
   /**
@@ -18,9 +18,9 @@ export interface OperationOptions {
      * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
      */
     spanOptions?: SpanOptions;
-  }
-  
- /**
+  };
+
+  /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;

@@ -8,18 +8,13 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import {
-  EventPosition,
-  EventData,
-  MessagingError,
-  ReceivedEventData,
-} from "../src";
+import { EventPosition, EventData, MessagingError, ReceivedEventData } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { EventHubConsumer } from '../src/receiver';
-import { ReceiveHandler } from '../src/receiveHandler';
-import { delay } from '@azure/core-amqp';
+import { EventHubConsumer } from "../src/receiver";
+import { ReceiveHandler } from "../src/receiveHandler";
+import { delay } from "@azure/core-amqp";
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {
@@ -995,14 +990,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventProperties", function (): void {
-    it("should have lastEnqueuedEventProperties populated", async function (): Promise<void> {
+  describe("with trackLastEnqueuedEventProperties", function(): void {
+    it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const producer = client.createProducer({partitionId: partitionId});
+      const producer = client.createProducer({ partitionId: partitionId });
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
           body: "Hello awesome world " + i
-        }
+        };
         await producer.send(ed);
         debug("sent message - " + i);
       }
@@ -1018,15 +1013,21 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           trackLastEnqueuedEventProperties: true
         }
       );
-      
+
       let data = await receiver.receiveBatch(1, 10);
       debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventProperties);
       data.length.should.equal(1);
       should.exist(receiver.lastEnqueuedEventProperties);
       receiver.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
-      receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventProperties!.enqueuedOn!.getTime().should.equal(pInfo.lastEnqueuedOnUtc.getTime());
-      receiver.lastEnqueuedEventProperties!.retrievedOn!.getTime().should.be.greaterThan(Date.now() - 60000);
+      receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(
+        pInfo.lastEnqueuedSequenceNumber
+      );
+      receiver
+        .lastEnqueuedEventProperties!.enqueuedOn!.getTime()
+        .should.equal(pInfo.lastEnqueuedOnUtc.getTime());
+      receiver
+        .lastEnqueuedEventProperties!.retrievedOn!.getTime()
+        .should.be.greaterThan(Date.now() - 60000);
     });
   });
 

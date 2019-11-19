@@ -14,12 +14,19 @@ import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
-import { SubscriptionOptions, Subscription, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import {
+  SubscriptionOptions,
+  Subscription,
+  SubscriptionEventHandlers
+} from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 
-const defaultConsumerClientOptions: Required<Pick<FullEventProcessorOptions, 'maxWaitTimeInSeconds' | 'maxBatchSize'>> = {  
-  // to support our current "process single event only" workflow we'll also purposefully 
+const defaultConsumerClientOptions: Required<Pick<
+  FullEventProcessorOptions,
+  "maxWaitTimeInSeconds" | "maxBatchSize"
+>> = {
+  // to support our current "process single event only" workflow we'll also purposefully
   // only request a single event at a time.
   maxBatchSize: 1,
   maxWaitTimeInSeconds: 60
@@ -38,7 +45,7 @@ const defaultConsumerClientOptions: Required<Pick<FullEventProcessorOptions, 'ma
  */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
-  
+
   /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
@@ -73,7 +80,12 @@ export class EventHubConsumerClient {
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    * A simple usage can be `{ "maxRetries": 4 }`.
    */
-  constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions); // #2
+  constructor(
+    consumerGroup: string,
+    connectionString: string,
+    eventHubName: string,
+    options?: EventHubClientOptions
+  ); // #2
   /**
    * @constructor
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -185,16 +197,13 @@ export class EventHubConsumerClient {
    * Use this overload if you want to read from all partitions and not coordinate with
    * other subscribers.
    *
-   * @param handlers Handlers for the lifecycle of the subscription - initialization 
-   *                 per partition, receiving events, handling errors and the closing 
+   * @param handlers Handlers for the lifecycle of the subscription - initialization
+   *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
-  subscribe(
-    handlers:  SubscriptionEventHandlers,
-    options?: SubscriptionOptions
-  ): Subscription; // #1
+  subscribe(handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription; // #1
   /**
    * Subscribe to all messages from a subset of partitions.
    *
@@ -202,8 +211,8 @@ export class EventHubConsumerClient {
    * other subscribers.
    *
    * @param partitionId A partition id to subscribe to.
-   * @param handlers Handlers for the lifecycle of the subscription - initialization 
-   *                 per partition, receiving events, handling errors and the closing 
+   * @param handlers Handlers for the lifecycle of the subscription - initialization
+   *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
@@ -211,7 +220,7 @@ export class EventHubConsumerClient {
 
   subscribe(
     partitionId: string,
-    handlers:  SubscriptionEventHandlers,
+    handlers: SubscriptionEventHandlers,
     options?: SubscriptionOptions
   ): Subscription; // #2
   /**
@@ -220,35 +229,33 @@ export class EventHubConsumerClient {
    * Use this overload if you want to coordinate with other subscribers using a `CheckpointStore`
    *
    * @param checkpointStore A checkpoint store that manages ownership information and checkpoint details.
-   * @param handlers Handlers for the lifecycle of the subscription - initialization 
-   *                 per partition, receiving events, handling errors and the closing 
+   * @param handlers Handlers for the lifecycle of the subscription - initialization
+   *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
   subscribe(
     checkpointStore: CheckpointStore,
-    handlers:  SubscriptionEventHandlers,
+    handlers: SubscriptionEventHandlers,
     options?: SubscriptionOptions
   ): Subscription; // #3
   subscribe(
-    handlersOrPartitionIdOrCheckpointStore1?:
-      | SubscriptionEventHandlers
-      | string
-      | CheckpointStore,
+    handlersOrPartitionIdOrCheckpointStore1?: SubscriptionEventHandlers | string | CheckpointStore,
     optionsOrHandlers2?: SubscriptionOptions | SubscriptionEventHandlers,
     possibleOptions3?: SubscriptionOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
-    if (typeof handlersOrPartitionIdOrCheckpointStore1 === "string" && isSubscriptionEventHandlers(optionsOrHandlers2)) {
+    if (
+      typeof handlersOrPartitionIdOrCheckpointStore1 === "string" &&
+      isSubscriptionEventHandlers(optionsOrHandlers2)
+    ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
+      const subscriptionOptions = possibleOptions3 as SubscriptionOptions | undefined;
       const partitionId = handlersOrPartitionIdOrCheckpointStore1;
-      
-      log.consumerClient(
-        `Subscribing to specific partition (${partitionId}), no coordination.`
-      );
+
+      log.consumerClient(`Subscribing to specific partition (${partitionId}), no coordination.`);
 
       const checkpointStore = new InMemoryCheckpointStore();
 
@@ -265,10 +272,13 @@ export class EventHubConsumerClient {
           ownerLevel: getOwnerLevel(subscriptionOptions, "noOwner")
         }
       );
-    } else if (isCheckpointStore(handlersOrPartitionIdOrCheckpointStore1) && isSubscriptionEventHandlers(optionsOrHandlers2)) {
+    } else if (
+      isCheckpointStore(handlersOrPartitionIdOrCheckpointStore1) &&
+      isSubscriptionEventHandlers(optionsOrHandlers2)
+    ) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
-      const subscriptionOptions = possibleOptions3 as (SubscriptionOptions | undefined);
+      const subscriptionOptions = possibleOptions3 as SubscriptionOptions | undefined;
       const checkpointStore = handlersOrPartitionIdOrCheckpointStore1;
 
       eventProcessor = new EventProcessor(
@@ -285,7 +295,7 @@ export class EventHubConsumerClient {
     } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrCheckpointStore1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
-      const subscriptionOptions = optionsOrHandlers2 as (SubscriptionOptions | undefined);
+      const subscriptionOptions = optionsOrHandlers2 as SubscriptionOptions | undefined;
       const checkpointStore = new InMemoryCheckpointStore();
 
       eventProcessor = new EventProcessor(
@@ -307,7 +317,9 @@ export class EventHubConsumerClient {
     eventProcessor.start();
 
     return {
-      get isRunning() { return eventProcessor.isRunning() },
+      get isRunning() {
+        return eventProcessor.isRunning();
+      },
       close: () => eventProcessor.stop()
     };
   }
@@ -317,9 +329,7 @@ export class EventHubConsumerClient {
  * @internal
  * @ignore
  */
-export function isCheckpointStore(
-  possible: CheckpointStore | any
-): possible is CheckpointStore {
+export function isCheckpointStore(possible: CheckpointStore | any): possible is CheckpointStore {
   if (!possible) {
     return false;
   }
@@ -337,7 +347,9 @@ export function isCheckpointStore(
  * @internal
  * @ignore
  */
-function isSubscriptionEventHandlers(possible: any | SubscriptionEventHandlers): possible is SubscriptionEventHandlers {
+function isSubscriptionEventHandlers(
+  possible: any | SubscriptionEventHandlers
+): possible is SubscriptionEventHandlers {
   return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
 }
 

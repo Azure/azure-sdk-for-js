@@ -268,7 +268,7 @@ export class EventHubReceiver extends LinkEntity {
     if (rheaReceiver.isItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
-        "Hence not notifying the user's error handler.",
+          "Hence not notifying the user's error handler.",
         this._context.connectionId
       );
       return;
@@ -284,7 +284,7 @@ export class EventHubReceiver extends LinkEntity {
       );
       log.error(
         "[%s] Since the user did not close the receiver " +
-        "we let the user know about it by calling the user's error handler.",
+          "we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
@@ -305,7 +305,7 @@ export class EventHubReceiver extends LinkEntity {
     if (rheaReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
-        "Hence not notifying the user's error handler.",
+          "Hence not notifying the user's error handler.",
         this._context.connectionId
       );
       return;
@@ -322,7 +322,7 @@ export class EventHubReceiver extends LinkEntity {
 
       log.error(
         "[%s] Since the user did not close the receiver, " +
-        "we let the user know about it by calling the user's error handler.",
+          "we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
@@ -334,8 +334,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!rheaReceiver || rheaReceiver.isItselfClosed()) {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-        "() handler.",
+          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+          "() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -347,7 +347,7 @@ export class EventHubReceiver extends LinkEntity {
     if (amqpError) {
       log.error(
         "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
+          "The associated error is: %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -358,8 +358,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!this.isConnecting) {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-        "detached from the _onAmqpClose() handler.",
+          "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+          "detached from the _onAmqpClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -368,8 +368,8 @@ export class EventHubReceiver extends LinkEntity {
     } else {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-        "Hence not calling detached from the _onAmqpClose() handler.",
+          "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+          "Hence not calling detached from the _onAmqpClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -382,8 +382,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!rheaReceiver || rheaReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-        "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -395,7 +395,7 @@ export class EventHubReceiver extends LinkEntity {
     if (sessionError) {
       log.error(
         "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
+          "The associated error is: %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -406,8 +406,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!this.isConnecting) {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-        "_onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+          "_onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -416,8 +416,8 @@ export class EventHubReceiver extends LinkEntity {
     } else {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-        "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -460,8 +460,8 @@ export class EventHubReceiver extends LinkEntity {
           shouldReopen = true;
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-            "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
-            "the receiver link.",
+              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
+              "the receiver link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -469,8 +469,8 @@ export class EventHubReceiver extends LinkEntity {
         } else {
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-            "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the receiver link.",
+              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+              "the receiver link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -481,8 +481,8 @@ export class EventHubReceiver extends LinkEntity {
         shouldReopen = true;
         log.error(
           "[%s] close() method of Receiver '%s' with address '%s' was not called. " +
-          "There was no accompanying error as well. This is a candidate for re-establishing " +
-          "the receiver link.",
+            "There was no accompanying error as well. This is a candidate for re-establishing " +
+            "the receiver link.",
           this._context.connectionId,
           this.name,
           this.address
@@ -543,7 +543,7 @@ export class EventHubReceiver extends LinkEntity {
     } catch (err) {
       log.error(
         "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
-        "'%s': %O",
+          "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -729,7 +729,7 @@ export class EventHubReceiver extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
           "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-          "establishing itself. Hence let's try to connect.",
+            "establishing itself. Hence let's try to connect.",
           this._context.connectionId,
           this.name,
           this.address
@@ -782,7 +782,7 @@ export class EventHubReceiver extends LinkEntity {
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-          "-> %s. Hence not reconnecting.",
+            "-> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,

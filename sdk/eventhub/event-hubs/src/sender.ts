@@ -12,7 +12,7 @@ import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
-import { getParentSpan } from './util/operationOptions';
+import { getParentSpan } from "./util/operationOptions";
 
 /**
  * A producer responsible for sending events to an Event Hub.
@@ -129,7 +129,12 @@ export class EventHubProducer {
       }
       maxMessageSize = options.maxSizeInBytes;
     }
-    return new EventDataBatchImpl(this._context, maxMessageSize, options.partitionKey, options.partitionId);
+    return new EventDataBatchImpl(
+      this._context,
+      maxMessageSize,
+      options.partitionKey,
+      options.partitionId
+    );
   }
 
   /**

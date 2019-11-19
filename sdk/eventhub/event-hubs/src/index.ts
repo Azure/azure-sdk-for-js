@@ -33,13 +33,5 @@ export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
-export {
-  CloseReason,
-  CheckpointStore,
-  PartitionOwnership
-} from "./eventProcessor";
-export {
-  MessagingError,
-  RetryOptions,
-  TokenCredential
-} from "@azure/core-amqp";
+export { CloseReason, CheckpointStore, PartitionOwnership } from "./eventProcessor";
+export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";

@@ -1,7 +1,11 @@
 import { CloseReason, ReceivedEventData, EventHubProducerClient, EventPosition } from "../../src/";
-import { SubscriptionEventHandlers, PartitionContext, InitializationContext } from "../../src/eventHubConsumerClientModels";
+import {
+  SubscriptionEventHandlers,
+  PartitionContext,
+  InitializationContext
+} from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
-import { delay } from '@azure/core-amqp';
+import { delay } from "@azure/core-amqp";
 
 const should = chai.should();
 
@@ -29,19 +33,13 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
    *                      about errors that occur and concentrate on making sure all expected
    *                      messages are received at least once.
    */
-  constructor(
-    private expectedPartitions: string[],
-    private multipleConsumers: boolean
-  ) {
+  constructor(private expectedPartitions: string[], private multipleConsumers: boolean) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();
     this.done = false;
   }
 
-  async processEvent(
-    event: ReceivedEventData,
-    context: PartitionContext
-  ): Promise<void> {
+  async processEvent(event: ReceivedEventData, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
     await context.updateCheckpoint(event);
     this.expectedMessageBodies.delete(event.body);
@@ -56,16 +54,16 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
-    if (
-      this.multipleConsumers &&
-      error.name === 'ReceiverDisconnectedError'
-    ) {
+    if (this.multipleConsumers && error.name === "ReceiverDisconnectedError") {
       return;
     }
 
     // partitionId can be undefined in cases where the error is not partition specific - these are typically "system"
     // level errors and should be considered a fatal error for our tests
-    should.exist(context.partitionId, `Non-partition level errors should definitely not happen : ${error}`);
+    should.exist(
+      context.partitionId,
+      `Non-partition level errors should definitely not happen : ${error}`
+    );
 
     if (context.partitionId) {
       const receivedData = this.get(context.partitionId);
@@ -83,7 +81,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       // tester (to make sure that all messages have been received)
       //
       // So it's okay that initialize is called more than once per partition
-      // in that case since the consumers, for a short time, can overlap as 
+      // in that case since the consumers, for a short time, can overlap as
       // load balancing occurs.
       this.data.has(context.partitionId).should.not.be.ok;
     }
@@ -104,10 +102,9 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
    * Polls until all messages have been received (or until first error)
    */
   async runTestAndPoll(client: EventHubProducerClient): Promise<void> {
-
     // wait until all the partitions have been claimed
     while (this.data.size !== this.expectedPartitions.length) {
-      await delay(1000); 
+      await delay(1000);
     }
 
     let lastExpectedMessageCount = await this.produceMessages(client);
@@ -120,9 +117,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       }
 
       if (lastExpectedMessageCount !== this.expectedMessageBodies.size) {
-        console.log(
-          `Still waiting for these messages:`
-        );
+        console.log(`Still waiting for these messages:`);
 
         for (const body of this.expectedMessageBodies) {
           console.log(`   ${body}`);
@@ -157,7 +152,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     let lastExpectedMessageCount = this.expectedMessageBodies.size;
 
     for (const messageToSend of messagesToSend) {
-      const batch = await client.createBatch({ partitionId: messageToSend.partitionId});
+      const batch = await client.createBatch({ partitionId: messageToSend.partitionId });
       batch.tryAdd({ body: messageToSend.body });
       await client.sendBatch(batch);
     }

@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { getInitialPosition } from "../src/partitionPump";
-import { EventPosition } from '../src/eventPosition';
+import { EventPosition } from "../src/eventPosition";
 
 describe("PartitionPump", () => {
   it("getInitialPosition", () => {
-
     // if they explicitly passed in an EventPosition then it trumps any user specified option
     getInitialPosition(EventPosition.earliest(), undefined).offset!.should.equal(-1);
     getInitialPosition(EventPosition.latest(), undefined).offset!.should.equal("@latest");

@@ -121,7 +121,10 @@ export class EventHubProducerClient {
     options4?: EventHubClientOptions
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._client = new EventHubClient(fullyQualifiedNamespaceOrConnectionString1, eventHubNameOrOptions2);
+      this._client = new EventHubClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2
+      );
     } else if (!isTokenCredential(credentialOrOptions3)) {
       this._client = new EventHubClient(
         fullyQualifiedNamespaceOrConnectionString1,
@@ -161,7 +164,7 @@ export class EventHubProducerClient {
       producer = this._client.createProducer();
       this._producersMap.set("", producer);
     }
-    
+
     return producer.createBatch(options);
   }
 
@@ -188,7 +191,9 @@ export class EventHubProducerClient {
 
     let producer = this._producersMap.get(partitionId);
     if (!producer) {
-      producer = this._client.createProducer({ partitionId: partitionId === "" ? undefined : partitionId });
+      producer = this._client.createProducer({
+        partitionId: partitionId === "" ? undefined : partitionId
+      });
       this._producersMap.set(partitionId, producer);
     }
     return producer.send(batch, options);

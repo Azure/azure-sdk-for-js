@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
-import { PartitionOwnership } from '../src/eventProcessor';
+import { PartitionOwnership } from "../src/eventProcessor";
 
 describe("PartitionLoadBalancer", () => {
   describe("GreedyPartitionLoadBalancer", () => {
@@ -20,7 +20,7 @@ describe("PartitionLoadBalancer", () => {
 
       lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2"]);
       m.should.be.empty;
-    });    
+    });
 
     it("don't claim already owned partitions", () => {
       const m = new Map<string, PartitionOwnership>();
@@ -30,12 +30,12 @@ describe("PartitionLoadBalancer", () => {
         fullyQualifiedNamespace: "",
         eventHubName: "",
         ownerId: "",
-        partitionId: ""        
+        partitionId: ""
       });
 
       const lb = new GreedyPartitionLoadBalancer(["1", "2", "3"]);
 
       lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2", "3"]);
-    });    
+    });
   });
 });

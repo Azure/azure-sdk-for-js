@@ -219,7 +219,7 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
   return result;
 }
 
-export function isEarliestEventPosition(eventPosition: EventPosition) : boolean {
+export function isEarliestEventPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === -1) {
     return true;
   }

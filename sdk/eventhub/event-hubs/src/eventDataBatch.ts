@@ -57,11 +57,11 @@ export interface EventDataBatch {
   readonly partitionKey?: string;
 
   /**
-   * The partitionId set during `EventDataBatch` creation. 
+   * The partitionId set during `EventDataBatch` creation.
    * If this value is set then partitionKey can not be set.
    * @readonly
    */
-  readonly partitionId?: string;  
+  readonly partitionId?: string;
 
   /**
    * Size of the `EventDataBatch` instance after the events added to it have been
@@ -82,7 +82,7 @@ export interface EventDataBatch {
    */
   readonly maxSizeInBytes: number;
 
- /**
+  /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
@@ -91,7 +91,7 @@ export interface EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
-  
+
   /**
    * Represents the single AMQP message which is the result of encoding all the events
    * added into the `EventDataBatch` instance.
@@ -106,7 +106,7 @@ export interface EventDataBatch {
    */
   readonly batchMessage: Buffer | undefined;
 
-    /**
+  /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    * @ignore
@@ -171,7 +171,12 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @internal
    * @ignore
    */
-  constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string, private _partitionId?: string) {
+  constructor(
+    context: ConnectionContext,
+    maxSizeInBytes: number,
+    partitionKey?: string,
+    private _partitionId?: string
+  ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._partitionKey = partitionKey;
@@ -195,9 +200,9 @@ export class EventDataBatchImpl implements EventDataBatch {
   get partitionKey(): string | undefined {
     return this._partitionKey;
   }
-  
+
   /**
-   * The partitionId set during `EventDataBatch` creation. 
+   * The partitionId set during `EventDataBatch` creation.
    * If this value is set then partitionKey can not be set.
    * @readonly
    */

@@ -156,7 +156,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
       const hubRuntimeInfo = await client.getProperties({
-        tracingOptions: { 
+        tracingOptions: {
           spanOptions: {
             parent: rootSpan
           }
@@ -198,7 +198,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`getPartitionProperties called without required argument "partitionId"`);
+        err.message.should.equal(
+          `getPartitionProperties called without required argument "partitionId"`
+        );
       }
     });
 

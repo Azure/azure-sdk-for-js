@@ -25,7 +25,11 @@ import {
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { SendOptions, EventHubProducerOptions, getRetryAttemptTimeoutInMs } from "./impl/eventHubClient";
+import {
+  SendOptions,
+  EventHubProducerOptions,
+  getRetryAttemptTimeoutInMs
+} from "./impl/eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 

@@ -40,14 +40,17 @@ export class PartitionPump {
     this._isReceiving = true;
     let requestedDefaultPosition: EventPosition | undefined;
     try {
-      requestedDefaultPosition = await this._partitionProcessor.initialize();      
+      requestedDefaultPosition = await this._partitionProcessor.initialize();
     } catch {
       // swallow the error from the user-defined code
     }
 
-    this._initialEventPosition = getInitialPosition(this._initialEventPosition, requestedDefaultPosition);
+    this._initialEventPosition = getInitialPosition(
+      this._initialEventPosition,
+      requestedDefaultPosition
+    );
 
-    // this is intentionally not await'd - the _receiveEvents loop will continue to 
+    // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
     this._receiveEvents(this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
@@ -55,7 +58,9 @@ export class PartitionPump {
 
   private async _receiveEvents(partitionId: string): Promise<void> {
     if (this._initialEventPosition == null) {
-      throw new Error("Initial event position should have been set before we reached _receiveEvents");
+      throw new Error(
+        "Initial event position should have been set before we reached _receiveEvents"
+      );
     }
 
     this._receiver = this._eventHubClient.createConsumer(
@@ -85,7 +90,7 @@ export class PartitionPump {
         if (!this._isReceiving) {
           return;
         }
-        
+
         for (const event of receivedEvents) {
           await this._partitionProcessor.processEvent(event);
         }
@@ -140,7 +145,10 @@ export class PartitionPump {
   }
 }
 
-export function getInitialPosition(currentPosition: EventPosition | undefined, positionFromInitialize: EventPosition | undefined): EventPosition {
+export function getInitialPosition(
+  currentPosition: EventPosition | undefined,
+  positionFromInitialize: EventPosition | undefined
+): EventPosition {
   if (currentPosition != null) {
     return currentPosition;
   }

@@ -1,8 +1,12 @@
 import { CloseReason, CheckpointStore } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
-import { SubscriptionEventHandlers, InitializationContext, BasicPartitionProperties } from './eventHubConsumerClientModels';
-import { EventPosition } from '.';
+import {
+  SubscriptionEventHandlers,
+  InitializationContext,
+  BasicPartitionProperties
+} from "./eventHubConsumerClientModels";
+import { EventPosition } from ".";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -60,9 +64,9 @@ export class PartitionProcessor implements InitializationContext {
     private _eventHandlers: SubscriptionEventHandlers,
     private _checkpointStore: CheckpointStore,
     private _context: BasicPartitionProperties & {
-    eventProcessorId: string
-  }) {
-  }
+      eventProcessorId: string;
+    }
+  ) {}
 
   /**
    * @property Information on the last enqueued event in the partition that is being processed.
@@ -132,11 +136,11 @@ export class PartitionProcessor implements InitializationContext {
    *
    * @return {Promise<EventPosition>}
    */
-  async initialize(): Promise<EventPosition|undefined> {
+  async initialize(): Promise<EventPosition | undefined> {
     if (this._eventHandlers.processInitialize) {
-      await this._eventHandlers.processInitialize(this);      
+      await this._eventHandlers.processInitialize(this);
     }
-    
+
     return this._defaultPosition;
   }
 
@@ -196,7 +200,7 @@ export class PartitionProcessor implements InitializationContext {
       consumerGroup: this._context.consumerGroup,
       partitionId: this._context.partitionId,
       sequenceNumber: eventData.sequenceNumber,
-      offset: eventData.offset,
+      offset: eventData.offset
     };
 
     await this._checkpointStore!.updateCheckpoint(checkpoint);

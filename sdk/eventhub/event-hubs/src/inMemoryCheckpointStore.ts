@@ -4,7 +4,7 @@
 import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
-import { throwTypeErrorIfParameterMissing } from './util/error';
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
@@ -69,13 +69,14 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * @param checkpoint The checkpoint.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
-    throwTypeErrorIfParameterMissing("", 
+    throwTypeErrorIfParameterMissing(
+      "",
       "updateCheckpoint",
       "sequenceNumber",
       checkpoint.sequenceNumber
     );
     throwTypeErrorIfParameterMissing("", "updateCheckpoint", "offset", checkpoint.offset);
-    
+
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
       partitionOwnership.etag = generate_uuid();
@@ -92,12 +93,14 @@ export class InMemoryCheckpointStore implements CheckpointStore {
     }
   }
 
-  async listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]> {
+  async listCheckpoints(
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    consumerGroup: string
+  ): Promise<Checkpoint[]> {
     const key = `${fullyQualifiedNamespace}:${eventHubName}:${consumerGroup}`;
-    
+
     const partitionMap = this._committedCheckpoints.get(key);
-    return partitionMap
-      ? [...partitionMap.values()]
-      : [];
+    return partitionMap ? [...partitionMap.values()] : [];
   }
 }

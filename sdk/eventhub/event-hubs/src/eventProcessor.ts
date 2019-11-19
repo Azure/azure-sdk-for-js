@@ -10,8 +10,8 @@ import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
-import { SubscriptionOptions } from './eventHubConsumerClientModels';
-import { SubscriptionEventHandlers } from './eventHubConsumerClientModels';
+import { SubscriptionOptions } from "./eventHubConsumerClientModels";
+import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -55,7 +55,7 @@ export interface PartitionOwnership {
   /**
    * @property The unique identifier of the event processor.
    */
-  ownerId: string;  
+  ownerId: string;
   /**
    * @property The last modified time.
    */
@@ -81,7 +81,7 @@ export interface PartitionOwnership {
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
 export interface CheckpointStore {
-/**
+  /**
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
@@ -114,15 +114,23 @@ export interface CheckpointStore {
 
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
-   * 
+   *
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
    * @param consumerGroup The consumer group name.
    */
-  listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+  listCheckpoints(
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    consumerGroup: string
+  ): Promise<Checkpoint[]>;
 }
-export type SubscriptionEventHandlersKeys = 'processClose' | 'processError' | 'processEvents' | 'processInitialize';
+export type SubscriptionEventHandlersKeys =
+  | "processClose"
+  | "processError"
+  | "processEvents"
+  | "processInitialize";
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -134,20 +142,20 @@ export type SubscriptionEventHandlersKeys = 'processClose' | 'processError' | 'p
  * Example usage with default values:
  * ```ts
  * {
-  *     maxBatchSize: 1,
-  *     maxWaitTimeInSeconds: 60,
-  * }
-  * ```
-  * @internal
-  */
-export interface FullEventProcessorOptions extends
-  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required 
+ *     maxBatchSize: 1,
+ *     maxWaitTimeInSeconds: 60,
+ * }
+ * ```
+ * @internal
+ */
+export interface FullEventProcessorOptions
+  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
   // for our internal classes (these are optional for external users)
   Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
-  partitionLoadBalancer?: PartitionLoadBalancer
+  partitionLoadBalancer?: PartitionLoadBalancer;
   /**
    * The number of events to request per batch
    */
@@ -225,7 +233,9 @@ export class EventProcessor {
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
-    this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    this._partitionLoadBalancer =
+      options.partitionLoadBalancer ||
+      new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**
@@ -285,22 +295,26 @@ export class EventProcessor {
           eventHubName: this._eventHubClient.eventHubName,
           consumerGroup: this._consumerGroup,
           partitionId: ownershipRequest.partitionId,
-          eventProcessorId: this.id,
-        });
+          eventProcessorId: this.id
+        }
+      );
 
       const availableCheckpoints = await this._checkpointStore.listCheckpoints(
         this._eventHubClient.fullyQualifiedNamespace,
         this._eventHubClient.eventHubName,
-        this._consumerGroup);
+        this._consumerGroup
+      );
 
-      const validCheckpoints = availableCheckpoints.filter(chk => chk.partitionId === partitionIdToClaim);
+      const validCheckpoints = availableCheckpoints.filter(
+        (chk) => chk.partitionId === partitionIdToClaim
+      );
 
       let eventPosition: EventPosition | undefined;
 
       if (validCheckpoints.length > 0) {
         eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
       }
-      
+
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
     } catch (err) {
@@ -378,14 +392,14 @@ export class EventProcessor {
       return;
     }
 
-    if (this._subscriptionEventHandlers.processError) { 
+    if (this._subscriptionEventHandlers.processError) {
       try {
         await this._subscriptionEventHandlers.processError(err, {
           fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
           eventHubName: this._eventHubClient.eventHubName,
           consumerGroup: this._consumerGroup,
           partitionId: "",
-          updateCheckpoint: async () => { }
+          updateCheckpoint: async () => {}
         });
       } catch (err) {
         log.error(`[${this._id}] An error was thrown from the user's processError handler: ${err}`);

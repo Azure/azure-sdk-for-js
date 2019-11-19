@@ -9,12 +9,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
-import {
-  EventPosition,
-  EventData,
-  EventHubProperties,
-  ReceivedEventData
-} from "../src";
+import { EventPosition, EventData, EventHubProperties, ReceivedEventData } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {

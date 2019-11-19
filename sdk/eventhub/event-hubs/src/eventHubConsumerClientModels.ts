@@ -1,8 +1,7 @@
-
-import { CloseReason } from './eventProcessor';
-import { ReceivedEventData } from './eventData';
-import { LastEnqueuedEventProperties } from './eventHubReceiver';
-import { EventPosition } from './eventPosition';
+import { CloseReason } from "./eventProcessor";
+import { ReceivedEventData } from "./eventData";
+import { LastEnqueuedEventProperties } from "./eventHubReceiver";
+import { EventPosition } from "./eventPosition";
 
 /**
  * @internal
@@ -29,7 +28,7 @@ export interface BasicPartitionProperties {
 }
 
 /**
- * Provides a set of basic information about the partition as well as the 
+ * Provides a set of basic information about the partition as well as the
  * ability to checkpoint.
  */
 export interface PartitionContext {
@@ -82,7 +81,7 @@ export interface InitializationContext extends PartitionContext {
 }
 
 /**
- * Event handler called when events are received. The `context` parameter can be 
+ * Event handler called when events are received. The `context` parameter can be
  * used to get partition information as well as to checkpoint.
  */
 export type ProcessEventHandler = (
@@ -110,9 +109,9 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
  */
 export interface SubscriptionEventHandlers {
   /**
-   * Event handler called when events are received.    
+   * Event handler called when events are received.
    */
-  processEvent: ProcessEventHandler
+  processEvent: ProcessEventHandler;
   /**
    * Called when errors occur during event receiving.
    */
@@ -131,7 +130,7 @@ export interface SubscriptionEventHandlers {
  * Options for subscribe.
  */
 export interface SubscriptionOptions {
-    /**
+  /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.

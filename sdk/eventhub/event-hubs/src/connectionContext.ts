@@ -94,7 +94,8 @@ export namespace ConnectionContext {
 
     config.webSocket = options.webSocketOptions && options.webSocketOptions.webSocket;
     config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options.webSocketOptions && options.webSocketOptions.webSocketConstructorOptions;
+    config.webSocketConstructorOptions =
+      options.webSocketOptions && options.webSocketOptions.webSocketConstructorOptions;
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,

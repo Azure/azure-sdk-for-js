@@ -6,7 +6,11 @@ import debugModule from "debug";
 export const loggerForTest = debugModule("azure:tests");
 
 export class LogTester {
-  private _attachedLoggers: { logger: debugModule.Debugger, wasEnabled: boolean, previousLogFunction: (message: string) => void }[];
+  private _attachedLoggers: {
+    logger: debugModule.Debugger;
+    wasEnabled: boolean;
+    previousLogFunction: (message: string) => void;
+  }[];
   private _previousEnabledLoggers: string = "";
 
   constructor(private _expectedMessages: string[], loggers: debugModule.Debugger[]) {
@@ -14,17 +18,17 @@ export class LogTester {
 
     for (const logger of loggers) {
       this.attach(logger);
-    }   
+    }
 
     this._previousEnabledLoggers = debugModule.disable();
-    debugModule.enable(loggers.map(logger => logger.namespace).join(","));
+    debugModule.enable(loggers.map((logger) => logger.namespace).join(","));
   }
 
   assert() {
     this.close();
 
     if (this._expectedMessages.length > 0) {
-      throw new Error(`Messages without a match:\n${this._expectedMessages.join('\n')}`)
+      throw new Error(`Messages without a match:\n${this._expectedMessages.join("\n")}`);
     }
   }
 
@@ -52,7 +56,7 @@ export class LogTester {
       logger,
       wasEnabled: logger.enabled,
       previousLogFunction: logger.log
-    });    
+    });
 
     // install our check instead
     logger.enabled = true;

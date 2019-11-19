@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
-import { loggerForTest } from './logHelpers';
+import { loggerForTest } from "./logHelpers";
 import { delay } from "@azure/core-amqp";
 dotenv.config();
 
@@ -30,9 +30,15 @@ function getEnvVarValue(name: string, addBrowserSuffix?: boolean): string | unde
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING, !isNode),
+    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(
+      EnvVarKeys.EVENTHUB_CONNECTION_STRING,
+      !isNode
+    ),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.IOTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.IOTHUB_CONNECTION_STRING, !isNode),
+    [EnvVarKeys.IOTHUB_CONNECTION_STRING]: getEnvVarValue(
+      EnvVarKeys.IOTHUB_CONNECTION_STRING,
+      !isNode
+    ),
     [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
     [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
@@ -40,10 +46,10 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
 }
 
 export async function loopUntil(args: {
-  name: string,
-  timeBetweenRunsMs: number,
-  maxTimes: number,
-  until: () => Promise<boolean>
+  name: string;
+  timeBetweenRunsMs: number;
+  maxTimes: number;
+  until: () => Promise<boolean>;
 }): Promise<void> {
   for (let i = 0; i < args.maxTimes + 1; ++i) {
     const finished = await args.until();
