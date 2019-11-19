@@ -1,5 +1,5 @@
 {
-  "name": "azure-file-share-samples-ts",
+  "name": "azure-file-share-samples-js",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Storage File Share client library samples for TypeScript",
@@ -19,7 +19,7 @@
     "Storage",
     "File",
     "Node.js",
-    "TypeScript"
+    "JavaScript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
