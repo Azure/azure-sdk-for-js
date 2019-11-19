@@ -131,7 +131,7 @@
     "rollup-plugin-local-resolve": "^1.0.7",
     "rollup-plugin-multi-entry": "^2.1.0",
     "sinon": "^7.1.0",
-    "snap-shot-it": "7.9.0",
+    "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
     "tslint": "^5.0.0",
