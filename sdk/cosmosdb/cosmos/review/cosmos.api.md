@@ -38,7 +38,7 @@ export interface ConflictDefinition {
     operationType?: OperationType;
     resourceId?: string;
     // Warning: (ae-forgotten-export) The symbol "ResourceType" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     resourceType?: ResourceType;
 }
@@ -261,7 +261,7 @@ export class Container {
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // Warning: (ae-forgotten-export) The symbol "PartitionedQueryExecutionInfo" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
@@ -327,7 +327,7 @@ export interface CosmosClientOptions {
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
     endpoint: string;
@@ -432,7 +432,7 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     activityId?: string;
     // Warning: (ae-forgotten-export) The symbol "ErrorBody" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
@@ -451,7 +451,7 @@ export interface ErrorResponse extends Error {
 export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // Warning: (ae-forgotten-export) The symbol "SharedOptions" needs to be exported by the entry point index.d.ts
-//
+// 
 // @public
 export interface FeedOptions extends SharedOptions {
     accessCondition?: {
@@ -561,9 +561,9 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    changeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
-    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
@@ -574,7 +574,7 @@ export class Items {
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // @deprecated
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
@@ -724,7 +724,7 @@ export enum PermissionMode {
 }
 
 // Warning: (ae-forgotten-export) The symbol "PermissionBody" needs to be exported by the entry point index.d.ts
-//
+// 
 // @public (undocumented)
 export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
     constructor(resource: PermissionDefinition & PermissionBody & Resource, headers: CosmosHeaders, statusCode: number, permission: Permission);
@@ -883,17 +883,17 @@ export interface RequestContext {
     // (undocumented)
     endpoint?: string;
     // Warning: (ae-forgotten-export) The symbol "GlobalEndpointManager" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
     // Warning: (ae-forgotten-export) The symbol "LocationRouting" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     locationRouting?: LocationRouting;
     // Warning: (ae-forgotten-export) The symbol "HTTPMethod" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     method: HTTPMethod;
     // (undocumented)
@@ -975,11 +975,11 @@ export class ResourceResponse<TResource> {
     // (undocumented)
     readonly resource: TResource;
     // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     readonly statusCode: StatusCode;
     // Warning: (ae-forgotten-export) The symbol "SubStatusCode" needs to be exported by the entry point index.d.ts
-    //
+    // 
     // (undocumented)
     readonly substatus?: SubStatusCode;
 }

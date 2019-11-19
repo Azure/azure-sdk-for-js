@@ -169,7 +169,7 @@ export class Items {
    */
   public changeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -185,7 +185,7 @@ export class Items {
    */
   public changeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -209,7 +209,7 @@ export class Items {
     }
 
     if (!changeFeedOptions) {
-      throw new Error("changeFeedOptions must be a valid object");
+      changeFeedOptions = {};
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
