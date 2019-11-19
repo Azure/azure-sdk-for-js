@@ -317,14 +317,12 @@ export class EventProcessor {
 
       const validCheckpoints = availableCheckpoints.filter(chk => chk.partitionId === partitionIdToClaim);
 
-      let eventPosition: EventPosition;
+      let eventPosition: EventPosition | undefined;
 
       if (validCheckpoints.length > 0) {
         eventPosition = EventPosition.fromSequenceNumber(validCheckpoints[0].sequenceNumber);
-      } else {
-        eventPosition = EventPosition.earliest();
       }
-
+      
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
     } catch (err) {

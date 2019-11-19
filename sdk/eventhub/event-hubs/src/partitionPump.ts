@@ -4,11 +4,13 @@
 import * as log from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition, isEarliestEventPosition } from "./eventPosition";
+import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
+
+const defaultEventPosition = EventPosition.earliest();
 
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
@@ -21,7 +23,7 @@ export class PartitionPump {
   constructor(
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
-    private _initialEventPosition: EventPosition,
+    private _initialEventPosition: EventPosition | undefined,
     options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
@@ -36,16 +38,14 @@ export class PartitionPump {
 
   async start(): Promise<void> {
     this._isReceiving = true;
+    let requestedDefaultPosition: EventPosition | undefined;
     try {
-      const requestedDefaultPosition = await this._partitionProcessor.initialize();
-
-      if (isEarliestEventPosition(this._initialEventPosition) && requestedDefaultPosition) {
-        this._initialEventPosition = requestedDefaultPosition;
-      }
-
+      requestedDefaultPosition = await this._partitionProcessor.initialize();      
     } catch {
       // swallow the error from the user-defined code
     }
+
+    this._initialEventPosition = getInitialPosition(this._initialEventPosition, requestedDefaultPosition);
 
     // this is intentionally not await'd - the _receiveEvents loop will continue to 
     // execute and can be stopped by calling .stop()
@@ -54,6 +54,10 @@ export class PartitionPump {
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
+    if (this._initialEventPosition == null) {
+      throw new Error("Initial event position should have been set before we reached _receiveEvents");
+    }
+
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
@@ -133,5 +137,17 @@ export class PartitionPump {
       log.error("An error occurred while closing the receiver.", err);
       throw err;
     }
+  }
+}
+
+export function getInitialPosition(currentPosition: EventPosition | undefined, positionFromInitialize: EventPosition | undefined): EventPosition {
+  if (currentPosition != null) {
+    return currentPosition;
+  }
+
+  if (positionFromInitialize) {
+    return positionFromInitialize;
+  } else {
+    return defaultEventPosition;
   }
 }

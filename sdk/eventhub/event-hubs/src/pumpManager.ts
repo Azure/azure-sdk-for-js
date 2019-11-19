@@ -50,7 +50,7 @@ export class PumpManager {
    */
   public async createPump(
     eventHubClient: EventHubClient,
-    initialEventPosition: EventPosition,
+    initialEventPosition: EventPosition | undefined,
     partitionProcessor: PartitionProcessor
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
