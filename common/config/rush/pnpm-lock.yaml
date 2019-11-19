@@ -174,7 +174,7 @@ dependencies:
   semaphore: 1.1.0
   shx: 0.3.2
   sinon: 7.5.0
-  snap-shot-it: 7.9.0
+  snap-shot-it: 7.9.1
   source-map-support: 0.5.16
   stream-browserify: 2.0.2
   terser: 4.4.0
@@ -3175,12 +3175,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-gGZJMmzqp8qjMG112YXqJ0i6kTw=
-  /diff/1.4.0:
-    dev: false
-    engines:
-      node: '>=0.3.1'
-    resolution:
-      integrity: sha1-fyjS657nsVqX79ic5j3P2qPMur8=
   /diff/3.5.0:
     dev: false
     engines:
@@ -3201,14 +3195,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg==
-  /disparity/2.0.0:
+  /disparity/3.0.0:
     dependencies:
-      ansi-styles: 2.2.1
-      diff: 1.4.0
+      ansi-styles: 4.2.0
+      diff: 4.0.1
     dev: false
+    engines:
+      node: '>=8'
     hasBin: true
     resolution:
-      integrity: sha1-V92stHMkrl9Y0swNqIbbTOnutxg=
+      integrity: sha512-n94Rzbv2ambRaFzrnBf34IEiyOdIci7maRpMkoQWB6xFYGA7Nbs0Z5YQzMfTeyQeelv23nayqOcssBoc6rKrgw==
   /doctrine/3.0.0:
     dependencies:
       esutils: 2.0.3
@@ -8047,11 +8043,11 @@ packages:
       npm: '>= 3.0.0'
     resolution:
       integrity: sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
-  /snap-shot-compare/2.8.3:
+  /snap-shot-compare/3.0.0:
     dependencies:
       check-more-types: 2.24.0
       debug: 4.1.1
-      disparity: 2.0.0
+      disparity: 3.0.0
       folktale: 2.3.2
       lazy-ass: 1.6.0
       strip-ansi: 5.2.0
@@ -8060,7 +8056,7 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-dznYMQAYMcQ4crFduIX5sST/Ex35l414hVCL6sXFi84OPuwG5eXgRBfBqbgz7mi3rC/r7VWDn2ADF8FTV/wbCw==
+      integrity: sha512-bdwNOAGuKwPU+qsn0ASxTv+QfkXU+3VmkcDOkt965tes+JQQc8d6SfoLiEiRVhCey4v+ip2IjNUSbZm5nnkI9g==
   /snap-shot-core/10.2.0:
     dependencies:
       arg: 4.1.0
@@ -8082,7 +8078,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-FsP+Wd4SCA4bLSm3vi6OVgfmGQcAQkUhwy45zDjZDm/6dZ5SDIgP40ORHg7z6MgMAK2+fj2DmhW7SXyvMU55Vw==
-  /snap-shot-it/7.9.0:
+  /snap-shot-it/7.9.1:
     dependencies:
       '@bahmutov/data-driven': 1.0.0
       check-more-types: 2.24.0
@@ -8093,13 +8089,13 @@ packages:
       lazy-ass: 1.6.0
       pluralize: 8.0.0
       ramda: 0.26.1
-      snap-shot-compare: 2.8.3
+      snap-shot-compare: 3.0.0
       snap-shot-core: 10.2.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-70QaUKgITLCkeo8P7Tz9PfgHLuSPGIbtwSLHI89zOJ5g60pkhY1bV/oW4M4hDKUWeKwW493nwnHxlaIY0sDzYQ==
+      integrity: sha512-whb2ikrl9VT7rDe6uAgFtR8bWoYTAaB1JSs3jYS2zsCpD65r2OOO36PhKprXpsxo23kqp5InO6qeCVhy6TITQA==
   /snapdragon-node/2.1.1:
     dependencies:
       define-property: 1.0.0
@@ -10196,7 +10192,7 @@ packages:
       rollup-plugin-multi-entry: 2.1.0
       semaphore: 1.1.0
       sinon: 7.5.0
-      snap-shot-it: 7.9.0
+      snap-shot-it: 7.9.1
       source-map-support: 0.5.16
       ts-node: 8.5.2_typescript@3.6.4
       tslib: 1.10.0
@@ -10209,7 +10205,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-Ldz1lk6Ainqv8jMnS8lnVe9Cdri/3kfMAbrAgzB4BfcLXJ1l0ouK66GF2O5STN0pJYOYWSoTf1aJnerwGXzrfg==
+      integrity: sha512-WodNi0rAEXTXUfcNIaKntW6Jr/3KnXCCZ73cQ1RLFDt4DKvlD88VK6DYkpVz/6Ey7ajm7t82fXIQ9PIMK1g8cQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -11266,7 +11262,7 @@ specifiers:
   semaphore: ^1.0.5
   shx: ^0.3.2
   sinon: ^7.1.0
-  snap-shot-it: 7.9.0
+  snap-shot-it: ^7.9.1
   source-map-support: ^0.5.9
   stream-browserify: ^2.0.2
   terser: ^4.0.2
