@@ -75,6 +75,10 @@ export interface PartitionProperties {
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedOnUtc: Date;
+  /**
+   * @property Indicates if the partition is empty
+   */
+  isEmpty: boolean;
 }
 
 /**
@@ -205,13 +209,15 @@ export class ManagementClient extends LinkEntity {
       ...options,
       requestName: "getPartitionInformation"
     });
+
     const partitionInfo: PartitionProperties = {
       beginningSequenceNumber: info.begin_sequence_number,
       eventHubName: info.name,
       lastEnqueuedOffset: info.last_enqueued_offset,
       lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
       lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
-      partitionId: info.partition
+      partitionId: info.partition,
+      isEmpty: info.is_partition_empty
     };
     log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;

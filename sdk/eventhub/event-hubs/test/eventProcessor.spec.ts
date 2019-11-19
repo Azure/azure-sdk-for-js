@@ -732,6 +732,10 @@ describe("Event Processor", function(): void {
         const partitionInfo = await client.getPartitionProperties(partitionId);
         debug("partition info: ", partitionInfo);
 
+        // sanity check - no partition should report being empty since we've sent messages
+        // to each one
+        partitionInfo.isEmpty.should.be.false;
+
         const results = lastEnqueuedEventPropertiesMap.get(partitionId)!;
         should.exist(results);
 
