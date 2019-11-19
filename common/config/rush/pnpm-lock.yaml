@@ -56,7 +56,6 @@ dependencies:
   '@types/long': 4.0.0
   '@types/mocha': 5.2.7
   '@types/nise': 1.4.0
-  '@types/nock': 10.0.3
   '@types/node': 8.10.59
   '@types/node-fetch': 2.5.3
   '@types/priorityqueuejs': 1.0.1
@@ -92,7 +91,7 @@ dependencies:
   dotenv: 8.2.0
   es6-promise: 4.2.8
   eslint: 6.6.0
-  eslint-config-prettier: 6.6.0_eslint@6.6.0
+  eslint-config-prettier: 6.7.0_eslint@6.6.0
   eslint-plugin-no-null: 1.0.2_eslint@6.6.0
   eslint-plugin-no-only-tests: 2.3.1
   eslint-plugin-promise: 4.2.1
@@ -780,12 +779,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-DPxmjiDwubsNmguG5X4fEJ+XCyzWM3GXWsqQlvUcjJKa91IOoJUy51meDr0GkzK64qqNcq85ymLlyjoct9tInw==
-  /@types/nock/10.0.3:
-    dependencies:
-      '@types/node': 8.10.59
-    dev: false
-    resolution:
-      integrity: sha512-OthuN+2FuzfZO3yONJ/QVjKmLEuRagS9TV9lEId+WHL9KhftYG+/2z+pxlr0UgVVXSpVD8woie/3fzQn8ft/Ow==
   /@types/node-fetch/2.5.3:
     dependencies:
       '@types/node': 8.10.59
@@ -3448,7 +3441,7 @@ packages:
       source-map: 0.2.0
     resolution:
       integrity: sha1-WltTr0aTEQvrsIZ6o0MN07cKEBg=
-  /eslint-config-prettier/6.6.0_eslint@6.6.0:
+  /eslint-config-prettier/6.7.0_eslint@6.6.0:
     dependencies:
       eslint: 6.6.0
       get-stdin: 6.0.0
@@ -3457,7 +3450,7 @@ packages:
     peerDependencies:
       eslint: '>=3.14.1'
     resolution:
-      integrity: sha512-6RGaj7jD+HeuSVHoIT6A0WkBhVEk0ULg74kp2FAWIwkYrOERae0TjIO09Cw33oN//gJWmt7aFhVJErEVta7uvA==
+      integrity: sha512-FamQVKM3jjUVwhG4hEMnbtsq7xOIDm+SY5iBPfR8gKsJoAB2IQnNF+bk1+8Fy44Nq7PPJaLvkRxILYdJWoguKQ==
   /eslint-plugin-no-null/1.0.2_eslint@6.6.0:
     dependencies:
       eslint: 6.6.0
@@ -9549,7 +9542,7 @@ packages:
       cross-env: 5.2.1
       delay: 4.3.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9595,7 +9588,7 @@ packages:
       assert: 1.5.0
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9636,7 +9629,7 @@ packages:
       cross-env: 5.2.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9691,7 +9684,7 @@ packages:
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9743,7 +9736,7 @@ packages:
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       chai: 4.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9775,7 +9768,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9801,7 +9794,7 @@ packages:
       assert: 1.5.0
       cross-env: 5.2.1
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9853,7 +9846,7 @@ packages:
       babel-runtime: 6.26.0
       chai: 4.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9924,7 +9917,7 @@ packages:
       assert: 1.5.0
       chai: 4.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -9975,7 +9968,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10002,7 +9995,7 @@ packages:
       assert: 1.5.0
       cross-env: 5.2.1
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10051,7 +10044,7 @@ packages:
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10128,7 +10121,7 @@ packages:
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10203,7 +10196,7 @@ packages:
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10255,7 +10248,7 @@ packages:
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10373,7 +10366,7 @@ packages:
       cross-env: 5.2.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10436,7 +10429,7 @@ packages:
       cross-env: 5.2.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10499,7 +10492,7 @@ packages:
       cross-env: 5.2.1
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10560,7 +10553,7 @@ packages:
       delay: 4.3.0
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10629,7 +10622,7 @@ packages:
       delay: 4.3.0
       dotenv: 8.2.0
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10686,7 +10679,6 @@ packages:
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
-      '@types/nock': 10.0.3
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
@@ -10696,7 +10688,7 @@ packages:
       dotenv: 8.2.0
       es6-promise: 4.2.8
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10743,7 +10735,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-4Ek3pIMRDticNI90MCLar6OZEirFH01ZiKv/hIlQceQhVUnXzWAhOedk6DqwjpMWxzBC98qY8xCaLOeAZK5+cA==
+      integrity: sha512-8+bAFdnO7hJT6PyMd5OwI+SkHZoiOOJa+MisrfOgeTzel+Sw8EAkRMEG1O1+9AbsXRZOJ932PNiLZ831ZaLr4Q==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
@@ -10754,7 +10746,6 @@ packages:
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
-      '@types/nock': 10.0.3
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
@@ -10764,7 +10755,7 @@ packages:
       dotenv: 8.2.0
       es6-promise: 4.2.8
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10811,7 +10802,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-REtSuSWk4MPnvaRpf9nIhT5LDGvz9S2mpVf8MActp0kQgfrMWzRPDAiQQyx9zKwzmjVhdm2vjcE1SnuKs8k+Cg==
+      integrity: sha512-IJcSXY7rI4HHBTdJWZ937RjlkVREIbPnDfWD9m6zHmuG+8AVZ0vbAHqLfTFzLmKEjozxRxd/GjTZeJg/Grhw1A==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10822,7 +10813,6 @@ packages:
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
-      '@types/nock': 10.0.3
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
@@ -10832,7 +10822,7 @@ packages:
       dotenv: 8.2.0
       es6-promise: 4.2.8
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10878,7 +10868,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-qGz1A1re0G/xYUvSKyrPGn4TXG2InNYCQCxbR5vBRRj9fsXDACa+tPoOB2m+TWHR2SgbTZs4QZCqzuJXzps/vA==
+      integrity: sha512-rzXEm5b6PvHdF7/j4SevXns4ivJHE5OR/RYakldiOrOaa8UHpot9wLj4zbPgthIsMJH+7Rw1B8MqnL1XUsCvJA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10894,7 +10884,7 @@ packages:
       assert: 1.5.0
       cross-env: 5.2.1
       eslint: 6.6.0
-      eslint-config-prettier: 6.6.0_eslint@6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
       eslint-plugin-no-null: 1.0.2_eslint@6.6.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
@@ -10938,7 +10928,6 @@ packages:
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
-      '@types/nock': 10.0.3
       fs-extra: 8.1.0
       nise: 1.5.2
       nock: 11.7.0
@@ -10956,7 +10945,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-BEVj3kjhWSNWl6q5p4auHFOfJKMuQLF3vxlyQzt72XSO7UEgNmgrM1VZOrIzQoNRp6yP4vtyn8E64vpxKUOrSg==
+      integrity: sha512-JaqY0Vh2V+KHw5g7S9XiWv7r1MgDcTzR46m66SC1gAsqLUOieZf48NUh1jwZqlZnPm3T/uni1NqRk6cJ3zY8JA==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11038,7 +11027,6 @@ specifiers:
   '@types/long': ^4.0.0
   '@types/mocha': ^5.2.5
   '@types/nise': ^1.4.0
-  '@types/nock': ^10.0.1
   '@types/node': ^8.0.0
   '@types/node-fetch': ^2.5.0
   '@types/priorityqueuejs': ^1.0.1
@@ -11121,7 +11109,7 @@ specifiers:
   moment: ^2.24.0
   msal: ^1.0.2
   nise: ^1.4.10
-  nock: ^11.3.2
+  nock: ^11.7.0
   node-abort-controller: ^1.0.4
   node-fetch: ^2.6.0
   npm-run-all: ^4.1.5
