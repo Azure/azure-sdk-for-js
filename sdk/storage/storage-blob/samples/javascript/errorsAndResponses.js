@@ -2,7 +2,7 @@
  Setup: Enter connection string of your storage account name in main()
 */
 
-import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -85,7 +85,7 @@ async function main() {
     const downloadBlockBlobResponse = await blockBlobClient.download();
     console.log(
       `Downloaded blob content - ${await streamToString(
-        downloadBlockBlobResponse.readableStreamBody!
+        downloadBlockBlobResponse.readableStreamBody
       )},`
     );
     console.log(
@@ -132,9 +132,9 @@ async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
+    const chunks = [];
     readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
