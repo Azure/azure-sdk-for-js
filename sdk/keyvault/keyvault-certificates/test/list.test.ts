@@ -39,20 +39,22 @@ describe("Certificates client - list certificates in various ways", () => {
 
   // The tests follow
 
-  // This test is only useful while developing locally
-  it.skip("can purge all certificates", async function() {
-    // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
-      try {
-        await testClient.flushCertificate(certificate.name!);
-      } catch (e) {}
-    }
-    for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
-      try {
-        await testClient.purgeCertificate(certificate.name!);
-      } catch (e) {}
-    }
-  });
+  // Use this while recording to make sure the target keyvault is clean. The next tests will produce a more consistent output.
+  if (isRecording) {
+    it("can purge all certificates", async function() {
+      // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
+      for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
+        try {
+          await testClient.flushCertificate(certificate.name!);
+        } catch (e) {}
+      }
+      for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
+        try {
+          await testClient.purgeCertificate(certificate.name!);
+        } catch (e) {}
+      }
+    });
+  }
 
   it("can list certificates", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);

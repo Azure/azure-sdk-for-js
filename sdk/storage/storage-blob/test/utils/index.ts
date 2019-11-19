@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
-import { SimpleTokenCredential, env } from "./testutils.common";
+import { SimpleTokenCredential } from "./testutils.common";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { getUniqueName } from "./testutils.common";
@@ -17,6 +17,7 @@ import {
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
+import { env } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 

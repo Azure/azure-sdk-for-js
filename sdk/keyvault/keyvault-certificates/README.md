@@ -338,7 +338,7 @@ main();
 
 ### List all versions of a certificate
 
-`listCertificateVersions` will list versions of the given certificate.
+`listPropertiesOfCertificateVersions` will list versions of the given certificate.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -354,8 +354,8 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  for await (let certificate of client.listCertificateVersions(certificateName)) {
-    console.log("version: ", certificate.properties.version);
+  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
+    console.log("version: ", certificateProperties.version);
   }
 }
 
@@ -364,7 +364,7 @@ main();
 
 ### List all certificates
 
-`listCertificates` will list all certificates in the Key Vault.
+`listPropertiesOfCertificates` will list all certificates in the Key Vault.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -378,8 +378,8 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new CertificateClient(url, credential);
 
 async function main() {
-  for await (let listedCertificate of client.listCertificates()) {
-    console.log("certificate: ", listedCertificate);
+  for await (let certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log("Certificate properties: ", certificateProperties);
   }
 }
 
@@ -484,10 +484,10 @@ async function main() {
   // Deleted certificates can also be recovered or purged.
 
   // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
-  const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
-  const recoverPoller.pollUntilDone();
+  // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
+  // await recoverPoller.pollUntilDone();
 
-  // And then, to purge the deleted certificate:
+  // If a certificate is done and the KeyVault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);
 }
 
@@ -504,11 +504,11 @@ Using the CertificateClient, you can retrieve and iterate through all of the
 certificates in a Certificate Vault, as well as through all of the deleted certificates and the
 versions of a specific certificate. The following API methods are available:
 
-- `listCertificates` will list all of your non-deleted certificates by their names, only
+- `listPropertiesOfCertificates` will list all of your non-deleted certificates by their names, only
   at their latest versions.
 - `listDeletedCertificates` will list all of your deleted certificates by their names,
   only at their latest versions.
-- `listCertificateVersions` will list all the versions of a certificate based on a certificate
+- `listPropertiesOfCertificateVersions` will list all the versions of a certificate based on a certificate
   name.
 
 Which can be used as follows:
@@ -527,14 +527,14 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  for await (let certificate of client.listCertificates()) {
-    console.log("Certificate: ", certificate);
+  for await (let certificateProperties of client.listPropertiesOfCertificates()) {
+    console.log("Certificate properties: ", certificateProperties);
   }
   for await (let deletedCertificate of client.listDeletedCertificates()) {
     console.log("Deleted certificate: ", deletedCertificate);
   }
-  for await (let version of client.listCertificateVersions(certificateName)) {
-    console.log("Version: ", version);
+  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
+    console.log("Certificate properties: ", certificateProperties);
   }
 }
 
@@ -559,9 +559,9 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 
 async function main() {
-  for await (let page of client.listCertificates().byPage()) {
-    for (let certificate of page) {
-      console.log("Certificate: ", certificate);
+  for await (let page of client.listPropertiesOfCertificates().byPage()) {
+    for (let certificateProperties of page) {
+      console.log("Certificate properties: ", certificateProperties);
     }
   }
   for await (let page of client.listDeletedCertificates().byPage()) {
@@ -569,9 +569,9 @@ async function main() {
       console.log("Deleted certificate: ", deletedCertificate);
     }
   }
-  for await (let page of client.listCertificateVersions(certificateName).byPage()) {
-    for (let version of page) {
-      console.log("Version: ", version);
+  for await (let page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
+    for (let certificateProperties of page) {
+      console.log("Properties of certificate: ", certificateProperties);
     }
   }
 }

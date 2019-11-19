@@ -5,18 +5,19 @@ import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

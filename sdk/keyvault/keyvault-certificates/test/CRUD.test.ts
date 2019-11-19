@@ -65,7 +65,10 @@ describe("Certificates client - create, read, update and delete", () => {
         const poller = await client.beginCreateCertificate(
           certificateName,
           basicCertificatePolicy,
-          testPollerProperties
+          {
+            ...testPollerProperties,
+            abortSignal: controller.signal
+          }
         );
         controller.abort();
         await poller.pollUntilDone();
@@ -424,19 +427,18 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties
     );
 
-    let getResponse: any;
+    let certificateOperation: any;
 
     // Read
     let operationPoller = await client.getCertificateOperation(certificateName);
-    getResponse = operationPoller.getResult();
-    assert.equal(getResponse.status, "inProgress");
-    assert.equal(getResponse.cancellationRequested, false);
+    certificateOperation = operationPoller.getResult();
+    assert.equal(certificateOperation.status, "inProgress");
+    assert.equal(certificateOperation.cancellationRequested, false);
 
     // Cancel
-    await client.cancelCertificateOperation(certificateName);
-    operationPoller = await client.getCertificateOperation(certificateName);
-    getResponse = operationPoller.getResult();
-    assert.equal(getResponse.cancellationRequested, true);
+    await operationPoller.cancelOperation();
+    certificateOperation = operationPoller.getResult();
+    assert.equal(certificateOperation.cancellationRequested, true);
 
     // Delete
     await client.deleteCertificateOperation(certificateName);

@@ -9,7 +9,7 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { env } from "./testutils.common";
+import { env } from "@azure/test-utils-recorder";
 
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"

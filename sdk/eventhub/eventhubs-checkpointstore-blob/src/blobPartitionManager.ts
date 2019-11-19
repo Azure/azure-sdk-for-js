@@ -50,9 +50,9 @@ export class BlobPartitionManager implements PartitionManager {
           consumerGroupName,
           ownerId: blob.metadata!.ownerid,
           partitionId: blobName,
-          offset: blob.metadata && blob.metadata.offset ? parseInt(blob.metadata.offset) : -1,
+          offset: blob.metadata && blob.metadata.offset != null ? parseInt(blob.metadata.offset) : -1,
           sequenceNumber:
-            blob.metadata && blob.metadata.sequencenumber
+            blob.metadata && blob.metadata.sequencenumber != null
               ? parseInt(blob.metadata.sequencenumber)
               : -1,
           lastModifiedTimeInMS:
@@ -87,8 +87,8 @@ export class BlobPartitionManager implements PartitionManager {
           updatedBlobResponse = await blobClient.setMetadata(
             {
               OwnerId: ownership.ownerId ? ownership.ownerId : "",
-              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
-              Offset: ownership.offset ? ownership.offset.toString() : ""
+              SequenceNumber: ownership.sequenceNumber != null ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset != null ? ownership.offset.toString() : ""
             },
             {
               conditions: {
@@ -101,8 +101,8 @@ export class BlobPartitionManager implements PartitionManager {
           updatedBlobResponse = await blockBlobClient.upload("", 0, {
             metadata: {
               OwnerId: ownership.ownerId,
-              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
-              Offset: ownership.offset ? ownership.offset.toString() : ""
+              SequenceNumber: ownership.sequenceNumber != null ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset != null ? ownership.offset.toString() : ""
             },
             conditions: {
               ifNoneMatch: "*"

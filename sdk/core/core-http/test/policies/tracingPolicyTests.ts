@@ -9,14 +9,8 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../lib/coreHttp";
-import {
-  setTracer,
-  TraceFlags,
-  NoOpTracer,
-  SpanOptions,
-  SpanContext,
-  NoOpSpan
-} from "@azure/core-tracing";
+import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/types";
+import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {

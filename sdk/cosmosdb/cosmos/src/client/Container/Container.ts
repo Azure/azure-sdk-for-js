@@ -171,12 +171,23 @@ export class Container {
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
-   * @ignore
+   * @deprecated This method has been renamed to readPartitionKeyDefinition.
    * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
    */
   public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
+    return this.readPartitionKeyDefinition();
+  }
+
+  /**
+   * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
+   * @ignore
+   * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
+   * @param {function} callback       - \
+   * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
+   */
+  public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
