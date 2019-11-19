@@ -3,7 +3,7 @@
 
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
@@ -44,7 +44,7 @@ export interface BlobSASSignatureValues {
    * @type {Date}
    * @memberof BlobSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
@@ -52,7 +52,7 @@ export interface BlobSASSignatureValues {
    * @type {Date}
    * @memberof BlobSASSignatureValues
    */
-  expiryTime?: Date;
+  expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
@@ -153,39 +153,40 @@ export interface BlobSASSignatureValues {
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: When identifier is not provided, permissions and expiryTime are required.
- * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
+ * WARNING: When identifier is not provided, permissions and expiresOn are required.
+ * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
+ * Fill in the required details before running the following snippets.
  * @example
  * ```js
  * // Generate service level SAS for a container
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
- *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
- *     startTime: new Date(), // Required
- *     expiryTime: tmr, // Optional. Date type
+ *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
+ *     startsOn: new Date(), // Required
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
  * @example
  * ```js
  * // Generate service level SAS for a container with identifier
- * // startTime & permissions are optional when identifier is provided
+ * // startsOn & permissions are optional when identifier is provided
  * const identifier = "unique-id";
  * await containerClient.setAccessPolicy(undefined, [
  *   {
  *     accessPolicy: {
- *       expiry: tmr, // Date type
+ *       expiresOn: new Date(new Date().valueOf() + 86400), // Date type
  *       permissions: ContainerSASPermissions.parse("racwdl").toString(),
- *       start: now // Date type
+ *       startsOn: new Date() // Date type
  *     },
  *     id: identifier
  *   }
@@ -196,59 +197,60 @@ export interface BlobSASSignatureValues {
  *     containerName, // Required
  *     identifier // Required
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
+ * // Fill in the required details before running the snippet.
  * @example
  * ```js
  * // Generate service level SAS for a blob
  * const blobSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
  *     blobName, // Required
- *     permissions: BlobSASPermissions.parse("racwd").toString(), // Required
- *     startTime: new Date(), // Required
- *     expiryTime: tmr, // Optional. Date type
+ *     permissions: BlobSASPermissions.parse("racwd"), // Required
+ *     startsOn: new Date(), // Required
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
  *     cacheControl: "cache-control-override", // Optional
  *     contentDisposition: "content-disposition-override", // Optional
  *     contentEncoding: "content-encoding-override", // Optional
  *     contentLanguage: "content-language-override", // Optional
  *     contentType: "content-type-override", // Optional
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
  *   },
- *   sharedKeyCredential // SharedKeyCredential
+ *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
  * ).toString();
  * ```
  *
  * @export
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * Creates an instance of SASQueryParameters.
- * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiryTime are required.
+ * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiresOn are required.
  *
  * @example
  * ```js
  * // Generate user delegation SAS for a container
- * const userDelegationKey = await blobServiceClient.getUserDelegationKey(aborter, startTime, expiryTime);
+ * const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
- *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
- *     startTime, // Required. Date type
- *     expiryTime, // Optional. Date type
+ *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
+ *     startsOn, // Required. Date type
+ *     expiresOn, // Optional. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
+ *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
  *   },
  *   userDelegationKey, // UserDelegationKey
@@ -270,13 +272,13 @@ export function generateBlobSASQueryParameters(
 
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredentialOrUserDelegationKey: SharedKeyCredential | UserDelegationKey,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string
 ): SASQueryParameters {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
 
   const sharedKeyCredential =
-    sharedKeyCredentialOrUserDelegationKey instanceof SharedKeyCredential
+    sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
       ? sharedKeyCredentialOrUserDelegationKey
       : undefined;
   let userDelegationKeyCredential: UserDelegationKeyCredential | undefined;
@@ -325,26 +327,26 @@ export function generateBlobSASQueryParameters(
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: When identifier is not provided, permissions and expiryTime are required.
- * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
+ * WARNING: When identifier is not provided, permissions and expiresOn are required.
+ * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&
-    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiryTime)
+    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiryTime' for Blob SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
     );
   }
 
@@ -373,11 +375,11 @@ function generateBlobSASQueryParameters20150405(
   // Signature is generated on the un-url-encoded values.
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
-    blobSASSignatureValues.startTime
-      ? truncatedISO8061Date(blobSASSignatureValues.startTime, false)
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
       : "",
-    blobSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime, false)
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -404,8 +406,8 @@ function generateBlobSASQueryParameters20150405(
     undefined,
     undefined,
     blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startTime,
-    blobSASSignatureValues.expiryTime,
+    blobSASSignatureValues.startsOn,
+    blobSASSignatureValues.expiresOn,
     blobSASSignatureValues.ipRange,
     blobSASSignatureValues.identifier,
     resource,
@@ -424,26 +426,26 @@ function generateBlobSASQueryParameters20150405(
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: When identifier is not provided, permissions and expiryTime are required.
- * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
+ * WARNING: When identifier is not provided, permissions and expiresOn are required.
+ * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&
-    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiryTime)
+    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiryTime' for Blob SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
     );
   }
 
@@ -475,11 +477,11 @@ function generateBlobSASQueryParameters20181109(
   // Signature is generated on the un-url-encoded values.
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
-    blobSASSignatureValues.startTime
-      ? truncatedISO8061Date(blobSASSignatureValues.startTime, false)
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
       : "",
-    blobSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime, false)
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -508,8 +510,8 @@ function generateBlobSASQueryParameters20181109(
     undefined,
     undefined,
     blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startTime,
-    blobSASSignatureValues.expiryTime,
+    blobSASSignatureValues.startsOn,
+    blobSASSignatureValues.expiresOn,
     blobSASSignatureValues.ipRange,
     blobSASSignatureValues.identifier,
     resource,
@@ -528,9 +530,9 @@ function generateBlobSASQueryParameters20181109(
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: identifier will be ignored, permissions and expiryTime are required.
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
  * @param {BlobSASSignatureValues} blobSASSignatureValues
  * @param {UserDelegationKeyCredential} userDelegationKeyCredential
@@ -540,9 +542,9 @@ function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential
 ): SASQueryParameters {
-  if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiryTime) {
+  if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiryTime' for Blob SAS generation when generating user delegation SAS."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
     );
   }
 
@@ -574,11 +576,11 @@ function generateBlobSASQueryParametersUDK20181109(
   // Signature is generated on the un-url-encoded values.
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
-    blobSASSignatureValues.startTime
-      ? truncatedISO8061Date(blobSASSignatureValues.startTime, false)
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
       : "",
-    blobSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(blobSASSignatureValues.expiryTime, false)
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       userDelegationKeyCredential.accountName,
@@ -587,11 +589,11 @@ function generateBlobSASQueryParametersUDK20181109(
     ),
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
-    userDelegationKeyCredential.userDelegationKey.signedStart
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStart, false)
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
       : "",
-    userDelegationKeyCredential.userDelegationKey.signedExpiry
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiry, false)
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
@@ -616,8 +618,8 @@ function generateBlobSASQueryParametersUDK20181109(
     undefined,
     undefined,
     blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startTime,
-    blobSASSignatureValues.expiryTime,
+    blobSASSignatureValues.startsOn,
+    blobSASSignatureValues.expiresOn,
     blobSASSignatureValues.ipRange,
     blobSASSignatureValues.identifier,
     resource,

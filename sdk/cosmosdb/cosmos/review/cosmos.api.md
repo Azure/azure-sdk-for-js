@@ -38,7 +38,7 @@ export interface ConflictDefinition {
     operationType?: OperationType;
     resourceId?: string;
     // Warning: (ae-forgotten-export) The symbol "ResourceType" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     resourceType?: ResourceType;
 }
@@ -100,19 +100,6 @@ export enum ConsistencyLevel {
 
 // @public (undocumented)
 export const Constants: {
-    MediaTypes: {
-        Any: string;
-        ImageJpeg: string;
-        ImagePng: string;
-        Javascript: string;
-        Json: string;
-        OctetStream: string;
-        QueryJson: string;
-        SQL: string;
-        TextHtml: string;
-        TextPlain: string;
-        Xml: string;
-    };
     HttpHeaders: {
         Authorization: string;
         ETag: string;
@@ -181,6 +168,7 @@ export const Constants: {
         CollectionPartitionInfo: string;
         CollectionServiceInfo: string;
         RetryAfterInMilliseconds: string;
+        RetryAfterInMs: string;
         IsFeedUnfiltered: string;
         ResourceTokenExpiry: string;
         EnableScanInQuery: string;
@@ -219,8 +207,6 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
-    Name: string;
-    DatabaseAccountEndpoint: string;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -228,20 +214,6 @@ export const Constants: {
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
-    DefaultPrecisions: {
-        DefaultNumberHashPrecision: number;
-        DefaultNumberRangePrecision: number;
-        DefaultStringHashPrecision: number;
-        DefaultStringRangePrecision: number;
-    };
-    ConsistentHashRing: {
-        DefaultVirtualNodesPerCollection: number;
-    };
-    RegularExpressions: {
-        TrimLeftSlashes: RegExp;
-        TrimRightSlashes: RegExp;
-        IllegalResourceIdCharacters: RegExp;
-    };
     Quota: {
         CollectionSize: string;
     };
@@ -286,9 +258,10 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // Warning: (ae-forgotten-export) The symbol "PartitionedQueryExecutionInfo" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
@@ -296,6 +269,7 @@ export class Container {
     item(id: string, partitionKey: any): Item;
     readonly items: Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
+    readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
@@ -353,7 +327,7 @@ export interface CosmosClientOptions {
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
     endpoint: string;
@@ -393,13 +367,23 @@ export class DatabaseAccount {
     constructor(body: {
         [key: string]: any;
     }, headers: CosmosHeaders);
+    // @deprecated
     readonly ConsistencyPolicy: ConsistencyLevel;
+    readonly consistencyPolicy: ConsistencyLevel;
+    // @deprecated
     readonly CurrentMediaStorageUsageInMB: number;
+    readonly currentMediaStorageUsageInMB: number;
+    // @deprecated
     readonly DatabasesLink: string;
+    readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
+    // @deprecated
     readonly MaxMediaStorageUsageInMB: number;
+    readonly maxMediaStorageUsageInMB: number;
+    // @deprecated
     readonly MediaLink: string;
+    readonly mediaLink: string;
     readonly readableLocations: Location[];
     readonly writableLocations: Location[];
 }
@@ -448,7 +432,7 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     activityId?: string;
     // Warning: (ae-forgotten-export) The symbol "ErrorBody" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
@@ -458,6 +442,8 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     retryAfterInMilliseconds?: number;
     // (undocumented)
+    retryAfterInMs?: number;
+    // (undocumented)
     substatus?: number;
 }
 
@@ -465,7 +451,7 @@ export interface ErrorResponse extends Error {
 export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // Warning: (ae-forgotten-export) The symbol "SharedOptions" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export interface FeedOptions extends SharedOptions {
     accessCondition?: {
@@ -473,7 +459,9 @@ export interface FeedOptions extends SharedOptions {
         condition: string;
     };
     bufferItems?: boolean;
+    // @deprecated
     continuation?: string;
+    continuationToken?: string;
     continuationTokenLimitInKB?: number;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
@@ -490,6 +478,8 @@ export class FeedResponse<TResource> {
     readonly activityId: string;
     // (undocumented)
     readonly continuation: string;
+    // (undocumented)
+    readonly continuationToken: string;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
@@ -571,6 +561,10 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    changeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -580,9 +574,14 @@ export class Items {
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
+    //
+    // @deprecated
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -725,7 +724,7 @@ export enum PermissionMode {
 }
 
 // Warning: (ae-forgotten-export) The symbol "PermissionBody" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public (undocumented)
 export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
     constructor(resource: PermissionDefinition & PermissionBody & Resource, headers: CosmosHeaders, statusCode: number, permission: Permission);
@@ -884,17 +883,17 @@ export interface RequestContext {
     // (undocumented)
     endpoint?: string;
     // Warning: (ae-forgotten-export) The symbol "GlobalEndpointManager" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
     // Warning: (ae-forgotten-export) The symbol "LocationRouting" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     locationRouting?: LocationRouting;
     // Warning: (ae-forgotten-export) The symbol "HTTPMethod" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     method: HTTPMethod;
     // (undocumented)
@@ -976,11 +975,11 @@ export class ResourceResponse<TResource> {
     // (undocumented)
     readonly resource: TResource;
     // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     readonly statusCode: StatusCode;
     // Warning: (ae-forgotten-export) The symbol "SubStatusCode" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     readonly substatus?: SubStatusCode;
 }
@@ -1039,27 +1038,27 @@ export interface SqlQuerySpec {
 
 // @public (undocumented)
 export const StatusCodes: {
-    Ok: number;
-    Created: number;
-    Accepted: number;
-    NoContent: number;
-    NotModified: number;
-    BadRequest: number;
-    Unauthorized: number;
-    Forbidden: number;
-    NotFound: number;
-    MethodNotAllowed: number;
-    RequestTimeout: number;
-    Conflict: number;
-    Gone: number;
-    PreconditionFailed: number;
-    RequestEntityTooLarge: number;
-    TooManyRequests: number;
-    RetryWith: number;
-    InternalServerError: number;
-    ServiceUnavailable: number;
-    OperationPaused: number;
-    OperationCancelled: number;
+    Ok: 200;
+    Created: 201;
+    Accepted: 202;
+    NoContent: 204;
+    NotModified: 304;
+    BadRequest: 400;
+    Unauthorized: 401;
+    Forbidden: 403;
+    NotFound: 404;
+    MethodNotAllowed: 405;
+    RequestTimeout: 408;
+    Conflict: 409;
+    Gone: 410;
+    PreconditionFailed: 412;
+    RequestEntityTooLarge: 413;
+    TooManyRequests: 429;
+    RetryWith: 449;
+    InternalServerError: 500;
+    ServiceUnavailable: 503;
+    OperationPaused: 1200;
+    OperationCancelled: 1201;
 };
 
 // @public

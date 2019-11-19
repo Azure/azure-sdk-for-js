@@ -1,6 +1,33 @@
 # Breaking Changes
 
-## 2019.11 12.0.0-preview.5
+## 2019.11 12.0.0
+
+- The custom browser and retry policies that are specific to the Storage libraries have been
+  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
+  Below are the entities that now have the Storage prefix
+  - BrowserPolicy
+  - BrowserPolicyFactory
+  - RetryPolicy
+  - RetryPolicyType
+  - RetryOptions
+  - RetryPolicyFactory
+- `LeaseClient` is renamed to `BlobLeaseClient`. The helper method `getLeaseClient` on both `BlobClient` and `ContainerClient` is renamed to `getBlobLeaseClient`.
+- The properties in the StoragePipelineOptions interface have been updated as below
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`.
+  - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-blob/README.md#troubleshooting) section of our readme.
+  - The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+    corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Updates to `BlockBlobClient.uploadStream`
+  - `maxBuffers` attribute of is renamed to `maxConcurrency`
+- Bug Fix - The page object returned from `ContainerClient.listContainers` had its `containerItems` property set to an empty string instead of an empty array if the storage account has no blob containers. The issue is fixed in this new release.
+- The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported. In the case where convenience layer already defined a type with conflicting name, the model type is aliased with `Model` suffix. [PR #5567](https://github.com/Azure/azure-sdk-for-js/pull/5567)

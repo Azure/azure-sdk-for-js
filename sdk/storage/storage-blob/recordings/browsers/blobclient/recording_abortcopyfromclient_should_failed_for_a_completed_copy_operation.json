@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003455238600894",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157169620590008169",
    "query": {
     "restype": "container"
    },
@@ -10,78 +10,78 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:32 GMT",
-    "last-modified": "Wed, 02 Oct 2019 16:42:32 GMT",
+    "date": "Mon, 21 Oct 2019 22:16:45 GMT",
+    "last-modified": "Mon, 21 Oct 2019 22:16:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D74757855693E6\"",
-    "x-ms-request-id": "215f1345-201e-0080-4840-7993dc000000",
+    "etag": "\"0x8D756745C35F8AF\"",
+    "x-ms-request-id": "e880ca9a-801e-00cd-6f5d-88631e000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "143daf6d-92bd-46ed-bac1-eeb2aae12b7e",
+    "x-ms-client-request-id": "4250cae9-eccc-4822-9928-d277b23087c2",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003455238600894/blob157003455246103963",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157169620590008169/blob157169620602903615",
    "query": {},
    "requestBody": "Hello World",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "YeJLfssylmU=",
-    "date": "Wed, 02 Oct 2019 16:42:32 GMT",
-    "last-modified": "Wed, 02 Oct 2019 16:42:32 GMT",
+    "date": "Mon, 21 Oct 2019 22:16:45 GMT",
+    "last-modified": "Mon, 21 Oct 2019 22:16:46 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
-    "etag": "\"0x8D7475785620D10\"",
-    "x-ms-request-id": "215f1393-201e-0080-0b40-7993dc000000",
+    "etag": "\"0x8D756745C423D0F\"",
+    "x-ms-request-id": "e880cacd-801e-00cd-1e5d-88631e000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "56befed4-b5a7-4f47-8166-e4729d924095",
+    "x-ms-client-request-id": "548bf605-96dc-4e0f-a34b-b2894f06c3e9",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003455238600894/copiedblob157003455253807193",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157169620590008169/copiedblob157169620610101554",
    "query": {},
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:32 GMT",
-    "last-modified": "Wed, 02 Oct 2019 16:42:32 GMT",
+    "date": "Mon, 21 Oct 2019 22:16:45 GMT",
+    "last-modified": "Mon, 21 Oct 2019 22:16:46 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7475785760F01\"",
-    "x-ms-request-id": "215f13be-201e-0080-3440-7993dc000000",
+    "etag": "\"0x8D756745C5E0794\"",
+    "x-ms-request-id": "e880cb26-801e-00cd-705d-88631e000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-copy-id": "98b73d11-88cf-4304-9330-58260be7788d",
-    "x-ms-client-request-id": "f77ccbef-d39b-4770-8292-6fb28ba8b50e",
+    "x-ms-copy-id": "f1567236-3301-45c5-a596-b6410699017b",
+    "x-ms-client-request-id": "9b620755-99c9-4f7d-915b-ec51e58afeaf",
     "x-ms-copy-status": "success",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003455238600894/copiedblob157003455253807193",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157169620590008169/copiedblob157169620610101554",
    "query": {},
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidHeaderValue</Code><Message>The value for one of the HTTP headers is not in the correct format.\nRequestId:215f1405-201e-0080-7140-7993dc000000\nTime:2019-10-02T16:42:32.3627581Z</Message><HeaderName>x-ms-copy-source</HeaderName><HeaderValue>98b73d11-88cf-4304-9330-58260be7788d</HeaderValue></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidHeaderValue</Code><Message>The value for one of the HTTP headers is not in the correct format.\nRequestId:e880cb90-801e-00cd-555d-88631e000000\nTime:2019-10-21T22:16:46.2362584Z</Message><HeaderName>x-ms-copy-source</HeaderName><HeaderValue>f1567236-3301-45c5-a596-b6410699017b</HeaderValue></Error>",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:32 GMT",
+    "date": "Mon, 21 Oct 2019 22:16:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidHeaderValue",
     "content-type": "application/xml",
-    "x-ms-request-id": "215f1405-201e-0080-7140-7993dc000000",
+    "x-ms-request-id": "e880cb90-801e-00cd-555d-88631e000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "41effa6d-fa69-413e-afde-d74d1fcccbb0",
+    "x-ms-client-request-id": "12ea0f13-b98a-489d-8630-a36b7204d6c4",
     "content-length": "358"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003455238600894",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157169620590008169",
    "query": {
     "restype": "container"
    },
@@ -89,18 +89,18 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:32 GMT",
+    "date": "Mon, 21 Oct 2019 22:16:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "215f143c-201e-0080-1940-7993dc000000",
+    "x-ms-request-id": "e880cbbc-801e-00cd-7d5d-88631e000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "4a4df7c9-48ba-4556-ac7b-16ed80dd65b0",
+    "x-ms-client-request-id": "63bcd193-10a7-4f02-8c78-2c7739dc84e1",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container157003455238600894",
-  "blob": "blob157003455246103963",
-  "copiedblob": "copiedblob157003455253807193"
+  "container": "container157169620590008169",
+  "blob": "blob157169620602903615",
+  "copiedblob": "copiedblob157169620610101554"
  }
 }

@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./blob-storage-2019-02-02.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-02-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -228,6 +228,8 @@ directive:
     transform: >
       $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
 ### Add missing x-ms-parameter-location for PathRenameMode
@@ -251,19 +253,117 @@ directive:
 ```
 
 ### Rename eTag -> etag
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..responses..headers["ETag"]
-  transform: >
-    $["x-ms-client-name"] = "etag";
+  - from: swagger-document
+    where: $["x-ms-paths"]..responses..headers["ETag"]
+    transform: >
+      $["x-ms-client-name"] = "etag";
 ```
 
 ### Fix comment for BlobGetPropertiesHeaders Content-Length
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
-  transform: >
-    $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
+    transform: >
+      $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
 ```
+
+### Batch returns a 202
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"].post.responses
+    transform: >
+      const response = $["200"];
+      if (response) {
+        delete $["200"];
+        $["202"] = response;
+        $["202"]["x-az-public"] = false;
+        $["202"]["x-az-response-name"] = "BlobBatchResult";
+        $["202"]["x-az-response-schema-name"] = "Content";
+      }
+```
+
+### Rename sourceContentcrc64 -> sourceContentCrc64
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.SourceContentCRC64
+    transform: >
+      $["x-ms-client-name"] = "sourceContentCrc64";
+```
+
+### Change tier type - PremiumPageBlobAccessTierOptional -> AccessTierOptional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?PageBlob"]
+    transform: >
+      const param = $.put.parameters[2];
+      if (param && param["$ref"] && param["$ref"].endsWith("PremiumPageBlobAccessTierOptional")) {
+          const path = param["$ref"].replace(/[#].*$/, "#/parameters/AccessTierOptional");
+          $.put.parameters[2] = { "$ref": path };
+      }
+```
+
+### Remove PremiumPageBlobAccessTierOptional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      const response = $["PremiumPageBlobAccessTierOptional"];
+      if (response) {
+        delete $["PremiumPageBlobAccessTierOptional"];
+      }
+```
+
+### Add ClientRequestId attribute to the `BlobBatchSubmitBatchResponse` (missing in the unified swagger)
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"]["post"]["responses"]["202"]["headers"]
+    transform: >
+      if (!$["x-ms-client-request-id"]) {
+        $["x-ms-client-request-id"] = {};
+        $["x-ms-client-request-id"]["x-ms-client-name"] = "ClientRequestId";
+        $["x-ms-client-request-id"].type = "string";
+        $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
+      }
+```
+
+### Rename AccessPolicy start -> startsOn and expiry to expiresOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
+```
+
+### Rename KeyInfo start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyInfo.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+
+```
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

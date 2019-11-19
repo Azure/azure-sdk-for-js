@@ -1,7 +1,7 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
+import replace from "@rollup/plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
@@ -87,6 +87,9 @@ export function browserConfig(test = false, production = false) {
         // modules with built-in names must have a trailing slash.
         // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         // namedExports: { "events/": ["EventEmitter"] }
+        namedExports: {
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]

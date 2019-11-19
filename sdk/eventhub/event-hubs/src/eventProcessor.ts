@@ -7,7 +7,7 @@ import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
-import { PartitionLoadBalancer } from "./partitionLoadBalancer";
+import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 
@@ -27,12 +27,9 @@ export enum CloseReason {
 }
 
 /**
- * An interface representing the details on which instance of a `EventProcessor` owns processing
- * of a given partition from a consumer group of an Event Hub instance.
- *
- * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
+ * An interface representing data that can identify a partition.
  */
-export interface PartitionOwnership {
+export interface PartitionContext {
   /**
    * @property The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
@@ -47,13 +44,22 @@ export interface PartitionOwnership {
    */
   consumerGroupName: string;
   /**
-   * @property The unique identifier of the event processor.
-   */
-  ownerId: string;
-  /**
    * @property The identifier of the Event Hub partition
    */
   partitionId: string;
+}
+
+/**
+ * An interface representing the details on which instance of a `EventProcessor` owns processing
+ * of a given partition from a consumer group of an Event Hub instance.
+ *
+ * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
+ */
+export interface PartitionOwnership extends PartitionContext {
+  /**
+   * @property The unique identifier of the event processor.
+   */
+  ownerId: string;  
   /**
    * @property
    * The owner level
@@ -115,13 +121,55 @@ export interface PartitionManager {
    * @return A list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-  /**
+
+   /**
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
    * @return The new eTag on successful update.
    */
   updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
+
+/**
+ * Configures batch related options for the event processor
+ */
+export interface EventProcessorBatchOptions {
+  /**
+   * The max size of the batch of events passed each time to user code for processing.
+   */
+  maxBatchSize?: number;
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
+  maxWaitTimeInSeconds?: number;
+}
+
+/**
+ * Common options for configuring `EventProcessor`, minus options that are only 
+ * used internally (like `partitionLoadBalancer`)
+ */
+export interface EventProcessorOptions {
+  /**
+   * @property
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
+
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
+   * additional network bandwidth consumption that is generally a favorable trade-off when considered
+   * against periodically making requests for partition properties using the Event Hub client.
+   */
+  trackLastEnqueuedEventInfo?: boolean;
+
+  /**
+   * The event position to use when claiming a partition if not already
+   * initialized.
+   * 
+   * Defaults to EventPosition.earliest()
+   */
+  defaultEventPosition?: EventPosition;  
 }
 
 /**
@@ -134,32 +182,17 @@ export interface PartitionManager {
  * Example usage with default values:
  * ```ts
  * {
- *     maxBatchSize: 1,
- *     maxWaitTimeInSeconds: 60
- * }
- * ```
- */
-export interface EventProcessorOptions {
+  *     maxBatchSize: 1,
+  *     maxWaitTimeInSeconds: 60
+  * }
+  * ```
+  * @internal
+  */
+export interface FullEventProcessorOptions extends EventProcessorOptions, Required<EventProcessorBatchOptions> {
   /**
-   * The max size of the batch of events passed each time to user code for processing.
+   * A load balancer to use
    */
-  maxBatchSize?: number;
-  /**
-   * The maximum amount of time to wait to build up the requested message count before
-   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
-   */
-  maxWaitTimeInSeconds?: number;
-  /**
-   * @property
-   * Indicates whether or not the consumer should request information on the last enqueued event on its
-   * associated partition, and track that information as events are received.
-
-   * When information about the partition's last enqueued event is being tracked, each event received 
-   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
-   * additional network bandwidth consumption that is generally a favorable trade-off when considered
-   * against periodically making requests for partition properties using the Event Hub client.
-   */
-  trackLastEnqueuedEventInfo?: boolean;
+  partitionLoadBalancer ?: PartitionLoadBalancer
 }
 
 /**
@@ -196,7 +229,7 @@ export class EventProcessor {
   private _consumerGroupName: string;
   private _eventHubClient: EventHubClient;
   private _partitionProcessorClass: typeof PartitionProcessor;
-  private _processorOptions: EventProcessorOptions;
+  private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string = uuid();
   private _isRunning: boolean = false;
@@ -222,18 +255,16 @@ export class EventProcessor {
     eventHubClient: EventHubClient,
     PartitionProcessorClass: typeof PartitionProcessor,
     partitionManager: PartitionManager,
-    options?: EventProcessorOptions
+    options: FullEventProcessorOptions
   ) {
-    if (!options) options = {};
-
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
     this._partitionProcessorClass = PartitionProcessorClass;
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
-    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
-    this._partitionLoadBalancer = new PartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
+    this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**
@@ -298,9 +329,9 @@ export class EventProcessor {
       partitionProcessor.partitionManager = this._partitionManager;
       partitionProcessor.eventProcessorId = this.id;
 
-      const eventPosition = ownershipRequest.sequenceNumber
+      const eventPosition = ownershipRequest.sequenceNumber != null
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : EventPosition.earliest();
+        : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -337,18 +368,23 @@ export class EventProcessor {
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
-        const partitionIds = await this._eventHubClient.getPartitionIds();
+        const partitionIds = await this._eventHubClient.getPartitionIds({
+          abortSignal: abortSignal
+        });
+
         if (abortSignal.aborted) {
           return;
         }
 
         if (partitionIds.length > 0) {
-          const partitionToClaim = this._partitionLoadBalancer.loadBalance(
+          const partitionsToClaim = this._partitionLoadBalancer.loadBalance(
             partitionOwnershipMap,
             partitionIds
           );
-          if (partitionToClaim) {
-            await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+          if (partitionsToClaim) {
+            for (const partitionToClaim of partitionsToClaim) {
+              await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+            }
           }
         }
 
@@ -384,6 +420,10 @@ export class EventProcessor {
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
     this._loopTask = this._runLoop(this._abortController.signal);
+  }
+
+  isRunning() {
+    return this._isRunning;
   }
 
   /**

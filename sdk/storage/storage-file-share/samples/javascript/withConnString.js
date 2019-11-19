@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { FileServiceClient } = require("../.."); // Change to "@azure/storage-file-share" in your package
+const { ShareServiceClient } = require("../.."); // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Create File Service Client from Account connection string or SAS connection string
@@ -10,7 +10,7 @@ async function main() {
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   const STORAGE_CONNECTION_STRING = process.env.STORAGE_CONNECTION_STRING || "";
   // Note - Account connection string can only be used in node.
-  const serviceClient = FileServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
+  const serviceClient = ShareServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   console.log(`List shares`);
   let i = 1;

@@ -122,6 +122,12 @@ export const PolicyAssignment: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      enforcementMode: {
+        serializedName: "properties.enforcementMode",
+        type: {
+          name: "String"
+        }
+      },
       id: {
         readOnly: true,
         serializedName: "id",

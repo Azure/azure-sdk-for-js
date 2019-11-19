@@ -58,7 +58,7 @@ export class SASQueryParameters {
    * @type {Date}
    * @memberof SASQueryParameters
    */
-  public readonly startTime?: Date;
+  public readonly startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The expiry time for this SAS token.
@@ -66,7 +66,7 @@ export class SASQueryParameters {
    * @type {Date}
    * @memberof SASQueryParameters
    */
-  public readonly expiryTime?: Date;
+  public readonly expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
@@ -199,7 +199,7 @@ export class SASQueryParameters {
    * @type {Date}
    * @memberof SASQueryParameters
    */
-  private readonly signedStart?: Date;
+  private readonly signedStartsOn?: Date;
 
   /**
    * The date-time the key expires.
@@ -209,7 +209,7 @@ export class SASQueryParameters {
    * @type {Date}
    * @memberof SASQueryParameters
    */
-  private readonly signedExpiry?: Date;
+  private readonly signedExpiresOn?: Date;
 
   /**
    * Abbreviation of the Azure Storage service that accepts the user delegation key.
@@ -257,8 +257,8 @@ export class SASQueryParameters {
    * @param {string} [services] Representing the storage services being accessed (only for Account SAS)
    * @param {string} [resourceTypes] Representing the storage resource types being accessed (only for Account SAS)
    * @param {SASProtocol} [protocol] Representing the allowed HTTP protocol(s)
-   * @param {Date} [startTime] Representing the start time for this SAS token
-   * @param {Date} [expiryTime] Representing the expiry time for this SAS token
+   * @param {Date} [startsOn] Representing the start time for this SAS token
+   * @param {Date} [expiresOn] Representing the expiry time for this SAS token
    * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
    * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
    * @param {string} [resource] Representing the storage container or blob (only for Service SAS)
@@ -277,8 +277,8 @@ export class SASQueryParameters {
     services?: string,
     resourceTypes?: string,
     protocol?: SASProtocol,
-    startTime?: Date,
-    expiryTime?: Date,
+    startsOn?: Date,
+    expiresOn?: Date,
     ipRange?: SasIPRange,
     identifier?: string,
     resource?: string,
@@ -292,10 +292,10 @@ export class SASQueryParameters {
     this.version = version;
     this.services = services;
     this.resourceTypes = resourceTypes;
-    this.expiryTime = expiryTime;
+    this.expiresOn = expiresOn;
     this.permissions = permissions;
     this.protocol = protocol;
-    this.startTime = startTime;
+    this.startsOn = startsOn;
     this.ipRangeInner = ipRange;
     this.identifier = identifier;
     this.resource = resource;
@@ -309,8 +309,8 @@ export class SASQueryParameters {
     if (userDelegationKey) {
       this.signedOid = userDelegationKey.signedObjectId;
       this.signedTenentId = userDelegationKey.signedTenantId;
-      this.signedStart = userDelegationKey.signedStart;
-      this.signedExpiry = userDelegationKey.signedExpiry;
+      this.signedStartsOn = userDelegationKey.signedStartsOn;
+      this.signedExpiresOn = userDelegationKey.signedExpiresOn;
       this.signedService = userDelegationKey.signedService;
       this.signedVersion = userDelegationKey.signedVersion;
     }
@@ -367,14 +367,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startTime ? truncatedISO8061Date(this.startTime, false) : undefined
+            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiryTime ? truncatedISO8061Date(this.expiryTime, false) : undefined
+            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined
           );
           break;
         case "sip":
@@ -397,14 +397,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedStart ? truncatedISO8061Date(this.signedStart, false) : undefined
+            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined
           );
           break;
         case "ske": // Signed key expiry time
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedExpiry ? truncatedISO8061Date(this.signedExpiry, false) : undefined
+            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined
           );
           break;
         case "sks": // Signed key service

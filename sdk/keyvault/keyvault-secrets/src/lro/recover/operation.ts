@@ -7,18 +7,25 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { SecretProperties, SecretClientInterface } from "../../secretsModels";
 
 /**
- * @interface
  * An interface representing the state of a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperationState
   extends PollOperationState<SecretProperties> {
+  /**
+   * The name of the secret.
+   */
   name: string;
+  /**
+   * Options for the core-http requests.
+   */
   requestOptions?: RequestOptionsBase;
+  /**
+   * An interface representing a SecretClient. For internal use.
+   */
   client: SecretClientInterface;
 }
 
 /**
- * @interface
  * An interface representing a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperation

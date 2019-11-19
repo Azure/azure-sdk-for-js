@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import {
+  HttpResponse,
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings
+} from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/types";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -26,7 +32,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
@@ -35,14 +41,14 @@ import {
   getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { DevelopmentConnectionString } from "./utils/constants";
 import { Metadata } from "./models";
 
 /**
- * Options to configure Queue - Create operation
+ * Options to configure {@link QueueClient.create} operation
  *
  * @export
  * @interface QueueCreateOptions
@@ -53,7 +59,7 @@ export interface QueueCreateOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -67,7 +73,7 @@ export interface QueueCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Get Properties operation
+ * Options to configure {@link QueueClient.getProperties} operation
  *
  * @export
  * @interface QueueGetPropertiesOptions
@@ -78,13 +84,13 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options to configure Queue - Delete operation
+ * Options to configure {@link QueueClient.delete} operation
  *
  * @export
  * @interface QueueDeleteOptions
@@ -95,13 +101,13 @@ export interface QueueDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueDeleteOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options to configure Queue - Get Access Policy operation
+ * Options to configure {@link QueueClient.getAccessPolicy} operation
  *
  * @export
  * @interface QueueGetAccessPolicyOptions
@@ -112,13 +118,13 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options to configure Queue - Set Access Policy operation
+ * Options to configure {@link QueueClient.setAccessPolicy} operation
  *
  * @export
  * @interface QueueSetAccessPolicyOptions
@@ -129,13 +135,13 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options to configure Queue - Set Metadata operation
+ * Options to configure {@link QueueClient.setMetadata} operation
  *
  * @export
  * @interface QueueSetMetadataOptions
@@ -146,7 +152,7 @@ export interface QueueSetMetadataOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -167,13 +173,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
-    start: Date;
+    startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
-    expiry: Date;
+    expiresOn: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
@@ -182,6 +188,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the {@link QueueClient.getAccessPolicy} operation.
+ */
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -205,7 +214,7 @@ export declare type QueueGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Messages - Clear operation
+ * Options to configure {@link QueueClient.clearMessages} operation
  *
  * @export
  * @interface QueueClearMessagesOptions
@@ -216,13 +225,13 @@ export interface QueueClearMessagesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueClearMessagesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options to configure Messages - Send operation
+ * Options to configure {@link QueueClient.sendMessage} operation
  *
  * @export
  * @interface QueueSendMessageOptions
@@ -231,7 +240,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /**
- * Options to configure Messages - Dequeue operation
+ * Options to configure {@link QueueClient.receiveMessages} operation
  *
  * @export
  * @interface QueueReceiveMessageOptions
@@ -240,7 +249,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /**
- * Options to configure Messages - Peek operation
+ * Options to configure {@link QueueClient.peekMessages} operation
  *
  * @export
  * @interface QueuePeekMessagesOptions
@@ -248,6 +257,9 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
+/**
+ * Contains the response data for the {@link QueueClient.sendMessage} operation.
+ */
 export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the sent Message.
@@ -294,8 +306,16 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+/**
+ * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
+ *
+ * See: {@link QueueReceiveMessageResponse}
+ */
 export declare type ReceivedMessageItem = DequeuedMessageItem;
 
+/**
+ * Contains the response data for the {@link QueueClient.receiveMessages} operation.
+ */
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -318,6 +338,9 @@ export declare type QueueReceiveMessageResponse = {
     };
   };
 
+/**
+ * Contains the response data for the {@link QueueClient.peekMessages} operation.
+ */
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -341,7 +364,7 @@ export declare type QueuePeekMessagesResponse = {
   };
 
 /**
- * Options to configure MessageId - Delete operation
+ * Options to configure the {@link QueueClient.deleteMessage} operation
  *
  * @export
  * @interface QueueDeleteMessageOptions
@@ -352,17 +375,28 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueDeleteMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the {@link QueueClient.updateMessage} operation.
+ */
 export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+/**
+ * Contains response data for the {@link QueueClient.deleteMessage} operation.
+ */
 export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+
+/**
+ * Contains response data for the {@link QueueClient.clearMessages} operation.
+ */
 export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
- * Options to configure MessageId - Update operation
+ * Options to configure {@link QueueClient.updateMessage} operation
  *
  * @export
  * @interface QueueUpdateMessageOptions
@@ -373,7 +407,7 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof QueueUpdateMessageOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -403,6 +437,10 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
   private _name: string;
   private _messagesUrl: string;
+
+  /**
+   * The name of the queue.
+   */
   public get name(): string {
     return this._name;
   }
@@ -417,10 +455,10 @@ export class QueueClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
+  constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -428,16 +466,14 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of QueueClient.
@@ -454,12 +490,12 @@ export class QueueClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline
       | string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     options = options || {};
     let pipeline: Pipeline;
@@ -469,18 +505,18 @@ export class QueueClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrQueueName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -488,17 +524,17 @@ export class QueueClient extends StorageClient {
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
-      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, queueName: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const queueName = credentialOrPipelineOrQueueName;
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -546,11 +582,17 @@ export class QueueClient extends StorageClient {
    * @param {QueueCreateOptions} [options] Options to Queue create operation.
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
+   *
+   * @example
+   * ```js
+   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * const createQueueResponse = await queueClient.create();
+   * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-create", options.tracingOptions);
     try {
-      return this.queueContext.create({
+      return await this.queueContext.create({
         ...options,
         abortSignal: options.abortSignal,
         spanOptions
@@ -573,11 +615,19 @@ export class QueueClient extends StorageClient {
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
+   *
+   * @example
+   * ```js
+   * const deleteQueueResponse = await queueClient.delete();
+   * console.log(
+   *   "Delete queue successfully, service assigned request Id:", deleteQueueResponse.requestId
+   * );
+   * ```
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
     try {
-      return this.queueContext.deleteMethod({
+      return await this.queueContext.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -604,9 +654,9 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<QueueGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.tracingOptions);
     try {
-      return this.queueContext.getProperties({
+      return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -637,9 +687,9 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<QueueSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.tracingOptions);
     try {
-      return this.queueContext.setMetadata({
+      return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -670,7 +720,7 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
@@ -690,9 +740,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiry: new Date(identifier.accessPolicy.expiry),
+            expiresOn: new Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: new Date(identifier.accessPolicy.start)
+            startsOn: new Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
@@ -714,7 +764,6 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
    * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
    * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
@@ -724,21 +773,21 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<QueueSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.tracingOptions);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
       }
 
-      return this.queueContext.setAccessPolicy({
+      return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
         spanOptions
@@ -765,9 +814,9 @@ export class QueueClient extends StorageClient {
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
   ): Promise<QueueClearMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.tracingOptions);
     try {
-      return this.messagesContext.clear({
+      return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -783,7 +832,7 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * SendMessage adds a new message to the back of a queue. The visibility timeout specifies how long
+   * sendMessage adds a new message to the back of a queue. The visibility timeout specifies how long
    * the message should be invisible to Dequeue and Peek operations.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
@@ -793,12 +842,21 @@ export class QueueClient extends StorageClient {
    * @param {QueueSendMessageOptions} [options] Options to send messages operation.
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
+   *
+   * @example
+   * ```js
+   * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
+   * console.log(
+   *   "Sent message successfully, service assigned message Id:", sendMessageResponse.messageId,
+   *   "service assigned request Id:", sendMessageResponse.requestId
+   * );
+   * ```
    */
   public async sendMessage(
     messageText: string,
     options: QueueSendMessageOptions = {}
   ): Promise<QueueSendMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.tracingOptions);
     try {
       const response = await this.messagesContext.enqueue(
         {
@@ -836,17 +894,34 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Dequeue retrieves one or more messages from the front of the queue.
+   * receiveMessages retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
    * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
+   *
+   * @example
+   * ```js
+   * const response = await queueClient.receiveMessages();
+   * if (response.receivedMessageItems.length == 1) {
+   *   const receivedMessageItem = response.receivedMessageItems[0];
+   *   console.log("Processing & deleting message with content:", receivedMessageItem.messageText);
+   *   const deleteMessageResponse = await queueClient.deleteMessage(
+   *     receivedMessageItem.messageId,
+   *     receivedMessageItem.popReceipt
+   *   );
+   *   console.log(
+   *     "Delete message succesfully, service assigned request Id:",
+   *     deleteMessageResponse.requestId
+   *   );
+   * }
+   * ```
    */
   public async receiveMessages(
     options: QueueReceiveMessageOptions = {}
   ): Promise<QueueReceiveMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.dequeue({
         abortSignal: options.abortSignal,
@@ -881,17 +956,23 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
+   * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
    * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
+   *
+   * @example
+   * ```js
+   * const peekMessagesResponse = await queueClient.peekMessages();
+   * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);
+   * ```
    */
   public async peekMessages(
     options: QueuePeekMessagesOptions = {}
   ): Promise<QueuePeekMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.peek({
         abortSignal: options.abortSignal,
@@ -926,9 +1007,10 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Delete permanently removes the specified message from its queue.
+   * deleteMessage permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
+   * @param {string} messageId Id of the message.
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
    * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
@@ -939,9 +1021,9 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     options: QueueDeleteMessageOptions = {}
   ): Promise<QueueDeleteMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+      return await this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -962,6 +1044,7 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
+   * @param {string} messageId Id of the message
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {string} message Message to update.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
@@ -980,9 +1063,9 @@ export class QueueClient extends StorageClient {
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).update(
+      return await this.getMessageIdContext(messageId).update(
         {
           messageText: message
         },

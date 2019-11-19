@@ -187,7 +187,7 @@ export interface ActiveDirectory {
    */
   domain?: string;
   /**
-   * Comma separated list of DNS server IP addresses for the Active Directory domain
+   * Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain
    */
   dns?: string;
   /**
@@ -231,7 +231,7 @@ export interface NetAppAccount extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -269,7 +269,7 @@ export interface NetAppAccountPatch extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -307,7 +307,7 @@ export interface CapacityPool extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * poolId. UUID v4 used to identify the Pool
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -356,7 +356,7 @@ export interface CapacityPoolPatch extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * size. Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must
    * be multiply of 4398046511104). Default value: 4398046511104.
@@ -416,6 +416,40 @@ export interface VolumePropertiesExportPolicy {
 }
 
 /**
+ * Replication properties
+ */
+export interface ReplicationObject {
+  /**
+   * replicationId. Id
+   */
+  replicationId?: string;
+  /**
+   * endpointType. Indicates whether the local volume is the source or destination for the Volume
+   * Replication
+   */
+  endpointType: string;
+  /**
+   * replicationSchedule. Schedule
+   */
+  replicationSchedule: string;
+  /**
+   * remoteVolumeResourceId. The resource ID of the remote volume.
+   */
+  remoteVolumeResourceId: string;
+}
+
+/**
+ * DataProtection volume, can have a replication object
+ * @summary DataProtection
+ */
+export interface VolumePropertiesDataProtection {
+  /**
+   * Replication. Replication properties
+   */
+  replication?: ReplicationObject;
+}
+
+/**
  * Volume resource
  */
 export interface Volume extends BaseResource {
@@ -441,7 +475,7 @@ export interface Volume extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * FileSystem ID. Unique FileSystem Identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -494,6 +528,14 @@ export interface Volume extends BaseResource {
    * mountTargets. List of mount targets
    */
   mountTargets?: any;
+  /**
+   * What type of volume is this
+   */
+  volumeType?: string;
+  /**
+   * DataProtection. DataProtection volume, can have a replication object
+   */
+  dataProtection?: VolumePropertiesDataProtection;
 }
 
 /**
@@ -533,7 +575,7 @@ export interface VolumePatch extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
    * 'Premium', 'Ultra'. Default value: 'Premium'.
@@ -570,9 +612,14 @@ export interface MountTarget {
    */
   readonly name?: string;
   /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * mountTargetId. UUID v4 used to identify the MountTarget
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -644,7 +691,7 @@ export interface Snapshot extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
   /**
    * snapshotId. UUID v4 used to identify the Snapshot
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -673,7 +720,7 @@ export interface SnapshotPatch extends BaseResource {
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -683,7 +730,7 @@ export interface SnapshotsUpdateOptionalParams extends msRest.RequestOptionsBase
   /**
    * Resource tags
    */
-  tags?: any;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -792,7 +839,7 @@ export type OperationsListResponse = OperationListResult & {
 /**
  * Contains response data for the checkNameAvailability operation.
  */
-export type CheckNameAvailabilityResponse = ResourceNameAvailability & {
+export type NetAppResourceCheckNameAvailabilityResponse = ResourceNameAvailability & {
   /**
    * The underlying HTTP response.
    */
@@ -812,7 +859,7 @@ export type CheckNameAvailabilityResponse = ResourceNameAvailability & {
 /**
  * Contains response data for the checkFilePathAvailability operation.
  */
-export type CheckFilePathAvailabilityResponse = ResourceNameAvailability & {
+export type NetAppResourceCheckFilePathAvailabilityResponse = ResourceNameAvailability & {
   /**
    * The underlying HTTP response.
    */

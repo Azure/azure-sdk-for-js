@@ -78,7 +78,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.pageSize = options["maxItemCount"];
     }
 
-    this.requestContinuation = options ? options.continuation : null;
+    this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
 
@@ -452,51 +452,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
-      });
-    });
-  }
-
-  /**
-   * Retrieve the current element on the ParallelQueryExecutionContextBase.
-   * @memberof ParallelQueryExecutionContextBase
-   * @instance
-   * @param {callback} callback - Function to execute for the current element. \
-   * the function takes two parameters error, element.
-   */
-  public async current(): Promise<Response<any>> {
-    if (this.err) {
-      this.err.headerse = this._getAndResetActiveResponseHeaders();
-      throw this.err;
-    }
-    return new Promise<Response<any>>((resolve, reject) => {
-      this.sem.take(() => {
-        try {
-          if (this.err) {
-            this.err = this._getAndResetActiveResponseHeaders();
-            throw this.err;
-          }
-
-          if (this.orderByPQ.size() === 0) {
-            return resolve({
-              result: undefined,
-              headers: this._getAndResetActiveResponseHeaders()
-            });
-          }
-
-          const ifCallback = () => {
-            // Reexcute the function
-            return resolve(this.current());
-          };
-
-          const elseCallback = () => {
-            const documentProducer = this.orderByPQ.peek();
-            return resolve(documentProducer.current());
-          };
-
-          this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
-        } finally {
-          this.sem.leave();
-        }
       });
     });
   }

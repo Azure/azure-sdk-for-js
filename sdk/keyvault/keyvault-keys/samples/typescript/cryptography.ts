@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
 
-  const cryptoClient = new CryptographyClient(url, myWorkKey.key!.kid!, credential);
+  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";

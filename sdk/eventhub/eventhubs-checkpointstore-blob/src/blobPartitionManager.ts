@@ -35,8 +35,12 @@ export class BlobPartitionManager implements PartitionManager {
     const partitionOwnershipArray: PartitionOwnership[] = [];
     try {
       for await (const blob of this._containerClient.listBlobsFlat({
-        include: ["metadata"],
-        prefix: BlobPartitionManager.getBlobPrefix({ fullyQualifiedNamespace, eventHubName, consumerGroupName }),
+        includeMetadata: true,
+        prefix: BlobPartitionManager.getBlobPrefix({
+          fullyQualifiedNamespace,
+          eventHubName,
+          consumerGroupName
+        })
       })) {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
@@ -46,9 +50,9 @@ export class BlobPartitionManager implements PartitionManager {
           consumerGroupName,
           ownerId: blob.metadata!.ownerid,
           partitionId: blobName,
-          offset: blob.metadata && blob.metadata.offset ? parseInt(blob.metadata.offset) : -1,
+          offset: blob.metadata && blob.metadata.offset != null ? parseInt(blob.metadata.offset) : -1,
           sequenceNumber:
-            blob.metadata && blob.metadata.sequencenumber
+            blob.metadata && blob.metadata.sequencenumber != null
               ? parseInt(blob.metadata.sequencenumber)
               : -1,
           lastModifiedTimeInMS:
@@ -75,7 +79,7 @@ export class BlobPartitionManager implements PartitionManager {
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
-      const blobName = BlobPartitionManager.getBlobPrefix(ownership)
+      const blobName = BlobPartitionManager.getBlobPrefix(ownership);
       try {
         let updatedBlobResponse;
         const blobClient = this._containerClient.getBlobClient(blobName);
@@ -83,14 +87,12 @@ export class BlobPartitionManager implements PartitionManager {
           updatedBlobResponse = await blobClient.setMetadata(
             {
               OwnerId: ownership.ownerId ? ownership.ownerId : "",
-              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
-              Offset: ownership.offset ? ownership.offset.toString() : ""
+              SequenceNumber: ownership.sequenceNumber != null ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset != null ? ownership.offset.toString() : ""
             },
             {
-              blobAccessConditions: {
-                modifiedAccessConditions: {
-                  ifMatch: ownership.eTag
-                }
+              conditions: {
+                ifMatch: ownership.eTag
               }
             }
           );
@@ -99,20 +101,18 @@ export class BlobPartitionManager implements PartitionManager {
           updatedBlobResponse = await blockBlobClient.upload("", 0, {
             metadata: {
               OwnerId: ownership.ownerId,
-              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
-              Offset: ownership.offset ? ownership.offset.toString() : ""
+              SequenceNumber: ownership.sequenceNumber != null ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset != null ? ownership.offset.toString() : ""
             },
-            accessConditions: {
-              modifiedAccessConditions: {
-                ifNoneMatch: "*"
-              }
+            conditions: {
+              ifNoneMatch: "*"
             }
           });
         }
         if (updatedBlobResponse.lastModified) {
           updatedBlobResponse.lastModified.getTime();
         }
-        ownership.eTag = updatedBlobResponse.eTag;
+        ownership.eTag = updatedBlobResponse.etag;
         partitionOwnershipArray.push(ownership);
         log.blobPartitionManager(
           `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
@@ -136,10 +136,14 @@ export class BlobPartitionManager implements PartitionManager {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     throwTypeErrorIfParameterMissing("updateCheckpoint", "ownerId", checkpoint.ownerId);
-    throwTypeErrorIfParameterMissing("updateCheckpoint", "sequenceNumber", checkpoint.sequenceNumber);
+    throwTypeErrorIfParameterMissing(
+      "updateCheckpoint",
+      "sequenceNumber",
+      checkpoint.sequenceNumber
+    );
     throwTypeErrorIfParameterMissing("updateCheckpoint", "offset", checkpoint.offset);
 
-    const blobName = BlobPartitionManager.getBlobPrefix(checkpoint)
+    const blobName = BlobPartitionManager.getBlobPrefix(checkpoint);
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
       const properties = await blobClient.getProperties();
@@ -162,10 +166,8 @@ export class BlobPartitionManager implements PartitionManager {
           Offset: checkpoint.offset.toString()
         },
         {
-          blobAccessConditions: {
-            modifiedAccessConditions: {
-              ifMatch: checkpoint.eTag
-            }
+          conditions: {
+            ifMatch: checkpoint.eTag
           }
         }
       );
@@ -173,10 +175,10 @@ export class BlobPartitionManager implements PartitionManager {
       log.blobPartitionManager(
         `[${checkpoint.ownerId}] Updated checkpoint successfully for partition: ${checkpoint.partitionId}`,
         `LastModifiedTime: ${metadataResponse.lastModified!.toISOString()}, ETag: ${
-          metadataResponse.eTag
+          metadataResponse.etag
         }`
       );
-      return metadataResponse.eTag!;
+      return metadataResponse.etag!;
     } catch (err) {
       log.error(
         `${[checkpoint.ownerId]} Error occurred while upating the checkpoint for partition: ${
@@ -192,7 +194,12 @@ export class BlobPartitionManager implements PartitionManager {
     }
   }
 
-  private static getBlobPrefix(params: { fullyQualifiedNamespace: string; eventHubName: string; consumerGroupName: string; partitionId?: string }): string {
+  private static getBlobPrefix(params: {
+    fullyQualifiedNamespace: string;
+    eventHubName: string;
+    consumerGroupName: string;
+    partitionId?: string;
+  }): string {
     // none of these are case-sensitive in eventhubs so we need to make sure we don't accidentally allow
     // the user to create a case-sensitive blob for their state!
     const consumerGroupName = params.consumerGroupName.toLowerCase();

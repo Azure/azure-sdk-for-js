@@ -2,18 +2,18 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { ShareServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential

@@ -78,7 +78,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -92,16 +92,41 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
-  let fields: (keyof KeyValue)[] | undefined;
+  let fieldsToGet: (keyof KeyValue)[] | undefined;
 
   if (listConfigOptions.fields) {
-    fields = listConfigOptions.fields.map((opt) => (opt === "readOnly" ? "locked" : opt));
+    fieldsToGet = listConfigOptions.fields.map((opt) => {
+      if (opt === "isReadOnly") {
+        return "locked";
+      }
+
+      return opt;
+    });
+  }
+
+  let acceptDatetime: string | undefined = undefined;
+
+  if (listConfigOptions.acceptDateTime) {
+    acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
 
   return {
     key,
     label,
-    select: fields
+    acceptDatetime,
+    select: fieldsToGet
+  };
+}
+
+/**
+ * Handles translating a Date acceptDateTime into a string as needed by the API
+ * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @internal
+ * @ignore
+ */
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): { acceptDatetime?: string; }{
+  return {
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
   };
 }
 
@@ -137,7 +162,7 @@ export function makeConfigurationSettingEmpty(
     "etag",
     "label",
     "lastModified",
-    "readOnly",
+    "isReadOnly",
     "tags",
     "value"
   ];
@@ -154,7 +179,7 @@ export function makeConfigurationSettingEmpty(
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const obj: ConfigurationSetting & KeyValue = {
     ...kvp,
-    readOnly: !!kvp.locked
+    isReadOnly: !!kvp.locked
   };
 
   delete obj.locked;

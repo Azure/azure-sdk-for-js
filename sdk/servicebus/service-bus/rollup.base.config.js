@@ -4,8 +4,8 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
-import replace from "rollup-plugin-replace";
+import json from "@rollup/plugin-json";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
@@ -144,7 +144,11 @@ export function browserConfig({ test = false, production = false } = {}) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          long: ["ZERO"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires

@@ -4,7 +4,7 @@ import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../uti
 import {
   newPipeline,
   PageBlobClient,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ContainerClient,
   BlobClient,
   generateBlobSASQueryParameters,
@@ -135,12 +135,12 @@ describe("PageBlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512);
@@ -155,7 +155,7 @@ describe("PageBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
 
     await newClient.create(512);
@@ -165,7 +165,7 @@ describe("PageBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -191,7 +191,7 @@ describe("PageBlobClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
 
@@ -251,12 +251,12 @@ describe("PageBlobClient Node.js only", () => {
 
     // Get a SAS for blobURL
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate();
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")

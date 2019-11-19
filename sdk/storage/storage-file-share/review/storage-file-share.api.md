@@ -10,21 +10,21 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TransferProgressEvent } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -62,13 +62,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -85,15 +85,11 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
-export class BrowserPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "BrowserPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BrowserPolicy;
-}
-
-// @public
 export interface CommonOptions {
+    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
+    // 
     // (undocumented)
-    spanOptions?: SpanOptions;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -118,49 +114,12 @@ export type DeleteSnapshotsOptionType = 'include';
 
 export { deserializationPolicy }
 
-// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export class DirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
-    createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
-        fileClient: FileClient;
-        fileCreateResponse: FileCreateResponse;
-    }>;
-    createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
-        directoryClient: DirectoryClient;
-        directoryCreateResponse: DirectoryCreateResponse;
-    }>;
-    delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
-    forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
-    getDirectoryClient(subDirectoryName: string): DirectoryClient;
-    getFileClient(fileName: string): FileClient;
-    getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
-    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
-        kind: "file";
-    } & FileItem | {
-        kind: "directory";
-    } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
-    listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    // (undocumented)
-    readonly path: string;
-    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
-    setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
-    setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    // (undocumented)
-    readonly shareName: string;
-    }
-
 // Warning: (ae-forgotten-export) The symbol "FileAndDirectoryCreateCommonOptions" needs to be exported by the entry point index.d.ts
 // 
 // @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
     metadata?: Metadata;
 }
 
@@ -323,43 +282,9 @@ export interface FileClearRangeOptions extends CommonOptions {
 }
 
 // @public
-export class FileClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
-    clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
-    create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
-    delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
-    downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
-    forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
-    getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
-    getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
-    listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    // (undocumented)
-    readonly path: string;
-    resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
-    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
-    setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
-    setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
-    setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    // (undocumented)
-    readonly shareName: string;
-    startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
-    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
-    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
-    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
-    uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
-    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
-}
-
-// @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
     fileHttpHeaders?: FileHttpHeaders;
     metadata?: Metadata;
 }
@@ -591,31 +516,15 @@ export interface FileSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
-    expiryTime?: Date;
+    expiresOn?: Date;
     filePath?: string;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: FileSASPermissions;
     protocol?: SASProtocol;
     shareName: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
-}
-
-// @public
-export class FileServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    createShare(shareName: string, options?: ShareCreateOptions): Promise<{
-        shareCreateResponse: ShareCreateResponse;
-        shareClient: ShareClient;
-    }>;
-    deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): FileServiceClient;
-    getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
-    getShareClient(shareName: string): ShareClient;
-    listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
-    setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
 
 // @public
@@ -735,10 +644,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
 }
 
 // @public
-export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
-export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
 export interface HandleItem {
@@ -756,13 +665,9 @@ export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
@@ -783,8 +688,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HttpClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
 // @public
@@ -808,30 +712,6 @@ export { RequestPolicyOptions }
 export { RestError }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: RetryPolicyType;
-    readonly tryTimeoutInMs?: number;
-}
-
-// @public
-export class RetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: RetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "RetryPolicy" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
-    }
-
-// @public
-export enum RetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
-}
-
-// @public
 export interface SasIPRange {
     end?: string;
     start: string;
@@ -845,13 +725,13 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
-    readonly expiryTime?: Date;
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -860,7 +740,7 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
 }
@@ -919,18 +799,20 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
+// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
+    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
-        directoryClient: DirectoryClient;
+        directoryClient: ShareDirectoryClient;
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
-        fileClient: FileClient;
+        fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
     createPermission(filePermission: string, options?: ShareCreatePermissionOptions): Promise<ShareCreatePermissionResponse>;
@@ -939,16 +821,15 @@ export class ShareClient extends StorageClient {
     deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
-    getDirectoryClient(directoryName: string): DirectoryClient;
+    getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
-    readonly rootDirectoryClient: DirectoryClient;
+    readonly name: string;
+    readonly rootDirectoryClient: ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
-    // (undocumented)
-    readonly shareName: string;
     withSnapshot(snapshot: string): ShareClient;
 }
 
@@ -1017,17 +898,71 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
 };
 
 // @public
-export class SharedKeyCredential extends Credential {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
+export class ShareDirectoryClient extends StorageClient {
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
+    createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
+        fileClient: ShareFileClient;
+        fileCreateResponse: FileCreateResponse;
+    }>;
+    createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
+        directoryClient: ShareDirectoryClient;
+        directoryCreateResponse: DirectoryCreateResponse;
+    }>;
+    delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
+    forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
+    getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
+    getFileClient(fileName: string): ShareFileClient;
+    getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
+    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
+        kind: "file";
+    } & FileItem | {
+        kind: "directory";
+    } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
+    listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
+    readonly name: string;
+    readonly path: string;
+    setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
+    setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
+    readonly shareName: string;
+    }
 
 // @public
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
+export class ShareFileClient extends StorageClient {
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
+    clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
+    create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
+    delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
+    forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
+    getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
+    getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    readonly name: string;
+    readonly path: string;
+    resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
+    setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
+    setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
+    setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
+    readonly shareName: string;
+    startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
+    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
+    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
+    uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
+    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
 }
 
 // @public
@@ -1138,6 +1073,22 @@ export class ShareSASPermissions {
 }
 
 // @public
+export class ShareServiceClient extends StorageClient {
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    createShare(shareName: string, options?: ShareCreateOptions): Promise<{
+        shareCreateResponse: ShareCreateResponse;
+        shareClient: ShareClient;
+    }>;
+    deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
+    getShareClient(shareName: string): ShareClient;
+    listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
+    setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+}
+
+// @public
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -1182,8 +1133,8 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start: Date;
-        expiry: Date;
+        startsOn: Date;
+        expiresOn: Date;
         permissions: string;
     };
     id: string;
@@ -1203,40 +1154,73 @@ export interface SourceModifiedAccessConditions {
 }
 
 // @public
+export class StorageBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+}
+
+// @public
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
+}
+
+// @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
+    proxyOptions?: ProxyOptions;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
-export interface TelemetryOptions {
-    value: string;
+export interface StorageRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly tryTimeoutInMs?: number;
 }
 
 // @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
+export class StorageRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
     }
+
+// @public
+export enum StorageRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
+}
 
 // @public
 export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
-
-// @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-}
 
 export { WebResource }
 

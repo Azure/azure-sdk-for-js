@@ -93,7 +93,7 @@ describe("Queries", function() {
         maxItemCount: 2
       });
       const firstResponse = await queryIterator.fetchNext();
-
+      assert(firstResponse.continuationToken);
       assert(firstResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(firstResponse.resources.length, 2, "first batch size should be 2");
       assert.equal(
@@ -113,9 +113,10 @@ describe("Queries", function() {
       // validate Iterator.executeNext with continuation token
       queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
-        continuation: firstResponse.continuation
+        continuationToken: firstResponse.continuationToken
       });
       const secondResponse = await queryIterator.fetchNext();
+      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(
         secondResponse.resources.length,

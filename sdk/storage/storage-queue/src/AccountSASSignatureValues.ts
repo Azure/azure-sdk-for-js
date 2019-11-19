@@ -4,7 +4,7 @@
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -51,7 +51,7 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * The time after which the SAS will no longer work.
@@ -59,7 +59,7 @@ export interface AccountSASSignatureValues {
    * @type {Date}
    * @memberof AccountSASSignatureValues
    */
-  expiryTime: Date;
+  expiresOn: Date;
 
   /**
    * Specifies which operations the SAS user may perform. Please refer to {@link AccountSASPermissions} for help
@@ -105,13 +105,14 @@ export interface AccountSASSignatureValues {
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {AccountSASSignatureValues} accountSASSignatureValues SAS Signature values of the account
+ * @param {StorageSharedKeyCredential} sharedKeyCredential Shared key credential.
  * @returns {SASQueryParameters}
  * @memberof AccountSASSignatureValues
  */
 export function generateAccountSASQueryParameters(
   accountSASSignatureValues: AccountSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   const version = accountSASSignatureValues.version
     ? accountSASSignatureValues.version
@@ -130,10 +131,10 @@ export function generateAccountSASQueryParameters(
     parsedPermissions,
     parsedServices,
     parsedResourceTypes,
-    accountSASSignatureValues.startTime
-      ? truncatedISO8061Date(accountSASSignatureValues.startTime, false)
+    accountSASSignatureValues.startsOn
+      ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
       : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiryTime, false),
+    truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
     accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
     accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
     version,
@@ -149,8 +150,8 @@ export function generateAccountSASQueryParameters(
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,
-    accountSASSignatureValues.startTime,
-    accountSASSignatureValues.expiryTime,
+    accountSASSignatureValues.startsOn,
+    accountSASSignatureValues.expiresOn,
     accountSASSignatureValues.ipRange
   );
 }

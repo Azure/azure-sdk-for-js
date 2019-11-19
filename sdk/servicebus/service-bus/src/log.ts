@@ -14,6 +14,11 @@ export const link = debugModule("azure:service-bus:linkEntity");
 export const error = debugModule("azure:service-bus:error");
 /**
  * @internal
+ * log statements for warning
+ */
+export const warning = debugModule("azure:service-bus:warning");
+/**
+ * @internal
  * log statements for management
  */
 export const mgmt = debugModule("azure:service-bus:management");
@@ -82,3 +87,8 @@ export const semaphore = debugModule("azure:service-bus:semaphore");
  * log statements for sessionManager
  */
 export const sessionManager = debugModule("azure:service-bus:sessionManager");
+/**
+ * @internal
+ * log statements for Atom XML management API over HTTP
+ */
+export const httpAtomXml = debugModule("azure:service-bus:atom-xml");

@@ -4,7 +4,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, DirectoryClient, FileClient } from "../src";
+import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -17,10 +17,10 @@ describe("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let fileName: string;
-  let fileClient: FileClient;
+  let fileClient: ShareFileClient;
   const content = "Hello World";
 
   let recorder: any;
@@ -452,7 +452,8 @@ describe("FileClient", () => {
       assert.fail();
       // tslint:disable-next-line:no-empty
     } catch (err) {
-      assert.ok((err.message as string).toLowerCase().includes("aborted"));
+      assert.equal(err.name, "AbortError");
+      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
   });
@@ -500,7 +501,7 @@ describe("FileClient", () => {
 
   it("verify shareName and filePath passed to the client", async () => {
     const accountName = "myaccount";
-    const newClient = new FileClient(
+    const newClient = new ShareFileClient(
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName + "/" + fileName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
@@ -516,12 +517,26 @@ describe("FileClient", () => {
     );
   });
 
+  it("verify FileClient name matches file name", async () => {
+    const accountName = "myaccount";
+    const newClient = new ShareFileClient(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  });
+
   it("create with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     rootSpan.end();
 
@@ -535,7 +550,7 @@ describe("FileClient", () => {
           name: rootSpan.name,
           children: [
             {
-              name: "Azure.Storage.File.FileClient-create",
+              name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
                   name: "core-http",

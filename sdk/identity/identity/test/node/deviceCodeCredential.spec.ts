@@ -325,8 +325,10 @@ describe("DeviceCodeCredential", function() {
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 

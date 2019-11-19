@@ -560,7 +560,9 @@ describe("ContainerClient", () => {
     const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
       blobHTTPHeaders: options,
       metadata: options.metadata,
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
 
     rootSpan.end();

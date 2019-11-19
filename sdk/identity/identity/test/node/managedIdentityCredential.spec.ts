@@ -136,7 +136,7 @@ describe("ManagedIdentityCredential", function() {
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.method, "GET");
-      assert.equal(authRequest.query["client_id"], "client");
+      assert.equal(authRequest.query["clientid"], "client");
       assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
@@ -187,7 +187,7 @@ describe("ManagedIdentityCredential", function() {
       ? new ManagedIdentityCredential(clientId, { ...mockHttpClient.tokenCredentialOptions })
       : new ManagedIdentityCredential({ ...mockHttpClient.tokenCredentialOptions });
 
-    const token = await credential.getToken(scopes, { timeout });
+    const token = await credential.getToken(scopes, { requestOptions: { timeout } });
     return {
       token,
       requests: mockHttpClient.requests

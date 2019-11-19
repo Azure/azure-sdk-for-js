@@ -10,26 +10,38 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+import { ProxyOptions } from '@azure/core-http';
 import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AccessPolicy {
+    expiresOn: string;
+    permissions: string;
+    startsOn: string;
+}
+
+// @public
 export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
+
+// @public
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 // @public
 export class AccountSASPermissions {
@@ -66,13 +78,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -86,10 +98,26 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
 }
 
-// @public (undocumented)
+// @public
+export interface AppendBlobAppendBlockFromUrlHeaders {
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "AppendBlobRequestConditions" needs to be exported by the entry point index.d.ts
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     sourceConditions?: ModifiedAccessConditions;
@@ -97,14 +125,30 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     sourceContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AppendBlobAppendBlockFromUrlHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: AppendBlobAppendBlockFromUrlHeaders;
     };
 };
+
+// @public
+export interface AppendBlobAppendBlockHeaders {
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
 
 // @public
 export interface AppendBlobAppendBlockOptions extends CommonOptions {
@@ -116,8 +160,6 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
     transactionalContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AppendBlobAppendBlockHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -128,7 +170,7 @@ export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
 // @public
 export class AppendBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
@@ -137,18 +179,29 @@ export class AppendBlobClient extends BlobClient {
 }
 
 // @public
+export interface AppendBlobCreateHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface AppendBlobCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
-    // Warning: (ae-forgotten-export) The symbol "BlobRequestConditions" needs to be exported by the entry point index.d.ts
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
-    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AppendBlobCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -157,20 +210,27 @@ export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
 };
 
 // @public
+export interface AppendBlobRequestConditions extends BlobRequestConditions, AppendPositionAccessConditions {
+}
+
+// @public
 export interface AppendPositionAccessConditions {
     appendPosition?: number;
     maxSize?: number;
 }
 
+// @public
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
+
 export { BaseRequestPolicy }
 
-// @public (undocumented)
+// @public
 export interface BatchSubRequest {
-    credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
     url: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchSubResponse {
     bodyAsText?: string;
     errorCode?: string;
@@ -181,13 +241,21 @@ export interface BatchSubResponse {
 }
 
 // @public
+export interface BlobAbortCopyFromURLHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobAbortCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobAbortCopyFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobAbortCopyFromURLResponse = BlobAbortCopyFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -204,32 +272,31 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
 // @public
 export class BlobBatch {
     constructor();
-    deleteBlob(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
+    deleteBlob(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
     deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
     getHttpRequestBody(): string;
     getMultiPartContentType(): string;
     getSubRequests(): Map<number, BatchSubRequest>;
-    setBlobAccessTier(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, tier: AccessTier, options?: BlobSetTierOptions): Promise<void>;
+    setBlobAccessTier(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, tier: AccessTier, options?: BlobSetTierOptions): Promise<void>;
     setBlobAccessTier(blobClient: BlobClient, tier: AccessTier, options?: BlobSetTierOptions): Promise<void>;
 }
 
 // @public
 export class BlobBatchClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     createBatch(): BlobBatch;
-    deleteBlobs(urls: string[], credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
+    deleteBlobs(urls: string[], credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
     deleteBlobs(blobClients: BlobClient[], options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
-    setBlobsAccessTier(urls: string[], credential: SharedKeyCredential | AnonymousCredential | TokenCredential, tier: AccessTier, options?: BlobSetTierOptions): Promise<BlobBatchSetBlobsAccessTierResponse>;
+    setBlobsAccessTier(urls: string[], credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, tier: AccessTier, options?: BlobSetTierOptions): Promise<BlobBatchSetBlobsAccessTierResponse>;
     setBlobsAccessTier(blobClients: BlobClient[], tier: AccessTier, options?: BlobSetTierOptions): Promise<BlobBatchSetBlobsAccessTierResponse>;
     submitBatch(batchRequest: BlobBatch, options?: BlobBatchSubmitBatchOptionalParams): Promise<BlobBatchSubmitBatchResponse>;
 }
 
-// @public (undocumented)
+// @public
 export type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 
-// @public (undocumented)
+// @public
 export type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 // @public
@@ -237,12 +304,32 @@ export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOp
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type BlobBatchSubmitBatchResponse = ParsedBatchResponse & ServiceSubmitBatchHeaders & {
     _response: HttpResponse & {
         parsedHeaders: ServiceSubmitBatchHeaders;
     };
 };
+
+// @public
+export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
+    intervalInMs?: number;
+    onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
+    resumeFrom?: string;
+}
+
+// @public
+export interface BlobBeginCopyFromUrlPollState extends PollOperationState<BlobBeginCopyFromURLResponse> {
+    readonly blobClient: CopyPollerBlobClient;
+    copyId?: string;
+    copyProgress?: string;
+    copySource: string;
+    readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
+}
+
+// @public
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {
+}
 
 // @public
 export interface BlobBreakLeaseOptions extends CommonOptions {
@@ -261,15 +348,16 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 // @public
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
-    // (undocumented)
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     readonly containerName: string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -277,25 +365,49 @@ export class BlobClient extends StorageClient {
     getBlockBlobClient(): BlockBlobClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
-    // (undocumented)
     readonly name: string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
-    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobStartCopyFromURLResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobCopyFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface BlobCopyFromURLHeaders {
+    clientRequestId?: string;
+    copyId?: string;
+    copyStatus?: SyncCopyStatusType;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobCopyFromURLHeaders;
     };
 };
+
+// @public
+export interface BlobCreateSnapshotHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    snapshot?: string;
+    version?: string;
+}
 
 // @public
 export interface BlobCreateSnapshotOptions extends CommonOptions {
@@ -305,14 +417,22 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobCreateSnapshotHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobCreateSnapshotHeaders;
     };
 };
+
+// @public
+export interface BlobDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
@@ -322,8 +442,6 @@ export interface BlobDeleteOptions extends CommonOptions {
     deleteSnapshots?: DeleteSnapshotsOptionType;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobDeleteResponse = BlobDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -423,20 +541,77 @@ export interface BlobExistsOptions extends CommonOptions {
 }
 
 // @public
+export interface BlobFlatListSegment {
+    // (undocumented)
+    blobItems: BlobItem[];
+}
+
+// @public
+export interface BlobGetPropertiesHeaders {
+    acceptRanges?: string;
+    accessTier?: string;
+    accessTierChangedOn?: Date;
+    accessTierInferred?: boolean;
+    archiveStatus?: string;
+    blobCommittedBlockCount?: number;
+    blobSequenceNumber?: number;
+    blobType?: BlobType;
+    cacheControl?: string;
+    clientRequestId?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
+    contentType?: string;
+    copyCompletedOn?: Date;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatusType;
+    copyStatusDescription?: string;
+    createdOn?: Date;
+    date?: Date;
+    destinationSnapshot?: string;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isIncrementalCopy?: boolean;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobGetPropertiesHeaders;
     };
 };
+
+// @public
+export interface BlobHierarchyListSegment {
+    // (undocumented)
+    blobItems: BlobItem[];
+    // (undocumented)
+    blobPrefixes?: BlobPrefix[];
+}
 
 // @public
 export interface BlobHTTPHeaders {
@@ -458,8 +633,6 @@ export interface BlobItem {
     };
     // (undocumented)
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "BlobProperties" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     properties: BlobProperties;
     // (undocumented)
@@ -485,6 +658,64 @@ export interface BlobPrefix {
 }
 
 // @public
+export interface BlobProperties {
+    accessTier?: AccessTier;
+    // (undocumented)
+    accessTierChangedOn?: Date;
+    // (undocumented)
+    accessTierInferred?: boolean;
+    archiveStatus?: ArchiveStatus;
+    // (undocumented)
+    blobSequenceNumber?: number;
+    blobType?: BlobType;
+    // (undocumented)
+    cacheControl?: string;
+    // (undocumented)
+    contentDisposition?: string;
+    // (undocumented)
+    contentEncoding?: string;
+    // (undocumented)
+    contentLanguage?: string;
+    contentLength?: number;
+    // (undocumented)
+    contentMD5?: Uint8Array;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    copyCompletedOn?: Date;
+    // (undocumented)
+    copyId?: string;
+    // (undocumented)
+    copyProgress?: string;
+    // (undocumented)
+    copySource?: string;
+    copyStatus?: CopyStatusType;
+    // (undocumented)
+    copyStatusDescription?: string;
+    // (undocumented)
+    createdOn?: Date;
+    // (undocumented)
+    customerProvidedKeySha256?: string;
+    // (undocumented)
+    deletedOn?: Date;
+    // (undocumented)
+    destinationSnapshot?: string;
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    incrementalCopy?: boolean;
+    // (undocumented)
+    lastModified: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    remainingRetentionDays?: number;
+    // (undocumented)
+    serverEncrypted?: boolean;
+}
+
+// @public
 export interface BlobReleaseLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
@@ -494,6 +725,10 @@ export interface BlobReleaseLeaseOptions extends CommonOptions {
 export interface BlobRenewLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
+}
+
+// @public
+export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
 }
 
 // @public
@@ -516,19 +751,19 @@ export interface BlobSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
-    expiryTime?: Date;
+    expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: BlobSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
@@ -541,34 +776,44 @@ export class BlobServiceClient extends StorageClient {
     getContainerClient(containerName: string): ContainerClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
-    getUserDelegationKey(start: Date, expiry: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
 
 // @public
 export interface BlobServiceProperties {
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     blobAnalyticsLogging?: Logging;
-    // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
     defaultServiceVersion?: string;
-    // Warning: (ae-forgotten-export) The symbol "RetentionPolicy" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     deleteRetentionPolicy?: RetentionPolicy;
-    // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     hourMetrics?: Metrics;
     // (undocumented)
     minuteMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "StaticWebsite" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     staticWebsite?: StaticWebsite;
+}
+
+// @public
+export interface BlobServiceStatistics {
+    // (undocumented)
+    geoReplication?: GeoReplication;
+}
+
+// @public
+export interface BlobSetHTTPHeadersHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -578,8 +823,6 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobSetHTTPHeadersHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -588,14 +831,26 @@ export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
 };
 
 // @public
+export interface BlobSetMetadataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -604,20 +859,41 @@ export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
 };
 
 // @public
+export interface BlobSetTierHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobSetTierOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
     rehydratePriority?: RehydratePriority;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobSetTierHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobSetTierResponse = BlobSetTierHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobSetTierHeaders;
     };
 };
+
+// @public
+export interface BlobStartCopyFromURLHeaders {
+    clientRequestId?: string;
+    copyId?: string;
+    copyStatus?: CopyStatusType;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface BlobStartCopyFromURLOptions extends CommonOptions {
@@ -629,8 +905,6 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
     tier?: BlockBlobTier | PremiumPageBlobTier | string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobStartCopyFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -650,13 +924,21 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
 export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 // @public
+export interface BlobUndeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobUndeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobUndeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlobUndeleteResponse = BlobUndeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -670,9 +952,15 @@ export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
 };
 
 // @public
+export interface Block {
+    name: string;
+    size: number;
+}
+
+// @public
 export class BlockBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
@@ -681,8 +969,24 @@ export class BlockBlobClient extends BlobClient {
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
-    uploadStream(stream: Readable, bufferSize: number, maxBuffers: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
+    uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
+}
+
+// @public
+export interface BlockBlobCommitBlockListHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
@@ -695,8 +999,6 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
     tier?: BlockBlobTier | string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlockBlobCommitBlockListHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -705,14 +1007,25 @@ export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders &
 };
 
 // @public
+export interface BlockBlobGetBlockListHeaders {
+    blobContentLength?: number;
+    clientRequestId?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlockBlobGetBlockListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlockList" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "BlockBlobGetBlockListHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlockBlobGetBlockListResponse = BlockList & BlockBlobGetBlockListHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -737,6 +1050,20 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 }
 
 // @public
+export interface BlockBlobStageBlockFromURLHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    isServerEncrypted?: boolean;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
 export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
@@ -746,14 +1073,26 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     sourceContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlockBlobStageBlockFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlockBlobStageBlockFromURLHeaders;
     };
 };
+
+// @public
+export interface BlockBlobStageBlockHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    isServerEncrypted?: boolean;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
 
 // @public
 export interface BlockBlobStageBlockOptions extends CommonOptions {
@@ -765,8 +1104,6 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
     transactionalContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlockBlobStageBlockHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -774,13 +1111,10 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export enum BlockBlobTier {
-    // (undocumented)
     Archive = "Archive",
-    // (undocumented)
     Cool = "Cool",
-    // (undocumented)
     Hot = "Hot"
 }
 
@@ -829,18 +1163,20 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 }
 
 // @public
-export type BlockListType = 'committed' | 'uncommitted' | 'all';
-
-// @public
-export class BrowserPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "BrowserPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BrowserPolicy;
+export interface BlockList {
+    // (undocumented)
+    committedBlocks?: Block[];
+    // (undocumented)
+    uncommittedBlocks?: Block[];
 }
 
 // @public
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
+
+// @public
 export interface CommonOptions {
-    // (undocumented)
-    spanOptions?: SpanOptions;
+    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -872,9 +1208,8 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 // @public
 export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     readonly containerName: string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
@@ -902,14 +1237,24 @@ export class ContainerClient extends StorageClient {
 }
 
 // @public
+export interface ContainerCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ContainerCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     access?: PublicAccessType;
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ContainerCreateResponse = ContainerCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -918,13 +1263,21 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
 };
 
 // @public
+export interface ContainerDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ContainerDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ContainerDeleteResponse = ContainerDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -956,7 +1309,7 @@ export interface ContainerGetAccessPolicyOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
 }
 
-// @public (undocumented)
+// @public
 export type ContainerGetAccessPolicyResponse = {
     signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
@@ -968,13 +1321,33 @@ export type ContainerGetAccessPolicyResponse = {
 };
 
 // @public
+export interface ContainerGetPropertiesHeaders {
+    blobPublicAccess?: PublicAccessType;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    hasImmutabilityPolicy?: boolean;
+    hasLegalHold?: boolean;
+    lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ContainerGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -990,14 +1363,21 @@ export interface ContainerItem {
     };
     // (undocumented)
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "ContainerProperties" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     properties: ContainerProperties;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerListBlobFlatSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ContainerListBlobFlatSegmentHeaders {
+    clientRequestId?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1007,9 +1387,17 @@ export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse 
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "ListBlobsHierarchySegmentResponse" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ContainerListBlobHierarchySegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ContainerListBlobHierarchySegmentHeaders {
+    clientRequestId?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1028,6 +1416,22 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeSnapshots?: boolean;
     includeUncommitedBlobs?: boolean;
     prefix?: string;
+}
+
+// @public
+export interface ContainerProperties {
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    hasImmutabilityPolicy?: boolean;
+    // (undocumented)
+    hasLegalHold?: boolean;
+    // (undocumented)
+    lastModified: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    publicAccess?: PublicAccessType;
 }
 
 // @public
@@ -1055,13 +1459,23 @@ export class ContainerSASPermissions {
 }
 
 // @public
+export interface ContainerSetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ContainerSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1070,13 +1484,23 @@ export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders &
 };
 
 // @public
+export interface ContainerSetMetadataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ContainerSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ContainerSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1085,11 +1509,24 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
 };
 
 // @public
+export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
+    startCopyFromURL(copySource: string, options?: BlobStartCopyFromURLOptions): Promise<BlobBeginCopyFromURLResponse>;
+};
+
+// @public
 export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 // @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
+}
+
+// @public
 export interface CpkInfo {
-    // Warning: (ae-forgotten-export) The symbol "EncryptionAlgorithmType" needs to be exported by the entry point index.d.ts
     encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
@@ -1115,27 +1552,35 @@ export type DeleteSnapshotsOptionType = 'include' | 'only';
 export { deserializationPolicy }
 
 // @public
-export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export type EncryptionAlgorithmType = 'AES256';
 
 // @public
-export function generateBlobSASQueryParameters(blobSASSignatureValues: BlobSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
+
+// @public
+export function generateBlobSASQueryParameters(blobSASSignatureValues: BlobSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
 export function generateBlobSASQueryParameters(blobSASSignatureValues: BlobSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
+
+// @public
+export interface GeoReplication {
+    lastSyncOn: Date;
+    status: GeoReplicationStatusType;
+}
+
+// @public
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
 
-export { IHttpPipelineLogger }
-
-// @public (undocumented)
+// @public
 export interface Lease {
     date?: Date;
     errorCode?: string;
@@ -1161,7 +1606,7 @@ export interface LeaseOperationOptions extends CommonOptions {
     conditions?: ModifiedAccessConditions;
 }
 
-// @public (undocumented)
+// @public
 export type LeaseOperationResponse = Lease & {
     _response: HttpResponse & {
         parsedHeaders: Lease;
@@ -1181,6 +1626,24 @@ export interface ListBlobsFlatSegmentResponse {
     // (undocumented)
     continuationToken?: string;
     // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxPageSize?: number;
+    // (undocumented)
+    prefix?: string;
+    // (undocumented)
+    segment: BlobFlatListSegment;
+    // (undocumented)
+    serviceEndpoint: string;
+}
+
+// @public
+export interface ListBlobsHierarchySegmentResponse {
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    continuationToken?: string;
+    // (undocumented)
     delimiter?: string;
     // (undocumented)
     marker?: string;
@@ -1188,10 +1651,8 @@ export interface ListBlobsFlatSegmentResponse {
     maxPageSize?: number;
     // (undocumented)
     prefix?: string;
-    // Warning: (ae-forgotten-export) The symbol "BlobFlatListSegment" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
-    segment: BlobFlatListSegment;
+    segment: BlobHierarchyListSegment;
     // (undocumented)
     serviceEndpoint: string;
 }
@@ -1203,7 +1664,47 @@ export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots'
 export type ListContainersIncludeType = 'metadata';
 
 // @public
+export interface ListContainersSegmentResponse {
+    // (undocumented)
+    containerItems: ContainerItem[];
+    // (undocumented)
+    continuationToken?: string;
+    // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxPageSize?: number;
+    // (undocumented)
+    prefix?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+}
+
+// @public
 export const logger: import("@azure/logger").AzureLogger;
+
+// @public
+export interface Logging {
+    deleteProperty: boolean;
+    read: boolean;
+    // (undocumented)
+    retentionPolicy: RetentionPolicy;
+    version: string;
+    write: boolean;
+}
+
+// @public
+export interface Metadata {
+    [propertyName: string]: string;
+}
+
+// @public
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    // (undocumented)
+    retentionPolicy?: RetentionPolicy;
+    version?: string;
+}
 
 // @public
 export interface ModifiedAccessConditions {
@@ -1214,18 +1715,30 @@ export interface ModifiedAccessConditions {
 }
 
 // @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export interface PageBlobClearPagesHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
 
 // @public
 export interface PageBlobClearPagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "PageBlobRequestConditions" needs to be exported by the entry point index.d.ts
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobClearPagesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1236,7 +1749,7 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 // @public
 export class PageBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
@@ -1250,14 +1763,41 @@ export class PageBlobClient extends BlobClient {
     withSnapshot(snapshot: string): PageBlobClient;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobCopyIncrementalHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface PageBlobCopyIncrementalHeaders {
+    clientRequestId?: string;
+    copyId?: string;
+    copyStatus?: CopyStatusType;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type PageBlobCopyIncrementalResponse = PageBlobCopyIncrementalHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: PageBlobCopyIncrementalHeaders;
     };
 };
+
+// @public
+export interface PageBlobCreateHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface PageBlobCreateOptions extends CommonOptions {
@@ -1270,8 +1810,6 @@ export interface PageBlobCreateOptions extends CommonOptions {
     tier?: PremiumPageBlobTier | string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobCreateResponse = PageBlobCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1327,7 +1865,7 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
 }
 
-// @public (undocumented)
+// @public
 export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
     _response: HttpResponse & {
         parsedHeaders: PageBlobGetPageRangesHeaders;
@@ -1337,13 +1875,28 @@ export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPage
 }
 
 // @public
+export interface PageBlobRequestConditions extends BlobRequestConditions, SequenceNumberAccessConditions {
+}
+
+// @public
+export interface PageBlobResizeHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface PageBlobResizeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobResizeHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobResizeResponse = PageBlobResizeHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1358,13 +1911,24 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
 }
 
 // @public
+export interface PageBlobUpdateSequenceNumberHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobUpdateSequenceNumberHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1372,7 +1936,23 @@ export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberH
     };
 };
 
-// @public (undocumented)
+// @public
+export interface PageBlobUploadPagesFromURLHeaders {
+    blobSequenceNumber?: number;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: PageBlobRequestConditions;
@@ -1382,14 +1962,29 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     sourceContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobUploadPagesFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: PageBlobUploadPagesFromURLHeaders;
     };
 };
+
+// @public
+export interface PageBlobUploadPagesHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
 
 // @public
 export interface PageBlobUploadPagesOptions extends CommonOptions {
@@ -1401,8 +1996,6 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
     transactionalContentMD5?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobUploadPagesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1410,15 +2003,13 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface PageList {
-    // (undocumented)
     clearRange?: Range[];
-    // (undocumented)
     pageRange?: Range[];
 }
 
-// @public (undocumented)
+// @public
 export interface ParsedBatchResponse {
     subResponses: BatchSubResponse[];
     subResponsesFailedCount: number;
@@ -1435,33 +2026,25 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HTTPClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
-// @public (undocumented)
+export { PollerLike }
+
+export { PollOperationState }
+
+// @public
 export enum PremiumPageBlobTier {
-    // (undocumented)
     P10 = "P10",
-    // (undocumented)
     P15 = "P15",
-    // (undocumented)
     P20 = "P20",
-    // (undocumented)
     P30 = "P30",
-    // (undocumented)
     P4 = "P4",
-    // (undocumented)
     P40 = "P40",
-    // (undocumented)
     P50 = "P50",
-    // (undocumented)
     P6 = "P6",
-    // (undocumented)
     P60 = "P60",
-    // (undocumented)
     P70 = "P70",
-    // (undocumented)
     P80 = "P80"
 }
 
@@ -1486,28 +2069,9 @@ export { RequestPolicyOptions }
 export { RestError }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: RetryPolicyType;
-    readonly secondaryHost?: string;
-    readonly tryTimeoutInMs?: number;
-}
-
-// @public
-export class RetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: RetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "RetryPolicy" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
-    }
-
-// @public
-export enum RetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
 }
 
 // @public
@@ -1524,13 +2088,13 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
-    readonly expiryTime?: Date;
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -1539,7 +2103,7 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
 }
@@ -1555,12 +2119,22 @@ export interface SequenceNumberAccessConditions {
 export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 // @public
+export interface ServiceGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetAccountInfoOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetAccountInfoHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1569,12 +2143,19 @@ export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders & {
 };
 
 // @public
+export interface ServiceGetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetPropertiesResponse = BlobServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1585,13 +2166,20 @@ export type ServiceGetPropertiesResponse = BlobServiceProperties & ServiceGetPro
 };
 
 // @public
+export interface ServiceGetStatisticsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobServiceStatistics" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetStatisticsResponse = BlobServiceStatistics & ServiceGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1616,7 +2204,7 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGetUserDelegationKeyHeaders & {
     _response: HttpResponse & {
         parsedHeaders: ServiceGetUserDelegationKeyHeaders;
@@ -1632,9 +2220,15 @@ export interface ServiceListContainersOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListContainersSegmentResponse" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceListContainersSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ServiceListContainersSegmentHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse & ServiceListContainersSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1645,12 +2239,19 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
 };
 
 // @public
+export interface ServiceSetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1684,24 +2285,10 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
 };
 
 // @public
-export class SharedKeyCredential extends Credential {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
-
-// @public
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start?: Date;
-        expiry?: Date;
+        startsOn?: Date;
+        expiresOn?: Date;
         permissions: string;
     };
     id: string;
@@ -1709,52 +2296,97 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
-    // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     accessPolicy: AccessPolicy;
     id: string;
 }
 
-// @public (undocumented)
+// @public
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
+
+// @public
+export interface StaticWebsite {
+    enabled: boolean;
+    errorDocument404Path?: string;
+    indexDocument?: string;
+}
+
+// @public
+export class StorageBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+}
+
+// @public
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
+}
+
+// @public
 export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
     httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
     keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
+    proxyOptions?: ProxyOptions;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
-export interface TelemetryOptions {
-    value: string;
+export interface StorageRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
 }
 
 // @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
+export class StorageRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
     }
 
 // @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
+export enum StorageRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
 }
 
-// @public (undocumented)
+// @public
+export class StorageSharedKeyCredential extends Credential {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
+}
+
+// @public
+export type SyncCopyStatusType = 'success';
+
+// @public
 export interface UserDelegationKey {
-    signedExpiry: Date;
+    signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;
-    signedStart: Date;
+    signedStartsOn: Date;
     signedTenantId: string;
     signedVersion: string;
     value: string;
@@ -1762,10 +2394,10 @@ export interface UserDelegationKey {
 
 // @public
 export interface UserDelegationKeyModel {
-    signedExpiry: string;
+    signedExpiresOn: string;
     signedObjectId: string;
     signedService: string;
-    signedStart: string;
+    signedStartsOn: string;
     signedTenantId: string;
     signedVersion: string;
     value: string;

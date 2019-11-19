@@ -30,6 +30,11 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   collectionPartition: operations.CollectionPartition;
   partitionKeyRangeId: operations.PartitionKeyRangeId;
   partitionKeyRangeIdRegion: operations.PartitionKeyRangeIdRegion;
+  sqlResources: operations.SqlResources;
+  mongoDBResources: operations.MongoDBResources;
+  tableResources: operations.TableResources;
+  cassandraResources: operations.CassandraResources;
+  gremlinResources: operations.GremlinResources;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -52,6 +57,11 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.collectionPartition = new operations.CollectionPartition(this);
     this.partitionKeyRangeId = new operations.PartitionKeyRangeId(this);
     this.partitionKeyRangeIdRegion = new operations.PartitionKeyRangeIdRegion(this);
+    this.sqlResources = new operations.SqlResources(this);
+    this.mongoDBResources = new operations.MongoDBResources(this);
+    this.tableResources = new operations.TableResources(this);
+    this.cassandraResources = new operations.CassandraResources(this);
+    this.gremlinResources = new operations.GremlinResources(this);
   }
 }
 

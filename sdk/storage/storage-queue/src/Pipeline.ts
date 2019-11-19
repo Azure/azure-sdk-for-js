@@ -7,8 +7,6 @@ import {
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
@@ -16,23 +14,24 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions,
+  KeepAliveOptions,
+  UserAgentOptions,
+  generateClientRequestIdPolicy,
+  keepAlivePolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
@@ -47,9 +46,7 @@ export {
   StorageOAuthScopes,
   deserializationPolicy,
   IHttpClient,
-  IHttpPipelineLogger,
   HttpHeaders,
-  HttpPipelineLogLevel,
   HttpOperationResponse,
   HttpRequestBody,
   WebResource,
@@ -66,19 +63,12 @@ export {
  */
 export interface PipelineOptions {
   /**
-   * Optional. Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof PipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
-  /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HttpClient?: IHttpClient;
+  httpClient?: IHttpClient;
 }
 
 /**
@@ -128,8 +118,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HttpClient,
-      httpPipelineLogger: this.options.logger,
+      httpClient: this.options.httpClient,
       requestPolicyFactories: this.factories
     };
   }
@@ -139,45 +128,40 @@ export class Pipeline {
  * Option interface for newPipeline() method.
  *
  * @export
- * @interface NewPipelineOptions
+ * @interface StoragePipelineOptions
  */
-export interface NewPipelineOptions {
-  proxy?: ProxySettings | string;
+export interface StoragePipelineOptions {
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
-   *
-   * @type {TelemetryOptions}
-   * @memberof NewPipelineOptions
+   * Options to configure a proxy for outgoing requests.
    */
-  telemetry?: TelemetryOptions;
+  proxyOptions?: ProxyOptions;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   *
+   * @type {UserAgentOptions}
+   * @memberof StoragePipelineOptions
+   */
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
    * @type {RetryOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageRetryOptions;
 
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
    * @type {KeepAliveOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
-
-  /**
-   * Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof NewPipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   httpClient?: IHttpClient;
 }
@@ -186,28 +170,26 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
- *                                                  or a TokenCredential from @azure/identity. If not specified,
- *                                                  AnonymousCredential is used.
- * @param {NewPipelineOptions} [pipelineOptions] Options.
+ * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+ * @param {StoragePipelineOptions} [pipelineOptions] Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
  */
 export function newPipeline(
-  credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-  pipelineOptions: NewPipelineOptions = {}
+  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
-    new UniqueRequestIDPolicyFactory(),
-    new BrowserPolicyFactory(),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    generateClientRequestIdPolicy(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageQueueLoggingAllowedHeaderNames,
@@ -217,13 +199,7 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(
     isTokenCredential(credential)
@@ -232,7 +208,6 @@ export function newPipeline(
   );
 
   return new Pipeline(factories, {
-    HttpClient: pipelineOptions.httpClient,
-    logger: pipelineOptions.logger
+    httpClient: pipelineOptions.httpClient
   });
 }

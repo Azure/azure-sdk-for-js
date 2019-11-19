@@ -130,7 +130,7 @@ async function update(
   let isDone: boolean = false;
   let doFireProgress: boolean = false;
 
-  // Asyncrhonously call your service client...
+  // Asynchronously call your service client...
 
   // You might also update the operation's state
   if (isDone) {
@@ -172,7 +172,7 @@ function toString(this: MyOperation): string {
   return JSON.stringify({
     state: {
       ...this.state,
-      // Only the plain text properties, for examle
+      // Only the plain text properties, for example
     }
   });
 }
@@ -218,7 +218,7 @@ export class MyPoller extends Poller<MyOperationState, string> {
 
 ### Using your poller
 
-Here's one simple examle of your poller in action. More examples can be found in the test folder near this README.
+Here's one simple example of your poller in action. More examples can be found in the test folder near this README.
 
 ```typescript
 const poller = new MyPoller();
@@ -234,11 +234,13 @@ console.log(state.completed);
 
 ### Enable logs
 
-TODO.
+Logs can be added at the discretion of the library implementing the Long Running Operation poller.
+Packages inside of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) use
+[@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 
-TODO.
+Please take a look at the [samples](./samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -257,4 +259,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/core/core-lro/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-lro%2FREADME.png)

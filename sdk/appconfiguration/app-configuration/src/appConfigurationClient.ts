@@ -15,8 +15,6 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
-  ClearReadOnlyOptions,
-  ClearReadOnlyResponse,
   ConfigurationSetting,
   ConfigurationSettingId,
   DeleteConfigurationSettingOptions,
@@ -40,7 +38,8 @@ import {
   makeConfigurationSettingEmpty,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-  transformKeyValue
+  transformKeyValue,
+  formatAcceptDateTime
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -159,6 +158,7 @@ export class AppConfigurationClient {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
+        ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
 
@@ -231,6 +231,7 @@ export class AppConfigurationClient {
       (newOptions) => {
         return this.client.getKeyValues({
           ...newOptions,
+          ...formatAcceptDateTime(options),
           ...formatWildcards(newOptions)
         });
       }
@@ -313,6 +314,7 @@ export class AppConfigurationClient {
     let currentResponse = await this.spanner.trace("listRevisions", opts, (newOptions) => {
       return this.client.getRevisions({
         ...newOptions,
+        ...formatAcceptDateTime(options),
         ...formatWildcards(newOptions)
       });
     });
@@ -373,44 +375,34 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Sets a key's value to read only
-   * @param id The id of the configuration setting to set to read-only.
+   * Sets or clears a key's read-only status.
+   * @param id The id of the configuration setting to modify.
    */
   async setReadOnly(
     id: ConfigurationSettingId,
+    readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
     const opts = operationOptionsToRequestOptionsBase(options);
 
     return this.spanner.trace("setReadOnly", opts, async (newOptions) => {
-      const response = await this.client.putLock(id.key, {
-        ...newOptions,
-        label: id.label,
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
-      });
+      if (readOnly) {
+        const response = await this.client.putLock(id.key, {
+          ...newOptions,
+          label: id.label,
+          ...checkAndFormatIfAndIfNoneMatch(id, options)
+        });
 
-      return transformKeyValueResponse(response);
-    });
-  }
-
-  /**
-   * Makes the key's value writable again
-   * @param id The id of the configuration setting to make writable.
-   */
-  async clearReadOnly(
-    id: ConfigurationSettingId,
-    options: ClearReadOnlyOptions = {}
-  ): Promise<ClearReadOnlyResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-
-    return await this.spanner.trace("clearReadOnly", opts, async (newOptions) => {
-      const response = await this.client.deleteLock(id.key, {
-        ...newOptions,
-        label: id.label,
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
-      });
-
-      return transformKeyValueResponse(response);
+        return transformKeyValueResponse(response);
+      } else {
+        const response = await this.client.deleteLock(id.key, {
+          ...newOptions,
+          label: id.label,
+          ...checkAndFormatIfAndIfNoneMatch(id, options)
+        });
+  
+        return transformKeyValueResponse(response);
+      }
     });
   }
 }

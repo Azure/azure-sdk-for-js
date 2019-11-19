@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { FileServiceClient } from "../src";
+import { ShareServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
@@ -313,7 +313,7 @@ describe("FileServiceClient", () => {
   });
 
   it("can be created from a sas connection string", async () => {
-    const newClient = FileServiceClient.fromConnectionString(
+    const newClient = ShareServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment()
     );
 
@@ -324,7 +324,7 @@ describe("FileServiceClient", () => {
   });
 
   it("can be created from a sas connection string and an option bag", async () => {
-    const newClient = FileServiceClient.fromConnectionString(
+    const newClient = ShareServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(),
       {
         retryOptions: {

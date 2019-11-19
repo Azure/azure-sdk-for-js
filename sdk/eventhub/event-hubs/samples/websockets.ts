@@ -14,7 +14,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient } from "@azure/event-hubs";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 import WebSocket from "ws";
 const url = require("url");
 const httpsProxyAgent = require("https-proxy-agent");
@@ -31,7 +31,7 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
-  const client = new EventHubClient(connectionString, eventHubName, {
+  const client = new EventHubConsumerClient(connectionString, eventHubName, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });

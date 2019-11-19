@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -18,7 +18,7 @@ describe("Keys client - list keys in various ways", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -26,13 +26,14 @@ describe("Keys client - list keys in various ways", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
   // The tests follow
 
-  it("can purge all keys", async function() {
+  // This test is only useful while developing locally
+  it.skip("can purge all keys", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const properties of client.listPropertiesOfKeys()) {
       try {
@@ -62,17 +63,17 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can get the versions of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
-      requestOptions: { timeout: 1 }
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get the versions of a key with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
+        requestOptions: { timeout: 1 }
+      });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
+  }
 
   it("can get the versions of a key (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -143,16 +144,16 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("can get several inserted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get several inserted keys with requestOptions timeout", async function() {
+      const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
 
-    await assertThrowsAbortError(async () => {
-      await iter.next();
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-  });
+  }
 
   it("can get several inserted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -184,7 +185,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 
@@ -207,15 +208,15 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("list deleted keys with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("list deleted keys with requestOptions timeout", async function() {
+      const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
+      await assertThrowsAbortError(async () => {
+        await iter.next();
+      });
     });
-  });
+  }
 
   it("list deleted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -224,7 +225,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      const poller = await client.beginDeleteKey(name);
+      const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
     }
 

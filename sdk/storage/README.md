@@ -8,9 +8,9 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
-- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
-- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.5)
-- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
+- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
+- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
+- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
@@ -90,47 +90,25 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ## Getting Started
 
-### NPM
-
 The preferred way to install the Azure Storage client libraries for JavaScript is to use the npm package manager. Take "@azure/storage-blob" for example.
 
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.5
+npm install @azure/storage-blob
 ```
 
 In your TypeScript or JavaScript file, import via following:
 
 ```JavaScript
-import * as Azure from "@azure/storage-blob";
+import * as AzureStorageBlob from "@azure/storage-blob";
 ```
 
 Or
 
 ```JavaScript
-const Azure = require("@azure/storage-blob");
+const AzureStorageBlob = require("@azure/storage-blob");
 ```
-
-### JavaScript Bundle
-
-To use the client libraries with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-blob.min.js"></script>
-<script src="https://mydomain/azure-storage-file-share.min.js"></script>
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azblob`
-- `azfile`
-- `azqueue`
-
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases).
 
 ### CORS
 
@@ -250,7 +228,7 @@ async function main() {
     response = (await iterator.next()).value;
   } while (response);
 
-  // 7. Passing marker as an argument (similar to the previous example)
+  // 7. Passing the page marker as an argument (similar to the previous example)
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
   response = (await iterator.next()).value;
@@ -258,10 +236,10 @@ async function main() {
   for (const blob of response.segment.blobItems) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
-  // Gets next marker
-  let marker = response.nextMarker;
-  // Passing next marker as continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+  // Passing the continuationToken
+  iterator = containerClient
+    .listBlobsFlat()
+    .byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
   response = (await iterator.next()).value;
   // Prints 5 blob names
   for (const blob of response.segment.blobItems) {
@@ -281,40 +259,12 @@ main()
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        console.log(logMessage);
-        break;
-    }
-  }
-}
-```
+import { setLogLevel } from "@azure/logger";
 
-When creating the `QueueServiceClient` instance, pass the logger in the options
-
-```javascript
-const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net`,
-  sharedKeyCredential,
-  {
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  }
-);
+setLogLevel("info");
 ```
 
 ## Next steps
@@ -341,3 +291,6 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

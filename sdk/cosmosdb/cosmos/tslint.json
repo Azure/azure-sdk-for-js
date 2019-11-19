@@ -10,7 +10,8 @@
     "no-floating-promises": true,
     "import-blacklist": [true, "assert", "util"],
     "no-unnecessary-class": true,
-    "no-invalid-this": true
+    "no-invalid-this": true,
+    "no-console": false
   },
   "linterOptions": {
     "exclude": ["*.json"]

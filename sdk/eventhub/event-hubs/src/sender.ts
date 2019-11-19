@@ -3,12 +3,13 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, BatchOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
-import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
@@ -90,7 +91,7 @@ export class EventHubProducer {
    * - `abortSignal`   : A signal the request to cancel the send operation.
    * @returns Promise<EventDataBatch>
    */
-  async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+  async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
     this._throwIfSenderOrConnectionClosed();
     if (!options) {
       options = {};
@@ -186,10 +187,7 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(options.parentSpan);
-    for (const spanContext of spanContextsToLink) {
-      sendSpan.addLink(spanContext);
-    }
+    const sendSpan = this._createSendSpan(options.parentSpan, spanContextsToLink);
 
     try {
       const result = await this._eventHubSender!.send(eventData, {
@@ -235,11 +233,20 @@ export class EventHubProducer {
     }
   }
 
-  private _createSendSpan(parentSpan?: Span | SpanContext): Span {
+  private _createSendSpan(
+    parentSpan?: Span | SpanContext,
+    spanContextsToLink: SpanContext[] = []
+  ): Span {
+    const links: Link[] = spanContextsToLink.map((spanContext) => {
+      return {
+        spanContext
+      };
+    });
     const tracer = getTracer();
     const span = tracer.startSpan("Azure.EventHubs.send", {
       kind: SpanKind.PRODUCER,
-      parent: parentSpan
+      parent: parentSpan,
+      links
     });
 
     span.setAttribute("component", "eventhubs");

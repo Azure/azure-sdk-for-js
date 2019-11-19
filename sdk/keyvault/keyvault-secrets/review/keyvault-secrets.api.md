@@ -10,12 +10,18 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface BackupSecretOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface BeginDeleteSecretOptions extends SecretPollerOptions {
+}
+
+// @public
+export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 }
 
 // @public
@@ -27,16 +33,6 @@ export interface DeletedSecret {
         deletedOn?: Date;
     };
     value?: string;
-}
-
-// @public
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -59,7 +55,15 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface ListOperationOptions extends coreHttp.OperationOptions {
+export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListPropertiesOfSecretVersionsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -69,13 +73,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public (undocumented)
-export interface ParsedKeyVaultEntityIdentifier {
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
 export { PipelineOptions }
 
 export { PollerLike }
@@ -83,23 +80,7 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface ProxyOptions {
-    // (undocumented)
-    proxySettings?: string;
-}
-
-// @public
 export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -107,42 +88,21 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly retryCount?: number;
-    readonly retryIntervalInMS?: number;
-}
-
-// @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
-    beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
-    protected readonly credential: TokenCredential;
+    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    listDeletedSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
-    listPropertiesOfSecrets(options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listPropertiesOfSecretVersions(secretName: string, options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    readonly pipeline: ServiceClientOptions;
+    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
+    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
     purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
     restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface SecretClientInterface {
-    // (undocumented)
-    deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
-    getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
-    // (undocumented)
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    // (undocumented)
-    recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
 }
 
 // @public
@@ -180,12 +140,6 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public (undocumented)
-export interface TelemetryOptions {
-    // (undocumented)
-    value: string;
 }
 
 // @public

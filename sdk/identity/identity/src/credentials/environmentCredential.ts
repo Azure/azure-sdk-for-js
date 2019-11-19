@@ -6,7 +6,7 @@ import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
@@ -77,7 +77,7 @@ export class EnvironmentCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
@@ -86,11 +86,14 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        return this._credential.getToken(scopes, newOptions);
+        return await this._credential.getToken(scopes, newOptions);
       } catch (err) {
         const code =
           err.name === AuthenticationErrorName

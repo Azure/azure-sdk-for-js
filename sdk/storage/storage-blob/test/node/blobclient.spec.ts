@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import {
   BlobClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ContainerClient,
   BlockBlobClient,
   generateBlobSASQueryParameters,
@@ -211,18 +211,6 @@ describe("BlobClient Node.js only", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
-    assert.ok(result.copyId);
-
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobClient.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
-  });
-
   it("syncCopyFromURL", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 
@@ -231,11 +219,11 @@ describe("BlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         permissions: BlobSASPermissions.parse("racwd"),
         containerName,
         blobName
@@ -254,12 +242,12 @@ describe("BlobClient Node.js only", () => {
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
+    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
     try {
-      await newBlobClient.startCopyFromURL(result.copyId!);
+      await newBlobClient.beginCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
@@ -288,7 +276,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
 
     const metadata = {
@@ -302,7 +290,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -332,7 +320,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);
 

@@ -61,7 +61,8 @@ export class BatchingReceiver extends MessageReceiver {
 
   /**
    * Receives a batch of messages from a ServiceBus Queue/Topic.
-   * @param maxMessageCount      The maximum number of messages to receive.
+   * @param maxMessageCount The maximum number of messages to receive.
+   * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
    * the returned promise gets resolved to an empty array.

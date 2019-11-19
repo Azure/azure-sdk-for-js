@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
@@ -42,7 +42,7 @@ export interface FileSASSignatureValues {
    * @type {Date}
    * @memberof FileSASSignatureValues
    */
-  startTime?: Date;
+  startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
@@ -50,7 +50,7 @@ export interface FileSASSignatureValues {
    * @type {Date}
    * @memberof FileSASSignatureValues
    */
-  expiryTime?: Date;
+  expiresOn?: Date;
 
   /**
    * Optional only when identifier is provided.
@@ -143,27 +143,27 @@ export interface FileSASSignatureValues {
  * Creates an instance of SASQueryParameters.
  *
  * Only accepts required settings needed to create a SAS. For optional settings please
- * set corresponding properties directly, such as permissions, startTime and identifier.
+ * set corresponding properties directly, such as permissions, startsOn and identifier.
  *
- * WARNING: When identifier is not provided, permissions and expiryTime are required.
- * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
+ * WARNING: When identifier is not provided, permissions and expiresOn are required.
+ * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
  * @export
  * @param {FileSASSignatureValues} fileSASSignatureValues
- * @param {SharedKeyCredential} sharedKeyCredential
+ * @param {StorageSharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: SharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&
-    (!fileSASSignatureValues.permissions && !fileSASSignatureValues.expiryTime)
+    (!fileSASSignatureValues.permissions && !fileSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiryTime' for File SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided."
     );
   }
 
@@ -188,11 +188,11 @@ export function generateFileSASQueryParameters(
   // Signature is generated on the un-url-encoded values.
   const stringToSign = [
     verifiedPermissions,
-    fileSASSignatureValues.startTime
-      ? truncatedISO8061Date(fileSASSignatureValues.startTime, false)
+    fileSASSignatureValues.startsOn
+      ? truncatedISO8061Date(fileSASSignatureValues.startsOn, false)
       : "",
-    fileSASSignatureValues.expiryTime
-      ? truncatedISO8061Date(fileSASSignatureValues.expiryTime, false)
+    fileSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(fileSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -219,8 +219,8 @@ export function generateFileSASQueryParameters(
     undefined,
     undefined,
     fileSASSignatureValues.protocol,
-    fileSASSignatureValues.startTime,
-    fileSASSignatureValues.expiryTime,
+    fileSASSignatureValues.startsOn,
+    fileSASSignatureValues.expiresOn,
     fileSASSignatureValues.ipRange,
     fileSASSignatureValues.identifier,
     resource,

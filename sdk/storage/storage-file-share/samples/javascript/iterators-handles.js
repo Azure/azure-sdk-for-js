@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { FileServiceClient, SharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-share" in your package
+const { ShareServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
@@ -15,11 +15,11 @@ async function main() {
   const shareName = "";
   const dirName = "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential
   );

@@ -9,20 +9,15 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
-import {
-  EventPosition,
-  EventHubClient,
-  EventData,
-  EventHubProperties,
-  EventHubConsumer,
-  ReceivedEventData
-} from "../src";
+import { EventPosition, EventData, EventHubProperties, ReceivedEventData } from "../src";
+import { EventHubClient } from "../src/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@azure/core-tracing";
+import { TraceFlags } from "@opentelemetry/types";
+import { EventHubConsumer } from "../src/receiver";
 const env = getEnvVars();
 
 describe("Misc tests #RunnableInBrowser", function(): void {

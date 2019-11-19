@@ -37,39 +37,21 @@ export class Train {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainTrainVersionResponse>
    */
-  trainVersion(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.TrainTrainVersionResponse>;
+  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainTrainVersionResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  trainVersion(
-    appId: string,
-    versionId: string,
-    callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>
-  ): void;
+  trainVersion(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainVersion(
-    appId: string,
-    versionId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>
-  ): void;
-  trainVersion(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>,
-    callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>
-  ): Promise<Models.TrainTrainVersionResponse> {
+  trainVersion(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): void;
+  trainVersion(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnqueueTrainingResponse>, callback?: msRest.ServiceCallback<Models.EnqueueTrainingResponse>): Promise<Models.TrainTrainVersionResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -77,8 +59,7 @@ export class Train {
         options
       },
       trainVersionOperationSpec,
-      callback
-    ) as Promise<Models.TrainTrainVersionResponse>;
+      callback) as Promise<Models.TrainTrainVersionResponse>;
   }
 
   /**
@@ -91,39 +72,21 @@ export class Train {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainGetStatusResponse>
    */
-  getStatus(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.TrainGetStatusResponse>;
+  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainGetStatusResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getStatus(
-    appId: string,
-    versionId: string,
-    callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>
-  ): void;
+  getStatus(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(
-    appId: string,
-    versionId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>
-  ): void;
-  getStatus(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>,
-    callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>
-  ): Promise<Models.TrainGetStatusResponse> {
+  getStatus(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): void;
+  getStatus(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelTrainingInfo[]>, callback?: msRest.ServiceCallback<Models.ModelTrainingInfo[]>): Promise<Models.TrainGetStatusResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -131,8 +94,7 @@ export class Train {
         options
       },
       getStatusOperationSpec,
-      callback
-    ) as Promise<Models.TrainGetStatusResponse>;
+      callback) as Promise<Models.TrainGetStatusResponse>;
   }
 }
 
@@ -141,7 +103,11 @@ const serializer = new msRest.Serializer(Mappers);
 const trainVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/train",
-  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
   responses: {
     202: {
       bodyMapper: Mappers.EnqueueTrainingResponse
@@ -156,7 +122,11 @@ const trainVersionOperationSpec: msRest.OperationSpec = {
 const getStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/train",
-  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
   responses: {
     200: {
       bodyMapper: {

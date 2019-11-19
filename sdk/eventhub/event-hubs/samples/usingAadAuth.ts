@@ -22,7 +22,7 @@
   Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
-import { EventHubClient } from "@azure/event-hubs";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Define Event Hubs Endpoint and related entity name here here
@@ -33,7 +33,7 @@ const eventHubName = "";
 
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new EventHubClient(evenHubsEndpoint, eventHubName, credential);
+  const client = new EventHubConsumerClient(evenHubsEndpoint, eventHubName, credential);
   /*
    Refer to other samples, and place your code here
    to send/receive events

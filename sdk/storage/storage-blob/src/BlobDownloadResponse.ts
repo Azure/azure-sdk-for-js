@@ -23,7 +23,7 @@ import { ReadableStreamGetter, RetriableReadableStream } from "./utils/Retriable
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
- * The readableStreamBody stream will retry underlayer, you can just use it as a normal Node.js
+ * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
  *
  * @export
@@ -322,6 +322,13 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
     return this.originalResponse.etag;
   }
 
+  /**
+   * The error code.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
   public get errorCode(): string | undefined {
     return this.originalResponse.errorCode;
   }
@@ -434,6 +441,9 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
    * true, then the request returns a crc64 for the range, as long as the range size is less than
    * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
    * specified in the same request, it will fail with 400(Bad Request)
+   *
+   * @type {(Uint8Array | undefined)}
+   * @memberof BlobDownloadResponse
    */
   public get contentCrc64(): Uint8Array | undefined {
     return this.originalResponse.contentCrc64;
@@ -465,6 +475,12 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
     return isNode ? this.blobDownloadStream : undefined;
   }
 
+  /**
+   * The HTTP response.
+   *
+   * @type {HttpResponse}
+   * @memberof BlobDownloadResponse
+   */
   public get _response(): HttpResponse & {
     parsedHeaders: BlobDownloadHeaders;
   } {

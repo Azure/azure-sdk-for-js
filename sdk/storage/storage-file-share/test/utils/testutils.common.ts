@@ -1,4 +1,3 @@
-import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
 
 export function isBrowser(): boolean {
@@ -19,25 +18,4 @@ export function base64encode(content: string): string {
 
 export function base64decode(encodedString: string): string {
   return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
-}
-
-export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
-  constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
-  public log(logLevel: HttpPipelineLogLevel, message: string): void {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
-    }
-  }
 }

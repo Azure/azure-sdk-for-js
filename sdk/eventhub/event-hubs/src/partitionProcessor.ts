@@ -158,6 +158,13 @@ export class PartitionProcessor {
   /**
    * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
    */
+  public get eventProcessorId() {
+    return this._eventProcessorId!;
+  }
+
+  /**
+   * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
+   */
   public set eventProcessorId(eventProcessorId: string) {
     if (!this._eventProcessorId) {
       this._eventProcessorId = eventProcessorId;

@@ -435,9 +435,9 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
     assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStart, undefined);
+    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiry, undefined);
+    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
   });
 });

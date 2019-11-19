@@ -7,8 +7,6 @@ import {
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
-  HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
@@ -16,20 +14,21 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings,
   isNode,
-  ProxySettings,
   tracingPolicy,
-  logPolicy
+  logPolicy,
+  ProxyOptions,
+  UserAgentOptions,
+  KeepAliveOptions,
+  keepAlivePolicy,
+  generateClientRequestIdPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
-import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters
@@ -40,9 +39,7 @@ import {
 export {
   deserializationPolicy,
   IHttpClient,
-  IHttpPipelineLogger,
   HttpHeaders,
-  HttpPipelineLogLevel,
   HttpOperationResponse,
   HttpRequestBody,
   WebResource,
@@ -60,26 +57,20 @@ export {
  */
 export interface PipelineOptions {
   /**
-   * Optional. Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof PipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
-  /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HttpClient?: IHttpClient;
+  httpClient?: IHttpClient;
 }
 
 /**
  * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling newPipeline().
+ * You can create a default Pipeline by calling {@link newPipeline}.
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- * Refer to newPipeline() and provided policies as reference before
+ *
+ * Refer to {@link newPipeline} and provided policies as reference before
  * implementing your customized Pipeline.
  *
  * @export
@@ -122,35 +113,37 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HttpClient,
-      httpPipelineLogger: this.options.logger,
+      httpClient: this.options.httpClient,
       requestPolicyFactories: this.factories
     };
   }
 }
 
 /**
- * Option interface for newPipeline() function.
+ * Option interface for {@link newPipeline} function.
  *
  * @export
  * @interface StoragePipelineOptions
  */
 export interface StoragePipelineOptions {
-  proxy?: ProxySettings | string;
   /**
-   * Telemetry configures the built-in telemetry policy behavior.
+   * Options to configure a proxy for outgoing requests.
+   */
+  proxyOptions?: ProxyOptions;
+  /**
+   * Options for adding user agent details to outgoing requests.
    *
-   * @type {TelemetryOptions}
+   * @type {UserAgentOptions}
    * @memberof StoragePipelineOptions
    */
-  telemetry?: TelemetryOptions;
+  userAgentOptions?: UserAgentOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
-   * @type {RetryOptions}
+   * @type {StorageRetryOptions}
    * @memberof StoragePipelineOptions
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: StorageRetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
@@ -158,13 +151,6 @@ export interface StoragePipelineOptions {
    * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
-  /**
-   * Configures the HTTP pipeline logger.
-   *
-   * @type {IHttpPipelineLogger}
-   * @memberof StoragePipelineOptions
-   */
-  logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
@@ -175,10 +161,10 @@ export interface StoragePipelineOptions {
 }
 
 /**
- * Creates a new Pipeline object with Credential provided.
+ * Creates a new {@link Pipeline} object with {@link Credential} provided.
  *
  * @static
- * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
+ * @param {Credential} credential Such as AnonymousCredential, StorageSharedKeyCredential.
  * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
@@ -192,12 +178,12 @@ export function newPipeline(
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.telemetry),
-    new UniqueRequestIDPolicyFactory(),
-    new BrowserPolicyFactory(),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
+    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    generateClientRequestIdPolicy(),
+    new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageFileLoggingAllowedHeaderNames,
@@ -207,18 +193,11 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
-      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
-    } else {
-      proxySettings = pipelineOptions.proxy;
-    }
-    factories.push(proxyPolicy(proxySettings));
+    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(credential);
 
   return new Pipeline(factories, {
-    HttpClient: pipelineOptions.httpClient,
-    logger: pipelineOptions.logger
+    httpClient: pipelineOptions.httpClient
   });
 }

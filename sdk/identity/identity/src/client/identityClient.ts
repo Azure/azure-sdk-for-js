@@ -11,16 +11,16 @@ import {
   GetTokenOptions,
   createPipelineFromOptions
 } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
-import { logger } from '../util/logging';
+import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
 /**
  * An internal type used to communicate details of a token request's
- * response that should not be sent back as part of the AccessToken.
+ * response that should not be sent back as part of the access token.
  */
 export interface TokenResponse {
   /**
@@ -76,11 +76,18 @@ export class IdentityClient extends ServiceClient {
         refreshToken: response.parsedBody.refresh_token
       };
 
-      logger.info(`IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
+      logger.info(
+        `IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
+      );
       return token;
     } else {
-      const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
-      logger.warning(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`);
+      const error = new AuthenticationError(
+        response.status,
+        response.parsedBody || response.bodyAsText
+      );
+      logger.warning(
+        `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
+      );
       throw error;
     }
   }
@@ -97,7 +104,9 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
-    logger.info(`IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`);
+    logger.info(
+      `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
+    );
 
     const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
@@ -123,7 +132,7 @@ export class IdentityClient extends ServiceClient {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        spanOptions: newOptions.spanOptions,
+        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
         abortSignal: options && options.abortSignal
       });
 
@@ -146,8 +155,10 @@ export class IdentityClient extends ServiceClient {
 
         return null;
       } else {
-        logger.warning(`IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`);
-      span.setStatus({
+        logger.warning(
+          `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
+        );
+        span.setStatus({
           code: CanonicalCode.UNKNOWN,
           message: err.message
         });

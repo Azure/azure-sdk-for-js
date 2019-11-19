@@ -10,7 +10,6 @@ import { AwaitableSender } from 'rhea-promise';
 import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
-import { delay } from '@azure/core-amqp';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
@@ -18,8 +17,8 @@ import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/types';
+import { SpanContext } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -27,13 +26,6 @@ import { WebSocketImpl } from 'rhea-promise';
 // @public
 export interface AbortSignalOptions {
     abortSignal?: AbortSignalLike;
-}
-
-// @public
-export interface BatchOptions {
-    abortSignal?: AbortSignalLike;
-    maxSizeInBytes?: number;
-    partitionKey?: string;
 }
 
 // @public
@@ -54,11 +46,16 @@ export enum CloseReason {
     Shutdown = "Shutdown"
 }
 
+// @public
+export interface CreateBatchOptions {
+    abortSignal?: AbortSignalLike;
+    maxSizeInBytes?: number;
+    partitionKey?: string;
+}
+
 export { DataTransformer }
 
 export { DefaultDataTransformer }
-
-export { delay }
 
 // @public
 export interface EventData {
@@ -84,22 +81,6 @@ export class EventDataBatch {
 }
 
 // @public
-export class EventHubClient {
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    close(): Promise<void>;
-    createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
-    createProducer(options?: EventHubProducerOptions): EventHubProducer;
-    static defaultConsumerGroupName: string;
-    readonly eventHubName: string;
-    readonly fullyQualifiedNamespace: string;
-    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
-    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-}
-
-// @public
 export interface EventHubClientOptions {
     dataTransformer?: DataTransformer;
     retryOptions?: RetryOptions;
@@ -109,20 +90,19 @@ export interface EventHubClientOptions {
 }
 
 // @public
-export class EventHubConsumer {
-    // @internal
-    constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
+export class EventHubConsumerClient {
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
-    readonly consumerGroup: string;
-    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
-    readonly isClosed: boolean;
-    readonly isReceivingMessages: boolean;
-    readonly lastEnqueuedEventInfo: LastEnqueuedEventInfo;
-    readonly ownerLevel: number | undefined;
-    readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
-    }
+    static defaultConsumerGroupName: string;
+    getPartitionIds(): Promise<string[]>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
+    subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
+}
 
 // @public
 export interface EventHubConsumerOptions {
@@ -132,14 +112,19 @@ export interface EventHubConsumerOptions {
 }
 
 // @public
-export class EventHubProducer {
-    // @internal
-    constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions);
+export class EventHubProducerClient {
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
-    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
-    readonly isClosed: boolean;
-    send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
-    }
+    createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
+    sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventDataBatch, partitionId: string, options?: SendBatchOptions): Promise<void>;
+}
 
 // @public
 export interface EventHubProducerOptions {
@@ -152,11 +137,6 @@ export interface EventHubProperties {
     createdAt: Date;
     partitionIds: string[];
     path: string;
-}
-
-// @public
-export interface EventIteratorOptions {
-    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -177,17 +157,14 @@ export class EventPosition {
     }
 
 // @public
-export class EventProcessor {
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
-    readonly id: string;
-    start(): void;
-    stop(): Promise<void>;
+export interface EventProcessorBatchOptions {
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
 }
 
 // @public
 export interface EventProcessorOptions {
-    maxBatchSize?: number;
-    maxWaitTimeInSeconds?: number;
+    defaultEventPosition?: EventPosition;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
@@ -224,14 +201,24 @@ export interface LastEnqueuedEventInfo {
 export { MessagingError }
 
 // @public
-export type OnError = (error: MessagingError | Error) => void;
-
-// @public
-export type OnMessage = (eventData: ReceivedEventData) => void;
-
-// @public
 export interface ParentSpanOptions {
     parentSpan?: Span | SpanContext;
+}
+
+// @public
+export interface PartitionCheckpointer {
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+    // @internal (undocumented)
+    updateCheckpoint(eventDataOrSequenceNumber: ReceivedEventData | number, offset?: number): Promise<void>;
+}
+
+// @public
+export interface PartitionContext {
+    consumerGroupName: string;
+    eventHubName: string;
+    fullyQualifiedNamespace: string;
+    partitionId: string;
 }
 
 // @public
@@ -242,34 +229,13 @@ export interface PartitionManager {
 }
 
 // @public
-export interface PartitionOwnership {
-    consumerGroupName: string;
+export interface PartitionOwnership extends PartitionContext {
     eTag?: string;
-    eventHubName: string;
-    fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
     ownerLevel: number;
-    partitionId: string;
     sequenceNumber?: number;
-}
-
-// @public
-export class PartitionProcessor {
-    close(reason: CloseReason): Promise<void>;
-    consumerGroupName: string;
-    eventHubName: string;
-    eventProcessorId: string;
-    fullyQualifiedNamespace: string;
-    initialize(): Promise<void>;
-    lastEnqueuedEventInfo: LastEnqueuedEventInfo;
-    partitionId: string;
-    partitionManager: PartitionManager;
-    processError(error: Error): Promise<void>;
-    processEvents(events: ReceivedEventData[]): Promise<void>;
-    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
 
 // @public
@@ -281,6 +247,18 @@ export interface PartitionProperties {
     lastEnqueuedTimeUtc: Date;
     partitionId: string;
 }
+
+// @public
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+// @public
+export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -297,25 +275,30 @@ export interface ReceivedEventData {
     };
 }
 
-// @public
-export class ReceiveHandler {
-    // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
-    // 
-    // @internal
-    constructor(receiver: EventHubReceiver);
-    readonly consumerGroup: string | undefined;
-    readonly isReceiverOpen: boolean;
-    readonly partitionId: string | undefined;
-    stop(): Promise<void>;
-}
-
 export { RetryOptions }
 
 // @public
-export interface SendOptions {
+export interface SendBatchOptions {
     abortSignal?: AbortSignalLike;
     parentSpan?: Span | SpanContext;
-    partitionKey?: string | null;
+}
+
+// @public
+export interface Subscription {
+    close(): Promise<void>;
+    isRunning(): boolean;
+}
+
+// @public
+export interface SubscriptionEventHandlers {
+    processClose?: ProcessCloseHandler;
+    processError?: ProcessErrorHandler;
+    processEvents: ProcessEvents;
+    processInitialize?: ProcessInitializeHandler;
+}
+
+// @public
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
 }
 
 export { TokenCredential }

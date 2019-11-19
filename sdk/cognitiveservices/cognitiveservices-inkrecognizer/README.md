@@ -124,3 +124,6 @@ console.log(occurrence.toString() + "word found.");
 [create_acc]: https://azure.microsoft.com/try/cognitive-services/
 [inkrecognizer_docs]: https://docs.microsoft.com/en-us/azure/cognitive-services/ink-recognizer/
 [ref_inkrecognizer_sdk]: https://docs.microsoft.com/en-us/rest/api/cognitiveservices/inkrecognizer/inkrecognizer
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-inkrecognizer%2FREADME.png)

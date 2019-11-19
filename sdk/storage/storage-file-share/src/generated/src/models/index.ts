@@ -18,13 +18,13 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  start?: string;
+  startsOn?: string;
   /**
    * The date-time the policy expires.
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiry?: string;
+  expiresOn?: string;
   /**
    * The permissions for the ACL policy.
    */
@@ -912,7 +912,7 @@ export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Initial data.
    */
-  optionalbody?: coreHttp.HttpRequestBody;
+  body?: coreHttp.HttpRequestBody;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting

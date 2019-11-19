@@ -2,22 +2,22 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { ShareServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();
 
   // List shares
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential
@@ -65,7 +65,7 @@ async function main() {
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
     `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`

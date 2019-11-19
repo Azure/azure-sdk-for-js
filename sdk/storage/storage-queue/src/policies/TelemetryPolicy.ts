@@ -32,7 +32,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * Creates an instance of TelemetryPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {TelemetryOptions} [telemetry]
+   * @param {string} telemetry
    * @memberof TelemetryPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {

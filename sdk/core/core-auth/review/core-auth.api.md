@@ -5,7 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 
 export { AbortSignalLike }
 
@@ -16,14 +16,28 @@ export interface AccessToken {
 }
 
 // @public
-export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    spanOptions?: SpanOptions;
-    timeout?: number;
+export interface GetTokenOptions extends OperationOptions {
 }
 
 // @public
 export function isTokenCredential(credential: any): credential is TokenCredential;
+
+// @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public (undocumented)
+export interface OperationRequestOptions {
+    timeout?: number;
+}
+
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
 
 // @public
 export interface TokenCredential {

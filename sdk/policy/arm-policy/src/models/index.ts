@@ -78,6 +78,11 @@ export interface PolicyAssignment extends BaseResource {
    */
   metadata?: any;
   /**
+   * The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. Possible
+   * values include: 'Default', 'DoNotEnforce'
+   */
+  enforcementMode?: EnforcementMode;
+  /**
    * The ID of the policy assignment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -310,6 +315,14 @@ export interface PolicySetDefinitionListResult extends Array<PolicySetDefinition
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for EnforcementMode.
+ * Possible values include: 'Default', 'DoNotEnforce'
+ * @readonly
+ * @enum {string}
+ */
+export type EnforcementMode = 'Default' | 'DoNotEnforce';
 
 /**
  * Defines values for ResourceIdentityType.

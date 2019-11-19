@@ -88,13 +88,17 @@ export async function execute({
     response.headers[Constants.ThrottleRetryCount] =
       retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
-      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
     return response;
   } catch (err) {
     // TODO: any error
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
-    if (err.code === StatusCodes.Forbidden && err.substatus === SubStatusCodes.WriteForbidden) {
+    if (
+      err.code === StatusCodes.Forbidden &&
+      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+        err.substatus === SubStatusCodes.WriteForbidden)
+    ) {
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {
       retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
@@ -111,7 +115,7 @@ export async function execute({
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
       headers[Constants.ThrottleRetryWaitTimeInMs] =
-        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
       throw err;
     } else {
@@ -120,7 +124,7 @@ export async function execute({
       if (newUrl !== undefined) {
         requestContext.endpoint = newUrl;
       }
-      await sleep(retryPolicy.retryAfterInMilliseconds);
+      await sleep(retryPolicy.retryAfterInMs);
       return execute({
         executeRequest,
         requestContext,

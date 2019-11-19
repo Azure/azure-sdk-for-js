@@ -26,7 +26,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Child classes must implement this method with request signing. This method
-   * will be executed in sendRequest().
+   * will be executed in {@link sendRequest}.
    *
    * @protected
    * @abstract

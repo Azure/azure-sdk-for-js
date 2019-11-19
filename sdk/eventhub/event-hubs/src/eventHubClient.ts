@@ -24,7 +24,8 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
-import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
 
 type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
 
@@ -111,25 +112,10 @@ export interface EventHubProducerOptions {
 }
 
 /**
- * The set of options to configure the `send` operation on the `EventHubProducer`.
- * - `partitionKey` : A value that is hashed to produce a partition assignment.
+ * The set of options to configure the `send` operation on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
- *
- * Example usage:
- * ```js
- * {
- *     partitionKey: 'foo'
- * }
- * ```
  */
-export interface SendOptions {
-  /**
-   * @property
-   * A value that is hashed to produce a partition assignment.
-   * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
-   */
-  partitionKey?: string | null;
+export interface SendBatchOptions {
   /**
    * @property
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -140,6 +126,30 @@ export interface SendOptions {
    * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
    */
   parentSpan?: Span | SpanContext;
+}
+
+/**
+ * The set of options to configure the `send` operation on the `EventHubProducer`.
+ * - `partitionKey` : A value that is hashed to produce a partition assignment.
+ * - `abortSignal`  : A signal used to cancel the send operation.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo'
+ * }
+ * ```
+ *
+ * @internal
+ */
+export interface SendOptions extends SendBatchOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string | null;
 }
 
 /**
@@ -157,7 +167,7 @@ export interface SendOptions {
  * }
  * ```
  */
-export interface BatchOptions {
+export interface CreateBatchOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
@@ -307,6 +317,8 @@ export interface EventHubClientOptions {
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
  *
+ * @internal
+ * @ignore
  */
 export class EventHubClient {
   /**
@@ -593,9 +605,24 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "consumerGroup", consumerGroup);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "partitionId", partitionId);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "eventPosition", eventPosition);
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "createConsumer",
+      "consumerGroup",
+      consumerGroup
+    );
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "createConsumer",
+      "partitionId",
+      partitionId
+    );
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "createConsumer",
+      "eventPosition",
+      eventPosition
+    );
     partitionId = String(partitionId);
     return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
@@ -671,7 +698,12 @@ export class EventHubClient {
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "getPartitionProperties", "partitionId", partitionId);
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "getPartitionProperties",
+      "partitionId",
+      partitionId
+    );
     partitionId = String(partitionId);
     const clientSpan = this._createClientSpan("getPartitionProperties", options.parentSpan);
     try {

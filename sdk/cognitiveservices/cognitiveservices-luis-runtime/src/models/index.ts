@@ -43,10 +43,6 @@ export interface Sentiment {
  */
 export interface Prediction {
   /**
-   * The query after pre-processing and normalization.
-   */
-  normalizedQuery: string;
-  /**
    * The query after spell checking. Only set if spell check was enabled and a spelling mistake was
    * found.
    */
@@ -60,7 +56,7 @@ export interface Prediction {
    */
   intents: { [propertyName: string]: Intent };
   /**
-   * The dictionary representing the entities that fired.
+   * A dictionary representing the entities that fired.
    */
   entities: { [propertyName: string]: any };
   /**
@@ -116,7 +112,7 @@ export interface PredictionRequestOptions {
    * Whether to make the external entities resolution override the predictions if an overlap
    * occurs.
    */
-  overridePredictions?: boolean;
+  preferExternalEntities?: boolean;
 }
 
 /**
@@ -139,6 +135,10 @@ export interface ExternalEntity {
    * A user supplied custom resolution to return as the entity's prediction.
    */
   resolution?: any;
+  /**
+   * A user supplied score to return as the entity's prediction score.
+   */
+  score?: number;
 }
 
 /**
@@ -239,16 +239,16 @@ export type PredictionGetVersionPredictionResponse = PredictionResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PredictionResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PredictionResponse;
+    };
 };
 
 /**
@@ -259,14 +259,14 @@ export type PredictionGetSlotPredictionResponse = PredictionResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PredictionResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PredictionResponse;
+    };
 };

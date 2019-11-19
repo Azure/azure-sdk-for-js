@@ -234,7 +234,8 @@ describe("Cross Partition", function() {
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
         assert(
           percentDifference <= 0.05,
-          "difference between fetchAll request charge and expected request charge should be less than 5%"
+          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${percentDifference *
+            100}`
         );
       }
       queryIterator.reset();

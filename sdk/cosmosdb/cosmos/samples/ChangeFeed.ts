@@ -22,7 +22,9 @@ function doesMatch(actual: any[], expected: any[]) {
 
 function logResult(scenario: string, actual: any[], expected: any[]) {
   const status = doesMatch(actual, expected);
-  console.log(`  ${status} ${scenario} - expected: [${expected.join(", ")}] - actual: [${actual.join(", ")}]`);
+  console.log(
+    `  ${status} ${scenario} - expected: [${expected.join(", ")}] - actual: [${actual.join(", ")}]`
+  );
 }
 
 async function run() {
@@ -68,35 +70,49 @@ async function run() {
 
     console.log(`  👉 Inserted id=3`);
 
-    const specificContinuationIterator = container.items.readChangeFeed(pk, { continuation: lsn.toString() });
-    const specificPointInTimeIterator = container.items.readChangeFeed(pk, { startTime: now });
-    const fromBeginningIterator = container.items.readChangeFeed(pk, { startFromBeginning: true });
-    const fromNowIterator = container.items.readChangeFeed(pk, {});
+    const specificContinuationIterator = container.items.changeFeed(pk, {
+      continuation: lsn.toString()
+    });
+    const specificPointInTimeIterator = container.items.changeFeed(pk, { startTime: now });
+    const fromBeginningIterator = container.items.changeFeed(pk, { startFromBeginning: true });
+    const fromNowIterator = container.items.changeFeed(pk, {});
 
     const { result: specificContinuationResult } = await specificContinuationIterator.fetchNext();
 
-    logResult("initial specific Continuation scenario", [3], specificContinuationResult.map(v => parseInt(v.id)));
+    logResult(
+      "initial specific Continuation scenario",
+      [3],
+      specificContinuationResult.map((v) => parseInt(v.id))
+    );
 
     // First page is empty. It is catching up to a valid continuation.
     const { result: shouldBeEmpty } = await specificPointInTimeIterator.fetchNext();
     logResult(
       "initial specific point in time scenario should be empty while it finds the right continuation",
       [],
-      shouldBeEmpty.map(v => parseInt(v.id))
+      shouldBeEmpty.map((v) => parseInt(v.id))
     );
     // Second page should have results
     const { result: specificPointInTimeResults } = await specificPointInTimeIterator.fetchNext();
     logResult(
       "second specific point in time scenario should have caught up now",
       [2, 3],
-      specificPointInTimeResults.map(v => parseInt(v.id))
+      specificPointInTimeResults.map((v) => parseInt(v.id))
     );
 
     const { result: fromBeginningResults } = await fromBeginningIterator.fetchNext();
-    logResult("initial from beginning scenario", [1, 2, 3], fromBeginningResults.map(v => parseInt(v.id)));
+    logResult(
+      "initial from beginning scenario",
+      [1, 2, 3],
+      fromBeginningResults.map((v) => parseInt(v.id))
+    );
 
     const { result: fromNowResultsShouldBeEmpty } = await fromNowIterator.fetchNext();
-    logResult("initial from now scenario should be empty", [], fromNowResultsShouldBeEmpty.map(v => parseInt(v.id)));
+    logResult(
+      "initial from now scenario should be empty",
+      [],
+      fromNowResultsShouldBeEmpty.map((v) => parseInt(v.id))
+    );
 
     // Now they should all be caught up to the point after id=3, so if we insert a id=4, they should all get it.
     console.log("📢 Phase 2: All scenarios are caught up and should see the same results");
@@ -108,21 +124,25 @@ async function run() {
     logResult(
       "after insert, Specific Continuation scenario",
       [4],
-      specificContinuationResult2.map(v => parseInt(v.id))
+      specificContinuationResult2.map((v) => parseInt(v.id))
     );
 
     const { result: specificPointInTimeResults2 } = await specificPointInTimeIterator.fetchNext();
     logResult(
       "after insert, specific point in time scenario",
       [4],
-      specificPointInTimeResults2.map(v => parseInt(v.id))
+      specificPointInTimeResults2.map((v) => parseInt(v.id))
     );
 
     const { result: fromBeginningResults2 } = await fromBeginningIterator.fetchNext();
-    logResult("after insert, from beginning scenario", [4], fromBeginningResults2.map(v => parseInt(v.id)));
+    logResult(
+      "after insert, from beginning scenario",
+      [4],
+      fromBeginningResults2.map((v) => parseInt(v.id))
+    );
 
     const { result: fromNowResults2 } = await fromNowIterator.fetchNext();
-    logResult("after insert, from now scenario", [4], fromNowResults2.map(v => parseInt(v.id)));
+    logResult("after insert, from now scenario", [4], fromNowResults2.map((v) => parseInt(v.id)));
   } catch (err) {
     handleError(err);
   } finally {

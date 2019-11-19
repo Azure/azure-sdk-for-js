@@ -1,17 +1,19 @@
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -103,9 +105,9 @@ describe("QueueClient", () => {
     const queueAcl = [
       {
         accessPolicy: {
-          expiry: new Date("2018-12-31T11:22:33.4567890Z"),
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
           permissions: "rwdl",
-          start: new Date("2017-12-31T11:22:33.4567890Z")
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }
@@ -173,7 +175,7 @@ describe("QueueClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    await queueClient.getProperties({ spanOptions: { parent: rootSpan } });
+    await queueClient.getProperties({ tracingOptions: { spanOptions: { parent: rootSpan } } });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();

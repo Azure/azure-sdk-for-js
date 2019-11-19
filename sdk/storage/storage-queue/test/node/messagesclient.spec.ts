@@ -1,19 +1,21 @@
 import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { newPipeline } from "../../src";
+import { setupEnvironment } from "../utils/testutils.common";
 
-describe("MessagesClient Node.js only", () => {
+describe("QueueClient message methods, Node.js only", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -103,7 +105,7 @@ describe("MessagesClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential);
 
     const eResult = await newClient.sendMessage(messageContent);
@@ -119,7 +121,7 @@ describe("MessagesClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -139,7 +141,7 @@ describe("MessagesClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 
