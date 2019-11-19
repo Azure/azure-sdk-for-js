@@ -98,14 +98,16 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     });
   }
 
-  async waitForEvents(partitionIds: string[]): Promise<{ partitionId: string; body: string }[]> {
+  async waitForEvents(partitionIds: string[], countOfExpectedEvents?: number): Promise<{ partitionId: string; body: string }[]> {
     const startTime = Date.now();
+
+    countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
 
     // wait until all partitions have received at least 1 event
     while (true) {
-      loggerForTest(`Received ${this.events.length} messages (need ${partitionIds.length})`);
+      loggerForTest(`Received ${this.events.length} messages (need ${countOfExpectedEvents})`);
 
-      if (this.events.length !== partitionIds.length && !this.hasErrors(partitionIds)) {
+      if (this.events.length !== countOfExpectedEvents && !this.hasErrors(partitionIds)) {
         await delay(500);
 
         if (Date.now() - startTime > this.maxTimeToWaitSeconds * 1000) {

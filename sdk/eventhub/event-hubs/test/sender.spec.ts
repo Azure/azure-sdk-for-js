@@ -15,6 +15,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { delay } from "@azure/core-amqp";
+import { SubscriptionHandlerForTests } from './utils/subscriptionHandlerForTests';
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -566,12 +567,35 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Multiple messages", function(): void {
-    it("should be sent successfully in parallel", async function(): Promise<void> {
+    it("should be sent successfully in parallel", async function (): Promise<void> {
+      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+
       const promises = [];
       for (let i = 0; i < 5; i++) {
         promises.push(sendBatch([`Hello World ${i}`]));
       }
       await Promise.all(promises);
+
+      const subscription = await consumerClient.subscribe(tester);
+
+      try {
+        const events = await tester.waitForEvents(await client.getPartitionIds({}), 5);
+
+        // we've allowed the server to choose which partition the messages are distributed to
+        // so our expectation here is just that all the bodies have arrived
+        const bodiesOnly = events.map(evt => evt.body);
+        bodiesOnly.sort();
+
+        bodiesOnly.should.deep.equal([
+          "Hello World 0",
+          "Hello World 1",
+          "Hello World 2",
+          "Hello World 3",
+          "Hello World 4"
+        ]);
+      } finally {
+        subscription.close();
+      }
     });
 
     it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function(): Promise<
