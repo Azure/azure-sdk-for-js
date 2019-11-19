@@ -1,6 +1,7 @@
 ### 2019-11-18 2.1.3
 
 - Fixes a typings issue that causes TypeScript build failures when `noImplicitAny` is set to true with TypeScript versions lower than 3.7.x.
+  [PR 6247](https://github.com/Azure/azure-sdk-for-js/pull/6247)
 
 ### 2019-11-18 2.1.2
 
