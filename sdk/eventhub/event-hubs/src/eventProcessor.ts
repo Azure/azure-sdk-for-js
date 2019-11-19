@@ -28,27 +28,6 @@ export enum CloseReason {
   Shutdown = "Shutdown"
 }
 
-export interface PartitionContextError {
-  /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   */
-  fullyQualifiedNamespace: string;
-  /**
-   * @property The event hub name
-   */
-  eventHubName: string;
-  /**
-   * @property The consumer group name
-   */
-  consumerGroup: string;
-  /**
-   * @property The identifier of the Event Hub partition. Undefined in cases
-   * where the error is not partition specific
-   */
-  partitionId?: string;
-}
-
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
  * of a given partition from a consumer group of an Event Hub instance.

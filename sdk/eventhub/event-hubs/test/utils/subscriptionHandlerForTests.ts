@@ -4,7 +4,6 @@ import { EventHubProducerClient } from '../../src/eventHubProducerClient';
 import { EventHubClient } from '../../src/impl/eventHubClient';
 import { CloseReason, EventPosition, ReceivedEventData } from '../../src';
 import { loggerForTest } from './logHelpers';
-import { PartitionContextError } from '../../src/eventProcessor';
 import { loopUntil } from './testUtils';
 import { delay } from '@azure/core-amqp';
 import chai from "chai";
@@ -66,7 +65,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
       partitionId: context.partitionId
     });
   }
-  async processError(err: Error, context: PartitionContextError) {
+  async processError(err: Error, context: PartitionContext) {
     loggerForTest(`Error in partition ${context.partitionId}: ${err}`)
     should.exist(context.partitionId, `Non-partition level errors should definitely not happen : ${err}`);
 

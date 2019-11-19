@@ -19,7 +19,7 @@ import {
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
-import { EventProcessor, FullEventProcessorOptions, PartitionContextError } from '../src/eventProcessor';
+import { EventProcessor, FullEventProcessorOptions } from '../src/eventProcessor';
 import { Checkpoint } from '../src/partitionProcessor';
 import { delay } from '@azure/core-amqp';
 import { InitializationContext, PartitionContext } from '../src/eventHubConsumerClientModels';
@@ -510,7 +510,7 @@ describe("Event Processor", function (): void {
           const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
           existingEvents.push(event.body);
         }
-        async processError(err: Error, context: PartitionContextError) {
+        async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`)
           didError = true;
           errorName = err.name;

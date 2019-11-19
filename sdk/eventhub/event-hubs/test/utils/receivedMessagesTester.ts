@@ -1,6 +1,5 @@
 import { CloseReason, ReceivedEventData, EventHubProducerClient, EventPosition } from "../../src/";
 import { SubscriptionEventHandlers, PartitionContext, InitializationContext } from "../../src/eventHubConsumerClientModels";
-import { PartitionContextError } from "../../src/eventProcessor";
 import chai from "chai";
 import { delay } from '@azure/core-amqp';
 
@@ -52,7 +51,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     }
   }
 
-  async processError(error: Error, context: PartitionContextError): Promise<void> {
+  async processError(error: Error, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
@@ -171,7 +170,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     return receivedData;
   }
 
-  private contextIsOk(context: PartitionContext | PartitionContextError): void {
+  private contextIsOk(context: PartitionContext | PartitionContext): void {
     context.consumerGroup.should.be.ok;
     context.eventHubName.should.be.ok;
     context.fullyQualifiedNamespace.should.be.ok;
