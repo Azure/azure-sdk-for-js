@@ -18,9 +18,10 @@ import {
 
 const connectionString = "";
 const eventHubName = "";
+const consumerGroup = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
+  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
   const subscription = consumerClient.subscribe({
     // The callback where you add your code to process incoming events

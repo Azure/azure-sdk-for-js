@@ -181,7 +181,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
   > {
     try {
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         "0",
         EventPosition.earliest()
       );
@@ -251,7 +251,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
   > {
     try {
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         "0",
         EventPosition.earliest()
       );
@@ -350,7 +350,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
 
     // Ensure receiver link is opened
     receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroup,
+      EventHubClient.defaultConsumerGroupName,
       "0",
       EventPosition.fromEnqueuedTime(timeNow)
     );
@@ -437,7 +437,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     let errorNewReceiver: string = "";
     try {
       receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         "0",
         EventPosition.earliest()
       );

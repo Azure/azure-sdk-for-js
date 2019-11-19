@@ -27,9 +27,10 @@ const connectionString = "";
 const eventHubName = "";
 const storageConnectionString = "";
 const containerName = "";
+const consumerGroup = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroup, connectionString, eventHubName);
+  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
   
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage

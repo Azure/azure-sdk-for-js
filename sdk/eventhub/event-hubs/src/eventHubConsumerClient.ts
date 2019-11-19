@@ -50,7 +50,7 @@ export class EventHubConsumerClient {
    * @property
    * The name of the default consumer group in the Event Hubs service.
    */
-  static defaultConsumerGroup: string = Constants.defaultConsumerGroup;
+  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 
   /**
    * @constructor

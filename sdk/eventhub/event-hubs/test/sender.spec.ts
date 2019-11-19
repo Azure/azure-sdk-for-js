@@ -25,7 +25,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   const producerClient = new EventHubProducerClient(service.connectionString, service.path);
   const consumerClient = new EventHubConsumerClient(
-    EventHubConsumerClient.defaultConsumerGroup,
+    EventHubConsumerClient.defaultConsumerGroupName,
     service.connectionString,
     service.path
   );
@@ -468,7 +468,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     it("with max message size should be sent successfully.", async function(): Promise<void> {
       const partitionInfo = await client.getPartitionProperties("0");
       const consumer = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         "0",
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       );
