@@ -15,7 +15,7 @@ import { TokenCredential, Constants } from "@azure/core-amqp";
 import * as log from "./log";
 
 import {
-  SubscriptionOptions,
+  SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
@@ -203,7 +203,7 @@ export class EventHubConsumerClient {
    * @param options Options to handle additional events related to partitions (errors,
    *                opening, closing) as well as batch sizing.
    */
-  subscribe(handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription; // #1
+  subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
    * Subscribe to all messages from a subset of partitions.
    *
@@ -221,7 +221,7 @@ export class EventHubConsumerClient {
   subscribe(
     partitionId: string,
     handlers: SubscriptionEventHandlers,
-    options?: SubscriptionOptions
+    options?: SubscribeOptions
   ): Subscription; // #2
   /**
    * Subscribes to multiple partitions.
@@ -238,12 +238,12 @@ export class EventHubConsumerClient {
   subscribe(
     checkpointStore: CheckpointStore,
     handlers: SubscriptionEventHandlers,
-    options?: SubscriptionOptions
+    options?: SubscribeOptions
   ): Subscription; // #3
   subscribe(
     handlersOrPartitionIdOrCheckpointStore1?: SubscriptionEventHandlers | string | CheckpointStore,
-    optionsOrHandlers2?: SubscriptionOptions | SubscriptionEventHandlers,
-    possibleOptions3?: SubscriptionOptions
+    optionsOrHandlers2?: SubscribeOptions | SubscriptionEventHandlers,
+    possibleOptions3?: SubscribeOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
 
@@ -252,7 +252,7 @@ export class EventHubConsumerClient {
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const subscriptionOptions = possibleOptions3 as SubscriptionOptions | undefined;
+      const subscribeOptions = possibleOptions3 as SubscribeOptions | undefined;
       const partitionId = handlersOrPartitionIdOrCheckpointStore1;
 
       log.consumerClient(`Subscribing to specific partition (${partitionId}), no coordination.`);
@@ -269,7 +269,7 @@ export class EventHubConsumerClient {
           ...possibleOptions3,
           // this load balancer will just grab _all_ the partitions, not looking at ownership
           partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
-          ownerLevel: getOwnerLevel(subscriptionOptions, "noOwner")
+          ownerLevel: getOwnerLevel(subscribeOptions, "noOwner")
         }
       );
     } else if (
@@ -278,7 +278,7 @@ export class EventHubConsumerClient {
     ) {
       // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
       log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
-      const subscriptionOptions = possibleOptions3 as SubscriptionOptions | undefined;
+      const subscribeOptions = possibleOptions3 as SubscribeOptions | undefined;
       const checkpointStore = handlersOrPartitionIdOrCheckpointStore1;
 
       eventProcessor = new EventProcessor(
@@ -289,13 +289,13 @@ export class EventHubConsumerClient {
         {
           ...defaultConsumerClientOptions,
           ...possibleOptions3,
-          ownerLevel: getOwnerLevel(subscriptionOptions, 0)
+          ownerLevel: getOwnerLevel(subscribeOptions, 0)
         }
       );
     } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrCheckpointStore1)) {
       // #1: subscribe overload - read from all partitions, don't coordinate
       log.consumerClient("Subscribing to all partitions, don't coordinate.");
-      const subscriptionOptions = optionsOrHandlers2 as SubscriptionOptions | undefined;
+      const subscribeOptions = optionsOrHandlers2 as SubscribeOptions | undefined;
       const checkpointStore = new InMemoryCheckpointStore();
 
       eventProcessor = new EventProcessor(
@@ -305,8 +305,8 @@ export class EventHubConsumerClient {
         checkpointStore,
         {
           ...defaultConsumerClientOptions,
-          ...(optionsOrHandlers2 as SubscriptionOptions),
-          ownerLevel: getOwnerLevel(subscriptionOptions, "noOwner"),
+          ...(optionsOrHandlers2 as SubscribeOptions),
+          ownerLevel: getOwnerLevel(subscribeOptions, "noOwner"),
           partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
@@ -354,7 +354,7 @@ function isSubscriptionEventHandlers(
 }
 
 function getOwnerLevel(
-  options: SubscriptionOptions | undefined,
+  options: SubscribeOptions | undefined,
   defaultOwnerLevel: number | "noOwner"
 ): number | undefined {
   if (options && options.ownerLevel) {

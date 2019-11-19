@@ -129,7 +129,7 @@ export interface SubscriptionEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscriptionOptions {
+export interface SubscribeOptions {
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its

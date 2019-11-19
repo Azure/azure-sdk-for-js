@@ -20,7 +20,7 @@ export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
   InitializationContext,
-  SubscriptionOptions,
+  SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
   PartitionContext,

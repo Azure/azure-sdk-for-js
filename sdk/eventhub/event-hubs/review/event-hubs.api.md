@@ -83,9 +83,9 @@ export class EventHubConsumerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    subscribe(handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
-    subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
-    subscribe(checkpointStore: CheckpointStore, handlers: SubscriptionEventHandlers, options?: SubscriptionOptions): Subscription;
+    subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
+    subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
+    subscribe(checkpointStore: CheckpointStore, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
 }
 
 // @public
@@ -227,6 +227,12 @@ export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public
+export interface SubscribeOptions {
+    ownerLevel?: number;
+    trackLastEnqueuedEventProperties?: boolean;
+}
+
+// @public
 export interface Subscription {
     close(): Promise<void>;
     isRunning: boolean;
@@ -238,12 +244,6 @@ export interface SubscriptionEventHandlers {
     processError?: ProcessErrorHandler;
     processEvent: ProcessEventHandler;
     processInitialize?: ProcessInitializeHandler;
-}
-
-// @public
-export interface SubscriptionOptions {
-    ownerLevel?: number;
-    trackLastEnqueuedEventProperties?: boolean;
 }
 
 export { TokenCredential }

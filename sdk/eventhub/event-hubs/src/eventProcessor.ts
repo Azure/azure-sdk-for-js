@@ -10,7 +10,7 @@ import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
-import { SubscriptionOptions } from "./eventHubConsumerClientModels";
+import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 
 /**
@@ -151,7 +151,7 @@ export type SubscriptionEventHandlersKeys =
 export interface FullEventProcessorOptions
   extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
   // for our internal classes (these are optional for external users)
-  Pick<SubscriptionOptions, Exclude<keyof SubscriptionOptions, SubscriptionEventHandlersKeys>> {
+  Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
