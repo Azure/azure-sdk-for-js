@@ -87,6 +87,9 @@ export function browserConfig(test = false, production = false) {
         // modules with built-in names must have a trailing slash.
         // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         // namedExports: { "events/": ["EventEmitter"] }
+        namedExports: {
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]

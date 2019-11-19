@@ -37,7 +37,7 @@ describe("Change Feed Iterator", function() {
     });
 
     it("should throw if used with no partition key or partition key range id", async function() {
-      const iterator = container.items.readChangeFeed({ startFromBeginning: true });
+      const iterator = container.items.changeFeed({ startFromBeginning: true });
 
       try {
         await iterator.fetchNext();
@@ -52,7 +52,7 @@ describe("Change Feed Iterator", function() {
     });
 
     it("should fetch updated items only", async function() {
-      const iterator = container.items.readChangeFeed("0", { startFromBeginning: true });
+      const iterator = container.items.changeFeed("0", { startFromBeginning: true });
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
@@ -107,7 +107,7 @@ describe("Change Feed Iterator", function() {
     });
 
     it("should fetch new items only", async function() {
-      const iterator = container.items.readChangeFeed("0", {});
+      const iterator = container.items.changeFeed("0", {});
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");

@@ -1,6 +1,6 @@
 import resolve from "rollup-plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 import typescript from "rollup-plugin-typescript2";
 

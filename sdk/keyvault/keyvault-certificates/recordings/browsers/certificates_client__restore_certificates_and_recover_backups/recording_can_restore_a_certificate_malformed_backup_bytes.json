@@ -12,7 +12,7 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
-    "x-ms-keyvault-network-info": "addr=52.175.209.7;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=13.66.157.165;act_addr_fam=InterNetwork;",
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -21,9 +21,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.882",
-    "date": "Wed, 06 Nov 2019 20:52:55 GMT",
+    "date": "Mon, 18 Nov 2019 22:26:10 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "f3d5d413-d5e8-4720-aeba-8697fa79895d",
+    "x-ms-request-id": "7849e489-4fde-4d98-b2b6-3a89a6fc7102",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -40,13 +40,13 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "date": "Wed, 06 Nov 2019 20:52:56 GMT",
+    "date": "Mon, 18 Nov 2019 22:26:10 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "16ac2bee-1662-4219-836c-3f49f7ae0400",
+    "x-ms-request-id": "bd534143-0ea0-4fda-9c18-1dab13427800",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9645.7 - EUS ProdSlices",
+    "x-ms-ests-server": "2.1.9677.8 - EUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -63,7 +63,7 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.175.209.7;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=13.66.157.165;act_addr_fam=InterNetwork;",
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "400",
@@ -72,9 +72,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.882",
-    "date": "Wed, 06 Nov 2019 20:52:56 GMT",
+    "date": "Mon, 18 Nov 2019 22:26:10 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "d043c62b-057d-4951-adff-ec4524001527",
+    "x-ms-request-id": "a922ae1c-41b0-4270-9c18-7cb33a7c5ef5",
     "cache-control": "no-cache",
     "expires": "-1"
    }

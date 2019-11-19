@@ -12,7 +12,8 @@ import {
   createPipelineFromOptions
 } from "@azure/core-http";
 
-import { getTracer, Span } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
 
 import "@azure/core-paging";
@@ -57,7 +58,7 @@ import {
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
   ListDeletedSecretsOptions,
-  SecretProperties,
+  SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -1007,7 +1008,7 @@ export class SecretClient {
    * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecordingEvents()) {
+    if (span.isRecording()) {
       return {
         ...options,
         spanOptions: {

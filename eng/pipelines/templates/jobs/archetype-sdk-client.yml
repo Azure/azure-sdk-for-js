@@ -1,5 +1,4 @@
 parameters:
-  RunUnitTests: true
   Artifacts: []
   ServiceDirectory: not-specified
   Matrix:
@@ -228,47 +227,47 @@ jobs:
         displayName: "Component Detection"
 
   # Only run tests if the matrix has entries
-  - ${{ if eq(parameters.RunUnitTests, 'true') }}:
-      - job: "UnitTest"
+  - ${{ if ne(parameters.RunUnitTests, false) }}:
+    - job: "UnitTest"
 
-        strategy:
-          matrix: ${{parameters.Matrix}}
+      strategy:
+        matrix: ${{parameters.Matrix}}
 
-        pool:
-          vmImage: "$(OSVmImage)"
+      pool:
+        vmImage: "$(OSVmImage)"
 
-        variables:
-          - template: ../variables/globals.yml
+      variables:
+        - template: ../variables/globals.yml
 
-        steps:
-          - template: ../steps/common.yml
+      steps:
+        - template: ../steps/common.yml
 
-          - script: |
-              node common/scripts/install-run-rush.js install
-            displayName: "Install dependencies"
+        - script: |
+            node common/scripts/install-run-rush.js install
+          displayName: "Install dependencies"
 
-          - script: |
-              node eng/tools/rush-runner.js build --verbose
-            displayName: "Build libraries"
+        - script: |
+            node eng/tools/rush-runner.js build --verbose
+          displayName: "Build libraries"
 
-          - script: |
-              node eng/tools/rush-runner.js build:test --verbose
-            displayName: "Build test assets"
+        - script: |
+            node eng/tools/rush-runner.js build:test --verbose
+          displayName: "Build test assets"
 
-          - script: |
-              node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose
-            displayName: "Test libraries"
+        - script: |
+            node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose
+          displayName: "Test libraries"
 
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFiles: "**/test-results.xml"
-              testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
-            condition: succeededOrFailed()
-            displayName: "Publish NodeJS unit test results"
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFiles: "**/test-results.xml"
+            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
+          condition: succeededOrFailed()
+          displayName: "Publish NodeJS unit test results"
 
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFiles: "**/test-results.browser.xml"
-              testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
-            condition: succeededOrFailed()
-            displayName: "Publish browser unit test results"
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFiles: "**/test-results.browser.xml"
+            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+          condition: succeededOrFailed()
+          displayName: "Publish browser unit test results"

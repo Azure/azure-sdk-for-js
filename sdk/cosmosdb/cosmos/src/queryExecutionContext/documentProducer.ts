@@ -131,12 +131,12 @@ export class DocumentProducer {
     if (allFetched) {
       this.allFetched = true;
     }
-    if (this.internalExecutionContext.continuation === this.continuationToken) {
+    if (this.internalExecutionContext.continuationToken === this.continuationToken) {
       // nothing changed
       return;
     }
     this.previousContinuationToken = this.continuationToken;
-    this.continuationToken = this.internalExecutionContext.continuation;
+    this.continuationToken = this.internalExecutionContext.continuationToken;
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any) {

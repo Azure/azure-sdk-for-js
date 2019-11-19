@@ -4,15 +4,17 @@ import {
   getGenericBSU,
   getGenericCredential,
   getTokenCredential,
-  SimpleTokenCredential
+  SimpleTokenCredential,
+  setupEnvironment
 } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { BlobBatch } from "../src/BlobBatch";
 import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
 
 dotenv.config({ path: "../.env" });
 
 describe("BlobBatch", () => {
+  setupEnvironment();
   const blobServiceClient = getGenericBSU("");
   const blobBatchClient = blobServiceClient.getBlobBatchClient();
   const credential = getGenericCredential("");
@@ -22,7 +24,7 @@ describe("BlobBatch", () => {
   let blockBlobURLs: BlockBlobClient[] = new Array(blockBlobCount);
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -49,6 +51,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work for batch delete", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobURLs[i].upload(content, content.length);
@@ -85,6 +91,10 @@ describe("BlobBatch", () => {
   });
 
   it("deleteBlobs should work for batch delete", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobURLs[i].upload(content, content.length);
@@ -116,6 +126,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work for batch delete with snapshot", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     //
     // Test delete blob with snapshot.
     //
@@ -227,6 +241,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work for batch delete with access condition and partial succeed", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     const b0 = await blockBlobURLs[0].upload(content, content.length);
     const b1 = await blockBlobURLs[1].upload(content, content.length);
@@ -264,6 +282,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work for batch set tier", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobURLs[i].upload(content, content.length);
@@ -295,6 +317,10 @@ describe("BlobBatch", () => {
   });
 
   it("setBlobsAccessTier should work for batch set tier", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobURLs[i].upload(content, content.length);
@@ -321,6 +347,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work for batch set tier with lease condition", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     await blockBlobURLs[0].upload(content, content.length);
     await blockBlobURLs[1].upload(content, content.length);
@@ -358,6 +388,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should work with multiple types of credentials for subrequests", async function() {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let tokenCredential;
@@ -472,6 +506,10 @@ describe("BlobBatch", () => {
   });
 
   it("submitBatch should report error with invalid credential for batch request", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     // Upload blobs.
     await blockBlobURLs[0].upload(content, content.length);
 

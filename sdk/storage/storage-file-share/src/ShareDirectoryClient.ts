@@ -38,7 +38,7 @@ import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 
 /**
  * Options to configure {@link ShareDirectoryClient.create} operation.

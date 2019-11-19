@@ -16,7 +16,8 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 
-import { getTracer, Span } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -615,7 +616,7 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  private readonly vaultUrl: string;
+  public readonly vaultUrl: string;
 
   /**
    * @internal
@@ -764,7 +765,7 @@ export class CryptographyClient {
    * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecordingEvents()) {
+    if (span.isRecording()) {
       return {
         ...options,
         spanOptions: {

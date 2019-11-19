@@ -329,7 +329,7 @@ export class EventProcessor {
       partitionProcessor.partitionManager = this._partitionManager;
       partitionProcessor.eventProcessorId = this.id;
 
-      const eventPosition = ownershipRequest.sequenceNumber
+      const eventPosition = ownershipRequest.sequenceNumber != null
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
         : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 
