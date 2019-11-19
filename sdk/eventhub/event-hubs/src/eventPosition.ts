@@ -220,7 +220,7 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
 }
 
 export function isEarliestEventPosition(eventPosition: EventPosition) : boolean {
-  if (eventPosition.offset && eventPosition.offset === -1) {
+  if (eventPosition.offset === -1) {
     return true;
   }
 
