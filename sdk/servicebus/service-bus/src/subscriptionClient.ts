@@ -207,7 +207,7 @@ export class SubscriptionClient implements Client {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error for the peek operation.
+   * @throws MessagingError if the service returns an error while receiving peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -229,7 +229,7 @@ export class SubscriptionClient implements Client {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error for the peekBySequenceNumber operation.
+   * @throws MessagingError if the service returns an error while receiving peeking for messages.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -252,7 +252,7 @@ export class SubscriptionClient implements Client {
   /**
    * Gets all rules associated with the subscription
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error for the getRules operation.
+   * @throws MessagingError if the service returns an error while retrieving rules.
    */
   async getRules(): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -270,7 +270,7 @@ export class SubscriptionClient implements Client {
    * any more messages.
    * @param ruleName
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error for the removeRule operation.
+   * @throws MessagingError if the service returns an error while removing rules.
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
@@ -293,7 +293,7 @@ export class SubscriptionClient implements Client {
    * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
    * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error for the addRule operation.
+   * @throws MessagingError if the service returns an error while adding rules.
    */
   async addRule(
     ruleName: string,
