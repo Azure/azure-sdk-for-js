@@ -5,7 +5,7 @@ import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common";
 import { SERVICE_VERSION } from "./utils/constants";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions } from "@opentelemetry/types";
 
 /**
  * An interface for options common to every remote operation.
