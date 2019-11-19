@@ -77,7 +77,7 @@ function enableLocalRun(file, baseDir, pkgName) {
   const depth =
     relativeDir.length - relativeDir.split(path.sep).join("").length;
 
-  const relativeImportPath = new Array(depth).fill("..").join(path.sep);
+  const relativeImportPath = new Array(depth).fill("..").join("/") + "/src";
   const updatedContents = fileContents.replace(
     sbregex,
     `import $1 from "${relativeImportPath}";`
