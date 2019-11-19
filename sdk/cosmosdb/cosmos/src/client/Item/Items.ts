@@ -115,7 +115,7 @@ export class Items {
    */
   public readChangeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -133,7 +133,7 @@ export class Items {
    */
   public readChangeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
