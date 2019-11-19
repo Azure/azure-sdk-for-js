@@ -73,7 +73,7 @@ dependencies:
   '@types/xml2js': 0.4.5
   '@types/yargs': 13.0.3
   '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
-  '@typescript-eslint/eslint-plugin-tslint': 2.3.3_b59d477ade0dc5a661ef52efd8e8a8ce
+  '@typescript-eslint/eslint-plugin-tslint': 2.8.0_b59d477ade0dc5a661ef52efd8e8a8ce
   '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
   assert: 1.5.0
   async-lock: 1.2.2
@@ -924,9 +924,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-K8/LfZq2duW33XW/tFwEAfnZlqIfVsoyRB3kfXdPXYhl0nfM8mmh7GS0jg7WrX2Dgq/0Ha/pR1PaR+BvmWwjiQ==
-  /@typescript-eslint/eslint-plugin-tslint/2.3.3_b59d477ade0dc5a661ef52efd8e8a8ce:
+  /@typescript-eslint/eslint-plugin-tslint/2.8.0_b59d477ade0dc5a661ef52efd8e8a8ce:
     dependencies:
-      '@typescript-eslint/experimental-utils': 2.3.3_eslint@6.6.0
+      '@typescript-eslint/experimental-utils': 2.8.0_eslint@6.6.0+typescript@3.6.4
       eslint: 6.6.0
       lodash.memoize: 4.1.2
       tslint: 5.20.1_typescript@3.6.4
@@ -939,7 +939,7 @@ packages:
       tslint: ^5.0.0
       typescript: '*'
     resolution:
-      integrity: sha512-zJCrQLrwakkYyMaCySW8I35gl2StOc3xJ0LqhhHXkRTWsFtMYLD92HhFcJyW2zpOQYi+rJXhTE5rrXXV75Rlew==
+      integrity: sha512-Z8BQPQKy8XdlIPTvhV8i2F5e1eq4a7x+S0hOvw0K3TNlm0SsCr+yCj3OSmDRrFU40HC3RxgkmybRjw4iR9iPnw==
   /@typescript-eslint/eslint-plugin/2.8.0_892bab88de961f0b2a7f511a2fa40150:
     dependencies:
       '@typescript-eslint/experimental-utils': 2.8.0_eslint@6.6.0+typescript@3.6.4
@@ -961,19 +961,6 @@ packages:
         optional: true
     resolution:
       integrity: sha512-ohqul5s6XEB0AzPWZCuJF5Fd6qC0b4+l5BGEnrlpmvXxvyymb8yw8Bs4YMF8usNAeuCJK87eFIHy8g8GFvOtGA==
-  /@typescript-eslint/experimental-utils/2.3.3_eslint@6.6.0:
-    dependencies:
-      '@types/json-schema': 7.0.3
-      '@typescript-eslint/typescript-estree': 2.3.3
-      eslint: 6.6.0
-      eslint-scope: 5.0.0
-    dev: false
-    engines:
-      node: ^8.10.0 || ^10.13.0 || >=11.10.1
-    peerDependencies:
-      eslint: '*'
-    resolution:
-      integrity: sha512-MQ4jKPMTU1ty4TigJCRKFPye2qyQdH8jzIIkceaHgecKFmkNS1hXPqKiZ+mOehkz6+HcN5Nuvwm+frmWZR9tdg==
   /@typescript-eslint/experimental-utils/2.8.0_eslint@6.6.0+typescript@3.6.4:
     dependencies:
       '@types/json-schema': 7.0.3
@@ -1003,17 +990,6 @@ packages:
       typescript: '*'
     resolution:
       integrity: sha512-NseXWzhkucq+JM2HgqAAoKEzGQMb5LuTRjFPLQzGIdLthXMNUfuiskbl7QSykvWW6mvzCtYbw1fYWGa2EIaekw==
-  /@typescript-eslint/typescript-estree/2.3.3:
-    dependencies:
-      glob: 7.1.6
-      is-glob: 4.0.1
-      lodash.unescape: 4.0.1
-      semver: 6.3.0
-    dev: false
-    engines:
-      node: ^8.10.0 || ^10.13.0 || >=11.10.1
-    resolution:
-      integrity: sha512-GkACs12Xp8d/STunNv/iSMYJFQrkrax9vuPZySlgSzoJJtw1cp6tbEw4qsLskQv6vloLrkFJHcTJ0a/yCB5cIA==
   /@typescript-eslint/typescript-estree/2.8.0_typescript@3.6.4:
     dependencies:
       debug: 4.1.1
@@ -10154,7 +10130,7 @@ packages:
       '@types/underscore': 1.9.4
       '@types/uuid': 3.4.6
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
-      '@typescript-eslint/eslint-plugin-tslint': 2.3.3_b59d477ade0dc5a661ef52efd8e8a8ce
+      '@typescript-eslint/eslint-plugin-tslint': 2.8.0_b59d477ade0dc5a661ef52efd8e8a8ce
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       cross-env: 6.0.3
       debug: 4.1.1
@@ -10205,7 +10181,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-WodNi0rAEXTXUfcNIaKntW6Jr/3KnXCCZ73cQ1RLFDt4DKvlD88VK6DYkpVz/6Ey7ajm7t82fXIQ9PIMK1g8cQ==
+      integrity: sha512-qJB1c/AVxbXA96Ut8fpxIvLPMlPe0IheIYcnbY2BwuHkcAGnJkDJh4/o2oYNyjoOg2f2tipIosXRtR31gQusxw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -11161,7 +11137,7 @@ specifiers:
   '@types/xml2js': ^0.4.3
   '@types/yargs': ^13.0.0
   '@typescript-eslint/eslint-plugin': ^2.0.0
-  '@typescript-eslint/eslint-plugin-tslint': ~2.3.0
+  '@typescript-eslint/eslint-plugin-tslint': ^2.8.0
   '@typescript-eslint/parser': ^2.0.0
   assert: ^1.4.1
   async-lock: ^1.1.3
