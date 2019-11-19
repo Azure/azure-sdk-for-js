@@ -1,6 +1,11 @@
 import * as assert from "assert";
 
-import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  setupEnvironment
+} from "../utils";
 import {
   BlockBlobClient,
   newPipeline,
@@ -10,9 +15,10 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "../utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 
 describe("BlockBlobClient Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;

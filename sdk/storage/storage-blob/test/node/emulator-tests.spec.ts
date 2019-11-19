@@ -7,13 +7,8 @@ import {
   BlockBlobClient,
   PageBlobClient
 } from "../../src";
-import {
-  getBSU,
-  getConnectionStringFromEnvironment,
-  env,
-  bodyToString,
-  getUniqueName
-} from "../utils";
+import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
+import { env } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 // Expected environment variable to run this test-suite

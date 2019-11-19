@@ -11,13 +11,19 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions
 } from "../../src";
-import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  setupEnvironment
+} from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "../utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
