@@ -56,7 +56,7 @@ export { OpenCensusSpan }
 export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
-    addEvent(name: string, attributes?: Attributes): this;
+    addEvent(_name: string, _attributes?: Attributes): this;
     context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
