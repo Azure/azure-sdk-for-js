@@ -919,18 +919,17 @@ export class MessageSession extends LinkEntity {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
-    idleTimeoutInSeconds?: number
+    maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
-    if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    if (maxWaitTimeInSeconds == null) {
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -968,7 +967,7 @@ export class MessageSession extends LinkEntity {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          idleTimeoutInSeconds
+          maxWaitTimeInSeconds
         );
         return finalAction();
       };
@@ -1102,10 +1101,10 @@ export class MessageSession extends LinkEntity {
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
-          (idleTimeoutInSeconds as number) * 1000
+          (maxWaitTimeInSeconds as number) * 1000
         );
       };
 
