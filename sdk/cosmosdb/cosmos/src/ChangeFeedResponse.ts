@@ -69,7 +69,7 @@ export class ChangeFeedResponse<T> {
    * Gets the entity tag associated with last transaction in the Azure Cosmos DB service,
    * which can be used as If-Non-Match Access condition for ReadFeed REST request or
    * `continuation` property of `ChangeFeedOptions` parameter for
-   * `Items.readChangeFeed()`
+   * `Items.changeFeed()`
    * to get feed changes since the transaction specified by this entity tag.
    *
    * This is equivalent to the `continuation` property.

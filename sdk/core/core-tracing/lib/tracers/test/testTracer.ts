@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { NoOpTracer } from "../noop/noOpTracer";
-import { SpanOptions } from "../../interfaces/SpanOptions";
 import { TestSpan } from "./testSpan";
-import { SpanContext } from "../../interfaces/span_context";
-import { SpanKind } from "../../interfaces/span_kind";
+import { SpanContext, SpanKind, SpanOptions } from "@opentelemetry/types";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -151,13 +149,14 @@ export class TestTracer extends NoOpTracer {
 
   private _getParentContext(options: SpanOptions): SpanContext | undefined {
     const parent = options.parent;
+    let result: SpanContext | undefined;
     if (parent) {
       if ("traceId" in parent) {
-        return parent;
+        result = parent;
       } else {
-        return parent.context();
+        result = parent.context();
       }
     }
-    return;
+    return result;
   }
 }

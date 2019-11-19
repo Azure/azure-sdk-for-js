@@ -7,8 +7,8 @@ import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
-import { CanonicalCode } from "@azure/core-tracing";
-import { logger } from '../util/logging';
+import { CanonicalCode } from "@opentelemetry/types";
+import { logger } from "../util/logging";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -130,7 +130,11 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
 
       if (err.name === AuthenticationErrorName) {
-        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`);
+        logger.warning(
+          `DeviceCodeCredential: failed to authenticate ${
+            (err as AuthenticationError).errorResponse.errorDescription
+          }`
+        );
       } else {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
       }

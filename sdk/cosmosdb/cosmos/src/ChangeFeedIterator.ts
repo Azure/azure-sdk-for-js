@@ -12,7 +12,7 @@ import { Response } from "./request";
 /**
  * Provides iterator for change feed.
  *
- * Use `Items.readChangeFeed()` to get an instance of the iterator.
+ * Use `Items.changeFeed()` to get an instance of the iterator.
  */
 export class ChangeFeedIterator<T> {
   private static readonly IfNoneMatchAllHeaderValue = "*";

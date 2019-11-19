@@ -82,7 +82,10 @@ export function browserConfig(test = false, production = false) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]

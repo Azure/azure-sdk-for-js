@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { NoOpSpan } from "../noop/noOpSpan";
-import { Status, CanonicalCode } from "../../interfaces/status";
-import { SpanContext } from "../../interfaces/span_context";
+import {
+  TimeInput,
+  Tracer,
+  SpanKind,
+  Status,
+  SpanContext,
+  CanonicalCode
+} from "@opentelemetry/types";
 import { TestTracer } from "./testTracer";
-import { SpanKind } from "../../interfaces/span_kind";
-import { TimeInput } from "../../interfaces/Time";
-import { Tracer } from "../../interfaces/tracer";
 
 /**
  * A mock span useful for testing.
@@ -110,7 +113,7 @@ export class TestSpan extends NoOpSpan {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     return true;
   }
 }
