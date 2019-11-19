@@ -227,7 +227,7 @@ jobs:
         displayName: "Component Detection"
 
   # Only run tests if the matrix has entries
-  - ${{ if eq(parameters.RunUnitTests, true) }}:
+  - ${{ if ne(parameters.RunUnitTests, false) }}:
     - job: "UnitTest"
 
       strategy:
