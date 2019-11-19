@@ -99,7 +99,7 @@ export namespace ConnectionContext {
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
-      // TODO: no longer customizable (for now)
+      // re-enabling this will be a post-GA discussion.
       // dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
       connectionProperties: {

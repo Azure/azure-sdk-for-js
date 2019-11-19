@@ -309,7 +309,6 @@ export class EventProcessor {
           eventProcessorId: this.id,
         });
 
-      // TODO: why can't I just _ask_ for a particular checkpoint? Is "efficiency" the answer?
       const availableCheckpoints = await this._checkpointStore.listCheckpoints(
         this._eventHubClient.fullyQualifiedNamespace,
         this._eventHubClient.eventHubName,

@@ -325,7 +325,6 @@ describe("Event Processor", function (): void {
       );
     });
 
-    // TODO: this actually seems like it could just be a unit test.
     it("should receive events from the checkpoint", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds({});
 
@@ -334,7 +333,6 @@ describe("Event Processor", function (): void {
 
       let checkpointMap = new Map<string, ReceivedEventData[]>();
       partitionIds.forEach((id) => checkpointMap.set(id, []));
-
 
       let didError = false;
       let processedAtLeastOneEvent = new Set();

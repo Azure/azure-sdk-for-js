@@ -239,7 +239,7 @@ export interface EventHubClientOptions {
    *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
    *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
    */
-  // TODO: for now, not exposing to the user.
+  // re-enabling this will be a post-GA discussion.
   //dataTransformer?: DataTransformer;
   /**
    * @property
