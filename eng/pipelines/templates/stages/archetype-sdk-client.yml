@@ -1,6 +1,5 @@
 parameters:
   Artifacts: []
-  RunUnitTests: true
   ServiceDirectory: not-specified
 
 stages:
