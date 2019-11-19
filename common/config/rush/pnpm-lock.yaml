@@ -199,7 +199,7 @@ dependencies:
   ws: 7.2.0
   xhr-mock: 2.5.1
   xml2js: 0.4.22
-  yargs: 14.2.1
+  yargs: 14.2.2
   yarn: 1.19.1
 lockfileVersion: 5.1
 packages:
@@ -337,7 +337,7 @@ packages:
       eslint: ^6.1.0
     resolution:
       integrity: sha512-HszGr6szVke1FOr07hy+JojKm36qh9n3IfYdehZRx7Wi19cY1EUmFq1PT5OasbNC/DoVqB3yx8Olfw4t5YBxVA==
-  /@azure/event-hubs/2.1.1:
+  /@azure/event-hubs/2.1.3:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
       '@azure/ms-rest-nodeauth': 0.9.3
@@ -350,7 +350,7 @@ packages:
       uuid: 3.3.3
     dev: false
     resolution:
-      integrity: sha512-nGnFBPcB/rs+5YWwmHJg+d3Cs7BrjtVfuD1eEv8j+ui2X6uXxB88wom1A2t/7xsSzkunQSrXJ2mCwdHxKI5aHw==
+      integrity: sha512-o5+bdr8PpszUj24NHf/sYrvoEuJsO1kX2jlZlcAM5J/bP3P3w9aNaERjcL0SH6Zx1brHkJD/+GQI8Xruv41JfQ==
   /@azure/event-hubs/5.0.0-preview.6:
     dependencies:
       '@azure/abort-controller': 1.0.0
@@ -9481,7 +9481,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2eehun/8ALW8TLoIl7MVaRUrg+yCnenu8B4kBlRxj3GJGDKU1Og7sMXPNm1BYyM1DOJmTZ4YeN/Nwxv+8XJsUA==
-  /yargs/14.2.1:
+  /yargs/14.2.2:
     dependencies:
       cliui: 5.0.0
       decamelize: 1.2.0
@@ -9496,7 +9496,7 @@ packages:
       yargs-parser: 15.0.0
     dev: false
     resolution:
-      integrity: sha512-rZ00XIuGAoI58F0weHyCP3PAN17wJqdN/pF8eMp+imuP+jSdMCD5t4bSf5d5FKPvEDrK9zYlnhO7bFYKQ5UYow==
+      integrity: sha512-/4ld+4VV5RnrynMhPZJ/ZpOCGSCeghMykZ3BhdFBDa9Wy/RH6uEGNWDJog+aUlq+9OM1CFTgtYRW5Is1Po9NOA==
   /yarn/1.19.1:
     dev: false
     engines:
@@ -10178,7 +10178,7 @@ packages:
   'file:projects/event-processor-host.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_2242daeac250f62a7ffd808e02504bf7
-      '@azure/event-hubs': 2.1.1
+      '@azure/event-hubs': 2.1.3
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.6.0
       '@rollup/plugin-json': 4.0.0_rollup@1.27.2
@@ -10229,7 +10229,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-YSFcqc1/8+75bMRUC/HwQomNUJzmVuj07xCZUu81eziooKEj74qA/aXgcFfLDNgtbXrWXe+OwwVoNDjZqbtKBA==
+      integrity: sha512-82ztfWI+NQcRDVlMOFfpcIbJ3lFUFDffNF6TwK4ihkTDFMEqvXitDqpKDRxPmrBZfyWGsXNDPFRa2nNzKG6Ifg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -10961,7 +10961,7 @@ packages:
     version: 0.0.0
   'file:projects/testhub.tgz':
     dependencies:
-      '@azure/event-hubs': 2.1.1
+      '@azure/event-hubs': 2.1.3
       '@types/node': 8.10.59
       '@types/uuid': 3.4.6
       '@types/yargs': 13.0.3
@@ -10973,11 +10973,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.6.4
       uuid: 3.3.3
-      yargs: 14.2.1
+      yargs: 14.2.2
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-BqdSQTEahhoy6fEn4w8ARiF9BKE0AwKl5kgnUYLi7zqGyuXKk2aTGKnNCg4m52PqCcHzyycLab97VG/3wLvrHQ==
+      integrity: sha512-6jUfppPxKsY6RdpJHavDDzxLMnGtdYrT/xCWSLgpZKnQeNXdcOD1sWNyccw6MKOLvxssR0VYJrq0KYGa74i4tA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 specifiers:
