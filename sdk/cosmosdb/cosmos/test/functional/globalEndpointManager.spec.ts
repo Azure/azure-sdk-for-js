@@ -58,14 +58,12 @@ describe("GlobalEndpointManager", function() {
           }
         },
         async (opts: RequestOptions) => {
-          await sleep(1000);
-
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
             200
           );
-
+          console.log(response);
           return response;
         }
       );
@@ -90,13 +88,7 @@ describe("GlobalEndpointManager", function() {
 
       // For item calls, we do block on init, so this should resolve the correct regional endpoint
       request.resourceType = ResourceType.item;
-      assert.equal(
-        await gem.resolveServiceEndpoint(request),
-        "https://test-eastus2.documents.azure.com:443/"
-      );
 
-      // This time, it should use the current regional endpoint.
-      request.resourceType = ResourceType.none; // DatabaseAccount
       assert.equal(
         await gem.resolveServiceEndpoint(request),
         "https://test-eastus2.documents.azure.com:443/"

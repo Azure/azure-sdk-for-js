@@ -122,13 +122,13 @@ export class GlobalEndpointManager {
     if (request.resourceType === ResourceType.none) {
       return this.defaultEndpoint;
     }
+    console.log("Here");
 
     if (!this.databaseAccount) {
       const { resource: databaseAccount } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint
       });
       this.databaseAccount = databaseAccount;
-      return this.defaultEndpoint;
     }
 
     const locations = isReadRequest(request.operationType)
@@ -147,6 +147,8 @@ export class GlobalEndpointManager {
         }
       }
     }
+
+    console.log(location, locations);
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
