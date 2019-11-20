@@ -60,7 +60,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     parentSubscriptionName: alwaysBeExistingSubscription
   }
 ].forEach((testCase) => {
-  describe.only(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
     before(async () => {
       await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
 
@@ -509,7 +509,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
@@ -651,7 +651,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
@@ -762,7 +762,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -890,7 +890,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -938,7 +938,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCount: 6,
       sizeInBytes: 500,
 
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
       maxDeliveryCount: 5,
@@ -981,7 +981,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       lockDuration: "PT50S",
       messageCount: 6,
       sizeInBytes: 500,
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 5,
@@ -1032,7 +1032,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
@@ -1092,9 +1092,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1136,7 +1136,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
       requiresDuplicateDetection: false,
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
@@ -1151,7 +1151,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       subscriptionCount: 8,
       maxDeliveryCount: 10,
       requiresDuplicateDetection: false,
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
 
@@ -1186,6 +1186,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
 
+      userMetadata: undefined,
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       status: undefined,
@@ -1196,7 +1197,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1211,9 +1212,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1243,7 +1244,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // This should be a proper URL else the service returns an error
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       autoDeleteOnIdle: "PT2H",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -1264,7 +1265,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTimeToLive: "P1D",
+      defaultMessageTtl: "P1D",
       autoDeleteOnIdle: "PT2H",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -1291,7 +1292,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1307,9 +1308,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1397,7 +1398,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1414,9 +1415,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
