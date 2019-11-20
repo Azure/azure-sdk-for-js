@@ -65,7 +65,7 @@
     "build:tsc": "tsc -p tsconfig.json",
     "build:rollup": "rollup -c rollup.config.ts 2>&1",
     "build:minify-browser": "terser -c -m --comments --source-map \"content='./dist/coreHttp.browser.js.map'\" -o ./dist/coreHttp.browser.min.js ./dist/coreHttp.browser.js",
-    "build:test-browser": "webpack --config webpack.testconfig.ts",
+    "build:test-browser": "webpack --config webpack.testconfig.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist",
     "execute:samples": "echo skipped",

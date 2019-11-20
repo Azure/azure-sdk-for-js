@@ -1,8 +1,8 @@
-import * as webpack from "webpack";
-import * as glob from "glob";
-import * as path from "path";
+const webpack = require("webpack");
+const glob = require("glob");
+const path = require("path");
 
-const config: webpack.Configuration = {
+module.exports = {
   entry: glob.sync(path.join(__dirname, "test/**/*[^node.].ts")),
   mode: "development",
   devtool: "source-map",
@@ -54,7 +54,7 @@ const config: webpack.Configuration = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         exclude: /(node_modules)/,
-        options: { configFile: path.join(__dirname, "./tsconfig.es.json") }
+        options: { configFile: path.join(__dirname, "./tsconfig.json") }
       }
     ]
   },
@@ -73,5 +73,3 @@ const config: webpack.Configuration = {
     v8: false
   }
 };
-
-export = config;
