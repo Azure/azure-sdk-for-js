@@ -10,7 +10,7 @@ import { ContainerClient } from '@azure/storage-blob';
 import { PartitionOwnership } from '@azure/event-hubs';
 
 // @public
-export class BlobPartitionManager implements CheckpointStore {
+export class BlobCheckpointStore implements CheckpointStore {
     constructor(containerClient: ContainerClient);
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
