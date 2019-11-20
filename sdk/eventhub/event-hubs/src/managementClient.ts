@@ -76,7 +76,7 @@ export interface PartitionProperties {
    */
   lastEnqueuedOnUtc: Date;
   /**
-   * @property Indicates if the partition is empty
+   * @property Indicates whether the partition is empty.
    */
   isEmpty: boolean;
 }
