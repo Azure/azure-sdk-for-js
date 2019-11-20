@@ -183,6 +183,8 @@ const skip = [
   "node/highlevel_nodejs_only/recording_uploadstreamtoazurefile_should_success.js",
   // Size (263MB), Tempfile
   "node/highlevel_nodejs_only/recording_uploadstreamtoazurefile_should_update_progress_event.js",
+  // Size (257 MB), Tempfile
+  "node/fileclient_nodejs_only/recording_uploaddata__large_buffer_as_data.js",
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/fileclient/recording_startcopyfromurl.json"
 ];
