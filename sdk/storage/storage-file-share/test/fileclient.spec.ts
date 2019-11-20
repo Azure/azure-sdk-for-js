@@ -475,10 +475,12 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -503,10 +505,12 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
