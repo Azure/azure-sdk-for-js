@@ -156,7 +156,7 @@ export class Receiver {
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
@@ -639,7 +639,7 @@ export class SessionReceiver {
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */

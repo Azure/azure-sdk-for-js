@@ -64,7 +64,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxMessageCount The maximum number of messages to receive.
    * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
    * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
@@ -166,7 +166,7 @@ export class BatchingReceiver extends MessageReceiver {
         /**
          * Resets the timer when a new message is received. If no messages were received for
          * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-         * receiver link stays open for the next receive call, but doesnt receive messages until then
+         * receiver link stays open for the next receive call, but doesnt receive messages until then.
          */
         this.resetTimerOnNewMessageReceived = () => {
           if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -181,8 +181,6 @@ export class BatchingReceiver extends MessageReceiver {
             }, this.newMessageWaitTimeoutInSeconds * 1000);
           }
         };
-      } else {
-        this.resetTimerOnNewMessageReceived = () => {};
       }
 
       // Action to be performed on the "message" event.
