@@ -106,7 +106,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "execa": "^1.0.0",
+    "execa": "^3.3.0",
     "fs-extra": "^8.1.0",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
