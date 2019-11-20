@@ -207,7 +207,7 @@ export class SubscriptionClient implements Client {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while receiving peeking for messages.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -229,7 +229,7 @@ export class SubscriptionClient implements Client {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while receiving peeking for messages.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,

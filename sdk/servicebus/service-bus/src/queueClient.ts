@@ -210,7 +210,7 @@ export class QueueClient implements Client {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    * @throws Error if the QueueClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while receiving peeking for messages.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
