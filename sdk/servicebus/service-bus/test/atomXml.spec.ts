@@ -449,7 +449,7 @@ class MockSerializer implements AtomXmlSerializer {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
         sqlParameters: [
-          { notey: "@intParam", value: 1, type: "int" },
+          { key: "@intParam", value: 1, type: "int" },
           { key: "@stringParam", value: "b", type: "notAKnownType" }
         ]
       },
