@@ -127,26 +127,26 @@ export class Share {
 
   /**
    * Create a permission (a security descriptor).
-   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param sharePermission A permission (a security descriptor) at the share level.
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareCreatePermissionResponse>
    */
-  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams): Promise<Models.ShareCreatePermissionResponse>;
+  createPermission(sharePermission: Models.SharePermission, options?: Models.ShareCreatePermissionOptionalParams): Promise<Models.ShareCreatePermissionResponse>;
   /**
-   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param sharePermission A permission (a security descriptor) at the share level.
    * @param callback The callback
    */
-  createPermission(permission: Models.Permission, callback: coreHttp.ServiceCallback<void>): void;
+  createPermission(sharePermission: Models.SharePermission, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param sharePermission A permission (a security descriptor) at the share level.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPermission(permission: Models.Permission, options: Models.ShareCreatePermissionOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
+  createPermission(sharePermission: Models.SharePermission, options: Models.ShareCreatePermissionOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  createPermission(sharePermission: Models.SharePermission, options?: Models.ShareCreatePermissionOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
     return this.client.sendOperationRequest(
       {
-        permission,
+        sharePermission,
         options
       },
       createPermissionOperationSpec,
@@ -155,26 +155,23 @@ export class Share {
 
   /**
    * Returns the permission (security descriptor) for a given key
-   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
-   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param filePermissionKey Key of the permission to be set for the directory/file.
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareGetPermissionResponse>
    */
   getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams): Promise<Models.ShareGetPermissionResponse>;
   /**
-   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
-   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param filePermissionKey Key of the permission to be set for the directory/file.
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, callback: coreHttp.ServiceCallback<Models.Permission>): void;
+  getPermission(filePermissionKey: string, callback: coreHttp.ServiceCallback<Models.SharePermission>): void;
   /**
-   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
-   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param filePermissionKey Key of the permission to be set for the directory/file.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: coreHttp.ServiceCallback<Models.Permission>): void;
-  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | coreHttp.ServiceCallback<Models.Permission>, callback?: coreHttp.ServiceCallback<Models.Permission>): Promise<Models.ShareGetPermissionResponse> {
+  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: coreHttp.ServiceCallback<Models.SharePermission>): void;
+  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | coreHttp.ServiceCallback<Models.SharePermission>, callback?: coreHttp.ServiceCallback<Models.SharePermission>): Promise<Models.ShareGetPermissionResponse> {
     return this.client.sendOperationRequest(
       {
         filePermissionKey,
@@ -433,9 +430,9 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
     Parameters.version
   ],
   requestBody: {
-    parameterPath: "permission",
+    parameterPath: "sharePermission",
     mapper: {
-      ...Mappers.Permission,
+      ...Mappers.SharePermission,
       required: true
     }
   },
@@ -470,7 +467,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Permission,
+      bodyMapper: Mappers.SharePermission,
       headersMapper: Mappers.ShareGetPermissionHeaders
     },
     default: {
