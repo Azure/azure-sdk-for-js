@@ -151,7 +151,7 @@ dependencies:
   process: 0.11.10
   promise: 8.0.3
   proxy-agent: 3.1.1
-  puppeteer: 1.20.0
+  puppeteer: 2.0.0
   qs: 6.9.1
   query-string: 5.1.1
   regenerator-runtime: 0.13.3
@@ -4564,15 +4564,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
-  /https-proxy-agent/2.2.4:
-    dependencies:
-      agent-base: 4.3.0
-      debug: 3.2.6
-    dev: false
-    engines:
-      node: '>= 4.5.0'
-    resolution:
-      integrity: sha512-OmvfoQ53WLjtA9HeYP9RNrWMJzzAz1JGaSFr1nijg0PVR1JaD/xbJq1mdEIIlxGpXp9eSe/O2LgU9DJmTPd0Eg==
   /https-proxy-agent/3.0.1:
     dependencies:
       agent-base: 4.3.0
@@ -7128,11 +7119,11 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-hEJH0s8PXLY/cdXh66tNEQGndDrIKNqNC5xmrysZy3i5C3oEoLna7YAOad+7u125+zH1HNXUmGEkrhb3c2VriA==
-  /puppeteer/1.20.0:
+  /puppeteer/2.0.0:
     dependencies:
       debug: 4.1.1
       extract-zip: 1.6.7
-      https-proxy-agent: 2.2.4
+      https-proxy-agent: 3.0.1
       mime: 2.4.4
       progress: 2.0.3
       proxy-from-env: 1.0.0
@@ -7140,10 +7131,10 @@ packages:
       ws: 6.2.1
     dev: false
     engines:
-      node: '>=6.4.0'
+      node: '>=8.16.0'
     requiresBuild: true
     resolution:
-      integrity: sha512-bt48RDBy2eIwZPrkgbcwHtb51mj2nKvHOPMaSH2IsWiv7lOG9k9zhaRzpDZafrk05ajMc3cu+lSQYYOfH2DkVQ==
+      integrity: sha512-t3MmTWzQxPRP71teU6l0jX47PHXlc4Z52sQv4LJQSZLq1ttkKS2yGM3gaI57uQwZkNaoGd0+HPPMELZkcyhlqA==
   /qjobs/1.2.0:
     dev: false
     engines:
@@ -9794,7 +9785,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       rhea: 1.0.12
       rhea-promise: 1.0.0
       rimraf: 3.0.0
@@ -9818,7 +9809,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-VoYlW67HppUC8dfvi6dit+pL9bSGWO4UKAKs0zKMe7CM4Sz7oPkWwv4Z+u27tMyEwbeZFQtXjfrRKXx0JP+rWg==
+      integrity: sha512-C3k0o+aknv0OvsMgN3lgDNqrePHNsZqPlsFSHEIiJXSVj/OqzTbBSQkrg5elg5tsMpmMTX4TdXI7o+LnG6dq8w==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9965,7 +9956,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       regenerator-runtime: 0.13.3
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -9994,7 +9985,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-ZuVMXJ05uscos88cemmESmCTiBA6HLJakCQgRAnLA6eH8cQvBCzlzCrLjjg6xM2eaxGoM2Ryx+vn7rD1p4Xq0g==
+      integrity: sha512-b1i7PRbAy3ZB2jPp7V1Vzum6wlGM8rytPWUUnoy+N/bpRokfnXmuNMSDWyBnfm83BjQEJCyf6SUYkveJr5/D7Q==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -10239,7 +10230,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       rhea-promise: 1.0.0
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10259,7 +10250,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-VQLxiZoibjGsolQxc3HWwv5RgkNf7qv3V6nDFlfMTlVnq/BYar60yjpInD0/Dch522Gd3kuaYisGIaAiRFOXPw==
+      integrity: sha512-qgnpCTGky0krOMMXWsAT947Ikhz5t0oMf23wQ4BZnev2eAkPNuXOA6W/EtunPyyg8RATvovC/AyXsswNuUT2RA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10421,7 +10412,7 @@ packages:
       msal: 1.1.3
       open: 6.4.0
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       qs: 6.9.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10438,7 +10429,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-UgIdsp3uoBh3CwMTu5v+bFSdyrEAZbEWDu3+KOyRCSvL2iBmRQO4gBkIkdPIupFYkyRxmf1K+nAfdF2+bc8ErQ==
+      integrity: sha512-K60XC9rbU6jib8oHXnDYgWAzr5kg+p+wSE5lpPdhzuuVaTeVpFNUJIlUIEyF0vtosvfs0diqkTb/3q0ReUC81Q==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10483,7 +10474,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10502,7 +10493,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-GR8lB5AvUYQIEqklj9BQz8abTKb2IBgR+cNWN5FwyJ2EjKCHcz/Hw3N8T6fJ4zNX8M3rvKMCzzYLMKZ8yiLQ9w==
+      integrity: sha512-B3MIMs2m4L9STRMjLhHlEAvy+7jGjdfSKLkEJRNiYa/M16UBroW+iCmjZghu5E0sKaibmQQ9aZ53s+aD1NCtCw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10546,7 +10537,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10565,7 +10556,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-zj2HBMvPDjcZbsLX/FL3RCCfsMNeNmW7idSuFWag+mNNSfe8nqjk9t+ae4w1WVosu2LdzILAQHkuMqLG2kFYfg==
+      integrity: sha512-AqBZvCLPW5iZc1PVIvwHSUKVY3h2dnLCAwiCmuRGMWg+MqMk8G2E4p5IPQJBg+LKB3zk4ddHWsakq9SdSW76kw==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10609,7 +10600,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10628,7 +10619,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-QsR+0ikRLyy8JgCMnJopbfeQpKSnBNcvgrpUpkalpe8HBor6mvKtDPMsuJqW2JHVLkKmCJ4oLE5xoenfoTQvnw==
+      integrity: sha512-XMCixFtoWpLjDLMTXMspVx048rXvncRK4WM6Ctbyt/z2y3ZwG1OvuWQgfkZ/RYVpYtdLM/MaEgwH/9bwzB+y1w==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
@@ -10667,7 +10658,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       rimraf: 3.0.0
       rollup: 1.27.2
       rollup-plugin-commonjs: 10.1.0_rollup@1.27.2
@@ -10682,7 +10673,7 @@ packages:
     dev: false
     name: '@rush-temp/logger'
     resolution:
-      integrity: sha512-ZY0dumkQ0kLSrtdnRArSae40uZgWWNqQHTg/6+Jz1Hb4V7c485jPgduDlOQboZb+aHCucrIoyHY/apb9Pr4pjg==
+      integrity: sha512-v1lpwKxbe2ry0tYi3+mEh004dgL0DeMPt7eJeACkmoy7wW5JzC6S3BZHso1Tl7oXwDpg4jGpZfwkD5NnyLRLDg==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10742,7 +10733,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       promise: 8.0.3
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       rhea: 1.0.12
       rhea-promise: 0.1.15
       rimraf: 3.0.0
@@ -10761,7 +10752,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-6N2Fs1qOH+8Qecrb+sbtRXeiwdOGL93hDMBpJrgqb/oDQ/xUDOmBn0ZWrvSLEJHEoCqK3riMCfAB+DRKPjGv1Q==
+      integrity: sha512-H0vE719NeZhx6iySfho1MLULG14ZnXND3MycaWRDkpgVcmUUXJyyWGSgQU6na+AJuDqTF+y8OBpHyoIoCTQn0w==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10810,7 +10801,7 @@ packages:
       nock: 11.7.0
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10829,7 +10820,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-HPDVBR+bvmSGoMh2/TcEKw7Sb4aAq3aAGtA02IqDyvhmvGQqmONYJZr0YWFXIRkcb9EfYZnsFzvgGb922vrDaQ==
+      integrity: sha512-P8aMHG6QeRgSfsgz8VI/7TxYFfcMURwR2TDBLsAazgDudGSkpjf2KssEUEUrjHj3CwK3+6EJqbbqswJN+LCZbw==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
@@ -10877,7 +10868,7 @@ packages:
       nock: 11.7.0
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10896,7 +10887,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-xrhSSjUVlr266qRejGV/3m8+frMXyTWjNeA1bHeqnTBedApwUwR523fz2QbTPuKGqWhZY5McHfVdrhvF6whs7Q==
+      integrity: sha512-X9850DdDCcCTUwjzqEPQs6hplUZo+5VnUI2wgewB+2zajgdUmAE41UhwITs4GBSbuBqMz/ic56Wk8pUxKu0aJg==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10943,7 +10934,7 @@ packages:
       nock: 11.7.0
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 1.20.0
+      puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
       rollup: 1.27.2
@@ -10962,7 +10953,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-eLz7wDCg32ykdDNIXqNlv+CEcMKSiwd8X6fjMWuWLnBRBbuLZpUfBGV+hQzQRUPCMD3V6LMz9nMKGwJ//4486g==
+      integrity: sha512-/xTZyWFyZlqsKl6g2uOvyvzdQYtyngan7cGWO4i4QdCpljkaVuUQufABvepR1GnRqBStp1pB1dmCaHhRW0ubLw==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11217,7 +11208,7 @@ specifiers:
   process: ^0.11.10
   promise: ^8.0.3
   proxy-agent: ^3.1.1
-  puppeteer: ^1.11.0
+  puppeteer: ^2.0.0
   qs: ^6.7.0
   query-string: ^5.0.0
   regenerator-runtime: ^0.13.3
