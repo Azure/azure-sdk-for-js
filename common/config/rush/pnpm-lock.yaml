@@ -101,7 +101,7 @@ dependencies:
   express: 4.17.1
   fast-json-stable-stringify: 2.0.0
   fetch-mock: 7.7.3_node-fetch@2.6.0
-  form-data: 2.5.1
+  form-data: 3.0.0
   fs-extra: 8.1.0
   glob: 7.1.6
   guid-typescript: 1.0.9
@@ -4049,6 +4049,16 @@ packages:
       node: '>= 0.12'
     resolution:
       integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
+  /form-data/3.0.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.25
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -9937,7 +9947,7 @@ packages:
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
       fetch-mock: 7.7.3_node-fetch@2.6.0
-      form-data: 2.5.1
+      form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
       karma-chai: 0.1.0_chai@4.2.0+karma@4.4.1
@@ -9985,7 +9995,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-b1i7PRbAy3ZB2jPp7V1Vzum6wlGM8rytPWUUnoy+N/bpRokfnXmuNMSDWyBnfm83BjQEJCyf6SUYkveJr5/D7Q==
+      integrity: sha512-SgU/tPkvcSgR0fPDlExl8rv3RhoAnybAkNHJWn/Ji59XWVxxSMJqWh3TyrR4x3DzspJYbHKhAkadVohPcbIvMQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -11158,7 +11168,7 @@ specifiers:
   express: ^4.16.3
   fast-json-stable-stringify: ^2.0.0
   fetch-mock: ^7.3.9
-  form-data: ^2.5.0
+  form-data: ^3.0.0
   fs-extra: ^8.1.0
   glob: ^7.1.2
   guid-typescript: ^1.0.9
