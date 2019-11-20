@@ -214,7 +214,7 @@ export class EventProcessor {
    * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
    * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
    * This class will be responsible for processing and checkpointing events.
-   * @param checkpointStore An instance of `CheckpointStore`. To get started, you can pass an instance of `InMemoryCheckpointStore`.
+   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
    * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
    * @param options A set of options to configure the Event Processor
    * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
