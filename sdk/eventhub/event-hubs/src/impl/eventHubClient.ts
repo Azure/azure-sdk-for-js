@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
+import * as log from "../log";
 import { WebSocketImpl } from "rhea-promise";
 import {
-  DataTransformer,
   TokenCredential,
   EventHubConnectionConfig,
   SharedKeyCredential,
@@ -16,18 +15,17 @@ import {
   EventHubConnectionStringModel
 } from "@azure/core-amqp";
 
-import { ConnectionContext } from "./connectionContext";
-import { PartitionProperties, EventHubProperties } from "./managementClient";
-import { EventPosition } from "./eventPosition";
-
-import { AbortSignalLike } from "@azure/abort-controller";
-import { EventHubProducer } from "./sender";
-import { EventHubConsumer } from "./receiver";
-import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
+import { ConnectionContext } from "../connectionContext";
+import { PartitionProperties, EventHubProperties } from "../managementClient";
+import { EventPosition } from "../eventPosition";
+import { EventHubProducer } from "../sender";
+import { EventHubConsumer } from "../receiver";
+import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { getParentSpan, OperationOptions } from "../util/operationOptions";
 
-type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
+type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
@@ -45,48 +43,25 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
 }
 
 /**
- * The set of options to configure request cancellation.
- * - `abortSignal` : A signal used to cancel an asynchronous operation.
- */
-export interface AbortSignalOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
- * The set of options to manually propagate `Span` context for distributed tracing.
- * - `parentSpan` : The `Span` or `SpanContext` for the operation to use as a `parent` when creating its own span.
- */
-export interface ParentSpanOptions {
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while calling operations that make a request to the service.
-   */
-  parentSpan?: Span | SpanContext;
-}
-
-/**
- * The set of options to configure the behavior of `getProperties`.
+ * The set of options to configure the behavior of `getEventHubProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetEventHubPropertiesOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionProperties`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetPartitionPropertiesOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of `getPartitionIds`.
  * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */
-export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {}
+export interface GetPartitionIdsOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -115,18 +90,7 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
  */
-export interface SendBatchOptions {
-  /**
-   * @property
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
-   */
-  parentSpan?: Span | SpanContext;
-}
+export interface SendBatchOptions extends OperationOptions {}
 
 /**
  * The set of options to configure the `send` operation on the `EventHubProducer`.
@@ -167,25 +131,23 @@ export interface SendOptions extends SendBatchOptions {
  * }
  * ```
  */
-export interface CreateBatchOptions {
+export interface CreateBatchOptions extends OperationOptions {
   /**
-   * @property
-   * A value that is hashed to produce a partition assignment.
-   * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   * A value that is hashed to produce a partition assignment. It guarantees that messages
+   * with the same partitionKey end up in the same partition.
+   * If this value is set then partitionId can not be set.
    */
   partitionKey?: string;
+  /**
+   * The partition this batch will be sent to.
+   * If this value is set then partitionKey can not be set.
+   */
+  partitionId?: string;
   /**
    * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
-  /**
-   * @property
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -202,7 +164,7 @@ export interface CreateBatchOptions {
  *     retryOptions: {
  *         maxRetries: 4
  *     },
- *     trackLastEnqueuedEventInfo: false
+ *     trackLastEnqueuedEventProperties: false
  * }
  * ```
  */
@@ -233,7 +195,7 @@ export interface EventHubConsumerOptions {
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
    */
-  trackLastEnqueuedEventInfo?: boolean;
+  trackLastEnqueuedEventProperties?: boolean;
 }
 
 /**
@@ -273,7 +235,8 @@ export interface EventHubClientOptions {
    *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
    *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
    */
-  dataTransformer?: DataTransformer;
+  // re-enabling this will be a post-GA discussion.
+  //dataTransformer?: DataTransformer;
   /**
    * @property
    * The user agent that will be appended to the built in user agent string that is passed as a
@@ -282,12 +245,29 @@ export interface EventHubClientOptions {
   userAgent?: string;
   /**
    * @property
+   * Options related to websockets
+   */
+  webSocketOptions?: WebSocketOptions;
+  /**
+   * @property
+   * The retry options for all the operations on the client/producer/consumer.
+   * This can be overridden by the retry options set on the producer and consumer.
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * Options for the websocket implementation used for AMQP.
+ */
+export interface WebSocketOptions {
+  /**
+   * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios:
-   * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
+   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
    * - Your application needs to be run behind a proxy server
    * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
-   * instead of the built-in WebSocket in the browser.
+   *   instead of the built-in WebSocket in the browser.
    */
   webSocket?: WebSocketImpl;
   /**
@@ -296,12 +276,6 @@ export interface EventHubClientOptions {
    * the WebSocket.
    */
   webSocketConstructorOptions?: any;
-  /**
-   * @property
-   * The retry options for all the operations on the client/producer/consumer.
-   * This can be overridden by the retry options set on the producer and consumer.
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**
@@ -355,61 +329,8 @@ export class EventHubClient {
     return this._context.config.host;
   }
 
-  /**
-   * @constructor
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
-   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
-   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(connectionString: string, options?: EventHubClientOptions);
-  /**
-   * @constructor
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
-   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
-   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-  /**
-   * @constructor
-   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
-   * @param options - A set of options to apply when configuring the client.
-   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
-   * and to decode the event received from the service
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
-   * over a WebSocket.
-   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
-   * over a WebSocket.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   */
   constructor(
     host: string,
     eventHubName: string,
@@ -632,11 +553,11 @@ export class EventHubClient {
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal3.
    */
-  async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
+  async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getProperties", options.parentSpan);
+    const clientSpan = this._createClientSpan("getEventHubProperties", getParentSpan(options));
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -663,13 +584,17 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
+  async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", options.parentSpan);
+    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options));
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
-        parentSpan: clientSpan
+        tracingOptions: {
+          spanOptions: {
+            parent: clientSpan
+          }
+        }
       });
       clientSpan.setStatus({ code: CanonicalCode.OK });
       return runtimeInfo.partitionIds;
@@ -705,7 +630,7 @@ export class EventHubClient {
       partitionId
     );
     partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan("getPartitionProperties", options.parentSpan);
+    const clientSpan = this._createClientSpan("getPartitionProperties", getParentSpan(options));
     try {
       const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,

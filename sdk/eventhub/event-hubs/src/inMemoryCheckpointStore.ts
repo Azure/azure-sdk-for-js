@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { PartitionManager, PartitionOwnership } from "./eventProcessor";
+import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
-import { throwTypeErrorIfParameterMissing } from './util/error';
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * The `EventProcessor` relies on a `PartitionManager` to store checkpoints and handle partition
- * ownerships. `InMemoryPartitionManager` is simple partition manager that stores checkpoints and
+ * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
+ * ownerships. `InMemoryCheckpointStore` is simple partition manager that stores checkpoints and
  * partition ownerships in memory of your program.
  *
- * You can use the `InMemoryPartitionManager` to get started with using the `EventProcessor`.
- * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * You can use the `InMemoryCheckpointStore` to get started with using the `EventProcessor`.
+ * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
  * @class
+ * @internal
+ * @ignore
  */
-export class InMemoryPartitionManager implements PartitionManager {
+export class InMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
+  private _committedCheckpoints: Map<string, Map<string, Checkpoint>> = new Map();
 
   /**
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
@@ -27,13 +30,13 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
+   * @param consumerGroup The consumer group name.
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroupName: string
+    consumerGroup: string
   ): Promise<PartitionOwnership[]> {
     return Array.from(this._partitionOwnershipMap.values());
   }
@@ -49,11 +52,11 @@ export class InMemoryPartitionManager implements PartitionManager {
     for (const ownership of partitionOwnership) {
       if (
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
-        this._partitionOwnershipMap.get(ownership.partitionId)!.eTag === ownership.eTag
+        this._partitionOwnershipMap.get(ownership.partitionId)!.etag === ownership.etag
       ) {
-        ownership.eTag = generate_uuid();
+        ownership.etag = generate_uuid();
         var date = new Date();
-        ownership.lastModifiedTimeInMS = date.getTime();
+        ownership.lastModifiedTimeInMs = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }
@@ -64,25 +67,40 @@ export class InMemoryPartitionManager implements PartitionManager {
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update
    */
-  async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
-    // these checks should mirror what we do in checkpointStoreBlob
-    throwTypeErrorIfParameterMissing("", "updateCheckpoint", "ownerId", checkpoint.ownerId);
-    throwTypeErrorIfParameterMissing("", 
+  async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
+    throwTypeErrorIfParameterMissing(
+      "",
       "updateCheckpoint",
       "sequenceNumber",
       checkpoint.sequenceNumber
     );
     throwTypeErrorIfParameterMissing("", "updateCheckpoint", "offset", checkpoint.offset);
-    
+
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
-      partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
-      partitionOwnership.offset = checkpoint.offset;
-      partitionOwnership.eTag = generate_uuid();
-      return partitionOwnership.eTag;
+      partitionOwnership.etag = generate_uuid();
+
+      const key = `${checkpoint.fullyQualifiedNamespace}:${checkpoint.eventHubName}:${checkpoint.consumerGroup}`;
+      let partitionMap = this._committedCheckpoints.get(key);
+
+      if (partitionMap == null) {
+        partitionMap = new Map();
+        this._committedCheckpoints.set(key, partitionMap);
+      }
+
+      partitionMap.set(checkpoint.partitionId, checkpoint);
     }
-    return "";
+  }
+
+  async listCheckpoints(
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    consumerGroup: string
+  ): Promise<Checkpoint[]> {
+    const key = `${fullyQualifiedNamespace}:${eventHubName}:${consumerGroup}`;
+
+    const partitionMap = this._committedCheckpoints.get(key);
+    return partitionMap ? [...partitionMap.values()] : [];
   }
 }

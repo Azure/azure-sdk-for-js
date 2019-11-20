@@ -59,7 +59,7 @@ export const consumerClient = debugModule("azure:event-hubs:consumerclient");
 export const iotClient = debugModule("azure:event-hubs:iothubClient");
 /**
  * @ignore
- * log statements for partitionManager
+ * log statements for partition pump
  */
 export const partitionPump = debugModule("azure:event-hubs:partitionPump");
 /**

@@ -8,13 +8,14 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventData, EventHubProducerClient, EventHubConsumerClient, EventPosition } from "../src";
-import { SendOptions, EventHubClient } from "../src/eventHubClient";
+import { SendOptions, EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
-import { EventHubProducer } from '../src/sender';
-import { delay } from '@azure/core-amqp';
+import { EventHubProducer } from "../src/sender";
+import { delay } from "@azure/core-amqp";
+import { SubscriptionHandlerForTests } from './utils/subscriptionHandlerForTests';
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -24,7 +25,11 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   const producerClient = new EventHubProducerClient(service.connectionString, service.path);
-  const consumerClient = new EventHubConsumerClient(service.connectionString, service.path);
+  const consumerClient = new EventHubConsumerClient(
+    EventHubConsumerClient.defaultConsumerGroupName,
+    service.connectionString,
+    service.path
+  );
 
   before("validate environment", function(): void {
     should.exist(
@@ -123,8 +128,15 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       await producer.send(
         { body: "single message - manual trace propagation" },
-        { parentSpan: rootSpan }
+        {
+          tracingOptions: {
+            spanOptions: {
+              parent: rootSpan
+            }
+          }
+        }
       );
+
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -251,14 +263,16 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Create batch", function(): void {
-    it("should be sent successfully", async function (): Promise<void> {
-      const list = [
-        "Albert",
-        `${Buffer.from("Mike".repeat(1300000))}`,
-        "Marie"
-      ];
+    it("should be sent successfully", async function(): Promise<void> {
+      const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
-      const batch = await producerClient.createBatch();
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.partitionId!.should.equal("0");
+      should.not.exist(batch.partitionKey);
+      batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
       batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
@@ -267,29 +281,32 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       let receivedEvents: string[] = [];
       let initialized = false;
 
-      const subscriber = consumerClient.subscribe(EventHubConsumerClient.defaultConsumerGroupName, "0", {
-        maxBatchSize: 2,    // the Mike message was rejected so it's not in the batch
-        maxWaitTimeInSeconds: 60,
-        defaultEventPosition: EventPosition.latest(),
-        processEvents: async (events, context) => {
-          receivedEvents.push(...events.map(e => e.body));
+      const subscriber = consumerClient.subscribe("0", {
+        processEvent: async (event, context) => {
+          receivedEvents.push(event.body);
         },
-        processInitialize: async (_) => {
+        processInitialize: async (context) => {
           initialized = true;
+          context.setStartPosition(EventPosition.latest());
         }
       });
-      
+
       while (!initialized) {
         await delay(1000);
       }
 
-      await producerClient.sendBatch(batch, "0");
-      
-      while (receivedEvents.length === 0) {
+      await producerClient.sendBatch(batch);
+
+      // Mike didn't make it - the message was too big for the batch
+      // and was rejected above.
+      while (receivedEvents.length !== 3 - 1) {
         await delay(1000);
       }
 
-      [list[0], list[2]].should.be.deep.eq(receivedEvents, "Received messages should be equal to our sent messages");
+      [list[0], list[2]].should.be.deep.eq(
+        receivedEvents,
+        "Received messages should be equal to our sent messages"
+      );
       await subscriber.close();
     }).timeout(30000);
 
@@ -301,12 +318,14 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       const list = [{ name: "Albert" }, { name: "Marie" }];
 
-      const eventDataBatch = await producerClient.createBatch();
+      const eventDataBatch = await producerClient.createBatch({
+        partitionId: "0"
+      });
 
       for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
       }
-      await producerClient.sendBatch(eventDataBatch, "0");
+      await producerClient.sendBatch(eventDataBatch);
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -351,14 +370,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         }
       ];
 
-      const eventDataBatch = await producerClient.createBatch();
+      const eventDataBatch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
       for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd(
           { body: `${list[i].name}`, properties: list[i].properties },
           { parentSpan: rootSpan }
         );
       }
-      await producerClient.sendBatch(eventDataBatch, "0");
+      await producerClient.sendBatch(eventDataBatch);
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -391,11 +413,19 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       const list = [{ name: "Albert" }, { name: "Marie" }];
 
-      const eventDataBatch = await producerClient.createBatch();
+      const eventDataBatch = await producerClient.createBatch({
+        partitionId: "0"
+      });
       for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
       }
-      await producerClient.sendBatch(eventDataBatch, "0", { parentSpan: rootSpan });
+      await producerClient.sendBatch(eventDataBatch, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -433,7 +463,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       for (let i = 0; i < 5; i++) {
         eventDataBatch.tryAdd({ body: `Hello World ${i}` });
       }
-      await producerClient.sendBatch(eventDataBatch, "1");
+      await producerClient.sendBatch(eventDataBatch);
     });
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
@@ -443,7 +473,10 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         "0",
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       );
-      const eventDataBatch = await producerClient.createBatch({ maxSizeInBytes: 5000 });
+      const eventDataBatch = await producerClient.createBatch({
+        maxSizeInBytes: 5000,
+        partitionId: "0"
+      });
       const message = { body: `${Buffer.from("Z".repeat(4096))}` };
       for (let i = 1; i <= 3; i++) {
         const isAdded = eventDataBatch.tryAdd(message);
@@ -452,7 +485,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           break;
         }
       }
-      await producerClient.sendBatch(eventDataBatch, "0");
+      await producerClient.sendBatch(eventDataBatch);
       const data = await consumer.receiveBatch(3, 5);
       data.length.should.equal(1);
       message.body.should.equal(data[0].body);
@@ -462,7 +495,10 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
       void
     > {
-      let newClient: EventHubProducerClient = new EventHubProducerClient(service.connectionString, service.path);
+      let newClient: EventHubProducerClient = new EventHubProducerClient(
+        service.connectionString,
+        service.path
+      );
 
       try {
         await newClient.createBatch({ maxSizeInBytes: 2046528 });
@@ -531,12 +567,35 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Multiple messages", function(): void {
-    it("should be sent successfully in parallel", async function(): Promise<void> {
+    it("should be sent successfully in parallel", async function (): Promise<void> {
+      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+
       const promises = [];
       for (let i = 0; i < 5; i++) {
         promises.push(sendBatch([`Hello World ${i}`]));
       }
       await Promise.all(promises);
+
+      const subscription = await consumerClient.subscribe(tester);
+
+      try {
+        const events = await tester.waitForEvents(await client.getPartitionIds({}), 5);
+
+        // we've allowed the server to choose which partition the messages are distributed to
+        // so our expectation here is just that all the bodies have arrived
+        const bodiesOnly = events.map(evt => evt.body);
+        bodiesOnly.sort();
+
+        bodiesOnly.should.deep.equal([
+          "Hello World 0",
+          "Hello World 1",
+          "Hello World 2",
+          "Hello World 3",
+          "Hello World 4"
+        ]);
+      } finally {
+        subscription.close();
+      }
     });
 
     it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function(): Promise<
@@ -564,14 +623,10 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(
-              await sendBatch([`Hello World ${i}`], "0")
-            );
+            promises.push(await sendBatch([`Hello World ${i}`], "0"));
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(
-              await sendBatch([`Hello World ${i}`], "1")
-            );
+            promises.push(await sendBatch([`Hello World ${i}`], "1"));
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
             promises.push(await sendBatch([`Hello World ${i}`]));
@@ -618,7 +673,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       for (let i = 0; i < 5; i++) {
         events.push({ body: `multiple messages - manual trace propgation: ${i}` });
       }
-      await producer.send(events, { parentSpan: rootSpan });
+      await producer.send(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -678,7 +739,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         events.push({ body: `multiple messages - manual trace propgation: ${i}` });
       }
       events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
-      await producer.send(events, { parentSpan: rootSpan });
+      await producer.send(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       rootSpan.end();
 
       const rootSpans = tracer.getRootSpans();
@@ -784,25 +851,37 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  async function sendBatch(bodies: any[], partitionId: string, options?: SendOptions): Promise<void>;
+  async function sendBatch(
+    bodies: any[],
+    partitionId: string,
+    options?: SendOptions
+  ): Promise<void>;
   async function sendBatch(bodies: any[], options?: SendOptions): Promise<void>;
-  async function sendBatch(bodies1: any[], partitionIdOrOptions2: string | SendOptions | undefined, options3?: SendOptions): Promise<void> {
-    let sendOptions: SendOptions|undefined = options3;
+  async function sendBatch(
+    bodies1: any[],
+    partitionIdOrOptions2: string | SendOptions | undefined,
+    options3?: SendOptions
+  ): Promise<void> {
+    let sendOptions: SendOptions | undefined = options3;
+
+    let partitionId: string | undefined = undefined;
 
     if (typeof partitionIdOrOptions2 !== "string") {
       sendOptions = partitionIdOrOptions2 as SendOptions;
+    } else {
+      partitionId = partitionIdOrOptions2;
+      sendOptions = options3;
     }
-    
-    const batch = await producerClient.createBatch({ abortSignal: sendOptions && sendOptions.abortSignal });
+
+    const batch = await producerClient.createBatch({
+      abortSignal: sendOptions && sendOptions.abortSignal,
+      partitionId: partitionId
+    });
 
     for (const body of bodies1) {
       batch.tryAdd({ body }).should.be.ok;
     }
 
-    if (typeof partitionIdOrOptions2 === "string") {
-      await producerClient.sendBatch(batch, partitionIdOrOptions2, sendOptions);
-    } else {
-      await producerClient.sendBatch(batch, sendOptions);
-    }
+    await producerClient.sendBatch(batch, sendOptions);
   }
 }).timeout(20000);

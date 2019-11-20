@@ -3,15 +3,16 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+import { getParentSpan } from "./util/operationOptions";
 
 /**
  * A producer responsible for sending events to an Event Hub.
@@ -128,7 +129,12 @@ export class EventHubProducer {
       }
       maxMessageSize = options.maxSizeInBytes;
     }
-    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
+    return new EventDataBatchImpl(
+      this._context,
+      maxMessageSize,
+      options.partitionKey,
+      options.partitionId
+    );
   }
 
   /**
@@ -161,11 +167,11 @@ export class EventHubProducer {
       log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
-    if (eventData instanceof EventDataBatch && eventData.count === 0) {
+    if (isEventDataBatch(eventData) && eventData.count === 0) {
       log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
-    if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
+    if (!Array.isArray(eventData) && !isEventDataBatch(eventData)) {
       eventData = [eventData];
     }
 
@@ -175,7 +181,7 @@ export class EventHubProducer {
       for (let i = 0; i < eventData.length; i++) {
         const event = eventData[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(options.parentSpan);
+          const messageSpan = createMessageSpan(getParentSpan(options));
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -187,7 +193,7 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(options.parentSpan, spanContextsToLink);
+    const sendSpan = this._createSendSpan(getParentSpan(options), spanContextsToLink);
 
     try {
       const result = await this._eventHubSender!.send(eventData, {

@@ -16,13 +16,6 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       done();
     });
 
-    it("should create from an offset with inclusive true", function(done: Mocha.Done): void {
-      const result = "amqp.annotation.x-opt-offset >= '1234'";
-      const pos = EventPosition.fromOffset(1234, true);
-      result.should.equal(getEventPositionFilter(pos));
-      done();
-    });
-
     it("should create from a sequence with inclusive false", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-sequence-number > '0'";
       const pos = EventPosition.fromSequenceNumber(0);
@@ -114,13 +107,13 @@ describe("EventPosition #RunnableInBrowser", function(): void {
     it("should accept a number", function(): void {
       const enqueuedTime = Date.now();
       const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
-      pos.enqueuedTime!.should.equal(enqueuedTime);
+      pos.enqueuedOn!.should.equal(enqueuedTime);
     });
 
     it("should accept a Date", function(): void {
       const enqueuedTime = new Date();
       const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
-      pos.enqueuedTime!.should.equal(enqueuedTime);
+      pos.enqueuedOn!.should.equal(enqueuedTime);
     });
 
     it("should not accept non-number/non-date inputs", function(): void {
