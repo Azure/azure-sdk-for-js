@@ -176,7 +176,7 @@ export interface OnMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
@@ -211,9 +211,6 @@ export interface QueueDetails {
     maxSizeInMegabytes: number;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
-    onAccessedAt?: string;
-    onCreatedAt?: string;
-    onUpdatedAt?: string;
     path?: string;
     queueName: string;
     requiresDuplicateDetection: boolean;
@@ -394,7 +391,7 @@ export interface ServiceBusClientOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {
