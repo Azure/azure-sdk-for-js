@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -22,7 +22,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: coreHttp.ServiceClientOptions) {
     super(credentials, endpoint, options);
   }
 
@@ -37,13 +37,13 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   /**
    * @param callback The callback
    */
-  detectLanguage(callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
+  detectLanguage(callback: coreHttp.ServiceCallback<Models.LanguageBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectLanguage(options: Models.TextAnalyticsClientDetectLanguageOptionalParams, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
-  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams | msRest.ServiceCallback<Models.LanguageBatchResult>, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
+  detectLanguage(options: Models.TextAnalyticsClientDetectLanguageOptionalParams, callback: coreHttp.ServiceCallback<Models.LanguageBatchResult>): void;
+  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams | coreHttp.ServiceCallback<Models.LanguageBatchResult>, callback?: coreHttp.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -65,13 +65,13 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   /**
    * @param callback The callback
    */
-  entities(callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(callback: coreHttp.ServiceCallback<Models.EntitiesBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  entities(options: Models.TextAnalyticsClientEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams | msRest.ServiceCallback<Models.EntitiesBatchResult>, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
+  entities(options: Models.TextAnalyticsClientEntitiesOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams | coreHttp.ServiceCallback<Models.EntitiesBatchResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -93,13 +93,13 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   /**
    * @param callback The callback
    */
-  keyPhrases(callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(callback: coreHttp.ServiceCallback<Models.KeyPhraseBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  keyPhrases(options: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
-  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams | msRest.ServiceCallback<Models.KeyPhraseBatchResult>, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
+  keyPhrases(options: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams | coreHttp.ServiceCallback<Models.KeyPhraseBatchResult>, callback?: coreHttp.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -122,13 +122,13 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   /**
    * @param callback The callback
    */
-  sentiment(callback: msRest.ServiceCallback<any>): void;
+  sentiment(callback: coreHttp.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: msRest.ServiceCallback<any>): void;
-  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SentimentResponse> {
+  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: coreHttp.ServiceCallback<any>): void;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams | coreHttp.ServiceCallback<any>, callback?: coreHttp.ServiceCallback<any>): Promise<Models.SentimentResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -139,8 +139,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const detectLanguageOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const detectLanguageOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "languages",
   urlParameters: [
@@ -167,7 +167,7 @@ const detectLanguageOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const entitiesOperationSpec: msRest.OperationSpec = {
+const entitiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "entities",
   urlParameters: [
@@ -194,7 +194,7 @@ const entitiesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const keyPhrasesOperationSpec: msRest.OperationSpec = {
+const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keyPhrases",
   urlParameters: [
@@ -221,7 +221,7 @@ const keyPhrasesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const sentimentOperationSpec: msRest.OperationSpec = {
+const sentimentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "sentiment",
   urlParameters: [

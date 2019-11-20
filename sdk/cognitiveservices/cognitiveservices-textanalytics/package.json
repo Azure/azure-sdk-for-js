@@ -2,11 +2,7 @@
   "name": "@azure/cognitiveservices-textanalytics",
   "author": "Microsoft Corporation",
   "description": "TextAnalyticsClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.0",
-  "dependencies": {
-    "@azure/ms-rest-js": "^2.0.4",
-    "tslib": "^1.10.0"
-  },
+  "version": "5.0.0-preview.1",
   "keywords": [
     "node",
     "azure",
@@ -18,13 +14,6 @@
   "main": "./dist/cognitiveservices-textanalytics.js",
   "module": "./esm/textAnalyticsClient.js",
   "types": "./esm/textAnalyticsClient.d.ts",
-  "devDependencies": {
-    "typescript": "^3.5.3",
-    "rollup": "^1.18.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.6.0"
-  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-textanalytics",
   "repository": {
     "type": "git",
@@ -53,5 +42,16 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": true,
+  "dependencies": {
+    "@azure/core-http": "^1.0.0",
+    "tslib": "^1.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.6.0"
+  }
 }

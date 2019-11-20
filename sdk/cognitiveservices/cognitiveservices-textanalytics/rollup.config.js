@@ -8,8 +8,8 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 const config = {
   input: "./esm/textAnalyticsClient.js",
   external: [
-    "@azure/ms-rest-js",
-    "@azure/ms-rest-azure-js"
+    "@azure/core-http",
+    "@azure/core-arm"
   ],
   output: {
     file: "./dist/cognitiveservices-textanalytics.js",
@@ -17,8 +17,8 @@ const config = {
     name: "Azure.CognitiveservicesTextanalytics",
     sourcemap: true,
     globals: {
-      "@azure/ms-rest-js": "msRest",
-      "@azure/ms-rest-azure-js": "msRestAzure"
+      "@azure/core-http": "coreHttp",
+      "@azure/core-arm": "coreArm"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -29,7 +29,7 @@ const config = {
  */`
   },
   plugins: [
-    nodeResolve({ mainFields: ['module', 'main'] }),
+    nodeResolve({ module: true }),
     sourcemaps()
   ]
 };

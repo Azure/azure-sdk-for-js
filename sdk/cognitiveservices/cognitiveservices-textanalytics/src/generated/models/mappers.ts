@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 
-export const MultiLanguageInput: msRest.CompositeMapper = {
+export const MultiLanguageInput: coreHttp.CompositeMapper = {
   serializedName: "MultiLanguageInput",
   type: {
     name: "Composite",
@@ -37,7 +37,7 @@ export const MultiLanguageInput: msRest.CompositeMapper = {
   }
 };
 
-export const MultiLanguageBatchInput: msRest.CompositeMapper = {
+export const MultiLanguageBatchInput: coreHttp.CompositeMapper = {
   serializedName: "MultiLanguageBatchInput",
   type: {
     name: "Composite",
@@ -59,7 +59,7 @@ export const MultiLanguageBatchInput: msRest.CompositeMapper = {
   }
 };
 
-export const MatchRecord: msRest.CompositeMapper = {
+export const MatchRecord: coreHttp.CompositeMapper = {
   serializedName: "MatchRecord",
   type: {
     name: "Composite",
@@ -99,7 +99,7 @@ export const MatchRecord: msRest.CompositeMapper = {
   }
 };
 
-export const EntityRecord: msRest.CompositeMapper = {
+export const EntityRecord: coreHttp.CompositeMapper = {
   serializedName: "EntityRecord",
   type: {
     name: "Composite",
@@ -164,7 +164,7 @@ export const EntityRecord: msRest.CompositeMapper = {
   }
 };
 
-export const DocumentStatistics: msRest.CompositeMapper = {
+export const DocumentStatistics: coreHttp.CompositeMapper = {
   serializedName: "DocumentStatistics",
   type: {
     name: "Composite",
@@ -186,7 +186,7 @@ export const DocumentStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResultItem: msRest.CompositeMapper = {
+export const EntitiesBatchResultItem: coreHttp.CompositeMapper = {
   serializedName: "EntitiesBatchResultItem",
   type: {
     name: "Composite",
@@ -222,7 +222,7 @@ export const EntitiesBatchResultItem: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorRecord: msRest.CompositeMapper = {
+export const ErrorRecord: coreHttp.CompositeMapper = {
   serializedName: "ErrorRecord",
   type: {
     name: "Composite",
@@ -244,7 +244,7 @@ export const ErrorRecord: msRest.CompositeMapper = {
   }
 };
 
-export const RequestStatistics: msRest.CompositeMapper = {
+export const RequestStatistics: coreHttp.CompositeMapper = {
   serializedName: "RequestStatistics",
   type: {
     name: "Composite",
@@ -278,7 +278,7 @@ export const RequestStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResult: msRest.CompositeMapper = {
+export const EntitiesBatchResult: coreHttp.CompositeMapper = {
   serializedName: "EntitiesBatchResult",
   type: {
     name: "Composite",
@@ -322,7 +322,7 @@ export const EntitiesBatchResult: msRest.CompositeMapper = {
   }
 };
 
-export const InternalError: msRest.CompositeMapper = {
+export const InternalError: coreHttp.CompositeMapper = {
   serializedName: "InternalError",
   type: {
     name: "Composite",
@@ -351,7 +351,7 @@ export const InternalError: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
+export const ErrorResponse: coreHttp.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -386,7 +386,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const KeyPhraseBatchResultItem: msRest.CompositeMapper = {
+export const KeyPhraseBatchResultItem: coreHttp.CompositeMapper = {
   serializedName: "KeyPhraseBatchResultItem",
   type: {
     name: "Composite",
@@ -421,7 +421,7 @@ export const KeyPhraseBatchResultItem: msRest.CompositeMapper = {
   }
 };
 
-export const KeyPhraseBatchResult: msRest.CompositeMapper = {
+export const KeyPhraseBatchResult: coreHttp.CompositeMapper = {
   serializedName: "KeyPhraseBatchResult",
   type: {
     name: "Composite",
@@ -465,7 +465,7 @@ export const KeyPhraseBatchResult: msRest.CompositeMapper = {
   }
 };
 
-export const LanguageInput: msRest.CompositeMapper = {
+export const LanguageInput: coreHttp.CompositeMapper = {
   serializedName: "LanguageInput",
   type: {
     name: "Composite",
@@ -493,7 +493,7 @@ export const LanguageInput: msRest.CompositeMapper = {
   }
 };
 
-export const LanguageBatchInput: msRest.CompositeMapper = {
+export const LanguageBatchInput: coreHttp.CompositeMapper = {
   serializedName: "LanguageBatchInput",
   type: {
     name: "Composite",
@@ -515,7 +515,7 @@ export const LanguageBatchInput: msRest.CompositeMapper = {
   }
 };
 
-export const DetectedLanguage: msRest.CompositeMapper = {
+export const DetectedLanguage: coreHttp.CompositeMapper = {
   serializedName: "DetectedLanguage",
   type: {
     name: "Composite",
@@ -543,7 +543,7 @@ export const DetectedLanguage: msRest.CompositeMapper = {
   }
 };
 
-export const LanguageBatchResultItem: msRest.CompositeMapper = {
+export const LanguageBatchResultItem: coreHttp.CompositeMapper = {
   serializedName: "LanguageBatchResultItem",
   type: {
     name: "Composite",
@@ -578,7 +578,7 @@ export const LanguageBatchResultItem: msRest.CompositeMapper = {
   }
 };
 
-export const LanguageBatchResult: msRest.CompositeMapper = {
+export const LanguageBatchResult: coreHttp.CompositeMapper = {
   serializedName: "LanguageBatchResult",
   type: {
     name: "Composite",
@@ -622,7 +622,7 @@ export const LanguageBatchResult: msRest.CompositeMapper = {
   }
 };
 
-export const SentimentBatchResultItem: msRest.CompositeMapper = {
+export const SentimentBatchResultItem: coreHttp.CompositeMapper = {
   serializedName: "SentimentBatchResultItem",
   type: {
     name: "Composite",
@@ -651,7 +651,7 @@ export const SentimentBatchResultItem: msRest.CompositeMapper = {
   }
 };
 
-export const SentimentBatchResult: msRest.CompositeMapper = {
+export const SentimentBatchResult: coreHttp.CompositeMapper = {
   serializedName: "SentimentBatchResult",
   type: {
     name: "Composite",

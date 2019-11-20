@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const endpoint: msRest.OperationURLParameter = {
+export const endpoint: coreHttp.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
     required: true,
@@ -22,7 +22,7 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const showStats: msRest.OperationQueryParameter = {
+export const showStats: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "showStats"

@@ -8,14 +8,14 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/cognitiveservices-textanalytics";
 const packageVersion = "4.0.0";
 
-export class TextAnalyticsClientContext extends msRest.ServiceClient {
+export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
   endpoint: string;
-  credentials: msRest.ServiceClientCredentials;
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the TextAnalyticsClientContext class.
@@ -24,7 +24,7 @@ export class TextAnalyticsClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
     }
@@ -37,7 +37,7 @@ export class TextAnalyticsClientContext extends msRest.ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

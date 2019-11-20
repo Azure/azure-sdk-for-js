@@ -7,7 +7,7 @@
  */
 
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 /**
  * An interface representing MultiLanguageInput.
@@ -382,7 +382,7 @@ export interface SentimentBatchResult {
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientDetectLanguageOptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientDetectLanguageOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (optional) if set to true, response will contain input and document level statistics.
    */
@@ -396,7 +396,7 @@ export interface TextAnalyticsClientDetectLanguageOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientEntitiesOptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientEntitiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (optional) if set to true, response will contain input and document level statistics.
    */
@@ -410,7 +410,7 @@ export interface TextAnalyticsClientEntitiesOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientKeyPhrasesOptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (optional) if set to true, response will contain input and document level statistics.
    */
@@ -425,7 +425,7 @@ export interface TextAnalyticsClientKeyPhrasesOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientSentimentOptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (optional) if set to true, response will contain input and document level statistics.
    */
@@ -443,7 +443,7 @@ export type DetectLanguageResponse = LanguageBatchResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -463,7 +463,7 @@ export type EntitiesResponse = EntitiesBatchResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -483,7 +483,7 @@ export type KeyPhrasesResponse = KeyPhraseBatchResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -508,7 +508,7 @@ export type SentimentResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
