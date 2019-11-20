@@ -25,9 +25,13 @@ import {
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { SendOptions, EventHubProducerOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import {
+  SendOptions,
+  EventHubProducerOptions,
+  getRetryAttemptTimeoutInMs
+} from "./impl/eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { EventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -442,7 +446,7 @@ export class EventHubSender extends LinkEntity {
       }
 
       // throw an error if partition key is different than the one provided in the options.
-      if (events instanceof EventDataBatch && options && options.partitionKey) {
+      if (isEventDataBatch(events) && options && options.partitionKey) {
         const error = new Error(
           "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
         );
@@ -461,7 +465,7 @@ export class EventHubSender extends LinkEntity {
       );
 
       let encodedBatchMessage: Buffer | undefined;
-      if (events instanceof EventDataBatch) {
+      if (isEventDataBatch(events)) {
         encodedBatchMessage = events.batchMessage!;
       } else {
         const partitionKey = (options && options.partitionKey) || undefined;

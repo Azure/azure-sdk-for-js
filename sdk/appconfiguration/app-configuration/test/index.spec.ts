@@ -10,7 +10,8 @@ import {
   assertThrowsRestError,
   assertThrowsAbortError
 } from "./testHelpers";
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient, ConfigurationSetting } from "../src";
+import { delay } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -405,11 +406,34 @@ describe("AppConfigurationClient", () => {
         await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
       });
     });
+
+    it("by date", async () => {
+      const key = `getConfigurationSettingByDate-${Date.now()}`;
+      
+      const initialSetting = await client.setConfigurationSetting({
+        key,
+        value: "value1"
+      });
+
+      await delay(1000);
+
+      await client.setConfigurationSetting({
+        key,
+        value: "value2"
+      });
+
+      const settingAtPointInTime = await client.getConfigurationSetting({ key }, {
+        acceptDateTime: initialSetting.lastModified
+      });
+
+      assert.equal("value1", settingAtPointInTime.value);
+    });
   });
 
   describe("listConfigurationSettings", () => {
     const now = Date.now();
     const uniqueLabel = `listConfigSettingsLabel-${now}`;
+    let listConfigSettingA: ConfigurationSetting;
 
     const productionASettingId = {
       key: `listConfigSettingA-${now}`,
@@ -421,7 +445,7 @@ describe("AppConfigurationClient", () => {
       await client.addConfigurationSetting(productionASettingId);
       await client.setReadOnly(productionASettingId, true);
 
-      await client.addConfigurationSetting({
+      listConfigSettingA = await client.addConfigurationSetting({
         key: `listConfigSettingA-${now}`,
         value: "[A] value"
       });
@@ -577,6 +601,28 @@ describe("AppConfigurationClient", () => {
       assert.ok(!settings[0].etag);
     });
 
+    it("by date", async () => {
+      let byKeyIterator = client.listConfigurationSettings({
+        keys: ['listConfigSettingA-*'],
+        acceptDateTime: listConfigSettingA.lastModified
+      });
+
+      let settings = await toSortedArray(byKeyIterator);
+      let foundMyExactSettingToo = false;
+
+      // all settings returned should be the same date or as old as my setting
+      for (const setting of settings) {
+        assert.ok(setting.lastModified);
+        assert.ok(setting.lastModified! <= listConfigSettingA.lastModified!);
+
+        if (setting.key === listConfigSettingA.key && setting.label === listConfigSettingA.label) {
+          foundMyExactSettingToo = true;
+        }
+      }
+
+      assert.ok(foundMyExactSettingToo);
+    });
+
     // TODO: this test is entirely too slow and needs to be replaced with
     //  one that uses recorded responses.
     /*
@@ -639,10 +685,12 @@ describe("AppConfigurationClient", () => {
     const key = `listRevisions-${now}`;
     const labelA = `list-revisions-A-${now}`;
     const labelB = `list-revisions-B-${now}`;
+    let originalSetting: ConfigurationSetting;
 
     before(async () => {
       // we'll generate two sets of keys and labels for this selection
-      await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      originalSetting = await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      await delay(1000);
       await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
 
       await client.addConfigurationSetting({ key, label: labelB, value: "fooB1" });
@@ -714,6 +762,31 @@ describe("AppConfigurationClient", () => {
         const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
         await iter.next();
       });
+    });
+
+    it("by date", async () => {
+      let byKeyIterator = client.listRevisions({
+        keys: [key],
+        acceptDateTime: originalSetting.lastModified
+      });
+
+      let settings = await toSortedArray(byKeyIterator);
+
+      assert.equal(1, settings.length);
+      assert.deepEqual(
+        {
+          key: originalSetting.key,
+          label: originalSetting.label,
+          value: originalSetting.value,
+          isReadOnly: originalSetting.isReadOnly
+        },
+        {
+          key: settings[0].key,
+          label: settings[0].label,
+          value: settings[0].value,
+          isReadOnly: settings[0].isReadOnly
+        }
+      );
     });
   });
 

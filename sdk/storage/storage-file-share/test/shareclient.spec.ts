@@ -1,16 +1,17 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
 import { ShareClient } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -170,7 +171,7 @@ describe("ShareClient", () => {
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
       assert.equal(
-        "Expecting non-empty strings for shareName parameter",
+        "Expecting non-empty strings for name parameter",
         error.message,
         "Error message is different than expected."
       );
@@ -201,7 +202,7 @@ describe("ShareClient", () => {
   it("verify accountName and shareName passed to the client", async () => {
     const accountName = "myaccount";
     const newClient = new ShareClient(`https://${accountName}.file.core.windows.net/` + shareName);
-    assert.equal(newClient.shareName, shareName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, shareName, "Queue name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

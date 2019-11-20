@@ -24,7 +24,7 @@ export interface EventPositionOptions {
    * @property The enqueued time of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an offset.
    */
-  enqueuedTime?: Date | number;
+  enqueuedOn?: Date | number;
 
   /**
    * @property The sequence number of the event at the position. It can be undefined
@@ -81,7 +81,7 @@ export class EventPosition {
    * @property The enqueued time of the event identified by this position.
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
-  enqueuedTime?: Date | number;
+  enqueuedOn?: Date | number;
 
   /**
    * @property The sequence number of the event identified by this poistion.
@@ -105,7 +105,7 @@ export class EventPosition {
   constructor(options?: EventPositionOptions) {
     if (options) {
       this.offset = options.offset;
-      this.enqueuedTime = options.enqueuedTime;
+      this.enqueuedOn = options.enqueuedOn;
       this.sequenceNumber = options.sequenceNumber;
       this.isInclusive = options.isInclusive || false;
     }
@@ -120,11 +120,11 @@ export class EventPosition {
    * Default: `false`.
    * @returns EventPosition
    */
-  static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
+  static fromOffset(offset: number): EventPosition {
     if (typeof offset !== "number" && typeof offset !== "string") {
       throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
     }
-    return new EventPosition({ offset: offset, isInclusive: isInclusive });
+    return new EventPosition({ offset: offset });
   }
 
   /**
@@ -150,16 +150,16 @@ export class EventPosition {
    * Gets an instance of `EventPosition` corresponding to a specific date and time within the partition to begin seeking an event;
    * the event enqueued after the requested `enqueuedTime` will become the current position.
    *
-   * @param enqueuedTime The date and time, in UTC, from which the next available event should be chosen.
+   * @param enqueuedOn The date and time, in UTC, from which the next available event should be chosen.
    * @returns EventPosition
    */
-  static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date)) {
+  static fromEnqueuedTime(enqueuedOn: Date | number): EventPosition {
+    if (typeof enqueuedOn !== "number" && !(enqueuedOn instanceof Date)) {
       throw new Error(
-        `Invalid enqueuedTime "${enqueuedTime}" provided to "fromEnqueuedTime" method.`
+        `Invalid enqueuedTime "${enqueuedOn}" provided to "fromEnqueuedTime" method.`
       );
     }
-    return new EventPosition({ enqueuedTime: enqueuedTime });
+    return new EventPosition({ enqueuedOn: enqueuedOn });
   }
 
   /**
@@ -202,11 +202,11 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
     result = eventPosition.isInclusive
       ? `${Constants.sequenceNumberAnnotation} >= '${eventPosition.sequenceNumber}'`
       : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
-  } else if (eventPosition.enqueuedTime != undefined) {
+  } else if (eventPosition.enqueuedOn != undefined) {
     const time =
-      eventPosition.enqueuedTime instanceof Date
-        ? eventPosition.enqueuedTime.getTime()
-        : eventPosition.enqueuedTime;
+      eventPosition.enqueuedOn instanceof Date
+        ? eventPosition.enqueuedOn.getTime()
+        : eventPosition.enqueuedOn;
     result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
   }
 
@@ -217,4 +217,12 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
     });
   }
   return result;
+}
+
+export function isEarliestEventPosition(eventPosition: EventPosition): boolean {
+  if (eventPosition.offset === -1) {
+    return true;
+  }
+
+  return false;
 }

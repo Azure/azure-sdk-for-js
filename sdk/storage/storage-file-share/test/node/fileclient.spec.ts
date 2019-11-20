@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU, createRandomLocalFile } from "../utils";
+import { bodyToString, getBSU, createRandomLocalFile, setupEnvironment } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -11,12 +11,14 @@ import {
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
-import { record } from "../utils/recorder";
+
 import * as fs from "fs";
 import * as path from "path";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
@@ -26,7 +28,7 @@ describe("FileClient Node.js only", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -48,6 +50,7 @@ describe("FileClient Node.js only", () => {
   });
 
   it("uploadData - large Buffer as data", async () => {
+    recorder.skip("node", "Temp File - recorder doesn't support saving the file");
     await fileClient.create(257 * 1024 * 1024 * 1024);
     const tempFolderPath = "temp";
     if (!fs.existsSync(tempFolderPath)) {
@@ -182,11 +185,11 @@ describe("FileClient Node.js only", () => {
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
-    expiryTime.setDate(expiryTime.getDate() + 1);
+    const expiresOn = recorder.newDate("now");
+    expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
-        expiryTime,
+        expiresOn,
         shareName,
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r")

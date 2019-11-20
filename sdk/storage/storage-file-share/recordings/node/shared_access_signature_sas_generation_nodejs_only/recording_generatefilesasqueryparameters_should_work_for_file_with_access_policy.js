@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-09-11T02:22:21.301Z","share":"share156816854130109051","dir":"dir156816854179102705","file":"file156816854220004597"}
+module.exports.testInfo = {"now":"2019-09-11T02:22:21.301Z","share":"share156816854130109051","dir":"dir156816854179102705","file":"file156816854220004597"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .put('/share156816854130109051')

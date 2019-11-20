@@ -1,14 +1,15 @@
 import * as assert from "assert";
 import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment } from "./../utils";
-import { record } from "../utils/recorder";
+import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "./../utils";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("ShareClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -23,17 +24,17 @@ describe("ShareClient Node.js only", () => {
   });
 
   it("setAccessPolicy", async () => {
-    const yesterday = recorder.newDate();
-    const tomorrow = recorder.newDate();
+    const yesterday = recorder.newDate("now");
+    const tomorrow = recorder.newDate("now");
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     const identifiers: SignedIdentifier[] = [
       {
         accessPolicy: {
-          expiry: tomorrow,
+          expiresOn: tomorrow,
           permissions: "rwd",
-          start: yesterday
+          startsOn: yesterday
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }
@@ -44,12 +45,12 @@ describe("ShareClient Node.js only", () => {
 
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiry.getTime(),
-      identifiers[0].accessPolicy.expiry.getTime()
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiresOn.getTime(),
+      identifiers[0].accessPolicy.expiresOn.getTime()
     );
     assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.start.getTime(),
-      identifiers[0].accessPolicy.start.getTime()
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.startsOn.getTime(),
+      identifiers[0].accessPolicy.startsOn.getTime()
     );
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,

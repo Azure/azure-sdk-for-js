@@ -28,7 +28,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private currentPartitionIndex: number;
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
-  public continuation: string; // TODO: any continuation
+  public continuationToken: string; // TODO: any continuation
+  public get continuation() {
+    return this.continuationToken;
+  }
   private state: STATES;
   private nextFetchFunction: Promise<Response<any>>;
   /**
@@ -49,7 +52,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.currentPartitionIndex = 0;
     this.fetchFunctions = Array.isArray(fetchFunctions) ? fetchFunctions : [fetchFunctions];
     this.options = options || {};
-    this.continuation = this.options.continuation || null;
+    this.continuationToken = this.options.continuationToken || this.options.continuation || null;
     this.state = DefaultQueryExecutionContext.STATES.start;
   }
 
@@ -81,7 +84,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       const { result: resources, headers } = await this.fetchMore();
       this.resources = resources;
       if (this.resources.length === 0) {
-        if (!this.continuation && this.currentPartitionIndex >= this.fetchFunctions.length) {
+        if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
           return { result: undefined, headers };
         } else {
@@ -105,7 +108,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public hasMoreResults() {
     return (
       this.state === DefaultQueryExecutionContext.STATES.start ||
-      this.continuation !== undefined ||
+      this.continuationToken !== undefined ||
       this.currentIndex < this.resources.length - 1 ||
       this.currentPartitionIndex < this.fetchFunctions.length
     );
@@ -127,8 +130,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
-    const originalContinuation = this.options.continuation;
-    this.options.continuation = this.continuation;
+    const originalContinuation = this.options.continuationToken || this.options.continuation;
+    this.options.continuationToken = this.continuationToken;
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -151,15 +154,15 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       resources = response.result;
       responseHeaders = response.headers;
 
-      this.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
-      if (!this.continuation) {
+      this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation];
+      if (!this.continuationToken) {
         ++this.currentPartitionIndex;
       }
 
       if (this.options && this.options.bufferItems === true) {
         const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
         this.nextFetchFunction = fetchFunction
-          ? fetchFunction({ ...this.options, continuation: this.continuation })
+          ? fetchFunction({ ...this.options, continuationToken: this.continuationToken })
           : undefined;
       }
     } catch (err) {
@@ -171,6 +174,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     this.state = DefaultQueryExecutionContext.STATES.inProgress;
     this.currentIndex = 0;
+    this.options.continuationToken = originalContinuation;
     this.options.continuation = originalContinuation;
 
     // deserializing query metrics so that we aren't working with delimited strings in the rest of the code base
@@ -210,7 +214,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private _canFetchMore() {
     const res =
       this.state === DefaultQueryExecutionContext.STATES.start ||
-      (this.continuation && this.state === DefaultQueryExecutionContext.STATES.inProgress) ||
+      (this.continuationToken && this.state === DefaultQueryExecutionContext.STATES.inProgress) ||
       (this.currentPartitionIndex < this.fetchFunctions.length &&
         this.state === DefaultQueryExecutionContext.STATES.inProgress);
     return res;

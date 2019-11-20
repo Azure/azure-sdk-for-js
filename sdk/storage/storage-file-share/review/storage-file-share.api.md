@@ -22,7 +22,7 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
@@ -62,13 +62,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -516,14 +516,14 @@ export interface FileSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
-    expiryTime?: Date;
+    expiresOn?: Date;
     filePath?: string;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: FileSASPermissions;
     protocol?: SASProtocol;
     shareName: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -599,6 +599,7 @@ export class FileSystemAttributes {
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    sourceRange?: string;
     timeoutInSeconds?: number;
 }
 
@@ -725,13 +726,13 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
-    readonly expiryTime?: Date;
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -740,7 +741,7 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
 }
@@ -803,7 +804,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 // 
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
+    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
@@ -825,12 +826,11 @@ export class ShareClient extends StorageClient {
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
+    readonly name: string;
     readonly rootDirectoryClient: ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
-    // (undocumented)
-    readonly shareName: string;
     withSnapshot(snapshot: string): ShareClient;
 }
 
@@ -925,11 +925,10 @@ export class ShareDirectoryClient extends StorageClient {
         kind: "directory";
     } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    // (undocumented)
+    readonly name: string;
     readonly path: string;
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    // (undocumented)
     readonly shareName: string;
     }
 
@@ -942,20 +941,20 @@ export class ShareFileClient extends StorageClient {
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    // (undocumented)
+    readonly name: string;
     readonly path: string;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    // (undocumented)
     readonly shareName: string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
@@ -999,15 +998,15 @@ export interface ShareGetPermissionOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "Permission" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharePermission" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ShareGetPermissionHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
+export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPermissionHeaders;
         bodyAsText: string;
-        parsedBody: Permission;
+        parsedBody: SharePermission;
     };
 };
 
@@ -1135,8 +1134,8 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start: Date;
-        expiry: Date;
+        startsOn: Date;
+        expiresOn: Date;
         permissions: string;
     };
     id: string;
