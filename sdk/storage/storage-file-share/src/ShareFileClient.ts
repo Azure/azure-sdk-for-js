@@ -966,11 +966,13 @@ export class ShareFileClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (await this.context.download({
-            abortSignal: options.abortSignal,
-            ...updatedOptions,
-            spanOptions
-          })).readableStreamBody!;
+          return (
+            await this.context.download({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              spanOptions
+            })
+          ).readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -1767,6 +1769,10 @@ export class ShareFileClient extends StorageClient {
    * Downloads an Azure file in parallel to a buffer.
    * Offset and count are optional, pass 0 for both to download the entire file.
    *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link downloadToFile}.
+   *
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the Azure File to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
@@ -1785,6 +1791,10 @@ export class ShareFileClient extends StorageClient {
    *
    * Downloads an Azure file in parallel to a buffer.
    * Offset and count are optional, pass 0 for both to download the entire file
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link downloadToFile}.
    *
    * @param {number} offset From which position of the Azure file to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
