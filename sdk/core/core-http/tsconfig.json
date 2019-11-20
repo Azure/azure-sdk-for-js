@@ -3,16 +3,7 @@
   "compilerOptions": {
     "outDir": "es",
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es5",
-      "es6",
-      "es7",
-      "esnext",
-      "esnext.asynciterable",
-      "es2015.iterable"
-    ]
+    "lib": ["dom"]
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
