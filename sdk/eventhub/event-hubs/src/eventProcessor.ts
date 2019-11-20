@@ -192,7 +192,7 @@ export interface FullEventProcessorOptions
  *     }
  * }
  * ```
- * - An instance of `CheckpointStore`. To get started, you can pass an instance of `InMemoryCheckpointStore`.
+ * - An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
