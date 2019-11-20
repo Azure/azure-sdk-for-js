@@ -102,7 +102,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.0.2",
-    "cross-env": "^5.2.0",
+    "cross-env": "^6.0.3",
     "delay": "^4.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
