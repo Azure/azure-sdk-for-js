@@ -24,8 +24,8 @@ import {
 /**
  * @ignore
  * Builds the queue options object from the user provided options.
- * Handles the differences in casing for the property names, converts values to string and ensures the
- * right order as expected by the service
+ * Handles the differences in casing for the property names, 
+ * converts values to string and ensures the right order as expected by the service
  * @param queueOptions
  */
 export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOptions {
@@ -53,8 +53,8 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 
 /**
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the response
- * from the service
+ * Builds the queue object from the raw json object gotten after deserializing the 
+ * response from the service
  * @param rawQueue
  */
 export function buildQueue(rawQueue: any): QueueDetails {
@@ -146,11 +146,12 @@ export interface QueueOptions {
   messageCount?: number;
 
   /**
-   * Depending on whether DeadLettering is enabled, a message is automatically moved to the
-   * DeadLetterQueue or deleted if it has been stored in the queue for longer than the
-   * specified time.This value is overwritten by a TTL specified on the message if and only
-   * if the message TTL is smaller than the TTL set on the queue. This value is immutable
-   * after the Queue has been created.
+   * Depending on whether DeadLettering is enabled, a message is automatically 
+   * moved to the dead-letter sub-queue or deleted if it has been stored in the 
+   * queue for longer than the specified time. 
+   * This value is overwritten by a TTL specified on the message 
+   * if and only if the message TTL is smaller than the TTL set on the queue. 
+   * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
@@ -238,7 +239,8 @@ export interface InternalQueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver. Settable only at queue creation time.
+   * available for consumption by the next receiver. 
+   * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
