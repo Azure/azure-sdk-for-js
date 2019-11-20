@@ -7,7 +7,6 @@ package-lock.json
 .nyc_output/
 coverage/
 dist/
-*.d.ts
 *.d.ts.map
 *.js
 *.js.map

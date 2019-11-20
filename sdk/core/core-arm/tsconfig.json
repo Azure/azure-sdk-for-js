@@ -3,8 +3,7 @@
   "compilerOptions": {
     "preserveConstEnums": true,
     "target": "es5",
-    "outDir": "es",
-    "lib": ["dom"]
+    "outDir": "es"
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
