@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Constants, OperationType, ResourceType, sleep } from "./common";
+import { Constants, OperationType, ResourceType, sleep, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
@@ -8,6 +8,9 @@ import { LocationCache } from "./LocationCache";
 import { ResourceResponse } from "./request";
 import { RequestContext } from "./request/RequestContext";
 
+// function normalizeLocationName(location: string): string {
+//   return location ? location.toLowerCase().replace(/ /g, "") : null;
+// }
 /**
  * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
@@ -27,6 +30,9 @@ export class GlobalEndpointManager {
   private isRefreshing: boolean;
   private readonly backgroundRefreshTimeIntervalInMS: number;
   private initPromise: Promise<void>;
+  private databaseAccount: DatabaseAccount;
+  private options: CosmosClientOptions;
+  private preferredLocations: string[];
 
   /**
    * @constructor GlobalEndpointManager
@@ -38,12 +44,14 @@ export class GlobalEndpointManager {
       opts: RequestOptions
     ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
+    this.options = options;
     this.defaultEndpoint = options.endpoint;
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isEndpointCacheInitialized = false;
     this.locationCache = new LocationCache(options);
     this.isRefreshing = false;
     this.backgroundRefreshTimeIntervalInMS = Constants.DefaultUnavailableLocationExpirationTimeMS;
+    this.preferredLocations = this.options.connectionPolicy.preferredLocations;
   }
 
   /**
@@ -80,12 +88,24 @@ export class GlobalEndpointManager {
     return this.locationCache.getWriteEndpoints();
   }
 
-  public markCurrentLocationUnavailableForRead(endpoint: string) {
-    this.locationCache.markCurrentLocationUnavailableForRead(endpoint);
+  public async markCurrentLocationUnavailableForRead(endpoint: string) {
+    await this.refreshEndpointList();
+    const location = this.databaseAccount.readableLocations.find(
+      (loc) => loc.databaseAccountEndpoint === endpoint
+    );
+    if (location) {
+      location.unavailable = true;
+    }
   }
 
-  public markCurrentLocationUnavailableForWrite(endpoint: string) {
-    this.locationCache.markCurrentLocationUnavailableForWrite(endpoint);
+  public async markCurrentLocationUnavailableForWrite(endpoint: string) {
+    await this.refreshEndpointList();
+    const location = this.databaseAccount.writableLocations.find(
+      (loc) => loc.databaseAccountEndpoint === endpoint
+    );
+    if (location) {
+      location.unavailable = true;
+    }
   }
 
   public canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType) {
@@ -93,10 +113,48 @@ export class GlobalEndpointManager {
   }
 
   public async resolveServiceEndpoint(request: RequestContext) {
-    if (!this.isEndpointCacheInitialized && request.resourceType !== ResourceType.none) {
-      await this.init();
+    // If endpoint discovery is disabled, always use the user provided endpoint
+    if (!this.options.connectionPolicy.enableEndpointDiscovery) {
+      return this.defaultEndpoint;
     }
-    return this.locationCache.resolveServiceEndpoint(request);
+
+    // If getting the database account, always use the user provided endpoint
+    if (request.resourceType === ResourceType.none) {
+      return this.defaultEndpoint;
+    }
+
+    if (!this.databaseAccount) {
+      const { resource: databaseAccount } = await this.readDatabaseAccount({
+        urlConnection: this.defaultEndpoint
+      });
+      this.databaseAccount = databaseAccount;
+      return this.defaultEndpoint;
+    }
+
+    const locations = isReadRequest(request.operationType)
+      ? this.databaseAccount.readableLocations
+      : this.databaseAccount.writableLocations;
+
+    let location;
+    // If we have preferred locations, try each one in order and use the first available one
+    if (this.preferredLocations && this.preferredLocations.length > 0) {
+      for (const preferredLocation of this.preferredLocations) {
+        location = locations.find(
+          (loc) => loc.unavailable !== true && loc.name === preferredLocation
+        );
+        if (location) {
+          break;
+        }
+      }
+    }
+    // If no preferred locations or one did not match, just grab the first one that is available
+    if (!location) {
+      location = locations.find((loc) => {
+        return loc.unavailable !== true;
+      });
+    }
+
+    return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
   }
 
   /**
@@ -110,6 +168,7 @@ export class GlobalEndpointManager {
       let shouldRefresh = false;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
+        this.databaseAccount = databaseAccount;
         this.locationCache.onDatabaseAccountRead(databaseAccount);
       }
 

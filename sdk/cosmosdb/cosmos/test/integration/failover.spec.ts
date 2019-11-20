@@ -1,10 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
-import { masterKey, endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_testConfig";
 import assert from "assert";
 
-const databaseAccountResponse = {
+const endpoint = "https://failovertest.documents.azure.com/";
+
+// This is a function because the SDK plugin ends up mutating it. In reality this won't happen because it is a unique backend response
+const databaseAccountResponse = () => ({
   headers: {
     "content-location": "https://failovertest.documents.azure.com/",
     "content-type": "application/json"
@@ -57,7 +60,7 @@ const databaseAccountResponse = {
       '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}'
   },
   code: 200
-};
+});
 
 const collectionResponse = {
   headers: {},
@@ -134,11 +137,11 @@ describe("Region Failover", () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     responses = [
-      databaseAccountResponse,
+      databaseAccountResponse(),
       collectionResponse,
       readResponse,
       WriteForbiddenResponse,
-      databaseAccountResponse,
+      databaseAccountResponse(),
       readResponse
     ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };
@@ -174,11 +177,11 @@ describe("Region Failover", () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     responses = [
-      databaseAccountResponse,
+      databaseAccountResponse(),
       collectionResponse,
       readResponse,
       DatabaseAccountNotFoundResponse,
-      databaseAccountResponse,
+      databaseAccountResponse(),
       readResponse
     ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };

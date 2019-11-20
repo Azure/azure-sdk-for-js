@@ -78,11 +78,9 @@ export async function execute({
       requestContext.client.clearSessionToken(requestContext.path);
     }
   }
-  const locationEndpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+  requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
     requestContext
   );
-  requestContext.endpoint = locationEndpoint;
-  requestContext.locationRouting.routeToLocation(locationEndpoint);
   try {
     const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] =
@@ -110,7 +108,7 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
-    const results = await retryPolicy.shouldRetry(err, retryContext, locationEndpoint);
+    const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
