@@ -69,12 +69,16 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       } catch (err) {
         // Ignoring as creating topic test with input variations may fail
         // and handling this clean along with test case results in resource conflict error
+        // Further investigation of issue and simplification of tests setup
+        // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic2");
       } catch (err) {
         // Ignoring as creating topic test with input variations may fail
         // and handling this clean along with test case results in resource conflict error
+        // Further investigation of issue and simplification of tests setup
+        // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
       await createEntity(
