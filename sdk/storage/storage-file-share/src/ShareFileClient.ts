@@ -795,7 +795,6 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
    * @memberof ShareFileClient
    *
-   * @example
    * ```js
    * const content = "Hello world!";
    *
@@ -864,7 +863,6 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
    * @memberof ShareFileClient
    *
-   * @example
    * ```js
    * // Download a file to a string (Node.js only)
    * const downloadFileResponse = await fileClient.download();
@@ -888,7 +886,6 @@ export class ShareFileClient extends StorageClient {
    * }
    * ```
    *
-   * @example
    * ```js
    * // Download a file to a string (Browser only)
    * const downloadFileResponse = await fileClient.download(0);
@@ -1244,7 +1241,6 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof ShareFileClient
    *
-   * @example
    * ```js
    * const content = "Hello world!";
    *

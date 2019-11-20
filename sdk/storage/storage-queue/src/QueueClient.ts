@@ -583,7 +583,6 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
    *
-   * @example
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
    * const createQueueResponse = await queueClient.create();
@@ -616,7 +615,6 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
    *
-   * @example
    * ```js
    * const deleteQueueResponse = await queueClient.delete();
    * console.log(
@@ -843,7 +841,6 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
    *
-   * @example
    * ```js
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
@@ -901,7 +898,6 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
    *
-   * @example
    * ```js
    * const response = await queueClient.receiveMessages();
    * if (response.receivedMessageItems.length == 1) {
@@ -963,7 +959,6 @@ export class QueueClient extends StorageClient {
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
    *
-   * @example
    * ```js
    * const peekMessagesResponse = await queueClient.peekMessages();
    * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);

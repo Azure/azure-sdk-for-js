@@ -331,7 +331,6 @@ export class BlobServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    *
-   * @example
    * ```js
    * const account = "<storage account name>";
    *
@@ -345,7 +344,6 @@ export class BlobServiceClient extends StorageClient {
    * );
    * ```
    *
-   * @example
    * ```js
    * const account = "<storage account name>"
    * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
@@ -405,7 +403,6 @@ export class BlobServiceClient extends StorageClient {
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    *
-   * @example
    * ```js
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * ```
@@ -718,7 +715,6 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * @example
    * ```js
    *   let i = 1;
    *   for await (const container of blobServiceClient.listContainers()) {
@@ -726,7 +722,6 @@ export class BlobServiceClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
@@ -738,7 +733,6 @@ export class BlobServiceClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
@@ -752,7 +746,6 @@ export class BlobServiceClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;

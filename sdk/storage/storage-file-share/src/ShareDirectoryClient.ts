@@ -499,7 +499,6 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
    * @memberof ShareDirectoryClient
    *
-   * @example
    * ```js
    * const directoryClient = shareClient.getDirectoryClient("<directory name>");
    * await directoryClient.create();
@@ -680,7 +679,6 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
    * @memberof ShareFileClient
    *
-   * @example
    * ```js
    * const content = "Hello world!"
    *
@@ -852,7 +850,6 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
-   * @example
    * ```js
    *   let i = 1;
    *   for await (const entity of directoryClient.listFilesAndDirectories()) {
@@ -864,7 +861,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
@@ -880,7 +876,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
@@ -897,7 +892,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
@@ -1053,7 +1047,6 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
-   * @example
    * ```js
    *   let i = 1;
    *   let iter = dirClient.listHandles();
@@ -1062,7 +1055,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
@@ -1074,7 +1066,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
@@ -1088,7 +1079,6 @@ export class ShareDirectoryClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;

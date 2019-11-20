@@ -219,7 +219,6 @@ export class QueueServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    *
-   * @example
    * ```js
    * const account = "<account>";
    *
@@ -233,7 +232,6 @@ export class QueueServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @example
    * ```js
    * const account = "<account>";
    *
@@ -298,7 +296,6 @@ export class QueueServiceClient extends StorageClient {
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
    *
-   * @example
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
    * const createQueueResponse = await queueClient.create();
@@ -400,7 +397,6 @@ export class QueueServiceClient extends StorageClient {
    * under the specified account.
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
-   * @example
    * ```js
    *    let i = 1;
    *    for await (const item of queueServiceClient.listQueues()) {
@@ -409,7 +405,6 @@ export class QueueServiceClient extends StorageClient {
    *    }
    * ```
    *
-   * @example
    * ```js
    *    // Generator syntax .next()
    *    let i = 1;
@@ -422,7 +417,6 @@ export class QueueServiceClient extends StorageClient {
    *    }
    * ```
    *
-   * @example
    * ```js
    *    // Example for .byPage()
    *    // passing optional maxPageSize in the page settings
@@ -437,7 +431,6 @@ export class QueueServiceClient extends StorageClient {
    *    }
    * ```
    *
-   * @example
    * ```js
    *    let i = 1;
    *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });

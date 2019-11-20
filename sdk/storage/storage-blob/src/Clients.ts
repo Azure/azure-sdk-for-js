@@ -1064,7 +1064,6 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
    *
-   * @example
    * ```js
    * // Download and convert a blob to a string (Node.js only)
    * const downloadBlockBlobResponse = await blobClient.download();
@@ -1085,7 +1084,6 @@ export class BlobClient extends StorageClient {
    * }
    * ```
    *
-   * @example
    * ```js
    * // Download and convert a blob to a string (Browser only)
    * const downloadBlockBlobResponse = await blobClient.download();
@@ -3077,7 +3075,6 @@ export class BlockBlobClient extends BlobClient {
    * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    *
-   * @example
    * ```js
    * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
@@ -5557,7 +5554,6 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<ContainerCreateResponse>}
    * @memberof ContainerClient
    *
-   * @example
    * ```js
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * const createContainerResponse = await containerClient.create();
@@ -5653,7 +5649,6 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    *
-   * @example
    * ```js
    * const content = "Hello world!";
    *
@@ -6185,7 +6180,6 @@ export class ContainerClient extends StorageClient {
    *
    * // Get the containerClient before you run these snippets,
    * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
-   * @example
    * ```js
    *   let i = 1;
    *   for await (const blob of containerClient.listBlobsFlat()) {
@@ -6193,7 +6187,6 @@ export class ContainerClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Generator syntax .next()
    *   let i = 1;
@@ -6205,7 +6198,6 @@ export class ContainerClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
@@ -6217,7 +6209,6 @@ export class ContainerClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
@@ -6365,7 +6356,6 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs by hierarchy in pages.
    *
-   * @example
    * ```js
    *   for await (const item of containerClient.listBlobsByHierarchy("/")) {
    *     if (item.kind === "prefix") {
@@ -6376,7 +6366,6 @@ export class ContainerClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    * // Generator syntax .next() and passing a prefix
    * let iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
@@ -6392,7 +6381,6 @@ export class ContainerClient extends StorageClient {
    * }
    * ```js
    *
-   * @example
    * ```js
    *   // byPage()
    *   console.log("Listing blobs by hierarchy by page");
@@ -6409,7 +6397,6 @@ export class ContainerClient extends StorageClient {
    *   }
    * ```
    *
-   * @example
    * ```js
    *   // 4. byPage() and passing a prefix and max page size
    *   console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
