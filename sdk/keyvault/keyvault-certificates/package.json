@@ -69,7 +69,6 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-arm": "1.0.0-preview.7",
     "@azure/core-http": "^1.0.0",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
