@@ -13,13 +13,16 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getString,
+  getInteger,
+  getBoolean
 } from "../util/utils";
 
 /**
  * @ignore
- * Builds the subscription options object from the user provided options. 
- * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * Builds the subscription options object from the user provided options.
+ * Handles the differences in casing for the property names, converts values to string and ensures the
  * right order as expected by the service
  * @param subscriptionOptions
  */
@@ -29,7 +32,7 @@ export function buildSubscriptionOptions(
   return {
     LockDuration: subscriptionOptions.lockDuration,
     RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTimeToLive),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTtl),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnMessageExpiration
     ),
@@ -52,39 +55,42 @@ export function buildSubscriptionOptions(
 
 /**
  * @ignore
- * Builds the subscription object from the raw json object gotten after deserializing the response 
+ * Builds the subscription object from the raw json object gotten after deserializing the response
  * from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDetails | undefined {
-  if (rawSubscription == undefined) {
-    return undefined;
-  }
+export function buildSubscription(rawSubscription: any): SubscriptionDetails {
   return {
-    subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
-    topicName: rawSubscription[Constants.TOPIC_NAME],
+    subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
+    topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
 
-    lockDuration: rawSubscription[Constants.LOCK_DURATION],
+    lockDuration: getString(rawSubscription[Constants.LOCK_DURATION], "lockDuration"),
     sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
     maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
 
-    messageCount: getIntegerOrUndefined(rawSubscription[Constants.MESSAGE_COUNT]),
-    maxDeliveryCount: getIntegerOrUndefined(rawSubscription[Constants.MAX_DELIVERY_COUNT]),
+    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    maxDeliveryCount: getInteger(rawSubscription[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
-    requiresSession: getBooleanOrUndefined(rawSubscription[Constants.REQUIRES_SESSION]),
-    enableBatchedOperations: getBooleanOrUndefined(
-      rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS]
+    requiresSession: getBoolean(rawSubscription[Constants.REQUIRES_SESSION], "requiresSession"),
+    enableBatchedOperations: getBoolean(
+      rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS],
+      "enableBatchedOperations"
     ),
 
-    defaultMessageTimeToLive: rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-    autoDeleteOnIdle: rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
-
-    deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-      rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+    defaultMessageTtl: getString(
+      rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      "defaultMessageTtl"
     ),
-    deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
-      rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS]
+    autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+
+    deadLetteringOnMessageExpiration: getBoolean(
+      rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
+      "deadLetteringOnMessageExpiration"
+    ),
+    deadLetteringOnFilterEvaluationExceptions: getBoolean(
+      rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS],
+      "deadLetteringOnFilterEvaluationExceptions"
     ),
     forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
     defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
@@ -94,11 +100,14 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails | u
     forwardTo: rawSubscription[Constants.FORWARD_TO],
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    entityAvailabilityStatus: rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-    status: rawSubscription[Constants.STATUS],
-    createdAt: rawSubscription[Constants.CREATED_AT],
-    updatedAt: rawSubscription[Constants.UPDATED_AT],
-    accessedAt: rawSubscription[Constants.ACCESSED_AT]
+    entityAvailabilityStatus: getString(
+      rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+      "entityAvailabilityStatus"
+    ),
+    status: getString(rawSubscription[Constants.STATUS], "status"),
+    createdOn: getString(rawSubscription[Constants.CREATED_AT], "createdOn"),
+    updatedOn: getString(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
+    accessedOn: rawSubscription[Constants.ACCESSED_AT]
   };
 }
 
@@ -134,7 +143,8 @@ export interface SubscriptionOptions {
   enablePartitioning?: boolean;
 
   /**
-   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
    */
   requiresSession?: boolean;
 
@@ -146,7 +156,7 @@ export interface SubscriptionOptions {
   /**
    * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
    */
-  defaultMessageTimeToLive?: string;
+  defaultMessageTtl?: string;
 
   /**
    * Indicates the default rule description.
@@ -155,29 +165,29 @@ export interface SubscriptionOptions {
   defaultRuleDescription?: any;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
   autoDeleteOnIdle?: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
    */
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus subscription to forward deadlettered messages to.
    *
    */
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount?: number;
@@ -226,7 +236,8 @@ export interface InternalSubscriptionOptions {
   EnablePartitioning?: string;
 
   /**
-   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
    */
   RequiresSession?: string;
 
@@ -247,29 +258,29 @@ export interface InternalSubscriptionOptions {
   DefaultRuleDescription?: any;
 
   /**
-   * Max idle time before entity is deleted
+   * Max idle time before entity is deleted.
    *
    */
   AutoDeleteOnIdle?: string;
 
   /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
    */
   DeadLetteringOnMessageExpiration?: string;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * Entity to forward deadlettered messages to
+   * The URL of Service Bus subscription to forward deadlettered messages to.
    *
    */
   ForwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count.
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -288,16 +299,103 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents all attributes of a subscription entity
  */
-export interface SubscriptionDetails extends SubscriptionOptions {
+export interface SubscriptionDetails {
   /**
    * Name of the subscription
    */
-  subscriptionName?: string;
+  subscriptionName: string;
 
   /**
    * Name of the topic
    */
-  topicName?: string;
+  topicName: string;
+
+  /**
+   * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
+   */
+  lockDuration: string;
+
+  /**
+   * The entity's size in bytes.
+   *
+   */
+  sizeInBytes?: number;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   */
+  maxSizeInMegabytes?: number;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  messageCount: number;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  enablePartitioning?: boolean;
+
+  /**
+   * If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
+   */
+  requiresSession: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
+   */
+  defaultMessageTtl?: string;
+
+  /**
+   * Indicates the default rule description.
+   *
+   */
+  defaultRuleDescription?: any;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle: string;
+
+  /**
+   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   */
+  deadLetteringOnMessageExpiration: boolean;
+
+  /**
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter sub-queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   */
+  deadLetteringOnFilterEvaluationExceptions: boolean;
+
+  /**
+   * The URL of Service Bus subscription to forward deadlettered messages to.
+   *
+   */
+  forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * ForwardTo header
+   */
+  forwardTo?: string;
+
+  /**
+   * The user metadata information
+   */
+  userMetadata?: string;
 
   /**
    * Message count details
@@ -307,27 +405,27 @@ export interface SubscriptionDetails extends SubscriptionOptions {
   /**
    * Entity availability status
    */
-  entityAvailabilityStatus?: string;
+  entityAvailabilityStatus: string;
 
   /**
    * Queue entity status
    */
-  status?: string;
+  status: string;
 
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  createdOn: string;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: string;
+  updatedOn: string;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: string;
+  accessedOn?: string;
 }
 
 /**
