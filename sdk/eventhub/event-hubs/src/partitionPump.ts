@@ -23,7 +23,7 @@ export class PartitionPump {
   constructor(
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
-    private _initialEventPosition: EventPosition | undefined,
+    private readonly _originalInitialEventPosition: EventPosition | undefined,
     options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
@@ -38,35 +38,29 @@ export class PartitionPump {
 
   async start(): Promise<void> {
     this._isReceiving = true;
-    let requestedDefaultPosition: EventPosition | undefined;
+    let userRequestedDefaultPosition: EventPosition | undefined;
     try {
-      requestedDefaultPosition = await this._partitionProcessor.initialize();
+      userRequestedDefaultPosition = await this._partitionProcessor.initialize();
     } catch {
       // swallow the error from the user-defined code
     }
 
-    this._initialEventPosition = getInitialPosition(
-      this._initialEventPosition,
-      requestedDefaultPosition
+    const startPosition = getStartPosition(
+      this._originalInitialEventPosition,
+      userRequestedDefaultPosition
     );
 
     // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
-    this._receiveEvents(this._partitionProcessor.partitionId);
+    this._receiveEvents(startPosition, this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
-  private async _receiveEvents(partitionId: string): Promise<void> {
-    if (this._initialEventPosition == null) {
-      throw new Error(
-        "Initial event position should have been set before we reached _receiveEvents"
-      );
-    }
-
+  private async _receiveEvents(startPosition: EventPosition, partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
-      this._initialEventPosition,
+      startPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
@@ -145,7 +139,7 @@ export class PartitionPump {
   }
 }
 
-export function getInitialPosition(
+export function getStartPosition(
   currentPosition: EventPosition | undefined,
   positionFromInitialize: EventPosition | undefined
 ): EventPosition {
