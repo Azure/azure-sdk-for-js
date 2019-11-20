@@ -19,7 +19,7 @@ async function main() {
   const issuerName = "issuerName";
 
   // Create
-  await client.setIssuer(issuerName, "Test", {
+  await client.createIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
@@ -42,8 +42,12 @@ async function main() {
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificate(certificateName);
-  console.log("Certificate: ", certificate);
+  const createPoller = await client.beginCreateCertificate("MyCertificate", {
+    issuerName,
+    subject: "cn=MyCert"
+  });
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   // We can retrieve the issuer this way:
   const getResponse = await client.getIssuer(issuerName);

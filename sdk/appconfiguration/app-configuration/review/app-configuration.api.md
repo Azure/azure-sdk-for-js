@@ -24,27 +24,18 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
-    clearReadOnly(id: ConfigurationSettingId, options?: ClearReadOnlyOptions): Promise<ClearReadOnlyResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-    setReadOnly(id: ConfigurationSettingId, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
+    setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     }
 
 // @public
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
-}
-
-// @public
-export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
-}
-
-// @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
+    isReadOnly: boolean;
     lastModified?: Date;
-    readOnly: boolean;
 }
 
 // @public
@@ -76,12 +67,11 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-    lastModifiedHeader?: string;
 }
 
 // @public
 export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
-    acceptDatetime?: string;
+    acceptDateTime?: Date;
 }
 
 // @public
@@ -131,7 +121,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 
 // @public
 export interface ListSettingsOptions extends OptionalFields {
-    acceptDatetime?: string;
+    acceptDateTime?: Date;
     keys?: string[];
     labels?: string[];
 }

@@ -1,3 +1,7 @@
+### TBD 5.0.0-preview.7
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ### 2019-11-04 5.0.0-preview.6
 
 - Updated to use the latest version of the `@azure/core-tracing` & `@azure/core-amqp` package.
@@ -6,8 +10,8 @@
 
 `EventHubsClient` has been split into two separate clients: `EventHubProducerClient` and `EventHubConsumerClient`
 
-The `EventHubConsumerClient` provides several overloads for `subscribe` which all take event handlers rather than 
-requiring an `EventProcessor`. There are no longer any methods that directly return `ReceivedEventData` - all 
+The `EventHubConsumerClient` provides several overloads for `subscribe` which all take event handlers rather than
+requiring an `EventProcessor`. There are no longer any methods that directly return `ReceivedEventData` - all
 receiving is done via event handlers.
 
 The `EventHubProducerClient` has standardized on only providing sending via `sendBatch`.

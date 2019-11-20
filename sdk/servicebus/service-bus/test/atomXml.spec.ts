@@ -84,17 +84,6 @@ const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new S
   "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
-const mockHappyServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
-);
-mockHappyServiceBusAtomManagementClient.sendRequest = async () => {
-  return {
-    request: new WebResource(),
-    status: 200,
-    headers: new HttpHeaders({})
-  };
-};
-
 describe("atomSerializationPolicy #RunInBrowser", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
     const request = new WebResource();
@@ -128,9 +117,16 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
 
   it("should properly serialize when using valid inputs and serializer", async function() {
     const request = new WebResource();
-    request.body = JSON.stringify({ lockDuration: "PT3M", maxSizeInMegabytes: "2048" });
+    request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     await executeAtomXmlOperation(
-      mockHappyServiceBusAtomManagementClient,
+      mockServiceBusAtomManagementClient,
       request,
       new MockSerializer()
     );
@@ -244,10 +240,18 @@ describe("Serializer construct requests with properties in specific order #RunIn
     };
 
     const request: WebResource = new WebResource();
-    request.body = JSON.stringify(queueOptions);
+    request.body = queueOptions;
+
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
 
     await executeAtomXmlOperation(
-      mockHappyServiceBusAtomManagementClient,
+      mockServiceBusAtomManagementClient,
       request,
       new QueueResourceSerializer()
     );
@@ -293,10 +297,18 @@ describe("Serializer construct requests with properties in specific order #RunIn
     };
 
     const request: WebResource = new WebResource();
-    request.body = JSON.stringify(topicOptions);
+    request.body = topicOptions;
+
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
 
     await executeAtomXmlOperation(
-      mockHappyServiceBusAtomManagementClient,
+      mockServiceBusAtomManagementClient,
       request,
       new TopicResourceSerializer()
     );
@@ -317,10 +329,18 @@ describe("Serializer construct requests with properties in specific order #RunIn
     };
 
     const request: WebResource = new WebResource();
-    request.body = JSON.stringify(subscriptionOptions);
+    request.body = subscriptionOptions;
+
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
 
     await executeAtomXmlOperation(
-      mockHappyServiceBusAtomManagementClient,
+      mockServiceBusAtomManagementClient,
       request,
       new SubscriptionResourceSerializer()
     );
@@ -341,10 +361,18 @@ describe("Serializer construct requests with properties in specific order #RunIn
     };
 
     const request: WebResource = new WebResource();
-    request.body = JSON.stringify(ruleOptions);
+    request.body = ruleOptions;
+
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: request,
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
 
     await executeAtomXmlOperation(
-      mockHappyServiceBusAtomManagementClient,
+      mockServiceBusAtomManagementClient,
       request,
       new RuleResourceSerializer()
     );
@@ -515,10 +543,17 @@ class MockSerializer implements AtomXmlSerializer {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const request = new WebResource();
-        request.body = JSON.stringify(testCase.input);
+        request.body = testCase.input;
 
+        mockServiceBusAtomManagementClient.sendRequest = async () => {
+          return {
+            request: request,
+            status: 200,
+            headers: new HttpHeaders({})
+          };
+        };
         await executeAtomXmlOperation(
-          mockHappyServiceBusAtomManagementClient,
+          mockServiceBusAtomManagementClient,
           request,
           new RuleResourceSerializer()
         );
@@ -565,8 +600,15 @@ class MockSerializer implements AtomXmlSerializer {
 ].forEach((testCase) => {
   describe(`Type validation errors on authorization rule inputs #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
+      mockServiceBusAtomManagementClient.sendRequest = async () => {
+        return {
+          request: new WebResource(),
+          status: 200,
+          headers: new HttpHeaders({})
+        };
+      };
       try {
-        await mockHappyServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
         assert.equal(true, false, "Error must be thrown");
       } catch (err) {
         assert.equal(

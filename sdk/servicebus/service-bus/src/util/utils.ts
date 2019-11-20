@@ -163,7 +163,23 @@ export function toBuffer(input: any): Buffer {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `string` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getString(value: any, nameOfProperty: string): string {
+  const result = getStringOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -176,7 +192,23 @@ export function getStringOrUndefined(value: any): string | undefined {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `integer` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getInteger(value: any, nameOfProperty: string): number {
+  const result = getIntegerOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -190,7 +222,23 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `boolean` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getBoolean(value: any, nameOfProperty: string): boolean {
+  const result = getBooleanOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  * @param value

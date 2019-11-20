@@ -2,12 +2,8 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import {
-  extractSpanContextFromTraceParentHeader,
-  TraceFlags,
-  SpanContext,
-  getTraceParentHeader
-} from "../lib";
+import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "../lib";
+import { TraceFlags, SpanContext } from "@opentelemetry/types";
 
 describe("traceParentHeader", () => {
   describe("#extractSpanContextFromTraceParentHeader", () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { EventHubClient } from "./eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -10,6 +10,8 @@ import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
+import { SubscribeOptions } from "./eventHubConsumerClientModels";
+import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -27,9 +29,12 @@ export enum CloseReason {
 }
 
 /**
- * An interface representing data that can identify a partition.
+ * An interface representing the details on which instance of a `EventProcessor` owns processing
+ * of a given partition from a consumer group of an Event Hub instance.
+ *
+ * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
  */
-export interface PartitionContext {
+export interface PartitionOwnership {
   /**
    * @property The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
@@ -42,62 +47,40 @@ export interface PartitionContext {
   /**
    * @property The consumer group name
    */
-  consumerGroupName: string;
+  consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition.
    */
   partitionId: string;
-}
-
-/**
- * An interface representing the details on which instance of a `EventProcessor` owns processing
- * of a given partition from a consumer group of an Event Hub instance.
- *
- * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
- */
-export interface PartitionOwnership extends PartitionContext {
   /**
    * @property The unique identifier of the event processor.
    */
-  ownerId: string;  
-  /**
-   * @property
-   * The owner level
-   */
-  ownerLevel: number;
-  /**
-   * @property The offset of the event.
-   */
-  offset?: number;
-  /**
-   * @property The sequence number of the event.
-   */
-  sequenceNumber?: number;
+  ownerId: string;
   /**
    * @property The last modified time.
    */
-  lastModifiedTimeInMS?: number;
+  lastModifiedTimeInMs?: number;
   /**
    * @property The unique identifier for the operation.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
- * A Partition manager stores and retrieves partition ownership information and checkpoint details
+ * A checkpoint store stores and retrieves partition ownership information and checkpoint details
  * for each partition in a given consumer group of an event hub instance.
  *
- * Users are not meant to implement an `PartitionManager`.
+ * Users are not meant to implement an `CheckpointStore`.
  * Users are expected to choose existing implementations of this interface, instantiate it, and pass
  * it to the constructor of `EventProcessor`.
  *
- * To get started, you can use the `InMemoryPartitionManager` which will store the relevant information in memory.
- * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * To get started, you can use the `InMemoryCheckpointStore` which will store the relevant information in memory.
+ * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
- * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
+ * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
-export interface PartitionManager {
+export interface CheckpointStore {
   /**
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
@@ -105,13 +88,13 @@ export interface PartitionManager {
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
-   * @param consumerGroupName The consumer group name.
+   * @param consumerGroup The consumer group name.
    * @return A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroupName: string
+    consumerGroup: string
   ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
@@ -122,50 +105,32 @@ export interface PartitionManager {
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
 
-   /**
+  /**
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+
+  /**
+   * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
+   *
+   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
+   * @param eventHubName The event hub name.
+   * @param consumerGroup The consumer group name.
+   */
+  listCheckpoints(
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    consumerGroup: string
+  ): Promise<Checkpoint[]>;
 }
-
-/**
- * Common options for configuring `EventProcessor`, minus options that are only 
- * used internally (like `partitionLoadBalancer`)
- */
-export interface EventProcessorOptions {
-  /**
-   * The max size of the batch of events passed each time to user code for processing.
-   */
-  maxBatchSize: number;
-  /**
-   * The maximum amount of time to wait to build up the requested message count before
-   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
-   */
-  maxWaitTimeInSeconds: number;
-  /**
-   * @property
-   * Indicates whether or not the consumer should request information on the last enqueued event on its
-   * associated partition, and track that information as events are received.
-
-   * When information about the partition's last enqueued event is being tracked, each event received 
-   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
-   * additional network bandwidth consumption that is generally a favorable trade-off when considered
-   * against periodically making requests for partition properties using the Event Hub client.
-   */
-  trackLastEnqueuedEventInfo?: boolean;
-
-  /**
-   * The event position to use when claiming a partition if not already
-   * initialized.
-   * 
-   * Defaults to EventPosition.earliest()
-   */
-  defaultEventPosition?: EventPosition;  
-}
-
+export type SubscriptionEventHandlersKeys =
+  | "processClose"
+  | "processError"
+  | "processEvents"
+  | "processInitialize";
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -177,17 +142,30 @@ export interface EventProcessorOptions {
  * Example usage with default values:
  * ```ts
  * {
-  *     maxBatchSize: 1,
-  *     maxWaitTimeInSeconds: 60
-  * }
-  * ```
-  * @internal
-  */
-export interface FullEventProcessorOptions extends EventProcessorOptions {
+ *     maxBatchSize: 1,
+ *     maxWaitTimeInSeconds: 60,
+ * }
+ * ```
+ * @internal
+ */
+export interface FullEventProcessorOptions
+  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
+  // for our internal classes (these are optional for external users)
+  Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
-  partitionLoadBalancer ?: PartitionLoadBalancer
+  partitionLoadBalancer?: PartitionLoadBalancer;
+  /**
+   * The number of events to request per batch
+   */
+  maxBatchSize: number;
+
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
+  maxWaitTimeInSeconds: number;
 }
 
 /**
@@ -214,31 +192,29 @@ export interface FullEventProcessorOptions extends EventProcessorOptions {
  *     }
  * }
  * ```
- * - An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
+ * - An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
- * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
+ * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
  * @class EventProcessor
  */
 export class EventProcessor {
-  private _consumerGroupName: string;
+  private _consumerGroup: string;
   private _eventHubClient: EventHubClient;
-  private _partitionProcessorClass: typeof PartitionProcessor;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string = uuid();
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
-  private _partitionManager: PartitionManager;
   private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
-   * @param consumerGroupName The name of the consumer group from which you want to process events.
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
    * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
    * This class will be responsible for processing and checkpointing events.
-   * @param partitionManager An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
+   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
    * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
    * @param options A set of options to configure the Event Processor
    * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
@@ -246,20 +222,20 @@ export class EventProcessor {
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   constructor(
-    consumerGroupName: string,
+    consumerGroup: string,
     eventHubClient: EventHubClient,
-    PartitionProcessorClass: typeof PartitionProcessor,
-    partitionManager: PartitionManager,
+    private _subscriptionEventHandlers: SubscriptionEventHandlers,
+    private _checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
   ) {
-    this._consumerGroupName = consumerGroupName;
+    this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
-    this._partitionProcessorClass = PartitionProcessorClass;
-    this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
-    this._partitionLoadBalancer = options.partitionLoadBalancer || new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    this._partitionLoadBalancer =
+      options.partitionLoadBalancer ||
+      new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**
@@ -280,14 +256,9 @@ export class EventProcessor {
       ownerId: this._id,
       partitionId: partitionIdToClaim,
       fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
-      consumerGroupName: this._consumerGroupName,
+      consumerGroup: this._consumerGroup,
       eventHubName: this._eventHubClient.eventHubName,
-      sequenceNumber: previousPartitionOwnership
-        ? previousPartitionOwnership.sequenceNumber
-        : undefined,
-      offset: previousPartitionOwnership ? previousPartitionOwnership.offset : undefined,
-      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined,
-      ownerLevel: 0
+      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined
     };
 
     return partitionOwnership;
@@ -308,7 +279,7 @@ export class EventProcessor {
       partitionIdToClaim
     );
     try {
-      await this._partitionManager.claimOwnership([ownershipRequest]);
+      await this._checkpointStore.claimOwnership([ownershipRequest]);
       log.partitionLoadBalancer(
         `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
       );
@@ -316,17 +287,19 @@ export class EventProcessor {
       log.partitionLoadBalancer(
         `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
       );
-      const partitionProcessor = new this._partitionProcessorClass();
-      partitionProcessor.fullyQualifiedNamespace = this._eventHubClient.fullyQualifiedNamespace;
-      partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
-      partitionProcessor.consumerGroupName = this._consumerGroupName;
-      partitionProcessor.partitionId = ownershipRequest.partitionId;
-      partitionProcessor.partitionManager = this._partitionManager;
-      partitionProcessor.eventProcessorId = this.id;
+      const partitionProcessor = new PartitionProcessor(
+        this._subscriptionEventHandlers,
+        this._checkpointStore,
+        {
+          fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+          eventHubName: this._eventHubClient.eventHubName,
+          consumerGroup: this._consumerGroup,
+          partitionId: ownershipRequest.partitionId,
+          eventProcessorId: this.id
+        }
+      );
 
-      const eventPosition = ownershipRequest.sequenceNumber
-        ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
+      const eventPosition = await this._getStartPosition(partitionIdToClaim);
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -334,7 +307,23 @@ export class EventProcessor {
       log.error(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
+      await this._handleSubscriptionError(err);
     }
+  }
+
+  private async _getStartPosition(partitionIdToClaim: string) {
+    const availableCheckpoints = await this._checkpointStore.listCheckpoints(
+      this._eventHubClient.fullyQualifiedNamespace,
+      this._eventHubClient.eventHubName,
+      this._consumerGroup);
+    
+    const validCheckpoints = availableCheckpoints.filter((chk) => chk.partitionId === partitionIdToClaim);
+
+    if (validCheckpoints.length > 0) {
+      return EventPosition.fromOffset(validCheckpoints[0].offset);
+    }
+    
+    return undefined;
   }
 
   /**
@@ -355,10 +344,10 @@ export class EventProcessor {
       try {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
         // Retrieve current partition ownership details from the datastore.
-        const partitionOwnership = await this._partitionManager.listOwnership(
+        const partitionOwnership = await this._checkpointStore.listOwnership(
           this._eventHubClient.fullyQualifiedNamespace,
           this._eventHubClient.eventHubName,
-          this._consumerGroupName
+          this._consumerGroup
         );
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
@@ -390,6 +379,31 @@ export class EventProcessor {
         await delay(waitIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+        await this._handleSubscriptionError(err);
+      }
+    }
+  }
+
+  /**
+   * This is called when there are errors that are not specific to a partition (ex: load balancing)
+   */
+  private async _handleSubscriptionError(err: Error): Promise<void> {
+    // filter out any internal "expected" errors
+    if (err.name === "AbortError") {
+      return;
+    }
+
+    if (this._subscriptionEventHandlers.processError) {
+      try {
+        await this._subscriptionEventHandlers.processError(err, {
+          fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+          eventHubName: this._eventHubClient.eventHubName,
+          consumerGroup: this._consumerGroup,
+          partitionId: "",
+          updateCheckpoint: async () => {}
+        });
+      } catch (err) {
+        log.error(`[${this._id}] An error was thrown from the user's processError handler: ${err}`);
       }
     }
   }

@@ -18,11 +18,11 @@ async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.createCertificate("MyCertificate1", {
+  await client.beginCreateCertificate("MyCertificate1", {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
-  await client.createCertificate("MyCertificate2", {
+  await client.beginCreateCertificate("MyCertificate2", {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
@@ -60,8 +60,11 @@ async function main(): Promise<void> {
   }
 
   // Deleting both certificates
-  await client.deleteCertificate("MyCertificate1");
-  await client.deleteCertificate("MyCertificate2");
+  let deletePoller = await client.beginDeleteCertificate("MyCertificate1");
+  await deletePoller.pollUntilDone();
+  deletePoller = await client.beginDeleteCertificate("MyCertificate2");
+  await deletePoller.pollUntilDone();
+
   for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
     console.log("Deleted certificate: ", certificate);
   }

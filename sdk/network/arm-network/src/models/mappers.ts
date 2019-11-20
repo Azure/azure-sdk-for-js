@@ -10663,6 +10663,12 @@ export const ConnectivityParameters: msRest.CompositeMapper = {
           name: "Composite",
           className: "ProtocolConfiguration"
         }
+      },
+      preferredIPVersion: {
+        serializedName: "preferredIPVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }

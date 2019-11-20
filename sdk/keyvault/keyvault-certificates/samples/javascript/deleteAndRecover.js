@@ -4,10 +4,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 // This sample creates a self-signed certificate, then deletes it, then recovers it.
 // Soft-delete is required for this sample to run: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete
 
-function delay(t, value) {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
-
 async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
@@ -20,30 +16,23 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate234833";
+  const certificateName = "MyCertificate";
 
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate(certificateName, {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
 
-  console.log("Certificate: ", certificate);
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
-  await client.deleteCertificate(certificateName);
-
-  // It might take less time, or more, depending on your location, internet speed and other factors.
-  await delay(30000);
-
-  const deletedCertificate = await client.getDeletedCertificate(certificateName);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  const deletedCertificate = await deletePoller.pollUntilDone();
   console.log("Deleted certificate: ", deletedCertificate);
 
-  await client.recoverDeletedCertificate(certificateName);
-
-  // It might take less time, or more, depending on your location, internet speed and other factors.
-  await delay(30000);
-
-  const certificateWithPolicy = await client.getCertificate(certificateName);
+  const recoverPoller = await client.beginRecoverDeletedCertificate("MyCertificate");
+  const certificateWithPolicy = await recoverPoller.pollUntilDone();
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 

@@ -140,6 +140,7 @@ All projects have at least the following scripts:
 - `build:test`: Build the project's test artifacts only
 - `check-format`: Show Prettier formatting issues within the project
 - `clean`: Remove generated and temporary files
+- `execute:samples`: Execute samples using the source code
 - `format`: Reformat project files with Prettier
 - `integration-test:browser`: Execute browser integration tests
 - `integration-test:node`: Execute Node integration tests

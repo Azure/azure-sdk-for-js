@@ -11,9 +11,9 @@ import {
   RequestPolicyFactory,
   URLBuilder,
   ProxySettings,
-  RestError,
   stripRequest,
-  stripResponse
+  stripResponse,
+  RestError
 } from "@azure/core-http";
 
 import { parseConnectionString } from "@azure/amqp-common";
@@ -86,32 +86,52 @@ export interface ListRequestOptions {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export type QueueResponse = QueueDetails & {
+export interface QueueResponse extends QueueDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Queue response
  */
-export type CreateQueueResponse = QueueResponse;
+export interface CreateQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Queue response
  */
-export type GetQueueResponse = QueueResponse;
+export interface GetQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Queue response
  */
-export type UpdateQueueResponse = QueueResponse;
+export interface UpdateQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Queue response
  */
-export type DeleteQueueResponse = QueueResponse;
+export interface DeleteQueueResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on queues.
@@ -126,32 +146,52 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export type TopicResponse = TopicDetails & {
+export interface TopicResponse extends TopicDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Topic response
  */
-export type CreateTopicResponse = TopicResponse;
+export interface CreateTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Topic response
  */
-export type GetTopicResponse = TopicResponse;
+export interface GetTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Topic response
  */
-export type UpdateTopicResponse = TopicResponse;
+export interface UpdateTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Topic response
  */
-export type DeleteTopicResponse = TopicResponse;
+export interface DeleteTopicResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on topics.
@@ -166,32 +206,52 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 /**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export type SubscriptionResponse = SubscriptionDetails & {
+export interface SubscriptionResponse extends SubscriptionDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Subscription response
  */
-export type CreateSubscriptionResponse = SubscriptionResponse;
+export interface CreateSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Subscription response
  */
-export type GetSubscriptionResponse = SubscriptionResponse;
+export interface GetSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Subscription response
  */
-export type UpdateSubscriptionResponse = SubscriptionResponse;
+export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Subscription response
  */
-export type DeleteSubscriptionResponse = SubscriptionResponse;
+export interface DeleteSubscriptionResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on subscriptions.
@@ -206,32 +266,52 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export type RuleResponse = Rule & {
+export interface RuleResponse extends Rule {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Rule response
  */
-export type CreateRuleResponse = RuleResponse;
+export interface CreateRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Rule response
  */
-export type GetRuleResponse = RuleResponse;
+export interface GetRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Rule response
  */
-export type UpdateRuleResponse = RuleResponse;
+export interface UpdateRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Rule response
  */
-export type DeleteRuleResponse = RuleResponse;
+export interface DeleteRuleResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on rules.
@@ -384,7 +464,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildQueueResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -480,7 +560,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildTopicResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -607,7 +687,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -734,7 +814,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildRuleResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -755,7 +835,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
-    webResource.body = JSON.stringify(entityFields);
+    webResource.body = entityFields;
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }

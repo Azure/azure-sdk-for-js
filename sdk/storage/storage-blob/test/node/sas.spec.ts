@@ -16,10 +16,11 @@ import {
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSU } from "../utils";
-import { record } from "../utils/recorder";
+import { getBSU, getTokenBSU, setupEnvironment } from "../utils";
+import { record } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
 
   let recorder: any;

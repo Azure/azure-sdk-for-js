@@ -15,14 +15,14 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         serializedName: "Start",
         type: {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         serializedName: "Expiry",
         type: {
@@ -693,16 +693,16 @@ export const SignedIdentifier: coreHttp.CompositeMapper = {
   }
 };
 
-export const Permission: coreHttp.CompositeMapper = {
-  serializedName: "Permission",
+export const SharePermission: coreHttp.CompositeMapper = {
+  serializedName: "SharePermission",
   type: {
     name: "Composite",
-    className: "Permission",
+    className: "SharePermission",
     modelProperties: {
       permission: {
-        xmlName: "Permission",
+        xmlName: "permission",
         required: true,
-        serializedName: "Permission",
+        serializedName: "permission",
         type: {
           name: "String"
         }

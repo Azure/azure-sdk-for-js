@@ -35,10 +35,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsAddResponse>
    */
-  add(
-    applicationCreateObject: Models.ApplicationCreateObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsAddResponse>;
+  add(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsAddResponse>;
   /**
    * @param applicationCreateObject An application containing Name, Description (optional), Culture,
    * Usage Scenario (optional), Domain (optional) and initial version ID (optional) of the
@@ -46,10 +43,7 @@ export class Apps {
    * after the app is created.
    * @param callback The callback
    */
-  add(
-    applicationCreateObject: Models.ApplicationCreateObject,
-    callback: msRest.ServiceCallback<string>
-  ): void;
+  add(applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param applicationCreateObject An application containing Name, Description (optional), Culture,
    * Usage Scenario (optional), Domain (optional) and initial version ID (optional) of the
@@ -58,24 +52,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(
-    applicationCreateObject: Models.ApplicationCreateObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<string>
-  ): void;
-  add(
-    applicationCreateObject: Models.ApplicationCreateObject,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
-    callback?: msRest.ServiceCallback<string>
-  ): Promise<Models.AppsAddResponse> {
+  add(applicationCreateObject: Models.ApplicationCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  add(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddResponse> {
     return this.client.sendOperationRequest(
       {
         applicationCreateObject,
         options
       },
       addOperationSpec,
-      callback
-    ) as Promise<Models.AppsAddResponse>;
+      callback) as Promise<Models.AppsAddResponse>;
   }
 
   /**
@@ -92,23 +77,14 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.AppsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>
-  ): void;
-  list(
-    options?:
-      | Models.AppsListOptionalParams
-      | msRest.ServiceCallback<Models.ApplicationInfoResponse[]>,
-    callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>
-  ): Promise<Models.AppsListResponse> {
+  list(options: Models.AppsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): void;
+  list(options?: Models.AppsListOptionalParams | msRest.ServiceCallback<Models.ApplicationInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse[]>): Promise<Models.AppsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.AppsListResponse>;
+      callback) as Promise<Models.AppsListResponse>;
   }
 
   /**
@@ -117,10 +93,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsImportMethodResponse>
    */
-  importMethod(
-    luisApp: Models.LuisApp,
-    options?: Models.AppsImportMethodOptionalParams
-  ): Promise<Models.AppsImportMethodResponse>;
+  importMethod(luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams): Promise<Models.AppsImportMethodResponse>;
   /**
    * @param luisApp A LUIS application structure.
    * @param callback The callback
@@ -131,24 +104,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importMethod(
-    luisApp: Models.LuisApp,
-    options: Models.AppsImportMethodOptionalParams,
-    callback: msRest.ServiceCallback<string>
-  ): void;
-  importMethod(
-    luisApp: Models.LuisApp,
-    options?: Models.AppsImportMethodOptionalParams | msRest.ServiceCallback<string>,
-    callback?: msRest.ServiceCallback<string>
-  ): Promise<Models.AppsImportMethodResponse> {
+  importMethod(luisApp: Models.LuisApp, options: Models.AppsImportMethodOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importMethod(luisApp: Models.LuisApp, options?: Models.AppsImportMethodOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportMethodResponse> {
     return this.client.sendOperationRequest(
       {
         luisApp,
         options
       },
       importMethodOperationSpec,
-      callback
-    ) as Promise<Models.AppsImportMethodResponse>;
+      callback) as Promise<Models.AppsImportMethodResponse>;
   }
 
   /**
@@ -156,9 +120,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListCortanaEndpointsResponse>
    */
-  listCortanaEndpoints(
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListCortanaEndpointsResponse>;
+  listCortanaEndpoints(options?: msRest.RequestOptionsBase): Promise<Models.AppsListCortanaEndpointsResponse>;
   /**
    * @param callback The callback
    */
@@ -167,21 +129,14 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCortanaEndpoints(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>
-  ): void;
-  listCortanaEndpoints(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonalAssistantsResponse>,
-    callback?: msRest.ServiceCallback<Models.PersonalAssistantsResponse>
-  ): Promise<Models.AppsListCortanaEndpointsResponse> {
+  listCortanaEndpoints(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): void;
+  listCortanaEndpoints(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonalAssistantsResponse>, callback?: msRest.ServiceCallback<Models.PersonalAssistantsResponse>): Promise<Models.AppsListCortanaEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listCortanaEndpointsOperationSpec,
-      callback
-    ) as Promise<Models.AppsListCortanaEndpointsResponse>;
+      callback) as Promise<Models.AppsListCortanaEndpointsResponse>;
   }
 
   /**
@@ -199,17 +154,13 @@ export class Apps {
    * @param callback The callback
    */
   listDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  listDomains(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>,
-    callback?: msRest.ServiceCallback<string[]>
-  ): Promise<Models.AppsListDomainsResponse> {
+  listDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listDomainsOperationSpec,
-      callback
-    ) as Promise<Models.AppsListDomainsResponse>;
+      callback) as Promise<Models.AppsListDomainsResponse>;
   }
 
   /**
@@ -217,9 +168,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListUsageScenariosResponse>
    */
-  listUsageScenarios(
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListUsageScenariosResponse>;
+  listUsageScenarios(options?: msRest.RequestOptionsBase): Promise<Models.AppsListUsageScenariosResponse>;
   /**
    * @param callback The callback
    */
@@ -228,21 +177,14 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsageScenarios(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<string[]>
-  ): void;
-  listUsageScenarios(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>,
-    callback?: msRest.ServiceCallback<string[]>
-  ): Promise<Models.AppsListUsageScenariosResponse> {
+  listUsageScenarios(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  listUsageScenarios(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.AppsListUsageScenariosResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listUsageScenariosOperationSpec,
-      callback
-    ) as Promise<Models.AppsListUsageScenariosResponse>;
+      callback) as Promise<Models.AppsListUsageScenariosResponse>;
   }
 
   /**
@@ -251,9 +193,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListSupportedCulturesResponse>
    */
-  listSupportedCultures(
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListSupportedCulturesResponse>;
+  listSupportedCultures(options?: msRest.RequestOptionsBase): Promise<Models.AppsListSupportedCulturesResponse>;
   /**
    * @param callback The callback
    */
@@ -262,21 +202,14 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedCultures(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.AvailableCulture[]>
-  ): void;
-  listSupportedCultures(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableCulture[]>,
-    callback?: msRest.ServiceCallback<Models.AvailableCulture[]>
-  ): Promise<Models.AppsListSupportedCulturesResponse> {
+  listSupportedCultures(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableCulture[]>): void;
+  listSupportedCultures(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableCulture[]>, callback?: msRest.ServiceCallback<Models.AvailableCulture[]>): Promise<Models.AppsListSupportedCulturesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSupportedCulturesOperationSpec,
-      callback
-    ) as Promise<Models.AppsListSupportedCulturesResponse>;
+      callback) as Promise<Models.AppsListSupportedCulturesResponse>;
   }
 
   /**
@@ -285,10 +218,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsDownloadQueryLogsResponse>
    */
-  downloadQueryLogs(
-    appId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsDownloadQueryLogsResponse>;
+  downloadQueryLogs(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsDownloadQueryLogsResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -299,24 +229,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadQueryLogs(
-    appId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  downloadQueryLogs(
-    appId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.AppsDownloadQueryLogsResponse> {
+  downloadQueryLogs(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  downloadQueryLogs(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsDownloadQueryLogsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       downloadQueryLogsOperationSpec,
-      callback
-    ) as Promise<Models.AppsDownloadQueryLogsResponse>;
+      callback) as Promise<Models.AppsDownloadQueryLogsResponse>;
   }
 
   /**
@@ -336,24 +257,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    appId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>
-  ): void;
-  get(
-    appId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInfoResponse>,
-    callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse>
-  ): Promise<Models.AppsGetResponse> {
+  get(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInfoResponse>): void;
+  get(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInfoResponse>, callback?: msRest.ServiceCallback<Models.ApplicationInfoResponse>): Promise<Models.AppsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.AppsGetResponse>;
+      callback) as Promise<Models.AppsGetResponse>;
   }
 
   /**
@@ -363,39 +275,21 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsUpdateResponse>
    */
-  update(
-    appId: string,
-    applicationUpdateObject: Models.ApplicationUpdateObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsUpdateResponse>;
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsUpdateResponse>;
   /**
    * @param appId The application ID.
    * @param applicationUpdateObject A model containing Name and Description of the application.
    * @param callback The callback
    */
-  update(
-    appId: string,
-    applicationUpdateObject: Models.ApplicationUpdateObject,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param applicationUpdateObject A model containing Name and Description of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(
-    appId: string,
-    applicationUpdateObject: Models.ApplicationUpdateObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  update(
-    appId: string,
-    applicationUpdateObject: Models.ApplicationUpdateObject,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.AppsUpdateResponse> {
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(appId: string, applicationUpdateObject: Models.ApplicationUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -403,8 +297,7 @@ export class Apps {
         options
       },
       updateOperationSpec,
-      callback
-    ) as Promise<Models.AppsUpdateResponse>;
+      callback) as Promise<Models.AppsUpdateResponse>;
   }
 
   /**
@@ -413,10 +306,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsDeleteMethodResponse>
    */
-  deleteMethod(
-    appId: string,
-    options?: Models.AppsDeleteMethodOptionalParams
-  ): Promise<Models.AppsDeleteMethodResponse>;
+  deleteMethod(appId: string, options?: Models.AppsDeleteMethodOptionalParams): Promise<Models.AppsDeleteMethodResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -427,26 +317,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(
-    appId: string,
-    options: Models.AppsDeleteMethodOptionalParams,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  deleteMethod(
-    appId: string,
-    options?:
-      | Models.AppsDeleteMethodOptionalParams
-      | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.AppsDeleteMethodResponse> {
+  deleteMethod(appId: string, options: Models.AppsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(appId: string, options?: Models.AppsDeleteMethodOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       deleteMethodOperationSpec,
-      callback
-    ) as Promise<Models.AppsDeleteMethodResponse>;
+      callback) as Promise<Models.AppsDeleteMethodResponse>;
   }
 
   /**
@@ -457,22 +336,14 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsPublishResponse>
    */
-  publish(
-    appId: string,
-    applicationPublishObject: Models.ApplicationPublishObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsPublishResponse>;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsPublishResponse>;
   /**
    * @param appId The application ID.
    * @param applicationPublishObject The application publish object. The region is the target region
    * that the application is published to.
    * @param callback The callback
    */
-  publish(
-    appId: string,
-    applicationPublishObject: Models.ApplicationPublishObject,
-    callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>
-  ): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
   /**
    * @param appId The application ID.
    * @param applicationPublishObject The application publish object. The region is the target region
@@ -480,20 +351,8 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publish(
-    appId: string,
-    applicationPublishObject: Models.ApplicationPublishObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>
-  ): void;
-  publish(
-    appId: string,
-    applicationPublishObject: Models.ApplicationPublishObject,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>,
-    callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>
-  ): Promise<Models.AppsPublishResponse> {
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): void;
+  publish(appId: string, applicationPublishObject: Models.ApplicationPublishObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>, callback?: msRest.ServiceCallback<Models.ProductionOrStagingEndpointInfo>): Promise<Models.AppsPublishResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -501,8 +360,7 @@ export class Apps {
         options
       },
       publishOperationSpec,
-      callback
-    ) as Promise<Models.AppsPublishResponse>;
+      callback) as Promise<Models.AppsPublishResponse>;
   }
 
   /**
@@ -511,10 +369,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsGetSettingsResponse>
    */
-  getSettings(
-    appId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsGetSettingsResponse>;
+  getSettings(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsGetSettingsResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -525,24 +380,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSettings(
-    appId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ApplicationSettings>
-  ): void;
-  getSettings(
-    appId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSettings>,
-    callback?: msRest.ServiceCallback<Models.ApplicationSettings>
-  ): Promise<Models.AppsGetSettingsResponse> {
+  getSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSettings>): void;
+  getSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSettings>, callback?: msRest.ServiceCallback<Models.ApplicationSettings>): Promise<Models.AppsGetSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       getSettingsOperationSpec,
-      callback
-    ) as Promise<Models.AppsGetSettingsResponse>;
+      callback) as Promise<Models.AppsGetSettingsResponse>;
   }
 
   /**
@@ -552,39 +398,21 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsUpdateSettingsResponse>
    */
-  updateSettings(
-    appId: string,
-    applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsUpdateSettingsResponse>;
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsUpdateSettingsResponse>;
   /**
    * @param appId The application ID.
    * @param applicationSettingUpdateObject An object containing the new application settings.
    * @param callback The callback
    */
-  updateSettings(
-    appId: string,
-    applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param applicationSettingUpdateObject An object containing the new application settings.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSettings(
-    appId: string,
-    applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  updateSettings(
-    appId: string,
-    applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.AppsUpdateSettingsResponse> {
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateSettings(appId: string, applicationSettingUpdateObject: Models.ApplicationSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdateSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -592,8 +420,7 @@ export class Apps {
         options
       },
       updateSettingsOperationSpec,
-      callback
-    ) as Promise<Models.AppsUpdateSettingsResponse>;
+      callback) as Promise<Models.AppsUpdateSettingsResponse>;
   }
 
   /**
@@ -602,10 +429,7 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsGetPublishSettingsResponse>
    */
-  getPublishSettings(
-    appId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsGetPublishSettingsResponse>;
+  getPublishSettings(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsGetPublishSettingsResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -616,24 +440,15 @@ export class Apps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPublishSettings(
-    appId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PublishSettings>
-  ): void;
-  getPublishSettings(
-    appId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublishSettings>,
-    callback?: msRest.ServiceCallback<Models.PublishSettings>
-  ): Promise<Models.AppsGetPublishSettingsResponse> {
+  getPublishSettings(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublishSettings>): void;
+  getPublishSettings(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublishSettings>, callback?: msRest.ServiceCallback<Models.PublishSettings>): Promise<Models.AppsGetPublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       getPublishSettingsOperationSpec,
-      callback
-    ) as Promise<Models.AppsGetPublishSettingsResponse>;
+      callback) as Promise<Models.AppsGetPublishSettingsResponse>;
   }
 
   /**
@@ -643,39 +458,21 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsUpdatePublishSettingsResponse>
    */
-  updatePublishSettings(
-    appId: string,
-    publishSettingUpdateObject: Models.PublishSettingUpdateObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsUpdatePublishSettingsResponse>;
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsUpdatePublishSettingsResponse>;
   /**
    * @param appId The application ID.
    * @param publishSettingUpdateObject An object containing the new publish application settings.
    * @param callback The callback
    */
-  updatePublishSettings(
-    appId: string,
-    publishSettingUpdateObject: Models.PublishSettingUpdateObject,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param publishSettingUpdateObject An object containing the new publish application settings.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePublishSettings(
-    appId: string,
-    publishSettingUpdateObject: Models.PublishSettingUpdateObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.OperationStatus>
-  ): void;
-  updatePublishSettings(
-    appId: string,
-    publishSettingUpdateObject: Models.PublishSettingUpdateObject,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
-    callback?: msRest.ServiceCallback<Models.OperationStatus>
-  ): Promise<Models.AppsUpdatePublishSettingsResponse> {
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePublishSettings(appId: string, publishSettingUpdateObject: Models.PublishSettingUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AppsUpdatePublishSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -683,8 +480,7 @@ export class Apps {
         options
       },
       updatePublishSettingsOperationSpec,
-      callback
-    ) as Promise<Models.AppsUpdatePublishSettingsResponse>;
+      callback) as Promise<Models.AppsUpdatePublishSettingsResponse>;
   }
 
   /**
@@ -693,43 +489,26 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListEndpointsResponse>
    */
-  listEndpoints(
-    appId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListEndpointsResponse>;
+  listEndpoints(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsListEndpointsResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
    */
-  listEndpoints(
-    appId: string,
-    callback: msRest.ServiceCallback<{ [propertyName: string]: string }>
-  ): void;
+  listEndpoints(appId: string, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEndpoints(
-    appId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<{ [propertyName: string]: string }>
-  ): void;
-  listEndpoints(
-    appId: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<{ [propertyName: string]: string }>,
-    callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>
-  ): Promise<Models.AppsListEndpointsResponse> {
+  listEndpoints(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<{ [propertyName: string]: string }>): void;
+  listEndpoints(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<{ [propertyName: string]: string }>, callback?: msRest.ServiceCallback<{ [propertyName: string]: string }>): Promise<Models.AppsListEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       listEndpointsOperationSpec,
-      callback
-    ) as Promise<Models.AppsListEndpointsResponse>;
+      callback) as Promise<Models.AppsListEndpointsResponse>;
   }
 
   /**
@@ -737,34 +516,23 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse>
    */
-  listAvailableCustomPrebuiltDomains(
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse>;
+  listAvailableCustomPrebuiltDomains(options?: msRest.RequestOptionsBase): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse>;
   /**
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomains(
-    callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): void;
+  listAvailableCustomPrebuiltDomains(callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomains(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): void;
-  listAvailableCustomPrebuiltDomains(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>,
-    callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
+  listAvailableCustomPrebuiltDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+  listAvailableCustomPrebuiltDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAvailableCustomPrebuiltDomainsOperationSpec,
-      callback
-    ) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse>;
+      callback) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsResponse>;
   }
 
   /**
@@ -774,43 +542,28 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsAddCustomPrebuiltDomainResponse>
    */
-  addCustomPrebuiltDomain(
-    prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsAddCustomPrebuiltDomainResponse>;
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsAddCustomPrebuiltDomainResponse>;
   /**
    * @param prebuiltDomainCreateObject A prebuilt domain create object containing the name and
    * culture of the domain.
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(
-    prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject,
-    callback: msRest.ServiceCallback<string>
-  ): void;
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param prebuiltDomainCreateObject A prebuilt domain create object containing the name and
    * culture of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(
-    prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<string>
-  ): void;
-  addCustomPrebuiltDomain(
-    prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
-    callback?: msRest.ServiceCallback<string>
-  ): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltDomain(prebuiltDomainCreateObject: Models.PrebuiltDomainCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
         prebuiltDomainCreateObject,
         options
       },
       addCustomPrebuiltDomainOperationSpec,
-      callback
-    ) as Promise<Models.AppsAddCustomPrebuiltDomainResponse>;
+      callback) as Promise<Models.AppsAddCustomPrebuiltDomainResponse>;
   }
 
   /**
@@ -819,41 +572,26 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>
    */
-  listAvailableCustomPrebuiltDomainsForCulture(
-    culture: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
   /**
    * @param culture Culture.
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomainsForCulture(
-    culture: string,
-    callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): void;
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
   /**
    * @param culture Culture.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableCustomPrebuiltDomainsForCulture(
-    culture: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): void;
-  listAvailableCustomPrebuiltDomainsForCulture(
-    culture: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>,
-    callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>
-  ): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltDomain[]>): void;
+  listAvailableCustomPrebuiltDomainsForCulture(culture: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltDomain[]>, callback?: msRest.ServiceCallback<Models.PrebuiltDomain[]>): Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse> {
     return this.client.sendOperationRequest(
       {
         culture,
         options
       },
       listAvailableCustomPrebuiltDomainsForCultureOperationSpec,
-      callback
-    ) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
+      callback) as Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>;
   }
 
   /**
@@ -864,39 +602,21 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>
    */
-  packagePublishedApplicationAsGzip(
-    appId: string,
-    slotName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
   /**
    * @param appId The application ID.
    * @param slotName The publishing slot name.
    * @param callback The callback
    */
-  packagePublishedApplicationAsGzip(
-    appId: string,
-    slotName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param appId The application ID.
    * @param slotName The publishing slot name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  packagePublishedApplicationAsGzip(
-    appId: string,
-    slotName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  packagePublishedApplicationAsGzip(
-    appId: string,
-    slotName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packagePublishedApplicationAsGzip(appId: string, slotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackagePublishedApplicationAsGzipResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -904,8 +624,7 @@ export class Apps {
         options
       },
       packagePublishedApplicationAsGzipOperationSpec,
-      callback
-    ) as Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
+      callback) as Promise<Models.AppsPackagePublishedApplicationAsGzipResponse>;
   }
 
   /**
@@ -916,39 +635,21 @@ export class Apps {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>
    */
-  packageTrainedApplicationAsGzip(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  packageTrainedApplicationAsGzip(
-    appId: string,
-    versionId: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  packageTrainedApplicationAsGzip(
-    appId: string,
-    versionId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  packageTrainedApplicationAsGzip(
-    appId: string,
-    versionId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  packageTrainedApplicationAsGzip(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppsPackageTrainedApplicationAsGzipResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -956,8 +657,7 @@ export class Apps {
         options
       },
       packageTrainedApplicationAsGzipOperationSpec,
-      callback
-    ) as Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
+      callback) as Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
   }
 }
 
@@ -966,7 +666,9 @@ const serializer = new msRest.Serializer(Mappers);
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: "applicationCreateObject",
     mapper: {
@@ -993,8 +695,13 @@ const addOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/",
-  urlParameters: [Parameters.endpoint],
-  queryParameters: [Parameters.skip, Parameters.take],
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.take
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1020,8 +727,12 @@ const listOperationSpec: msRest.OperationSpec = {
 const importMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/import",
-  urlParameters: [Parameters.endpoint],
-  queryParameters: [Parameters.appName],
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.appName
+  ],
   requestBody: {
     parameterPath: "luisApp",
     mapper: {
@@ -1048,7 +759,9 @@ const importMethodOperationSpec: msRest.OperationSpec = {
 const listCortanaEndpointsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/assistants",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PersonalAssistantsResponse
@@ -1063,7 +776,9 @@ const listCortanaEndpointsOperationSpec: msRest.OperationSpec = {
 const listDomainsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/domains",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1088,7 +803,9 @@ const listDomainsOperationSpec: msRest.OperationSpec = {
 const listUsageScenariosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/usagescenarios",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1113,7 +830,9 @@ const listUsageScenariosOperationSpec: msRest.OperationSpec = {
 const listSupportedCulturesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/cultures",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1139,7 +858,10 @@ const listSupportedCulturesOperationSpec: msRest.OperationSpec = {
 const downloadQueryLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/querylogs",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1157,7 +879,10 @@ const downloadQueryLogsOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInfoResponse
@@ -1172,7 +897,10 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   requestBody: {
     parameterPath: "applicationUpdateObject",
     mapper: {
@@ -1194,8 +922,13 @@ const updateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
-  queryParameters: [Parameters.force],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
+  queryParameters: [
+    Parameters.force
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -1210,7 +943,10 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const publishOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/publish",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   requestBody: {
     parameterPath: "applicationPublishObject",
     mapper: {
@@ -1235,7 +971,10 @@ const publishOperationSpec: msRest.OperationSpec = {
 const getSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/settings",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSettings
@@ -1250,7 +989,10 @@ const getSettingsOperationSpec: msRest.OperationSpec = {
 const updateSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/settings",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   requestBody: {
     parameterPath: "applicationSettingUpdateObject",
     mapper: {
@@ -1272,7 +1014,10 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
 const getPublishSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/publishsettings",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PublishSettings
@@ -1287,7 +1032,10 @@ const getPublishSettingsOperationSpec: msRest.OperationSpec = {
 const updatePublishSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/publishsettings",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   requestBody: {
     parameterPath: "publishSettingUpdateObject",
     mapper: {
@@ -1309,7 +1057,10 @@ const updatePublishSettingsOperationSpec: msRest.OperationSpec = {
 const listEndpointsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/endpoints",
-  urlParameters: [Parameters.endpoint, Parameters.appId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1334,7 +1085,9 @@ const listEndpointsOperationSpec: msRest.OperationSpec = {
 const listAvailableCustomPrebuiltDomainsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/customprebuiltdomains",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1360,7 +1113,9 @@ const listAvailableCustomPrebuiltDomainsOperationSpec: msRest.OperationSpec = {
 const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/customprebuiltdomains",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: "prebuiltDomainCreateObject",
     mapper: {
@@ -1387,7 +1142,10 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
 const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/customprebuiltdomains/{culture}",
-  urlParameters: [Parameters.endpoint, Parameters.culture],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.culture
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1413,7 +1171,11 @@ const listAvailableCustomPrebuiltDomainsForCultureOperationSpec: msRest.Operatio
 const packagePublishedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "package/{appId}/slot/{slotName}/gzip",
-  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.slotName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.slotName
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -1433,7 +1195,11 @@ const packagePublishedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
 const packageTrainedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "package/{appId}/versions/{versionId}/gzip",
-  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
   responses: {
     200: {
       bodyMapper: {

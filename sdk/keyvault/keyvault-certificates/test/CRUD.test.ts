@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { retry } from "./utils/recorder";
+import { isNode } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { AbortController } from "@azure/abort-controller";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -36,20 +39,72 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can create a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const result = await client.createCertificate(certificateName, basicCertificatePolicy);
-    assert.equal(
-      result.properties.name,
+    const poller = await client.beginCreateCertificate(
       certificateName,
-      "Unexpected key name in result from createCertificate()."
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const pendingCertificate = poller.getResult(); // Pending certificate
+    assert.equal(
+      pendingCertificate!.properties.name,
+      certificateName,
+      "Unexpected name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
+
+  // If this test is not skipped in the browser's playback, no other test will be played back.
+  // This is a bug related to the browser features of the recorder.
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can abort creating a certificate", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      const controller = new AbortController();
+
+      await assertThrowsAbortError(async () => {
+        const poller = await client.beginCreateCertificate(
+          certificateName,
+          basicCertificatePolicy,
+          {
+            ...testPollerProperties,
+            abortSignal: controller.signal
+          }
+        );
+        controller.abort();
+        await poller.pollUntilDone();
+      });
+    });
+  }
+
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can create a certificate with requestOptions timeout", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+      await assertThrowsAbortError(async () => {
+        await client.beginCreateCertificate(
+          certificateName,
+          basicCertificatePolicy,
+          {
+            ...testPollerProperties,
+            requestOptions: {
+              timeout: 1
+            }
+          }
+        );
+      });
+    });
+  }
 
   it("cannot create a certificate with an empty name", async function() {
     const certificateName = "";
     let error;
     try {
-      await client.createCertificate(certificateName, basicCertificatePolicy);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -57,14 +112,18 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(
       error.message,
       `"certificateName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running createCertificate with an empty string as the name."
+      "Unexpected error while running beginCreateCertificate with an empty string as the name."
     );
   });
 
   it("can update the tags of a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     await client.updateCertificate(certificateName, "", {
       tags: {
         customTag: "value"
@@ -80,28 +139,74 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can update certificate with requestOptions timeout", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+      const poller = await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+      const { version } = poller.getResult()!.properties;
+
+      await assertThrowsAbortError(async () => {
+        await client.updateCertificate(certificateName, version || "", {
+          tags: {
+            customTag: "value"
+          },
+          requestOptions: { timeout: 1 }
+        });
+      });
+    });
+  }
+
   it("can get a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     const result = await client.getCertificate(certificateName);
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from createCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can get a certificate with requestOptions timeout", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+      await assertThrowsAbortError(async () => {
+        await client.getCertificate(certificateName, { requestOptions: { timeout: 1 } });
+      });
+    });
+  }
+
   it("can retrieve the latest version of a certificate value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
 
     const result = await client.getCertificate(certificateName);
 
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from createCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate()."
     );
     await testClient.flushCertificate(certificateName);
   });
@@ -124,8 +229,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can delete a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
-    const result = await client.deleteCertificate(certificateName);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const result = poller.getResult()!;
 
     assert.equal(typeof result.recoveryId, "string");
     assert.ok(result.deletedOn instanceof Date);
@@ -144,11 +254,31 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can delete a certificate with requestOptions timeout", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+      await assertThrowsAbortError(async () => {
+        await client.beginDeleteCertificate(certificateName, {
+          ...testPollerProperties,
+          requestOptions: {
+            timeout: 1
+          }
+        });
+      });
+    });
+  }
+
   it("can delete a certificate (Non Existing)", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
-      await client.deleteCertificate(certificateName);
+      await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -162,11 +292,15 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can get a deleted certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
-    await client.deleteCertificate(certificateName);
-    const getResult = await retry(async () => client.getDeletedCertificate(certificateName));
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const deletedCertificate = await deletePoller.pollUntilDone();
     assert.equal(
-      getResult.properties.name,
+      deletedCertificate.properties.name,
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
@@ -177,7 +311,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
-      await client.deleteCertificate(certificateName);
+      await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -194,7 +328,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setIssuer(issuerName, "Test", {
+    await client.createIssuer(issuerName, "Test", {
       credentials: {
         accountId: "keyvaultuser"
       },
@@ -211,10 +345,14 @@ describe("Certificates client - create, read, update and delete", () => {
     });
 
     // Creating a certificate with that issuer
-    await client.createCertificate(certificateName, {
-      issuerName,
-      subject: "cn=MyCert"
-    });
+    await client.beginCreateCertificate(
+      certificateName,
+      {
+        issuerName,
+        subject: "cn=MyCert"
+      },
+      testPollerProperties
+    );
 
     // Reading the issuer from the certificate
     const certificate = await client.getCertificate(certificateName);
@@ -262,7 +400,11 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can update a certificate's policy", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
     const result = await client.getCertificate(certificateName);
     assert.equal(result.policy!.issuerName, "Self");
     assert.equal(result.policy!.subject, "cn=MyCert");
@@ -279,19 +421,24 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
 
-    let getResponse: any;
+    let certificateOperation: any;
 
     // Read
-    getResponse = await client.getCertificateOperation(certificateName);
-    assert.equal(getResponse.status, "inProgress");
-    assert.equal(getResponse.cancellationRequested, false);
+    let operationPoller = await client.getCertificateOperation(certificateName);
+    certificateOperation = operationPoller.getResult();
+    assert.equal(certificateOperation.status, "inProgress");
+    assert.equal(certificateOperation.cancellationRequested, false);
 
     // Cancel
-    await client.cancelCertificateOperation(certificateName);
-    getResponse = await client.getCertificateOperation(certificateName);
-    assert.equal(getResponse.cancellationRequested, true);
+    await operationPoller.cancelOperation();
+    certificateOperation = operationPoller.getResult();
+    assert.equal(certificateOperation.cancellationRequested, true);
 
     // Delete
     await client.deleteCertificateOperation(certificateName);

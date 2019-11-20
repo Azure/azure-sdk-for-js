@@ -38,7 +38,7 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
-    const content: object = serializer.serialize(JSON.parse(webResource.body));
+    const content: object = serializer.serialize(webResource.body);
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
@@ -82,7 +82,17 @@ export async function executeAtomXmlOperation(
  */
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
-  content[resourceName] = resource;
+
+  // The top level key value pairs having undefined/null as the value are removed in order to address issue where the Service Bus'
+  // ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body at top level.
+  const processedResource = Object.assign({}, resource);
+  Object.keys(processedResource).forEach(function(property) {
+    if (processedResource[property] == undefined) {
+      delete processedResource[property];
+    }
+  });
+  content[resourceName] = processedResource;
+
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
     "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"

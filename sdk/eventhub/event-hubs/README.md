@@ -205,8 +205,9 @@ async function main() {
   const myEventHandler = (events, context) => {
     // your code here
   };
-  const subscription = consumer.subscribe(myEventHandler, {
-    onError: myErrorHandler
+  const subscription = consumer.subscribe({
+    processEvents: myEventHandler,
+    processError: myErrorHandler
   });
 
   // When ready to stop receiving
@@ -247,7 +248,9 @@ async function main() {
   const myEventHandler = (events, context) => {
     // your code here
   };
-  const subscription = consumer.subscribe(myEventHandler, partitionManager);
+  const subscription = consumer.subscribe(partitionManager, {
+    processEvents: myEventHandler
+  });
 
   // When ready to stop receiving
   await subscription.close();
@@ -279,7 +282,8 @@ async function main() {
   const myEventHandler = (events, context) => {
     // your code here
   };
-  const subscription = consumer.subscribe(myEventHandler, partitionIds[0], {
+  const subscription = consumer.subscribe(partitionIds[0], {
+    processEvents: myEventHandler,
     onError: myErrorHandler
   });
 
@@ -308,8 +312,8 @@ async function main() {
   const client = new EventHubConsumerClient(
     "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
   );
-  await client.getProperties();
-  // retrieve partitionIds from client.getProperties() or client.getPartitionIds()
+  await client.getEventHubProperties();
+  // retrieve partitionIds from client.getEventHubProperties() or client.getPartitionIds()
   const partitionId = "0";
   await client.getPartitionProperties(partitionId);
 

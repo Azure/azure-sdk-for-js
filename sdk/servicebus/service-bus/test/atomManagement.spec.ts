@@ -60,7 +60,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     parentSubscriptionName: alwaysBeExistingSubscription
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe.only(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
     before(async () => {
       await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
 
@@ -145,6 +145,62 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         allEntities.length - 1,
         "Result must be an empty array"
       );
+      it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
+        let error;
+        switch (testCase.entityType) {
+          case EntityType.QUEUE:
+            try {
+              await getEntity(testCase.entityType, "notexisting");
+            } catch (err) {
+              error = err;
+            }
+            break;
+
+          case EntityType.TOPIC:
+            try {
+              error = await getEntity(testCase.entityType, "notexisting");
+            } catch (err) {
+              error = err;
+            }
+
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            try {
+              error = await getEntity(testCase.entityType, "notexisting", alwaysBeExistingTopic);
+            } catch (err) {
+              error = err;
+            }
+            break;
+
+          case EntityType.RULE:
+            try {
+              error = await getEntity(
+                testCase.entityType,
+                "notexisting",
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              error = err;
+            }
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+
+        should.equal(error.statusCode, 404, "Error must not be undefined");
+        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+        should.equal(
+          error.message.startsWith("The messaging entity") ||
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
+          true,
+          `Expected error message to be a textual content but got "${error.message}"`
+        );
+      });
     });
 
     it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
@@ -333,7 +389,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enableExpress: false,
@@ -367,7 +423,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
@@ -405,7 +461,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       lockDuration: "PT45S",
       messageCount: 5,
       sizeInBytes: 250,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
@@ -453,7 +509,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe.only(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
@@ -467,9 +523,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -488,7 +544,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       messageCountDetails: undefined,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enableExpress: false,
@@ -504,6 +560,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
       messageCount: undefined,
+      userMetadata: undefined,
       requiresDuplicateDetection: false,
       sizeInBytes: 0,
       status: "Active",
@@ -536,7 +593,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
       requiresDuplicateDetection: true,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
       autoDeleteOnIdle: "PT1H",
@@ -548,7 +606,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCount: 7,
       subscriptionCount: 6,
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       autoDeleteOnIdle: "PT1H",
       enableBatchedOperations: false,
@@ -572,6 +630,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // enableExpress: true,
       enableExpress: false,
       authorizationRules: undefined,
+      userMetadata: undefined,
 
       isExpress: false,
       enableSubscriptionPartitioning: false,
@@ -592,7 +651,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe.only(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
@@ -607,9 +666,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       should.equal(response.topicName, testCase.topicName, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -627,7 +686,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
       forwardTo: undefined,
@@ -656,7 +715,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // This should be a proper URL else the service returns an error
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -677,7 +736,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
+      defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -703,7 +762,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe.only(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -723,9 +782,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -831,7 +890,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe.only(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -852,9 +911,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -973,7 +1032,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe.only(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
@@ -984,7 +1043,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         sizeInBytes: 250,
         requiresDuplicateDetection: true,
         requiresSession: true,
-        defaultMessageTimeToLive: "P2D",
+        defaultMessageTtl: "P2D",
         deadLetteringOnMessageExpiration: true,
         duplicateDetectionHistoryTimeWindow: "PT1M",
         maxDeliveryCount: 8,
@@ -1137,7 +1196,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe.only(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1232,7 +1291,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe.only(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1338,7 +1397,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe.only(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(

@@ -23,18 +23,18 @@ async function main() {
   const certificateName = "MyCertificate123129";
 
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate(certificateName, {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
 
-  console.log("Certificate: ", certificate);
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   const backup = await client.backupCertificate(certificateName);
 
-  // It might take less time, or more, depending on your location, internet speed and other factors.
-  await client.deleteCertificate(certificateName);
-  await delay(30000);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  await deletePoller.pollUntilDone();
 
   await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
