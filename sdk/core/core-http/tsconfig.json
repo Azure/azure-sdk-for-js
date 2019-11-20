@@ -1,20 +1,9 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "module": "commonjs",
-    "sourceMap": true,
-    "newLine": "LF",
+    "module": "es6",
+    "outDir": "es",
     "target": "es5",
-    "moduleResolution": "node",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "dist",
-    "strict": true,
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "dom.iterable",

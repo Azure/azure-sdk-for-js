@@ -62,7 +62,7 @@
     "build:lib": "run-s build:tsc build:rollup build:minify-browser",
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
-    "build:tsc": "tsc -p tsconfig.es.json",
+    "build:tsc": "tsc -p tsconfig.json",
     "build:rollup": "rollup -c rollup.config.ts 2>&1",
     "build:minify-browser": "terser -c -m --comments --source-map \"content='./dist/coreHttp.browser.js.map'\" -o ./dist/coreHttp.browser.min.js ./dist/coreHttp.browser.js",
     "build:test-browser": "webpack --config webpack.testconfig.ts",
