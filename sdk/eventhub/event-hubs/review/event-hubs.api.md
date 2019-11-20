@@ -187,6 +187,7 @@ export interface PartitionOwnership {
 export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubName: string;
+    isEmpty: boolean;
     lastEnqueuedOffset: number;
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;

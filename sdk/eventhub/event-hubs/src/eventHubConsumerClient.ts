@@ -338,6 +338,7 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
 
   return (
     typeof checkpointStore.claimOwnership === "function" &&
+    typeof checkpointStore.listCheckpoints === "function" &&
     typeof checkpointStore.listOwnership === "function" &&
     typeof checkpointStore.updateCheckpoint === "function"
   );
