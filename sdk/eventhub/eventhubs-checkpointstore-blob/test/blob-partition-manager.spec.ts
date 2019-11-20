@@ -10,7 +10,7 @@ chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { BlobPartitionManager } from "../src";
+import { BlobCheckpointStore } from "../src";
 import { ContainerClient } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { Guid } from "guid-typescript";
@@ -41,8 +41,8 @@ describe("Blob Partition Manager", function(): void {
   });
 
   it("listOwnership should return an empty array", async function(): Promise<void> {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+    const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -53,8 +53,8 @@ describe("Blob Partition Manager", function(): void {
   it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
     void
   > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+    const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -65,36 +65,38 @@ describe("Blob Partition Manager", function(): void {
       ownerId: "Id1",
       partitionId: "0",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      consumerGroupName: "testConsumerGroup",
-      eventHubName: "testEventHub",
-      ownerLevel: 0
+      consumerGroup: "testConsumerGroup",
+      eventHubName: "testEventHub"
     };
 
-    const partitionOwnershipArray = await partitionManager.claimOwnership([partitionOwnership]);
+    const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
     should.equal(partitionOwnershipArray.length, 1);
-    const ownershipList = await partitionManager.listOwnership(
+
+    const ownershipList = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
     );
+
     ownershipList.length.should.equal(1);
     ownershipList[0].ownerId.should.equal("Id1");
     ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].consumerGroupName.should.equal("testConsumerGroup");
+    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
     ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
     ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[0].eTag!.should.not.undefined;
+    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
+    ownershipList[0].etag!.should.not.undefined;
+
     debug(
-      `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMS!}, ETag: ${ownershipList[0].eTag}`
+      `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
     );
   });
 
   it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function(): Promise<
     void
   > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+    const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -104,17 +106,16 @@ describe("Blob Partition Manager", function(): void {
     const partitionOwnership: PartitionOwnership = {
       ownerId: "Id1",
       partitionId: "0",
-      consumerGroupName: "testConsumerGroup",
+      consumerGroup: "testConsumerGroup",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      eventHubName: "testEventHub",
-      ownerLevel: 0
+      eventHubName: "testEventHub"
     };
 
-    await partitionManager.claimOwnership([partitionOwnership]);
-    await partitionManager.claimOwnership([partitionOwnership]);
-    await partitionManager.claimOwnership([partitionOwnership]);
+    await checkpointStore.claimOwnership([partitionOwnership]);
+    await checkpointStore.claimOwnership([partitionOwnership]);
+    await checkpointStore.claimOwnership([partitionOwnership]);
 
-    const ownershipList = await partitionManager.listOwnership(
+    const ownershipList = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -123,20 +124,20 @@ describe("Blob Partition Manager", function(): void {
     ownershipList[0].ownerId.should.equal("Id1");
     ownershipList[0].partitionId.should.equal("0");
     ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].consumerGroupName.should.equal("testConsumerGroup");
+    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
     ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[0].eTag!.should.not.undefined;
+    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
+    ownershipList[0].etag!.should.not.undefined;
     debug(
-      `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMS!}, ETag: ${ownershipList[0].eTag}`
+      `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
     );
   });
 
   it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function(): Promise<
     void
   > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+    const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -150,18 +151,17 @@ describe("Blob Partition Manager", function(): void {
         ownerId: "Id1",
         partitionId: `${index}`,
         fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-        consumerGroupName: "testConsumerGroup",
-        eventHubName: "testEventHub",
-        ownerLevel: 0
+        consumerGroup: "testConsumerGroup",
+        eventHubName: "testEventHub"
       };
       partitionOwnershipArray.push(partitionOwnership);
     }
 
-    await partitionManager.claimOwnership([partitionOwnershipArray[0]]);
-    await partitionManager.claimOwnership([partitionOwnershipArray[1]]);
-    await partitionManager.claimOwnership([partitionOwnershipArray[2]]);
+    await checkpointStore.claimOwnership([partitionOwnershipArray[0]]);
+    await checkpointStore.claimOwnership([partitionOwnershipArray[1]]);
+    await checkpointStore.claimOwnership([partitionOwnershipArray[2]]);
 
-    const ownershipList = await partitionManager.listOwnership(
+    const ownershipList = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -170,26 +170,93 @@ describe("Blob Partition Manager", function(): void {
 
     ownershipList[0].partitionId.should.equal("0");
     ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].consumerGroupName.should.equal("testConsumerGroup");
+    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
     ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
     ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[0].eTag!.should.not.undefined;
+    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
+    ownershipList[0].etag!.should.not.undefined;
 
     ownershipList[1].partitionId.should.equal("1");
-    ownershipList[1].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[1].eTag!.should.not.undefined;
+    ownershipList[1].lastModifiedTimeInMs!.should.not.undefined;
+    ownershipList[1].etag!.should.not.undefined;
 
     ownershipList[2].partitionId.should.equal("2");
-    ownershipList[2].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[2].eTag!.should.not.undefined;
+    ownershipList[2].lastModifiedTimeInMs!.should.not.undefined;
+    ownershipList[2].etag!.should.not.undefined;
   });
 
-  it("updateCheckpoint on a partition with the correct ownerId should update the checkpoint.", async function(): Promise<
+  it("updateCheckpoint", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    const eventHubProperties = {
+      fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
+      eventHubName: "testEventHub",
+      consumerGroup: "testConsumerGroup"
+    };
+
+    for (let i = 0; i < 3; ++i) {
+      const checkpoint: Checkpoint = {
+        ...eventHubProperties,
+        partitionId: i.toString(),
+        sequenceNumber: 100 + i,
+        offset: 1023 + i
+      };
+
+      await checkpointStore.updateCheckpoint(checkpoint);
+    }
+
+    let checkpoints = await checkpointStore.listCheckpoints(
+      eventHubProperties.fullyQualifiedNamespace,
+      eventHubProperties.eventHubName,
+      eventHubProperties.consumerGroup
+    );
+
+    checkpoints.length.should.equal(3);
+    checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+    for (let i = 0; i < 3; ++i) {
+      const checkpoint = checkpoints[i];
+
+      checkpoint.partitionId.should.equal(i.toString());
+      checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
+      checkpoint.consumerGroup.should.equal("testConsumerGroup");
+      checkpoint.eventHubName.should.equal("testEventHub");
+      checkpoint.sequenceNumber!.should.equal(100 + i);
+      checkpoint.offset!.should.equal(1023 + i);
+
+      // now update it
+      checkpoint.offset++;
+      checkpoint.sequenceNumber++;
+
+      await checkpointStore.updateCheckpoint(checkpoint);
+    }
+
+    checkpoints = await checkpointStore.listCheckpoints(
+      eventHubProperties.fullyQualifiedNamespace,
+      eventHubProperties.eventHubName,
+      eventHubProperties.consumerGroup
+    );
+
+    checkpoints.length.should.equal(3);
+    checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+    for (let i = 0; i < 3; ++i) {
+      const checkpoint = checkpoints[i];
+
+      checkpoint.partitionId.should.equal(i.toString());
+      checkpoint.fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
+      checkpoint.consumerGroup.should.equal("testConsumerGroup");
+      checkpoint.eventHubName.should.equal("testEventHub");
+      checkpoint.sequenceNumber!.should.equal(100 + i + 1);
+      checkpoint.offset!.should.equal(1023 + i + 1);
+    }
+  });
+
+  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function(): Promise<
     void
   > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+    const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
@@ -200,146 +267,49 @@ describe("Blob Partition Manager", function(): void {
       ownerId: "Id1",
       partitionId: "0",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      consumerGroupName: "testConsumerGroup",
-      eventHubName: "testEventHub",
-      ownerLevel: 0
+      consumerGroup: "testConsumerGroup",
+      eventHubName: "testEventHub"
     };
 
-    const partitionOwnershipArray = await partitionManager.claimOwnership([partitionOwnership]);
+    const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
     should.equal(partitionOwnershipArray.length, 1);
-    const ownershipList = await partitionManager.listOwnership(
-      "testNamespace.servicebus.windows.net",
-      "testEventHub",
-      "testConsumerGroup"
-    );
-    ownershipList.length.should.equal(1);
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].consumerGroupName.should.equal("testConsumerGroup");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMS!.should.not.undefined;
-    ownershipList[0].eTag!.should.not.undefined;
-
-    const checkpoint: Checkpoint = {
-      fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      eventHubName: "testEventHub",
-      consumerGroupName: "testConsumerGroup",
-      ownerId: "Id1",
-      partitionId: "0",
-      sequenceNumber: 100,
-      offset: 1023,
-      eTag: ownershipList[0].eTag!
-    };
-
-    await partitionManager.updateCheckpoint(checkpoint);
-    const ownershipArray = await partitionManager.listOwnership(
-      "testNamespace.servicebus.windows.net",
-      "testEventHub",
-      "testConsumerGroup"
-    );
-    ownershipArray.length.should.equal(1);
-    ownershipArray[0].ownerId.should.equal("Id1");
-    ownershipArray[0].partitionId.should.equal("0");
-    ownershipArray[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipArray[0].consumerGroupName.should.equal("testConsumerGroup");
-    ownershipArray[0].eventHubName.should.equal("testEventHub");
-    ownershipArray[0].sequenceNumber!.should.equal(100);
-    ownershipArray[0].offset!.should.equal(1023);
-    ownershipArray[0].eTag!.should.not.undefined;
-    ownershipArray[0].eTag!.should.not.equal(ownershipList[0].eTag!);
-    ownershipArray[0].lastModifiedTimeInMS!.should.not.undefined;
-  });
-
-  it("updateCheckpoint on a partition with the incorrect ownerId should throw an error.", async function(): Promise<
-    void
-  > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
-      "testNamespace.servicebus.windows.net",
-      "testEventHub",
-      "testConsumerGroup"
-    );
-    should.equal(listOwnership.length, 0);
-
-    const partitionOwnership: PartitionOwnership = {
-      ownerId: "Id1",
-      partitionId: "0",
-      fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      consumerGroupName: "testConsumerGroup",
-      eventHubName: "testEventHub",
-      ownerLevel: 0
-    };
-
-    const partitionOwnershipArray = await partitionManager.claimOwnership([partitionOwnership]);
-    should.equal(partitionOwnershipArray.length, 1);
-    const ownershipList = await partitionManager.listOwnership(
+    const ownershipList = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
       "testEventHub",
       "testConsumerGroup"
     );
     ownershipList.length.should.equal(1);
 
-    const checkpoint: Checkpoint = {
-      fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      eventHubName: "testEventHub",
-      consumerGroupName: "testConsumerGroup",
-      ownerId: "Id2",
-      partitionId: "0",
-      sequenceNumber: 100,
-      offset: 1023,
-      eTag: ownershipList[0].eTag!
-    };
+    // and "unowning" a partition is possible to with an empty ownerId
+    ownershipList[0].ownerId = "";
 
-    await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
-      debug("Error occurred while updating checkpoint", err);
-      should.exist(err);
-      err.message.should.match(/.*ownerId: \[Id2\] doesn\'t match with stored ownerId: \[Id1\].*/);
-    });
+    let ownershipsAfterUnclaiming = await checkpointStore.claimOwnership([ownershipList[0]]);
+    ownershipsAfterUnclaiming.length.should.equal(1);
+
+    ownershipsAfterUnclaiming[0].ownerId.should.equal("");
   });
 
-  it("updateCheckpoint on a partition that has not been claimed should throw an error.", async function(): Promise<
-    void
-  > {
-    const partitionManager = new BlobPartitionManager(containerClient);
-    const listOwnership = await partitionManager.listOwnership(
-      "testNamespace.servicebus.windows.net",
-      "testEventHub",
-      "testConsumerGroup"
-    );
-    should.equal(listOwnership.length, 0);
-
-    const checkpoint: Checkpoint = {
-      fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      eventHubName: "testEventHub",
-      consumerGroupName: "testConsumerGroup",
-      ownerId: "Id2",
-      partitionId: "0",
-      sequenceNumber: 100,
-      offset: 1023,
-      eTag: "etag-123"
-    };
-
-    await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
-      debug("Error occurred while updating checkpoint", err);
-      should.exist(err);
-      err.message.should.match(/.*Error occurred while upating the checkpoint for partition*/);
-    });
-  });
-  
   it("blob prefix is always lowercased for case-insensitive fields", () => {
-    chai.assert.equal("namespace/eventhubname/consumergroupname/", BlobPartitionManager["getBlobPrefix"]({
-      fullyQualifiedNamespace: "nAmESpAce",
-      eventHubName: 'eVentHubNamE',
-      consumerGroupName: 'cOnsuMerGrouPNaMe',      
-      // partition ID is optional
-    }));
+    chai.assert.equal(
+      "namespace/eventhubname/consumergroupname/ownership/",
+      BlobCheckpointStore["getBlobPrefix"]({
+        type: "ownership",
+        fullyQualifiedNamespace: "nAmESpAce",
+        eventHubName: "eVentHubNamE",
+        consumerGroup: "cOnsuMerGrouPNaMe"
+        // partition ID is optional
+      })
+    );
 
-    chai.assert.equal("namespace/eventhubname/consumergroupname/0", BlobPartitionManager["getBlobPrefix"]({
-      fullyQualifiedNamespace: "nAmESpAce",
-      eventHubName: 'eVentHubNamE',
-      consumerGroupName: 'cOnsuMerGrouPNaMe',      
-      partitionId: "0"
-    }));
+    chai.assert.equal(
+      "namespace/eventhubname/consumergroupname/checkpoint/0",
+      BlobCheckpointStore["getBlobPrefix"]({
+        type: "checkpoint",
+        fullyQualifiedNamespace: "nAmESpAce",
+        eventHubName: "eVentHubNamE",
+        consumerGroup: "cOnsuMerGrouPNaMe",
+        partitionId: "0"
+      })
+    );
   });
 }).timeout(90000);
