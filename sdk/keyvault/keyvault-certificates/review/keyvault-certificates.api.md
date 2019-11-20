@@ -117,7 +117,6 @@ export interface CertificateIssuer {
     name?: string;
     organizationId?: string;
     password?: string;
-    provider?: string;
     updatedOn?: Date;
 }
 

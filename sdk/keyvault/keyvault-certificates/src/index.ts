@@ -333,7 +333,6 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   const publicIssuer: CertificateIssuer = {
     id: issuer.id,
     name: parsedId.name,
-    provider: issuer.provider,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
     credentials: issuer.credentials,
@@ -345,7 +344,7 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   publicIssuer.issuerProperties = {
     id: publicIssuer.id,
     name: parsedId.name,
-    provider: publicIssuer.provider
+    provider: issuer.provider
   };
 
   if (issuer.organizationDetails) {

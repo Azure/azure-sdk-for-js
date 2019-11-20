@@ -574,10 +574,6 @@ export interface CertificateIssuer {
    */
   id?: string;
   /**
-   * The issuer provider.
-   */
-  provider?: string;
-  /**
    * Determines whether the object is enabled.
    */
   enabled?: boolean;
