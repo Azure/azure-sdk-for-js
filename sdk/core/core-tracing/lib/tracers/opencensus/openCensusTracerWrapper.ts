@@ -43,27 +43,27 @@ export class OpenCensusTracerWrapper implements Tracer {
 
   /**
    * Executes the given function within the context provided by a Span.
-   * @param span The span that provides the context.
-   * @param fn The function to be executed.
+   * @param _span The span that provides the context.
+   * @param _fn The function to be executed.
    */
-  withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T> {
+  withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T> {
     throw new Error("Method not implemented.");
   }
 
   /**
    * Bind a Span as the target's scope
    * @param target An object to bind the scope.
-   * @param span A specific Span to use. Otherwise, use the current one.
+   * @param _span A specific Span to use. Otherwise, use the current one.
    */
-  bind<T>(target: T, span?: Span): T {
+  bind<T>(_target: T, _span?: Span): T {
     throw new Error("Method not implemented.");
   }
 
   /**
    * Send a pre-populated Span object to the exporter.
-   * @param span The span to pass along.
+   * @param _span The span to pass along.
    */
-  recordSpanData(span: Span): void {
+  recordSpanData(_span: Span): void {
     throw new Error("Method not implemented.");
   }
 

@@ -14,15 +14,15 @@ export class OpenCensusTraceStateWrapper implements TraceState {
     this._state = state;
   }
 
-  get(key: string): string | undefined {
+  get(_key: string): string | undefined {
     throw new Error("Method not implemented.");
   }
 
-  set(key: string, value: string): void {
+  set(_key: string, _value: string): void {
     throw new Error("Method not implemented.");
   }
 
-  unset(key: string): void {
+  unset(_key: string): void {
     throw new Error("Method not implemented");
   }
 
