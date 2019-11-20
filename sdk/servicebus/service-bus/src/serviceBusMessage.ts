@@ -817,20 +817,20 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Removes the message from Service Bus.
    *
-   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link got closed by the library due to network loss or service error.
-   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
-   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @returns Promise<void>.
@@ -863,20 +863,20 @@ export class ServiceBusMessage implements ReceivedMessage {
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
    *
-   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link got closed by the library due to network loss or service error.
-   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
-   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
@@ -913,20 +913,20 @@ export class ServiceBusMessage implements ReceivedMessage {
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
    * receive it message again in the future using the `receiveDeferredMessage` method.
    *
-   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link got closed by the library due to network loss or service error.
-   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
-   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while deferring the message
@@ -962,20 +962,20 @@ export class ServiceBusMessage implements ReceivedMessage {
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
    * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
    *
-   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * @throws Error with name `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
    * if the AMQP link with which the message was received is no longer alive. This can
    * happen either because the lock on the session expired or the receiver was explicitly closed by
    * the user or the AMQP link got closed by the library due to network loss or service error.
-   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * @throws Error with name `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
    * if the lock on the message has expired or the AMQP link with which the message was received is
    * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
    * AMQP link got closed by the library due to network loss or service error.
-   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * @throws Error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
-   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * @throws Error if used in `ReceiveAndDelete` mode because all messages received in this mode
    * are pre-settled. To avoid this error, update your code to not settle a message which is received
    * in this mode.
-   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
    * @param options The DeadLetter options that can be provided while
