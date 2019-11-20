@@ -469,7 +469,7 @@ export interface CreateIssuerOptions extends coreHttp.OperationOptions {
    */
   organizationId?: string;
   /**
-   * Details of the organization as provided to the issuer.
+   * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
   /**
@@ -598,7 +598,7 @@ export interface CertificateIssuer {
    */
   organizationId?: string;
   /**
-   * Details of the organization as provided to the issuer.
+   * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
 }
