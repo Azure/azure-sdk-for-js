@@ -1,18 +1,24 @@
 import * as assert from "assert";
-import { getBSU } from "../utils";
+import { getBSU, setupEnvironment } from "../utils";
 import * as dotenv from "dotenv";
-import { ShareDirectoryClient, newPipeline, StorageSharedKeyCredential, ShareClient } from "../../src";
-import { record } from "../utils/recorder";
+import {
+  ShareDirectoryClient,
+  newPipeline,
+  StorageSharedKeyCredential,
+  ShareClient
+} from "../../src";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
