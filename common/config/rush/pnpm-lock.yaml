@@ -45,7 +45,6 @@ dependencies:
   '@types/debug': 4.1.5
   '@types/express': 4.17.2
   '@types/fast-json-stable-stringify': 2.0.0
-  '@types/fetch-mock': 7.3.2
   '@types/fs-extra': 8.0.1
   '@types/glob': 7.1.1
   '@types/is-buffer': 2.0.0
@@ -99,7 +98,7 @@ dependencies:
   execa: 3.3.0
   express: 4.17.1
   fast-json-stable-stringify: 2.0.0
-  fetch-mock: 7.7.3_node-fetch@2.6.0
+  fetch-mock: 8.0.0_node-fetch@2.6.0
   form-data: 3.0.0
   fs-extra: 8.1.0
   glob: 7.1.6
@@ -699,10 +698,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mky/O83TXmGY39P1H9YbUpjV6l6voRYlufqfFCvel8l1phuy8HRjdWc1rrPuN53ITBJlbyMSV6z3niOySO5pgQ==
-  /@types/fetch-mock/7.3.2:
-    dev: false
-    resolution:
-      integrity: sha512-NCEfv49jmDsBAixjMjEHKVgmVQlJ+uK56FOc+2roYPExnXCZDpi6mJOHQ3v23BiO84hBDStND9R2itJr7PNoow==
   /@types/fs-extra/8.0.1:
     dependencies:
       '@types/node': 8.10.59
@@ -1953,14 +1948,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-1fr3qleKZbvlkc9e2uBKDGcCB1g=
-  /babel-polyfill/6.26.0:
-    dependencies:
-      babel-runtime: 6.26.0
-      core-js: 2.6.10
-      regenerator-runtime: 0.10.5
-    dev: false
-    resolution:
-      integrity: sha1-N5k3q8Z9eJWXCtxiHyhM2WbPIVM=
   /babel-preset-env/1.7.0:
     dependencies:
       babel-plugin-check-es2015-constants: 6.22.0
@@ -2824,6 +2811,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
+  /core-js/3.4.1:
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-KX/dnuY/J8FtEwbnrzmAjUYgLqtk+cxM86hfG60LGiW3MmltIc2yAmDgBgEkfm0blZhUrdr1Zd84J2Y14mLxzg==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -3842,14 +3834,15 @@ packages:
     dev: false
     resolution:
       integrity: sha1-i1vL2ewyfFBBv5qwI/1nUPEXfmU=
-  /fetch-mock/7.7.3_node-fetch@2.6.0:
+  /fetch-mock/8.0.0_node-fetch@2.6.0:
     dependencies:
-      babel-polyfill: 6.26.0
-      core-js: 2.6.10
+      babel-runtime: 6.26.0
+      core-js: 3.4.1
       glob-to-regexp: 0.4.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
       path-to-regexp: 2.4.0
+      querystring: 0.2.0
       whatwg-url: 6.5.0
     dev: false
     engines:
@@ -3861,7 +3854,7 @@ packages:
         optional: true
     requiresBuild: true
     resolution:
-      integrity: sha512-I4OkK90JFQnjH8/n3HDtWxH/I6D1wrxoAM2ri+nb444jpuH3RTcgvXx2el+G20KO873W727/66T7QhOvFxNHPg==
+      integrity: sha512-ll7ld9acY6GJehNmX5dHbbmCPeKIqifx6dd/B1bhFGKSkC+2tgOFJdzxIfHWhxBt6i957KEqXlvUZDCQncEqYQ==
   /figgy-pudding/3.5.1:
     dev: false
     resolution:
@@ -7417,10 +7410,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
-  /regenerator-runtime/0.10.5:
-    dev: false
-    resolution:
-      integrity: sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
   /regenerator-runtime/0.11.1:
     dev: false
     resolution:
@@ -9973,7 +9962,6 @@ packages:
       '@rollup/plugin-json': 4.0.0_rollup@1.27.3
       '@types/chai': 4.2.5
       '@types/express': 4.17.2
-      '@types/fetch-mock': 7.3.2
       '@types/glob': 7.1.1
       '@types/karma': 3.0.4
       '@types/mocha': 5.2.7
@@ -9996,7 +9984,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
-      fetch-mock: 7.7.3_node-fetch@2.6.0
+      fetch-mock: 8.0.0_node-fetch@2.6.0
       form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
@@ -10045,7 +10033,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-SgU/tPkvcSgR0fPDlExl8rv3RhoAnybAkNHJWn/Ji59XWVxxSMJqWh3TyrR4x3DzspJYbHKhAkadVohPcbIvMQ==
+      integrity: sha512-UcIeoYN1VPNqEU954QRgOEhzzCsWwpBf8Jse9IGAzReVNwLMDPhts9hsAt8SyHyNznH42XdKgkBx8v1Zizu+mw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -10945,7 +10933,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-Rf6o8/lxyw7uMUGSVMh7YKQBzbjHjmwjMpjson0x8udo4uck5/25+NsmUj6k4ETod5o0i6jCSfYRCEfJkop6Cg==
+      integrity: sha512-NL8KNJp3Ptd7Jd/rPYczYkiqbowUGmvz3gn4O7TPbhpFxJjAlPGn8TF75/uijtk9tUnHZWy6YHHxLUijdPeALA==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11159,7 +11147,6 @@ specifiers:
   '@types/debug': ^4.1.4
   '@types/express': ^4.16.0
   '@types/fast-json-stable-stringify': ^2.0.0
-  '@types/fetch-mock': ^7.3.1
   '@types/fs-extra': ^8.0.0
   '@types/glob': ^7.1.1
   '@types/is-buffer': ^2.0.0
@@ -11213,7 +11200,7 @@ specifiers:
   execa: ^3.3.0
   express: ^4.16.3
   fast-json-stable-stringify: ^2.0.0
-  fetch-mock: ^7.3.9
+  fetch-mock: ^8.0.0
   form-data: ^3.0.0
   fs-extra: ^8.1.0
   glob: ^7.1.2
