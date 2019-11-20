@@ -1062,8 +1062,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCount: 5,
       subscriptionCount: 8,
       maxDeliveryCount: 10,
-      // enableExpress: true,
 
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+
+      // enableExpress: true,
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
       // maxCorrelationFiltersPerTopic: 5,
@@ -1103,6 +1106,10 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxSubscriptionsPerTopic: undefined,
       maxSqlFiltersPerTopic: undefined,
       maxCorrelationFiltersPerTopic: undefined,
+
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
       // maxCorrelationFiltersPerTopic: 5,
@@ -1111,6 +1118,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableExpress: false,
       authorizationRules: undefined,
 
+      // Following properties don't get set as expected
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
