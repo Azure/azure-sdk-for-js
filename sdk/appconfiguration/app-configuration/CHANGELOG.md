@@ -1,3 +1,7 @@
+# 1.0.0-preview.8 (TBD)
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 # 1.0.0-preview.7 (2019-11-01)
 
 - Updated to use the latest versions of the `@azure/core-*` packages

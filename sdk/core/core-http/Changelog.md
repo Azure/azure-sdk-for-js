@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 - TBD
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ## 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/core-http` package.
