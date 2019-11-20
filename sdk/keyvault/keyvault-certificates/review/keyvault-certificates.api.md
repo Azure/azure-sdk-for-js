@@ -107,13 +107,16 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
 
 // @public
 export interface CertificateIssuer {
+    accountId?: string;
     administratorContacts?: AdministratorContact[];
     createdOn?: Date;
     credentials?: IssuerCredentials;
     enabled?: boolean;
     id?: string;
+    issuerProperties?: IssuerProperties;
     name?: string;
     organizationId?: string;
+    password?: string;
     provider?: string;
     updatedOn?: Date;
 }
@@ -299,6 +302,7 @@ export interface IssuerParameters {
 // @public
 export interface IssuerProperties {
     id?: string;
+    name?: string;
     provider?: string;
 }
 

@@ -548,13 +548,17 @@ export interface UpdateCertificatePolicyOptions
     coreHttp.OperationOptions {}
 
 /**
- * An interface representing the issuer of a certificate
+ * An interface representing the properties of a certificate issuer
  */
 export interface IssuerProperties {
   /**
    * Certificate Identifier.
    */
   id?: string;
+  /**
+   * Name of the issuer.
+   */
+  name?: string;
   /**
    * The issuer provider.
    */
@@ -590,6 +594,14 @@ export interface CertificateIssuer {
    */
   name?: string;
   /**
+   * The user name/account name/account id.
+   */
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
+  /**
    * The credentials to be used for the issuer.
    */
   credentials?: IssuerCredentials;
@@ -601,6 +613,10 @@ export interface CertificateIssuer {
    * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
+  /**
+   * A small set of useful properties of a certificate issuer
+   */
+  issuerProperties?: IssuerProperties;
 }
 
 /**

@@ -327,19 +327,30 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
 }
 
 function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
+  const parsedId = parseKeyvaultEntityIdentifier("certificates", issuer.id);
+  const attributes: IssuerAttributes = issuer.attributes || {};
+
   const publicIssuer: CertificateIssuer = {
     id: issuer.id,
+    name: parsedId.name,
     provider: issuer.provider,
-    credentials: issuer.credentials
+    accountId: issuer.credentials && issuer.credentials.accountId,
+    password: issuer.credentials && issuer.credentials.password,
+    credentials: issuer.credentials,
+    enabled: attributes.enabled,
+    createdOn: attributes.created,
+    updatedOn: attributes.updated
   };
+
+  publicIssuer.issuerProperties = {
+    id: publicIssuer.id,
+    name: parsedId.name,
+    provider: publicIssuer.provider
+  };
+
   if (issuer.organizationDetails) {
     publicIssuer.organizationId = issuer.organizationDetails.id;
     publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails;
-  }
-  if (issuer.attributes) {
-    publicIssuer.enabled = issuer.attributes.enabled;
-    publicIssuer.createdOn = issuer.attributes.created;
-    publicIssuer.updatedOn = issuer.attributes.updated;
   }
   return publicIssuer;
 }
@@ -864,8 +875,19 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("createIssuer", requestOptions);
+    const properties: IssuerProperties = requestOptions.properties || {};
+    const credentials: IssuerCredentials = requestOptions.credentials || {};
 
-    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = requestOptions;
+    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      ...requestOptions,
+      id: properties.id || requestOptions.id,
+      provider: properties.provider || requestOptions.provider
+    };
+
+    generatedOptions.credentials = {
+      accountId: credentials.accountId || requestOptions.accountId,
+      password: credentials.password || requestOptions.password
+    };
 
     if (
       options.organizationId ||
@@ -877,7 +899,7 @@ export class CertificateClient {
       };
     }
 
-    if (options.enabled) {
+    if (options.enabled !== undefined) {
       generatedOptions.attributes = {
         enabled: options.enabled
       };
@@ -920,8 +942,19 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateIssuer", requestOptions);
+    const properties: IssuerProperties = requestOptions.properties || {};
+    const credentials: IssuerCredentials = requestOptions.credentials || {};
 
-    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = requestOptions;
+    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      ...requestOptions,
+      id: properties.id || requestOptions.id,
+      provider: properties.provider || requestOptions.provider
+    };
+
+    generatedOptions.credentials = {
+      accountId: credentials.accountId || requestOptions.accountId,
+      password: credentials.password || requestOptions.password
+    };
 
     if (
       options.organizationId ||
