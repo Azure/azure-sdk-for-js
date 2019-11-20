@@ -1,5 +1,9 @@
 # Changelog
 
+## TBD 12.0.1
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ## 2019.11 12.0.0
 
 - This release marks the general availability of the `@azure/storage-queue` package.
