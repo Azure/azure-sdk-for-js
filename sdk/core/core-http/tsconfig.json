@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "module": "es6",
     "outDir": "es",
     "target": "es5",
     "lib": [
