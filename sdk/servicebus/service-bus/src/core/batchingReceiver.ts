@@ -63,16 +63,16 @@ export class BatchingReceiver extends MessageReceiver {
    * Receives a batch of messages from a ServiceBus Queue/Topic.
    * @param maxMessageCount The maximum number of messages to receive.
    * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
-   * @param idleTimeoutInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
    * Once this time has elapsed the number of messages collected successfully in given time will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
+  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
-    if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    if (maxWaitTimeInSeconds == null) {
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -310,7 +310,7 @@ export class BatchingReceiver extends MessageReceiver {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          idleTimeoutInSeconds
+          maxWaitTimeInSeconds
         );
         return finalAction();
       };
@@ -369,10 +369,10 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
-          (idleTimeoutInSeconds as number) * 1000
+          (maxWaitTimeInSeconds as number) * 1000
         );
         // TODO: Disabling this for now. We would want to give the user a decent chance to receive
         // the first message and only timeout faster if successive messages from there onwards are
