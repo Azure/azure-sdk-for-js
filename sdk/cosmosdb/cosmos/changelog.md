@@ -454,6 +454,19 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Updated API documentation.
 - Issue [#41](https://github.com/Azure/azure-documentdb-node/issues/41) - client.createDocumentAsync error.
 
+
+Microsoft will provide notification at least **12 months** in advance of retiring an SDK in order to smooth the transition to a newer/supported version.
+
+New features, functionality, and optimizations are only added to the current SDK. So it's recommended that you always upgrade to the latest SDK version as early as possible.
+
+Any request to Cosmos DB using a retired SDK will be rejected by the service.
+
+> [!WARNING]
+> All versions **1.x** of the Cosmos JavaScript SDK for SQL API will be retired on **August 30, 2020**.
+> 
+>
+<br/>
+
 | Version | Release Date | Retirement Date |
 | --- | --- | --- |
 | [3.4.2](#3.4.2) |November 7, 2019 |--- |
