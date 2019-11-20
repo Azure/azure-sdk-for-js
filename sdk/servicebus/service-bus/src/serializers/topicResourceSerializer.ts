@@ -143,7 +143,8 @@ export interface TopicOptions {
   maxSizeInMegabytes?: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection?: boolean;
@@ -180,7 +181,8 @@ export interface TopicOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
 
@@ -203,12 +205,20 @@ export interface TopicOptions {
   maxDeliveryCount?: number;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly
+   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
+   * TTL has expired will either be moved to the subscription’s associated dead-letter
+   * sub-queue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -262,7 +272,8 @@ export interface InternalTopicOptions {
   MaxSizeInMegabytes?: string;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   RequiresDuplicateDetection?: string;
@@ -299,7 +310,8 @@ export interface InternalTopicOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   AutoDeleteOnIdle?: string;
 
@@ -322,12 +334,19 @@ export interface InternalTopicOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit
+   * the TTL from the topic unless they are created explicitly with a smaller TTL. Based on
+   * whether dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DefaultMessageTimeToLive?: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -385,7 +404,8 @@ export interface TopicDetails {
   maxSizeInMegabytes: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span specified
+   * by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection: boolean;
@@ -422,7 +442,8 @@ export interface TopicDetails {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle: string;
 
@@ -445,12 +466,20 @@ export interface TopicDetails {
   maxDeliveryCount?: number;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly with
+   * a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has
+   * expired will either be moved to the subscription’s associated DeadLtterQueue or
+   * will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow: string;
 

@@ -117,6 +117,8 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
 export interface SubscriptionOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   lockDuration?: string;
 
@@ -154,7 +156,11 @@ export interface SubscriptionOptions {
   enableBatchedOperations?: boolean;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether dead-lettering
+   * is enabled, a message whose TTL has expired will either be moved to the subscription’s
+   * associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
 
@@ -166,7 +172,8 @@ export interface SubscriptionOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
 
@@ -210,6 +217,8 @@ export interface SubscriptionOptions {
 export interface InternalSubscriptionOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   LockDuration?: string;
 
@@ -247,7 +256,11 @@ export interface InternalSubscriptionOptions {
   EnableBatchedOperations?: string;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether dead-lettering
+   * is enabled, a message whose TTL has expired will either be moved to the subscription’s
+   * associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DefaultMessageTimeToLive?: string;
 
@@ -259,7 +272,8 @@ export interface InternalSubscriptionOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   AutoDeleteOnIdle?: string;
 
@@ -311,7 +325,10 @@ export interface SubscriptionDetails {
   topicName: string;
 
   /**
-   * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
+   * The default lock duration is applied to subscriptions that do not define a lock duration.
+   * Settable only at subscription creation time.
+   * This is specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   lockDuration: string;
 
@@ -349,7 +366,11 @@ export interface SubscriptionDetails {
   enableBatchedOperations: boolean;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether dead-lettering
+   * is enabled, a message whose TTL has expired will either be moved to the subscription’s
+   * associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
 
@@ -360,8 +381,9 @@ export interface SubscriptionDetails {
   defaultRuleDescription?: any;
 
   /**
-   * Max idle time before entity is deleted
-   *
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle: string;
 

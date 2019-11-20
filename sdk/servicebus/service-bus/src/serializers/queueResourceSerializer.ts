@@ -120,7 +120,11 @@ export function buildQueue(rawQueue: any): QueueDetails {
  */
 export interface QueueOptions {
   /**
-   * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
+   * Determines the amount of time in seconds in which a message should be locked for
+   * processing by a receiver. After this period, the message is unlocked and available
+   * for consumption by the next receiver. Settable only at queue creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   lockDuration?: string;
 
@@ -131,23 +135,31 @@ export interface QueueOptions {
   sizeInBytes?: number;
 
   /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
+   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that
+   * will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes?: number;
 
   /**
    * The entity's message count.
-   *
    */
   messageCount?: number;
 
   /**
-   * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
+   * Depending on whether DeadLettering is enabled, a message is automatically moved to the
+   * DeadLetterQueue or deleted if it has been stored in the queue for longer than the
+   * specified time.This value is overwritten by a TTL specified on the message if and only
+   * if the message TTL is smaller than the TTL set on the queue. This value is immutable
+   * after the Queue has been created.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -159,18 +171,20 @@ export interface QueueOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
-   *
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
    */
   maxDeliveryCount?: number;
 
   /**
-   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
    * Settable only at queue creation time.
    */
   requiresSession?: boolean;
@@ -181,13 +195,17 @@ export interface QueueOptions {
   enableBatchedOperations?: boolean;
 
   /**
-   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   requiresDuplicateDetection?: boolean;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
    */
   deadLetteringOnMessageExpiration?: boolean;
 
@@ -218,7 +236,11 @@ export interface QueueOptions {
  */
 export interface InternalQueueOptions {
   /**
-   * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
+   * Determines the amount of time in seconds in which a message should be locked for
+   * processing by a receiver. After this period, the message is unlocked and
+   * available for consumption by the next receiver. Settable only at queue creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   LockDuration?: string;
 
@@ -241,12 +263,20 @@ export interface InternalQueueOptions {
   MessageCount?: string;
 
   /**
-   * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
+   * Depending on whether DeadLettering is enabled, a message is automatically moved to
+   * the DeadLetterQueue or deleted if it has been stored in the queue for longer than
+   * the specified time. This value is overwritten by a TTL specified on the message
+   * if and only if the message TTL is smaller than the TTL set on the queue.
+   * This value is immutable after the Queue has been created.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DefaultMessageTimeToLive?: string;
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -258,12 +288,14 @@ export interface InternalQueueOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   AutoDeleteOnIdle?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
    *
    */
   MaxDeliveryCount?: string;
@@ -274,7 +306,8 @@ export interface InternalQueueOptions {
   EnablePartitioning?: string;
 
   /**
-   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
    * Settable only at queue creation time.
    */
   RequiresSession?: string;
@@ -285,13 +318,17 @@ export interface InternalQueueOptions {
   EnableBatchedOperations?: string;
 
   /**
-   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   *  If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   RequiresDuplicateDetection?: string;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
    */
   DeadLetteringOnMessageExpiration?: string;
 
@@ -331,7 +368,12 @@ export interface QueueDetails {
   queueName: string;
 
   /**
-   * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
+   * Determines the amount of time in seconds in which a message should be locked
+   * for processing by a receiver. After this period, the message is unlocked and
+   * available for consumption by the next receiver.
+   * Settable only at queue creation time.
+   * This is specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   lockDuration: string;
 
@@ -342,7 +384,8 @@ export interface QueueDetails {
   sizeInBytes: number;
 
   /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
+   * Specifies the maximum queue size in megabytes. Any attempt to enqueue
+   * a message that will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes: number;
 
@@ -353,12 +396,21 @@ export interface QueueDetails {
   messageCount: number;
 
   /**
-   * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
+   * Depending on whether DeadLettering is enabled, a message is automatically
+   * moved to the DeadLetterQueue or deleted if it has been stored in the queue
+   * for longer than the specified time. This value is overwritten by a TTL
+   * specified on the message if and only if the message TTL is smaller than
+   * the TTL set on the queue.
+   * This value is immutable after the Queue has been created.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl: string;
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow: string;
 
@@ -370,18 +422,21 @@ export interface QueueDetails {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount: number;
 
   /**
-   * If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
    * Settable only at queue creation time.
    */
   requiresSession: boolean;
@@ -392,13 +447,16 @@ export interface QueueDetails {
   enableBatchedOperations: boolean;
 
   /**
-   *  If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   *  If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at queue creation time.
    */
   requiresDuplicateDetection: boolean;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the queue. Settable only at queue creation time.
    */
   deadLetteringOnMessageExpiration: boolean;
 
