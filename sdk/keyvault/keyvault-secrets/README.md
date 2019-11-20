@@ -1,10 +1,7 @@
 # Azure Key Vault Secret client library for JS
 
-Azure Key Vault is a service that allows you to encrypt authentication keys,
-storage account keys, data encryption keys, .pfx files, and passwords by using
-keys that are protected by hardware security modules (HSMs). If you would like
-to know more about Azure Key Vault, you may want to review "[What is Azure Key
-Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
+Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
@@ -370,12 +367,39 @@ async function main() {
   // You can use the deleted secret immediately:
   let deletedSecret = poller.getResult();
 
-  await poller.poll(); // On each poll, the poller checks whether the secret has been deleted or not.
-  console.log(poller.isDone()) // The poller will be done once the secret is fully deleted.
-
-  // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+  // Or you can wait until the secret finishes being deleted:
   deletedSecret = await poller.pollUntilDone();
   console.log(deletedSecret);
+}
+
+main();
+```
+
+Another way to wait until the secret is fully deleted is to do individual calls, as follows:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { delay } = require("@azure/core-http");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+const client = new SecretClient(url, credential);
+
+const secretName = "MySecretName";
+
+async function main() {
+  const poller = await client.beginDeleteSecret(secretName);
+
+  while (!poller.isDone()) {
+    await poller.poll();
+    await delay(5000);
+  }
+
+  console.log(`The secret ${secretName} is fully deleted`);
 }
 
 main();
@@ -498,21 +522,11 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 To run our tests, first install the dependencies (with `npm install` or `rush install`),
 then run the unit tests with: `npm run unit-test`.
-Our unit tests that target the behavior of our library against remotely
-available endpoints are executed using previously recorded HTTP request and
+
+Some of our tests aim to reproduce the behavior of our library against remotely
+available endpoints. These are executed using previously recorded HTTP request and
 responses.
 
-Our integration tests will run against the live resources, which are determined
-by the environment variables you provide. To run the integration tests, you can
-run `npm run integration-test`, but make sure to provide the following
-environment variables:
-
-- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
-- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
-- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
-- `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
-
-**WARNING:**
-Integration tests will wipe all of the existing records in the targeted Key Vault.
+You can read more about the tests of this project [here](test/README.md).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2FREADME.png)

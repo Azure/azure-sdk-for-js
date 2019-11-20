@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Span } from "../../interfaces/span";
-import { SpanContext } from "../../interfaces/span_context";
-import { Attributes } from "../../interfaces/attributes";
-import { Status } from "../../interfaces/status";
+import { Span, SpanContext, Attributes, Status } from "@opentelemetry/types";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
  */
 export class NoOpSpan implements Span {
-
   /**
    * Returns the SpanContext associated with this Span.
    */
@@ -56,15 +52,6 @@ export class NoOpSpan implements Span {
   }
 
   /**
-   * Adds a link to the Span.
-   * @param _spanContext the context of the linked span
-   * @param _attributes attributes to be added that are associated with the link
-   */
-  addLink(_spanContext: SpanContext, _attributes?: Attributes): this {
-    return this;
-  }
-
-  /**
    * Sets a status on the span. Overrides the default of CanonicalCode.OK.
    * @param _status The status to set.
    */
@@ -83,7 +70,7 @@ export class NoOpSpan implements Span {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     return false;
   }
 }

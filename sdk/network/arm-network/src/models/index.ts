@@ -6378,6 +6378,10 @@ export interface ConnectivityParameters {
    * Configuration of the protocol.
    */
   protocolConfiguration?: ProtocolConfiguration;
+  /**
+   * Preferred IP version of the connection. Possible values include: 'IPv4', 'IPv6'
+   */
+  preferredIPVersion?: IPVersion;
 }
 
 /**

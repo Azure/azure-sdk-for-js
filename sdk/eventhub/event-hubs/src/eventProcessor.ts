@@ -132,19 +132,25 @@ export interface PartitionManager {
 }
 
 /**
- * Common options for configuring `EventProcessor`, minus options that are only 
- * used internally (like `partitionLoadBalancer`)
+ * Configures batch related options for the event processor
  */
-export interface EventProcessorOptions {
+export interface EventProcessorBatchOptions {
   /**
    * The max size of the batch of events passed each time to user code for processing.
    */
-  maxBatchSize: number;
+  maxBatchSize?: number;
   /**
    * The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
-  maxWaitTimeInSeconds: number;
+  maxWaitTimeInSeconds?: number;
+}
+
+/**
+ * Common options for configuring `EventProcessor`, minus options that are only 
+ * used internally (like `partitionLoadBalancer`)
+ */
+export interface EventProcessorOptions {
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
@@ -166,7 +172,6 @@ export interface EventProcessorOptions {
   defaultEventPosition?: EventPosition;  
 }
 
-
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
  * You can specify
@@ -183,7 +188,7 @@ export interface EventProcessorOptions {
   * ```
   * @internal
   */
-export interface FullEventProcessorOptions extends EventProcessorOptions {
+export interface FullEventProcessorOptions extends EventProcessorOptions, Required<EventProcessorBatchOptions> {
   /**
    * A load balancer to use
    */
@@ -324,7 +329,7 @@ export class EventProcessor {
       partitionProcessor.partitionManager = this._partitionManager;
       partitionProcessor.eventProcessorId = this.id;
 
-      const eventPosition = ownershipRequest.sequenceNumber
+      const eventPosition = ownershipRequest.sequenceNumber != null
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
         : (this._processorOptions.defaultEventPosition || EventPosition.earliest());
 

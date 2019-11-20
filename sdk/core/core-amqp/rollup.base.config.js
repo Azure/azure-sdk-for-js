@@ -11,7 +11,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import inject from "rollup-plugin-inject";
 import shim from "rollup-plugin-shim";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies).concat(Object.keys(pkg.peerDependencies));

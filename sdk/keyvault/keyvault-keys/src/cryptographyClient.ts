@@ -1,5 +1,10 @@
-import { JsonWebKey, GetKeyOptions, CryptographyOptions, KeyVaultKey } from "./keysModels";
-import { JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm } from "./core/models";
+import {
+  JsonWebKey,
+  GetKeyOptions,
+  CryptographyOptions,
+  KeyVaultKey,
+  EncryptionAlgorithm
+} from "./keysModels";
 import {
   TokenCredential,
   isNode,
@@ -11,7 +16,8 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 
-import { getTracer, Span } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -610,7 +616,7 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  private readonly vaultUrl: string;
+  public readonly vaultUrl: string;
 
   /**
    * @internal
@@ -759,7 +765,7 @@ export class CryptographyClient {
    * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecordingEvents()) {
+    if (span.isRecording()) {
       return {
         ...options,
         spanOptions: {
@@ -917,43 +923,36 @@ export type SignatureAlgorithm =
   | "ES256K";
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link encrypt}.
+ * Options for {@link encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link decrypt}.
+ * Options for {@link decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link sign}.
+ * Options for {@link sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link verify}.
+ * Options for {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link wrapKey}.
+ * Options for {@link wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * @interface
- * An interface representing the optional parameters that can be passed to {@link unwrapKey}.
+ * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
- * @interface
  * Result of the {@link decrypt} operation.
  */
 export interface DecryptResult {
@@ -972,7 +971,6 @@ export interface DecryptResult {
 }
 
 /**
- * @interface
  * Result of the {@link encrypt} operation.
  */
 export interface EncryptResult {
@@ -991,7 +989,6 @@ export interface EncryptResult {
 }
 
 /**
- * @interface
  * Result of the {@link sign} operation.
  */
 export interface SignResult {
@@ -1010,7 +1007,6 @@ export interface SignResult {
 }
 
 /**
- * @interface
  * Result of the {@link verify} operation.
  */
 export interface VerifyResult {
@@ -1025,7 +1021,6 @@ export interface VerifyResult {
 }
 
 /**
- * @interface
  * Result of the {@link wrap} operation.
  */
 export interface WrapResult {
@@ -1044,7 +1039,6 @@ export interface WrapResult {
 }
 
 /**
- * @interface
  * Result of the {@link unwrap} operation.
  */
 export interface UnwrapResult {

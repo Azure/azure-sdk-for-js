@@ -159,11 +159,11 @@ describe("FileClient Node.js only", () => {
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
-    expiryTime.setDate(expiryTime.getDate() + 1);
+    const expiresOn = recorder.newDate();
+    expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
-        expiryTime,
+        expiresOn,
         shareName,
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r")

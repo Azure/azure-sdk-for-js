@@ -38,8 +38,9 @@ async function main() {
   };
 
   const subscription = consumerClient.subscribe(
-    EventHubConsumerClient.defaultConsumerGroupName,
-    processEvents
+    EventHubConsumerClient.defaultConsumerGroupName, {
+      processEvents: processEvents
+    }
   );
 
   // after 30 seconds, stop processing

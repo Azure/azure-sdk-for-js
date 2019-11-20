@@ -1,18 +1,25 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, isSuperSet } from "./utils";
-import { record } from "./utils/recorder";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  isSuperSet,
+  setupEnvironment
+} from "./utils";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

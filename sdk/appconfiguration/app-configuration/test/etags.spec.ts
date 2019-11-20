@@ -104,7 +104,7 @@ describe("etags", () => {
     assert.ok(!response.etag);
     assert.ok(!response.label);
     assert.ok(!response.lastModified);
-    assert.ok(!response.readOnly);
+    assert.ok(!response.isReadOnly);
     assert.ok(!response.tags);
     assert.ok(!response.value);
 
@@ -142,7 +142,7 @@ describe("etags", () => {
     // etag won't match so we get a precondition failed
     await assertThrowsRestError(
       () =>
-        client.setReadOnly(badEtagSetting, {
+        client.setReadOnly(badEtagSetting, true, {
           onlyIfUnchanged: true
         }),
       412
@@ -150,18 +150,18 @@ describe("etags", () => {
 
     let actualSetting = await client.getConfigurationSetting(badEtagSetting);
     // should not be read-only since it didn't match
-    assert.ok(!actualSetting.readOnly);
+    assert.ok(!actualSetting.isReadOnly);
 
     // and now that the etag matches we should be able to set the
     // key's value to read-onlly
-    await client.setReadOnly(addedSetting, { onlyIfUnchanged: true });
+    await client.setReadOnly(addedSetting, true, { onlyIfUnchanged: true });
     actualSetting = await client.getConfigurationSetting(addedSetting);
-    assert.ok(actualSetting.readOnly);
+    assert.ok(actualSetting.isReadOnly);
 
     // now let's try to clear it (using a bogus etag so it won't match)
     await assertThrowsRestError(
       () =>
-        client.clearReadOnly(badEtagSetting, {
+        client.setReadOnly(badEtagSetting, false, {
           onlyIfUnchanged: true
         }),
       412
@@ -169,16 +169,16 @@ describe("etags", () => {
 
     // ...still readOnly
     actualSetting = await client.getConfigurationSetting(addedSetting);
-    assert.ok(actualSetting.readOnly);
+    assert.ok(actualSetting.isReadOnly);
 
     // now we'll use the right etag (from the setting we just retrieved)
-    await client.clearReadOnly(actualSetting, {
+    await client.setReadOnly(actualSetting, false, {
       onlyIfUnchanged: true
     });
 
     // and now it's no longer readOnly
     actualSetting = await client.getConfigurationSetting(addedSetting);
-    assert.ok(!actualSetting.readOnly);
+    assert.ok(!actualSetting.isReadOnly);
   });
 
   it("delete using etags", async () => {

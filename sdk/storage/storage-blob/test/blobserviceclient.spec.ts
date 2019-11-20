@@ -6,13 +6,15 @@ import {
   getAlternateBSU,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  getTokenBSU
+  getTokenBSU,
+  setupEnvironment
 } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

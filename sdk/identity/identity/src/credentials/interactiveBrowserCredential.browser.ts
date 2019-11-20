@@ -9,7 +9,7 @@ import {
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { logger } from "../util/logging";
 

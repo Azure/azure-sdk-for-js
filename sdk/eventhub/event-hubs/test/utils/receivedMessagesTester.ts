@@ -1,5 +1,5 @@
-import { CloseReason, ReceivedEventData, EventPosition, EventHubProducerClient } from "../../src/";
-import { OptionalEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
+import { CloseReason, ReceivedEventData, EventPosition, EventHubProducerClient, PartitionCheckpointer } from "../../src/";
+import { SubscriptionEventHandlers, SubscriptionOptions } from "../../src/eventHubConsumerClientModels";
 import { PartitionContext } from "../../src/eventProcessor";
 import chai from "chai";
 import { delay } from '@azure/core-amqp';
@@ -15,7 +15,7 @@ interface ReceivedMessages {
  * A simple tester that lets you easily poll for messages and check that they've
  * all been received at least once.
  */
-export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, SubscriptionOptions {
+export class ReceivedMessagesTester implements Required<SubscriptionEventHandlers>, SubscriptionOptions {
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
@@ -43,11 +43,15 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     this.done = false;
   }
 
-  async onReceivedEvents(
+  async processEvents(
     receivedEvents: ReceivedEventData[],
-    context: PartitionContext
+    context: PartitionContext & PartitionCheckpointer
   ): Promise<void> {
     this.contextIsOk(context);
+
+    if (receivedEvents.length > 0) {
+      await context.updateCheckpoint(receivedEvents[receivedEvents.length - 1]);
+    }
 
     for (const event of receivedEvents) {
       this.expectedMessageBodies.delete(event.body);
@@ -58,14 +62,14 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     }
   }
 
-  async onError(error: Error, context: PartitionContext): Promise<void> {
+  async processError(error: Error, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
     if (
       this.multipleConsumers &&
-      error.message.indexOf("New receiver with higher epoch of") >= 0
+      error.name === 'ReceiverDisconnectedError'
     ) {
       return;
     }
@@ -74,7 +78,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     receivedData.lastError = error;
   }
 
-  async onInitialize(context: PartitionContext): Promise<void> {
+  async processInitialize(context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     if (!this.multipleConsumers) {
@@ -92,7 +96,7 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers>, 
     });
   }
 
-  async onClose(reason: CloseReason, context: PartitionContext): Promise<void> {
+  async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     const receivedData = this.get(context.partitionId);

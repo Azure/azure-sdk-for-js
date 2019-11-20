@@ -17,24 +17,24 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificate109088";
-  const certificateName2 = "MyCertificate209088";
+  const certificateName1 = "MyCertificate1";
+  const certificateName2 = "MyCertificate2";
 
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.createCertificate(certificateName1, {
+  await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
-  await client.createCertificate(certificateName2, {
+  await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
 
   // Listing all the available certificates in a single call.
   // The certificates we just created are still pending at this point.
-  let listCertificates = client.listCertificates({ includePending: true });
+  let listPropertiesOfCertificates = client.listPropertiesOfCertificates({ includePending: true });
   while (true) {
-    let { done, value } = await listCertificates.next();
+    let { done, value } = await listPropertiesOfCertificates.next();
     if (done) {
       break;
     }
@@ -43,14 +43,14 @@ async function main() {
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listCertificatesByPage = client.listCertificates({ includePending: true }).byPage();
+  let listPropertiesOfCertificatesByPage = client.listPropertiesOfCertificates({ includePending: true }).byPage();
   while (true) {
-    let { done, value } = await listCertificatesByPage.next();
+    let { done, value } = await listPropertiesOfCertificatesByPage.next();
     if (done) {
       break;
     }
-    for (const certificate of value) {
-      console.log(`Certificate from page ${pageCount}: `, certificate);
+    for (const certificateProperties of value) {
+      console.log(`Certificate properties from page ${pageCount}: `, certificateProperties);
     }
     pageCount++;
   }
@@ -64,22 +64,24 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listCertificateVersions = client.listCertificateVersions(certificateName1, {
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {
     includePending: true
   });
   while (true) {
-    let { done, value } = await listCertificateVersions.next();
+    let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {
       break;
     }
-    const version = value.properties.version;
+    const version = value.version;
     const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
 
   // Deleting both certificates
-  await client.deleteCertificate(certificateName1);
-  await client.deleteCertificate(certificateName2);
+  let deletePoller = await client.beginDeleteCertificate("MyCertificate1");
+  await deletePoller.pollUntilDone();
+  deletePoller = await client.beginDeleteCertificate("MyCertificate2");
+  await deletePoller.pollUntilDone();
 
   let listDeletedCertificates = client.listDeletedCertificates({ includePending: true });
   while (true) {

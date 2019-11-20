@@ -5,7 +5,7 @@
 /// <reference path=".typings/rollup-plugin-visualizer.d.ts" />
 
 import commonjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import visualizer from "rollup-plugin-visualizer";
@@ -40,6 +40,7 @@ const nodeConfig = {
     sourcemap: true,
     banner
   },
+  preserveSymlinks: false,
   plugins: [
     nodeResolve({
       mainFields: ["module", "main"]
@@ -67,11 +68,16 @@ const browserConfig = {
     sourcemap: true,
     banner
   },
+  preserveSymlinks: false,
   plugins: [
     nodeResolve({
       mainFields: ["module", "browser"]
     }),
-    commonjs(),
+    commonjs({
+      namedExports: {
+        "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+      }
+    }),
     sourcemaps(),
     visualizer({
       filename: "dist/browser-stats.html",

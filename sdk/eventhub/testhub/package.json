@@ -15,6 +15,7 @@
     "build": "tsc",
     "check-format": "echo skipped",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "execute:samples": "echo skipped",
     "format": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -45,6 +46,6 @@
     "tslib": "^1.9.3",
     "typescript": "~3.6.4",
     "uuid": "^3.3.2",
-    "yargs": "^14.0.0"
+    "yargs": "^15.0.0"
   }
 }

@@ -27,4 +27,4 @@ export const DEFAULT_LANGUAGE = "en-us";
  * @const
  * @type {string}
  */
-export const coreArmVersion = "1.0.0-preview.6";
+export const coreArmVersion = "1.0.0-preview.8";

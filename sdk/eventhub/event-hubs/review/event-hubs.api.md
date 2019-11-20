@@ -17,8 +17,8 @@ import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/types';
+import { SpanContext } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -99,9 +99,9 @@ export class EventHubConsumerClient {
     getPartitionIds(): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionId: string, options?: SubscriptionOptions): Subscription;
-    subscribe(consumerGroupName: string, onReceivedEvents: OnReceivedEvents, partitionManager: PartitionManager, options?: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionId: string, options: SubscriptionOptions): Subscription;
+    subscribe(consumerGroupName: string, partitionManager: PartitionManager, options: SubscriptionOptions): Subscription;
 }
 
 // @public
@@ -157,10 +157,14 @@ export class EventPosition {
     }
 
 // @public
+export interface EventProcessorBatchOptions {
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
+}
+
+// @public
 export interface EventProcessorOptions {
     defaultEventPosition?: EventPosition;
-    maxBatchSize: number;
-    maxWaitTimeInSeconds: number;
     trackLastEnqueuedEventInfo?: boolean;
 }
 
@@ -195,25 +199,6 @@ export interface LastEnqueuedEventInfo {
 }
 
 export { MessagingError }
-
-// @public
-export type OnCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
-
-// @public
-export type OnErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
-
-// @public
-export type OnInitializeHandler = (context: PartitionContext) => Promise<void>;
-
-// @public
-export type OnReceivedEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
-
-// @public
-export interface OptionalEventHandlers {
-    onClose?: OnCloseHandler;
-    onError?: OnErrorHandler;
-    onInitialize?: OnInitializeHandler;
-}
 
 // @public
 export interface ParentSpanOptions {
@@ -264,6 +249,18 @@ export interface PartitionProperties {
 }
 
 // @public
+export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+
+// @public
+export type ProcessEvents = (receivedEvents: ReceivedEventData[], context: PartitionContext & PartitionCheckpointer) => Promise<void>;
+
+// @public
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
+
+// @public
 export interface ReceivedEventData {
     body: any;
     enqueuedTimeUtc: Date;
@@ -293,7 +290,15 @@ export interface Subscription {
 }
 
 // @public
-export interface SubscriptionOptions extends OptionalEventHandlers, EventProcessorOptions {
+export interface SubscriptionEventHandlers {
+    processClose?: ProcessCloseHandler;
+    processError?: ProcessErrorHandler;
+    processEvents: ProcessEvents;
+    processInitialize?: ProcessInitializeHandler;
+}
+
+// @public
+export interface SubscriptionOptions extends SubscriptionEventHandlers, EventProcessorOptions, EventProcessorBatchOptions {
 }
 
 export { TokenCredential }

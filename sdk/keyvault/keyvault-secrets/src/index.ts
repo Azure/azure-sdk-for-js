@@ -12,7 +12,8 @@ import {
   createPipelineFromOptions
 } from "@azure/core-http";
 
-import { getTracer, Span } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
 
 import "@azure/core-paging";
@@ -57,7 +58,7 @@ import {
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
   ListDeletedSecretsOptions,
-  SecretProperties,
+  SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -245,7 +246,7 @@ export class SecretClient {
 
   /**
    * Deletes a secret stored in Azure Key Vault.
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is deleted.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the secret is deleted.
    *
    * This operation requires the secrets/delete permission.
    *
@@ -454,7 +455,7 @@ export class SecretClient {
 
   /**
    * Recovers the deleted secret in the specified vault.
-   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is recovered.
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the secret is recovered.
    *
    * This operation requires the secrets/recover permission.
    *
@@ -1007,7 +1008,7 @@ export class SecretClient {
    * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecordingEvents()) {
+    if (span.isRecording()) {
       return {
         ...options,
         spanOptions: {

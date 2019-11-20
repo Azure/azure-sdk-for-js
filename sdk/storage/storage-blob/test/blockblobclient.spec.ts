@@ -1,14 +1,21 @@
 import * as assert from "assert";
 
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { base64encode, bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  base64encode,
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -16,7 +23,7 @@ describe("BlockBlobClient", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -210,6 +217,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("can be created with a sas connection string", async () => {
+    recorder.skip("node", "SAS token is not handled in playback");
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,

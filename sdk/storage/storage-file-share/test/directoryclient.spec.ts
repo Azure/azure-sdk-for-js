@@ -747,4 +747,16 @@ describe("DirectoryClient", () => {
       "Account name is not the same as the one provided."
     );
   });
+
+  it("verify DirectoryClient name matches file name", async () => {
+    const accountName = "myaccount";
+    const newClient = new ShareDirectoryClient(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}`
+    );
+    assert.equal(
+      newClient.name,
+      dirName,
+      "DirectoryClient name is not the same as the baseName of the provided directory URI"
+    );
+  });
 });

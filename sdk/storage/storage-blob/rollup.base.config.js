@@ -53,7 +53,13 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {
@@ -135,10 +141,17 @@ export function browserConfig(test = false, production = false) {
             "deepStrictEqual",
             "notDeepEqual",
             "notDeepStrictEqual"
-          ]
+          ],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {

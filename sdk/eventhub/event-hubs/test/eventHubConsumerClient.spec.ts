@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient, SubscriptionOptions, Subscription } from "../src";
+import { InMemoryPartitionManager, EventHubProducerClient, Subscription } from "../src";
 import { EventHubClient } from "../src/eventHubClient";
 import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -9,13 +9,14 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
 import { LogTester } from "./utils/logTester";
+import { EventProcessorBatchOptions } from '../src/eventProcessor';
 
 const should = chai.should();
 const env = getEnvVars();
 
 // setting these to be really small since our tests deal with a
 // very low volume of messages.
-const defaultSubscriptionOptions: SubscriptionOptions = {
+const defaultSubscriptionOptions: EventProcessorBatchOptions = {
   maxBatchSize: 1,
   maxWaitTimeInSeconds: 10
 };
@@ -25,11 +26,11 @@ describe("EventHubConsumerClient", () => {
     it("isPartitionManager", () => {
       isPartitionManager({
         ...defaultSubscriptionOptions,
-        onClose: async () => {}
+        processEvents: async () => { },
+        processClose: async () => {}
       }).should.not.ok;
 
-      isPartitionManager(undefined).should.not.ok;
-      isPartitionManager(["hello"]).should.not.ok;
+      isPartitionManager("hello").should.not.ok;
 
       isPartitionManager(new InMemoryPartitionManager()).should.ok;
     });
@@ -90,7 +91,6 @@ describe("EventHubConsumerClient", () => {
 
       const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
         "0",
         tester
       );
@@ -116,7 +116,6 @@ describe("EventHubConsumerClient", () => {
 
       const subscription = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
         tester
       );
 
@@ -144,12 +143,6 @@ describe("EventHubConsumerClient", () => {
 
       const subscriber1 = await client.subscribe(
         EventHubClient.defaultConsumerGroupName,
-        async (events, context) => {
-          if (events.length > 0) {
-            await context.updateCheckpoint(events[events.length - 1]);
-          }
-          return tester.onReceivedEvents(events, context);
-        },
         inMemoryPartitionManager,
         tester
       );
@@ -158,13 +151,6 @@ describe("EventHubConsumerClient", () => {
 
       const subscriber2 = await client.subscribe(
          EventHubClient.defaultConsumerGroupName,
-        async (events, context) => {
-          if (events.length > 0) {
-            await context.updateCheckpoint(events[events.length - 1]);
-          }
-
-          return tester.onReceivedEvents(events, context);
-        },
          inMemoryPartitionManager,
          tester
       );
