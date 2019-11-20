@@ -107,10 +107,13 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
 
 // @public
 export interface CertificateIssuer {
+    administratorContacts?: AdministratorContact[];
     createdOn?: Date;
+    credentials?: IssuerCredentials;
     enabled?: boolean;
     id?: string;
     name?: string;
+    organizationId?: string;
     provider?: string;
     updatedOn?: Date;
 }
@@ -200,7 +203,11 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export interface CreateIssuerOptions extends KeyVaultClientSetCertificateIssuerOptionalParams, coreHttp.OperationOptions {
+export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+    administratorContacts?: AdministratorContact[];
+    credentials?: IssuerCredentials;
+    enabled?: boolean;
+    organizationId?: string;
 }
 
 // @public
@@ -419,7 +426,8 @@ export interface UpdateCertificatePolicyOptions extends CertificateProperties, c
 }
 
 // @public
-export interface UpdateIssuerOptions extends KeyVaultClientUpdateCertificateIssuerOptionalParams, coreHttp.OperationOptions {
+export interface UpdateIssuerOptions extends CreateIssuerOptions {
+    provider?: string;
 }
 
 // @public

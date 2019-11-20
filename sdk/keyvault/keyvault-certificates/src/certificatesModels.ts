@@ -1,11 +1,11 @@
 import * as coreHttp from "@azure/core-http";
 import {
+  AdministratorDetails as AdministratorContact,
   CertificateOperation,
   DeletionRecoveryLevel,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
   LifetimeAction,
-  KeyUsageType
+  KeyUsageType,
+  IssuerCredentials
 } from "./core/models";
 
 /**
@@ -459,9 +459,24 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {}
 /**
  * Options for {@link createIssuer}.
  */
-export interface CreateIssuerOptions
-  extends KeyVaultClientSetCertificateIssuerOptionalParams,
-    coreHttp.OperationOptions {}
+export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+  /**
+   * The credentials to be used for the issuer.
+   */
+  credentials?: IssuerCredentials;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
+  /**
+   * Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+}
 
 /**
  * Options for {@link purgeDeletedCertificate}.
@@ -471,9 +486,12 @@ export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOption
 /**
  * Options for {@link updateIssuer}.
  */
-export interface UpdateIssuerOptions
-  extends KeyVaultClientUpdateCertificateIssuerOptionalParams,
-    coreHttp.OperationOptions {}
+export interface UpdateIssuerOptions extends CreateIssuerOptions {
+  /**
+   * The issuer provider.
+   */
+  provider?: string;
+}
 
 /**
  * Options for {@link getContacts}.
@@ -571,6 +589,18 @@ export interface CertificateIssuer {
    * Name of the issuer
    */
   name?: string;
+  /**
+   * The credentials to be used for the issuer.
+   */
+  credentials?: IssuerCredentials;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
 }
 
 /**

@@ -328,21 +328,23 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.createIssuer(issuerName, "Test", {
+    const createResponse = await client.createIssuer(issuerName, "Test", {
       credentials: {
         accountId: "keyvaultuser"
       },
-      organizationDetails: {
-        adminDetails: [
-          {
-            firstName: "John",
-            lastName: "Doe",
-            emailAddress: "admin@microsoft.com",
-            phone: "4255555555"
-          }
-        ]
-      }
+      administratorContacts: [
+        {
+          firstName: "John",
+          lastName: "Doe",
+          emailAddress: "admin@microsoft.com",
+          phone: "4255555555"
+        }
+      ]
     });
+    assert.equal(
+      createResponse.administratorContacts![0].emailAddress,
+      "admin@microsoft.com"
+    );
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(
@@ -366,20 +368,18 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Update
     await client.updateIssuer(issuerName, {
-      organizationDetails: {
-        adminDetails: [
-          {
-            firstName: "John",
-            lastName: "Doe",
-            emailAddress: "admin@microsoft.com",
-            phone: "4255555555"
-          }
-        ]
-      }
+      administratorContacts: [
+        {
+          firstName: "John",
+          lastName: "Doe",
+          emailAddress: "admin@microsoft.com",
+          phone: "4255555555"
+        }
+      ]
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(
-      getResponse.organizationDetails.adminDetails[0].emailAddress,
+      getResponse.administratorContacts![0].emailAddress,
       "admin@microsoft.com"
     );
 
