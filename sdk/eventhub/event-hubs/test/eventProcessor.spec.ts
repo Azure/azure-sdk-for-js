@@ -816,6 +816,8 @@ describe("Event Processor", function(): void {
           timeBetweenRunsMs: 5000,
           until: async () => Boolean(thrashAfterSettling)
         });
+      } catch (err) {
+        // swallow error, check trashAfterSettling for the condition in finally
       } finally {
         await Promise.all([
           processor1.stop(),
