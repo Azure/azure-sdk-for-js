@@ -5,8 +5,9 @@
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
   of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
 
-  Checkpointing allows your application to be more resilient. By providing a durable store your application
-  can crash (or stop) and start consuming events from where it last checkpointed.
+  Checkpointing using a durable store allows your application to be more resilient. When you restart
+  your application after a crash (or an intentional stop), your application can continue consuming
+  events from where it last checkpointed.
   
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
