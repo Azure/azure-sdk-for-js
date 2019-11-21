@@ -735,6 +735,95 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-0`].id)!.length.should.oneOf([n, n + 1]);
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
+
+    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds({});
+      const checkpointStore = new InMemoryCheckpointStore();
+      const claimedPartitionsSet = new Set<string>();
+      
+      let allPartitionsClaimed = false;
+      let thrashAfterSettling = false;
+      const handlers: SubscriptionEventHandlers = {
+        async processInitialize(context) {
+          // For this test we don't want to actually checkpoint, just test ownership.
+          context.setStartPosition(EventPosition.latest());
+          if (allPartitionsClaimed) {
+            thrashAfterSettling = true;
+            return;
+          }
+          claimedPartitionsSet.add(context.partitionId);
+        },
+        async processEvent() {},
+        async processClose(reason, context) {
+          if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
+            thrashAfterSettling = true;
+          }
+        }
+      };
+
+      const processor1 = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        handlers,
+        checkpointStore,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 5
+        }
+      );
+
+      const processor2 = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        handlers,
+        checkpointStore,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 5
+        }
+      );
+
+      processor1.start();
+      processor2.start();
+
+      // loop until all partitions are claimed
+      try {
+        await loopUntil({
+          name: "partitionOwnership",
+          maxTimes: 15,
+          timeBetweenRunsMs: 5000,
+          until: async () => claimedPartitionsSet.size === partitionIds.length
+        });
+      } catch (err) {
+        // close processors
+        await Promise.all([
+          processor1.stop(),
+          processor2.stop()
+        ]);
+        throw err;
+      }
+      
+
+      allPartitionsClaimed = true;
+
+      try {
+        // loop for some time to see if thrashing occurs
+        await loopUntil({
+          name: "partitionThrash",
+          maxTimes: 10,
+          timeBetweenRunsMs: 5000,
+          until: async () => Boolean(thrashAfterSettling)
+        });
+      } finally {
+        await Promise.all([
+          processor1.stop(),
+          processor2.stop()
+        ]);
+        should.equal(thrashAfterSettling, false, "Detected PartitionOwnership thrashing after load-balancing has settled.");
+      }
+    });
   });
 
   describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
