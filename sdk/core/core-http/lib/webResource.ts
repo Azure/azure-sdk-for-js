@@ -9,7 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions } from "@opentelemetry/types";
 
 export type HttpMethods =
   | "GET"

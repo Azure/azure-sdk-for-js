@@ -1,25 +1,27 @@
-import { CloseReason, ReceivedEventData, delay, EventPosition, EventHubProducerClient } from "../../src/";
-import { OptionalEventHandlers } from "../../src/eventHubConsumerClientModels";
-import { PartitionContext } from "../../src/eventProcessor";
+import { CloseReason, ReceivedEventData, EventHubProducerClient, EventPosition } from "../../src/";
+import {
+  SubscriptionEventHandlers,
+  PartitionContext,
+  InitializationContext
+} from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
+import { delay } from "@azure/core-amqp";
 
 const should = chai.should();
 
 interface ReceivedMessages {
   closeReason?: CloseReason;
-  errors: Error[];
+  lastError?: Error;
 }
 
 /**
  * A simple tester that lets you easily poll for messages and check that they've
  * all been received at least once.
  */
-export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
+export class ReceivedMessagesTester implements Required<SubscriptionEventHandlers> {
   private data: Map<string, ReceivedMessages>;
   private expectedMessageBodies: Set<string>;
   public done: boolean;
-
-  public defaultEventPosition: EventPosition = EventPosition.latest();
 
   /**
    * Creates a ReceivedMessagesTester
@@ -31,66 +33,65 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
    *                      about errors that occur and concentrate on making sure all expected
    *                      messages are received at least once.
    */
-  constructor(
-    private expectedPartitions: string[],
-    private multipleConsumers: boolean
-  ) {
+  constructor(private expectedPartitions: string[], private multipleConsumers: boolean) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();
     this.done = false;
   }
 
-  async onReceivedEvents(
-    receivedEvents: ReceivedEventData[],
-    context: PartitionContext
-  ): Promise<void> {
+  async processEvent(event: ReceivedEventData, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
-
-    for (const event of receivedEvents) {
-      this.expectedMessageBodies.delete(event.body);
-    }
+    await context.updateCheckpoint(event);
+    this.expectedMessageBodies.delete(event.body);
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;
     }
   }
 
-  async onError(error: Error, context: PartitionContext): Promise<void> {
+  async processError(error: Error, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
-    if (
-      this.multipleConsumers &&
-      error.message.indexOf("New receiver with higher epoch of") >= 0
-    ) {
+    if (this.multipleConsumers && error.name === "ReceiverDisconnectedError") {
       return;
     }
 
-    const receivedData = this.get(context.partitionId);
-    receivedData.errors.push(error);
+    // partitionId can be undefined in cases where the error is not partition specific - these are typically "system"
+    // level errors and should be considered a fatal error for our tests
+    should.exist(
+      context.partitionId,
+      `Non-partition level errors should definitely not happen : ${error}`
+    );
+
+    if (context.partitionId) {
+      const receivedData = this.get(context.partitionId);
+      receivedData.lastError = error;
+    }
   }
 
-  async onInitialize(context: PartitionContext): Promise<void> {
+  async processInitialize(context: InitializationContext): Promise<void> {
     this.contextIsOk(context);
+
+    context.setStartPosition(EventPosition.latest());
 
     if (!this.multipleConsumers) {
       // this'll happen because for our multi-consumer tests we share the same
       // tester (to make sure that all messages have been received)
       //
       // So it's okay that initialize is called more than once per partition
-      // in that case since the consumers, for a short time, can overlap as 
+      // in that case since the consumers, for a short time, can overlap as
       // load balancing occurs.
       this.data.has(context.partitionId).should.not.be.ok;
     }
 
     this.data.set(context.partitionId, {
-      closeReason: undefined,
-      errors: []
+      closeReason: undefined
     });
   }
 
-  async onClose(reason: CloseReason, context: PartitionContext): Promise<void> {
+  async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
 
     const receivedData = this.get(context.partitionId);
@@ -101,25 +102,22 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
    * Polls until all messages have been received (or until first error)
    */
   async runTestAndPoll(client: EventHubProducerClient): Promise<void> {
-
     // wait until all the partitions have been claimed
     while (this.data.size !== this.expectedPartitions.length) {
-      await delay(1000); 
+      await delay(1000);
     }
 
     let lastExpectedMessageCount = await this.produceMessages(client);
 
     while (!this.done) {
       for (const data of this.data) {
-        if (data[1].errors.length > 0) {
-          throw data[1].errors[0];
+        if (data[1].lastError) {
+          throw data[1].lastError;
         }
       }
 
       if (lastExpectedMessageCount !== this.expectedMessageBodies.size) {
-        console.log(
-          `Still waiting for these messages:`
-        );
+        console.log(`Still waiting for these messages:`);
 
         for (const body of this.expectedMessageBodies) {
           console.log(`   ${body}`);
@@ -154,9 +152,9 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     let lastExpectedMessageCount = this.expectedMessageBodies.size;
 
     for (const messageToSend of messagesToSend) {
-      const batch = await client.createBatch({});
+      const batch = await client.createBatch({ partitionId: messageToSend.partitionId });
       batch.tryAdd({ body: messageToSend.body });
-      await client.sendBatch(batch, messageToSend.partitionId);      
+      await client.sendBatch(batch);
     }
     return lastExpectedMessageCount;
   }
@@ -167,14 +165,15 @@ export class ReceivedMessagesTester implements Required<OptionalEventHandlers> {
     return receivedData;
   }
 
-  private contextIsOk(context: PartitionContext): void {
-    context.partitionId.should.be.ok;
-    context.consumerGroupName.should.be.ok;
+  private contextIsOk(context: PartitionContext | PartitionContext): void {
+    context.consumerGroup.should.be.ok;
     context.eventHubName.should.be.ok;
     context.fullyQualifiedNamespace.should.be.ok;
 
     // if we start getting messages for other partitions
     // we should immediately error out)
-    should.exist(this.expectedPartitions.includes(context.partitionId));
+    if (context.partitionId) {
+      should.exist(this.expectedPartitions.includes(context.partitionId));
+    }
   }
 }

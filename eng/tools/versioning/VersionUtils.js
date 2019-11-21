@@ -27,11 +27,33 @@ async function readFileJson(filename) {
 async function writePackageJson(filename, contentObject) {
   try {
     const contentString = JSON.stringify(contentObject, null, 2);
-    await writeFile(filename, contentString);
+    await writeFile(filename, `${contentString}\n`);
   } catch (ex) {
     console.error(ex);
   }
 }
+
+//This gets the list of rush packages as well as their packageJsons
+//This is specifically used in set-dev-dependencies script
+const getRushPackageJsons = async repoRoot => {
+  const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
+  const baseDir = path.dirname(rushPath);
+  const rushJson = parse(await readFile(rushPath, "utf8"));
+  const packageData = {};
+
+  for (const proj of rushJson.projects) {
+    const filePath = path.join(baseDir, proj.projectFolder, "package.json");
+    const packageJson = parse(await readFile(filePath, "utf8"));
+    packageData[packageJson.name] = {
+      src: filePath,
+      json: packageJson,
+      versionPolicy: proj.versionPolicyName,
+      projectFolder: proj.projectFolder,
+      newVer: undefined
+    };
+  }
+  return packageData;
+};
 
 async function getRushSpec(repoRoot) {
   const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
@@ -80,3 +102,4 @@ module.exports.writeFile = writeFile;
 module.exports.writePackageJson = writePackageJson;
 module.exports.getRushSpec = getRushSpec;
 module.exports.updatePackageConstants = updatePackageConstants;
+module.exports.getRushPackageJsons = getRushPackageJsons;

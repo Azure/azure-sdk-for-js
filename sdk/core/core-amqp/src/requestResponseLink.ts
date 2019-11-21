@@ -81,9 +81,7 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
-    if (!options.timeoutInMs) {
-      options.timeoutInMs = Constants.defaultOperationTimeoutInMs;
-    }
+    const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
@@ -214,7 +212,7 @@ export class RequestResponseLink implements ReqResLink {
         return reject(translate(e));
       };
 
-      waitTimer = setTimeout(actionAfterTimeout, options.timeoutInMs);
+      waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
       this.receiver.on(ReceiverEvents.message, messageCallback);
 
       log.reqres(

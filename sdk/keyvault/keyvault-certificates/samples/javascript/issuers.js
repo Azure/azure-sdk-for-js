@@ -1,4 +1,4 @@
-const { CertificatesClient } = require("../../src");
+const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates, updates and deletes certificate issuers.
@@ -13,44 +13,46 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName = "MyCertificate6892342";
   const issuerName = "issuerName";
 
   // Create
-  await client.setCertificateIssuer(issuerName, "Test", {
+  await client.createIssuer(issuerName, "Test", {
     credentials: {
       accountId: "keyvaultuser"
     },
-    organizationDetails: {
-      adminDetails: [
-        {
-          firstName: "John",
-          lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
-          phone: "4255555555"
-        }
-      ]
-    }
+    administratorContacts: [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        emailAddress: "admin@microsoft.com",
+        phone: "4255555555"
+      }
+    ]
   });
 
   // We can create a certificate with that issuer's name.
   await client.createCertificate(certificateName, {
     issuerName,
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy(certificateName);
-  console.log("Certificate: ", certificate);
+  const createPoller = await client.beginCreateCertificate("MyCertificate", {
+    issuerName,
+    subject: "cn=MyCert"
+  });
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   // We can retrieve the issuer this way:
-  const getResponse = await client.getCertificateIssuer(issuerName);
+  const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
   // We can also delete the issuer.
-  await client.deleteCertificateIssuer(issuerName);
+  await client.deleteIssuer(issuerName);
 }
 
 main().catch((err) => {

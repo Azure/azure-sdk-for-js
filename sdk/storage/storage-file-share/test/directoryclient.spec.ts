@@ -1,21 +1,22 @@
 import * as assert from "assert";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
-  let recorder: any;
+  let recorder: Recorder;
   let fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
@@ -259,7 +260,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -315,7 +316,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -376,7 +377,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -418,7 +419,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -466,7 +467,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -515,7 +516,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -791,6 +792,18 @@ describe("DirectoryClient", () => {
       newClient.accountName,
       accountName,
       "Account name is not the same as the one provided."
+    );
+  });
+
+  it("verify DirectoryClient name matches file name", async () => {
+    const accountName = "myaccount";
+    const newClient = new ShareDirectoryClient(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}`
+    );
+    assert.equal(
+      newClient.name,
+      dirName,
+      "DirectoryClient name is not the same as the baseName of the provided directory URI"
     );
   });
 });

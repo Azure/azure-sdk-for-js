@@ -21,3 +21,8 @@ export * from "./collectionPartitionRegion";
 export * from "./collectionPartition";
 export * from "./partitionKeyRangeId";
 export * from "./partitionKeyRangeIdRegion";
+export * from "./sqlResources";
+export * from "./mongoDBResources";
+export * from "./tableResources";
+export * from "./cassandraResources";
+export * from "./gremlinResources";

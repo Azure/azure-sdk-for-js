@@ -5,4 +5,4 @@ We have two client libraries for Azure Event Hubs
 - `@azure/event-processor-host` - The Event Processor Host for efficient receiving of messages. You can find more info over [here](./event-processor-host).
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2FREADME.png)

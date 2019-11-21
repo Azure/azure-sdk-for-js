@@ -31,8 +31,8 @@ export class File {
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileCreateResponse>
    */
@@ -41,8 +41,8 @@ export class File {
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
@@ -50,8 +50,8 @@ export class File {
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -146,8 +146,8 @@ export class File {
    * Sets HTTP headers on the file.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
@@ -155,16 +155,16 @@ export class File {
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
   setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory.
-   * @param fileLastWriteOn Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
+   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -281,13 +281,12 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
-   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileUploadRangeFromURLResponse>
    */
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
+  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -297,12 +296,11 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
-   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -312,19 +310,17 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
-   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
+  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         range,
         copySource,
-        sourceRange,
         contentLength,
         options
       },
@@ -709,10 +705,10 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: [
       "options",
-      "optionalbody"
+      "body"
     ],
     mapper: {
-      serializedName: "optionalbody",
+      serializedName: "body",
       type: {
         name: "Stream"
       }

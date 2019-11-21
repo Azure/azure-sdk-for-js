@@ -12,14 +12,14 @@ import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { CommonOptions } from "./StorageClient";
-import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
+import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 

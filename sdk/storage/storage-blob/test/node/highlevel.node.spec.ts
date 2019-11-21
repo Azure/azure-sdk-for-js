@@ -4,14 +4,15 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU } from "../utils";
+import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -24,7 +25,7 @@ describe("Highlevel", () => {
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -61,6 +62,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadFile(tempFileLarge, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -78,6 +80,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -95,6 +98,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadFile(tempFileSmall, {
       maxSingleShotSize: 0
     });
@@ -141,6 +145,10 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -160,6 +168,10 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -179,6 +191,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadStream should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
@@ -195,6 +208,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadStream should success for tiny buffers", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
@@ -213,6 +227,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadStream should abort", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
 
@@ -227,6 +242,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadStream should update progress event", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
@@ -240,6 +256,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToBuffer should success - without passing the buffer", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
@@ -267,6 +284,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToBuffer should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
@@ -315,6 +333,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToBuffer should abort", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
@@ -333,6 +352,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToBuffer should update progress event", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 10);
 
@@ -355,6 +375,7 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should success when internal stream unexcepted ends at the stream end", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -386,6 +407,7 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download full data successfully when internal stream unexcepted ends", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -418,6 +440,7 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download partial data when internal stream unexcepted ends", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -452,6 +475,7 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -486,6 +510,7 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should abort after retrys", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       concurrency: 20
@@ -526,6 +551,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToFile should success", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const downloadedFilePath = recorder.getUniqueName("downloadedtofile.");
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);

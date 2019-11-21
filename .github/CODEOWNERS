@@ -16,11 +16,14 @@
 /sdk/core/core-amqp/ @ramya-rao-a @chradek
 /sdk/core/core-auth/ @daviwil
 /sdk/core/core-http/ @daviwil
+/sdk/core/core-lro/ @sadasant
 /sdk/core/core-paging/ @daviwil
 /sdk/core/core-tracing/ @xirzec
 /sdk/core/logger @xirzec
 
 # Service teams
+/sdk/appconfiguration/ @richardpark-msft
+
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
@@ -30,6 +33,8 @@
 /sdk/identity/ @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
+
+/sdk/test-utils/ @HarshaNalluru
 
 # Management Plane
 /**/*Management*.ts @qiaozha
@@ -47,5 +52,7 @@
 ###########
 /.vscode/ @mikeharder @KarishmaGhiya
 /common/ @mikeharder @KarishmaGhiya
+/common/config/rush/pnpm-lock.yaml @bterlson
 /rush.json @mikeharder @KarishmaGhiya
 /tsconfig.json @mikeharder @KarishmaGhiya
+/**/tsconfig.json @bterlson

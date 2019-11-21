@@ -127,9 +127,9 @@ function needsRetry(operationType: OperationType, code: number | string) {
  * @ignore
  */
 export class DefaultRetryPolicy implements RetryPolicy {
-  private maxRetryAttemptCount: number = 10;
+  private maxTries: number = 10;
   private currentRetryAttemptCount: number = 0;
-  public retryAfterInMilliseconds: number = 1000;
+  public retryAfterInMs: number = 1000;
 
   constructor(private operationType: OperationType) {}
   /**
@@ -139,7 +139,7 @@ export class DefaultRetryPolicy implements RetryPolicy {
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     if (err) {
       if (
-        this.currentRetryAttemptCount < this.maxRetryAttemptCount &&
+        this.currentRetryAttemptCount < this.maxTries &&
         needsRetry(this.operationType, err.code)
       ) {
         this.currentRetryAttemptCount++;

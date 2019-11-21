@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 - Coming Soon
+
+- Fixed an issue where an authorization error occurs due to wrong access token being returned by the MSI endpoint when using a user-assigned managed identity with `ManagedIdentityCredential` ([PR #6134](https://github.com/Azure/azure-sdk-for-js/pull/6134))
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ## 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/identity` package.
@@ -42,7 +47,7 @@
   - [`DeviceCodeCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html)
   - [`InteractiveBrowserCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html)
   - [`UsernamePasswordCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html)
-- This library can now be used in the browser!  The following credential types supported in browser builds:
+- This library can now be used in the browser! The following credential types supported in browser builds:
   - `ClientSecretCredential`
   - `UsernamePasswordCredential`
   - `InteractiveBrowserCredential`

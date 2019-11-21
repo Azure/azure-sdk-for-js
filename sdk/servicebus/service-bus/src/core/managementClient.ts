@@ -44,6 +44,7 @@ import {
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
+import { Buffer } from "buffer";
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the

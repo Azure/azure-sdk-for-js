@@ -1,18 +1,16 @@
-# Azure App Configuration client library for JS
+# App Configuration client library for TypeScript/JavaScript
 
-Azure App Configuration is a managed service that helps developers
-centralize their application configurations, simply and securely.
+[Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the App Configuration client library to:
+Use the client library for App Configuration to:
 
-* create App Configuration settings
-* retrieve the value of a setting for a given key
-* update the value of a setting for a given key
-* delete settings within an App Configuration
+* Create flexible key representations and mappings
+* Tag keys with labels
+* Replay settings from any point in time
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
+[API reference documentation](https://azure.github.io/azure-sdk-for-js/appconfiguration.html) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
@@ -22,13 +20,76 @@ Use the App Configuration client library to:
 
 - Node.js version 8.x.x or higher
 
-### Install the Package
+**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
 
-**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) to use this package. This package currently
-only supports NodeJS versions higher than 8.0.0.
+### 1. Install the `@azure/app-configuration` package
 
 ```bash
 npm install @azure/app-configuration
+```
+
+### 2. Create an App Configuration resource
+
+You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
+
+Example (Azure CLI):
+```
+az appconfig create --name <app-configuration-resource-name> --resource-group <resource-group-name> --location eastus
+```
+
+### 3. Create and authenticate an `AppConfigurationClient`
+
+App Configuration uses connection strings for authentication. 
+
+To get the Primary **connection string** for an App Configuration resource you can use this Azure CLI command:
+
+```
+az appconfig credential list -g <resource-group-name> -n <app-configuration-resource-name> --query "([?name=='Primary'].connectionString)[0]"
+```
+
+And in code you can now create your App Configuration client with the **connection string** you got from the Azure CLI:
+
+```typescript
+const client = new AppConfigurationClient("<connection string>");
+```
+
+## Key concepts
+
+The [`AppConfigurationClient`](https://azure.github.io/azure-sdk-for-js/app-configuration/classes/appconfigurationclient.html) has some terminology changes from App Configuration in the portal. 
+
+* Key/Value pairs are represented as [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) objects
+* Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
+
+The client follows a simple design methodology - [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) can be passed into any method that takes a [`ConfigurationSettingParam`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingparam.html) or [`ConfigurationSettingId`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingid.html). 
+
+This means this pattern works:
+
+```typescript
+const setting = await client.getConfigurationSetting({
+  key: "hello"
+});
+
+setting.value = "new value!";
+await client.setConfigurationSetting(setting);
+
+// fields unrelated to just identifying the setting are simply 
+// ignored (for instance, the `value` field)
+await client.setReadOnly(setting, true);
+
+// delete just needs to identify the setting so other fields are
+// just ignored
+await client.deleteConfigurationSetting(setting);
+```
+
+or, for example, re-getting a setting:
+
+```typescript
+let setting = await client.getConfigurationSetting({
+  key: "hello"
+});
+
+// re-get the setting
+setting = await.getConfigurationSetting(setting); 
 ```
 
 ## Examples
@@ -60,15 +121,16 @@ run().catch(err => console.log("ERROR:", err));
 
 ## Next steps
 
-Use these samples for a more in-depth demonstration of Azure App Configuration.
+The following samples show you the various ways you can interact with App Configuration:
 
-* [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworld.ts) - Get, set, and delete configuration values 
-* [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithLabels.ts) - using labels to add additional dimensions to your settings for scenarios like beta vs production
-* [`optimisticConcurrencyViaEtag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/optimisticConcurrencyViaEtag.ts) - setting values using etags to prevent accidental overwrites
-* [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/setReadOnlySample.ts) - marking settings as read-only to prevent modification
-* [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/getSettingOnlyIfChanged.ts) - get a setting only if it changed from the last time you got it
+* [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworld.ts) - Get, set, and delete configuration values.
+* [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithLabels.ts) - Use labels to add additional dimensions to your settings for scenarios like beta vs production.
+* [`optimisticConcurrencyViaEtag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/optimisticConcurrencyViaEtag.ts) - Set values using etags to prevent accidental overwrites.
+* [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/setReadOnlySample.ts) - Marking settings as read-only to prevent modification.
+* [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/getSettingOnlyIfChanged.ts) - Get a setting only if it changed from the last time you got it.
+* [`listRevisions.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/listRevisions.ts) - List the revisions of a key, allowing you to see previous values and when they were set.
 
-View all samples in [the samples folder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on GitHub.
 
 ## Contributing
 
@@ -100,5 +162,6 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+- [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/appconfiguration/app-config/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)

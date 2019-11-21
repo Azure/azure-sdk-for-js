@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubClient } from "./eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { EventProcessorOptions, CloseReason } from "./eventProcessor";
+import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import * as log from "./log";
@@ -16,7 +16,7 @@ import * as log from "./log";
  */
 export class PumpManager {
   private readonly _eventProcessorName: string;
-  private readonly _options: EventProcessorOptions;
+  private readonly _options: FullEventProcessorOptions;
   private _partitionIdToPumps: {
     [partitionId: string]: PartitionPump | undefined;
   } = {};
@@ -24,7 +24,7 @@ export class PumpManager {
   /**
    * @ignore
    */
-  constructor(eventProcessorName: string, eventProcessorOptions: EventProcessorOptions = {}) {
+  constructor(eventProcessorName: string, eventProcessorOptions: FullEventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
     this._options = eventProcessorOptions;
   }
@@ -50,7 +50,7 @@ export class PumpManager {
    */
   public async createPump(
     eventHubClient: EventHubClient,
-    initialEventPosition: EventPosition,
+    initialEventPosition: EventPosition | undefined,
     partitionProcessor: PartitionProcessor
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;

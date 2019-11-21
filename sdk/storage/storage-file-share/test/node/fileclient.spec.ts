@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU } from "../utils";
+import { bodyToString, getBSU, setupEnvironment } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -11,9 +11,10 @@ import {
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
@@ -23,7 +24,7 @@ describe("FileClient Node.js only", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -159,11 +160,11 @@ describe("FileClient Node.js only", () => {
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
-    expiryTime.setDate(expiryTime.getDate() + 1);
+    const expiresOn = recorder.newDate("now");
+    expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
-        expiryTime,
+        expiresOn,
         shareName,
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r")

@@ -193,6 +193,16 @@ export const sourceRegion: msRest.OperationURLParameter = {
     }
   }
 };
+export const storedProcedureName: msRest.OperationURLParameter = {
+  parameterPath: "storedProcedureName",
+  mapper: {
+    required: true,
+    serializedName: "storedProcedureName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -218,6 +228,26 @@ export const targetRegion: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "targetRegion",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const triggerName: msRest.OperationURLParameter = {
+  parameterPath: "triggerName",
+  mapper: {
+    required: true,
+    serializedName: "triggerName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const userDefinedFunctionName: msRest.OperationURLParameter = {
+  parameterPath: "userDefinedFunctionName",
+  mapper: {
+    required: true,
+    serializedName: "userDefinedFunctionName",
     type: {
       name: "String"
     }

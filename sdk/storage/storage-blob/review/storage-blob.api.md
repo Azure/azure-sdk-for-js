@@ -24,7 +24,7 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
@@ -272,8 +272,8 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
 // @public
 export class BlobBatch {
     constructor();
-    deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
     deleteBlob(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
+    deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
     getHttpRequestBody(): string;
     getMultiPartContentType(): string;
     getSubRequests(): Map<number, BatchSubRequest>;
@@ -356,8 +356,8 @@ export class BlobClient extends StorageClient {
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -763,8 +763,8 @@ export interface BlobSASSignatureValues {
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
         containerCreateResponse: ContainerCreateResponse;
@@ -959,9 +959,9 @@ export interface Block {
 
 // @public
 export class BlockBlobClient extends BlobClient {
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
@@ -1748,9 +1748,9 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 
 // @public
 export class PageBlobClient extends BlobClient {
+    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;

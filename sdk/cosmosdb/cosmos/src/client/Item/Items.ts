@@ -72,7 +72,7 @@ export class Items {
    * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
@@ -103,6 +103,7 @@ export class Items {
    *
    * @param partitionKey
    * @param changeFeedOptions
+   * @deprecated Use `changeFeed` instead.
    *
    * @example Read from the beginning of the change feed.
    * ```javascript
@@ -114,31 +115,85 @@ export class Items {
    */
   public readChangeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
    *
    * @param changeFeedOptions
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
    *
    * @param partitionKey
    * @param changeFeedOptions
    */
   public readChangeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<T>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
+   *
+   * @param changeFeedOptions
+   */
+  public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+  public readChangeFeed<T>(
+    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<T> {
+    if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+      return this.changeFeed(partitionKeyOrChangeFeedOptions);
+    } else {
+      return this.changeFeed(partitionKeyOrChangeFeedOptions, changeFeedOptions);
+    }
+  }
+
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   *
+   * @example Read from the beginning of the change feed.
+   * ```javascript
+   * const iterator = items.readChangeFeed({ startFromBeginning: true });
+   * const firstPage = await iterator.fetchNext();
+   * const firstPageResults = firstPage.result
+   * const secondPage = await iterator.fetchNext();
+   * ```
+   */
+  public changeFeed(
+    partitionKey: string | number | boolean,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param changeFeedOptions
+   */
+  public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   */
+  public changeFeed<T>(
+    partitionKey: string | number | boolean,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
    * @param changeFeedOptions
    */
-  public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
-  public readChangeFeed<T>(
+  public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+  public changeFeed<T>(
     partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
@@ -154,7 +209,7 @@ export class Items {
     }
 
     if (!changeFeedOptions) {
-      throw new Error("changeFeedOptions must be a valid object");
+      changeFeedOptions = {};
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -208,7 +263,7 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -277,7 +332,7 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and

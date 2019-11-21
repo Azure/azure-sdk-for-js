@@ -8,7 +8,7 @@ import {
   isNode,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -592,7 +592,7 @@ export class QueueClient extends StorageClient {
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
     const { span, spanOptions } = createSpan("QueueClient-create", options.tracingOptions);
     try {
-      return this.queueContext.create({
+      return await this.queueContext.create({
         ...options,
         abortSignal: options.abortSignal,
         spanOptions
@@ -627,7 +627,7 @@ export class QueueClient extends StorageClient {
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
     try {
-      return this.queueContext.deleteMethod({
+      return await this.queueContext.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -656,7 +656,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-getProperties", options.tracingOptions);
     try {
-      return this.queueContext.getProperties({
+      return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -689,7 +689,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueSetMetadataResponse> {
     const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.tracingOptions);
     try {
-      return this.queueContext.setMetadata({
+      return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -787,7 +787,7 @@ export class QueueClient extends StorageClient {
         });
       }
 
-      return this.queueContext.setAccessPolicy({
+      return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
         spanOptions
@@ -816,7 +816,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueClearMessagesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.tracingOptions);
     try {
-      return this.messagesContext.clear({
+      return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -1023,7 +1023,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueDeleteMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+      return await this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -1065,7 +1065,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).update(
+      return await this.getMessageIdContext(messageId).update(
         {
           messageText: message
         },

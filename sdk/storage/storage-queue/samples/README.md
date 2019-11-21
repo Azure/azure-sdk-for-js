@@ -53,8 +53,6 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ts-node sample.ts
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-queue/samples/README.png)
-
 ## Browser sample
 
 Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
@@ -76,3 +74,5 @@ This will produce `dist/main.js`. Reference this file in an HTML file script tag
 ```html
 <script src="./dist/main.js"></script>
 ```
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fsamples%2FREADME.png)

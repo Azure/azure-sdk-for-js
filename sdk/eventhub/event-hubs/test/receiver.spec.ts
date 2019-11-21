@@ -8,18 +8,13 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import {
-  EventPosition,
-  EventData,
-  MessagingError,
-  ReceivedEventData,
-  delay,
-  ReceiveHandler
-} from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventPosition, EventData, MessagingError, ReceivedEventData } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { EventHubConsumer } from '../src/receiver';
+import { EventHubConsumer } from "../src/receiver";
+import { ReceiveHandler } from "../src/receiveHandler";
+import { delay } from "@azure/core-amqp";
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {
@@ -39,7 +34,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
-    partitionIds = await client.getPartitionIds();
+    partitionIds = await client.getPartitionIds({});
   });
 
   after("close the connection", async function(): Promise<void> {
@@ -155,58 +150,18 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data[0].properties!.stamp.should.equal(uid);
     });
 
-    it("'after a particular offset with isInclusive true' should receive messages correctly", async function(): Promise<
-      void
-    > {
-      const partitionId = partitionIds[0];
-      const uid = uuid();
-      const ed: EventData = {
-        body: "New message after last enqueued offset",
-        properties: {
-          stamp: uid
-        }
-      };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
-      debug(`Sent message 1 with stamp: ${uid}.`);
-      const pInfo = await client.getPartitionProperties(partitionId);
-      const uid2 = uuid();
-      const ed2: EventData = {
-        body: "New message after last enqueued offset",
-        properties: {
-          stamp: uid2
-        }
-      };
-      await client.createProducer({ partitionId: partitionId }).send([ed2]);
-      debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
-      debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        partitionId,
-        EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
-      );
-      debug("We should receive the last 2 messages.");
-      const data = await receiver.receiveBatch(10, 30);
-      debug("received messages: ", data);
-      data.length.should.equal(2, "Failed to receive the two expected messages");
-      data[0].properties!.stamp.should.equal(uid, "First message has unexpected uid");
-      data[1].properties!.stamp.should.equal(uid2, "Second message has unexpected uid");
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await receiver.receiveBatch(10, 10);
-      data2.length.should.equal(0, "Unexpected message received");
-    });
-
     it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<
       void
     > {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionProperties(partitionId);
-      debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
+      debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedOnUtc}".`);
       debug("Establishing the receiver link...");
 
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
-        body: "New message after last enqueued time " + pInfo.lastEnqueuedTimeUtc,
+        body: "New message after last enqueued time " + pInfo.lastEnqueuedOnUtc,
         properties: {
           stamp: uid
         }
@@ -219,7 +174,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
-        EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
+        EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedOnUtc)
       );
       const data = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data);
@@ -1035,14 +990,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventInfo", function (): void {
-    it("should have lastEnqueuedEventInfo populated", async function (): Promise<void> {
+  describe("with trackLastEnqueuedEventProperties", function(): void {
+    it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const producer = client.createProducer({partitionId: partitionId});
+      const producer = client.createProducer({ partitionId: partitionId });
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
           body: "Hello awesome world " + i
-        }
+        };
         await producer.send(ed);
         debug("sent message - " + i);
       }
@@ -1055,18 +1010,24 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         partitionId,
         EventPosition.earliest(),
         {
-          trackLastEnqueuedEventInfo: true
+          trackLastEnqueuedEventProperties: true
         }
       );
-      
+
       let data = await receiver.receiveBatch(1, 10);
-      debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventInfo);
+      debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventProperties);
       data.length.should.equal(1);
-      should.exist(receiver.lastEnqueuedEventInfo);
-      receiver.lastEnqueuedEventInfo!.offset!.should.equal(pInfo.lastEnqueuedOffset);
-      receiver.lastEnqueuedEventInfo!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventInfo!.enqueuedTime!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-      receiver.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+      should.exist(receiver.lastEnqueuedEventProperties);
+      receiver.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
+      receiver.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(
+        pInfo.lastEnqueuedSequenceNumber
+      );
+      receiver
+        .lastEnqueuedEventProperties!.enqueuedOn!.getTime()
+        .should.equal(pInfo.lastEnqueuedOnUtc.getTime());
+      receiver
+        .lastEnqueuedEventProperties!.retrievedOn!.getTime()
+        .should.be.greaterThan(Date.now() - 60000);
     });
   });
 

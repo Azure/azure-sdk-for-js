@@ -6,7 +6,7 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -55,7 +55,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     redirectUri: string,
     options?: TokenCredentialOptions
   );
-    /**
+  /**
    * Creates an instance of CodeFlowCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.

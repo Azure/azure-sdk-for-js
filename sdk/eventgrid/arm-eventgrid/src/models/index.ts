@@ -566,8 +566,13 @@ export interface WebHookEventSubscriptionDestination {
    */
   preferredBatchSizeInKilobytes?: number;
   /**
-   * The AAD application ID or URI to get the access token that will be included as the bearer
-   * token in delivery requests.
+   * The Azure Active Directory Tenant ID to get the access token that will be included as the
+   * bearer token in delivery requests.
+   */
+  azureActiveDirectoryTenantId?: string;
+  /**
+   * The Azure Active Directory Application ID or URI to get the access token that will be included
+   * as the bearer token in delivery requests.
    */
   azureActiveDirectoryApplicationIdOrUri?: string;
 }

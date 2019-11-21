@@ -21,6 +21,7 @@ trigger:
   paths:
     include:
       - sdk/core/
+      - eng/
 
 pr:
   branches:
@@ -37,8 +38,7 @@ pr:
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: "*"
-      DocDirectory: "core"
+      ServiceDirectory: "core"
       Artifacts:
         - name: azure-abort-controller
           safeName: azureabortcontroller

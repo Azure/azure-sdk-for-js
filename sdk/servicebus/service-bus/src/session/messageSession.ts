@@ -937,7 +937,7 @@ export class MessageSession extends LinkEntity {
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let totalWaitTimer: NodeJS.Timer | undefined;
+      let totalWaitTimer: any;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;

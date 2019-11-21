@@ -2,11 +2,13 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(function() {
     recorder = record(this);

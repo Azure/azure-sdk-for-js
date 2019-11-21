@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { InMemoryPartitionManager, EventHubProducerClient } from "../src";
-import { EventHubClient } from "../src/eventHubClient";
-import { EventHubConsumerClient, isPartitionManager } from "../src/eventHubConsumerClient";
+import { EventHubProducerClient, Subscription } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
+import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
+import { LogTester } from "./utils/logHelpers";
+import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 
 const should = chai.should();
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
-    it("isPartitionManager", () => {
-      isPartitionManager({
-        onClose: async () => { }
+    it("isCheckpointStore", () => {
+      isCheckpointStore({
+        processEvents: async () => {},
+        processClose: async () => {}
       }).should.not.ok;
 
-      isPartitionManager(undefined).should.not.ok;
-      isPartitionManager(["hello"]).should.not.ok;
-      
-      isPartitionManager(new InMemoryPartitionManager()).should.ok;
+      isCheckpointStore("hello").should.not.ok;
+
+      isCheckpointStore(new InMemoryCheckpointStore()).should.ok;
     });
   });
 
@@ -35,10 +37,7 @@ describe("EventHubConsumerClient", () => {
     let client: EventHubConsumerClient;
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
-    let logMessages: string[] = [];
-
-    let consumerClientWasEnabled: boolean;
-    let partitionLoadBalancerWasEnabled: boolean;
+    let subscriptions: Subscription[] = [];
 
     beforeEach(async () => {
       should.exist(
@@ -50,19 +49,8 @@ describe("EventHubConsumerClient", () => {
         "define EVENTHUB_NAME in your environment before running integration tests."
       );
 
-      consumerClientWasEnabled = log.consumerClient.enabled;
-      log.consumerClient.enabled = true;
-      log.consumerClient.log = (message) => {
-        logMessages.push(message);
-      };
-
-      partitionLoadBalancerWasEnabled = log.partitionLoadBalancer.enabled;
-      log.partitionLoadBalancer.enabled = true;
-      log.partitionLoadBalancer.log = (message) => {
-        logMessages.push(message);
-      };
-
       client = new EventHubConsumerClient(
+        EventHubClient.defaultConsumerGroupName,
         service.connectionString!,
         service.path
       );
@@ -75,55 +63,55 @@ describe("EventHubConsumerClient", () => {
       partitionIds.length.should.gte(2);
     });
 
-    afterEach(() => {
-      client.close();
-      producerClient.close();
-
-      if (!consumerClientWasEnabled) {
-        log.consumerClient.enabled = false;
+    afterEach(async () => {
+      for (const subscription of subscriptions) {
+        await subscription.close();
       }
 
-      if (!partitionLoadBalancerWasEnabled) {
-        log.partitionLoadBalancer.enabled = false;
-      }      
-
-      logMessages = [];
+      await client.close();
+      await producerClient.close();
     });
 
-    it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<void> {
-      const tester = new ReceivedMessagesTester(["0"], false);
-
-      const subscriber = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
-        ["0"],
-        tester
+    it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const logTester = new LogTester(
+        [
+          "Subscribing to specific partition (0), no coordination.",
+          "GreedyPartitionLoadBalancer created. Watching (0)."
+        ],
+        [log.consumerClient, log.partitionLoadBalancer]
       );
 
-      await tester.runTestAndPoll(producerClient);
-      await subscriber.close();
+      const tester = new ReceivedMessagesTester(["0"], false);
 
-      hasLogMessage("Creating client with connection string and event hub name");
-      hasLogMessage("Subscribing to specific partitions (0), no coordination.");
-      hasLogMessage("GreedyPartitionLoadBalancer created. Watching (0).");
+      const subscription = await client.subscribe("0", tester);
+
+      subscriptions.push(subscription);
+
+      await tester.runTestAndPoll(producerClient);
+      logTester.assert();
     });
 
     it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
       void
     > {
-      const tester = new ReceivedMessagesTester(partitionIds, false);
-
-      const subscriber = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
-        tester
+      const logTester = new LogTester(
+        [
+          "Subscribing to all partitions, don't coordinate.",
+          "GreedyPartitionLoadBalancer created. Watching all."
+        ],
+        [log.consumerClient, log.partitionLoadBalancer]
       );
 
-      await tester.runTestAndPoll(producerClient);
-      await subscriber.close();
+      const tester = new ReceivedMessagesTester(partitionIds, false);
 
-      hasLogMessage("Subscribing to all partitions, don't coordinate.");
-      hasLogMessage("GreedyPartitionLoadBalancer created. Watching all.");
+      const subscription = await client.subscribe(tester);
+
+      await tester.runTestAndPoll(producerClient);
+      subscriptions.push(subscription);
+
+      logTester.assert();
     });
 
     it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function(): Promise<
@@ -131,35 +119,29 @@ describe("EventHubConsumerClient", () => {
     > {
       // fast forward our partition manager so it starts reading from the latest offset
       // instead of the beginning of time.
-      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const inMemoryCheckpointStore = new InMemoryCheckpointStore();
+
+      const logTester = new LogTester(
+        [
+          "Subscribing to all partitions, coordinating using a partition manager.",
+          "FairPartitionLoadBalancer created with owner ID"
+        ],
+        [log.consumerClient, log.partitionLoadBalancer]
+      );
 
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
-        inMemoryPartitionManager,
-        tester
-      );
+      const subscriber1 = await client.subscribe(inMemoryCheckpointStore, tester);
 
-      const subscriber2 = await client.subscribe(
-        EventHubClient.defaultConsumerGroupName,
-        (events, context) => tester.onReceivedEvents(events, context),
-        inMemoryPartitionManager,
-        tester
-      );
+      subscriptions.push(subscriber1);
+
+      const subscriber2 = await client.subscribe(inMemoryCheckpointStore, tester);
+
+      subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
-      await subscriber1.close();
-      await subscriber2.close();
 
-      hasLogMessage("Subscribing to all partitions, coordinating using a partition manager.");
-      hasLogMessage("FairPartitionLoadBalancer created with owner ID");
+      logTester.assert();
     });
-
-    function hasLogMessage(message: string) {
-      const value = logMessages.find(val => val.indexOf(message) >= 0); 
-      should.exist(value, `Looking for ${message}`);
-    }
   });
 });

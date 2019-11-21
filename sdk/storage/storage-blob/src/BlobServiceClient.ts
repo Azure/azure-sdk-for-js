@@ -7,7 +7,7 @@ import {
   HttpResponse,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -25,11 +25,7 @@ import {
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import {
-  ContainerClient,
-  ContainerCreateOptions,
-  ContainerDeleteMethodOptions
-} from "./ContainerClient";
+import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -511,7 +507,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -545,7 +541,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -578,7 +574,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -612,7 +608,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.getAccountInfo({
+      return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -651,7 +647,7 @@ export class BlobServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.serviceContext.listContainersSegment({
+      return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
         ...options,

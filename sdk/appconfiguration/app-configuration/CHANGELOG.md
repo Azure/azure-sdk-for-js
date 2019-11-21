@@ -1,6 +1,19 @@
-# 1.0.0-preview.5 (Coming Soon)
+# 1.0.0-preview.8 (TBD)
 
-- Updated to use the latest version of `@azure/core-tracing` and `@azure/core-http` packages
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
+# 1.0.0-preview.7 (2019-11-01)
+
+- Updated to use the latest versions of the `@azure/core-*` packages
+- Added a listRevisions.ts sample to show how the listRevisions() API works
+
+# 1.0.0-preview.6 (2019-10-22)
+
+Breaking changes from 1.0.0-preview.5:
+
+- The `ConfigurationSetting`'s `locked` property has been renamed to `readOnly` to match the nomenclature used throughout
+  the SDK.
+- `listConfigurationSettings` and `listRevisions` now take `readOnly` as a value in `fields`, rather than `locked`.
 
 # 1.0.0-preview.5 (2019-10-09)
 

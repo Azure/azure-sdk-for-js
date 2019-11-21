@@ -25,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./impl/eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -35,7 +35,7 @@ export interface EventHubProperties {
   /**
    * @property The name of the event hub.
    */
-  path: string;
+  name: string;
   /**
    * @property The date and time the hub was created in UTC.
    */
@@ -74,7 +74,11 @@ export interface PartitionProperties {
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
-  lastEnqueuedTimeUtc: Date;
+  lastEnqueuedOnUtc: Date;
+  /**
+   * @property Indicates whether the partition is empty.
+   */
+  isEmpty: boolean;
 }
 
 /**
@@ -157,7 +161,7 @@ export class ManagementClient extends LinkEntity {
       requestName: "getHubRuntimeInformation"
     });
     const runtimeInfo: EventHubProperties = {
-      path: info.name,
+      name: info.name,
       createdAt: new Date(info.created_at),
       partitionIds: info.partition_ids
     };
@@ -205,13 +209,15 @@ export class ManagementClient extends LinkEntity {
       ...options,
       requestName: "getPartitionInformation"
     });
+
     const partitionInfo: PartitionProperties = {
       beginningSequenceNumber: info.begin_sequence_number,
       eventHubName: info.name,
       lastEnqueuedOffset: info.last_enqueued_offset,
-      lastEnqueuedTimeUtc: new Date(info.last_enqueued_time_utc),
+      lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
       lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
-      partitionId: info.partition
+      partitionId: info.partition,
+      isEmpty: info.is_partition_empty
     };
     log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;

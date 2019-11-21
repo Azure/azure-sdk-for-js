@@ -4,7 +4,7 @@
 import fs from "fs";
 import childProcess from "child_process";
 import { CertificateClient } from "../src";
-import { retry, isRecording } from "./utils/recorder";
+import { isRecording, testPollerProperties } from "./utils/recorderUtils";
 import { isNode } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -42,11 +42,16 @@ describe("Certificates client - merge and import certificates", () => {
   it("can import a certificate from a certificate's base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
-    await client.createCertificate(certificateNames[0], {
-      issuerName: "Self",
-      subjectName: "cn=MyCert"
-    });
-    const certificateSecret = await retry(async () => secretClient.getSecret(certificateNames[0]));
+    const createPoller = await client.beginCreateCertificate(
+      certificateNames[0],
+      {
+        issuerName: "Self",
+        subject: "cn=MyCert"
+      },
+      testPollerProperties
+    );
+    await createPoller.pollUntilDone();
+    const certificateSecret = await secretClient.getSecret(certificateNames[0]);
     const base64EncodedCertificate = certificateSecret.value!;
     await client.importCertificate(certificateNames[1], base64EncodedCertificate);
 
@@ -60,13 +65,18 @@ describe("Certificates client - merge and import certificates", () => {
     it("can merge a self signed certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-      await client.createCertificate(certificateName, {
-        issuerName: "Unknown",
-        certificateTransparency: false,
-        subjectName: "cn=MyCert"
-      });
+      await client.beginCreateCertificate(
+        certificateName,
+        {
+          issuerName: "Unknown",
+          certificateTransparency: false,
+          subject: "cn=MyCert"
+        },
+        testPollerProperties
+      );
 
-      const { csr } = await client.getCertificateOperation(certificateName);
+      const certificateOperationPoller = await client.getCertificateOperation(certificateName);
+      const { csr } = await certificateOperationPoller.getResult()!;
       const base64Csr = Buffer.from(csr!).toString("base64");
       const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

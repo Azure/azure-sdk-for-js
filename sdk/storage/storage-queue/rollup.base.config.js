@@ -4,7 +4,7 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
@@ -45,7 +45,13 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {
@@ -108,10 +114,17 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {

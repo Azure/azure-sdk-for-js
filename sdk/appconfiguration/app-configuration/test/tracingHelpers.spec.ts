@@ -3,7 +3,8 @@
 
 import { Spanner } from "../src/internal/tracingHelpers";
 import { RestError } from "@azure/core-http";
-import { getTracer, SpanKind, CanonicalCode, SpanOptions } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/types";
 import * as assert from "assert";
 
 interface FakeOptions {

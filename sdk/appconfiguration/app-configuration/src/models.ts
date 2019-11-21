@@ -52,7 +52,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * Whether or not the setting is read-only
    */
-  readOnly: boolean;
+  isReadOnly: boolean;
 
   /**
    * The date when this setting was last modified
@@ -198,10 +198,6 @@ export interface SetConfigurationSettingResponse
  * Headers from getting a ConfigurationSetting.
  */
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-  /**
-   * A UTC datetime that specifies the last time the resource was modified.
-   */
-  lastModifiedHeader?: string;
 }
 
 /**
@@ -223,7 +219,7 @@ export interface GetConfigurationSettingOptions
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 }
 
 /**
@@ -234,7 +230,7 @@ export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
@@ -280,19 +276,6 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
    */
   items: ConfigurationSetting[];
 }
-
-/**
- * Options for clearReadOnly
- */
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
-
-/**
- * Response when clearing the read-only status from a value
- */
-export interface ClearReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for setReadOnly

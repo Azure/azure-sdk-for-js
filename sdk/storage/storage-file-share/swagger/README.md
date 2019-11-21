@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./file-storage-2019-02-02.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2019-02-02/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -198,13 +198,15 @@ directive:
 ```
 
 ### Rename eTag -> etag
-``` yaml
+
+```yaml
 directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..responses..headers["ETag"]
-  transform: >
-    $["x-ms-client-name"] = "etag";
+  - from: swagger-document
+    where: $["x-ms-paths"]..responses..headers["ETag"]
+    transform: >
+      $["x-ms-client-name"] = "etag";
 ```
+
 ### Rename fileHTTPHeaders -> fileHttpHeaders
 
 ```yaml
@@ -234,3 +236,50 @@ directive:
     transform: >
       $.name = "fileHttpHeaders";
 ```
+
+### Rename AccessPolicy start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["x-ms-client-name"] = "startsOn";
+      $.Expiry["x-ms-client-name"] = "expiresOn";
+```
+
+### Update date type for "fileCreatedOn" and "fileLastWriteOn" from `DateTimeRfc1123` -> `string`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.FileCreationTime
+    transform: >
+      delete $.format;
+  - from: swagger-document
+    where: $.parameters.FileLastWriteTime
+    transform: >
+      delete $.format;
+```
+
+### Retain XStore swagger behavior - Revert file permissions content-type to "application/xml" from "application/json"(unified swagger)
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=filepermission"]
+    transform: >
+      $.put.consumes = ["application/xml"];
+```
+
+### Rename optionalbody -> body
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.OptionalBody
+    transform: >
+      $["x-ms-client-name"] = "body";
+```
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)

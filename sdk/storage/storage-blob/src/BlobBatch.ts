@@ -13,9 +13,9 @@ import {
   bearerTokenAuthenticationPolicy,
   isNode
 } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
+import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";

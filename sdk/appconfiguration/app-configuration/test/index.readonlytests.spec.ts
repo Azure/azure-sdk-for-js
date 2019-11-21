@@ -33,15 +33,15 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(!storedSetting.readOnly);
+    assert.ok(!storedSetting.isReadOnly);
 
-    await client.setReadOnly(testConfigSetting);
+    await client.setReadOnly(testConfigSetting, true);
 
     storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(storedSetting.readOnly);
+    assert.ok(storedSetting.isReadOnly);
 
     // any modification related methods throw exceptions
     await assertThrowsRestError(
@@ -67,10 +67,10 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     });
 
     await assertThrowsAbortError(async () => {
-      await client.setReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+      await client.setReadOnly(testConfigSetting, true, { requestOptions: { timeout: 1 } });
     });
     await assertThrowsAbortError(async () => {
-      await client.clearReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+      await client.setReadOnly(testConfigSetting, false, { requestOptions: { timeout: 1 } });
     });
   });
 });
