@@ -4,7 +4,6 @@ import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request";
-import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
@@ -65,18 +64,8 @@ export async function execute({
       defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType)
     };
   }
-  if (!requestContext.locationRouting) {
-    requestContext.locationRouting = new LocationRouting();
-  }
-  requestContext.locationRouting.clearRouteToLocation();
-  if (retryContext) {
-    requestContext.locationRouting.routeToLocation(
-      retryContext.retryCount || 0,
-      !retryContext.retryRequestOnPreferredLocations
-    );
-    if (retryContext.clearSessionTokenNotAvailable) {
-      requestContext.client.clearSessionToken(requestContext.path);
-    }
+  if (retryContext && retryContext.clearSessionTokenNotAvailable) {
+    requestContext.client.clearSessionToken(requestContext.path);
   }
   requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
     requestContext.resourceType,
