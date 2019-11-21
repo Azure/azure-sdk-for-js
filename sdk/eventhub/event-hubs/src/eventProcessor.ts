@@ -170,7 +170,7 @@ export interface FullEventProcessorOptions
   /**
    * The amount of time to wait between each attempt at claiming partitions.
    */
-  loopIntervalInMs: number;
+  loopIntervalInMs?: number;
 }
 
 /**
