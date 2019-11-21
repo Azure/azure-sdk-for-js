@@ -14,6 +14,7 @@ import { BlobCheckpointStore } from "../src";
 import { ContainerClient } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { Guid } from "guid-typescript";
+import { parseIntOrThrow } from "../src/blobCheckpointStore";
 const env = getEnvVars();
 
 describe("Blob Partition Manager", function(): void {
@@ -289,6 +290,72 @@ describe("Blob Partition Manager", function(): void {
     ownershipsAfterUnclaiming[0].ownerId.should.equal("");
   });
 
+  it("ownership: attempt to retrieve incorrectly formatted blobs", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    const commonData = {
+      consumerGroup: "test",
+      eventHubName: "test",
+      fullyQualifiedNamespace: "test",
+      ownerId: "test"
+    };
+
+    await checkpointStore.claimOwnership([
+      {
+        ...commonData,
+        partitionId: "100"
+      }
+    ]);
+
+    // muck with the metadata in an incompatible way
+    const ownershipBlobPath = "test/test/test/ownership/100";
+    const blobClient = containerClient.getBlobClient(ownershipBlobPath);
+    await blobClient.setMetadata({});
+
+    const listOwnershipPromise = checkpointStore.listOwnership(
+      commonData.fullyQualifiedNamespace,
+      commonData.eventHubName,
+      commonData.consumerGroup
+    );
+
+    await listOwnershipPromise.should.be.rejectedWith(
+      `Missing ownerid in metadata for blob test/test/test/ownership/100`
+    );
+  });
+
+  it("checkpoint: attempt to retrieve incorrectly formatted blobs", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    const commonData = {
+      consumerGroup: "test",
+      eventHubName: "test",
+      fullyQualifiedNamespace: "test",
+      ownerId: "test"
+    };
+
+    await checkpointStore.updateCheckpoint({
+      ...commonData,
+      partitionId: "100",
+      sequenceNumber: 0,
+      offset: 0
+    });
+
+    // muck with the metadata in an incompatible way
+    const checkpointBlobPath = "test/test/test/checkpoint/100";
+    const blobClient = containerClient.getBlobClient(checkpointBlobPath);
+    await blobClient.setMetadata({});
+
+    const listCheckpointsPromise = checkpointStore.listCheckpoints(
+      commonData.fullyQualifiedNamespace,
+      commonData.eventHubName,
+      commonData.consumerGroup
+    );
+
+    await listCheckpointsPromise.should.be.rejectedWith(
+      `Missing metadata property 'offset' on blob 'test/test/test/checkpoint/100`
+    );
+  });
+
   it("blob prefix is always lowercased for case-insensitive fields", () => {
     chai.assert.equal(
       "namespace/eventhubname/consumergroupname/ownership/",
@@ -310,6 +377,24 @@ describe("Blob Partition Manager", function(): void {
         consumerGroup: "cOnsuMerGrouPNaMe",
         partitionId: "0"
       })
+    );
+  });
+
+  it("parseIntOrThrow", () => {
+    parseIntOrThrow("blobname", "fieldname", "1").should.equal(1);
+
+    should.throw(
+      () => parseIntOrThrow("blobname", "fieldname", ""),
+      "Failed to parse metadata property 'fieldname' on blob 'blobname' as a number"
+    );
+    should.throw(
+      () => parseIntOrThrow("blobname", "fieldname", "hello"),
+      "Failed to parse metadata property 'fieldname' on blob 'blobname' as a number"
+    );
+
+    should.throw(
+      () => parseIntOrThrow("blobname", "fieldname", undefined),
+      "Missing metadata property 'fieldname' on blob 'blobname'"
     );
   });
 }).timeout(90000);

@@ -50,7 +50,12 @@ export class BlobCheckpointStore implements CheckpointStore {
       for await (const blob of blobs) {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
+
         const ownershipMetadata = blob.metadata as OwnershipMetadata;
+
+        if (ownershipMetadata.ownerid == null) {
+          throw new Error(`Missing ownerid in metadata for blob ${blob.name}`);
+        }
 
         const partitionOwnership: PartitionOwnership = {
           fullyQualifiedNamespace,
@@ -146,13 +151,16 @@ export class BlobCheckpointStore implements CheckpointStore {
 
       const checkpointMetadata = blob.metadata as CheckpointMetadata;
 
+      const offset = parseIntOrThrow(blob.name, "offset", checkpointMetadata.offset);
+      const sequenceNumber = parseIntOrThrow(blob.name, "sequencenumber", checkpointMetadata.sequencenumber);
+
       checkpoints.push({
         consumerGroup,
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: blobName,
-        offset: parseInt(checkpointMetadata.offset, 10),
-        sequenceNumber: parseInt(checkpointMetadata.sequencenumber, 10)
+        offset,
+        sequenceNumber
       });
     }
 
@@ -246,9 +254,23 @@ export class BlobCheckpointStore implements CheckpointStore {
 }
 
 type OwnershipMetadata = {
-  [k in "ownerid"]: string;
+  [k in "ownerid"]: string|undefined;
 };
 
 type CheckpointMetadata = {
-  [k in "sequencenumber" | "offset"]: string;
+  [k in "sequencenumber" | "offset"]: string|undefined;
 };
+
+export function parseIntOrThrow(blobName: string, fieldName: string, numStr: string | undefined): number {
+  if (numStr == null) {
+    throw new Error(`Missing metadata property '${fieldName}' on blob '${blobName}'`);
+    }
+
+  const num = parseInt(numStr, 10);
+
+  if (isNaN(num)) {
+    throw new Error(`Failed to parse metadata property '${fieldName}' on blob '${blobName}' as a number`);
+  }
+
+  return num;
+}
