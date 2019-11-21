@@ -17,7 +17,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     this._containerClient = containerClient;
   }
   /**
-   * Get the list of all existing partition ownership from the underlying data store. Could return empty
+   * Get the list of all existing partition ownership from the underlying data store. May return empty
    * results if there are is no existing ownership information.
    * Partition Ownership contains the information on which EventProcessor is currently processing the partition and the last checkpoint for the partition
    *
