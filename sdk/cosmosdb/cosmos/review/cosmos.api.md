@@ -561,26 +561,26 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    changeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
-    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-    query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+    query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
     //
     // @deprecated
-    readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
+    readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
-    readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;

@@ -107,7 +107,7 @@ describe("Change Feed Iterator", function() {
     });
 
     it("should fetch new items only", async function() {
-      const iterator = container.items.changeFeed("0", {});
+      const iterator = container.items.changeFeed("0");
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
