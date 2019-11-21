@@ -6,9 +6,6 @@ import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
-// function normalizeLocationName(location: string): string {
-//   return location ? location.toLowerCase().replace(/ /g, "") : null;
-// }
 /**
  * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
