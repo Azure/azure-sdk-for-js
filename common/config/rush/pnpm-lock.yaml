@@ -937,6 +937,7 @@ packages:
       functional-red-black-tree: 1.0.1
       regexpp: 3.0.0
       tsutils: 3.17.1_typescript@3.6.4
+      typescript: 3.6.4
     dev: false
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -987,6 +988,7 @@ packages:
       lodash.unescape: 4.0.1
       semver: 6.3.0
       tsutils: 3.17.1_typescript@3.6.4
+      typescript: 3.6.4
     dev: false
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -3367,7 +3369,7 @@ packages:
     dependencies:
       is-callable: 1.1.4
       is-date-object: 1.0.1
-      is-symbol: 1.0.2
+      is-symbol: 1.0.3
     dev: false
     engines:
       node: '>= 0.4'
@@ -4989,14 +4991,14 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha1-zDqbaYV9Yh6WNyWiTK7shzuCbmQ=
-  /is-symbol/1.0.2:
+  /is-symbol/1.0.3:
     dependencies:
       has-symbols: 1.0.1
     dev: false
     engines:
       node: '>= 0.4'
     resolution:
-      integrity: sha512-HS8bZ9ox60yCJLH9snBpIwv9pYUAkcuLhSA1oero1UB5y9aiQpRA8y2ex945AOtCZL1lJDeIk3G5LthswI46Lw==
+      integrity: sha512-OwijhaRSgqvhm/0ZdAcXNZt9lYdKFpcRDT5ULUuYXPoT794UNOdU+gpT6Rzo7b4V2HUl/op6GqY894AZwv9faQ==
   /is-typedarray/1.0.0:
     dev: false
     resolution:
