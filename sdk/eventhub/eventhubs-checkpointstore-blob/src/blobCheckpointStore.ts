@@ -230,7 +230,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     const blobClient = this._containerClient.getBlobClient(blobName);
 
     if (etag) {
-      return await blobClient.setMetadata(metadata as Metadata, {
+      return blobClient.setMetadata(metadata as Metadata, {
         conditions: {
           ifMatch: etag
         }
@@ -238,7 +238,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     } else {
       const blockBlobClient = blobClient.getBlockBlobClient();
 
-      return await blockBlobClient.upload("", 0, {
+      return blockBlobClient.upload("", 0, {
         metadata: metadata as Metadata
       });
     }
