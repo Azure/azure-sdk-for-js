@@ -1,6 +1,6 @@
 ## 3.4.3
 
-- Makes changeFeed options optional. Fixes #6232 (#6273)
+- Makes changeFeed and query options optional. Fix #6232 Fix #6277 (#6273)
 
 ## 3.4.2
 
