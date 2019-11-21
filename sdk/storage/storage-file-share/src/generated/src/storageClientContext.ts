@@ -10,7 +10,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
-const packageName = "azure-storage-file";
+const packageName = "azure-storage-file-share";
 const packageVersion = "12.0.0-preview.7";
 
 export class StorageClientContext extends coreHttp.ServiceClient {

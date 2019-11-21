@@ -119,7 +119,8 @@ import {
   ActionType,
   DeletionRecoveryLevel,
   CertificateAttributes,
-  Contacts as CoreContacts
+  Contacts as CoreContacts,
+  IssuerBundle
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -318,11 +319,39 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
       keyUsage: x509Properties.keyUsage,
       validityInMonths: x509Properties.validityInMonths,
       subject: x509Properties.subject,
-      subjectAlternativeNames,
+      subjectAlternativeNames
     };
   }
 
   return certificatePolicy;
+}
+
+function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
+  const parsedId = parseKeyvaultEntityIdentifier("certificates", issuer.id);
+  const attributes: IssuerAttributes = issuer.attributes || {};
+
+  const publicIssuer: CertificateIssuer = {
+    id: issuer.id,
+    name: parsedId.name,
+    accountId: issuer.credentials && issuer.credentials.accountId,
+    password: issuer.credentials && issuer.credentials.password,
+    credentials: issuer.credentials,
+    enabled: attributes.enabled,
+    createdOn: attributes.created,
+    updatedOn: attributes.updated
+  };
+
+  publicIssuer.issuerProperties = {
+    id: publicIssuer.id,
+    name: parsedId.name,
+    provider: issuer.provider
+  };
+
+  if (issuer.organizationDetails) {
+    publicIssuer.organizationId = issuer.organizationDetails.id;
+    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails;
+  }
+  return publicIssuer;
 }
 
 /**
@@ -845,6 +874,35 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("createIssuer", requestOptions);
+    const properties: IssuerProperties = requestOptions.properties || {};
+    const credentials: IssuerCredentials = requestOptions.credentials || {};
+
+    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      ...requestOptions,
+      id: properties.id || requestOptions.id,
+      provider: properties.provider || requestOptions.provider
+    };
+
+    generatedOptions.credentials = {
+      accountId: credentials.accountId || requestOptions.accountId,
+      password: credentials.password || requestOptions.password
+    };
+
+    if (
+      options.organizationId ||
+      (options.administratorContacts && options.administratorContacts.length)
+    ) {
+      generatedOptions.organizationDetails = {
+        id: options.organizationId,
+        adminDetails: options.administratorContacts
+      };
+    }
+
+    if (options.enabled !== undefined) {
+      generatedOptions.attributes = {
+        enabled: options.enabled
+      };
+    }
 
     let result: SetCertificateIssuerResponse;
 
@@ -853,12 +911,12 @@ export class CertificateClient {
         this.vaultUrl,
         issuerName,
         provider,
-        this.setParentSpan(span, requestOptions)
+        this.setParentSpan(span, generatedOptions)
       );
     } finally {
       span.end();
     }
-    return result._response.parsedBody;
+    return toPublicIssuer(result._response.parsedBody);
   }
 
   /**
@@ -883,6 +941,35 @@ export class CertificateClient {
   ): Promise<CertificateIssuer> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateIssuer", requestOptions);
+    const properties: IssuerProperties = requestOptions.properties || {};
+    const credentials: IssuerCredentials = requestOptions.credentials || {};
+
+    const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      ...requestOptions,
+      id: properties.id || requestOptions.id,
+      provider: properties.provider || requestOptions.provider
+    };
+
+    generatedOptions.credentials = {
+      accountId: credentials.accountId || requestOptions.accountId,
+      password: credentials.password || requestOptions.password
+    };
+
+    if (
+      options.organizationId ||
+      (options.administratorContacts && options.administratorContacts.length)
+    ) {
+      generatedOptions.organizationDetails = {
+        id: options.organizationId,
+        adminDetails: options.administratorContacts
+      };
+    }
+
+    if (options.enabled) {
+      generatedOptions.attributes = {
+        enabled: options.enabled
+      };
+    }
 
     let result: UpdateCertificateIssuerResponse;
 
@@ -896,7 +983,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return toPublicIssuer(result._response.parsedBody);
   }
 
   /**
@@ -933,7 +1020,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return result._response.parsedBody;
+    return toPublicIssuer(result._response.parsedBody);
   }
 
   /**
@@ -969,7 +1056,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return toPublicIssuer(result._response.parsedBody);
   }
 
   /**

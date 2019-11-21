@@ -110,7 +110,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
-    "execa": "^1.0.0",
+    "execa": "^3.3.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
     "karma-cli": "^2.0.0",

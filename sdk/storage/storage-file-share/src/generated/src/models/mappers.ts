@@ -693,16 +693,16 @@ export const SignedIdentifier: coreHttp.CompositeMapper = {
   }
 };
 
-export const Permission: coreHttp.CompositeMapper = {
-  serializedName: "Permission",
+export const SharePermission: coreHttp.CompositeMapper = {
+  serializedName: "SharePermission",
   type: {
     name: "Composite",
-    className: "Permission",
+    className: "SharePermission",
     modelProperties: {
       permission: {
-        xmlName: "Permission",
+        xmlName: "permission",
         required: true,
-        serializedName: "Permission",
+        serializedName: "permission",
         type: {
           name: "String"
         }
