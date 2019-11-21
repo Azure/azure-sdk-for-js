@@ -356,6 +356,31 @@ describe("Blob Partition Manager", function(): void {
     );
   });
 
+  it("zero is a perfectly valid value to checkpoint with", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    const commonData = {
+      consumerGroup: "test",
+      eventHubName: "test",
+      fullyQualifiedNamespace: "test",
+      ownerId: "test",
+      partitionId: "0"
+    };
+
+    await checkpointStore.updateCheckpoint({
+      ...commonData,
+      offset: 0,
+      sequenceNumber: 0
+    });
+
+    const checkpoints = await checkpointStore.listCheckpoints(commonData.fullyQualifiedNamespace, commonData.eventHubName, commonData.consumerGroup);
+
+    checkpoints.length.should.equal(1);
+    checkpoints[0].sequenceNumber.should.equal(0);
+    checkpoints[0].offset.should.equal(0);
+    checkpoints[0].partitionId.should.equal("0");
+  });
+
   it("blob prefix is always lowercased for case-insensitive fields", () => {
     chai.assert.equal(
       "namespace/eventhubname/consumergroupname/ownership/",
