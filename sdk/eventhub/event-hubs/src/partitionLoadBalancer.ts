@@ -248,6 +248,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       `[${this._ownerId}] Number of active event processors: ${ownerPartitionMap.size}.`
     );
 
+    // Include any partitions this entity already owns in the list of partitions to claim.
+    const partitionsToClaim = (ownerPartitionMap.get(this._ownerId) || []).map(ownership => ownership.partitionId);
+
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.
     const minPartitionsPerEventProcessor = Math.floor(
@@ -273,7 +276,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     ) {
       log.partitionLoadBalancer(`[${this._ownerId}] Load is balanced.`);
       // If the partitions are evenly distributed among all active event processors, no change required.
-      return [];
+      return partitionsToClaim;
     }
 
     if (
@@ -289,7 +292,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
         } partitions and shouldn't own more.`
       );
       // This event processor already has enough partitions and shouldn't own more yet
-      return [];
+      return partitionsToClaim;
     }
     log.partitionLoadBalancer(
       `[${this._ownerId}] Load is unbalanced and this event processor should own more partitions.`
@@ -306,7 +309,6 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     //  Find a partition to steal from another event processor. Pick the event processor that owns the highest
     //  number of partitions.
     const unOwnedPartitionIds = [];
-    let partitionToClaim: string | undefined;
     for (const partitionId of partitionsToAdd) {
       if (!activePartitionOwnershipMap.has(partitionId)) {
         unOwnedPartitionIds.push(partitionId);
@@ -316,12 +318,13 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       log.partitionLoadBalancer(
         `[${this._ownerId}] No unclaimed partitions, stealing from another event processor.`
       );
-      partitionToClaim = this._findPartitionToSteal(ownerPartitionMap);
+      partitionsToClaim.push(this._findPartitionToSteal(ownerPartitionMap));
     } else {
-      partitionToClaim =
-        unOwnedPartitionIds[Math.floor(Math.random() * unOwnedPartitionIds.length)];
+      partitionsToClaim.push(
+        unOwnedPartitionIds[Math.floor(Math.random() * unOwnedPartitionIds.length)]
+      );
     }
 
-    return [partitionToClaim];
+    return partitionsToClaim;
   }
 }
