@@ -41,7 +41,7 @@ describe("QueueServiceClient", () => {
     }
   });
 
-  it("listQueues with default parameters - emmpty prefix should not cause an error", async () => {
+  it("listQueues with default parameters - empty prefix should not cause an error", async () => {
     const queueServiceClient = getQSU();
     const result = (
       await queueServiceClient
