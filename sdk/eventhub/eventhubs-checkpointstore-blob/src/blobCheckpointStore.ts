@@ -171,7 +171,7 @@ export class BlobCheckpointStore implements CheckpointStore {
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return The new eTag on successful update
+   * @return The new etag on successful update.
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
     throwTypeErrorIfParameterMissing(
