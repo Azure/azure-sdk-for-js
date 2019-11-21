@@ -148,9 +148,8 @@ export type SubscriptionEventHandlersKeys =
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions
-  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
-  // for our internal classes (these are optional for external users)
+export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
+  extends // for our internal classes (these are optional for external users)
   Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
@@ -331,14 +330,17 @@ export class EventProcessor {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
-      this._consumerGroup);
-    
-    const validCheckpoints = availableCheckpoints.filter((chk) => chk.partitionId === partitionIdToClaim);
+      this._consumerGroup
+    );
+
+    const validCheckpoints = availableCheckpoints.filter(
+      (chk) => chk.partitionId === partitionIdToClaim
+    );
 
     if (validCheckpoints.length > 0) {
       return EventPosition.fromOffset(validCheckpoints[0].offset);
     }
-    
+
     return undefined;
   }
 

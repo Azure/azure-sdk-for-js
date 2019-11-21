@@ -249,7 +249,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     );
 
     // Include any partitions this entity already owns in the list of partitions to claim.
-    const partitionsToClaim = (ownerPartitionMap.get(this._ownerId) || []).map(ownership => ownership.partitionId);
+    const partitionsToClaim = (ownerPartitionMap.get(this._ownerId) || []).map(
+      (ownership) => ownership.partitionId
+    );
 
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.

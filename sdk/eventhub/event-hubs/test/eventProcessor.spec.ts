@@ -80,42 +80,54 @@ describe("Event Processor", function(): void {
         consumerGroup: "not-used-for-this-test",
         eventHubName: "not-used-for-this-test",
         // this caused a bug for us before - it's a perfectly valid offset
-        // but we were thrown off by its falsy-ness. (actually it was 
+        // but we were thrown off by its falsy-ness. (actually it was
         // sequence number before but the concept is the same)
-        offset: 0,        
+        offset: 0,
         sequenceNumber: 0,
         partitionId: "1"
-      },
+      }
     ];
 
     const checkpointStore: CheckpointStore = {
-      claimOwnership: async () => { return [] },
-      listCheckpoints: async () => { return checkpoints },
-      listOwnership: async () => { return [] },
-      updateCheckpoint: async () => { }      
+      claimOwnership: async () => {
+        return [];
+      },
+      listCheckpoints: async () => {
+        return checkpoints;
+      },
+      listOwnership: async () => {
+        return [];
+      },
+      updateCheckpoint: async () => {}
     };
 
     // we're not actually going to start anything here so there's nothing
     // to stop
-    const processor = new EventProcessor(EventHubClient.defaultConsumerGroupName, client, {
-      processEvent: async () => { }
-    }, checkpointStore, {
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvent: async () => {}
+      },
+      checkpointStore,
+      {
         maxBatchSize: 1,
-      maxWaitTimeInSeconds: 1
-    });
+        maxWaitTimeInSeconds: 1
+      }
+    );
 
     // checkpoint is available for partition 0
-    let eventPosition = await processor['_getStartPosition']("0");
+    let eventPosition = await processor["_getStartPosition"]("0");
     eventPosition!.offset!.should.equal(1009);
     should.not.exist(eventPosition!.sequenceNumber);
 
     //checkpoint is available for partition 1
-    eventPosition = await processor['_getStartPosition']("1");
+    eventPosition = await processor["_getStartPosition"]("1");
     eventPosition!.offset!.should.equal(0);
     should.not.exist(eventPosition!.sequenceNumber);
 
     // no checkpoint available for partition 2
-    eventPosition = await processor['_getStartPosition']("2");
+    eventPosition = await processor["_getStartPosition"]("2");
     should.not.exist(eventPosition);
   });
 
@@ -384,7 +396,9 @@ describe("Event Processor", function(): void {
         "myNamespace.servicebus.windows.net"
       );
       partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
-      partitionOwnershipList[0].consumerGroup!.should.equals(EventHubClient.defaultConsumerGroupName);
+      partitionOwnershipList[0].consumerGroup!.should.equals(
+        EventHubClient.defaultConsumerGroupName
+      );
     });
 
     it("should receive events from the checkpoint", async function(): Promise<void> {
@@ -742,7 +756,7 @@ describe("Event Processor", function(): void {
       const partitionIds = await client.getPartitionIds({});
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsSet = new Set<string>();
-      
+
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
       const handlers: SubscriptionEventHandlers = {
@@ -799,13 +813,9 @@ describe("Event Processor", function(): void {
         });
       } catch (err) {
         // close processors
-        await Promise.all([
-          processor1.stop(),
-          processor2.stop()
-        ]);
+        await Promise.all([processor1.stop(), processor2.stop()]);
         throw err;
       }
-      
 
       allPartitionsClaimed = true;
 
@@ -820,11 +830,12 @@ describe("Event Processor", function(): void {
       } catch (err) {
         // swallow error, check trashAfterSettling for the condition in finally
       } finally {
-        await Promise.all([
-          processor1.stop(),
-          processor2.stop()
-        ]);
-        should.equal(thrashAfterSettling, false, "Detected PartitionOwnership thrashing after load-balancing has settled.");
+        await Promise.all([processor1.stop(), processor2.stop()]);
+        should.equal(
+          thrashAfterSettling,
+          false,
+          "Detected PartitionOwnership thrashing after load-balancing has settled."
+        );
       }
     });
   });
