@@ -171,6 +171,12 @@ export interface FullEventProcessorOptions
    * The amount of time to wait between each attempt at claiming partitions.
    */
   loopIntervalInMs?: number;
+
+  /**
+   * The maximum amount of time since a PartitionOwnership was updated
+   * to use to determine if a partition is no longer claimed.
+   */
+  inactiveTimeLimitInMs?: number;
 }
 
 /**
@@ -214,6 +220,7 @@ export class EventProcessor {
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
   private _loopIntervalInMs: number = 10000;
+  private _inactiveTimeLimitInMs = 60000;
 
   /**
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -238,7 +245,7 @@ export class EventProcessor {
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
-    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
+    const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs; // ownership expiration time (1 minute)
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
       new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
