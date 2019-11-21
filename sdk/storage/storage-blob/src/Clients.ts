@@ -1682,6 +1682,10 @@ export class BlobClient extends StorageClient {
    * Downloads an Azure Blob in parallel to a buffer.
    * Offset and count are optional, downloads the entire blob if they are not provided.
    *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
+   * consider {@link downloadToFile}.
+   *
    * @export
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
@@ -1699,6 +1703,10 @@ export class BlobClient extends StorageClient {
    *
    * Downloads an Azure Blob in parallel to a buffer.
    * Offset and count are optional, downloads the entire blob if they are not provided.
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
+   * consider {@link downloadToFile}.
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
