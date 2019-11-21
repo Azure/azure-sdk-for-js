@@ -60,7 +60,7 @@ dependencies:
   '@types/qs': 6.9.0
   '@types/query-string': 6.2.0
   '@types/semaphore': 1.1.0
-  '@types/sinon': 7.5.0
+  '@types/sinon': 7.5.1
   '@types/tough-cookie': 2.3.5
   '@types/tunnel': 0.0.1
   '@types/underscore': 1.9.4
@@ -818,10 +818,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-oprSwp094zOglVrXdlo/4bAHtKTAxX6VT8FOZlBKrmyLbNvE1zxZyJ6yikMVtHIvwP45+ZQGJn+FdXGKTozq0g==
-  /@types/sinon/7.5.0:
+  /@types/sinon/7.5.1:
     dev: false
     resolution:
-      integrity: sha512-NyzhuSBy97B/zE58cDw4NyGvByQbAHNP9069KVSgnXt/sc0T6MFRh0InKAeBVHJWdSXG1S3+PxgVIgKo9mTHbw==
+      integrity: sha512-EZQUP3hSZQyTQRfiLqelC9NMWd1kqLcmQE0dMiklxBkgi84T+cHOhnKpgk4NnOWpGX863yE6+IaGnOXUNFqDnQ==
   /@types/source-list-map/0.1.2:
     dev: false
     resolution:
@@ -9814,7 +9814,7 @@ packages:
       '@types/jssha': 2.0.0
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@types/sinon': 7.5.0
+      '@types/sinon': 7.5.1
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       assert: 1.5.0
@@ -9975,7 +9975,7 @@ packages:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/node-fetch': 2.5.3
-      '@types/sinon': 7.5.0
+      '@types/sinon': 7.5.1
       '@types/tough-cookie': 2.3.5
       '@types/tunnel': 0.0.1
       '@types/uuid': 3.4.6
@@ -10174,7 +10174,7 @@ packages:
       '@types/node-fetch': 2.5.3
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.0
-      '@types/sinon': 7.5.0
+      '@types/sinon': 7.5.1
       '@types/tunnel': 0.0.1
       '@types/underscore': 1.9.4
       '@types/uuid': 3.4.6
@@ -10684,7 +10684,7 @@ packages:
       '@types/chai': 4.2.5
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@types/sinon': 7.5.0
+      '@types/sinon': 7.5.1
       '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
       '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
       assert: 1.5.0
