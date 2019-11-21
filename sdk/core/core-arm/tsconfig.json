@@ -2,6 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "preserveConstEnums": true,
+    "module": "commonjs",
     "target": "es5",
     "outDir": "es"
   },

@@ -69,7 +69,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "run-p build:lib",
     "build:lib": "run-s build:tsc build:rollup build:minify",
-    "build:tsc": "tsc -p tsconfig.json",
+    "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/coreArm.js.map'\" -o ./dist/coreArm.min.js ./dist/coreArm.js",
     "build:test": "npm run build",
