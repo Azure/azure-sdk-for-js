@@ -39,7 +39,7 @@ export interface EventHubProperties {
   /**
    * @property The date and time the hub was created in UTC.
    */
-  createdAt: Date;
+  createdOn: Date;
   /**
    * @property The slice of string partition identifiers.
    */
@@ -162,7 +162,7 @@ export class ManagementClient extends LinkEntity {
     });
     const runtimeInfo: EventHubProperties = {
       name: info.name,
-      createdAt: new Date(info.created_at),
+      createdOn: new Date(info.created_at),
       partitionIds: info.partition_ids
     };
     log.mgmt("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);

@@ -164,8 +164,8 @@ export class PartitionProcessor implements InitializationContext {
    * @param event The received events to be processed.
    * @return {Promise<void>}
    */
-  async processEvent(event: ReceivedEventData): Promise<void> {
-    await this._eventHandlers.processEvent(event, this);
+  async processEvents(events: ReceivedEventData[]): Promise<void> {
+    await this._eventHandlers.processEvents(events, this);
   }
 
   /**
@@ -180,7 +180,7 @@ export class PartitionProcessor implements InitializationContext {
     }
   }
 
-  setStartPosition(eventPosition: EventPosition) {
+  setStartingPosition(eventPosition: EventPosition) {
     this._defaultPosition = eventPosition;
   }
 
