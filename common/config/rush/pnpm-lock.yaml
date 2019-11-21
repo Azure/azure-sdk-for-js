@@ -14,6 +14,7 @@ dependencies:
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
   '@rush-temp/cognitiveservices-inkrecognizer': 'file:projects/cognitiveservices-inkrecognizer.tgz'
+  '@rush-temp/cognitiveservices-textanalytics': 'file:projects/cognitiveservices-textanalytics.tgz'
   '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:projects/core-asynciterator-polyfill.tgz'
@@ -154,7 +155,7 @@ dependencies:
   query-string: 5.1.1
   regenerator-runtime: 0.13.3
   requirejs: 2.3.6
-  rhea: 1.0.12
+  rhea: 1.0.13
   rhea-promise: 0.1.15
   rimraf: 3.0.0
   rollup: 1.27.3
@@ -2243,7 +2244,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30001011
-      electron-to-chromium: 1.3.307
+      electron-to-chromium: 1.3.310
     dev: false
     hasBin: true
     resolution:
@@ -2813,11 +2814,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
-  /core-js/3.4.1:
+  /core-js/3.4.2:
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-KX/dnuY/J8FtEwbnrzmAjUYgLqtk+cxM86hfG60LGiW3MmltIc2yAmDgBgEkfm0blZhUrdr1Zd84J2Y14mLxzg==
+      integrity: sha512-bUTfqFWtNKWp73oNIfRkqwYZJeNT3lstzZcAkhhiuvDraRSgOH1/+F9ZklbpR4zpdKuo4cpXN8tKP7s61yjX+g==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -3232,10 +3233,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.307:
+  /electron-to-chromium/1.3.310:
     dev: false
     resolution:
-      integrity: sha512-01rTsAqHwf3D2X6NtlUvzB2hxDj67kiTVIO5GWdFb2unA0QvFvrjyrtc993ByRLF+surlr+9AvJdD0UYs5HzwA==
+      integrity: sha512-ixvxy46JrDv5c8k1+th66Z+xDZD8zShNs6oh7hgyMpNZUgaoRBisXgFZKAyyhQTAj7oU2Y/uZ0AAsj/TY4N0tA==
   /elliptic/6.5.1:
     dependencies:
       bn.js: 4.11.8
@@ -3839,7 +3840,7 @@ packages:
   /fetch-mock/8.0.0_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
-      core-js: 3.4.1
+      core-js: 3.4.2
       glob-to-regexp: 0.4.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
@@ -7643,7 +7644,7 @@ packages:
   /rhea-promise/0.1.15:
     dependencies:
       debug: 3.2.6
-      rhea: 1.0.12
+      rhea: 1.0.13
       tslib: 1.10.0
     dev: false
     resolution:
@@ -7651,17 +7652,17 @@ packages:
   /rhea-promise/1.0.0:
     dependencies:
       debug: 3.2.6
-      rhea: 1.0.12
+      rhea: 1.0.13
       tslib: 1.10.0
     dev: false
     resolution:
       integrity: sha512-odAjpbB/IpFFBenPDwPkTWMQldt+DUlMBH9yI48Ct5OgTeDuuQcBnlhB+YCc6g2z8+URiP2ejms88joEanNCaw==
-  /rhea/1.0.12:
+  /rhea/1.0.13:
     dependencies:
       debug: 3.2.6
     dev: false
     resolution:
-      integrity: sha512-YI9OLjJnw9/lHQp7KmzNhfnijh5gE+fd/fv4i8uEicURMLg3Dbxyh2soqqIk6Z7nGx6KEVXb7/nr2DTiJSEDcw==
+      integrity: sha512-gJJMJglV94vns97DVVRAAgyOZ7L8Pp99eFArx4szSiJNqgDPJAIh+yPkv88e1CzOFr4XkL2Vof6v/kdbWTpugQ==
   /rimraf/2.6.3:
     dependencies:
       glob: 7.1.6
@@ -9803,6 +9804,51 @@ packages:
       integrity: sha512-hGCl74dd3rV2pUhx36FQ+oWMXNBND0K826h0qnXavV3Q2pNnj7rn/5GacAx3IOW8sqMWPxqWKyR+O/sy2l8ZMA==
       tarball: 'file:projects/cognitiveservices-inkrecognizer.tgz'
     version: 0.0.0
+  'file:projects/cognitiveservices-textanalytics.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.6.1
+      '@opentelemetry/types': 0.2.0
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.3
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.3
+      '@typescript-eslint/eslint-plugin': 2.8.0_892bab88de961f0b2a7f511a2fa40150
+      '@typescript-eslint/parser': 2.8.0_eslint@6.6.0+typescript@3.6.4
+      cross-env: 6.0.3
+      eslint: 6.6.0
+      eslint-config-prettier: 6.7.0_eslint@6.6.0
+      eslint-plugin-no-null: 1.0.2_eslint@6.6.0
+      eslint-plugin-no-only-tests: 2.3.1
+      eslint-plugin-promise: 4.2.1
+      karma: 4.4.1
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.1
+      karma-edge-launcher: 0.4.2_karma@4.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.2.0
+      karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-junit-reporter: 2.0.1_karma@4.4.1
+      karma-mocha: 1.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.4.1
+      karma-remap-coverage: 0.1.5_karma-coverage@2.0.1
+      mocha: 6.2.2
+      mocha-junit-reporter: 1.23.1_mocha@6.2.2
+      mocha-multi: 1.1.3_mocha@6.2.2
+      prettier: 1.19.1
+      rimraf: 3.0.0
+      rollup: 1.27.3
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.3
+      rollup-plugin-multi-entry: 2.1.0
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.3
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.3
+      rollup-plugin-terser: 5.1.2_rollup@1.27.3
+      rollup-plugin-visualizer: 3.2.2_rollup@1.27.3
+      tslib: 1.10.0
+      typescript: 3.6.4
+    dev: false
+    name: '@rush-temp/cognitiveservices-textanalytics'
+    resolution:
+      integrity: sha512-YwfdOv02WtKFrPIOFK7VZiTd/uLIWF/VkhRQdrVqOEEzfDy8iFNojSE6Xhufl++3sEs5jm5Xpc1EfqtuLuOLgw==
+      tarball: 'file:projects/cognitiveservices-textanalytics.tgz'
+    version: 0.0.0
   'file:projects/core-amqp.tgz':
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_2242daeac250f62a7ffd808e02504bf7
@@ -9845,7 +9891,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 2.0.0
-      rhea: 1.0.12
+      rhea: 1.0.13
       rhea-promise: 1.0.0
       rimraf: 3.0.0
       rollup: 1.27.3
@@ -10791,7 +10837,7 @@ packages:
       process: 0.11.10
       promise: 8.0.3
       puppeteer: 2.0.0
-      rhea: 1.0.12
+      rhea: 1.0.13
       rhea-promise: 0.1.15
       rimraf: 3.0.0
       rollup: 1.27.3
@@ -11098,7 +11144,7 @@ packages:
       async-lock: 1.2.2
       death: 1.1.0
       debug: 4.1.1
-      rhea: 1.0.12
+      rhea: 1.0.13
       rimraf: 3.0.0
       tslib: 1.10.0
       typescript: 3.6.4
@@ -11110,6 +11156,7 @@ packages:
       integrity: sha512-9jr74sQhEUbO70fTRMEExmTQIenZst4iKtAemjCJ5fXqyGHH/TciZN9OuzFdO2XxyG4m41OpXDenzcmI7HyM4w==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -11126,6 +11173,7 @@ specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
   '@rush-temp/cognitiveservices-inkrecognizer': 'file:./projects/cognitiveservices-inkrecognizer.tgz'
+  '@rush-temp/cognitiveservices-textanalytics': 'file:./projects/cognitiveservices-textanalytics.tgz'
   '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:./projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:./projects/core-asynciterator-polyfill.tgz'
