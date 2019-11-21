@@ -166,6 +166,11 @@ export interface FullEventProcessorOptions
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   maxWaitTimeInSeconds: number;
+
+  /**
+   * The amount of time to wait between each attempt at claiming partitions.
+   */
+  loopIntervalInMs: number;
 }
 
 /**
@@ -208,6 +213,7 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
+  private _loopIntervalInMs: number = 10000;
 
   /**
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -236,6 +242,9 @@ export class EventProcessor {
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
       new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    if (options.loopIntervalInMs) {
+      this._loopIntervalInMs = options.loopIntervalInMs;
+    }
   }
 
   /**
@@ -339,7 +348,7 @@ export class EventProcessor {
 
   private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
-    const waitIntervalInMs = 10000;
+    const waitIntervalInMs = this._loopIntervalInMs;
     while (!abortSignal.aborted) {
       try {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();

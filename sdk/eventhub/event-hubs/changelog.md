@@ -1,5 +1,7 @@
 ### TBD 5.0.0-preview.7
 
+- Improves load-balancing capabilities to reduce the frequency that partitions are claimed by other running
+instances of `EventHubConsumerClient.subscribe` after all partitions are being read.
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
 ### 2019-11-04 5.0.0-preview.6
