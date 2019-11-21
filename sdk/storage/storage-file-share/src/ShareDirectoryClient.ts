@@ -753,6 +753,10 @@ export class ShareDirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<DirectoryListFilesAndDirectoriesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listFilesAndDirectoriesResponse;
     do {
       listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
@@ -771,7 +775,13 @@ export class ShareDirectoryClient extends StorageClient {
    */
   private async *listFilesAndDirectoriesItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem> {
+  ): AsyncIterableIterator<
+    ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem)
+  > {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
       marker,
@@ -874,9 +884,13 @@ export class ShareDirectoryClient extends StorageClient {
   public listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesOptions = {}
   ): PagedAsyncIterableIterator<
-    { kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem,
+    ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem),
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     // AsyncIterableIterator to iterate over files and directories
     const iter = this.listFilesAndDirectoriesItems(options);
     return {
@@ -922,6 +936,11 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
       options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
       return this.context.listFilesAndDirectoriesSegment({
         marker,
