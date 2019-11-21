@@ -890,10 +890,6 @@ export interface RequestContext {
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
-    // Warning: (ae-forgotten-export) The symbol "LocationRouting" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    locationRouting?: LocationRouting;
     // Warning: (ae-forgotten-export) The symbol "HTTPMethod" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
