@@ -76,8 +76,11 @@ export interface EventHubClientOptions {
 // @public
 export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
@@ -85,8 +88,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-    subscribe(checkpointStore: CheckpointStore, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-}
+    }
 
 // @public
 export class EventHubProducerClient {

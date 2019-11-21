@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubProducerClient, Subscription } from "../src";
+import {
+  EventHubProducerClient,
+  Subscription,
+  SubscriptionEventHandlers,
+  CheckpointStore
+} from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -10,11 +15,29 @@ import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import * as log from "../src/log";
 import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
+import { FullEventProcessorOptions, EventProcessor } from "../src/eventProcessor";
+import { SinonStubbedInstance, createStubInstance } from "sinon";
 
 const should = chai.should();
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", () => {
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
+
+  before(() => {
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_NAME],
+      "define EVENTHUB_NAME in your environment before running integration tests."
+    );
+  });
+
   describe("unit tests", () => {
     it("isCheckpointStore", () => {
       isCheckpointStore({
@@ -26,41 +49,134 @@ describe("EventHubConsumerClient", () => {
 
       isCheckpointStore(new InMemoryCheckpointStore()).should.ok;
     });
+
+    describe("subscribe() overloads route properly", () => {
+      let client: EventHubConsumerClient;
+      let clientWithCheckpointStore: EventHubConsumerClient;
+      let subscriptionHandlers: SubscriptionEventHandlers;
+      let fakeEventProcessor: SinonStubbedInstance<EventProcessor>;
+
+      let validateOptions: (options: FullEventProcessorOptions) => void;
+
+      beforeEach(() => {
+        fakeEventProcessor = createStubInstance(EventProcessor);
+
+        client = new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path
+        );
+
+        clientWithCheckpointStore = new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path,
+          // it doesn't actually matter _what_ checkpoint store gets passed in
+          new InMemoryCheckpointStore()
+        );
+
+        subscriptionHandlers = {
+          processEvent: async () => {}
+        };
+
+        const fakeEventProcessorConstructor = (
+          consumerGroup: string,
+          eventHubClient: EventHubClient,
+          subscriptionEventHandlers: SubscriptionEventHandlers,
+          checkpointStore: CheckpointStore,
+          options: FullEventProcessorOptions
+        ) => {
+          consumerGroup.should.equal(EventHubClient.defaultConsumerGroupName);
+          subscriptionEventHandlers.should.equal(subscriptionHandlers);
+          (typeof eventHubClient.createConsumer).should.equal("function");
+          isCheckpointStore(checkpointStore).should.be.ok;
+
+          validateOptions(options);
+
+          return fakeEventProcessor;
+        };
+
+        (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
+        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
+      });
+
+      it("subscribe to single partition, no checkpoint store", () => {
+        validateOptions = (options) => {
+          // when the user doesn't pass a checkpoint store we give them a really simple set of
+          // defaults: InMemoryCheckpointStore and the GreedyLoadBalancer.
+
+          // So we don't set an ownerlevel here - it's all in-memory and you can have as many
+          // as you want.
+          should.not.exist(options.ownerLevel);
+
+          // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
+          // immediately so we bypass the FairPartitionLoadBalancer entirely
+          options.partitionLoadBalancer!.constructor.name.should.equal(
+            "GreedyPartitionLoadBalancer"
+          );
+        };
+
+        const subscription = client.subscribe(subscriptionHandlers);
+
+        subscription.close();
+        fakeEventProcessor.stop.callCount.should.equal(1);
+      });
+
+      it("subscribe to single partition, WITH checkpoint store", () => {
+        validateOptions = (options) => {
+          // when the user gives us a checkpoint store we treat their consumer client as
+          // a "production" ready client - they use their checkpoint store and
+          // the FairPartitionLoadBalancer
+
+          // To coordinate properly we set an owner level - this lets us
+          // cooperate properly with other consumers within this group.
+          options.ownerLevel!.should.equal(0);
+
+          // We're falling back to the actual production load balancer
+          // (which means we just don't override the partition load balancer field)
+          should.not.exist(options.partitionLoadBalancer);
+        };
+
+        clientWithCheckpointStore.subscribe(subscriptionHandlers);
+      });
+
+      it("subscribe to all partitions, no checkpoint store", () => {
+        validateOptions = (options) => {
+          should.not.exist(options.ownerLevel);
+          options.partitionLoadBalancer!.constructor.name.should.equal(
+            "GreedyPartitionLoadBalancer"
+          );
+        };
+
+        client.subscribe(subscriptionHandlers);
+      });
+
+      it("subscribe to all partitions, WITH checkpoint store", () => {
+        validateOptions = (options) => {
+          options.ownerLevel!.should.equal(0);
+          should.not.exist(options.partitionLoadBalancer);
+        };
+
+        clientWithCheckpointStore.subscribe(subscriptionHandlers);
+      });
+    });
   });
 
   describe("functional tests", () => {
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
-    };
-
-    let client: EventHubConsumerClient;
+    let clients: EventHubConsumerClient[];
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
     let subscriptions: Subscription[] = [];
 
     beforeEach(async () => {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
-      );
-
-      client = new EventHubConsumerClient(
-        EventHubClient.defaultConsumerGroupName,
-        service.connectionString!,
-        service.path
-      );
-
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
-      partitionIds = await client.getPartitionIds();
+      partitionIds = await producerClient.getPartitionIds();
 
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
+
+      clients = [];
     });
 
     afterEach(async () => {
@@ -68,7 +184,11 @@ describe("EventHubConsumerClient", () => {
         await subscription.close();
       }
 
-      await client.close();
+      for (const client of clients) {
+        await client.close();
+      }
+
+      clients = [];
       await producerClient.close();
     });
 
@@ -77,7 +197,7 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "Subscribing to specific partition (0), no coordination.",
+          "Subscribing to specific partition (0), no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching (0)."
         ],
         [log.consumerClient, log.partitionLoadBalancer]
@@ -85,7 +205,15 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(["0"], false);
 
-      const subscription = await client.subscribe("0", tester);
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path
+        )
+      );
+
+      const subscription = clients[0].subscribe("0", tester);
 
       subscriptions.push(subscription);
 
@@ -98,7 +226,7 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "Subscribing to all partitions, don't coordinate.",
+          "Subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
         [log.consumerClient, log.partitionLoadBalancer]
@@ -106,7 +234,15 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
 
-      const subscription = await client.subscribe(tester);
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path
+        )
+      );
+
+      const subscription = clients[0].subscribe(tester);
 
       await tester.runTestAndPoll(producerClient);
       subscriptions.push(subscription);
@@ -114,33 +250,50 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, coordinating with the same partition manager #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer #RunnableInBrowser", async function(): Promise<
       void
     > {
       // fast forward our partition manager so it starts reading from the latest offset
       // instead of the beginning of time.
-      const inMemoryCheckpointStore = new InMemoryCheckpointStore();
-
       const logTester = new LogTester(
         [
-          "Subscribing to all partitions, coordinating using a partition manager.",
+          "Subscribing to all partitions, using a checkpoint store.",
           "FairPartitionLoadBalancer created with owner ID"
         ],
         [log.consumerClient, log.partitionLoadBalancer]
       );
 
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path,
+          // specifying your own checkpoint store activates the "production ready" code path that
+          // also uses the FairPartitionLoadBalancer
+          new InMemoryCheckpointStore()
+        )
+      );
+
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = await client.subscribe(inMemoryCheckpointStore, tester);
-
+      const subscriber1 = clients[0].subscribe(tester);
       subscriptions.push(subscriber1);
 
-      const subscriber2 = await client.subscribe(inMemoryCheckpointStore, tester);
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path,
+          // specifying your own checkpoint store activates the "production ready" code path that
+          // also uses the FairPartitionLoadBalancer
+          new InMemoryCheckpointStore()
+        )
+      );
 
+      const subscriber2 = clients[1].subscribe(tester);
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
-
       logTester.assert();
     });
   });
