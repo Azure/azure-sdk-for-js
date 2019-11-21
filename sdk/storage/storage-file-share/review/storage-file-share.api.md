@@ -599,6 +599,7 @@ export class FileSystemAttributes {
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    sourceRange?: string;
     timeoutInSeconds?: number;
 }
 
@@ -997,15 +998,15 @@ export interface ShareGetPermissionOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "Permission" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharePermission" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ShareGetPermissionHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
+export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPermissionHeaders;
         bodyAsText: string;
-        parsedBody: Permission;
+        parsedBody: SharePermission;
     };
 };
 

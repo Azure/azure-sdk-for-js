@@ -1,12 +1,13 @@
 import * as assert from "assert";
-import { getBSU, getConnectionStringFromEnvironment } from "../utils";
+import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "../utils";
 import * as dotenv from "dotenv";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient Node.js only", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);

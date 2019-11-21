@@ -22,16 +22,14 @@ async function main(): Promise<void> {
     credentials: {
       accountId: "keyvaultuser"
     },
-    organizationDetails: {
-      adminDetails: [
-        {
-          firstName: "John",
-          lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
-          phone: "4255555555"
-        }
-      ]
-    }
+    administratorContacts: [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        emailAddress: "admin@microsoft.com",
+        phone: "4255555555"
+      }
+    ]
   });
 
   // We can create a certificate with that issuer's name.
