@@ -212,4 +212,42 @@ describe("Region Failover", () => {
       "https://failovertest-australiaeast.documents.azure.com:443/"
     );
   });
+
+  it("all endpoints unavailable, fallback to user supplied endpoint", async () => {
+    let requestIndex = 0;
+    let lastEndpointCalled = "";
+    responses = [
+      databaseAccountResponse(),
+      collectionResponse,
+      readResponse,
+      DatabaseAccountNotFoundResponse,
+      databaseAccountResponse(),
+      DatabaseAccountNotFoundResponse,
+      databaseAccountResponse(),
+      readResponse
+    ];
+    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, next) => {
+          const response = responses[requestIndex];
+          lastEndpointCalled = context.endpoint;
+          requestIndex++;
+          if (response.code > 400) {
+            throw response;
+          }
+          return response;
+        }
+      }
+    ];
+    const client = new CosmosClient({
+      ...options,
+      plugins
+    } as any);
+    const containerRef = client.database("any").container("any");
+    const { resource } = await containerRef.item("any", undefined).read();
+    const { resource: resource2 } = await containerRef.item("any", undefined).read();
+    assert.strictEqual(lastEndpointCalled, "https://failovertest.documents.azure.com/");
+  });
 });

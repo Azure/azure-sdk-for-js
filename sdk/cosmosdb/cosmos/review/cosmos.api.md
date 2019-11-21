@@ -593,6 +593,8 @@ export interface Location {
     databaseAccountEndpoint: string;
     // (undocumented)
     name: string;
+    // (undocumented)
+    unavailable?: boolean;
 }
 
 // @public

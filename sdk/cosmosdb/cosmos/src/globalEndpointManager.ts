@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Constants, OperationType, ResourceType, sleep, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { DatabaseAccount } from "./documents";
+import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { LocationCache } from "./LocationCache";
 import { ResourceResponse } from "./request";
@@ -30,9 +30,10 @@ export class GlobalEndpointManager {
   private isRefreshing: boolean;
   private readonly backgroundRefreshTimeIntervalInMS: number;
   private initPromise: Promise<void>;
-  private databaseAccount: DatabaseAccount;
   private options: CosmosClientOptions;
   private preferredLocations: string[];
+  private writeableLocations: Location[];
+  private readableLocations: Location[];
 
   /**
    * @constructor GlobalEndpointManager
@@ -90,9 +91,7 @@ export class GlobalEndpointManager {
 
   public async markCurrentLocationUnavailableForRead(endpoint: string) {
     await this.refreshEndpointList();
-    const location = this.databaseAccount.readableLocations.find(
-      (loc) => loc.databaseAccountEndpoint === endpoint
-    );
+    const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
     }
@@ -100,7 +99,7 @@ export class GlobalEndpointManager {
 
   public async markCurrentLocationUnavailableForWrite(endpoint: string) {
     await this.refreshEndpointList();
-    const location = this.databaseAccount.writableLocations.find(
+    const location = this.writeableLocations.find(
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
@@ -123,16 +122,17 @@ export class GlobalEndpointManager {
       return this.defaultEndpoint;
     }
 
-    if (!this.databaseAccount) {
+    if (!this.readableLocations || !this.writeableLocations) {
       const { resource: databaseAccount } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint
       });
-      this.databaseAccount = databaseAccount;
+      this.writeableLocations = databaseAccount.writableLocations;
+      this.readableLocations = databaseAccount.readableLocations;
     }
 
     const locations = isReadRequest(request.operationType)
-      ? this.databaseAccount.readableLocations
-      : this.databaseAccount.writableLocations;
+      ? this.readableLocations
+      : this.writeableLocations;
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
@@ -146,6 +146,7 @@ export class GlobalEndpointManager {
         }
       }
     }
+
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
@@ -167,7 +168,7 @@ export class GlobalEndpointManager {
       let shouldRefresh = false;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
-        this.databaseAccount = databaseAccount;
+        this.refreshEndpoints(databaseAccount);
         this.locationCache.onDatabaseAccountRead(databaseAccount);
       }
 
@@ -178,6 +179,21 @@ export class GlobalEndpointManager {
       } else {
         this.isRefreshing = false;
         this.isEndpointCacheInitialized = true;
+      }
+    }
+  }
+
+  private refreshEndpoints(databaseAccount: DatabaseAccount) {
+    for (const location of databaseAccount.writableLocations) {
+      const existingLocation = this.writeableLocations.find((loc) => loc.name === location.name);
+      if (!existingLocation) {
+        this.writeableLocations.push(location);
+      }
+    }
+    for (const location of databaseAccount.writableLocations) {
+      const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
+      if (!existingLocation) {
+        this.readableLocations.push(location);
       }
     }
   }
