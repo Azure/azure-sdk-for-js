@@ -219,6 +219,8 @@ export class QueueServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    *
+   * Example usage with DefaultAzureCredential from `@azure/identity`:
+   *
    * ```js
    * const account = "<account>";
    *
@@ -231,6 +233,8 @@ export class QueueServiceClient extends StorageClient {
    *   credential
    * }
    * ```
+   *
+   * Example usage with an account name/key:
    *
    * ```js
    * const account = "<account>";
@@ -295,6 +299,8 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} queueName
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
+   *
+   * Example usage:
    *
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
@@ -397,63 +403,72 @@ export class QueueServiceClient extends StorageClient {
    * under the specified account.
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
-   * ```js
-   *    let i = 1;
-   *    for await (const item of queueServiceClient.listQueues()) {
-   *      console.log(`Queue${i}: ${item.name}`);
-   *      i++;
-   *    }
-   * ```
+   *
+   * Example usage with `for/await` syntax:
    *
    * ```js
-   *    // Generator syntax .next()
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues();
-   *    let item = await iterator.next();
-   *    while (!item.done) {
-   *      console.log(`Queue${i}: ${iterator.value.name}`);
-   *      i++;
-   *      item = await iterator.next();
-   *    }
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
    * ```
    *
-   * ```js
-   *    // Example for .byPage()
-   *    // passing optional maxPageSize in the page settings
-   *    let i = 1;
-   *    for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *      if (item2.queueItems) {
-   *        for (const queueItem of item2.queueItems) {
-   *          console.log(`Queue${i}: ${queueItem.name}`);
-   *          i++;
-   *        }
-   *      }
-   *    }
-   * ```
+   * Example using `iter.next()`:
    *
    * ```js
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   *    let item = (await iterator.next()).value;
-   *    // Prints 2 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
-   *    // Gets next marker
-   *    let marker = item.continuationToken;
-   *    // Passing next marker as continuationToken
-   *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *    item = (await iterator.next()).value;
-   *    // Prints 10 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
+   * // Generator syntax .next()
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues();
+   * let item = await iterator.next();
+   * while (!item.done) {
+   *   console.log(`Queue${i}: ${iterator.value.name}`);
+   *   i++;
+   *   item = await iterator.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // Example for .byPage()
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   if (item2.queueItems) {
+   *     for (const queueItem of item2.queueItems) {
+   *       console.log(`Queue${i}: ${queueItem.name}`);
+   *       i++;
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example resuming paging using a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+   * let item = (await iterator.next()).value;
+   * // Prints 2 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = item.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * item = (await iterator.next()).value;
+   * // Prints 10 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
    * ```
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.

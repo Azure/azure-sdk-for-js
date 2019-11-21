@@ -254,6 +254,8 @@ export class ShareServiceClient extends StorageClient {
    * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof ShareServiceClient
    *
+   * Example usage:
+   *
    * ```js
    * const shareClient = serviceClient.getShareClient("<share name>");
    * await shareClient.create();
@@ -450,12 +452,16 @@ export class ShareServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the shares in pages.
    *
+   * Example using `for await` syntax:
+   *
    * ```js
    *   let i = 1;
    *   for await (const share of serviceClient.listShares()) {
    *     console.log(`Share ${i++}: ${share.name}`);
    *   }
    * ```
+   *
+   * Example using `iter.next()`:
    *
    * ```js
    *   // Generator syntax .next()
@@ -467,6 +473,8 @@ export class ShareServiceClient extends StorageClient {
    *     shareItem = await iter.next();
    *   }
    * ```
+   *
+   * Example using `byPage`:
    *
    * ```js
    *   // Example for .byPage()
@@ -480,6 +488,8 @@ export class ShareServiceClient extends StorageClient {
    *     }
    *   }
    * ```
+   *
+   * Example resuming paging using a marker:
    *
    * ```js
    *   // Passing marker as an argument (similar to the previous example)

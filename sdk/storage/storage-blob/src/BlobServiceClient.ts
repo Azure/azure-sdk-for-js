@@ -331,6 +331,8 @@ export class BlobServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    *
+   * Example usage with DefaultAzureCredential from `@azure/identity`:
+   *
    * ```js
    * const account = "<storage account name>";
    *
@@ -343,6 +345,8 @@ export class BlobServiceClient extends StorageClient {
    *   defaultAzureCredential
    * );
    * ```
+   *
+   * Example usage with an account name/key:
    *
    * ```js
    * const account = "<storage account name>"
@@ -402,6 +406,8 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
+   *
+   * Example usage:
    *
    * ```js
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
@@ -715,12 +721,16 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
+   * Example usage with `for await` syntax:
+   *
    * ```js
    *   let i = 1;
    *   for await (const container of blobServiceClient.listContainers()) {
    *     console.log(`Container ${i++}: ${container.name}`);
    *   }
    * ```
+   *
+   * Example using `iter.next()`:
    *
    * ```js
    *   // Generator syntax .next()
@@ -732,6 +742,8 @@ export class BlobServiceClient extends StorageClient {
    *     containerItem = await iter.next();
    *   }
    * ```
+   *
+   * Example usage with `byPage()`:
    *
    * ```js
    *   // Example for .byPage()
@@ -745,6 +757,8 @@ export class BlobServiceClient extends StorageClient {
    *     }
    *   }
    * ```
+   *
+   * Example resuming paging using a marker:
    *
    * ```js
    *   // Passing marker as an argument (similar to the previous example)

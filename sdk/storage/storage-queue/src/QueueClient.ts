@@ -583,6 +583,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
    *
+   * Example usage:
+   *
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
    * const createQueueResponse = await queueClient.create();
@@ -614,6 +616,8 @@ export class QueueClient extends StorageClient {
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
+   *
+   * Example usage:
    *
    * ```js
    * const deleteQueueResponse = await queueClient.delete();
@@ -841,6 +845,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
    *
+   * Example usage:
+   *
    * ```js
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
@@ -897,6 +903,8 @@ export class QueueClient extends StorageClient {
    * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
+   *
+   * Example usage:
    *
    * ```js
    * const response = await queueClient.receiveMessages();
@@ -958,6 +966,8 @@ export class QueueClient extends StorageClient {
    * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
+   *
+   * Example usage:
    *
    * ```js
    * const peekMessagesResponse = await queueClient.peekMessages();
