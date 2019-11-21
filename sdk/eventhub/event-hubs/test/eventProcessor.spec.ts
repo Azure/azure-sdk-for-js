@@ -763,15 +763,19 @@ describe("Event Processor", function(): void {
         }
       };
 
+      const eventProcessorOptions: FullEventProcessorOptions = {
+        maxBatchSize: 1,
+        maxWaitTimeInSeconds: 5,
+        loopIntervalInMs: 1000,
+        inactiveTimeLimitInMs: 3000
+      };
+
       const processor1 = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         handlers,
         checkpointStore,
-        {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 5
-        }
+        eventProcessorOptions
       );
 
       const processor2 = new EventProcessor(
@@ -779,10 +783,7 @@ describe("Event Processor", function(): void {
         client,
         handlers,
         checkpointStore,
-        {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 5
-        }
+        eventProcessorOptions
       );
 
       processor1.start();
@@ -793,7 +794,7 @@ describe("Event Processor", function(): void {
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 10,
-          timeBetweenRunsMs: 5000,
+          timeBetweenRunsMs: 1000,
           until: async () => claimedPartitionsSet.size === partitionIds.length
         });
       } catch (err) {
@@ -812,8 +813,8 @@ describe("Event Processor", function(): void {
         // loop for some time to see if thrashing occurs
         await loopUntil({
           name: "partitionThrash",
-          maxTimes: 10,
-          timeBetweenRunsMs: 5000,
+          maxTimes: 4,
+          timeBetweenRunsMs: 1000,
           until: async () => Boolean(thrashAfterSettling)
         });
       } catch (err) {
