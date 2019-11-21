@@ -19,7 +19,7 @@ export class BlobCheckpointStore implements CheckpointStore {
   /**
    * Get the list of all existing partition ownership from the underlying data store. May return empty
    * results if there are is no existing ownership information.
-   * Partition Ownership contains the information on which EventProcessor is currently processing the partition and the last checkpoint for the partition
+   * Partition Ownership contains the information on which `EventHubConsumerClient` subscribe call is currently processing the partition.
    *
    * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
