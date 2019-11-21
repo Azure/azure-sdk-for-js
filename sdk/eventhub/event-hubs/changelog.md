@@ -2,6 +2,7 @@
 
 - Improves load-balancing capabilities to reduce the frequency that partitions are claimed by other running
 instances of `EventHubConsumerClient.subscribe` after all partitions are being read.
+([PR #6294](https://github.com/Azure/azure-sdk-for-js/pull/6294))
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
 ### 2019-11-04 5.0.0-preview.6
