@@ -1,10 +1,15 @@
-### 2019-11-05 - 1.0.0-preview.5
+### TBD - 1.0.0-preview.5
 
 - Updated to use the latest version of the `@azure/event-hubs` package.
 
 Breaking changes:
+
 - `BlobPartitionManager` has been renamed to `BlobCheckpointStore` to reflect naming changes 
    made in the `@azure/event-hubs` package.
+- `BlobCheckpointStore` storage layout has changed and is incompatible with checkpoints and ownerships
+   serialized from previous previews.
+- `updateCheckpoint` no longer returns an `Promise<string>` with an etag. It now returns `Promise<void>`.
+- `Checkpoint` and `PartitionOwnership` have had redundant/overlapping fields removed.
 
 ### 2019-11-05 - 1.0.0-preview.4
 

@@ -3,12 +3,11 @@
   Licensed under the MIT Licence.
 
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance. It also demonstrates the process of checkpointing an event
-  which helps new instances of your application that may have spun up for scaling or for crash recovery.
+  of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
 
-  You will see the use of a Partition Manager which is crucial to balance the load of processing events
-  across multiple instances of your application.
-
+  Checkpointing allows your application to be more resilient. By providing a durable store your application
+  can crash (or stop) and start consuming events from where it last checkpointed.
+  
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
 
