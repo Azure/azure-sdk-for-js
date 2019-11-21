@@ -90,7 +90,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // using a Location header (web apps and APIs).
   const authenticateUrl = getAuthorizeUrl(tenantId!, clientId!, scopes);
   console.log("Opening user's browser to URL:", authenticateUrl);
-  await open(authenticateUrl, { url: true });
+  await open(authenticateUrl);
 
   // Wait for the authorization response to be send to the redirect URI
   const authorizationCode = await authCodePromise;
