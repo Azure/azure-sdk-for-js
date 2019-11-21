@@ -3,12 +3,10 @@
 import assert from "assert";
 
 import { CosmosClient } from "../../dist-esm/CosmosClient";
-import { DatabaseAccount } from "../../dist-esm/documents";
-
-import { masterKey, endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_testConfig";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../dist-esm";
 
-// const endpoint = "https://failovertest.documents.azure.com/";
+const endpoint = "https://failovertest.documents.azure.com/";
 
 // This needs to be a function so the SDK plugin gets a fresh response each time and cannot mutate it
 const databaseAccountResponse = {
@@ -144,7 +142,6 @@ describe("Multi-region tests", function() {
       plugins
     } as any);
     const currentReadEndpoint = await client.getReadEndpoint();
-    console.log(currentReadEndpoint);
     assert.equal(
       currentReadEndpoint,
       "https://failovertest-australiaeast.documents.azure.com:443/"
@@ -189,7 +186,6 @@ describe("Multi-region tests", function() {
       plugins
     } as any);
     const writeEndpoint = await client.getWriteEndpoint();
-    console.log(writeEndpoint);
     assert.equal(writeEndpoint, "https://failovertest-australiaeast.documents.azure.com:443/");
     await client
       .database("foo")

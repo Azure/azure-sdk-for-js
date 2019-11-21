@@ -79,7 +79,8 @@ export async function execute({
     }
   }
   requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-    requestContext
+    requestContext.resourceType,
+    requestContext.operationType
   );
   try {
     const response = await executeRequest(requestContext);

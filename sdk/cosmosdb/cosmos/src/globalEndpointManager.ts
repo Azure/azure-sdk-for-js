@@ -6,7 +6,6 @@ import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { LocationCache } from "./LocationCache";
 import { ResourceResponse } from "./request";
-import { RequestContext } from "./request/RequestContext";
 
 // function normalizeLocationName(location: string): string {
 //   return location ? location.toLowerCase().replace(/ /g, "") : null;
@@ -59,20 +58,14 @@ export class GlobalEndpointManager {
    * Gets the current read endpoint from the endpoint cache.
    */
   public async getReadEndpoint(): Promise<string> {
-    if (!this.isEndpointCacheInitialized) {
-      await this.init();
-    }
-    return this.locationCache.getReadEndpoint();
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
   }
 
   /**
    * Gets the current write endpoint from the endpoint cache.
    */
   public async getWriteEndpoint(): Promise<string> {
-    if (!this.isEndpointCacheInitialized) {
-      await this.init();
-    }
-    return this.locationCache.getWriteEndpoint();
+    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace);
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
@@ -111,14 +104,14 @@ export class GlobalEndpointManager {
     return this.locationCache.canUseMultipleWriteLocations(resourceType, operationType);
   }
 
-  public async resolveServiceEndpoint(request: RequestContext) {
+  public async resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType) {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
       return this.defaultEndpoint;
     }
 
     // If getting the database account, always use the user provided endpoint
-    if (request.resourceType === ResourceType.none) {
+    if (resourceType === ResourceType.none) {
       return this.defaultEndpoint;
     }
 
@@ -130,7 +123,7 @@ export class GlobalEndpointManager {
       this.readableLocations = databaseAccount.readableLocations;
     }
 
-    const locations = isReadRequest(request.operationType)
+    const locations = isReadRequest(operationType)
       ? this.readableLocations
       : this.writeableLocations;
 
