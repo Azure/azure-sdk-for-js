@@ -41,6 +41,30 @@ describe("FileServiceClient", () => {
     }
   });
 
+  it("listShares with default parameters - empty prefix should not cause an error", async () => {
+    const serviceClient = getBSU();
+
+    const result = (await serviceClient
+      .listShares({ prefix: "" })
+      .byPage()
+      .next()).value;
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.shareItems!.length >= 0);
+
+    if (result.shareItems!.length > 0) {
+      const share = result.shareItems![0];
+      assert.ok(share.name.length > 0);
+      assert.ok(share.properties.etag.length > 0);
+      assert.ok(share.properties.lastModified);
+    }
+  });
+
   it("ListShares with all parameters configured", async () => {
     const serviceClient = getBSU();
 
