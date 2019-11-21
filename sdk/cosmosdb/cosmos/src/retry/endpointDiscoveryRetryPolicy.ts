@@ -63,16 +63,10 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     this.currentRetryAttemptCount++;
 
     if (isReadRequest(this.operationType)) {
-      this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
+      await this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
     } else {
-      this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);
+      await this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);
     }
-
-    // Check location index increment
-    // TODO: Tracing
-    // console.log("Write region was changed, refreshing the regions list from database account
-    // and will retry the request.");
-    await this.globalEndpointManager.refreshEndpointList();
 
     retryContext.retryCount = this.currentRetryAttemptCount;
     retryContext.clearSessionTokenNotAvailable = false;

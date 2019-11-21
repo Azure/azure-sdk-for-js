@@ -1,5 +1,6 @@
-## 3.4.3
+## 3.5.0
 
+- FEATURE: Endpoint discovery and multi-region failover improvements. See https://github.com/Azure/azure-sdk-for-js/pull/6283 for more information on this change. (#6283)
 - Makes changeFeed and query options optional. Fix #6232 Fix #6277 (#6273)
 
 ## 3.4.2
