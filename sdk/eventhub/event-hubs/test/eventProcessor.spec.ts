@@ -808,7 +808,7 @@ describe("Event Processor", function(): void {
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 10,
-          timeBetweenRunsMs: 1000,
+          timeBetweenRunsMs: 5000,
           until: async () => claimedPartitionsSet.size === partitionIds.length
         });
       } catch (err) {
