@@ -6285,6 +6285,9 @@ export class ContainerClient extends StorageClient {
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
     }
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
       ...options,
@@ -6486,6 +6489,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
+    }
+    if (options.prefix === "") {
+      options.prefix = undefined;
     }
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
