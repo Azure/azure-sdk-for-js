@@ -120,10 +120,11 @@ describe("NodeJS CRUD Tests", function() {
       const sproc2: StoredProcedureDefinition = {
         id: "storedProcedure2",
         body: function() {
-          for (let i = 0; i < 10; i++)
-            {getContext()
+          for (let i = 0; i < 10; i++) {
+            getContext()
               .getResponse()
-              .appendValue("Body", i);}
+              .appendValue("Body", i);
+          }
         }
       };
 
