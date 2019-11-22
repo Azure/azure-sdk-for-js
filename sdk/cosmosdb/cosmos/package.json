@@ -42,7 +42,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
-    "build:test": "tsc -b src test --force --verbose",
+    "build:test": "tsc -b src test --verbose",
     "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
