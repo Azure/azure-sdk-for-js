@@ -688,6 +688,11 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
+   * WARNING: If the option to include metadata is specified (as in `getProperties({ include: ["metadata"] })`),
+   * the metadata keys returned in the response will be in lowercase, even if they originally contained uppercase
+   * characters. This differs from the metadata keys returned by the `listShares` method of
+   * {@link ShareServiceClient}, which will retain their original casing.
+   *
    * @returns {Promise<ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
    * @memberof ShareClient
    */
