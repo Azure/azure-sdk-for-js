@@ -152,7 +152,11 @@ export class BlobCheckpointStore implements CheckpointStore {
       const checkpointMetadata = blob.metadata as CheckpointMetadata;
 
       const offset = parseIntOrThrow(blob.name, "offset", checkpointMetadata.offset);
-      const sequenceNumber = parseIntOrThrow(blob.name, "sequencenumber", checkpointMetadata.sequencenumber);
+      const sequenceNumber = parseIntOrThrow(
+        blob.name,
+        "sequencenumber",
+        checkpointMetadata.sequencenumber
+      );
 
       checkpoints.push({
         consumerGroup,
@@ -254,22 +258,28 @@ export class BlobCheckpointStore implements CheckpointStore {
 }
 
 type OwnershipMetadata = {
-  [k in "ownerid"]: string|undefined;
+  [k in "ownerid"]: string | undefined;
 };
 
 type CheckpointMetadata = {
-  [k in "sequencenumber" | "offset"]: string|undefined;
+  [k in "sequencenumber" | "offset"]: string | undefined;
 };
 
-export function parseIntOrThrow(blobName: string, fieldName: string, numStr: string | undefined): number {
+export function parseIntOrThrow(
+  blobName: string,
+  fieldName: string,
+  numStr: string | undefined
+): number {
   if (numStr == null) {
     throw new Error(`Missing metadata property '${fieldName}' on blob '${blobName}'`);
-    }
+  }
 
   const num = parseInt(numStr, 10);
 
   if (isNaN(num)) {
-    throw new Error(`Failed to parse metadata property '${fieldName}' on blob '${blobName}' as a number`);
+    throw new Error(
+      `Failed to parse metadata property '${fieldName}' on blob '${blobName}' as a number`
+    );
   }
 
   return num;
