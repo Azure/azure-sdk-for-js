@@ -5,16 +5,17 @@
 ```ts
 
 import { Checkpoint } from '@azure/event-hubs';
+import { CheckpointStore } from '@azure/event-hubs';
 import { ContainerClient } from '@azure/storage-blob';
-import { PartitionManager } from '@azure/event-hubs';
 import { PartitionOwnership } from '@azure/event-hubs';
 
 // @public
-export class BlobPartitionManager implements PartitionManager {
+export class BlobCheckpointStore implements CheckpointStore {
     constructor(containerClient: ContainerClient);
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 

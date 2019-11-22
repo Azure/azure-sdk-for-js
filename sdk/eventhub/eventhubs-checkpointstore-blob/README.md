@@ -44,58 +44,75 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  A [BlobPartitionManager](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.4/classes/blobpartitionmanager.html) is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
+  A [BlobCheckpointStore](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.5/classes/blobcheckpointstore.html) 
+  is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
 
 ## Examples
 
-- [Create a Partition Manager using Azure Blob Storage](#create-a-partition-manager-using-azure-blob-storage)
+- [Create a CheckpointStore using Azure Blob Storage](#create-a-checkpointstore-using-azure-blob-storage)
 - [Checkpoint events using Azure Blob storage](#checkpoint-events-using-azure-blob-storage)
 
-### Create a Partition Manager using Azure Blob Storage
+### Create a `CheckpointStore` using Azure Blob Storage
 
-Use the below code snippet to create a Partition Manager. You will need to provide the connection string to your storage account.
+Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
-import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob"
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob"
 
 const containerClient = new ContainerClient("storage-connection-string", "container-name");
-await containerClient.create(); // This can be skipped if the container already exists
 
-const partitionManager =  new BlobPartitionManager(containerClient);
+if (!containerClient.exists()) {
+  await containerClient.create(); // This can be skipped if the container already exists
+}
+
+const checkpointStore =  new BlobCheckpointStore(containerClient);
 ```
 
 ### Checkpoint events using Azure Blob storage
 
-To checkpoint events received using an EventProcessor to Azure Blob Storage, you will need to pass an instance of the Partition Manager to the Event Processor along with the code to call the `updateCheckpoint()` method.
+To checkpoint events received using  Azure Blob Storage, you will need to pass an object
+that is compatible with the [SubscriptionEventHandlers](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/interfaces/subscriptioneventhandlers.html) 
+interface along with code to call the `updateCheckpoint()` method.
 
-In this example, we will use a `SamplePartitionProcessor` that extends the [PartitionProcessor](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-eventhubs-checkpointstore-blob/1.0.0-preview.4/classes/partitionprocessor.html) class in order to checkpoint the last event in the batch.
+In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/interfaces/subscriptioneventhandlers.html) and also handles checkpointing.
 
 ```javascript
-import { ContainerClient } from "@azure/storage-blob",
-import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob"
-import { EventHubClient, PartitionProcessor } from "@azure/event-hubs"
+import { ContainerClient } from "@azure/storage-blob";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
-const eventhubClient = new EventHubClient("event-hub-connectionstring")
+const consumerGroup = "consumer-group-name";
+const connectionString = "event-hub-connectionstring";
+
 const containerClient = new ContainerClient("storage-connection-string", "container-name");
-await containerClient.create(); // This can be skipped if the container already exists
-const partitionManager =  new BlobPartitionManager(containerClient);
 
-SamplePartitionProcessor extends PartitionProcessor  {
-  async processEvents(events) {
-    if (events.length) {
-     /* custom logic for processing events, then checkpoint*/
-      await this.updateCheckpoint(events[events.length - 1]);
-    } 
+if (!await containerClient.exists()) {
+  await containerClient.create(); // This can be skipped if the container already exists
+}
+
+const checkpointStore =  new BlobCheckpointStore(containerClient);
+
+class SubscriptionHandlers {
+  async processEvents(event, context) {
+    // custom logic for processing events goes here   
+    
+    // Checkpointing will allow your service to restart and pick
+    // up from where it left off. 
+    //
+    // You'll want to balance how often you checkpoint with the 
+    // performance of your underlying checkpoint store.
+    await context.updateCheckpoint(event);
   }
 }
 
-const eventProcessor = new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    SamplePartitionProcessor,
-    partitionManager);
-eventProcessor.start();
+const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, checkpointStore);
+
+const subscription = consumerClient.subscribe(new SubscriptionHandlers());
+
+// events will now flow into the handlers defined above
+// to stop the subscription:
+subscription.close();
 ```
 
 ## Troubleshooting

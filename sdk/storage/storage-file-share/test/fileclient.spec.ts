@@ -322,6 +322,13 @@ describe("FileClient", () => {
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
   });
 
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
   it("uploadRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -468,10 +475,12 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -496,10 +505,12 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);

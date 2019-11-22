@@ -966,11 +966,13 @@ export class ShareFileClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (await this.context.download({
-            abortSignal: options.abortSignal,
-            ...updatedOptions,
-            spanOptions
-          })).readableStreamBody!;
+          return (
+            await this.context.download({
+              abortSignal: options.abortSignal,
+              ...updatedOptions,
+              spanOptions
+            })
+          ).readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -1515,31 +1517,37 @@ export class ShareFileClient extends StorageClient {
   // High Level functions
 
   /**
-   * ONLY AVAILABLE IN BROWSERS.
+   * Uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to an Azure File.
    *
-   * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to an Azure File.
-   *
-   * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
    * @param {FileParallelUploadOptions} [options]
    * @returns {Promise<void>}
    */
-  public async uploadBrowserData(
-    browserData: Blob | ArrayBuffer | ArrayBufferView,
+  public async uploadData(
+    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadBrowserData",
-      options.tracingOptions
-    );
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
     try {
-      const browserBlob = new Blob([browserData]);
-      return await this.uploadSeekableBlob(
-        (offset: number, size: number): Blob => {
-          return browserBlob.slice(offset, offset + size);
-        },
-        browserBlob.size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
-      );
+      if (isNode && data instanceof Buffer) {
+        return this.uploadBuffer(
+          (offset, count) => data.slice(offset, offset + count),
+          data.byteLength,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
+        );
+      } else {
+        const browserBlob = new Blob([data]);
+        return this.uploadSeekableBlob(
+          (offset: number, size: number): Blob => {
+            return browserBlob.slice(offset, offset + size);
+          },
+          browserBlob.size,
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        );
+      }
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1764,8 +1772,93 @@ export class ShareFileClient extends StorageClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
+   * @export
+   * @param {(offset: number, count: number) => Buffer} bufferChunk Returns a Node.js Buffer chunk starting
+   *                                                                  from the offset defined till the count
+   * @param {number} size Size of the Azure file
+   * @param {ShareFileClient} fileClient ShareFileClient
+   * @param {FileParallelUploadOptions} [options]
+   * @returns {(Promise<void>)}
+   */
+  private async uploadBuffer(
+    bufferChunk: (offset: number, count: number) => Buffer,
+    size: number,
+    options: FileParallelUploadOptions = {}
+  ): Promise<void> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-uploadBuffer",
+      options.tracingOptions
+    );
+    try {
+      if (!options.rangeSize) {
+        options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
+      }
+      if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
+        throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
+      }
+
+      if (!options.fileHttpHeaders) {
+        options.fileHttpHeaders = {};
+      }
+
+      if (!options.concurrency) {
+        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
+      }
+      if (options.concurrency < 0) {
+        throw new RangeError(`options.concurrency cannot less than 0.`);
+      }
+
+      // Create the file
+      await this.create(size, {
+        abortSignal: options.abortSignal,
+        fileHttpHeaders: options.fileHttpHeaders,
+        metadata: options.metadata,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+
+      const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
+      let transferProgress: number = 0;
+      const batch = new Batch(options.concurrency);
+
+      for (let i = 0; i < numBlocks; i++) {
+        batch.addOperation(
+          async (): Promise<any> => {
+            const start = options.rangeSize! * i;
+            const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
+            const contentLength = end - start;
+            await this.uploadRange(bufferChunk(start, contentLength), start, contentLength, {
+              abortSignal: options.abortSignal,
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
+            });
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            transferProgress += contentLength;
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
+            }
+          }
+        );
+      }
+      return await batch.do();
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Downloads an Azure file in parallel to a buffer.
    * Offset and count are optional, pass 0 for both to download the entire file.
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link downloadToFile}.
    *
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the Azure File to download
@@ -1785,6 +1878,10 @@ export class ShareFileClient extends StorageClient {
    *
    * Downloads an Azure file in parallel to a buffer.
    * Offset and count are optional, pass 0 for both to download the entire file
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link downloadToFile}.
    *
    * @param {number} offset From which position of the Azure file to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined

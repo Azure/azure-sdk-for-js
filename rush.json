@@ -41,12 +41,7 @@
      * The default value is false to avoid legacy compatibility issues.
      * It is strongly recommended to set strictPeerDependencies=true.
      */
-    /*
-     * Turning off peerdependencies check until our repo is free from all peer dependencies
-     * or till Rush fixes the bug - https: //github.com/microsoft/rushstack/issues/1415
-     * https: //github.com/Azure/azure-sdk-for-js/issues/5999
-     */
-    "strictPeerDependencies": false,
+    "strictPeerDependencies": true,
     /**
      * Configures the strategy used to select versions during installation.
      *
@@ -445,11 +440,6 @@
     {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/cognitiveservices-inkrecognizer",
-      "projectFolder": "sdk/cognitiveservices/cognitiveservices-inkrecognizer",
       "versionPolicyName": "client"
     },
     {

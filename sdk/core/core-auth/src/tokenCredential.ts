@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "./operationOptions";
 
 /**
@@ -21,8 +20,7 @@ export interface TokenCredential {
 /**
  * Defines options for TokenCredential.getToken.
  */
-export interface GetTokenOptions extends OperationOptions {
-}
+export interface GetTokenOptions extends OperationOptions {}
 
 /**
  * Represents an access token with an expiration time.

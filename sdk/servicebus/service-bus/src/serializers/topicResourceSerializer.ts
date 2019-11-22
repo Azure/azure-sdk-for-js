@@ -25,8 +25,8 @@ import {
 /**
  * @ignore
  * Builds the topic options object from the user provided options.
- * Handles the differences in casing for the property names, converts values to string and ensures the
- * right order as expected by the service
+ * Handles the differences in casing for the property names, 
+ * converts values to string and ensures the right order as expected by the service
  * @param topicOptions
  */
 export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOptions {
@@ -61,8 +61,8 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
 
 /**
  * @ignore
- * Builds the topic object from the raw json object gotten after deserializing the response
- * from the service
+ * Builds the topic object from the raw json object gotten after deserializing the 
+ * response from the service
  * @param rawTopic
  */
 export function buildTopic(rawTopic: any): TopicDetails {
@@ -138,12 +138,18 @@ export interface TopicOptions {
   sizeInBytes?: number;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
+   * that will cause the topic to exceed this value will fail. All messages that are 
+   * stored in the topic or any of its subscriptions count towards this value. 
+   * Multiple copies of a message that reside in one or multiple subscriptions count 
+   * as a single messages. For example, if message m exists once in subscription s1 
+   * and twice in subscription s2, m is counted as a single message.
    */
   maxSizeInMegabytes?: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection?: boolean;
@@ -180,7 +186,8 @@ export interface TopicOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
 
@@ -197,18 +204,27 @@ export interface TopicOptions {
   subscriptionCount?: number;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   * The maximum delivery count of messages after which if it is still not settled, 
+   * gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount?: number;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly
+   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
+   * TTL has expired will either be moved to the subscription’s associated dead-letter
+   * sub-queue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -257,12 +273,18 @@ export interface InternalTopicOptions {
   SizeInBytes?: string;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
+   * that will cause the topic to exceed this value will fail. All messages that are 
+   * stored in the topic or any of its subscriptions count towards this value. 
+   * Multiple copies of a message that reside in one or multiple subscriptions count 
+   * as a single messages. For example, if message m exists once in subscription s1 
+   * and twice in subscription s2, m is counted as a single message.
    */
   MaxSizeInMegabytes?: string;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   RequiresDuplicateDetection?: string;
@@ -299,7 +321,8 @@ export interface InternalTopicOptions {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   AutoDeleteOnIdle?: string;
 
@@ -316,18 +339,28 @@ export interface InternalTopicOptions {
   SubscriptionCount?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   * The maximum delivery count of messages after which if it is still not settled, 
+   * gets moved to the dead-letter sub-queue.
    *
    */
   MaxDeliveryCount?: string;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions. Subscriptions 
+   * inherit the TTL from the topic unless they are created explicitly with a smaller TTL. 
+   * Based on whether dead-lettering is enabled, a message whose TTL has expired will 
+   * either be moved to the subscription’s associated DeadLtterQueue or will be 
+   * permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DefaultMessageTimeToLive?: string;
 
   /**
-   * Specifies the time span during which the Service Bus will detect message duplication.
+   * Specifies the time span during which the Service Bus will detect message 
+   * duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -380,12 +413,18 @@ export interface TopicDetails {
   sizeInBytes: number;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
+   * that will cause the topic to exceed this value will fail. All messages that are 
+   * stored in the topic or any of its subscriptions count towards this value. 
+   * Multiple copies of a message that reside in one or multiple subscriptions 
+   * count as a single messages. For example, if message m exists once in subscription 
+   * s1 and twice in subscription s2, m is counted as a single message.
    */
   maxSizeInMegabytes: number;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * If enabled, the topic will detect duplicate messages within the time span specified
+   * by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
    */
   requiresDuplicateDetection: boolean;
@@ -422,7 +461,8 @@ export interface TopicDetails {
 
   /**
    * Max idle time before entity is deleted.
-   *
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle: string;
 
@@ -439,18 +479,27 @@ export interface TopicDetails {
   subscriptionCount?: number;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
+   * The maximum delivery count of messages after which if it is still not settled, 
+   * gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount?: number;
 
   /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly with
+   * a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has
+   * expired will either be moved to the subscription’s associated DeadLtterQueue or
+   * will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl: string;
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow: string;
 
