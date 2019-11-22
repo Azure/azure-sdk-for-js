@@ -153,7 +153,7 @@ describe("EnvironmentCredential", function() {
     await assertRejects(
       credentialDeux.getToken("scope"),
       (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.indexOf("AZURE_TENANT_ID") === -1
+        error.errorResponse.errorDescription.match(/^AZURE_TENANT_ID/gm) === null
     );
 
     delete process.env.AZURE_TENANT_ID;
