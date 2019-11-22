@@ -18,6 +18,7 @@ export class PartitionPump {
   private _processorOptions: FullEventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
   private _isReceiving: boolean = false;
+  private _isStopped: boolean = false;
   private _abortController: AbortController;
 
   constructor(
@@ -125,6 +126,10 @@ export class PartitionPump {
   }
 
   async stop(reason: CloseReason): Promise<void> {
+    if (this._isStopped) {
+      return;
+    }
+    this._isStopped = true;
     this._isReceiving = false;
     try {
       if (this._receiver) {
