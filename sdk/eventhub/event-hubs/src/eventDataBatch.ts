@@ -108,7 +108,7 @@ export interface EventDataBatch {
    * @internal
    * @ignore
    */
-  readonly batchMessage: Buffer | undefined;
+  readonly _message: Buffer | undefined;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
@@ -241,7 +241,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  get batchMessage(): Buffer | undefined {
+  get _message(): Buffer | undefined {
     return this._batchMessage;
   }
 
