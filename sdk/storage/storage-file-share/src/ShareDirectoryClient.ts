@@ -870,7 +870,6 @@ export class ShareDirectoryClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * // Generator syntax .next()
    * let i = 1;
    * let iter = await directoryClient.listFilesAndDirectories();
    * let entity = await iter.next();
@@ -887,7 +886,6 @@ export class ShareDirectoryClient extends StorageClient {
    * Example using `byPage()`:
    *
    * ```js
-   * // Example for .byPage()
    * // passing optional maxPageSize in the page settings
    * let i = 1;
    * for await (const response of directoryClient
@@ -902,10 +900,9 @@ export class ShareDirectoryClient extends StorageClient {
    * }
    * ```
    *
-   * Example resuming paging using a marker:
+   * Example using paging with a marker:
    *
    * ```js
-   * // Passing marker as an argument (similar to the previous example)
    * let i = 1;
    * let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
    * let response = (await iterator.next()).value;
@@ -1078,7 +1075,6 @@ export class ShareDirectoryClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * // Generator syntax .next()
    * let i = 1;
    * let iter = await dirClient.listHandles();
    * let handleItem = await iter.next();
@@ -1088,10 +1084,9 @@ export class ShareDirectoryClient extends StorageClient {
    * }
    * ```
    *
-   * Examples using `byPage()`:
+   * Example using `byPage()`:
    *
    * ```js
-   * // Example for .byPage()
    * // passing optional maxPageSize in the page settings
    * let i = 1;
    * for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
@@ -1103,10 +1098,9 @@ export class ShareDirectoryClient extends StorageClient {
    * }
    * ```
    *
-   * Example resuming paging using a marker:
+   * Example using paging with a marker:
    *
    * ```js
-   * // Passing marker as an argument (similar to the previous example)
    * let i = 1;
    * let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
    * let response = await iterator.next();
@@ -1117,6 +1111,7 @@ export class ShareDirectoryClient extends StorageClient {
    *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
    * }
+   *
    * // Gets next marker
    * let marker = response.value.continuationToken;
    *

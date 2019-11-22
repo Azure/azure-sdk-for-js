@@ -224,8 +224,6 @@ export class QueueServiceClient extends StorageClient {
    * ```js
    * const account = "<account>";
    *
-   * // Use a TokenCredential implementation from the @azure/identity package.
-   * // In this case, a DefaultAzureCredential (recommended for most users)
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
@@ -404,7 +402,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * Example using `for/await` syntax:
+   * Example using `for await` syntax:
    *
    * ```js
    * let i = 1;
@@ -417,7 +415,6 @@ export class QueueServiceClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * // Generator syntax .next()
    * let i = 1;
    * let iterator = queueServiceClient.listQueues();
    * let item = await iterator.next();
@@ -431,7 +428,6 @@ export class QueueServiceClient extends StorageClient {
    * Example using `byPage()`:
    *
    * ```js
-   * // Example for .byPage()
    * // passing optional maxPageSize in the page settings
    * let i = 1;
    * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
@@ -444,7 +440,7 @@ export class QueueServiceClient extends StorageClient {
    * }
    * ```
    *
-   * Example resuming paging using a marker:
+   * Example using paging with a marker:
    *
    * ```js
    * let i = 1;

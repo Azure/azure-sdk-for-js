@@ -1067,7 +1067,7 @@ export class BlobClient extends StorageClient {
    * Example usage (Node.js):
    *
    * ```js
-   * // Download and convert a blob to a string (Node.js only)
+   * // Download and convert a blob to a string
    * const downloadBlockBlobResponse = await blobClient.download();
    * const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
    * console.log("Downloaded blob content:", downloaded);
@@ -1089,7 +1089,7 @@ export class BlobClient extends StorageClient {
    * Example usage (browser):
    *
    * ```js
-   * // Download and convert a blob to a string (Browser only)
+   * // Download and convert a blob to a string
    * const downloadBlockBlobResponse = await blobClient.download();
    * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
    * console.log(
@@ -6207,7 +6207,6 @@ export class ContainerClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * // Generator syntax .next()
    * let i = 1;
    * let iter = containerClient.listBlobsFlat();
    * let blobItem = await iter.next();
@@ -6220,7 +6219,6 @@ export class ContainerClient extends StorageClient {
    * Example using `byPage()`:
    *
    * ```js
-   * // Example for .byPage()
    * // passing optional maxPageSize in the page settings
    * let i = 1;
    * for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
@@ -6230,22 +6228,26 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * Example resuming paging with a marker:
+   * Example using paging with a marker:
    *
    * ```js
-   * // Passing marker as an argument (similar to the previous example)
    * let i = 1;
    * let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
+   *
    * // Prints 2 blob names
    * for (const blob of response.segment.blobItems) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
+   *
    * // Gets next marker
    * let marker = response.continuationToken;
+   * 
    * // Passing next marker as continuationToken
+   *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
+   *
    * // Prints 10 blob names
    * for (const blob of response.segment.blobItems) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
@@ -6394,7 +6396,6 @@ export class ContainerClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * // Generator syntax .next() and passing a prefix
    * let iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
    * let entity = await iter.next();
    * while (!entity.done) {
@@ -6411,7 +6412,6 @@ export class ContainerClient extends StorageClient {
    * Example using `byPage()`:
    *
    * ```js
-   * // byPage()
    * console.log("Listing blobs by hierarchy by page");
    * for await (const response of containerClient.listBlobsByHierarchy("/").byPage()) {
    *   const segment = response.segment;
@@ -6429,17 +6429,19 @@ export class ContainerClient extends StorageClient {
    * Example using paging with a max page size:
    *
    * ```js
-   * // 4. byPage() and passing a prefix and max page size
    * console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
+   *
    * let i = 1;
    * for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
    *   console.log(`Page ${i++}`);
    *   const segment = response.segment;
+   *
    *   if (segment.blobPrefixes) {
    *     for (const prefix of segment.blobPrefixes) {
    *       console.log(`\tBlobPrefix: ${prefix.name}`);
    *     }
    *   }
+   *
    *   for (const blob of response.segment.blobItems) {
    *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
    *   }
