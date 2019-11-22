@@ -133,6 +133,8 @@ export class EnvironmentCredential implements TokenCredential {
 
     // If by this point we don't have a credential, throw an exception so that
     // the user knows the credential was not configured appropriately
+    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
+    span.end();
     throw new AuthenticationError(400, {
       error: "missing_environment_variables",
       error_description: `EnvironmentCredential cannot return a token because one or more of the following environment varibles is missing:
