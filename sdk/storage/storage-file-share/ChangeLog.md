@@ -5,7 +5,7 @@
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 - [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
-- Bug Fix - automatically convert empty prefixes (`""`) given as options to the `listFiles` or `listShares` methods into `undefined` to avoid an Error
+- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listFiles` or `listShares` methods to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
 
 ## 2019.11 12.0.0-preview.6
 

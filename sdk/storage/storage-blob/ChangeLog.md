@@ -3,7 +3,7 @@
 ## TBD 12.0.1
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
-- Bug Fix - automatically convert empty prefixes (`""`) given as options to the `listContainers`, `listBlobsFlat`, and `listBlobsByHierarchy` methods into `undefined` to avoid an Error
+- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listContainers`, `listBlobsFlat`, and `listBlobsByHierarchy` methods to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
 
 ## 2019.11 12.0.0
 
