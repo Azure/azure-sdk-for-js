@@ -9,6 +9,7 @@
 - [Breaking] `shareName` on `ShareClient` has been renamed to `name`. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
 - `ShareFileClient` and `ShareDirectoryClient` now have a `name` property that returns the file or directory name respectively. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
 - [Breaking] In browsers, `blobBody` on `FileDownloadResponse` has been renamed to `contentAsBlob` in order to avoid naming confusion between browser `Blob` objects and `Blob`s from `@azure/storage-blob`. [PR 6183](https://github.com/Azure/azure-sdk-for-js/pull/6183) 
+- [Breaking] Removed `uploadBrowserData` from `ShareFileClient` in favor of a unified method `uploadData` that accepts both browser `Blob` objects as well as Node.js `Buffer` objects.
 
 ## 2019.11 12.0.0-preview.6
 
