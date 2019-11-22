@@ -1256,6 +1256,10 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
+   * WARNING: If the option to include metadata is specified (as in `getProperties({ include: ["metadata"] })`),
+   * the metadata keys returned in the response will be in lowercase, even if they originally contained uppercase
+   * characters.
+   *
    * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
    * @returns {Promise<BlobGetPropertiesResponse>}
    * @memberof BlobClient
