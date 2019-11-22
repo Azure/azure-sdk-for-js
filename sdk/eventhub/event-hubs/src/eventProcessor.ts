@@ -217,7 +217,7 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
-  private _loopIntervalInMs: number = 10000;
+  private _loopIntervalInMs = 10000;
   /**
    * Value must be an integer larger than 0.
    */
