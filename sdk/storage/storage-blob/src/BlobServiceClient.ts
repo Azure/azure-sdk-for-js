@@ -331,7 +331,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    *
-   * Example usage with DefaultAzureCredential from `@azure/identity`:
+   * Example using DefaultAzureCredential from `@azure/identity`:
    *
    * ```js
    * const account = "<storage account name>";
@@ -346,7 +346,7 @@ export class BlobServiceClient extends StorageClient {
    * );
    * ```
    *
-   * Example usage with an account name/key:
+   * Example using an account name/key:
    *
    * ```js
    * const account = "<storage account name>"
@@ -721,7 +721,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * Example usage with `for await` syntax:
+   * Example using `for await` syntax:
    *
    * ```js
    *   let i = 1;
@@ -743,7 +743,7 @@ export class BlobServiceClient extends StorageClient {
    *   }
    * ```
    *
-   * Example usage with `byPage()`:
+   * Example using `byPage()`:
    *
    * ```js
    *   // Example for .byPage()

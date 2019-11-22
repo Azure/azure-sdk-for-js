@@ -287,7 +287,7 @@ export class BlobBatchClient {
    * console.log(batchResp.subResponsesSucceededCount);
    * ```
    *
-   * Example usage with a lease:
+   * Example using a lease:
    *
    * ```js
    * let batchRequest = new BlobBatch();

@@ -219,7 +219,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    *
-   * Example usage with DefaultAzureCredential from `@azure/identity`:
+   * Example using DefaultAzureCredential from `@azure/identity`:
    *
    * ```js
    * const account = "<account>";
@@ -234,7 +234,7 @@ export class QueueServiceClient extends StorageClient {
    * }
    * ```
    *
-   * Example usage with an account name/key:
+   * Example using an account name/key:
    *
    * ```js
    * const account = "<account>";
@@ -404,7 +404,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * Example usage with `for/await` syntax:
+   * Example using `for/await` syntax:
    *
    * ```js
    * let i = 1;
@@ -450,6 +450,7 @@ export class QueueServiceClient extends StorageClient {
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
    * let item = (await iterator.next()).value;
+   * 
    * // Prints 2 queue names
    * if (item.queueItems) {
    *   for (const queueItem of item.queueItems) {
@@ -459,9 +460,11 @@ export class QueueServiceClient extends StorageClient {
    * }
    * // Gets next marker
    * let marker = item.continuationToken;
+   * 
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
    * item = (await iterator.next()).value;
+   *
    * // Prints 10 queue names
    * if (item.queueItems) {
    *   for (const queueItem of item.queueItems) {

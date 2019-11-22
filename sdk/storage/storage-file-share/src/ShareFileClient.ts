@@ -865,7 +865,7 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
    * @memberof ShareFileClient
    *
-   * Example usage in Node.js:
+   * Example usage (Node.js):
    *
    * ```js
    * // Download a file to a string (Node.js only)
@@ -890,7 +890,7 @@ export class ShareFileClient extends StorageClient {
    * }
    * ```
    *
-   * Example usage in browsers:
+   * Example usage (browsers):
    *
    * ```js
    * // Download a file to a string (Browser only)

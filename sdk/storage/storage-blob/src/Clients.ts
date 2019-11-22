@@ -1064,7 +1064,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
    *
-   * Example usage with a Node.js Buffer:
+   * Example usage (Node.js):
    *
    * ```js
    * // Download and convert a blob to a string (Node.js only)
@@ -1086,7 +1086,7 @@ export class BlobClient extends StorageClient {
    * }
    * ```
    *
-   * Example usage in a browser:
+   * Example usage (browser):
    *
    * ```js
    * // Download and convert a blob to a string (Browser only)
@@ -1487,13 +1487,15 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * Example usage of automatic polling:
+   * Example using automatic polling:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of manual polling:
+   * Example using manual polling:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * while (!poller.isDone()) {
@@ -1502,7 +1504,8 @@ export class BlobClient extends StorageClient {
    * const result = copyPoller.getResult();
    * ```
    *
-   * Example usage of progress updates:
+   * Example using progress updates:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url', {
    *   onProgress(state) {
@@ -1512,7 +1515,8 @@ export class BlobClient extends StorageClient {
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of changing polling interval (default 15 seconds):
+   * Example using a changing polling interval (default 15 seconds):
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url', {
    *   intervalInMs: 1000 // poll blob every 1 second for copy progress
@@ -1520,7 +1524,8 @@ export class BlobClient extends StorageClient {
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of copy cancellation:
+   * Example using copy cancellation:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * // cancel operation after starting it.
@@ -6188,7 +6193,7 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
-   * Example usage with `for await`:
+   * Example using `for await` syntax:
    *
    * ```js
    * // Get the containerClient before you run these snippets,
@@ -6199,7 +6204,7 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * Example usage with `iter.next()`:
+   * Example using `iter.next()`:
    *
    * ```js
    * // Generator syntax .next()
@@ -6212,7 +6217,7 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * Example usage with `byPage()`:
+   * Example using `byPage()`:
    *
    * ```js
    * // Example for .byPage()
