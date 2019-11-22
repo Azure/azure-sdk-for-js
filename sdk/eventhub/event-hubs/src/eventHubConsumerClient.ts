@@ -393,9 +393,10 @@ export class EventHubConsumerClient {
     subscriptionEventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
   ) {
+    this._partitionGate.add("all");
+
     if (this._userChoseCheckpointStore) {
       log.consumerClient("Subscribing to all partitions, using a checkpoint store.");
-      this._partitionGate.add("all");
     } else {
       log.consumerClient("Subscribing to all partitions, no checkpoint store.");
     }
@@ -425,13 +426,14 @@ export class EventHubConsumerClient {
     eventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
   ) {
+    this._partitionGate.add(partitionId);
+    
     const subscribeOptions = options as SubscribeOptions | undefined;
-
+    
     if (this._userChoseCheckpointStore) {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), using a checkpoint store`
-      );
-      this._partitionGate.add(partitionId);
+      );      
     } else {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no checkpoint store.`

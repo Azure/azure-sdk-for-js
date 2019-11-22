@@ -100,6 +100,18 @@ describe("EventHubConsumerClient", () => {
         (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
       });
 
+      it("conflicting subscribes", () => {
+        validateOptions = () => { };
+        
+        client.subscribe(subscriptionHandlers);
+        // invalid - we're already subscribed to a conflicting partition
+        should.throw(() => client.subscribe("0", subscriptionHandlers), "");
+
+        clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
+        // invalid - we're already subscribed to a conflicting partition
+        should.throw(() => clientWithCheckpointStore.subscribe(subscriptionHandlers), "");
+      });
+
       it("subscribe to single partition, no checkpoint store", () => {
         validateOptions = (options) => {
           // when the user doesn't pass a checkpoint store we give them a really simple set of

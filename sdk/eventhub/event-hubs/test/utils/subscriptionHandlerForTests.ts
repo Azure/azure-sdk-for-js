@@ -16,7 +16,8 @@ const should = chai.should();
 export type SequenceNumberMap = Map<string, number>;
 
 export class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
-  maxTimeToWaitSeconds = 120;
+  private _maxTimeToWaitSeconds = 60;
+  private _timeBetweenChecksMs = 1000;
 
   constructor(private _initialSequenceNumbers?: SequenceNumberMap) {}
 
@@ -70,11 +71,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
 
+    loggerForTest(`processEvent: ${event.body}`);
+
     this.events.push({
       body: event.body,
       partitionId: context.partitionId
     });
   }
+
   async processError(err: Error, context: PartitionContext) {
     loggerForTest(`Error in partition ${context.partitionId}: ${err}`);
     should.exist(
@@ -98,20 +102,28 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     });
   }
 
-  async waitForEvents(partitionIds: string[], countOfExpectedEvents?: number): Promise<{ partitionId: string; body: string }[]> {
+  async waitForEvents(
+    partitionIds: string[],
+    countOfExpectedEvents?: number
+  ): Promise<{ partitionId: string; body: string }[]> {
     const startTime = Date.now();
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
 
-    // wait until all partitions have received at least 1 event
     while (true) {
       loggerForTest(`Received ${this.events.length} messages (need ${countOfExpectedEvents})`);
 
       if (this.events.length !== countOfExpectedEvents && !this.hasErrors(partitionIds)) {
-        await delay(500);
+        await delay(this._timeBetweenChecksMs);
 
-        if (Date.now() - startTime > this.maxTimeToWaitSeconds * 1000) {
-          throw new Error("Waiting _way_ too long in initialize");
+        if (Date.now() - startTime > this._maxTimeToWaitSeconds * 1000) {
+          throw new Error(
+            `Waiting _way_ too long for messages to arrive (got ${
+              this.events.length
+            } out of ${countOfExpectedEvents}): \n${this.events
+              .map((event) => event.body)
+              .join("\n")}`
+          );
         }
       } else {
         // sort for simpler comparisons in our tests
