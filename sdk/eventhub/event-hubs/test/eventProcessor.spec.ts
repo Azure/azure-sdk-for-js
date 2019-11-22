@@ -80,42 +80,54 @@ describe("Event Processor", function(): void {
         consumerGroup: "not-used-for-this-test",
         eventHubName: "not-used-for-this-test",
         // this caused a bug for us before - it's a perfectly valid offset
-        // but we were thrown off by its falsy-ness. (actually it was 
+        // but we were thrown off by its falsy-ness. (actually it was
         // sequence number before but the concept is the same)
-        offset: 0,        
+        offset: 0,
         sequenceNumber: 0,
         partitionId: "1"
-      },
+      }
     ];
 
     const checkpointStore: CheckpointStore = {
-      claimOwnership: async () => { return [] },
-      listCheckpoints: async () => { return checkpoints },
-      listOwnership: async () => { return [] },
-      updateCheckpoint: async () => { }      
+      claimOwnership: async () => {
+        return [];
+      },
+      listCheckpoints: async () => {
+        return checkpoints;
+      },
+      listOwnership: async () => {
+        return [];
+      },
+      updateCheckpoint: async () => {}
     };
 
     // we're not actually going to start anything here so there's nothing
     // to stop
-    const processor = new EventProcessor(EventHubClient.defaultConsumerGroupName, client, {
-      processEvent: async () => { }
-    }, checkpointStore, {
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvent: async () => {}
+      },
+      checkpointStore,
+      {
         maxBatchSize: 1,
-      maxWaitTimeInSeconds: 1
-    });
+        maxWaitTimeInSeconds: 1
+      }
+    );
 
     // checkpoint is available for partition 0
-    let eventPosition = await processor['_getStartPosition']("0");
+    let eventPosition = await processor["_getStartPosition"]("0");
     eventPosition!.offset!.should.equal(1009);
     should.not.exist(eventPosition!.sequenceNumber);
 
     //checkpoint is available for partition 1
-    eventPosition = await processor['_getStartPosition']("1");
+    eventPosition = await processor["_getStartPosition"]("1");
     eventPosition!.offset!.should.equal(0);
     should.not.exist(eventPosition!.sequenceNumber);
 
     // no checkpoint available for partition 2
-    eventPosition = await processor['_getStartPosition']("2");
+    eventPosition = await processor["_getStartPosition"]("2");
     should.not.exist(eventPosition);
   });
 
@@ -384,7 +396,9 @@ describe("Event Processor", function(): void {
         "myNamespace.servicebus.windows.net"
       );
       partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
-      partitionOwnershipList[0].consumerGroup!.should.equals(EventHubClient.defaultConsumerGroupName);
+      partitionOwnershipList[0].consumerGroup!.should.equals(
+        EventHubClient.defaultConsumerGroupName
+      );
     });
 
     it("should receive events from the checkpoint", async function(): Promise<void> {
@@ -734,6 +748,133 @@ describe("Event Processor", function(): void {
       const n = Math.floor(partitionIds.length / 2);
       partitionOwnershipMap.get(processorByName[`processor-0`].id)!.length.should.oneOf([n, n + 1]);
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
+    });
+
+    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds({});
+      const checkpointStore = new InMemoryCheckpointStore();
+      const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
+
+      let allPartitionsClaimed = false;
+      let thrashAfterSettling = false;
+      const handlers: SubscriptionEventHandlers = {
+        async processInitialize(context) {
+          const eventProcessorId: string = (context as any).eventProcessorId;
+          const partitionId = context.partitionId;
+          loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
+          // For this test we don't want to actually checkpoint, just test ownership.
+          context.setStartPosition(EventPosition.latest());
+          if (allPartitionsClaimed) {
+            thrashAfterSettling = true;
+            return;
+          }
+
+          const claimedPartitions = claimedPartitionsMap[eventProcessorId] || new Set();
+          claimedPartitions.add(partitionId);
+          claimedPartitionsMap[eventProcessorId] = claimedPartitions;
+        },
+        async processEvent() {},
+        async processClose(reason, context) {
+          const eventProcessorId: string = (context as any).eventProcessorId;
+          const partitionId = context.partitionId;
+          const claimedPartitions = claimedPartitionsMap[eventProcessorId];
+          claimedPartitions.delete(partitionId);
+          loggerForTest(
+            `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
+              context.partitionId
+            }`
+          );
+          if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
+            loggerForTest(
+              `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+            );
+            thrashAfterSettling = true;
+          }
+        }
+      };
+
+      const eventProcessorOptions: FullEventProcessorOptions = {
+        maxBatchSize: 1,
+        maxWaitTimeInSeconds: 5,
+        loopIntervalInMs: 1000,
+        inactiveTimeLimitInMs: 3000,
+        ownerLevel: 0
+      };
+
+      const processor1 = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        handlers,
+        checkpointStore,
+        eventProcessorOptions
+      );
+
+      const processor2 = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        handlers,
+        checkpointStore,
+        eventProcessorOptions
+      );
+
+      processor1.start();
+      processor2.start();
+
+      // loop until all partitions are claimed
+      try {
+        await loopUntil({
+          name: "partitionOwnership",
+          maxTimes: 10,
+          timeBetweenRunsMs: 10000,
+          until: async () => {
+            // Ensure the partition ownerships are balanced.
+            const eventProcessorIds = Object.keys(claimedPartitionsMap);
+
+            // There are 2 processors, so we should see 2 entries.
+            if (eventProcessorIds.length !== 2) {
+              return false;
+            }
+
+            const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
+            const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+            // The delta between number of partitions each processor owns can't be more than 1.
+            if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              return false;
+            }
+
+            // All partitions must be claimed.
+            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+          }
+        });
+      } catch (err) {
+        // close processors
+        await Promise.all([processor1.stop(), processor2.stop()]);
+        throw err;
+      }
+
+      loggerForTest(`All partitions have been claimed.`);
+      allPartitionsClaimed = true;
+
+      try {
+        // loop for some time to see if thrashing occurs
+        await loopUntil({
+          name: "partitionThrash",
+          maxTimes: 4,
+          timeBetweenRunsMs: 1000,
+          until: async () => thrashAfterSettling
+        });
+      } catch (err) {
+        // swallow error, check trashAfterSettling for the condition in finally
+      } finally {
+        await Promise.all([processor1.stop(), processor2.stop()]);
+        should.equal(
+          thrashAfterSettling,
+          false,
+          "Detected PartitionOwnership thrashing after load-balancing has settled."
+        );
+      }
     });
   });
 
