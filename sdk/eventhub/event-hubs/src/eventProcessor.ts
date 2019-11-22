@@ -294,7 +294,12 @@ export class EventProcessor {
       partitionIdToClaim
     );
     try {
-      await this._checkpointStore.claimOwnership([ownershipRequest]);
+      const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
+      // since we only claim one ownership at a time, check the array length and throw
+      if (!claimedOwnerships.length) {
+        throw new Error(`Failed to claim ownership of partition ${ownershipRequest.partitionId}`);
+      }
+
       log.partitionLoadBalancer(
         `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
       );
