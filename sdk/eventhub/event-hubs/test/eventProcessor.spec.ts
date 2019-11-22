@@ -863,7 +863,7 @@ describe("Event Processor", function(): void {
           name: "partitionThrash",
           maxTimes: 4,
           timeBetweenRunsMs: 1000,
-          until: async () => Boolean(thrashAfterSettling)
+          until: async () => thrashAfterSettling
         });
       } catch (err) {
         // swallow error, check trashAfterSettling for the condition in finally

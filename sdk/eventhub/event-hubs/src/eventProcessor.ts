@@ -148,9 +148,8 @@ export type SubscriptionEventHandlersKeys =
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
-  extends // for our internal classes (these are optional for external users)
-  Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
+export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required // for our internal classes (these are optional for external users)
+  extends Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
@@ -219,6 +218,9 @@ export class EventProcessor {
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
   private _loopIntervalInMs: number = 10000;
+  /**
+   * Value must be an integer larger than 0.
+   */
   private _inactiveTimeLimitInMs = 60000;
 
   /**
@@ -244,7 +246,7 @@ export class EventProcessor {
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
-    const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs; // ownership expiration time (1 minute)
+    const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
       new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
@@ -362,7 +364,6 @@ export class EventProcessor {
 
   private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
-    const waitIntervalInMs = this._loopIntervalInMs;
     while (!abortSignal.aborted) {
       try {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
@@ -397,9 +398,9 @@ export class EventProcessor {
 
         // sleep
         log.eventProcessor(
-          `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
         );
-        await delay(waitIntervalInMs, abortSignal);
+        await delay(this._loopIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         await this._handleSubscriptionError(err);
