@@ -1,6 +1,7 @@
 ## 3.5.1
 
 - Fix bug when paginating GROUP BY queries or using in conjunction with TOP/OFFSET/LIMIT (#6003)
+- Improve error message for mixed type ORDER BY (#6306)
 
 ## 3.5.0
 
