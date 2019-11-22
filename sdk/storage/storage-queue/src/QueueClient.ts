@@ -649,10 +649,10 @@ export class QueueClient extends StorageClient {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * WARNING: If the option to include metadata is specified (as in `getProperties({ include: ["metadata"] })`),
-   * the metadata keys returned in the response will be in lowercase, even if they originally contained uppercase
-   * characters. This differs from the metadata keys returned by the `listQueues` method of
-   * {@link QueueServiceClient}, which will retain their original casing.
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the `listQueues` method of {@link QueueServiceClient} using the `includeMetadata` option, which
+   * will retain their original casing.
    *
    * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
    * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.

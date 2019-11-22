@@ -1256,10 +1256,10 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * WARNING: If the option to include metadata is specified (as in `getProperties({ include: ["metadata"] })`),
-   * the metadata keys returned in the response will be in lowercase, even if they originally contained uppercase
-   * characters. This differs from the metadata keys returned by the methods of {@link ContainerClient} that list
-   * blobs, which will retain their original casing.
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the methods of {@link ContainerClient} that list blobs using the `includeMetadata` option, which
+   * will retain their original casing.
    *
    * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
    * @returns {Promise<BlobGetPropertiesResponse>}
@@ -5710,10 +5710,10 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * WARNING: If the option to include metadata is specified (as in `getProperties({ include: ["metadata"] })`),
-   * the metadata keys returned in the response will be in lowercase, even if they originally contained uppercase
-   * characters. This differs from the metadata keys returned by the `listContainers` method of
-   * {@link BlobServiceClient}, which will retain their original casing.
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the `listContainers` method of {@link BlobServiceClient} using the `includeMetadata` option, which
+   * will retain their original casing.
    *
    * @param {ContainerGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<ContainerGetPropertiesResponse>}
