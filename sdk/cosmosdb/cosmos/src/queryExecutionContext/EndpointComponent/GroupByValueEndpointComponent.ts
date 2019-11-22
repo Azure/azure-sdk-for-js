@@ -7,7 +7,7 @@ import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
-import { emptyGroup, extractAggergateResult } from "./emptyGroup";
+import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -21,8 +21,8 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByValueEndpointComponent implements ExecutionContext {
-  private readonly aggergators: Map<string, Aggregator> = new Map();
-  private readonly aggreateResultArray: any[] = [];
+  private readonly aggregators: Map<string, Aggregator> = new Map();
+  private readonly aggregateResultArray: any[] = [];
   private aggregateType: AggregateType;
   private completed: boolean = false;
 
@@ -33,8 +33,8 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
   public async nextItem(): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
-    if (this.aggreateResultArray.length > 0) {
-      return { result: this.aggreateResultArray.pop(), headers: getInitialHeader() };
+    if (this.aggregateResultArray.length > 0) {
+      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader() };
     }
 
     if (this.completed) {
@@ -48,7 +48,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 
-      // If it exists, process it via aggreatators
+      // If it exists, process it via aggregators
       if (result) {
         let grouping: string = emptyGroup;
         let payload: any = result;
@@ -58,32 +58,32 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
           grouping = await hashObject(result.groupByItems);
         }
 
-        const aggergator = this.aggergators.get(grouping);
-        if (!aggergator) {
+        const aggregator = this.aggregators.get(grouping);
+        if (!aggregator) {
           // This is the first time we have seen a grouping so create a new aggregator
-          this.aggergators.set(grouping, createAggregator(this.aggregateType));
+          this.aggregators.set(grouping, createAggregator(this.aggregateType));
         }
 
         if (this.aggregateType) {
-          const aggregateResult = extractAggergateResult(payload[0]);
-          this.aggergators.get(grouping).aggregate(aggregateResult);
+          const aggregateResult = extractAggregateResult(payload[0]);
+          this.aggregators.get(grouping).aggregate(aggregateResult);
         } else {
           // Queries with no aggregates pass the payload directly to the aggregator
           // Example: SELECT VALUE c.team FROM c GROUP BY c.team
-          this.aggergators.get(grouping).aggregate(payload);
+          this.aggregators.get(grouping).aggregate(payload);
         }
       }
     }
 
     // It no results are left in the underling execution context, convert our aggregate results to an array
-    for (const aggergator of this.aggergators.values()) {
-      this.aggreateResultArray.push(aggergator.getResult());
+    for (const aggregator of this.aggregators.values()) {
+      this.aggregateResultArray.push(aggregator.getResult());
     }
     this.completed = true;
-    return { result: this.aggreateResultArray.pop(), headers: aggregateHeaders };
+    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
   }
 
   public hasMoreResults() {
-    return this.executionContext.hasMoreResults() || this.aggreateResultArray.length > 0;
+    return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
 }
