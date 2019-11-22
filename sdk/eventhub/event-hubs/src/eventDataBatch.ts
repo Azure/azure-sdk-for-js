@@ -53,6 +53,8 @@ export interface EventDataBatch {
    * produce a partition assignment when the producer is created without a `partitionId`
    * If this value is set then partitionId can not be set.
    * @readonly
+   * @internal
+   * @ignore
    */
   readonly partitionKey?: string;
 
@@ -60,6 +62,8 @@ export interface EventDataBatch {
    * The partitionId set during `EventDataBatch` creation.
    * If this value is set then partitionKey can not be set.
    * @readonly
+   * @internal
+   * @ignore
    */
   readonly partitionId?: string;
 
