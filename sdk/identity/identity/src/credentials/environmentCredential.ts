@@ -52,11 +52,9 @@ export class EnvironmentCredential implements TokenCredential {
    */
   constructor(options?: TokenCredentialOptions) {
     // Keep track of any missing environment variables for error details
-    AllSupportedEnvironmentVariables.forEach((v) => {
-      if (process.env[v] === undefined) {
-        this._environmentVarsMissing.push(v);
-      }
-    });
+    this._environmentVarsMissing = AllSupportedEnvironmentVariables.filter(
+      (v) => process.env[v] === undefined
+    );
 
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
