@@ -210,22 +210,21 @@ describe("DirectoryClient", () => {
 
   it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.getDirectoryClient("");
 
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
 
-    const result = (await rootDirClient
+    const result = (await dirClient
       .listFilesAndDirectories({ prefix: "" })
       .byPage()
       .next()).value;
