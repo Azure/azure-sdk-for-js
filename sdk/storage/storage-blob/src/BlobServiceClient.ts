@@ -331,12 +331,11 @@ export class BlobServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    *
-   * @example
+   * Example using DefaultAzureCredential from `@azure/identity`:
+   *
    * ```js
    * const account = "<storage account name>";
    *
-   * // Use a TokenCredential implementation from the @azure/identity package.
-   * // In this case, a DefaultAzureCredential (recommended for most users)
    * const defaultAzureCredential = new DefaultAzureCredential();
    *
    * const blobServiceClient = new BlobServiceClient(
@@ -345,7 +344,8 @@ export class BlobServiceClient extends StorageClient {
    * );
    * ```
    *
-   * @example
+   * Example using an account name/key:
+   *
    * ```js
    * const account = "<storage account name>"
    * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
@@ -405,7 +405,8 @@ export class BlobServiceClient extends StorageClient {
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * ```
@@ -718,65 +719,69 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   for await (const container of blobServiceClient.listContainers()) {
-   *     console.log(`Container ${i++}: ${container.name}`);
-   *   }
+   * let i = 1;
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container ${i++}: ${container.name}`);
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   const iter = blobServiceClient.listContainers();
-   *   let containerItem = await iter.next();
-   *   while (!containerItem.done) {
-   *     console.log(`Container ${i++}: ${containerItem.value.name}`);
-   *     containerItem = await iter.next();
-   *   }
+   * let i = 1;
+   * const iter = blobServiceClient.listContainers();
+   * let containerItem = await iter.next();
+   * while (!containerItem.done) {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter.next();
+   * }
    * ```
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
-   *     if (response.containerItems) {
-   *       for (const container of response.containerItems) {
-   *         console.log(`Container ${i++}: ${container.name}`);
-   *       }
-   *     }
-   *   }
-   * ```
+   * Example using `byPage()`:
    *
-   * @example
    * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 2 container names
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
    *   if (response.containerItems) {
    *     for (const container of response.containerItems) {
    *       console.log(`Container ${i++}: ${container.name}`);
    *     }
    *   }
-   *   // Gets next marker
-   *   let marker = response.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   iterator = blobServiceClient
-   *     .listContainers()
-   *     .byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 container names
-   *   if (response.containerItems) {
-   *     for (const container of response.containerItems) {
-   *        console.log(`Container ${i++}: ${container.name}`);
-   *     }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 container names
+   * if (response.containerItems) {
+   *   for (const container of response.containerItems) {
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = blobServiceClient
+   *   .listContainers()
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 container names
+   * if (response.containerItems) {
+   *   for (const container of response.containerItems) {
+   *      console.log(`Container ${i++}: ${container.name}`);
+   *   }
+   * }
    * ```
    *
    * @param {ServiceListContainersOptions} [options={}] Options to list containers.

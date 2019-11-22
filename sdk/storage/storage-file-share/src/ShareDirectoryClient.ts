@@ -499,7 +499,8 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
    * @memberof ShareDirectoryClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const directoryClient = shareClient.getDirectoryClient("<directory name>");
    * await directoryClient.create();
@@ -680,7 +681,8 @@ export class ShareDirectoryClient extends StorageClient {
    * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
    * @memberof ShareFileClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const content = "Hello world!"
    *
@@ -852,78 +854,85 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   for await (const entity of directoryClient.listFilesAndDirectories()) {
-   *     if (entity.kind === "directory") {
-   *       console.log(`${i++} - directory\t: ${entity.name}`);
-   *     } else {
-   *       console.log(`${i++} - file\t: ${entity.name}`);
-   *     }
+   * let i = 1;
+   * for await (const entity of directoryClient.listFilesAndDirectories()) {
+   *   if (entity.kind === "directory") {
+   *     console.log(`${i++} - directory\t: ${entity.name}`);
+   *   } else {
+   *     console.log(`${i++} - file\t: ${entity.name}`);
    *   }
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   let iter = await directoryClient.listFilesAndDirectories();
-   *   let entity = await iter.next();
-   *   while (!entity.done) {
-   *     if (entity.value.kind === "directory") {
-   *       console.log(`${i++} - directory\t: ${entity.value.name}`);
-   *     } else {
-   *       console.log(`${i++} - file\t: ${entity.value.name}`);
-   *     }
-   *     entity = await iter.next();
+   * let i = 1;
+   * let iter = await directoryClient.listFilesAndDirectories();
+   * let entity = await iter.next();
+   * while (!entity.done) {
+   *   if (entity.value.kind === "directory") {
+   *     console.log(`${i++} - directory\t: ${entity.value.name}`);
+   *   } else {
+   *     console.log(`${i++} - file\t: ${entity.value.name}`);
    *   }
+   *   entity = await iter.next();
+   * }
    * ```
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of directoryClient
-   *     .listFilesAndDirectories()
-   *     .byPage({ maxPageSize: 20 })) {
-   *     for (const fileItem of response.segment.fileItems) {
-   *       console.log(`${i++} - file\t: ${fileItem.name}`);
-   *     }
-   *     for (const dirItem of response.segment.directoryItems) {
-   *       console.log(`${i++} - directory\t: ${dirItem.name}`);
-   *     }
-   *   }
-   * ```
+   * Example using `byPage()`:
    *
-   * @example
    * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 3 file and directory names
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of directoryClient
+   *   .listFilesAndDirectories()
+   *   .byPage({ maxPageSize: 20 })) {
    *   for (const fileItem of response.segment.fileItems) {
    *     console.log(`${i++} - file\t: ${fileItem.name}`);
    *   }
    *   for (const dirItem of response.segment.directoryItems) {
    *     console.log(`${i++} - directory\t: ${dirItem.name}`);
    *   }
-   *   // Gets next marker
-   *   let dirMarker = response.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   iterator = directoryClient
-   *     .listFilesAndDirectories()
-   *     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 file and directory names
-   *   for (const fileItem of response.segment.fileItems) {
-   *     console.log(`${i++} - file\t: ${fileItem.name}`);
-   *   }
-   *   for (const dirItem of response.segment.directoryItems) {
-   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
-   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 3 file and directory names
+   * for (const fileItem of response.segment.fileItems) {
+   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * }
+   *
+   * for (const dirItem of response.segment.directoryItems) {
+   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * }
+   *
+   * // Gets next marker
+   * let dirMarker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   * iterator = directoryClient
+   *   .listFilesAndDirectories()
+   *   .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 file and directory names
+   * for (const fileItem of response.segment.fileItems) {
+   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * }
+   *
+   * for (const dirItem of response.segment.directoryItems) {
+   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * }
    * ```
    *
    * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
@@ -1053,65 +1062,70 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   let iter = dirClient.listHandles();
-   *   for await (const handle of iter) {
+   * let i = 1;
+   * let iter = dirClient.listHandles();
+   * for await (const handle of iter) {
+   *   console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = await dirClient.listHandles();
+   * let handleItem = await iter.next();
+   * while (!handleItem.done) {
+   *   console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
+   *   handleItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
+   *   if (response.handleList) {
+   *     for (const handle of response.handleList) {
+   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
+   * let response = await iterator.next();
+   *
+   * // Prints 2 handles
+   * if (response.value.handleList) {
+   *   for (const handle of response.value.handleList) {
    *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
-   * ```
+   * }
    *
-   * @example
-   * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   let iter = await dirClient.listHandles();
-   *   let handleItem = await iter.next();
-   *   while (!handleItem.done) {
-   *     console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
-   *     handleItem = await iter.next();
-   *   }
-   * ```
+   * // Gets next marker
+   * let marker = response.value.continuationToken;
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
-   *     if (response.handleList) {
-   *       for (const handle of response.handleList) {
-   *         console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *       }
-   *     }
-   *   }
-   * ```
+   * // Passing next marker as continuationToken
+   * console.log(`    continuation`);
+   * iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = await iterator.next();
    *
-   * @example
-   * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
-   *   let response = await iterator.next();
-   *   // Prints 2 handles
-   *   if (response.value.handleList) {
-   *     for (const handle of response.value.handleList) {
-   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *     }
+   * // Prints 2 more handles assuming you have more than four directory/files opened
+   * if (!response.done && response.value.handleList) {
+   *   for (const handle of response.value.handleList) {
+   *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
-   *   // Gets next marker
-   *   let marker = response.value.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   console.log(`    continuation`);
-   *   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = await iterator.next();
-   *   // Prints 2 more handles assuming you have more than four directory/files opened
-   *   if (!response.done && response.value.handleList) {
-   *     for (const handle of response.value.handleList) {
-   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *     }
-   *   }
+   * }
    * ```
    *
    * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
