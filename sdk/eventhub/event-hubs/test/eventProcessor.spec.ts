@@ -755,23 +755,35 @@ describe("Event Processor", function(): void {
     > {
       const partitionIds = await client.getPartitionIds({});
       const checkpointStore = new InMemoryCheckpointStore();
-      const claimedPartitionsSet = new Set<string>();
+      const claimedPartitionsMap = {} as {[eventProcessorId: string]: Set<string>};
 
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
       const handlers: SubscriptionEventHandlers = {
         async processInitialize(context) {
+          const eventProcessorId: string = (context as any).eventProcessorId;
+          const partitionId = context.partitionId;
+          loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
           // For this test we don't want to actually checkpoint, just test ownership.
           context.setStartPosition(EventPosition.latest());
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
             return;
           }
-          claimedPartitionsSet.add(context.partitionId);
+
+          const claimedPartitions = claimedPartitionsMap[eventProcessorId] || new Set();
+          claimedPartitions.add(partitionId);
+          claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
         async processEvent() {},
         async processClose(reason, context) {
+          const eventProcessorId: string = (context as any).eventProcessorId;
+          const partitionId = context.partitionId;
+          const claimedPartitions = claimedPartitionsMap[eventProcessorId];
+          claimedPartitions.delete(partitionId);
+          loggerForTest(`[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId}`);
           if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
+            loggerForTest(`[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`);
             thrashAfterSettling = true;
           }
         }
@@ -781,7 +793,8 @@ describe("Event Processor", function(): void {
         maxBatchSize: 1,
         maxWaitTimeInSeconds: 5,
         loopIntervalInMs: 1000,
-        inactiveTimeLimitInMs: 3000
+        inactiveTimeLimitInMs: 3000,
+        ownerLevel: 0
       };
 
       const processor1 = new EventProcessor(
@@ -808,8 +821,26 @@ describe("Event Processor", function(): void {
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 10,
-          timeBetweenRunsMs: 5000,
-          until: async () => claimedPartitionsSet.size === partitionIds.length
+          timeBetweenRunsMs: 10000,
+          until: async () => {
+            // Ensure the partition ownerships are balanced.
+            const eventProcessorIds = Object.keys(claimedPartitionsMap);
+
+            // There are 2 processors, so we should see 2 entries.
+            if (eventProcessorIds.length !== 2) {
+              return false;
+            }
+
+            const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
+            const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+            // The delta between number of partitions each processor owns can't be more than 1.
+            if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              return false;
+            }
+
+            // All partitions must be claimed.
+            return (aProcessorPartitions.size + bProcessorPartitions.size) === partitionIds.length;
+          }
         });
       } catch (err) {
         // close processors
@@ -817,6 +848,7 @@ describe("Event Processor", function(): void {
         throw err;
       }
 
+      loggerForTest(`All partitions have been claimed.`);
       allPartitionsClaimed = true;
 
       try {
