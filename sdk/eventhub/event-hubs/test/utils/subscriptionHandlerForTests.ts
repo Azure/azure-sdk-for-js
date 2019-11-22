@@ -16,7 +16,7 @@ const should = chai.should();
 export type SequenceNumberMap = Map<string, number>;
 
 export class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
-  private _maxTimeToWaitSeconds = 60;
+  private _maxTimeToWaitSeconds = 30;
   private _timeBetweenChecksMs = 1000;
 
   constructor(private _initialSequenceNumbers?: SequenceNumberMap) {}
@@ -44,7 +44,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     }
   > = new Map();
 
-  public events: { partitionId: string; body: string }[] = [];
+  public events: { partitionId: string; event: ReceivedEventData }[] = [];
 
   async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
@@ -71,10 +71,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
 
-    loggerForTest(`processEvent: ${event.body}`);
-
     this.events.push({
-      body: event.body,
+      event,
       partitionId: context.partitionId
     });
   }
@@ -102,10 +100,10 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     });
   }
 
-  async waitForEvents(
+  async waitForFullEvents(
     partitionIds: string[],
     countOfExpectedEvents?: number
-  ): Promise<{ partitionId: string; body: string }[]> {
+  ): Promise<{ partitionId: string, event: ReceivedEventData }[]> {
     const startTime = Date.now();
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
@@ -120,22 +118,32 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
           throw new Error(
             `Waiting _way_ too long for messages to arrive (got ${
               this.events.length
-            } out of ${countOfExpectedEvents}): \n${this.events
-              .map((event) => event.body)
-              .join("\n")}`
+            } out of ${countOfExpectedEvents})`
           );
         }
       } else {
-        // sort for simpler comparisons in our tests
         this.events.sort((a, b) => {
-          const akey = `${a.partitionId}:${a.body}`;
-          const bkey = `${b.partitionId}:${b.body}`;
+          const akey = `${a.partitionId}:${a.event.body}`;
+          const bkey = `${b.partitionId}:${b.event.body}`;
           return akey.localeCompare(bkey);
         });
 
         return this.events;
       }
     }
+  }
+
+  async waitForEvents(
+    partitionIds: string[],
+    countOfExpectedEvents?: number
+  ): Promise<{ partitionId: string; body: string }[]> {
+    const events = await this.waitForFullEvents(partitionIds, countOfExpectedEvents);
+    
+    return events.map(eventAndPartitionId => {
+      return {
+        body: eventAndPartitionId.event.body,
+        partitionId: eventAndPartitionId.partitionId
+      }});
   }
 
   clear() {

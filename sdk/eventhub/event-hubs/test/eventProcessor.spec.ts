@@ -15,7 +15,7 @@ import {
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
   EventPosition,
-  CheckpointStore
+  CheckpointStore,
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -207,7 +207,7 @@ describe("Event Processor", function(): void {
       client,
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
-      defaultOptions
+      { ...defaultOptions, partitionLoadBalancer: new GreedyPartitionLoadBalancer() }
     );
 
     processor.start();
@@ -315,7 +315,10 @@ describe("Event Processor", function(): void {
         client,
         subscriptionEventHandler,
         new InMemoryCheckpointStore(),
-        defaultOptions
+        {
+          ...defaultOptions,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+        }
       );
 
       processor.start();
@@ -435,9 +438,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        {
-          ...defaultOptions
-        }
+        defaultOptions
       );
 
       // start first processor
@@ -740,7 +741,7 @@ describe("Event Processor", function(): void {
   describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
-    > {
+      > {
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
@@ -770,7 +771,8 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          trackLastEnqueuedEventProperties: true
+          trackLastEnqueuedEventProperties: true,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
 

@@ -380,10 +380,7 @@ export class EventHubConsumerClient {
         return eventProcessor.isRunning();
       },
       close: () => {
-        if (this._userChoseCheckpointStore) {
-          this._partitionGate.remove(targetedPartitionId);
-        }
-
+        this._partitionGate.remove(targetedPartitionId);
         return eventProcessor.stop();
       }
     };
@@ -427,7 +424,7 @@ export class EventHubConsumerClient {
     options?: SubscribeOptions
   ) {
     this._partitionGate.add(partitionId);
-    
+
     const subscribeOptions = options as SubscribeOptions | undefined;
     
     if (this._userChoseCheckpointStore) {
