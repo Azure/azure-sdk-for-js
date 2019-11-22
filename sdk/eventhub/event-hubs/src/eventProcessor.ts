@@ -173,6 +173,7 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
   /**
    * The maximum amount of time since a PartitionOwnership was updated
    * to use to determine if a partition is no longer claimed.
+   * Setting this value to 0 will cause the default value to be used.
    */
   inactiveTimeLimitInMs?: number;
 }
@@ -218,9 +219,6 @@ export class EventProcessor {
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
   private _loopIntervalInMs = 10000;
-  /**
-   * Value must be an integer larger than 0.
-   */
   private _inactiveTimeLimitInMs = 60000;
 
   /**
