@@ -53,7 +53,10 @@ describe("Certificates client - merge and import certificates", () => {
     await createPoller.pollUntilDone();
     const certificateSecret = await secretClient.getSecret(certificateNames[0]);
     const base64EncodedCertificate = certificateSecret.value!;
-    await client.importCertificate(certificateNames[1], base64EncodedCertificate);
+
+    const buffer = Buffer.from(base64EncodedCertificate, "base64");
+
+    await client.importCertificate(certificateNames[1], buffer);
 
     for (const name of certificateNames) {
       await testClient.flushCertificate(name);

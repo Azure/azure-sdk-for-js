@@ -124,7 +124,7 @@ describe("Certificates client - create, read, update and delete", () => {
       basicCertificatePolicy,
       testPollerProperties
     );
-    await client.updateCertificate(certificateName, "", {
+    await client.updateCertificateProperties(certificateName, "", {
       tags: {
         customTag: "value"
       }
@@ -152,7 +152,7 @@ describe("Certificates client - create, read, update and delete", () => {
       const { version } = poller.getResult()!.properties;
 
       await assertThrowsAbortError(async () => {
-        await client.updateCertificate(certificateName, version || "", {
+        await client.updateCertificateProperties(certificateName, version || "", {
           tags: {
             customTag: "value"
           },
