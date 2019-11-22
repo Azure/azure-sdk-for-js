@@ -755,7 +755,7 @@ describe("Event Processor", function(): void {
     > {
       const partitionIds = await client.getPartitionIds({});
       const checkpointStore = new InMemoryCheckpointStore();
-      const claimedPartitionsMap = {} as {[eventProcessorId: string]: Set<string>};
+      const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
@@ -781,9 +781,15 @@ describe("Event Processor", function(): void {
           const partitionId = context.partitionId;
           const claimedPartitions = claimedPartitionsMap[eventProcessorId];
           claimedPartitions.delete(partitionId);
-          loggerForTest(`[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId}`);
+          loggerForTest(
+            `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
+              context.partitionId
+            }`
+          );
           if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
-            loggerForTest(`[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`);
+            loggerForTest(
+              `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+            );
             thrashAfterSettling = true;
           }
         }
@@ -839,7 +845,7 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            return (aProcessorPartitions.size + bProcessorPartitions.size) === partitionIds.length;
+            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
           }
         });
       } catch (err) {
