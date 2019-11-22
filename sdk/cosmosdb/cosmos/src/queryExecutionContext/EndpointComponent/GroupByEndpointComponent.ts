@@ -6,8 +6,8 @@ import { CosmosHeaders } from "../CosmosHeaders";
 import { QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
-import { getInitialHeader } from "../headerUtils";
-import { emptyGroup, extractAggergateResult } from "./emptyGroup";
+import { getInitialHeader, mergeHeaders } from "../headerUtils";
+import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -24,71 +24,70 @@ export class GroupByEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
-  private readonly aggreateResultArray: any[] = [];
+  private readonly aggregateResultArray: any[] = [];
   private completed: boolean = false;
 
   public async nextItem(): Promise<Response<any>> {
     // If we have a full result set, begin returning results
-    if (this.aggreateResultArray.length > 0) {
-      return { result: this.aggreateResultArray.pop(), headers: getInitialHeader() };
+    if (this.aggregateResultArray.length > 0) {
+      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader() };
     }
 
     if (this.completed) {
       return { result: undefined, headers: getInitialHeader() };
     }
 
-    // Grab the next result
-    const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+    const aggregateHeaders = getInitialHeader();
 
-    // If it exists, process it via aggreatators
-    if (result) {
-      const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
-      const aggergators = this.groupings.get(group);
-      const payload = result.payload;
-      if (aggergators) {
-        // Iterator over all results in the payload
-        Object.keys(payload).map((key) => {
-          const aggregateResult = extractAggergateResult(payload[key]);
-          aggergators.get(key).aggregate(aggregateResult);
-        });
-      } else {
-        // This is the first time we have seen a grouping. Setup the initial result without aggregate values
-        const grouping = new Map();
-        this.groupings.set(group, grouping);
-        // Iterator over all results in the payload
-        Object.keys(payload).map((key) => {
-          const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
-          // Create a new aggregator for this specific aggregate field
-          const aggreatator = createAggregator(aggregateType);
-          grouping.set(key, aggreatator);
-          if (aggregateType) {
-            const aggregateResult = extractAggergateResult(payload[key]);
-            aggreatator.aggregate(aggregateResult);
-          } else {
-            aggreatator.aggregate(payload[key]);
-          }
-        });
-      }
-    }
+    while (this.executionContext.hasMoreResults()) {
+      // Grab the next result
+      const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+      mergeHeaders(aggregateHeaders, headers);
 
-    // It no results are left in the underling execution context, convert our results set to an array
-    if (!this.executionContext.hasMoreResults()) {
-      for (const grouping of this.groupings.values()) {
-        const groupResult: any = {};
-        for (const [aggregateKey, aggregator] of grouping.entries()) {
-          groupResult[aggregateKey] = aggregator.getResult();
+      // If it exists, process it via aggregators
+      if (result) {
+        const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
+        const aggregators = this.groupings.get(group);
+        const payload = result.payload;
+        if (aggregators) {
+          // Iterator over all results in the payload
+          Object.keys(payload).map((key) => {
+            const aggregateResult = extractAggregateResult(payload[key]);
+            aggregators.get(key).aggregate(aggregateResult);
+          });
+        } else {
+          // This is the first time we have seen a grouping. Setup the initial result without aggregate values
+          const grouping = new Map();
+          this.groupings.set(group, grouping);
+          // Iterator over all results in the payload
+          Object.keys(payload).map((key) => {
+            const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
+            // Create a new aggregator for this specific aggregate field
+            const aggregator = createAggregator(aggregateType);
+            grouping.set(key, aggregator);
+            if (aggregateType) {
+              const aggregateResult = extractAggregateResult(payload[key]);
+              aggregator.aggregate(aggregateResult);
+            } else {
+              aggregator.aggregate(payload[key]);
+            }
+          });
         }
-        this.aggreateResultArray.push(groupResult);
       }
-      this.completed = true;
-      return { result: this.aggreateResultArray.pop(), headers };
     }
 
-    // Return empty items until we have a full results set
-    return { result: undefined, headers };
+    for (const grouping of this.groupings.values()) {
+      const groupResult: any = {};
+      for (const [aggregateKey, aggregator] of grouping.entries()) {
+        groupResult[aggregateKey] = aggregator.getResult();
+      }
+      this.aggregateResultArray.push(groupResult);
+    }
+    this.completed = true;
+    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
   }
 
   public hasMoreResults() {
-    return this.executionContext.hasMoreResults() || this.aggreateResultArray.length > 0;
+    return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
 }
