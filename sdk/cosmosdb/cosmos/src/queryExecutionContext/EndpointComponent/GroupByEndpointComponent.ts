@@ -6,7 +6,7 @@ import { CosmosHeaders } from "../CosmosHeaders";
 import { QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
-import { getInitialHeader } from "../headerUtils";
+import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggergateResult } from "./emptyGroup";
 
 interface GroupByResponse {
@@ -37,55 +37,54 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: getInitialHeader() };
     }
 
-    // Grab the next result
-    const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+    const aggregateHeaders = getInitialHeader();
 
-    // If it exists, process it via aggreatators
-    if (result) {
-      const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
-      const aggergators = this.groupings.get(group);
-      const payload = result.payload;
-      if (aggergators) {
-        // Iterator over all results in the payload
-        Object.keys(payload).map((key) => {
-          const aggregateResult = extractAggergateResult(payload[key]);
-          aggergators.get(key).aggregate(aggregateResult);
-        });
-      } else {
-        // This is the first time we have seen a grouping. Setup the initial result without aggregate values
-        const grouping = new Map();
-        this.groupings.set(group, grouping);
-        // Iterator over all results in the payload
-        Object.keys(payload).map((key) => {
-          const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
-          // Create a new aggregator for this specific aggregate field
-          const aggreatator = createAggregator(aggregateType);
-          grouping.set(key, aggreatator);
-          if (aggregateType) {
+    while (this.executionContext.hasMoreResults()) {
+      // Grab the next result
+      const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+      mergeHeaders(aggregateHeaders, headers);
+
+      // If it exists, process it via aggreatators
+      if (result) {
+        const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
+        const aggergators = this.groupings.get(group);
+        const payload = result.payload;
+        if (aggergators) {
+          // Iterator over all results in the payload
+          Object.keys(payload).map((key) => {
             const aggregateResult = extractAggergateResult(payload[key]);
-            aggreatator.aggregate(aggregateResult);
-          } else {
-            aggreatator.aggregate(payload[key]);
-          }
-        });
-      }
-    }
-
-    // It no results are left in the underling execution context, convert our results set to an array
-    if (!this.executionContext.hasMoreResults()) {
-      for (const grouping of this.groupings.values()) {
-        const groupResult: any = {};
-        for (const [aggregateKey, aggregator] of grouping.entries()) {
-          groupResult[aggregateKey] = aggregator.getResult();
+            aggergators.get(key).aggregate(aggregateResult);
+          });
+        } else {
+          // This is the first time we have seen a grouping. Setup the initial result without aggregate values
+          const grouping = new Map();
+          this.groupings.set(group, grouping);
+          // Iterator over all results in the payload
+          Object.keys(payload).map((key) => {
+            const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
+            // Create a new aggregator for this specific aggregate field
+            const aggreatator = createAggregator(aggregateType);
+            grouping.set(key, aggreatator);
+            if (aggregateType) {
+              const aggregateResult = extractAggergateResult(payload[key]);
+              aggreatator.aggregate(aggregateResult);
+            } else {
+              aggreatator.aggregate(payload[key]);
+            }
+          });
         }
-        this.aggreateResultArray.push(groupResult);
       }
-      this.completed = true;
-      return { result: this.aggreateResultArray.pop(), headers };
     }
 
-    // Return empty items until we have a full results set
-    return { result: undefined, headers };
+    for (const grouping of this.groupings.values()) {
+      const groupResult: any = {};
+      for (const [aggregateKey, aggregator] of grouping.entries()) {
+        groupResult[aggregateKey] = aggregator.getResult();
+      }
+      this.aggreateResultArray.push(groupResult);
+    }
+    this.completed = true;
+    return { result: this.aggreateResultArray.pop(), headers: aggregateHeaders };
   }
 
   public hasMoreResults() {

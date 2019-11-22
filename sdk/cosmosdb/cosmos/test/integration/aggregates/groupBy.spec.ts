@@ -3,6 +3,7 @@
 import { Container, ContainerDefinition } from "../../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import snapshot from "snap-shot-it";
+import assert from "assert";
 
 const options = {
   maxItemCount: 100
@@ -523,7 +524,7 @@ const items = [
   }
 ];
 
-describe("Cross partition GROUP BY", () => {
+describe.only("Cross partition GROUP BY", () => {
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
     partitionKey: {
@@ -699,5 +700,29 @@ describe("Cross partition GROUP BY", () => {
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.age - b.age));
+  });
+
+  it("ensure first result is populated", async () => {
+    const queryIterator = container.items.query("SELECT c.age FROM c GROUP BY c.age", options);
+    const result = await queryIterator.fetchNext();
+    assert(result.resources.length > 0);
+    assert(result.requestCharge > 0);
+  });
+
+  it("ensure first result is populated - VALUE", async () => {
+    const queryIterator = container.items.query("SELECT c.age FROM c GROUP BY c.age", options);
+    const result = await queryIterator.fetchNext();
+    assert(result.resources.length > 0);
+    assert(result.requestCharge > 0);
+  });
+
+  it("works with TOP", async () => {
+    const queryIterator = container.items.query(
+      "SELECT TOP 1 c.age FROM c GROUP BY c.age",
+      options
+    );
+    const result = await queryIterator.fetchNext();
+    assert(result.resources.length > 0);
+    assert(result.requestCharge > 0);
   });
 });
