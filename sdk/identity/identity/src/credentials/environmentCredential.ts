@@ -5,11 +5,27 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+
+/**
+ * Contains the list of all supported environment variable names so that an
+ * appropriate error message can be generated when no credentials can be
+ * configured.
+ *
+ * @internal
+ */
+export const AllSupportedEnvironmentVariables = [
+  "AZURE_TENANT_ID",
+  "AZURE_CLIENT_ID",
+  "AZURE_CLIENT_SECRET",
+  "AZURE_CLIENT_CERTIFICATE_PATH",
+  "AZURE_USERNAME",
+  "AZURE_PASSWORD"
+];
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -24,6 +40,7 @@ import { UsernamePasswordCredential } from "./usernamePasswordCredential";
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
+  private _environmentVarsMissing: string[] = [];
   private _credential?: TokenCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
@@ -34,6 +51,13 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(options?: TokenCredentialOptions) {
+    // Keep track of any missing environment variables for error details
+    AllSupportedEnvironmentVariables.forEach((v) => {
+      if (process.env[v] === undefined) {
+        this._environmentVarsMissing.push(v);
+      }
+    });
+
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
@@ -109,8 +133,13 @@ export class EnvironmentCredential implements TokenCredential {
       }
     }
 
-    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
-    span.end();
-    return Promise.resolve(null);
+    // If by this point we don't have a credential, throw an exception so that
+    // the user knows the credential was not configured appropriately
+    throw new AuthenticationError(400, {
+      error: "missing_environment_variables",
+      error_description: `EnvironmentCredential cannot return a token because one or more of the following environment varibles is missing:
+
+${this._environmentVarsMissing.join("\n")}`
+    });
   }
 }

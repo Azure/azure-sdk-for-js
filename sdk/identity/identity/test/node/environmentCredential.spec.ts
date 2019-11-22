@@ -3,13 +3,15 @@
 
 import assert from "assert";
 import path from "path";
-import { EnvironmentCredential } from "../../src";
+import { EnvironmentCredential, AuthenticationError } from "../../src";
 import {
   MockAuthHttpClient,
   assertClientCredentials,
-  assertClientUsernamePassword
+  assertClientUsernamePassword,
+  assertRejects
 } from "../authTestUtils";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { AllSupportedEnvironmentVariables } from "../../src/credentials/environmentCredential";
 
 describe("EnvironmentCredential", function() {
   it("finds and uses client credential environment variables", async () => {
@@ -132,5 +134,28 @@ describe("EnvironmentCredential", function() {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+
+  it("throws an AuthenticationError when getToken is called and no credential was configured", async () => {
+    const mockHttpClient = new MockAuthHttpClient();
+
+    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
+    await assertRejects(
+      credential.getToken("scope"),
+      (error: AuthenticationError) =>
+        error.errorResponse.errorDescription.indexOf(AllSupportedEnvironmentVariables.join("\n")) >
+        -1
+    );
+
+    process.env.AZURE_TENANT_ID = "It me";
+
+    const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
+    await assertRejects(
+      credentialDeux.getToken("scope"),
+      (error: AuthenticationError) =>
+        error.errorResponse.errorDescription.indexOf("AZURE_TENANT_ID") === -1
+    );
+
+    delete process.env.AZURE_TENANT_ID;
   });
 });
