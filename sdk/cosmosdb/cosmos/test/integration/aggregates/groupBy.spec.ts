@@ -722,7 +722,7 @@ describe("Cross partition GROUP BY", () => {
       options
     );
     const result = await queryIterator.fetchNext();
-    assert(result.resources.length > 0);
+    assert(result.resources.length === 1);
     assert(result.requestCharge > 0);
   });
 });
