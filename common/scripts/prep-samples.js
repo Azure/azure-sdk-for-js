@@ -1,29 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const fs = require("fs");
+/**
+ * prep-samples.js
+ *
+ * Prepares sample files for execution in CI by replacing abosolute package imports with relative
+ * imports. This is useful because it allows us to check in "camera-ready" copies of our samples
+ * so that they can be ingested directly into external documentation pipelines, while still allowing
+ * us to compile and run our samples in CI.
+ *
+ * Usage: node prep-samples.js [PACKAGE PATH]
+ * - PACKAGE PATH should be set to the directory of a `package.json` for a package that contains
+ *   TypeScript samples.
+ * - If PACKAGE PATH is not specified, CWD will be used
+ *
+ * The command expects to find a directory tree `samples/typescript` under PACKAGE PATH.
+ *
+ * WARNING: This script ___WILL NOT___ revert changes it makes to the samples. Make sure any staged
+ * changes you have made to the samples are committed to git or otherwise preserved, as this script
+ * will completely overwrite them!
+ */
+
+const fs = require("fs").promises;
 const path = require("path");
 
-// Accept a base directory (package directory) as an argument or use CWD
-const args = process.argv.slice(2);
-
-let baseDir;
-if (args.length > 0) {
-  baseDir = path.resolve(args[0]);
-} else {
-  baseDir = process.cwd();
-}
-const tsDir = path.join(baseDir, "samples", "typescript");
-
 /**
- * Breadth-first search for files ending in .ts
+ * Breadth-first search for files ending in .ts, starting from `tsDir`
+ *
+ * @param {string} tsDir The root of the sample tree to search
+ * @returns
  */
-function findAllTsFiles(filesAndFolders) {
-  const q = filesAndFolders.map(function(f) {
-    return [f, tsDir];
-  });
-  const tsFiles = [];
+async function* findAllTsFiles(tsDir) {
+  const initialFiles = await fs.readdir(tsDir, { withFileTypes: true });
 
+  // BFS Queue and queue index
+  const q = initialFiles.map(f => [f, tsDir]);
   let idx = 0;
 
   while (idx !== q.length) {
@@ -31,25 +42,32 @@ function findAllTsFiles(filesAndFolders) {
     const [file, dirName] = q[idx];
     const fullPath = path.join(dirName, file.name);
 
+    // Skip symlinks. We shouldn't see symlinks in a clean samples tree, so
+    // additionally warn if this happens.
     if (file.isSymbolicLink()) {
+      console.warn(
+        "[prep-samples] WARNING: Encountered a symlink in the sample tree:",
+        fullPath
+      );
       continue;
     }
 
     if (file.isDirectory()) {
       // Enqueue children of this directory to the bfs
-      fs.readdirSync(fullPath, { withFileTypes: true }).forEach(function(
-        child
-      ) {
+      const children = await fs.readdir(fullPath, { withFileTypes: true });
+      for (const child of children) {
         q.push([child, fullPath]);
-      });
-    } else if (file.isFile() && file.name.match(/.*\.ts$/)) {
-      tsFiles.push(fullPath);
+      }
+    } else if (file.isFile() && /.*\.ts$/.exec(file.name)) {
+      yield fullPath;
     }
 
     idx += 1;
   }
 
-  return tsFiles;
+  // The full trace of files visited by the iterator is returned and can be accessed using `iter.value`
+  // once it is `done`, in case it is ever needed for debugging
+  return q;
 }
 
 /**
@@ -59,13 +77,14 @@ function findAllTsFiles(filesAndFolders) {
  * @param {string} baseDir The base directory of the package
  * @param {string} pkgName name of the package to use when looking for package-local imports
  */
-function enableLocalRun(file, baseDir, pkgName) {
-  const fileContents = fs.readFileSync(file, { encoding: "utf-8" });
-  const sbregex = new RegExp(
+async function enableLocalRun(file, baseDir, pkgName) {
+  const fileContents = await fs.readFile(file, { encoding: "utf-8" });
+  const importRegex = new RegExp(
     `import\\s+(.*)\\s+from\\s+"${pkgName}";?\\s?`,
     "s"
   );
-  if (!fileContents.match(sbregex)) {
+
+  if (!importRegex.exec(fileContents)) {
     throw new Error(`Sample ${file} did not contain an import statement!`);
   }
 
@@ -79,30 +98,39 @@ function enableLocalRun(file, baseDir, pkgName) {
 
   const relativeImportPath = new Array(depth).fill("..").join("/") + "/src";
   const updatedContents = fileContents.replace(
-    sbregex,
+    importRegex,
     `import $1 from "${relativeImportPath}";`
   );
 
-  fs.writeFileSync(file, updatedContents, { encoding: "utf-8" });
+  return fs.writeFile(file, updatedContents, { encoding: "utf-8" });
 }
 
-function main() {
+async function main() {
+  // Accept a base directory (package directory) as an argument or use CWD
+  const args = process.argv.slice(2);
+
+  let baseDir;
+  if (args.length > 0) {
+    baseDir = path.resolve(args[0]);
+  } else {
+    baseDir = process.cwd();
+  }
+
+  const tsDir = path.join(baseDir, "samples", "typescript");
   const package = require(path.join(baseDir, "package.json"));
-  console.log(
-    `Preparing samples for package: ${package.name}@${package.version}`
-  );
-  console.log("Package name", package.name);
-  fs.readdir(tsDir, { withFileTypes: true }, function(err, files) {
-    if (err) {
-      console.error("Failed to read TypeScript samples directory:", args[0]);
-      process.exit(1);
-    }
 
-    findAllTsFiles(files).forEach(function(fileName) {
-      console.log("Updating imports in", fileName, "...");
-      enableLocalRun(fileName, baseDir, package.name);
-    });
-  });
+  console.log(
+    "[prep-samples] Preparing samples for package:",
+    `${package.name}@${package.version}`
+  );
+
+  for await (const fileName of findAllTsFiles(tsDir)) {
+    console.log("[prep-samples] Updating imports in", fileName);
+    await enableLocalRun(fileName, baseDir, package.name);
+  }
 }
 
-main();
+main().catch(err => {
+  console.error("[prep-samples] Error:", err);
+  process.exit(1);
+});
