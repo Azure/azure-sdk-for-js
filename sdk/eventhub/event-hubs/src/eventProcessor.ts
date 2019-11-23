@@ -176,6 +176,13 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
    * Setting this value to 0 will cause the default value to be used.
    */
   inactiveTimeLimitInMs?: number;
+
+  /**
+   * An optional pump manager to use, rather than instantiating one internally
+   * @internal
+   * @ignore
+   */
+  pumpManager?: PumpManager;
 }
 
 /**
@@ -243,7 +250,7 @@ export class EventProcessor {
     this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
-    this._pumpManager = new PumpManager(this._id, this._processorOptions);
+    this._pumpManager = options.pumpManager || new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
@@ -514,4 +521,8 @@ export class EventProcessor {
     }
     this._checkpointStore.claimOwnership(ourOwnerships);
   }
+}
+
+function isAbandoned(ownership: PartitionOwnership): boolean {
+  return ownership.ownerId === "";
 }
