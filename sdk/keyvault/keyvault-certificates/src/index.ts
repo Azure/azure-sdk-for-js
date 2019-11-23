@@ -1590,9 +1590,9 @@ export class CertificateClient {
    * @param {RestoreCertificateBackupOptions} [options] The optional parameters
    */
   public async restoreCertificateBackup(
-    certificateBackup: Uint8Array,
+    backup: Uint8Array,
     options: RestoreCertificateBackupOptions = {}
-  ): Promise<KeyVaultCertificate> {
+  ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("restoreCertificate", requestOptions);
 
@@ -1601,14 +1601,14 @@ export class CertificateClient {
     try {
       result = await this.client.restoreCertificate(
         this.vaultUrl,
-        certificateBackup,
+        backup,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+    return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
   }
 
   private async *listDeletedCertificatesPage(
