@@ -329,9 +329,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Create
     const createResponse = await client.createIssuer(issuerName, "Test", {
-      credentials: {
-        accountId: "keyvaultuser"
-      },
+      accountId: "keyvaultuser",
       administratorContacts: [
         {
           firstName: "John",

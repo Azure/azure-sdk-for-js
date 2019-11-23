@@ -334,7 +334,6 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     name: parsedId.name,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
-    credentials: issuer.credentials,
     enabled: attributes.enabled,
     createdOn: attributes.created,
     updatedOn: attributes.updated
@@ -874,17 +873,15 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("createIssuer", requestOptions);
     const properties: IssuerProperties = requestOptions.properties || {};
-    const credentials: IssuerCredentials = requestOptions.credentials || {};
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions,
       id: properties.id || requestOptions.id,
-      provider: properties.provider || requestOptions.provider
-    };
-
-    generatedOptions.credentials = {
-      accountId: credentials.accountId || requestOptions.accountId,
-      password: credentials.password || requestOptions.password
+      provider: properties.provider || requestOptions.provider,
+      credentials: {
+        accountId: requestOptions.accountId,
+        password: requestOptions.password
+      },
     };
 
     if (

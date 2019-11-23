@@ -104,7 +104,6 @@ export interface CertificateIssuer {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
     createdOn?: Date;
-    credentials?: IssuerCredentials;
     enabled?: boolean;
     id?: string;
     issuerProperties?: IssuerProperties;
@@ -200,10 +199,11 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+    accountId?: string;
     administratorContacts?: AdministratorContact[];
-    credentials?: IssuerCredentials;
     enabled?: boolean;
     organizationId?: string;
+    password?: string;
 }
 
 // @public
@@ -356,8 +356,10 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
     maxresults?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "KeyVaultClientGetCertificateVersionsOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ListPropertiesOfCertificateVersionsOptions extends ListPropertiesOfCertificatesOptions, coreHttp.OperationOptions {
+export interface ListPropertiesOfCertificateVersionsOptions extends KeyVaultClientGetCertificateVersionsOptionalParams, coreHttp.OperationOptions {
 }
 
 // @public

@@ -19,9 +19,7 @@ async function main(): Promise<void> {
 
   // Create
   await client.createIssuer(issuerName, "Test", {
-    credentials: {
-      accountId: "keyvaultuser"
-    },
+    accountId: "keyvaultuser",
     administratorContacts: [
       {
         firstName: "John",

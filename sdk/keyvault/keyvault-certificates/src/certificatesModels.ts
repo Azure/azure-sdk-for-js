@@ -5,7 +5,7 @@ import {
   DeletionRecoveryLevel,
   LifetimeAction,
   KeyUsageType,
-  IssuerCredentials
+  KeyVaultClientGetCertificateVersionsOptionalParams
 } from "./core/models";
 
 /**
@@ -457,9 +457,13 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {}
  */
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
   /**
-   * The credentials to be used for the issuer.
+   * The user name/account name/account id.
    */
-  credentials?: IssuerCredentials;
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
   /**
    * Id of the organization.
    */
@@ -594,10 +598,6 @@ export interface CertificateIssuer {
    */
   password?: string;
   /**
-   * The credentials to be used for the issuer.
-   */
-  credentials?: IssuerCredentials;
-  /**
    * Id of the organization.
    */
   organizationId?: string;
@@ -630,7 +630,7 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
 export interface ListPropertiesOfCertificateVersionsOptions
-  extends ListPropertiesOfCertificatesOptions,
+  extends KeyVaultClientGetCertificateVersionsOptionalParams,
     coreHttp.OperationOptions {}
 
 /**
