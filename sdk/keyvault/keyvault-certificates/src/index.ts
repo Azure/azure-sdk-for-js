@@ -241,15 +241,17 @@ function toCorePolicy(
 
   let lifetimeActions: CoreLifetimeAction[] | undefined;
   if (policy.lifetimeActions && policy.lifetimeActions.length) {
-    lifetimeActions = policy.lifetimeActions.map((lifetimeAction: LifetimeAction): CoreLifetimeAction => {
-      return {
-        trigger: {
-          lifetimePercentage: lifetimeAction.lifetimePercentage,
-          daysBeforeExpiry: lifetimeAction.daysBeforeExpiry,
-        },
-        action: lifetimeAction.action
-      };
-    });
+    lifetimeActions = policy.lifetimeActions.map(
+      (lifetimeAction: LifetimeAction): CoreLifetimeAction => {
+        return {
+          trigger: {
+            lifetimePercentage: lifetimeAction.lifetimePercentage,
+            daysBeforeExpiry: lifetimeAction.daysBeforeExpiry
+          },
+          action: lifetimeAction.action
+        };
+      }
+    );
   }
 
   return {
@@ -364,14 +366,16 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   if (issuer.organizationDetails) {
     publicIssuer.organizationId = issuer.organizationDetails.id;
     if (issuer.organizationDetails.adminDetails) {
-      publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails.map((administrator: AdministratorDetails): AdministratorContact => {
-        return {
-          firstName: administrator.firstName,
-          lastName: administrator.lastName,
-          email: administrator.emailAddress,
-          phone: administrator.phone,
+      publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails.map(
+        (administrator: AdministratorDetails): AdministratorContact => {
+          return {
+            firstName: administrator.firstName,
+            lastName: administrator.lastName,
+            email: administrator.emailAddress,
+            phone: administrator.phone
+          };
         }
-      });
+      );
     }
   }
   return publicIssuer;
@@ -740,13 +744,15 @@ export class CertificateClient {
     const span = this.createSpan("setCertificateContacts", requestOptions);
 
     let result: SetCertificateContactsResponse;
-    const contactList: CoreContact[] = contacts.map((contact: CertificateContact): CoreContact => {
-      return {
-        emailAddress: contact!.email,
-        name: contact!.name,
-        phone: contact!.phone,
+    const contactList: CoreContact[] = contacts.map(
+      (contact: CertificateContact): CoreContact => {
+        return {
+          emailAddress: contact!.email,
+          name: contact!.name,
+          phone: contact!.phone
+        };
       }
-    })
+    );
 
     try {
       result = await this.client.setCertificateContacts(
@@ -913,25 +919,24 @@ export class CertificateClient {
       credentials: {
         accountId: requestOptions.accountId,
         password: requestOptions.password
-      },
+      }
     };
 
-    if (
-      options.organizationId ||
-      options.administratorContacts
-    ) {
+    if (options.organizationId || options.administratorContacts) {
       generatedOptions.organizationDetails = {
         id: options.organizationId
       };
       if (options.administratorContacts && options.administratorContacts.length) {
-        generatedOptions.organizationDetails.adminDetails = options.administratorContacts.map((contact: AdministratorContact): AdministratorDetails => {
-          return {
-            firstName: contact.firstName,
-            lastName: contact.lastName,
-            emailAddress: contact.email,
-            phone: contact.phone
+        generatedOptions.organizationDetails.adminDetails = options.administratorContacts.map(
+          (contact: AdministratorContact): AdministratorDetails => {
+            return {
+              firstName: contact.firstName,
+              lastName: contact.lastName,
+              emailAddress: contact.email,
+              phone: contact.phone
+            };
           }
-        });
+        );
       }
     }
 
@@ -1135,7 +1140,9 @@ export class CertificateClient {
     certificateName: string,
     certificatePolicy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
@@ -1266,7 +1273,7 @@ export class CertificateClient {
     if (isNode) {
       base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
     } else {
-      const decoder = new TextDecoder('utf8');
+      const decoder = new TextDecoder("utf8");
       base64EncodedCertificate = btoa(decoder.decode(certificateBytes));
     }
 
@@ -2127,7 +2134,7 @@ export class CertificateClient {
   }
 
   private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
-    return contacts.contactList && (contacts.contactList as CertificateContact[]) || [];
+    return (contacts.contactList && (contacts.contactList as CertificateContact[])) || [];
   }
 
   /**
