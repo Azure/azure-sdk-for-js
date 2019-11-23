@@ -5,7 +5,8 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  isNode
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
@@ -1219,9 +1220,18 @@ export class CertificateClient {
    */
   public async importCertificate(
     certificateName: string,
-    base64EncodedCertificate: string,
+    certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificate> {
+    let base64EncodedCertificate: string;
+
+    if (isNode) {
+      base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
+    } else {
+      const decoder = new TextDecoder('utf8');
+      base64EncodedCertificate = btoa(decoder.decode(certificateBytes));
+    }
+
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("importCertificate", requestOptions);
 
