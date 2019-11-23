@@ -1273,8 +1273,9 @@ export class CertificateClient {
     if (isNode) {
       base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
     } else {
-      const decoder = new TextDecoder("utf8");
-      base64EncodedCertificate = btoa(decoder.decode(certificateBytes));
+      base64EncodedCertificate = btoa(
+        String.fromCharCode.apply(null, (certificateBytes as any) as number[])
+      );
     }
 
     const requestOptions = operationOptionsToRequestOptionsBase(options);
