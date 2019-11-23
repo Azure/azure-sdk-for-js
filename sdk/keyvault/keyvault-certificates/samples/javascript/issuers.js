@@ -25,7 +25,7 @@ async function main() {
       {
         firstName: "John",
         lastName: "Doe",
-        emailAddress: "admin@microsoft.com",
+        email: "admin@microsoft.com",
         phone: "4255555555"
       }
     ]

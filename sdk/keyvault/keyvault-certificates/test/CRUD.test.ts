@@ -334,13 +334,13 @@ describe("Certificates client - create, read, update and delete", () => {
         {
           firstName: "John",
           lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
+          email: "admin@microsoft.com",
           phone: "4255555555"
         }
       ]
     });
     assert.equal(
-      createResponse.administratorContacts![0].emailAddress,
+      createResponse.administratorContacts![0].email,
       "admin@microsoft.com"
     );
 
@@ -370,14 +370,14 @@ describe("Certificates client - create, read, update and delete", () => {
         {
           firstName: "John",
           lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
+          email: "admin@microsoft.com",
           phone: "4255555555"
         }
       ]
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(
-      getResponse.administratorContacts![0].emailAddress,
+      getResponse.administratorContacts![0].email,
       "admin@microsoft.com"
     );
 
@@ -456,12 +456,12 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can set, read and delete a certificate's contacts", async function() {
     const contacts = [
       {
-        emailAddress: "a@a.com",
+        email: "a@a.com",
         name: "a",
         phone: "111111111111"
       },
       {
-        emailAddress: "b@b.com",
+        email: "b@b.com",
         name: "b",
         phone: "222222222222"
       }

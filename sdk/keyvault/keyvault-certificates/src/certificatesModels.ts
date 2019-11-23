@@ -1,6 +1,5 @@
 import * as coreHttp from "@azure/core-http";
 import {
-  AdministratorDetails as AdministratorContact,
   CertificateOperation,
   DeletionRecoveryLevel,
   KeyUsageType,
@@ -477,6 +476,28 @@ export interface ImportCertificateOptions extends CertificateProperties, coreHtt
 }
 
 /**
+ * Details of the organization administrator of the certificate issuer.
+ */
+export interface AdministratorContact {
+  /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
+   * Email address.
+   */
+  email?: string;
+  /**
+   * Phone number.
+   */
+  phone?: string;
+}
+
+/**
  * Options for {@link deleteIssuer}.
  */
 export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
@@ -715,7 +736,7 @@ export interface CertificateContactAll {
   /**
    * Email address of the contact
    */
-  emailAddress: string;
+  email: string;
   /**
    * Name of the contact
    */
@@ -744,6 +765,6 @@ export type RequireAtLeastOne<T> = {
 /**
  * The contact information for the vault certificates.
  * Each contact will have at least just one of the properties of CertificateContactAll,
- * which are: emailAddress, name or phone.
+ * which are: email, name or phone.
  */
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;

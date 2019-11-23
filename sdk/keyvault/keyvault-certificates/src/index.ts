@@ -14,6 +14,7 @@ import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
 
 import {
+  AdministratorContact,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   BackupCertificateOptions,
@@ -116,10 +117,11 @@ import {
   RecoverDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   Trigger,
-  AdministratorDetails as AdministratorContact,
+  AdministratorDetails,
   ActionType,
   DeletionRecoveryLevel,
   CertificateAttributes,
+  Contact as CoreContact,
   Contacts as CoreContacts,
   IssuerBundle
 } from "./core/models";
@@ -361,7 +363,16 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 
   if (issuer.organizationDetails) {
     publicIssuer.organizationId = issuer.organizationDetails.id;
-    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails;
+    if (issuer.organizationDetails.adminDetails) {
+      publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails.map((administrator: AdministratorDetails): AdministratorContact => {
+        return {
+          firstName: administrator.firstName,
+          lastName: administrator.lastName,
+          email: administrator.emailAddress,
+          phone: administrator.phone,
+        }
+      });
+    }
   }
   return publicIssuer;
 }
@@ -676,7 +687,7 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
@@ -711,7 +722,7 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
@@ -729,11 +740,18 @@ export class CertificateClient {
     const span = this.createSpan("setCertificateContacts", requestOptions);
 
     let result: SetCertificateContactsResponse;
+    const contactList: CoreContact[] = contacts.map((contact: CertificateContact): CoreContact => {
+      return {
+        emailAddress: contact!.email,
+        name: contact!.name,
+        phone: contact!.phone,
+      }
+    })
 
     try {
       result = await this.client.setCertificateContacts(
         this.vaultUrl,
-        { contactList: contacts as Contact[] },
+        { contactList },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -749,7 +767,7 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);

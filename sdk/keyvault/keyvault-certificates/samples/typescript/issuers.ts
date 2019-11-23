@@ -24,7 +24,7 @@ async function main(): Promise<void> {
       {
         firstName: "John",
         lastName: "Doe",
-        emailAddress: "admin@microsoft.com",
+        email: "admin@microsoft.com",
         phone: "4255555555"
       }
     ]

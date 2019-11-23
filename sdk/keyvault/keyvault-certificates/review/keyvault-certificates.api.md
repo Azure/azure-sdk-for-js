@@ -16,7 +16,7 @@ export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface AdministratorContact {
-    emailAddress?: string;
+    email?: string;
     firstName?: string;
     lastName?: string;
     phone?: string;
@@ -86,7 +86,7 @@ export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | unde
 
 // @public
 export interface CertificateContactAll {
-    emailAddress: string;
+    email: string;
     name: string;
     phone: string;
 }
@@ -378,7 +378,8 @@ export interface MergeCertificateOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface OrganizationDetails {
-    adminDetails?: AdministratorContact[];
+    // Warning: (ae-forgotten-export) The symbol "AdministratorDetails" needs to be exported by the entry point index.d.ts
+    adminDetails?: AdministratorDetails[];
     id?: string;
 }
 
