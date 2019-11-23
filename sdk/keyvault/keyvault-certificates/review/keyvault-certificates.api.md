@@ -325,18 +325,8 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
-    attributes?: IssuerAttributes;
-    credentials?: IssuerCredentials;
-    organizationDetails?: OrganizationDetails;
-}
-
-// @public
-export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
-    attributes?: IssuerAttributes;
-    credentials?: IssuerCredentials;
-    organizationDetails?: OrganizationDetails;
-    provider?: string;
+export interface KeyVaultClientGetCertificateVersionsOptionalParams extends coreHttp.RequestOptionsBase {
+    maxresults?: number;
 }
 
 // @public
@@ -358,8 +348,6 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
     maxresults?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "KeyVaultClientGetCertificateVersionsOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ListPropertiesOfCertificateVersionsOptions extends KeyVaultClientGetCertificateVersionsOptionalParams, coreHttp.OperationOptions {
 }
@@ -374,13 +362,6 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export interface MergeCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface OrganizationDetails {
-    // Warning: (ae-forgotten-export) The symbol "AdministratorDetails" needs to be exported by the entry point index.d.ts
-    adminDetails?: AdministratorDetails[];
-    id?: string;
 }
 
 export { PipelineOptions }
