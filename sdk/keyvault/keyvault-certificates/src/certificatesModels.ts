@@ -10,11 +10,11 @@ import {
 
 /**
  * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 /**
  * Defines values for KeyCurveName.
@@ -255,7 +255,7 @@ export interface CertificatePolicy {
   keySize?: number;
   /**
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
-   * 'RSA', 'RSA-HSM', 'oct'
+   * 'RSA', 'RSA-HSM'
    */
   keyType?: KeyType;
   /**
@@ -325,7 +325,7 @@ export interface CertificateProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  id?: string;
+  readonly id?: string;
   /**
    * The name of certificate.
    */
@@ -364,6 +364,10 @@ export interface CertificateProperties {
    * Thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
+  /**
+   * The management policy for the certificate.
+   */
+  certificatePolicy?: CertificatePolicy;
 }
 
 /**

@@ -289,7 +289,7 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
   }
 
   if (policy.keyProperties) {
-    certificatePolicy.keyType = policy.keyProperties.keyType;
+    certificatePolicy.keyType = policy.keyProperties.keyType as KeyType;
     certificatePolicy.keySize = policy.keyProperties.keySize;
     certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
     certificatePolicy.keyCurveName = policy.keyProperties.curve;

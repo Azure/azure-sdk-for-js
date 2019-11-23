@@ -160,10 +160,11 @@ export interface CertificatePollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CertificateProperties {
+    certificatePolicy?: CertificatePolicy;
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
-    id?: string;
+    readonly id?: string;
     name?: string;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
@@ -303,7 +304,7 @@ export interface IssuerProperties {
 export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
