@@ -1098,7 +1098,7 @@ export class CertificateClient {
     certificateName: string,
     certificatePolicy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
+  ): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,

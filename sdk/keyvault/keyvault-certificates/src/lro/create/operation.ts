@@ -5,7 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
 import {
-  KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
   CertificatePolicy,
   CertificateClientInterface
@@ -16,7 +16,7 @@ import { CertificateOperation } from "../../core/models";
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CreateCertificatePollOperationState
-  extends PollOperationState<KeyVaultCertificate> {
+  extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
    */
@@ -47,7 +47,7 @@ export interface CreateCertificatePollOperationState
  * An interface representing a create certificate's poll operation
  */
 export interface CreateCertificatePollOperation
-  extends PollOperation<CreateCertificatePollOperationState, KeyVaultCertificate> {}
+  extends PollOperation<CreateCertificatePollOperationState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
