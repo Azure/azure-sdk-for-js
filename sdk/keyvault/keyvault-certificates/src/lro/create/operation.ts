@@ -90,6 +90,9 @@ async function update(
   if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
     state.isCompleted = true;
     state.result = await client.getCertificate(certificateName, requestOptions);
+    if (state.certificateOperation.error) {
+      state.error = new Error(state.certificateOperation.error.message);
+    }
   }
 
   return makeCreateCertificatePollOperation(state);
