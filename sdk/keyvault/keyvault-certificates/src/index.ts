@@ -709,7 +709,7 @@ export class CertificateClient {
    * @param {SetContactsOptions} [options] The optional parameters
    */
   public async setContacts(
-    contacts: Contact[],
+    contacts: CertificateContact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContacts> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -721,7 +721,7 @@ export class CertificateClient {
     try {
       result = await this.client.setCertificateContacts(
         this.vaultUrl,
-        { contactList: contacts },
+        { contactList: contacts as Contact[] },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
