@@ -43,7 +43,7 @@ async function main(): Promise<void> {
   }
 
   // Updating one of the certificates to retrieve the certificate versions afterwards
-  const updatedCertificate = await client.updateCertificate("MyCertificate1", "", {
+  const updatedCertificate = await client.updateCertificateProperties("MyCertificate1", "", {
     tags: {
       customTag: "value"
     }

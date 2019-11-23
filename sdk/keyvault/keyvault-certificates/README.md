@@ -406,7 +406,7 @@ const certificateName = "MyCertificateName";
 
 async function main() {
   const result = await client.getCertificate(certificateName);
-  await client.updateCertificate(certificateName, result.properties.version, {
+  await client.updateCertificateProperties(certificateName, result.properties.version, {
     certificateAttributes: {
       enabled: false
     },

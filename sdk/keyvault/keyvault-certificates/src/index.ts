@@ -1291,7 +1291,7 @@ export class CertificateClient {
    */
   public async updateCertificatePolicy(
     certificateName: string,
-    certificatePolicy: CertificatePolicy,
+    policy: CertificatePolicy,
     options: UpdateCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -1299,7 +1299,7 @@ export class CertificateClient {
 
     const id = options.id;
     const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+    const corePolicy = toCorePolicy(id, policy, certificateAttributes);
 
     let result: UpdateCertificatePolicyResponse;
     try {
@@ -1326,7 +1326,7 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * await client.updateCertificate("MyCertificate", "", {
+   * await client.updateCertificateProperties("MyCertificate", "", {
    *   tags: {
    *     customTag: "value"
    *   }
@@ -1337,7 +1337,7 @@ export class CertificateClient {
    * @param version The version of the certificate to update
    * @param options The options, including what to update
    */
-  public async updateCertificate(
+  public async updateCertificateProperties(
     certificateName: string,
     version: string,
     options: UpdateCertificateOptions = {}
