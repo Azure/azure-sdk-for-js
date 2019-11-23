@@ -98,10 +98,6 @@ export interface KeyVaultCertificate {
    */
   cer?: Uint8Array;
   /**
-   * The content type of the secret.
-   */
-  certificateContentType?: CertificateContentType;
-  /**
    * Certificate identifier.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**

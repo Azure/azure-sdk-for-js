@@ -311,7 +311,6 @@ export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherm
 // @public
 export interface KeyVaultCertificate {
     cer?: Uint8Array;
-    certificateContentType?: CertificateContentType;
     id?: string;
     readonly keyId?: string;
     name: string;

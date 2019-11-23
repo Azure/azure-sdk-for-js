@@ -2001,7 +2001,6 @@ export class CertificateClient {
       secretId: certificateBundle.sid,
       name: parsedId.name,
       cer: certificateBundle.cer,
-      certificateContentType: certificateBundle.contentType as CertificateContentType,
       properties: abstractProperties
     };
   }
@@ -2034,7 +2033,6 @@ export class CertificateClient {
       secretId: certificateBundle.sid,
       name: parsedId.name,
       cer: certificateBundle.cer,
-      certificateContentType: certificateBundle.contentType as CertificateContentType,
       policy,
       properties: abstractProperties
     };
