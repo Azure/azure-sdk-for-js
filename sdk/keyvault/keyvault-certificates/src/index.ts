@@ -1552,13 +1552,13 @@ export class CertificateClient {
   public async backupCertificate(
     certificateName: string,
     options: BackupCertificateOptions = {}
-  ): Promise<BackupCertificateResult> {
+  ): Promise<Uint8Array | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("backupCertificate", requestOptions);
 
-    let result: BackupCertificateResponse;
+    let response: BackupCertificateResponse;
     try {
-      result = await this.client.backupCertificate(
+      response = await this.client.backupCertificate(
         this.vaultUrl,
         certificateName,
         this.setParentSpan(span, requestOptions)
@@ -1567,7 +1567,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return response.value;
   }
 
   /**
@@ -1583,7 +1583,7 @@ export class CertificateClient {
    * const backup = await client.backupCertificate("MyCertificate");
    * await client.deleteCertificate("MyCertificate");
    * // Some time is required before we're able to restore the certificate
-   * await client.restoreCertificateBackup(backup.value!);
+   * await client.restoreCertificateBackup(backup!);
    * ```
    * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
