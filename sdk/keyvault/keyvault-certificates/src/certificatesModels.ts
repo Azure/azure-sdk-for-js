@@ -170,7 +170,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 /**
  * Well known issuers for choosing a default
  */
-export enum WellKnownIssuer {
+export enum WellKnownIssuerNames {
   /**
    * For self signed certificates
    */
@@ -244,7 +244,7 @@ export interface CertificatePolicy {
   /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
-  issuerName?: WellKnownIssuer | string;
+  issuerName?: WellKnownIssuerNames | string;
   /**
    * Elliptic curve name. Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */

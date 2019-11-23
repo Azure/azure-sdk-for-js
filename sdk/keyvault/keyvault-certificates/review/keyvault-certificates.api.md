@@ -129,7 +129,7 @@ export interface CertificatePolicy {
     readonly createdOn?: Date;
     enabled?: boolean;
     enhancedKeyUsage?: string[];
-    issuerName?: WellKnownIssuer | string;
+    issuerName?: WellKnownIssuerNames | string;
     keyCurveName?: KeyCurveName;
     keySize?: number;
     keyType?: KeyType;
@@ -431,7 +431,7 @@ export interface UpdateIssuerOptions extends CreateIssuerOptions {
 }
 
 // @public
-export enum WellKnownIssuer {
+export enum WellKnownIssuerNames {
     Self = "Self",
     Unknown = "Unknown"
 }
