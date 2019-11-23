@@ -127,7 +127,7 @@ export class OrderByDocumentProducerComparator {
       const type1 = this.getType(res1[i]);
       const type2 = this.getType(res2[i]);
       if (type1 !== type2) {
-        throw new Error(`Expected ${type1}, but got ${type2}.Cannot execute cross partition order - by queries on mix types.Consider filtering your query using IS_STRING / IS_NUMBER to get around this exception.`);
+        throw new Error(`Expected ${type1}, but got ${type2}. Cannot execute cross partition order-by queries on mixed types. Consider filtering your query using IS_STRING or IS_NUMBER to get around this exception.`);
       }
     }
   }
