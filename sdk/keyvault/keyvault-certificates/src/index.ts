@@ -25,6 +25,7 @@ import {
   CertificateContact,
   CertificateContentType,
   CertificatePolicy,
+  CertificatePolicyAction,
   CertificateProperties,
   CreateCertificateOptions,
   DeleteCertificateOperationOptions,
@@ -44,6 +45,7 @@ import {
   ImportCertificateOptions,
   KeyType,
   KeyCurveName,
+  LifetimeAction,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -87,7 +89,7 @@ import {
   IssuerCredentials,
   IssuerAttributes,
   KeyUsageType,
-  LifetimeAction,
+  LifetimeAction as CoreLifetimeAction,
   OrganizationDetails,
   X509CertificateProperties,
   DeleteCertificateResponse,
@@ -113,7 +115,6 @@ import {
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  Action,
   Trigger,
   AdministratorDetails as AdministratorContact,
   ActionType,
@@ -136,7 +137,7 @@ import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 export {
-  Action,
+  CertificatePolicyAction,
   ActionType,
   AdministratorContact,
   ArrayOneOrMore,
@@ -236,9 +237,22 @@ function toCorePolicy(
     };
   }
 
+  let lifetimeActions: CoreLifetimeAction[] | undefined;
+  if (policy.lifetimeActions && policy.lifetimeActions.length) {
+    lifetimeActions = policy.lifetimeActions.map((lifetimeAction: LifetimeAction): CoreLifetimeAction => {
+      return {
+        trigger: {
+          lifetimePercentage: lifetimeAction.lifetimePercentage,
+          daysBeforeExpiry: lifetimeAction.daysBeforeExpiry,
+        },
+        action: lifetimeAction.action
+      };
+    });
+  }
+
   return {
     id,
-    lifetimeActions: policy.lifetimeActions,
+    lifetimeActions,
     keyProperties: {
       keyType: policy.keyType,
       keySize: policy.keySize,

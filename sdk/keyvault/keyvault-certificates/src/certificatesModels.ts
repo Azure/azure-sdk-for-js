@@ -3,9 +3,9 @@ import {
   AdministratorDetails as AdministratorContact,
   CertificateOperation,
   DeletionRecoveryLevel,
-  LifetimeAction,
   KeyUsageType,
-  KeyVaultClientGetCertificateVersionsOptionalParams
+  KeyVaultClientGetCertificateVersionsOptionalParams,
+  ActionType
 } from "./core/models";
 
 /**
@@ -88,6 +88,36 @@ export interface CertificateClientInterface {
  * @enum {string}
  */
 export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
+
+/**
+ * The action that will be executed.
+ */
+export interface CertificatePolicyAction {
+  /**
+   * The type of the action. Possible values include: 'EmailContacts', 'AutoRenew'
+   */
+  actionType?: ActionType;
+}
+
+/**
+ * Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+ */
+export interface LifetimeAction {
+  /**
+   * Percentage of lifetime at which to trigger. Value should be between 1 and 99.
+   */
+  lifetimePercentage?: number;
+  /**
+   * Days before expiry to attempt renewal. Value should be between 1 and validity_in_months
+   * multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 *
+   * 27).
+   */
+  daysBeforeExpiry?: number;
+  /**
+   * The action that will be executed.
+   */
+  action?: CertificatePolicyAction;
+}
 
 /**
  * An interface representing a certificate without the certificate's policy

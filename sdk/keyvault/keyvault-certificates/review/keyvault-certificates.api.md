@@ -12,11 +12,6 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface Action {
-    actionType?: ActionType;
-}
-
-// @public
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
@@ -150,6 +145,11 @@ export interface CertificatePolicy {
 // @public
 export module CertificatePolicy {
     const Default: CertificatePolicy;
+}
+
+// @public
+export interface CertificatePolicyAction {
+    actionType?: ActionType;
 }
 
 // @public
@@ -340,8 +340,9 @@ export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends cor
 
 // @public
 export interface LifetimeAction {
-    action?: Action;
-    trigger?: Trigger;
+    action?: CertificatePolicyAction;
+    daysBeforeExpiry?: number;
+    lifetimePercentage?: number;
 }
 
 // @public
