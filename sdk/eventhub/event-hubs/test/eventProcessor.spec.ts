@@ -192,7 +192,7 @@ describe("Event Processor", function(): void {
       });
     });
 
-    it.only("abandoned claims are treated as unowned claims", async () => {
+    it("abandoned claims are treated as unowned claims", async () => {
       const commonFields = {
         fullyQualifiedNamespace: "irrelevant namespace",
         eventHubName: "irrelevant eventhub name",
