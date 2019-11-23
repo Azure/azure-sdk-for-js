@@ -22,7 +22,6 @@ import {
   CancelCertificateOperationOptions,
   CertificateIssuer,
   CertificateContact,
-  CertificateContacts,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
@@ -160,7 +159,6 @@ export {
   RequireAtLeastOne,
   CertificateContactAll,
   CertificateContact,
-  CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
   DeleteIssuerOptions,
@@ -673,7 +671,7 @@ export class CertificateClient {
    * @summary Deletes all of the certificate contacts
    * @param {DeleteContactsOptions} [options] The optional parameters
    */
-  public async deleteContacts(options: DeleteContactsOptions = {}): Promise<CertificateContacts> {
+  public async deleteContacts(options: DeleteContactsOptions = {}): Promise<CertificateContact[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("deleteContacts", requestOptions);
@@ -711,7 +709,7 @@ export class CertificateClient {
   public async setContacts(
     contacts: CertificateContact[],
     options: SetContactsOptions = {}
-  ): Promise<CertificateContacts> {
+  ): Promise<CertificateContact[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("setCertificateContacts", requestOptions);
@@ -747,7 +745,7 @@ export class CertificateClient {
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
    */
-  public async getContacts(options: GetContactsOptions = {}): Promise<CertificateContacts> {
+  public async getContacts(options: GetContactsOptions = {}): Promise<CertificateContact[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);
 
@@ -2082,11 +2080,8 @@ export class CertificateClient {
     };
   }
 
-  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
-    return {
-      id: contacts.id,
-      contactList: contacts.contactList && (contacts.contactList as CertificateContact[])
-    };
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
+    return contacts.contactList && (contacts.contactList as CertificateContact[]) || [];
   }
 
   /**
