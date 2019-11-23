@@ -82,7 +82,7 @@ export class CertificateClient {
 }
 
 // @public
-export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll>;
 
 // @public
 export interface CertificateContactAll {

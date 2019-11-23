@@ -918,12 +918,21 @@ export class CertificateClient {
 
     if (
       options.organizationId ||
-      (options.administratorContacts && options.administratorContacts.length)
+      options.administratorContacts
     ) {
       generatedOptions.organizationDetails = {
-        id: options.organizationId,
-        adminDetails: options.administratorContacts
+        id: options.organizationId
       };
+      if (options.administratorContacts && options.administratorContacts.length) {
+        generatedOptions.organizationDetails.adminDetails = options.administratorContacts.map((contact: AdministratorContact): AdministratorDetails => {
+          return {
+            firstName: contact.firstName,
+            lastName: contact.lastName,
+            emailAddress: contact.email,
+            phone: contact.phone
+          }
+        });
+      }
     }
 
     if (options.enabled !== undefined) {

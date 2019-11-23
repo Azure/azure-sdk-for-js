@@ -30,12 +30,10 @@ async function main() {
     }
   ];
 
-  let getResponse;
-
   await client.setContacts(contacts);
 
-  getResponse = await client.getContacts();
-  console.log("Contact List:", getResponse.contactList);
+  const contactList = await client.getContacts();
+  console.log("Contact List:", contactList);
 
   await client.deleteContacts();
 }

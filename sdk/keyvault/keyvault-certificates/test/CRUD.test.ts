@@ -467,13 +467,11 @@ describe("Certificates client - create, read, update and delete", () => {
       }
     ];
 
-    let getResponse: any;
-
     await client.setContacts(contacts);
 
-    getResponse = await client.getContacts();
-    assert.equal(getResponse.contactList![0].name, "a");
-    assert.equal(getResponse.contactList![1].name, "b");
+    const contactList = await client.getContacts();
+    assert.equal(contactList[0]!.name, "a");
+    assert.equal(contactList[1]!.name, "b");
 
     await client.deleteContacts();
 

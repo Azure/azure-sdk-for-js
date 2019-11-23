@@ -767,4 +767,4 @@ export type RequireAtLeastOne<T> = {
  * Each contact will have at least just one of the properties of CertificateContactAll,
  * which are: email, name or phone.
  */
-export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll>;
