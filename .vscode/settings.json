@@ -20,5 +20,8 @@
   "javascript.preferences.quoteStyle": "double",
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.preferences.quoteStyle": "double",
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "cSpell.words": [
+    "datalake"
+  ]
 }
