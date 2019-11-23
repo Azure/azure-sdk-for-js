@@ -32,6 +32,9 @@ import {
 } from "./utils/subscriptionHandlerForTests";
 import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
+import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
+import sinon from 'sinon';
+import { PumpManager } from '../src/pumpManager';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -65,126 +68,197 @@ describe("Event Processor", function(): void {
     await client.close();
   });
 
-  it("_getStartPosition", async () => {
-    let checkpoints: Checkpoint[] = [
-      {
-        fullyQualifiedNamespace: "not-used-for-this-test",
-        consumerGroup: "not-used-for-this-test",
-        eventHubName: "not-used-for-this-test",
-        offset: 1009,
-        sequenceNumber: 1010,
-        partitionId: "0"
-      },
-      {
-        fullyQualifiedNamespace: "not-used-for-this-test",
-        consumerGroup: "not-used-for-this-test",
-        eventHubName: "not-used-for-this-test",
-        // this caused a bug for us before - it's a perfectly valid offset
-        // but we were thrown off by its falsy-ness. (actually it was
-        // sequence number before but the concept is the same)
-        offset: 0,
-        sequenceNumber: 0,
-        partitionId: "1"
-      }
-    ];
+  describe("unit tests", () => {
+    it("_getStartPosition", async () => {
+      let checkpoints: Checkpoint[] = [
+        {
+          fullyQualifiedNamespace: "not-used-for-this-test",
+          consumerGroup: "not-used-for-this-test",
+          eventHubName: "not-used-for-this-test",
+          offset: 1009,
+          sequenceNumber: 1010,
+          partitionId: "0"
+        },
+        {
+          fullyQualifiedNamespace: "not-used-for-this-test",
+          consumerGroup: "not-used-for-this-test",
+          eventHubName: "not-used-for-this-test",
+          // this caused a bug for us before - it's a perfectly valid offset
+          // but we were thrown off by its falsy-ness. (actually it was
+          // sequence number before but the concept is the same)
+          offset: 0,
+          sequenceNumber: 0,
+          partitionId: "1"
+        }
+      ];
 
-    const checkpointStore: CheckpointStore = {
-      claimOwnership: async () => {
-        return [];
-      },
-      listCheckpoints: async () => {
-        return checkpoints;
-      },
-      listOwnership: async () => {
-        return [];
-      },
-      updateCheckpoint: async () => {}
-    };
+      const checkpointStore: CheckpointStore = {
+        claimOwnership: async () => {
+          return [];
+        },
+        listCheckpoints: async () => {
+          return checkpoints;
+        },
+        listOwnership: async () => {
+          return [];
+        },
+        updateCheckpoint: async () => { }
+      };
 
-    // we're not actually going to start anything here so there's nothing
-    // to stop
-    const processor = new EventProcessor(
-      EventHubClient.defaultConsumerGroupName,
-      client,
-      {
-        processEvent: async () => {}
-      },
-      checkpointStore,
-      {
-        maxBatchSize: 1,
-        maxWaitTimeInSeconds: 1
-      }
-    );
-
-    // checkpoint is available for partition 0
-    let eventPosition = await processor["_getStartPosition"]("0");
-    eventPosition!.offset!.should.equal(1009);
-    should.not.exist(eventPosition!.sequenceNumber);
-
-    //checkpoint is available for partition 1
-    eventPosition = await processor["_getStartPosition"]("1");
-    eventPosition!.offset!.should.equal(0);
-    should.not.exist(eventPosition!.sequenceNumber);
-
-    // no checkpoint available for partition 2
-    eventPosition = await processor["_getStartPosition"]("2");
-    should.not.exist(eventPosition);
-  });
-
-  describe("_handleSubscriptionError", () => {
-    let eventProcessor: EventProcessor;
-    let userCallback: (() => void) | undefined;
-    let errorFromCallback: Error | undefined;
-    let contextFromCallback: PartitionContext | undefined;
-
-    beforeEach(() => {
-      userCallback = undefined;
-      errorFromCallback = undefined;
-      contextFromCallback = undefined;
-
-      // note: we're not starting this event processor so there's nothing to stop()
-      // it's only here so we can call a few private methods on it.
-      eventProcessor = new EventProcessor(
+      // we're not actually going to start anything here so there's nothing
+      // to stop
+      const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         {
-          processEvent: async () => {},
-          processError: async (err, context) => {
-            // simulate the user messing up and accidentally throwing an error
-            // we should just log it and not kill anything.
-            errorFromCallback = err;
-            contextFromCallback = context;
-
-            if (userCallback) {
-              userCallback();
-            }
-          }
+          processEvent: async () => { }
         },
-        new InMemoryCheckpointStore(),
-        defaultOptions
+        checkpointStore,
+        {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1
+        }
       );
+
+      // checkpoint is available for partition 0
+      let eventPosition = await processor["_getStartPosition"]("0");
+      eventPosition!.offset!.should.equal(1009);
+      should.not.exist(eventPosition!.sequenceNumber);
+
+      //checkpoint is available for partition 1
+      eventPosition = await processor["_getStartPosition"]("1");
+      eventPosition!.offset!.should.equal(0);
+      should.not.exist(eventPosition!.sequenceNumber);
+
+      // no checkpoint available for partition 2
+      eventPosition = await processor["_getStartPosition"]("2");
+      should.not.exist(eventPosition);
     });
 
-    it("error thrown from user's processError handler", async () => {
-      // the user's error handler will throw an error - won't escape from this function
-      userCallback = () => {
-        throw new Error("Error thrown from the user's error handler");
+    describe("_handleSubscriptionError", () => {
+      let eventProcessor: EventProcessor;
+      let userCallback: (() => void) | undefined;
+      let errorFromCallback: Error | undefined;
+      let contextFromCallback: PartitionContext | undefined;
+
+      beforeEach(() => {
+        userCallback = undefined;
+        errorFromCallback = undefined;
+        contextFromCallback = undefined;
+
+        // note: we're not starting this event processor so there's nothing to stop()
+        // it's only here so we can call a few private methods on it.
+        eventProcessor = new EventProcessor(
+          EventHubClient.defaultConsumerGroupName,
+          client,
+          {
+            processEvent: async () => { },
+            processError: async (err, context) => {
+              // simulate the user messing up and accidentally throwing an error
+              // we should just log it and not kill anything.
+              errorFromCallback = err;
+              contextFromCallback = context;
+
+              if (userCallback) {
+                userCallback();
+              }
+            }
+          },
+          new InMemoryCheckpointStore(),
+          defaultOptions
+        );
+      });
+
+      it("error thrown from user's processError handler", async () => {
+        // the user's error handler will throw an error - won't escape from this function
+        userCallback = () => {
+          throw new Error("Error thrown from the user's error handler");
+        };
+
+        await eventProcessor["_handleSubscriptionError"](new Error("test error"));
+
+        errorFromCallback!.message.should.equal("test error");
+        contextFromCallback!.partitionId.should.equal("");
+      });
+
+      it("non-useful errors are filtered out", async () => {
+        // the user's error handler will throw an error - won't escape from this function
+
+        await eventProcessor["_handleSubscriptionError"](new AbortError("test error"));
+
+        // we don't call the user's handler for abort errors
+        should.not.exist(errorFromCallback);
+        should.not.exist(contextFromCallback);
+      });
+    });
+
+    it.only("abandoned claims are treated as unowned claims", async () => {
+      const commonFields = {
+        fullyQualifiedNamespace: "irrelevant namespace",
+        eventHubName: "irrelevant eventhub name",
+        consumerGroup: "irrelevant consumer group"
       };
 
-      await eventProcessor["_handleSubscriptionError"](new Error("test error"));
+      const handlers = new FakeSubscriptionEventHandlers();
+      const checkpointStore = new InMemoryCheckpointStore();
 
-      errorFromCallback!.message.should.equal("test error");
-      contextFromCallback!.partitionId.should.equal("");
-    });
+      const originalClaimedPartitions = await checkpointStore.claimOwnership([
+        // abandoned claim
+        { ...commonFields, partitionId: "1001", ownerId: "", etag: "abandoned etag" },
+        // normally owned claim
+        { ...commonFields, partitionId: "1002", ownerId: "owned partition", etag: "owned etag" },
+        // 1003 - completely unowned
+      ]);
 
-    it("non-useful errors are filtered out", async () => {
-      // the user's error handler will throw an error - won't escape from this function
+      originalClaimedPartitions.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
-      await eventProcessor["_handleSubscriptionError"](new AbortError("test error"));
+      const fakeEventHubClient = sinon.createStubInstance(EventHubClient);
+      fakeEventHubClient.getPartitionIds.resolves(["1001", "1002", "1003"]);
+      sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
+      sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
 
-      // we don't call the user's handler for abort errors
-      should.not.exist(errorFromCallback);
-      should.not.exist(contextFromCallback);
+      const fakePumpManager = sinon.createStubInstance(PumpManager);
+
+      const ep = new EventProcessor(commonFields.consumerGroup, fakeEventHubClient as any, handlers, checkpointStore, {
+        maxBatchSize: 1,
+        loopIntervalInMs: 1,
+        maxWaitTimeInSeconds: 1,
+        pumpManager: fakePumpManager as any
+      });
+
+      // allow three iterations through the loop - one for each partition that 
+      // we expect to be claimed
+      //
+      // we'll let one more go through just to make sure we're not going to 
+      // pick up an extra surprise partition
+      //
+      // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
+      await ep['_runLoop'](abortAfter(3 * 3));
+
+      handlers.errors.should.be.empty;
+
+      const currentOwnerships = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      currentOwnerships.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+      currentOwnerships.should.deep.equal([
+        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        // 1002 is not going to be claimed since it's already owned so it should be untouched
+        originalClaimedPartitions[1],
+        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+      ]);
+
+      // now let's "unclaim" everything by stopping our event processor
+      await ep.stop();
+
+      const ownershipsAfterStop = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      ownershipsAfterStop.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
+
+      ownershipsAfterStop.should.deep.equal([
+        { ...commonFields, partitionId: "1001", ownerId: "", etag: ownershipsAfterStop[0].etag, lastModifiedTimeInMs: ownershipsAfterStop[0].lastModifiedTimeInMs },
+        // 1002 is not going to be claimed since it's already owned so it should be untouched
+        originalClaimedPartitions[1],
+        { ...commonFields, partitionId: "1003", ownerId: "", etag: ownershipsAfterStop[2].etag,  lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs }
+      ]);
     });
   });
 
@@ -943,3 +1017,25 @@ describe("Event Processor", function(): void {
     });
   });
 }).timeout(90000);
+
+function abortAfter(maxCalls: number): AbortSignal {
+  let count = 0;
+
+  const abortSignal: AbortSignal = {
+    get aborted(): boolean {
+      ++count;
+
+      if (count >= maxCalls) {
+        return true;
+      }
+
+      return false;
+    },
+    addEventListener: () => { },
+    removeEventListener: () => { },
+    onabort: () => { },
+    dispatchEvent: () => true
+  };
+
+  return abortSignal;
+}
