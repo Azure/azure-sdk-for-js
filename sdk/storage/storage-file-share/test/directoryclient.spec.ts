@@ -1,21 +1,22 @@
 import * as assert from "assert";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
-  let recorder: any;
+  let recorder: Recorder;
   let fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
@@ -207,13 +208,58 @@ describe("DirectoryClient", () => {
     done();
   });
 
+  it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
+    const subDirClients = [];
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    const result = (await dirClient
+      .listFilesAndDirectories({ prefix: "" })
+      .byPage()
+      .next()).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+
+    let i = 0;
+    for (const entry of result.segment.directoryItems) {
+      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    i = 0;
+    for (const entry of result.segment.fileItems) {
+      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
   it("listFilesAndDirectories under root directory", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -269,7 +315,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -330,7 +376,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -372,7 +418,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -420,7 +466,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -469,7 +515,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );

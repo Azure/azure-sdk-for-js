@@ -9,6 +9,6 @@ import debugModule from "debug";
 export const error = debugModule("azure:eventhubs-checkpointstore-blob");
 /**
  * @ignore
- * log statements for blobPartitionManager
+ * log statements for the checkpoint store
  */
-export const blobPartitionManager = debugModule("azure:eventhubs-checkpointstore-blob:info");
+export const blobCheckpointStore = debugModule("azure:eventhubs-checkpointstore-blob:info");

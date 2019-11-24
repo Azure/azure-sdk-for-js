@@ -599,6 +599,7 @@ export class FileSystemAttributes {
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    sourceRange?: string;
     timeoutInSeconds?: number;
 }
 
@@ -956,7 +957,7 @@ export class ShareFileClient extends StorageClient {
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
     readonly shareName: string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
-    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
+    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
     uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
@@ -997,15 +998,15 @@ export interface ShareGetPermissionOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "Permission" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharePermission" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ShareGetPermissionHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
+export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPermissionHeaders;
         bodyAsText: string;
-        parsedBody: Permission;
+        parsedBody: SharePermission;
     };
 };
 

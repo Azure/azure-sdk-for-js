@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.0-preview.10 (TBD)
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ## 4.0.0-preview.9 (2019-11-04)
 
 - Updated dependencies to use the latest version of the `@azure/core-*` libraries.

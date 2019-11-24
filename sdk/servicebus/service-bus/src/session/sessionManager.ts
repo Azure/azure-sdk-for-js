@@ -215,6 +215,9 @@ export class SessionManager {
    * enabled entity.
    * @param onError The error handler to receive an error that occurs while receiving messages
    * from a session enabled entity.
+   * @throws Error if the underlying connection is closed.
+   * @throws Error if the session enabled client is already receiving messages.
+   * @throws MessagingError if any error occurs while receiving messages from the service.
    */
   async manageMessageSessions(
     entityType: SessionEntityType,

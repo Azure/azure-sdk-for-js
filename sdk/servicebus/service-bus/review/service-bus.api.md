@@ -48,16 +48,24 @@ export interface CorrelationFilter {
 }
 
 // @public
-export type CreateQueueResponse = QueueResponse;
+export interface CreateQueueResponse extends QueueDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type CreateRuleResponse = RuleResponse;
+export interface CreateRuleResponse extends Rule {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type CreateSubscriptionResponse = SubscriptionResponse;
+export interface CreateSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type CreateTopicResponse = TopicResponse;
+export interface CreateTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
+}
 
 export { DataTransformer }
 
@@ -70,30 +78,46 @@ export interface DeadLetterOptions {
 export { delay }
 
 // @public
-export type DeleteQueueResponse = QueueResponse;
+export interface DeleteQueueResponse {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type DeleteRuleResponse = RuleResponse;
+export interface DeleteRuleResponse {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type DeleteSubscriptionResponse = SubscriptionResponse;
+export interface DeleteSubscriptionResponse {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type DeleteTopicResponse = TopicResponse;
+export interface DeleteTopicResponse {
+    _response: HttpOperationResponse;
+}
 
 export { Delivery }
 
 // @public
-export type GetQueueResponse = QueueResponse;
+export interface GetQueueResponse extends QueueDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type GetRuleResponse = RuleResponse;
+export interface GetRuleResponse extends Rule {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type GetSubscriptionResponse = SubscriptionResponse;
+export interface GetSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type GetTopicResponse = TopicResponse;
+export interface GetTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
+}
 
 export { HttpOperationResponse }
 
@@ -152,7 +176,7 @@ export interface OnMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
@@ -167,18 +191,35 @@ export class QueueClient implements Client {
 }
 
 // @public
-export interface QueueDetails extends QueueOptions {
-    accessedAt?: string;
-    createdAt?: string;
+export interface QueueDetails {
+    accessedOn?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
+    createdOn?: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
     enableExpress?: boolean;
+    enablePartitioning: boolean;
     entityAvailabilityStatus?: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     isAnonymousAccessible?: boolean;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes: number;
+    messageCount: number;
     messageCountDetails?: MessageCountDetails;
     path?: string;
-    queueName?: string;
+    queueName: string;
+    requiresDuplicateDetection: boolean;
+    requiresSession: boolean;
+    sizeInBytes: number;
     status?: string;
     supportOrdering?: boolean;
-    updatedAt?: string;
+    updatedOn?: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -186,7 +227,7 @@ export interface QueueOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTimeToLive?: string;
+    defaultMessageTtl?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
@@ -203,9 +244,9 @@ export interface QueueOptions {
 }
 
 // @public
-export type QueueResponse = QueueDetails & {
+export interface QueueResponse extends QueueDetails {
     _response: HttpOperationResponse;
-};
+}
 
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -241,11 +282,13 @@ export class Receiver {
     }
 
 // @public
-export interface Rule extends RuleOptions {
-    createdAt?: string;
-    ruleName?: string;
-    subscriptionName?: string;
-    topicName?: string;
+export interface Rule {
+    action?: SqlAction;
+    createdOn: string;
+    filter?: SqlFilter | CorrelationFilter;
+    ruleName: string;
+    subscriptionName: string;
+    topicName: string;
 }
 
 // @public
@@ -262,9 +305,9 @@ export interface RuleOptions {
 }
 
 // @public
-export type RuleResponse = Rule & {
+export interface RuleResponse extends Rule {
     _response: HttpOperationResponse;
-};
+}
 
 // @public
 export interface SendableMessageInfo {
@@ -348,7 +391,7 @@ export interface ServiceBusClientOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {
@@ -457,15 +500,31 @@ export class SubscriptionClient implements Client {
 }
 
 // @public
-export interface SubscriptionDetails extends SubscriptionOptions {
-    accessedAt?: string;
-    createdAt?: string;
-    entityAvailabilityStatus?: string;
+export interface SubscriptionDetails {
+    accessedOn?: string;
+    autoDeleteOnIdle: string;
+    createdOn: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations: boolean;
+    enablePartitioning?: boolean;
+    entityAvailabilityStatus: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes?: number;
+    messageCount: number;
     messageCountDetails?: MessageCountDetails;
-    status?: string;
-    subscriptionName?: string;
-    topicName?: string;
-    updatedAt?: string;
+    requiresSession: boolean;
+    sizeInBytes?: number;
+    status: string;
+    subscriptionName: string;
+    topicName: string;
+    updatedOn: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -473,7 +532,7 @@ export interface SubscriptionOptions {
     autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTimeToLive?: string;
+    defaultMessageTtl?: string;
     defaultRuleDescription?: any;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
@@ -489,9 +548,9 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export type SubscriptionResponse = SubscriptionDetails & {
+export interface SubscriptionResponse extends SubscriptionDetails {
     _response: HttpOperationResponse;
-};
+}
 
 export { TokenInfo }
 
@@ -509,22 +568,43 @@ export class TopicClient implements Client {
 }
 
 // @public
-export interface TopicDetails extends TopicOptions {
-    accessedAt?: string;
-    createdAt?: string;
+export interface TopicDetails {
+    accessedOn?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
+    createdOn?: string;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress: boolean;
+    enablePartitioning: boolean;
+    enableSubscriptionPartitioning: boolean;
     entityAvailabilityStatus?: string;
+    filteringMessagesBeforePublishing: boolean;
     isAnonymousAccessible?: boolean;
+    isExpress: boolean;
+    maxCorrelationFiltersPerTopic?: number;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes: number;
+    maxSqlFiltersPerTopic?: number;
+    maxSubscriptionsPerTopic?: number;
+    messageCount?: number;
     messageCountDetails?: MessageCountDetails;
+    requiresDuplicateDetection: boolean;
+    sizeInBytes: number;
     status?: string;
-    topicName?: string;
-    updatedAt?: string;
+    subscriptionCount?: number;
+    supportOrdering: boolean;
+    topicName: string;
+    updatedOn?: string;
+    userMetadata?: string;
 }
 
 // @public
 export interface TopicOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
-    defaultMessageTimeToLive?: string;
+    defaultMessageTtl?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
     enableExpress?: boolean;
@@ -546,21 +626,29 @@ export interface TopicOptions {
 }
 
 // @public
-export type TopicResponse = TopicDetails & {
+export interface TopicResponse extends TopicDetails {
     _response: HttpOperationResponse;
-};
+}
 
 // @public
-export type UpdateQueueResponse = QueueResponse;
+export interface UpdateQueueResponse extends QueueDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type UpdateRuleResponse = RuleResponse;
+export interface UpdateRuleResponse extends Rule {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type UpdateSubscriptionResponse = SubscriptionResponse;
+export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type UpdateTopicResponse = TopicResponse;
+export interface UpdateTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
+}
 
 export { WebSocketImpl }
 

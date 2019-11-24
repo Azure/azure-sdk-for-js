@@ -34,9 +34,10 @@ export function throwTypeErrorIfParameterMissing(
   parameterName: string,
   parameterValue: any
 ): void {
-  
   if (parameterValue === undefined || parameterValue === null) {
-    const error = new TypeError(`${methodName} called without required argument "${parameterName}"`);
+    const error = new TypeError(
+      `${methodName} called without required argument "${parameterName}"`
+    );
     log.error(`[${connectionId}] %O`, error);
     throw error;
   }

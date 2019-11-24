@@ -7,5 +7,5 @@ export const emptyGroup = "__empty__";
 
 // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
 // Aggregator code should use item2 when available
-export const extractAggergateResult = (payload: any) =>
+export const extractAggregateResult = (payload: any) =>
   payload.item2 ? payload.item2 : payload.item;

@@ -274,7 +274,9 @@ export class BlobBatchClient {
    *
    * Get `blobBatchClient` and other details before running the snippets.
    * `blobServiceClient.getBlobBatchClient()` gives the `blobBatchClient`
-   * @example
+   *
+   * Example usage:
+   *
    * ```js
    * let batchRequest = new BlobBatch();
    * await batchRequest.deleteBlob(urlInString0, credential0);
@@ -285,7 +287,8 @@ export class BlobBatchClient {
    * console.log(batchResp.subResponsesSucceededCount);
    * ```
    *
-   * @example
+   * Example using a lease:
+   *
    * ```js
    * let batchRequest = new BlobBatch();
    * await batchRequest.setBlobAccessTier(blockBlobClient0, "Cool");

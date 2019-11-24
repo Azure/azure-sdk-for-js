@@ -110,7 +110,7 @@ export class OpenCensusSpanWrapper implements Span {
    * @param name The name of the event
    * @param attributes The associated attributes to add for this event
    */
-  addEvent(name: string, attributes?: Attributes): this {
+  addEvent(_name: string, _attributes?: Attributes): this {
     throw new Error("Method not implemented.");
   }
 

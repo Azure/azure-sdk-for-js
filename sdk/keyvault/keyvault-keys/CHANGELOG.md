@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.1 (TBD)
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+
 ## 4.0.0 (2019-10-31)
 
 - This release marks the general availability of the `@azure/keyvault-keys` package.

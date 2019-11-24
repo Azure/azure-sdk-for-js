@@ -149,12 +149,14 @@ export class TestTracer extends NoOpTracer {
 
   private _getParentContext(options: SpanOptions): SpanContext | undefined {
     const parent = options.parent;
+    let result: SpanContext | undefined;
     if (parent) {
       if ("traceId" in parent) {
-        return parent;
+        result = parent;
       } else {
-        return parent.context();
+        result = parent.context();
       }
     }
+    return result;
   }
 }

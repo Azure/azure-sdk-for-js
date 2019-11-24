@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubClient } from "./eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -50,7 +50,7 @@ export class PumpManager {
    */
   public async createPump(
     eventHubClient: EventHubClient,
-    initialEventPosition: EventPosition,
+    initialEventPosition: EventPosition | undefined,
     partitionProcessor: PartitionProcessor
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;

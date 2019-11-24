@@ -129,7 +129,7 @@ export async function deserializeAtomXmlResponse(
       const HttpResponseCodes: any = Constants.HttpResponseCodes;
       const statusCode = response.status;
       throw new RestError(
-        "Service Error",
+        "Service returned an error response.",
         isKnownResponseCode(statusCode)
           ? HttpResponseCodes[statusCode]
           : `UnrecognizedHttpResponseStatus: ${statusCode}`,

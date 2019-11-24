@@ -12,6 +12,7 @@ import {
   getIntegerOrUndefined,
   getStringOrUndefined,
   getBooleanOrUndefined,
+  getString,
   isJSONLikeObject
 } from "../util/utils";
 import { CorrelationFilter } from "../core/managementClient";
@@ -19,8 +20,8 @@ import { CorrelationFilter } from "../core/managementClient";
 /**
  * @ignore
  * Builds the rule options object from the user provided options.
- * Handles the differences in casing for the property names, converts values to string and ensures the
- * right order as expected by the service
+ * Handles the differences in casing for the property names, 
+ * converts values to string and ensures the right order as expected by the service
  * @param name
  * @param ruleOptions
  */
@@ -31,21 +32,18 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 
 /**
  * @ignore
- * Builds the rule object from the raw json object gotten after deserializing the response
- * from the service
+ * Builds the rule object from the raw json object gotten after deserializing the 
+ * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): Rule | undefined {
-  if (rawRule == undefined) {
-    return undefined;
-  }
+export function buildRule(rawRule: any): Rule {
   return {
-    ruleName: rawRule["RuleName"],
-    topicName: rawRule["TopicName"],
-    subscriptionName: rawRule["SubscriptionName"],
-    filter: getTopicFilterOrUndefined(rawRule["Filter"]),
+    ruleName: getString(rawRule["RuleName"], "ruleName"),
+    topicName: getString(rawRule["TopicName"], "topicName"),
+    subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
+    filter: getTopicFilter(rawRule["Filter"]),
     action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdAt: rawRule["CreatedAt"]
+    createdOn: getString(rawRule["CreatedAt"], "createdOn")
   };
 }
 
@@ -55,11 +53,8 @@ export function buildRule(rawRule: any): Rule | undefined {
  * or undefined if not passed in.
  * @param value
  */
-function getTopicFilterOrUndefined(value: any): SqlFilter | CorrelationFilter | undefined {
-  if (value == undefined) {
-    return undefined;
-  }
-  let result: SqlFilter | CorrelationFilter | undefined;
+function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
+  let result: SqlFilter | CorrelationFilter;
 
   if (value["SqlExpression"] != undefined) {
     result = {
@@ -68,7 +63,7 @@ function getTopicFilterOrUndefined(value: any): SqlFilter | CorrelationFilter | 
       compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
       requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
     };
-  } else if (value["CorrelationId"] != undefined) {
+  } else {
     result = {
       correlationId: getStringOrUndefined(value["CorrelationId"]),
       label: getStringOrUndefined(value["Label"]),
@@ -108,12 +103,15 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
  */
 export interface RuleOptions {
   /**
-   * Defines the expression that the rule evaluates. The expression string is interpreted as a SQL92 expression which must evaluate to True or False. Only one between a correlation and a sql expression can be defined.
+   * Defines the expression that the rule evaluates. The expression string is 
+   * interpreted as a SQL92 expression which must evaluate to True or False. 
+   * Only one between a correlation and a sql expression can be defined.
    */
   filter?: SqlFilter | CorrelationFilter;
 
   /**
-   * The SQL like expression that can be executed on the message should the associated filter apply.
+   * The SQL like expression that can be executed on the message should the 
+   * associated filter apply.
    */
   action?: SqlAction;
 }
@@ -132,26 +130,39 @@ export interface InternalRuleOptions extends RuleOptions {
 /**
  * Represents all attributes of a rule entity
  */
-export interface Rule extends RuleOptions {
+export interface Rule {
   /**
    * Name of the rule
    */
-  ruleName?: string;
+  ruleName: string;
+
+  /**
+   * Defines the expression that the rule evaluates. The expression string is 
+   * interpreted as a SQL92 expression which must evaluate to True or False. 
+   * Only one between a correlation and a sql expression can be defined.
+   */
+  filter?: SqlFilter | CorrelationFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the 
+   * associated filter apply.
+   */
+  action?: SqlAction;
 
   /**
    * Name of topic
    */
-  topicName?: string;
+  topicName: string;
 
   /**
    * Name of subscription
    */
-  subscriptionName?: string;
+  subscriptionName: string;
 
   /**
    * Created at timestamp
    */
-  createdAt?: string;
+  createdOn: string;
 }
 
 /**
@@ -174,7 +185,8 @@ export interface SqlFilter {
   sqlParameters?: SqlParameter[];
 
   /**
-   * This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
+   * This property is reserved for future use. An integer value showing the 
+   * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
 
@@ -320,7 +332,8 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
 }
 
 /**
- * Helper utility to build an instance of parsed SQL parameteras `Parameter` from given input,
+ * Helper utility to build an instance of parsed SQL parameteras `Parameter` 
+ * from given input
  * @param value
  */
 function buildSqlParameter(value: RawSqlParameter): SqlParameter {
@@ -379,13 +392,14 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
 }
 
 /**
- * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter` from given `SqlParameter` input,
+ * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter` 
+ * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance
  */
 function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
-  if (!isJSONLikeObject(parameter)) {
+  if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
-      `Expected SQL parameter input to be a JSON value but received ${JSON.stringify(
+      `Expected SQL parameter input to be a JS object value, but received ${JSON.stringify(
         parameter,
         undefined,
         2
@@ -410,7 +424,7 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
 
     default:
       throw new Error(
-        `Invalid type "${parameter.type}"supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
+        `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
       );
   }
 

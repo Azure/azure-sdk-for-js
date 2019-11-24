@@ -1,13 +1,14 @@
 import * as assert from "assert";
 
-import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(function() {
     recorder = record(this);
@@ -22,6 +23,30 @@ describe("FileServiceClient", () => {
 
     const result = (await serviceClient
       .listShares()
+      .byPage()
+      .next()).value;
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.shareItems!.length >= 0);
+
+    if (result.shareItems!.length > 0) {
+      const share = result.shareItems![0];
+      assert.ok(share.name.length > 0);
+      assert.ok(share.properties.etag.length > 0);
+      assert.ok(share.properties.lastModified);
+    }
+  });
+
+  it("listShares with default parameters - empty prefix should not cause an error", async () => {
+    const serviceClient = getBSU();
+
+    const result = (await serviceClient
+      .listShares({ prefix: "" })
       .byPage()
       .next()).value;
 

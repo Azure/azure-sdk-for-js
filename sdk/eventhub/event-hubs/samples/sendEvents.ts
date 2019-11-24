@@ -20,14 +20,30 @@ async function main(): Promise<void> {
 
   console.log("Creating and sending a batch of events...");
   try {
+    // By not specifying a partition ID or a partition key we allow the server to choose
+    // which partition will accept this message.
+    //
+    // This pattern works well if the consumers of your events do not have any particular
+    // requirements about the ordering of batches against other batches or if you don't care 
+    // which messages are assigned to which partition.
+    //
+    // If you would like more control you can pass either a `partitionKey` or a `partitionId`
+    // into the createBatch() `options` parameter which will allow you full control over the 
+    // destination.
     const batch = await producer.createBatch();
+
+    // add events to our batch
     for (let index = 0; index < 10; index++) {
+      // messages can fail to be added to the batch if they exceed the maximum size configured for
+      // the EventHub.
       const isAdded = batch.tryAdd({ body: "Sent along with 9 other events using batch" });
+      
       if (!isAdded) {
         console.log(`Unable to add event ${index} to the batch`);
         break;
       }
     }
+
     await producer.sendBatch(batch);
   } catch (err) {
     console.log("Error when creating & sending a batch of events: ", err);

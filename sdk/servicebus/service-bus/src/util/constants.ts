@@ -117,8 +117,8 @@ export const COUNT_DETAILS = "CountDetails";
 export const DEFAULT_RULE_NAME = "$Default";
 
 /**
- * Max idle time before entity is deleted
- *
+ * Max idle time before entity is deleted.
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 
@@ -135,7 +135,7 @@ export const STATUS = "Status";
 export const PATH = "Path";
 
 /**
- * The entity to forward to
+ * The URL of Service Bus entity to forward messages to.
  *
  */
 export const FORWARD_TO = "ForwardTo";
@@ -154,13 +154,13 @@ export const MAX_SIZE_IN_MEGABYTES = "MaxSizeInMegabytes";
 
 /**
  * The default message time to live.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DEFAULT_MESSAGE_TIME_TO_LIVE = "DefaultMessageTimeToLive";
 
 /**
  * The lock duration.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const LOCK_DURATION = "LockDuration";
 
@@ -177,7 +177,10 @@ export const REQUIRES_SESSION = "RequiresSession";
 export const REQUIRES_DUPLICATE_DETECTION = "RequiresDuplicateDetection";
 
 /**
- * The indication if dead lettering on message expiration.
+ * The indication if dead lettering on message expiration. If it is enabled and a message expires,
+ * the Service Bus moves the message from the queue into the entity dead-letter sub-queue.
+ * If disabled, message will be permanently deleted from the main entity.
+ * Settable only at entity creation time.
  *
  */
 export const DEAD_LETTERING_ON_MESSAGE_EXPIRATION = "DeadLetteringOnMessageExpiration";
@@ -191,7 +194,7 @@ export const DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS =
 
 /**
  * The history time window for duplicate detection.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DUPLICATE_DETECTION_HISTORY_TIME_WINDOW = "DuplicateDetectionHistoryTimeWindow";
 
@@ -214,7 +217,7 @@ export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
 export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
 /**
- * The maximum delivery count.
+ * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
  *
  */
 export const MAX_DELIVERY_COUNT = "MaxDeliveryCount";
@@ -238,7 +241,7 @@ export const SUPPORT_ORDERING = "SupportOrdering";
 export const ENABLE_PARTITIONING = "EnablePartitioning";
 
 /**
- * Entity to forward deadlettered messages to
+ * The URL of Service Bus entity to forward deadlettered messages to.
  *
  */
 export const FORWARD_DEADLETTERED_MESSAGES_TO = "ForwardDeadLetteredMessagesTo";

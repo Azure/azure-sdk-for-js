@@ -2,10 +2,10 @@ import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { getBSU, bodyToString } from "./utils";
+import { getBSU, bodyToString, setupEnvironment } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -13,6 +13,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
@@ -23,7 +24,7 @@ describe("FileClient", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let fullFileAttributes = new FileSystemAttributes();
   fullFileAttributes.readonly = true;
@@ -281,6 +282,7 @@ describe("FileClient", () => {
   });
 
   it("startCopyFromURL", async () => {
+    recorder.skip("browser");
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
@@ -320,6 +322,13 @@ describe("FileClient", () => {
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
   });
 
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
   it("uploadRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -356,6 +365,7 @@ describe("FileClient", () => {
   });
 
   it("uploadRange with progress event", async () => {
+    recorder.skip(undefined, "Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229");
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
@@ -422,6 +432,10 @@ describe("FileClient", () => {
   });
 
   it("download should update progress and abort successfully", async () => {
+    recorder.skip(
+      undefined,
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     await fileClient.create(128 * 1024 * 1024);
 
     let eventTriggered = false;
@@ -461,10 +475,12 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -489,10 +505,12 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);

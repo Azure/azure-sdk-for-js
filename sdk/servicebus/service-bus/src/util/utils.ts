@@ -163,7 +163,23 @@ export function toBuffer(input: any): Buffer {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `string` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getString(value: any, nameOfProperty: string): string {
+  const result = getStringOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -176,7 +192,23 @@ export function getStringOrUndefined(value: any): string | undefined {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `integer` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getInteger(value: any, nameOfProperty: string): number {
+  const result = getIntegerOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -190,7 +222,23 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 }
 
 /**
- *  @ignore
+ * @ignore
+ * Helper utility to retrieve `boolean` value from given string,
+ * or throws error if undefined.
+ * @param value
+ */
+export function getBoolean(value: any, nameOfProperty: string): boolean {
+  const result = getBooleanOrUndefined(value);
+  if (result == undefined) {
+    throw new Error(
+      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
+    );
+  }
+  return result;
+}
+
+/**
+ * @ignore
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -292,16 +340,28 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
  * @param value
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
+  let accessRights;
+  if (value["Rights"] != undefined) {
+    accessRights = value["Rights"]["AccessRights"];
+  }
+
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
     rights: {
-      accessRights: value["Rights"]["AccessRights"]
+      accessRights: accessRights
     },
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
+
+  if (
+    authorizationRule.rights.accessRights &&
+    !Array.isArray(authorizationRule.rights.accessRights)
+  ) {
+    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  }
   return authorizationRule;
 }
 
@@ -338,9 +398,9 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
  * @param authorizationRule parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
-  if (!isJSONLikeObject(authorizationRule)) {
+  if (!isJSONLikeObject(authorizationRule) || authorizationRule === null) {
     throw new TypeError(
-      `Expected authorizationRule input to be a JSON value but received ${JSON.stringify(
+      `Expected authorizationRule input to be a JS object value, but received ${JSON.stringify(
         authorizationRule,
         undefined,
         2

@@ -72,7 +72,7 @@ export class Items {
    * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
@@ -115,7 +115,7 @@ export class Items {
    */
   public readChangeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -133,7 +133,7 @@ export class Items {
    */
   public readChangeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -169,7 +169,7 @@ export class Items {
    */
   public changeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -185,7 +185,7 @@ export class Items {
    */
   public changeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -209,7 +209,7 @@ export class Items {
     }
 
     if (!changeFeedOptions) {
-      throw new Error("changeFeedOptions must be a valid object");
+      changeFeedOptions = {};
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);

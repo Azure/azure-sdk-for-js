@@ -1,12 +1,12 @@
 import * as coreHttp from "@azure/core-http";
 import {
+  AdministratorDetails as AdministratorContact,
   CertificateOperation,
   DeletionRecoveryLevel,
   OrganizationDetails,
-  IssuerAttributes,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  KeyUsageType,
   ActionType,
+  KeyUsageType,
+  IssuerCredentials
 } from "./core/models";
 
 /**
@@ -611,25 +611,28 @@ export interface SetContactsOptions extends coreHttp.OperationOptions {}
 /**
  * Options for {@link createIssuer}.
  */
-export interface CreateIssuerOptions
-  extends coreHttp.OperationOptions, coreHttp.RequestOptionsBase {
-    /**
-     * The user name/account name/account id.
-     */
-    accountId?: string;
-    /**
-     * The password/secret/account key.
-     */
-    password?: string;
-    /**
-     * Details of the organization as provided to the issuer.
-     */
-    organizationDetails?: OrganizationDetails;
-    /**
-     * Attributes of the issuer object.
-     */
-    attributes?: IssuerAttributes;
-  }
+export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+  /**
+   * The user name/account name/account id.
+   */
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization's administrator contacts, as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
+  /**
+   * Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+}
 
 /**
  * Options for {@link purgeDeletedCertificate}.
@@ -639,9 +642,12 @@ export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOption
 /**
  * Options for {@link updateIssuer}.
  */
-export interface UpdateIssuerOptions
-  extends KeyVaultClientUpdateCertificateIssuerOptionalParams,
-    coreHttp.OperationOptions {}
+export interface UpdateIssuerOptions extends CreateIssuerOptions {
+  /**
+   * The issuer provider.
+   */
+  provider?: string;
+}
 
 /**
  * Options for {@link getContacts}.
@@ -698,13 +704,17 @@ export interface UpdateCertificatePolicyOptions
     coreHttp.OperationOptions {}
 
 /**
- * An interface representing the issuer of a certificate
+ * An interface representing the properties of a certificate issuer
  */
 export interface IssuerProperties {
   /**
    * Certificate Identifier.
    */
   id?: string;
+  /**
+   * Name of the issuer.
+   */
+  name?: string;
   /**
    * The issuer provider.
    */
@@ -719,10 +729,6 @@ export interface CertificateIssuer {
    * Certificate Identifier.
    */
   id?: string;
-  /**
-   * The issuer provider.
-   */
-  provider?: string;
   /**
    * Determines whether the object is enabled.
    */
@@ -739,6 +745,30 @@ export interface CertificateIssuer {
    * Name of the issuer
    */
   name?: string;
+  /**
+   * The user name/account name/account id.
+   */
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
+  /**
+   * The credentials to be used for the issuer.
+   */
+  credentials?: IssuerCredentials;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization's administrator contacts, as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
+  /**
+   * A small set of useful properties of a certificate issuer
+   */
+  issuerProperties?: IssuerProperties;
 }
 
 /**

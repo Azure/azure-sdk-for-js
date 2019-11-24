@@ -11,9 +11,9 @@ import {
   RequestPolicyFactory,
   URLBuilder,
   ProxySettings,
-  RestError,
   stripRequest,
-  stripResponse
+  stripResponse,
+  RestError
 } from "@azure/core-http";
 
 import { parseConnectionString } from "@azure/amqp-common";
@@ -56,6 +56,7 @@ import {
   Rule,
   buildRule
 } from "./serializers/ruleResourceSerializer";
+import { isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusAtomManagementClient creation
@@ -85,32 +86,52 @@ export interface ListRequestOptions {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export type QueueResponse = QueueDetails & {
+export interface QueueResponse extends QueueDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Queue response
  */
-export type CreateQueueResponse = QueueResponse;
+export interface CreateQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Queue response
  */
-export type GetQueueResponse = QueueResponse;
+export interface GetQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Queue response
  */
-export type UpdateQueueResponse = QueueResponse;
+export interface UpdateQueueResponse extends QueueDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Queue response
  */
-export type DeleteQueueResponse = QueueResponse;
+export interface DeleteQueueResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on queues.
@@ -125,32 +146,52 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export type TopicResponse = TopicDetails & {
+export interface TopicResponse extends TopicDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Topic response
  */
-export type CreateTopicResponse = TopicResponse;
+export interface CreateTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Topic response
  */
-export type GetTopicResponse = TopicResponse;
+export interface GetTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Topic response
  */
-export type UpdateTopicResponse = TopicResponse;
+export interface UpdateTopicResponse extends TopicDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Topic response
  */
-export type DeleteTopicResponse = TopicResponse;
+export interface DeleteTopicResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on topics.
@@ -165,32 +206,52 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 /**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export type SubscriptionResponse = SubscriptionDetails & {
+export interface SubscriptionResponse extends SubscriptionDetails {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Subscription response
  */
-export type CreateSubscriptionResponse = SubscriptionResponse;
+export interface CreateSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Subscription response
  */
-export type GetSubscriptionResponse = SubscriptionResponse;
+export interface GetSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Subscription response
  */
-export type UpdateSubscriptionResponse = SubscriptionResponse;
+export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Subscription response
  */
-export type DeleteSubscriptionResponse = SubscriptionResponse;
+export interface DeleteSubscriptionResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on subscriptions.
@@ -205,32 +266,52 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export type RuleResponse = Rule & {
+export interface RuleResponse extends Rule {
   /**
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-};
+}
 
 /**
  * Create Rule response
  */
-export type CreateRuleResponse = RuleResponse;
+export interface CreateRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Get Rule response
  */
-export type GetRuleResponse = RuleResponse;
+export interface GetRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Update Rule response
  */
-export type UpdateRuleResponse = RuleResponse;
+export interface UpdateRuleResponse extends Rule {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Delete Rule response
  */
-export type DeleteRuleResponse = RuleResponse;
+export interface DeleteRuleResponse {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * Represents result of list operation on rules.
@@ -352,6 +433,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
     );
 
+    if (!isJSONLikeObject(queueOptions) || queueOptions === null) {
+      throw new TypeError(
+        `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+      );
+    }
+
     const finalQueueOptions: QueueOptions = {};
     const getQueueResult = await this.getQueueDetails(queueName);
     Object.assign(finalQueueOptions, getQueueResult, queueOptions);
@@ -377,7 +464,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildQueueResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -442,6 +529,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
     );
 
+    if (!isJSONLikeObject(topicOptions) || topicOptions === null) {
+      throw new TypeError(
+        `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+      );
+    }
+
     const finalTopicOptions: TopicOptions = {};
     const getTopicResult = await this.getTopicDetails(topicName);
     Object.assign(finalTopicOptions, getTopicResult, topicOptions);
@@ -467,7 +560,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildTopicResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -553,6 +646,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
     );
+
+    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions === null) {
+      throw new TypeError(
+        `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+      );
+    }
+
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
 
     const finalSubscriptionOptions: SubscriptionOptions = {};
@@ -587,7 +687,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -678,6 +778,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
     );
+
+    if (!isJSONLikeObject(ruleOptions) || ruleOptions === null) {
+      throw new TypeError(
+        `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
+      );
+    }
+
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
@@ -707,7 +814,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
 
-    return this.buildRuleResponse(response);
+    return { _response: response };
   }
 
   /**
@@ -748,7 +855,21 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    return executeAtomXmlOperation(this, webResource, serializer);
+    const response = await executeAtomXmlOperation(this, webResource, serializer);
+    if (
+      response.parsedBody == undefined ||
+      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+    ) {
+      const err = new RestError(
+        `The messaging entity "${name}" being requested cannot be found.`,
+        "404",
+        404,
+        stripRequest(webResource),
+        stripResponse(response)
+      );
+      throw err;
+    }
+    return response;
   }
 
   /**

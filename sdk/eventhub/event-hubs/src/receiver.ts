@@ -3,8 +3,13 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./eventHubClient";
-import { OnMessage, OnError, EventHubReceiver, LastEnqueuedEventInfo } from "./eventHubReceiver";
+import { EventHubConsumerOptions } from "./impl/eventHubClient";
+import {
+  OnMessage,
+  OnError,
+  EventHubReceiver,
+  LastEnqueuedEventProperties
+} from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
   RetryConfig,
@@ -85,16 +90,16 @@ export class EventHubConsumer {
   /**
    * @property A set of information about the last enqueued event of a partition.
    */
-  private _lastEnqueuedEventInfo: LastEnqueuedEventInfo;
+  private _lastEnqueuedEventProperties: LastEnqueuedEventProperties;
 
   /**
    * @property The last enqueued event information. This property will only
-   * be enabled when `trackLastEnqueuedEventInfo` option is set to true in the
+   * be enabled when `trackLastEnqueuedEventProperties` option is set to true in the
    * `client.createConsumer()` method.
    * @readonly
    */
-  public get lastEnqueuedEventInfo(): LastEnqueuedEventInfo {
-    return this._lastEnqueuedEventInfo;
+  public get lastEnqueuedEventProperties(): LastEnqueuedEventProperties {
+    return this._lastEnqueuedEventProperties;
   }
 
   /**
@@ -163,7 +168,7 @@ export class EventHubConsumer {
     this._context = context;
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
-    this._lastEnqueuedEventInfo = {};
+    this._lastEnqueuedEventProperties = {};
     this._receiverOptions = options || {};
     this._retryOptions = this._receiverOptions.retryOptions || {};
     this._baseConsumer = new EventHubReceiver(
@@ -243,11 +248,11 @@ export class EventHubConsumer {
     );
 
     if (
-      this._receiverOptions.trackLastEnqueuedEventInfo &&
+      this._receiverOptions.trackLastEnqueuedEventProperties &&
       this._baseConsumer &&
       this._baseConsumer.runtimeInfo
     ) {
-      this._lastEnqueuedEventInfo = this._baseConsumer.runtimeInfo;
+      this._lastEnqueuedEventProperties = this._baseConsumer.runtimeInfo;
     }
 
     return new ReceiveHandler(baseConsumer);
@@ -373,11 +378,11 @@ export class EventHubConsumer {
           (eventData) => {
             receivedEvents.push(eventData);
             if (
-              this._receiverOptions.trackLastEnqueuedEventInfo &&
+              this._receiverOptions.trackLastEnqueuedEventProperties &&
               this._baseConsumer &&
               this._baseConsumer.runtimeInfo
             ) {
-              this._lastEnqueuedEventInfo = this._baseConsumer.runtimeInfo;
+              this._lastEnqueuedEventProperties = this._baseConsumer.runtimeInfo;
             }
             // resolve the operation's promise after the requested
             // number of events are received.

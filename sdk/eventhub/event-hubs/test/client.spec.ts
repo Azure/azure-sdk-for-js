@@ -10,16 +10,13 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import {
-  EventPosition,
-  TokenCredential,
-} from "../src";
-import { EventHubClient } from "../src/eventHubClient";
+import { EventPosition, TokenCredential } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
-import { EventHubConsumer } from '../src/receiver';
-import { EventHubProducer } from '../src/sender';
+import { EventHubConsumer } from "../src/receiver";
+import { EventHubProducer } from "../src/sender";
 const env = getEnvVars();
 
 describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
@@ -88,7 +85,7 @@ describe("Create EventHubClient using connection string #RunnableInBrowser", fun
   });
 });
 
-describe("Create EventHubClient using Azure Identity", function (): void {
+describe("Create EventHubClient using Azure Identity", function(): void {
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
     void
   > {
@@ -117,7 +114,7 @@ describe("Create EventHubClient using Azure Identity", function (): void {
 
     // Extra check involving actual call to the service to ensure this works
     const hubInfo = await client.getProperties();
-    should.equal(hubInfo.path, client.eventHubName);
+    should.equal(hubInfo.name, client.eventHubName);
     await client.close();
   });
 
@@ -408,7 +405,10 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.receive(() => Promise.resolve(), (e) => console.log(e));
+      receiver.receive(
+        () => Promise.resolve(),
+        (e) => console.log(e)
+      );
     } catch (err) {
       errorReceiveStream = err.message;
     }
@@ -452,7 +452,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
 
     let errorGetPartitionIds: string = "";
     try {
-      await client.getPartitionIds();
+      await client.getPartitionIds({});
     } catch (err) {
       errorGetPartitionIds = err.message;
     }

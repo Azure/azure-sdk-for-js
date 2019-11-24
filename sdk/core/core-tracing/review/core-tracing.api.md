@@ -56,7 +56,7 @@ export { OpenCensusSpan }
 export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
-    addEvent(name: string, attributes?: Attributes): this;
+    addEvent(_name: string, _attributes?: Attributes): this;
     context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
@@ -72,14 +72,14 @@ export { OpenCensusTracer }
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
     constructor(tracer: TracerBase);
-    bind<T>(target: T, span?: Span): T;
+    bind<T>(_target: T, _span?: Span): T;
     getBinaryFormat(): BinaryFormat;
     getCurrentSpan(): Span | null;
     getHttpTextFormat(): HttpTextFormat;
     getWrappedTracer(): TracerBase;
-    recordSpanData(span: Span): void;
+    recordSpanData(_span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
+    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
 // @public

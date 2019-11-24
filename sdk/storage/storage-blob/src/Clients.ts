@@ -1064,9 +1064,10 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
    *
-   * @example
+   * Example usage (Node.js):
+   *
    * ```js
-   * // Download and convert a blob to a string (Node.js only)
+   * // Download and convert a blob to a string
    * const downloadBlockBlobResponse = await blobClient.download();
    * const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
    * console.log("Downloaded blob content:", downloaded);
@@ -1085,9 +1086,10 @@ export class BlobClient extends StorageClient {
    * }
    * ```
    *
-   * @example
+   * Example usage (browser):
+   *
    * ```js
-   * // Download and convert a blob to a string (Browser only)
+   * // Download and convert a blob to a string
    * const downloadBlockBlobResponse = await blobClient.download();
    * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
    * console.log(
@@ -1485,13 +1487,15 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * Example usage of automatic polling:
+   * Example using automatic polling:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of manual polling:
+   * Example using manual polling:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * while (!poller.isDone()) {
@@ -1500,7 +1504,8 @@ export class BlobClient extends StorageClient {
    * const result = copyPoller.getResult();
    * ```
    *
-   * Example usage of progress updates:
+   * Example using progress updates:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url', {
    *   onProgress(state) {
@@ -1510,7 +1515,8 @@ export class BlobClient extends StorageClient {
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of changing polling interval (default 15 seconds):
+   * Example using a changing polling interval (default 15 seconds):
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url', {
    *   intervalInMs: 1000 // poll blob every 1 second for copy progress
@@ -1518,7 +1524,8 @@ export class BlobClient extends StorageClient {
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
-   * Example usage of copy cancellation:
+   * Example using copy cancellation:
+   *
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
    * // cancel operation after starting it.
@@ -1682,6 +1689,10 @@ export class BlobClient extends StorageClient {
    * Downloads an Azure Blob in parallel to a buffer.
    * Offset and count are optional, downloads the entire blob if they are not provided.
    *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
+   * consider {@link downloadToFile}.
+   *
    * @export
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
@@ -1699,6 +1710,10 @@ export class BlobClient extends StorageClient {
    *
    * Downloads an Azure Blob in parallel to a buffer.
    * Offset and count are optional, downloads the entire blob if they are not provided.
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For blobs larger than this size,
+   * consider {@link downloadToFile}.
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
@@ -3077,7 +3092,8 @@ export class BlockBlobClient extends BlobClient {
    * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
@@ -5557,7 +5573,8 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<ContainerCreateResponse>}
    * @memberof ContainerClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * const createContainerResponse = await containerClient.create();
@@ -5653,7 +5670,8 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const content = "Hello world!";
    *
@@ -6183,59 +6201,65 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
+   * Example using `for await` syntax:
+   *
+   * ```js
    * // Get the containerClient before you run these snippets,
    * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
-   * @example
-   * ```js
-   *   let i = 1;
-   *   for await (const blob of containerClient.listBlobsFlat()) {
-   *     console.log(`Blob ${i++}: ${blob.name}`);
-   *   }
+   * let i = 1;
+   * for await (const blob of containerClient.listBlobsFlat()) {
+   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   let iter = containerClient.listBlobsFlat();
-   *   let blobItem = await iter.next();
-   *   while (!blobItem.done) {
-   *     console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *     blobItem = await iter.next();
-   *   }
+   * let i = 1;
+   * let iter = containerClient.listBlobsFlat();
+   * let blobItem = await iter.next();
+   * while (!blobItem.done) {
+   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *   blobItem = await iter.next();
+   * }
    * ```
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
-   *     for (const blob of response.segment.blobItems) {
-   *       console.log(`Blob ${i++}: ${blob.name}`);
-   *     }
-   *   }
-   * ```
+   * Example using `byPage()`:
    *
-   * @example
    * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 2 blob names
-   *   for (const blob of response.segment.blobItems) {
-   *     console.log(`Blob ${i++}: ${blob.name}`);
-   *    }
-   *   // Gets next marker
-   *   let marker = response.continuationToken;
-   *    // Passing next marker as continuationToken
-   *   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 blob names
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
    *   for (const blob of response.segment.blobItems) {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 blob names
+   * for (const blob of response.segment.blobItems) {
+   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * 
+   * // Passing next marker as continuationToken
+   *
+   * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 blob names
+   * for (const blob of response.segment.blobItems) {
+   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * }
    * ```
    *
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
@@ -6260,6 +6284,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
+    }
+    if (options.prefix === "") {
+      options.prefix = undefined;
     }
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
@@ -6365,20 +6392,21 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs by hierarchy in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   for await (const item of containerClient.listBlobsByHierarchy("/")) {
-   *     if (item.kind === "prefix") {
-   *       console.log(`\tBlobPrefix: ${item.name}`);
-   *     } else {
-   *       console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
-   *     }
+   * for await (const item of containerClient.listBlobsByHierarchy("/")) {
+   *   if (item.kind === "prefix") {
+   *     console.log(`\tBlobPrefix: ${item.name}`);
+   *   } else {
+   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
    *   }
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   * // Generator syntax .next() and passing a prefix
    * let iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
    * let entity = await iter.next();
    * while (!entity.done) {
@@ -6392,40 +6420,43 @@ export class ContainerClient extends StorageClient {
    * }
    * ```js
    *
-   * @example
+   * Example using `byPage()`:
+   *
    * ```js
-   *   // byPage()
-   *   console.log("Listing blobs by hierarchy by page");
-   *   for await (const response of containerClient.listBlobsByHierarchy("/").byPage()) {
-   *     const segment = response.segment;
-   *     if (segment.blobPrefixes) {
-   *       for (const prefix of segment.blobPrefixes) {
-   *         console.log(`\tBlobPrefix: ${prefix.name}`);
-   *       }
-   *     }
-   *     for (const blob of response.segment.blobItems) {
-   *       console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   * console.log("Listing blobs by hierarchy by page");
+   * for await (const response of containerClient.listBlobsByHierarchy("/").byPage()) {
+   *   const segment = response.segment;
+   *   if (segment.blobPrefixes) {
+   *     for (const prefix of segment.blobPrefixes) {
+   *       console.log(`\tBlobPrefix: ${prefix.name}`);
    *     }
    *   }
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *   }
+   * }
    * ```
    *
-   * @example
+   * Example using paging with a max page size:
+   *
    * ```js
-   *   // 4. byPage() and passing a prefix and max page size
-   *   console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
-   *   let i = 1;
-   *   for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
-   *     console.log(`Page ${i++}`);
-   *     const segment = response.segment;
-   *     if (segment.blobPrefixes) {
-   *       for (const prefix of segment.blobPrefixes) {
-   *         console.log(`\tBlobPrefix: ${prefix.name}`);
-   *       }
-   *     }
-   *     for (const blob of response.segment.blobItems) {
-   *       console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   * console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
+   *
+   * let i = 1;
+   * for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
+   *   console.log(`Page ${i++}`);
+   *   const segment = response.segment;
+   *
+   *   if (segment.blobPrefixes) {
+   *     for (const prefix of segment.blobPrefixes) {
+   *       console.log(`\tBlobPrefix: ${prefix.name}`);
    *     }
    *   }
+   *
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *   }
+   * }
    * ```
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
@@ -6458,6 +6489,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
+    }
+    if (options.prefix === "") {
+      options.prefix = undefined;
     }
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {

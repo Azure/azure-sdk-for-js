@@ -65,8 +65,8 @@ describe("setLogLevel", () => {
 
   it("throws when setting to an unknown log level", () => {
     assert.throws(() => {
-      Logger.setLogLevel('debug' as any);
-    }, /Unknown log level/)
+      Logger.setLogLevel("debug" as any);
+    }, /Unknown log level/);
   });
 });
 
@@ -77,7 +77,7 @@ describe("ClientLoggers", () => {
     const oldLog = Logger.AzureLogger.log.bind(Logger.AzureLogger);
     let called = false;
 
-    Logger.AzureLogger.log = (...args) => {
+    Logger.AzureLogger.log = () => {
       called = true;
     };
 

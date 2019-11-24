@@ -1,21 +1,22 @@
 import { ShareFileClient } from "../src/ShareFileClient";
-import { getBSU } from "./utils/index";
+import { getBSU, setupEnvironment } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let directoryName: string;
   let directoryClient: ShareDirectoryClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   before(async function() {
     recorder = record(this);
