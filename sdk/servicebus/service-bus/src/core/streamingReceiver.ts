@@ -80,9 +80,14 @@ export class StreamingReceiver extends MessageReceiver {
 
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   **/
-  receive(): void {
+   *
+   * @param {OnMessage} onMessage The message handler to receive servicebus messages.
+   * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   */
+  receive(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context.namespace);
+    this._onMessage = onMessage;
+    this._onError = onError;
 
     if (this._receiver) {
       this._receiver.addCredit(this.maxConcurrentCalls);
@@ -94,23 +99,17 @@ export class StreamingReceiver extends MessageReceiver {
    * @static
    *
    * @param {ClientEntityContext} context    The connection context.
-   * @param {OnMessage} onMessage The message handler to receive servicebus messages.
-   * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    * @param {ReceiveOptions} [options]     Receive options.
    * @return {Promise<StreamingReceiver>} A promise that resolves with an instance of StreamingReceiver.
    */
   static async create(
     context: ClientEntityContext,
-    onMessage: OnMessage,
-    onError: OnError,
     options?: ReceiveOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    sReceiver._onMessage = onMessage;
-    sReceiver._onError = onError;
     context.streamingReceiver = sReceiver;
     await sReceiver._init();
     return sReceiver;
