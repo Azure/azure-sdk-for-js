@@ -161,28 +161,6 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
-      // Use new message wait timer only in peekLock mode
-      if (this.receiveMode === ReceiveMode.peekLock) {
-        /**
-         * Resets the timer when a new message is received. If no messages were received for
-         * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-         * receiver link stays open for the next receive call, but doesnt receive messages until then.
-         */
-        this.resetTimerOnNewMessageReceived = () => {
-          if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-          if (this.newMessageWaitTimeoutInSeconds) {
-            this._newMessageReceivedTimer = setTimeout(async () => {
-              const msg =
-                `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
-                `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
-                `Hence ending this batch receive operation.`;
-              log.error("[%s] %s", this._context.namespace.connectionId, msg);
-              finalAction();
-            }, this.newMessageWaitTimeoutInSeconds * 1000);
-          }
-        };
-      }
-
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         this.resetTimerOnNewMessageReceived();
@@ -301,6 +279,28 @@ export class BatchingReceiver extends MessageReceiver {
         }
         reject(error);
       };
+
+      // Use new message wait timer only in peekLock mode
+      if (this.receiveMode === ReceiveMode.peekLock) {
+        /**
+         * Resets the timer when a new message is received. If no messages were received for
+         * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
+         * receiver link stays open for the next receive call, but doesnt receive messages until then.
+         */
+        this.resetTimerOnNewMessageReceived = () => {
+          if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+          if (this.newMessageWaitTimeoutInSeconds) {
+            this._newMessageReceivedTimer = setTimeout(async () => {
+              const msg =
+                `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
+                `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+                `Hence ending this batch receive operation.`;
+              log.error("[%s] %s", this._context.namespace.connectionId, msg);
+              finalAction();
+            }, this.newMessageWaitTimeoutInSeconds * 1000);
+          }
+        };
+      }
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {
