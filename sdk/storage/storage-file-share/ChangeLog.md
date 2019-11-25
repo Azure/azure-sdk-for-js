@@ -6,6 +6,8 @@
 - [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 - Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listFiles` or `listShares` methods to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
+- Added a warning to the documentation of `downloadToBuffer` that explains the limitations of Node.js `Buffer` sizes to around 2GB on 64-bit architectures and 1GB on 32-bit architectures.
+- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
 ## 2019.11 12.0.0-preview.6
 
