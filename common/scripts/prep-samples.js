@@ -21,8 +21,21 @@
  * will completely overwrite them!
  */
 
-const fs = require("fs").promises;
+const baseFS = require("fs");
 const path = require("path");
+
+// Node >= 10 provide fs.promises, but since we're still building Node 8 for now
+// we need to use util.promisify if fs.promises doesn't exist
+const fs =
+  baseFS.promises ||
+  (() => {
+    const promisify = require("util").promisify;
+    return {
+      readdir: promisify(baseFS.readdir),
+      readFile: promisify(baseFS.readFile),
+      writeFile: promisify(baseFS.writeFile)
+    };
+  })();
 
 /**
  * Breadth-first search for files ending in .ts, starting from `tsDir`
@@ -110,7 +123,7 @@ async function main() {
   const args = process.argv.slice(2);
 
   let baseDir;
-  if (args.length > 0) {
+  if (args.length) {
     baseDir = path.resolve(args[0]);
   } else {
     baseDir = process.cwd();
