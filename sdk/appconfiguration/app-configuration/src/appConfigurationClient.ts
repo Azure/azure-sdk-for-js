@@ -73,19 +73,25 @@ export class AppConfigurationClient {
    * @param connectionString Connection string needed for a client to connect to Azure.
    */
   constructor(connectionString: string);
-  constructor(tokenCredential: TokenCredential, endpoint: string);
+  /**
+   * Initializes a new instance of the AppConfigurationClient class using 
+   * a TokenCredential
+   * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
+   * @param tokenCredential A TokenCredential.
+   */
+  constructor(endpoint: string, tokenCredential: TokenCredential);
   constructor(
-    connectionStringOrTokenCredential: string | TokenCredential,
-    endpoint?: string
+    connectionStringOrEndpoint: string,
+    tokenCredentialOrNothing?: TokenCredential
   ) {
-    if (isTokenCredential(connectionStringOrTokenCredential)) {
-      this.client = new AppConfiguration(connectionStringOrTokenCredential, apiVersion, {
-        baseUri: endpoint,
+    if (isTokenCredential(tokenCredentialOrNothing)) {
+      this.client = new AppConfiguration(tokenCredentialOrNothing, apiVersion, {
+        baseUri: connectionStringOrEndpoint,
         deserializationContentTypes,
         requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
       });
     } else {
-      const regexMatch = connectionStringOrTokenCredential.match(ConnectionStringRegex);
+      const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
       if (regexMatch) {
         const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
 
@@ -95,7 +101,7 @@ export class AppConfigurationClient {
           requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
         });
       } else {
-        throw new Error("You must provide a connection string.");
+        throw new Error(`Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`);
       }
     }
 
