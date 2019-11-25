@@ -49,9 +49,8 @@ async function* findAllTsFiles(tsDir) {
 
   // BFS Queue and queue index
   const q = initialFiles.map(f => [f, tsDir]);
-  let idx = 0;
 
-  while (idx !== q.length) {
+  for (let idx = 0; idx !== q.length; idx++) {
     // [fs.Dirent, string] (file and dirName part of the full path)
     const [entry, dirName] = q[idx];
     const fullPath = path.join(dirName, entry.name);
@@ -80,8 +79,6 @@ async function* findAllTsFiles(tsDir) {
         fullPath
       );
     }
-
-    idx += 1;
   }
 
   // The full trace of files visited by the iterator is returned and can be accessed using `iter.value`
