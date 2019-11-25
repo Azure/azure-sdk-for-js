@@ -28,7 +28,7 @@ export class QueryIterator<T> {
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
-  private isInitialied: boolean;
+  private isInitialized: boolean;
   /**
    * @hidden
    */
@@ -46,7 +46,7 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
-    this.isInitialied = false;
+    this.isInitialized = false;
   }
 
   /**
@@ -135,7 +135,7 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
-    if (!this.isInitialied) {
+    if (!this.isInitialized) {
       await this.init();
     }
 
@@ -174,7 +174,7 @@ export class QueryIterator<T> {
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
-    if (!this.isInitialied) {
+    if (!this.isInitialized) {
       await this.init();
     }
     while (this.queryExecutionContext.hasMoreResults()) {
@@ -247,7 +247,7 @@ export class QueryIterator<T> {
 
   private initPromise: Promise<void>;
   private async init() {
-    if (this.isInitialied === true) {
+    if (this.isInitialized === true) {
       return;
     }
     if (this.initPromise === undefined) {
@@ -259,7 +259,7 @@ export class QueryIterator<T> {
     if (this.options.forceQueryPlan === true) {
       await this.createPipelinedExecutionContext();
     }
-    this.isInitialied = true;
+    this.isInitialized = true;
   }
 
   private handleSplitError(err: any) {

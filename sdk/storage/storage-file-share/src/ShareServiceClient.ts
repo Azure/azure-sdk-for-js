@@ -421,6 +421,10 @@ export class ShareServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<ServiceListSharesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listSharesSegmentResponse;
     do {
       listSharesSegmentResponse = await this.listSharesSegment(marker, options);
@@ -440,6 +444,10 @@ export class ShareServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<ShareItem> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.shareItems;
@@ -524,6 +532,10 @@ export class ShareServiceClient extends StorageClient {
   public listShares(
     options: ServiceListSharesOptions = {}
   ): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     const include: ListSharesIncludeType[] = [];
     if (options.includeMetadata) {
       include.push("metadata");
@@ -586,6 +598,11 @@ export class ShareServiceClient extends StorageClient {
       "ShareServiceClient-listSharesSegment",
       options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
       return await this.serviceContext.listSharesSegment({
         marker,

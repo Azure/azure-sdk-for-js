@@ -148,10 +148,8 @@ export type SubscriptionEventHandlersKeys =
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions
-  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required
-  // for our internal classes (these are optional for external users)
-  Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
+export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required // for our internal classes (these are optional for external users)
+  extends Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
   /**
    * A load balancer to use
    */
@@ -166,6 +164,18 @@ export interface FullEventProcessorOptions
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   maxWaitTimeInSeconds: number;
+
+  /**
+   * The amount of time to wait between each attempt at claiming partitions.
+   */
+  loopIntervalInMs?: number;
+
+  /**
+   * The maximum amount of time since a PartitionOwnership was updated
+   * to use to determine if a partition is no longer claimed.
+   * Setting this value to 0 will cause the default value to be used.
+   */
+  inactiveTimeLimitInMs?: number;
 }
 
 /**
@@ -208,6 +218,8 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionLoadBalancer: PartitionLoadBalancer;
+  private _loopIntervalInMs = 10000;
+  private _inactiveTimeLimitInMs = 60000;
 
   /**
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -232,10 +244,13 @@ export class EventProcessor {
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
-    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 minute)
+    const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
       new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+    if (options.loopIntervalInMs) {
+      this._loopIntervalInMs = options.loopIntervalInMs;
+    }
   }
 
   /**
@@ -279,7 +294,12 @@ export class EventProcessor {
       partitionIdToClaim
     );
     try {
-      await this._checkpointStore.claimOwnership([ownershipRequest]);
+      const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
+      // since we only claim one ownership at a time, check the array length and throw
+      if (!claimedOwnerships.length) {
+        throw new Error(`Failed to claim ownership of partition ${ownershipRequest.partitionId}`);
+      }
+
       log.partitionLoadBalancer(
         `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
       );
@@ -315,14 +335,17 @@ export class EventProcessor {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
-      this._consumerGroup);
-    
-    const validCheckpoints = availableCheckpoints.filter((chk) => chk.partitionId === partitionIdToClaim);
+      this._consumerGroup
+    );
+
+    const validCheckpoints = availableCheckpoints.filter(
+      (chk) => chk.partitionId === partitionIdToClaim
+    );
 
     if (validCheckpoints.length > 0) {
       return EventPosition.fromOffset(validCheckpoints[0].offset);
     }
-    
+
     return undefined;
   }
 
@@ -339,7 +362,6 @@ export class EventProcessor {
 
   private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
-    const waitIntervalInMs = 10000;
     while (!abortSignal.aborted) {
       try {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
@@ -374,9 +396,9 @@ export class EventProcessor {
 
         // sleep
         log.eventProcessor(
-          `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
         );
-        await delay(waitIntervalInMs, abortSignal);
+        await delay(this._loopIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         await this._handleSubscriptionError(err);

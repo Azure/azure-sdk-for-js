@@ -57,7 +57,6 @@ describe("GlobalEndpointManager", function() {
             headers,
             200
           );
-          console.log(response);
           return response;
         }
       );

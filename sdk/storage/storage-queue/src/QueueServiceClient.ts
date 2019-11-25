@@ -332,6 +332,11 @@ export class QueueServiceClient extends StorageClient {
       "QueueServiceClient-listQueuesSegment",
       options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
       return await this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
@@ -371,6 +376,10 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
@@ -390,6 +399,10 @@ export class QueueServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<QueueItem> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.queueItems;
@@ -477,6 +490,10 @@ export class QueueServiceClient extends StorageClient {
   public listQueues(
     options: ServiceListQueuesOptions = {}
   ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     const updatedOptions: ServiceListQueuesSegmentOptions = {
       ...options,
       ...(options.includeMetadata ? { include: "metadata" } : {})
