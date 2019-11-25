@@ -50,9 +50,9 @@ async function* findAllTsFiles(tsDir) {
   // BFS Queue and queue index
   const q = initialFiles.map(f => [f, tsDir]);
 
-  for (let idx = 0; idx !== q.length; idx++) {
+  while (q.length) {
     // [fs.Dirent, string] (file and dirName part of the full path)
-    const [entry, dirName] = q[idx];
+    const [entry, dirName] = q.shift();
     const fullPath = path.join(dirName, entry.name);
 
     if (entry.isDirectory()) {
