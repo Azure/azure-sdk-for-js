@@ -39,6 +39,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     if (tokenCredentialsNotPresentWarning) {
       tokenCredentialsNotPresentWarning = true;
       console.log("Functional tests not running - set client identity variables to activate");
+      return undefined;
     }
   }
 
