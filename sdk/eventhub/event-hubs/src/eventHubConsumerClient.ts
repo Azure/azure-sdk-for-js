@@ -205,7 +205,7 @@ export class EventHubConsumerClient {
       } else {
         this._checkpointStore = new InMemoryCheckpointStore();
         this._userChoseCheckpointStore = false;
-        eventHubClientOptions = checkpointStoreOrOptions5 as EventHubClientOptions | undefined;
+        eventHubClientOptions = checkpointStoreOrOptions5;
       }
 
       this._eventHubClient = new EventHubClient(
