@@ -7,6 +7,7 @@
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { TokenCredential } from '@azure/identity';
 
 // @public
 export interface AddConfigurationSettingOptions extends OperationOptions {
@@ -23,6 +24,7 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 // @public
 export class AppConfigurationClient {
     constructor(connectionString: string);
+    constructor(tokenCredential: TokenCredential, endpoint: string);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
