@@ -398,8 +398,6 @@ export class EventHubConsumerClient {
       log.consumerClient("Subscribing to all partitions, no checkpoint store.");
     }
 
-    const subscribeOptions = options as SubscribeOptions | undefined;
-
     const eventProcessor = this._createEventProcessor(
       this._consumerGroup,
       this._eventHubClient,
@@ -408,7 +406,7 @@ export class EventHubConsumerClient {
       {
         ...defaultConsumerClientOptions,
         ...(options as SubscribeOptions),
-        ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore),
+        ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
         partitionLoadBalancer: this._userChoseCheckpointStore
           ? undefined
           : new GreedyPartitionLoadBalancer()
