@@ -49,6 +49,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * @return A list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
+    const claimedOwnerships = [];
     for (const ownership of partitionOwnership) {
       if (
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
@@ -58,9 +59,10 @@ export class InMemoryCheckpointStore implements CheckpointStore {
         var date = new Date();
         ownership.lastModifiedTimeInMs = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
+        claimedOwnerships.push(ownership);
       }
     }
-    return partitionOwnership;
+    return claimedOwnerships;
   }
 
   /**

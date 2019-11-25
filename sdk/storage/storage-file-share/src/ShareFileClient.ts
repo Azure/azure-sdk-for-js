@@ -795,7 +795,8 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
    * @memberof ShareFileClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const content = "Hello world!";
    *
@@ -864,16 +865,17 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
    * @memberof ShareFileClient
    *
-   * @example
+   * Example usage (Node.js):
+   *
    * ```js
-   * // Download a file to a string (Node.js only)
+   * // Download a file to a string
    * const downloadFileResponse = await fileClient.download();
    * console.log(
    *   "Downloaded file content:",
    *   await streamToString(downloadFileResponse.readableStreamBody)}
    * );
    *
-   * // [Node.js only] A helper method used to read a Node.js readable stream into string
+   * // A helper method used to read a Node.js readable stream into string
    * async function streamToString(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
@@ -888,16 +890,17 @@ export class ShareFileClient extends StorageClient {
    * }
    * ```
    *
-   * @example
+   * Example usage (browsers):
+   *
    * ```js
-   * // Download a file to a string (Browser only)
+   * // Download a file to a string
    * const downloadFileResponse = await fileClient.download(0);
    * console.log(
    *   "Downloaded file content:",
    *   await streamToString(downloadFileResponse.contentAsBlob)}
    * );
    *
-   * // [Browser only] A helper method used to convert a browser Blob into string.
+   * // A helper method used to convert a browser Blob into string.
    * export async function blobToString(blob: Blob): Promise<string> {
    *   const fileReader = new FileReader();
    *   return new Promise<string>((resolve, reject) => {
@@ -1246,7 +1249,8 @@ export class ShareFileClient extends StorageClient {
    * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof ShareFileClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const content = "Hello world!";
    *

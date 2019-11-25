@@ -160,7 +160,9 @@ export interface BlobSASSignatureValues {
  * this constructor.
  *
  * Fill in the required details before running the following snippets.
- * @example
+ *
+ * Example usage:
+ *
  * ```js
  * // Generate service level SAS for a container
  * const containerSAS = generateBlobSASQueryParameters({
@@ -176,7 +178,8 @@ export interface BlobSASSignatureValues {
  * ).toString();
  * ```
  *
- * @example
+ * Example using an identifier:
+ *
  * ```js
  * // Generate service level SAS for a container with identifier
  * // startsOn & permissions are optional when identifier is provided
@@ -201,8 +204,8 @@ export interface BlobSASSignatureValues {
  * ).toString();
  * ```
  *
- * // Fill in the required details before running the snippet.
- * @example
+ * Example using a blob name:
+ *
  * ```js
  * // Generate service level SAS for a blob
  * const blobSAS = generateBlobSASQueryParameters({
@@ -240,7 +243,8 @@ export function generateBlobSASQueryParameters(
  * Creates an instance of SASQueryParameters.
  * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiresOn are required.
  *
- * @example
+ * Example usage:
+ *
  * ```js
  * // Generate user delegation SAS for a container
  * const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);

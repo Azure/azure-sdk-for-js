@@ -7,7 +7,7 @@ import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 export interface ContainerDefinition {
   /** The id of the container. */
   id?: string;
-  /**  TODO */
+  /** The partition key for the container. */
   partitionKey?: PartitionKeyDefinition;
   /** The indexing policy associated with the container. */
   indexingPolicy?: IndexingPolicy;
@@ -15,6 +15,6 @@ export interface ContainerDefinition {
   defaultTtl?: number;
   /** The conflict resolution policy used to resolve conflicts in a container. */
   conflictResolutionPolicy?: ConflictResolutionPolicy;
-  /** Policy for additional keys that must be unique per partion key */
+  /** Policy for additional keys that must be unique per partition key */
   uniqueKeyPolicy?: UniqueKeyPolicy;
 }
