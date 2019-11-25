@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  ServiceBusAtomManagementClient,
-  QueueOptions,
-  TopicOptions,
-  SubscriptionOptions,
-  RuleOptions
-} from "../src";
+import { ServiceBusAtomManagementClient} from "../src/serviceBusAtomManagementClient";
+import { QueueOptions } from "../src/serializers/queueResourceSerializer";
+import { TopicOptions } from "../src/serializers/topicResourceSerializer";
+import { SubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
+
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
