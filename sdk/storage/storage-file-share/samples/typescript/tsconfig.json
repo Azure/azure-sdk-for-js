@@ -8,6 +8,5 @@
     "allowSyntheticDefaultImports": true,
 
     "outDir": "dist"
-  },
-  "include": ["**/*.ts"]
+  }
 }

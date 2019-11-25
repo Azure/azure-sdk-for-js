@@ -33,6 +33,7 @@ const fs =
     return {
       readdir: promisify(baseFS.readdir),
       readFile: promisify(baseFS.readFile),
+      stat: promisify(baseFS.stat),
       writeFile: promisify(baseFS.writeFile)
     };
   })();
@@ -52,27 +53,32 @@ async function* findAllTsFiles(tsDir) {
 
   while (idx !== q.length) {
     // [fs.Dirent, string] (file and dirName part of the full path)
-    const [file, dirName] = q[idx];
-    const fullPath = path.join(dirName, file.name);
+    const [entry, dirName] = q[idx];
+    const fullPath = path.join(dirName, entry.name);
 
-    // Skip symlinks. We shouldn't see symlinks in a clean samples tree, so
-    // additionally warn if this happens.
-    if (file.isSymbolicLink()) {
-      console.warn(
-        "[prep-samples] WARNING: Encountered a symlink in the sample tree:",
-        fullPath
-      );
-      continue;
-    }
-
-    if (file.isDirectory()) {
+    if (entry.isDirectory()) {
       // Enqueue children of this directory to the bfs
       const children = await fs.readdir(fullPath, { withFileTypes: true });
       for (const child of children) {
         q.push([child, fullPath]);
       }
-    } else if (file.isFile() && /.*\.ts$/.exec(file.name)) {
+    } else if (
+      entry.isFile() &&
+      entry.name.endsWith(".ts") &&
+      !entry.name.endsWith(".d.ts")
+    ) {
       yield fullPath;
+    } else if (
+      entry.isBlockDevice() ||
+      entry.isCharacterDevice() ||
+      entry.isFIFO() ||
+      entry.isSocket() ||
+      entry.isSymbolicLink()
+    ) {
+      console.warn(
+        "[prep-samples] WARNING: Encountered a special file in the sample tree. Skipping:",
+        fullPath
+      );
     }
 
     idx += 1;
@@ -90,18 +96,18 @@ async function* findAllTsFiles(tsDir) {
  * @param {string} baseDir The base directory of the package
  * @param {string} pkgName name of the package to use when looking for package-local imports
  */
-async function enableLocalRun(file, baseDir, pkgName) {
-  const fileContents = await fs.readFile(file, { encoding: "utf-8" });
+async function enableLocalRun(fileName, baseDir, pkgName) {
+  const fileContents = await fs.readFile(fileName, { encoding: "utf-8" });
   const importRegex = new RegExp(
     `import\\s+(.*)\\s+from\\s+"${pkgName}";?\\s?`,
     "s"
   );
 
   if (!importRegex.exec(fileContents)) {
-    throw new Error(`Sample ${file} did not contain an import statement!`);
+    throw new Error(`Sample ${fileName} did not contain an import statement!`);
   }
 
-  const relativeDir = path.dirname(file.replace(baseDir, ""));
+  const relativeDir = path.dirname(fileName.replace(baseDir, ""));
 
   // `string.length - string.split(path.sep).join("").length` is a dirty but well-supported way to
   // count the depth of a path and that avoids the difficulty of creating a regexp constructor
@@ -115,7 +121,7 @@ async function enableLocalRun(file, baseDir, pkgName) {
     `import $1 from "${relativeImportPath}";`
   );
 
-  return fs.writeFile(file, updatedContents, { encoding: "utf-8" });
+  return fs.writeFile(fileName, updatedContents, { encoding: "utf-8" });
 }
 
 async function main() {
