@@ -34,7 +34,7 @@ import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
 const env = getEnvVars();
 
-describe("Event Processor", function(): void {
+describe.only("Event Processor", function(): void {
   const defaultOptions: FullEventProcessorOptions = {
     maxBatchSize: 1,
     maxWaitTimeInSeconds: 60,
@@ -827,7 +827,7 @@ describe("Event Processor", function(): void {
       try {
         await loopUntil({
           name: "partitionOwnership",
-          maxTimes: 10,
+          maxTimes: 20,
           timeBetweenRunsMs: 10000,
           until: async () => {
             // Ensure the partition ownerships are balanced.
