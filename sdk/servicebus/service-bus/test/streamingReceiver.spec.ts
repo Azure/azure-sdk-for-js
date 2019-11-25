@@ -859,7 +859,7 @@ describe("Streaming - User Error", function(): void {
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
-    should.equal(!!((receiverClient as any)._context.streamingReceiver), true, "Expected streaming receiver noto be cached.");
+    should.equal(!!((receiverClient as any)._context.streamingReceiver), true, "Expected streaming receiver not to be cached.");
 
     await receiver.close();
 
