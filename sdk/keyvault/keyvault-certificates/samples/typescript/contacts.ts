@@ -30,14 +30,22 @@ async function main(): Promise<void> {
     }
   ];
 
-  let getResponse: any;
-
   await client.setContacts(contacts);
 
-  getResponse = await client.getContacts();
-  console.log("Contact List:", getResponse.contactList);
+  let getResponse = await client.getContacts();
+  console.log("Contact List:", getResponse);
 
   await client.deleteContacts();
+
+  let error;
+  try {
+    await client.getContacts();
+    throw Error("Expecting an error but not catching one.");
+  } catch (e) {
+    error = e;
+  }
+
+  console.log("err: ", error);
 }
 
 main().catch((err) => {

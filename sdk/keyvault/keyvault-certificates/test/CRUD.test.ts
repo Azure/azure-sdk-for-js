@@ -329,9 +329,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Create
     const createResponse = await client.createIssuer(issuerName, "Test", {
-      credentials: {
-        accountId: "keyvaultuser"
-      },
+      accountId: "keyvaultuser",
       administratorContacts: [
         {
           firstName: "John",
@@ -469,13 +467,11 @@ describe("Certificates client - create, read, update and delete", () => {
       }
     ];
 
-    let getResponse: any;
-
     await client.setContacts(contacts);
 
-    getResponse = await client.getContacts();
-    assert.equal(getResponse.contactList![0].name, "a");
-    assert.equal(getResponse.contactList![1].name, "b");
+    let getResponse = await client.getContacts();
+    assert.equal( (getResponse && getResponse[0] && getResponse[0].name) ? getResponse[0].name : undefined, "a");
+    assert.equal( (getResponse && getResponse[1] && getResponse[1].name) ? getResponse[1].name : undefined, "b");
 
     await client.deleteContacts();
 
@@ -486,6 +482,6 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, "Contacts not found");
+    assert.equal(error.code, "ContactsNotFound");
   });
 });

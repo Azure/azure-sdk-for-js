@@ -770,7 +770,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
+    return this.coreContactsToCertificateContacts(result).contactList;
   }
 
   private async *listPropertiesOfIssuersPage(
