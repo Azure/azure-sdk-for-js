@@ -30,11 +30,16 @@ export class BatchingReceiver extends MessageReceiver {
   isReceivingMessages: boolean = false;
 
   /**
-   * @property {AmqpError | Error | undefined} detachedError Error that occured when receiver
-   * got detached. Not applicable when onReceiveError is called.
-   *  Default: undefined.
+   * Callback for rejecting the promise returned by the current receive operation.
+   * Used to reject the promise when there is an error and the receiver
+   * or connection is detached.
    */
-  private detachedError: AmqpError | Error | undefined = undefined;
+  private rejectReceivePromise: Function | undefined;
+
+  /**
+   * The timer that keeps track of the time elapsed for the current receive operation.
+   */
+  private _totalWaitTimer?: NodeJS.Timer;
 
   /**
    * Instantiate a new BatchingReceiver.
@@ -49,14 +54,30 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   /**
-   * Clear the token renewal timer and set the `detachedError` property.
+   * Clear the token renewal timer and reject promise returned by current receive request.
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
-    // Clears the token renewal timer. Closes the link and its session if they are open.
+    if (this._newMessageReceivedTimer) {
+      clearTimeout(this._newMessageReceivedTimer);
+    }
+    if (this._totalWaitTimer) {
+      clearTimeout(this._totalWaitTimer);
+    }
     await this._closeLink(this._receiver);
-    this.detachedError = receiverError;
+
+    if (this.rejectReceivePromise && this.isReceivingMessages) {
+      if (receiverError) {
+        const translatedError = translate(receiverError);
+        this.rejectReceivePromise(translatedError);
+      } else {
+        this.rejectReceivePromise(
+          new Error("Failed to complete the receive operation as the underlying connection failed.")
+        );
+      }
+    }
+    this.isReceivingMessages = false;
   }
 
   /**
@@ -79,7 +100,7 @@ export class BatchingReceiver extends MessageReceiver {
 
     this.isReceivingMessages = true;
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let totalWaitTimer: NodeJS.Timer | undefined;
+      this.rejectReceivePromise = reject;
 
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
         this.isReceivingMessages = false;
@@ -100,8 +121,8 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
+        if (this._totalWaitTimer) {
+          clearTimeout(this._totalWaitTimer);
         }
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
@@ -114,8 +135,8 @@ export class BatchingReceiver extends MessageReceiver {
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
+        if (this._totalWaitTimer) {
+          clearTimeout(this._totalWaitTimer);
         }
 
         // Removing listeners, so that the next receiveMessages() call can set them again.
@@ -123,15 +144,6 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        }
-
-        if (this.detachedError) {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-          this.isReceivingMessages = false;
-          const err = translate(this.detachedError);
-          return reject(err);
         }
 
         if (this._receiver && this._receiver.credit > 0) {
@@ -271,8 +283,8 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
+        if (this._totalWaitTimer) {
+          clearTimeout(this._totalWaitTimer);
         }
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
@@ -368,7 +380,7 @@ export class BatchingReceiver extends MessageReceiver {
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
-        totalWaitTimer = setTimeout(
+        this._totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
           (maxWaitTimeInSeconds as number) * 1000
         );
