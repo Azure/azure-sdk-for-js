@@ -54,13 +54,15 @@ export interface EventData {
 
 // @public
 export interface EventDataBatch {
-    // @internal
-    readonly batchMessage: Buffer | undefined;
     readonly count: number;
     readonly maxSizeInBytes: number;
     // @internal
+    readonly _message: Buffer | undefined;
+    // @internal
     readonly _messageSpanContexts: SpanContext[];
+    // @internal
     readonly partitionId?: string;
+    // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;

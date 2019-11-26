@@ -76,7 +76,8 @@ describe("EventHubConsumerClient", () => {
         );
 
         subscriptionHandlers = {
-          processEvent: async () => {}
+          processEvents: async () => { },
+          processError: async () => { }
         };
 
         const fakeEventProcessorConstructor = (
