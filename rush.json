@@ -326,10 +326,10 @@
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging"
     },
-    {
-      "packageName": "@azure/cosmos",
-      "projectFolder": "sdk/cosmosdb/cosmos"
-    },
+    // {
+    //   "packageName": "@azure/cosmos",
+    //   "projectFolder": "sdk/cosmosdb/cosmos"
+    // },
     {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs"
@@ -338,10 +338,10 @@
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
-    {
-      "packageName": "@azure/identity",
-      "projectFolder": "sdk/identity/identity"
-    },
+    // {
+    //   "packageName": "@azure/identity",
+    //   "projectFolder": "sdk/identity/identity"
+    // },
     {
       "packageName": "@azure/keyvault-secrets",
       "projectFolder": "sdk/keyvault/keyvault-secrets"
