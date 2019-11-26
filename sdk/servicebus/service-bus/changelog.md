@@ -1,8 +1,8 @@
 # Coming Soon 1.1.1
 
-- Ensure handlers passed to `registerMessageHandlers` are re-registered when the underlyng receiver encounters
-error and is re-initialized. Fixes [Bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541) with
-[PR 5693](https://github.com/Azure/azure-sdk-for-js/pull/5693).
+- We do not have retries for errors during receiver set up. User is expected to retry on their own.
+There was a misleading retry due to a failed receiver being cached which is now fixed. Related to 
+[Bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
 - Update jsdocs for the `receiveMessages` method to include a note that the number of messages that can
 be received in `PeekLock` mode is capped at 2047. [PR 5758](https://github.com/Azure/azure-sdk-for-js/pull/5758).
 - Update jsdocs for user facing apis to include information on possible errors that can be thrown.
