@@ -1,5 +1,7 @@
 # Coming Soon 1.1.1
 
+- Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
+of the `@azure/amqp-common` package.
 - Ensure handlers passed to `registerMessageHandlers` are re-registered when the underlyng receiver encounters
   error and is re-initialized. Fixes [Bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541) with
   [PR 5693](https://github.com/Azure/azure-sdk-for-js/pull/5693).
