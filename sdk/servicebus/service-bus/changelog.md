@@ -1,5 +1,8 @@
 # Coming Soon 1.1.1
 
+- When in ReceiveAndDelete mode, skip resolving the promise returned by `receiveMessages` due to a new message not arriving within 1 second of the previous message. This constraint is needed for 
+PeekLock mode to avoid the case of earlier messages in the batch from getting their lock expired while
+waiting for later messages. This fixes [Bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757).
 - We do not have retries for errors during receiver set up. User is expected to retry on their own.
 There was a misleading retry due to a failed receiver being cached which is now fixed. Related to 
 [Bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
