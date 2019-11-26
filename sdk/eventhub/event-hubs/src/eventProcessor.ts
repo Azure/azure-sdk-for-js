@@ -241,7 +241,7 @@ export class EventProcessor {
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
-      new FairPartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
+      new FairPartitionLoadBalancer(inactiveTimeLimitInMS);
     if (options.loopIntervalInMs) {
       this._loopIntervalInMs = options.loopIntervalInMs;
     }
@@ -378,6 +378,7 @@ export class EventProcessor {
 
         if (partitionIds.length > 0) {
           const partitionsToClaim = this._partitionLoadBalancer.loadBalance(
+            this._id,
             partitionOwnershipMap,
             partitionIds
           );
