@@ -105,11 +105,11 @@ describe("EventHubConsumerClient", () => {
         
         client.subscribe(subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => client.subscribe("0", subscriptionHandlers), "");
+        should.throw(() => client.subscribe("0", subscriptionHandlers), /Partition already has a subscriber/);
 
         clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => clientWithCheckpointStore.subscribe(subscriptionHandlers), "");
+        should.throw(() => clientWithCheckpointStore.subscribe(subscriptionHandlers), /Partition already has a subscriber/);
       });
 
       it("subscribe to single partition, no checkpoint store", () => {

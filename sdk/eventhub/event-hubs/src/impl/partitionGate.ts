@@ -25,7 +25,7 @@ export class PartitionGate {
     this._validatePartitionId(partitionId);
 
     if ((partitionId === "all" && this._partitions.size > 0) || this._partitions.has(partitionId) || this._partitions.has("all")) {
-      throw new Error(`Partition ${partitionId} (or a subset) is already being processed`);
+      throw new Error(`Partition already has a subscriber.`);
     }
 
     this._partitions.add(partitionId);
