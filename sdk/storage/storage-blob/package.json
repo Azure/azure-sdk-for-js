@@ -71,7 +71,7 @@
     "rollup-plugin-visualizer": "^1.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.1",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.2",
     "util": "^0.11.1"
   },
   "scripts": {

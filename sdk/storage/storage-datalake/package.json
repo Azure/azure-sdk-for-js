@@ -29,7 +29,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.2",
     "rollup": "~1.13.1",
     "rollup-plugin-node-resolve": "^4.2.0",
     "uglify-js": "^3.4.9",

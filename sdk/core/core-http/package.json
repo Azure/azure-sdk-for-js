@@ -173,7 +173,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.15.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.2.2",
+    "typescript": "~3.6.2",
     "uglify-js": "^3.4.9",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3",
