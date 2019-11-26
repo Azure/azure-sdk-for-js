@@ -118,7 +118,7 @@ describe("EventHubConsumerClient", () => {
           // defaults: InMemoryCheckpointStore and the GreedyLoadBalancer.
 
           // So we don't set an ownerlevel here - it's all in-memory and you can have as many
-          // as you want (the user still has the option to pass their own via SubscriptionOptions).
+          // as you want (the user still has the option to pass their own via SubscribeOptions).
           should.not.exist(options.ownerLevel);
 
           // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
