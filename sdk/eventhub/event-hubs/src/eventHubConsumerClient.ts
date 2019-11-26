@@ -22,6 +22,7 @@ import {
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
+import uuid from "uuid/v4";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -47,6 +48,7 @@ const defaultConsumerClientOptions: Required<Pick<
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
   private _partitionGate = new PartitionGate();
+  private _id = uuid();
 
   /**
    * @property
@@ -409,7 +411,10 @@ export class EventHubConsumerClient {
         ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
         partitionLoadBalancer: this._userChoseCheckpointStore
           ? undefined
-          : new GreedyPartitionLoadBalancer()
+          : new GreedyPartitionLoadBalancer(),
+        // make it so all the event processors process work with the same overarching owner ID
+        // this allows the EventHubConsumer to unify all the work for any processors that it spawns
+        ownerId: this._id
       }
     );
 

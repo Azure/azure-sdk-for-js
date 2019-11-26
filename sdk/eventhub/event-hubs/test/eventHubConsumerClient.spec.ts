@@ -172,6 +172,23 @@ describe("EventHubConsumerClient", () => {
 
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
+
+      it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async () => {
+        let ownerId: string|undefined = undefined;
+
+        validateOptions = (options) => {
+          should.exist(options.ownerId);
+
+          if (ownerId) {
+            options.ownerId!.should.equal(ownerId);
+            ownerId = options.ownerId;
+          } else {
+            ownerId = options.ownerId;
+          }
+        };
+
+        clientWithCheckpointStore.subscribe(subscriptionHandlers);
+      });
     });
   });
 
