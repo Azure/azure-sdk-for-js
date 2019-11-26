@@ -201,6 +201,22 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
+  it("id can be forced to be a specific value #RunnableInBrowser", async function(): Promise<void> {
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvents: async () => {},
+        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
+        processError: async () => { },
+      },
+      new InMemoryCheckpointStore(),
+      { ...defaultOptions, ownerId: "hello" }
+    );
+
+    processor.id.should.equal("hello");
+  });
+
   it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<
     void
   > {
