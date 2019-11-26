@@ -4,10 +4,7 @@
 import { translate, MessagingError } from "./errors";
 import { delay, isNode } from "./util/utils";
 import * as log from "./log";
-import {
-  defaultRetryAttempts,
-  defaultDelayBetweenRetriesInSeconds
-} from "./util/constants";
+import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
 import { resolve } from "dns";
 
 /**
@@ -98,9 +95,10 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 
 async function checkNetworkConnection(host: string): Promise<boolean> {
   if (isNode) {
-    return new Promise(res => {
+    return new Promise((res) => {
       resolve(host, function(err: any): void {
-        if (err && err.code === "ECONNREFUSED") {
+        // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
+        if (err && (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT")) {
           res(false);
         } else {
           res(true);
@@ -160,11 +158,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err = translate(err);
       }
 
-      if (
-        !err.retryable &&
-        err.name === "ServiceCommunicationError" &&
-        config.connectionHost
-      ) {
+      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
         const isConnected = await checkNetworkConnection(config.connectionHost);
         if (!isConnected) {
           err.name = "ConnectionLostError";
