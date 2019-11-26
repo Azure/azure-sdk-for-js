@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  ServiceBusAtomManagementClient,
-  QueueOptions,
-  TopicOptions,
-  SubscriptionOptions,
-  RuleOptions
-} from "../src";
+import { ServiceBusAtomManagementClient} from "../src/serviceBusAtomManagementClient";
+import { QueueOptions } from "../src/serializers/queueResourceSerializer";
+import { TopicOptions } from "../src/serializers/topicResourceSerializer";
+import { SubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
+
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -60,7 +59,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     parentSubscriptionName: alwaysBeExistingSubscription
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
     before(async () => {
       await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
 
@@ -513,7 +512,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
@@ -655,7 +654,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
@@ -766,7 +765,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -894,7 +893,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -1036,7 +1035,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
@@ -1201,7 +1200,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1296,7 +1295,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1402,7 +1401,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(

@@ -126,11 +126,6 @@ export interface CheckpointStore {
     consumerGroup: string
   ): Promise<Checkpoint[]>;
 }
-export type SubscriptionEventHandlersKeys =
-  | "processClose"
-  | "processError"
-  | "processEvents"
-  | "processInitialize";
 
 /**
  * A set of options to pass to the constructor of `EventProcessor`.
@@ -148,23 +143,22 @@ export type SubscriptionEventHandlersKeys =
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required // for our internal classes (these are optional for external users)
-  extends Pick<SubscribeOptions, Exclude<keyof SubscribeOptions, SubscriptionEventHandlersKeys>> {
+export interface FullEventProcessorOptions
+  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends
+    // for our internal classes (these are optional for external users)
+    Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
+    Pick<
+      SubscribeOptions,
+      Exclude<
+        keyof SubscribeOptions,
+        // (made required above)
+        "maxBatchSize" | "maxWaitTimeInSeconds"
+      >
+    > {
   /**
    * A load balancer to use
    */
   partitionLoadBalancer?: PartitionLoadBalancer;
-  /**
-   * The number of events to request per batch
-   */
-  maxBatchSize: number;
-
-  /**
-   * The maximum amount of time to wait to build up the requested message count before
-   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
-   */
-  maxWaitTimeInSeconds: number;
-
   /**
    * The amount of time to wait between each attempt at claiming partitions.
    */
@@ -321,7 +315,7 @@ export class EventProcessor {
         }
       );
 
-      const eventPosition = await this._getStartPosition(ownershipRequest.partitionId);
+      const eventPosition = await this._getStartingPosition(ownershipRequest.partitionId);
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -333,7 +327,7 @@ export class EventProcessor {
     }
   }
 
-  private async _getStartPosition(partitionIdToClaim: string) {
+  private async _getStartingPosition(partitionIdToClaim: string) {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,

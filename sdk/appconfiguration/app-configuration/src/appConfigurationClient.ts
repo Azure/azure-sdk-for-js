@@ -7,7 +7,11 @@
 import { AppConfigCredential } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
+import {
+  operationOptionsToRequestOptionsBase,
+  isTokenCredential,
+} from "@azure/core-http";
+import { TokenCredential } from "@azure/identity";
 
 import "@azure/core-asynciterator-polyfill";
 
@@ -68,20 +72,43 @@ export class AppConfigurationClient {
    * Initializes a new instance of the AppConfigurationClient class.
    * @param connectionString Connection string needed for a client to connect to Azure.
    */
-  constructor(connectionString: string) {
-    const regexMatch = connectionString.match(ConnectionStringRegex);
-    if (regexMatch) {
-      const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
-      this.client = new AppConfiguration(appConfigCredential, apiVersion, {
-        baseUri: regexMatch[1],
+  constructor(connectionString: string);
+  /**
+   * Initializes a new instance of the AppConfigurationClient class using 
+   * a TokenCredential.
+   * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
+   * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
+   */
+  constructor(endpoint: string, tokenCredential: TokenCredential);
+  constructor(
+    connectionStringOrEndpoint: string,
+    tokenCredentialOrNothing?: TokenCredential
+  ) {
+    if (isTokenCredential(tokenCredentialOrNothing)) {
+      this.client = new AppConfiguration(tokenCredentialOrNothing, apiVersion, {
+        baseUri: connectionStringOrEndpoint,
         deserializationContentTypes,
         requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
       });
     } else {
-      throw new Error("You must provide a connection string.");
+      const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
+      if (regexMatch) {
+        const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
+
+        this.client = new AppConfiguration(appConfigCredential, apiVersion, {
+          baseUri: regexMatch[1],
+          deserializationContentTypes,
+          requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
+        });
+      } else {
+        throw new Error(`Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`);
+      }
     }
 
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
+    this.spanner = new Spanner<AppConfigurationClient>(
+      "Azure.Data.AppConfiguration",
+      "appconfig"
+    );
   }
 
   /**
@@ -400,7 +427,7 @@ export class AppConfigurationClient {
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options)
         });
-  
+
         return transformKeyValueResponse(response);
       }
     });

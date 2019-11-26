@@ -1,3 +1,14 @@
+# Coming Soon 1.1.1
+
+- Ensure handlers passed to `registerMessageHandlers` are re-registered when the underlyng receiver encounters
+  error and is re-initialized. Fixes [Bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541) with
+  [PR 5693](https://github.com/Azure/azure-sdk-for-js/pull/5693).
+- Errors that arise from receivers failing to automatically reconnect after encountering a transient issue now trigger the user-provided `onError` callback passed to `receiver.registerMessageHandler`.
+- Update jsdocs for the `receiveMessages` method to include a note that the number of messages that can
+  be received in `PeekLock` mode is capped at 2047. [PR 5758](https://github.com/Azure/azure-sdk-for-js/pull/5758).
+- Update jsdocs for user facing apis to include information on possible errors that can be thrown.
+  [PR 6088](https://github.com/Azure/azure-sdk-for-js/pull/6088)
+
 # 2019-09-26 1.1.0
 
 - Add browser support. Authentication using Azure Active Directory credentials is not supported yet - use a connection string instead.

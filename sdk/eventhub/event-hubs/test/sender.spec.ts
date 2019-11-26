@@ -282,13 +282,14 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       let initialized = false;
 
       const subscriber = consumerClient.subscribe("0", {
-        processEvent: async (event, context) => {
-          receivedEvents.push(event.body);
+        processEvents: async (events, context) => {
+          receivedEvents.push(...events.map(event => event.body));
         },
         processInitialize: async (context) => {
           initialized = true;
-          context.setStartPosition(EventPosition.latest());
-        }
+          context.setStartingPosition(EventPosition.latest());
+        },
+        processError: async (err, context) => { }
       });
 
       while (!initialized) {

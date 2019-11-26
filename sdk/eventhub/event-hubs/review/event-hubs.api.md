@@ -105,7 +105,7 @@ export class EventHubProducerClient {
 
 // @public
 export interface EventHubProperties {
-    createdAt: Date;
+    createdOn: Date;
     name: string;
     partitionIds: string[];
 }
@@ -141,7 +141,7 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 
 // @public
 export interface InitializationContext extends PartitionContext {
-    setStartPosition(startPosition: EventPosition): void;
+    setStartingPosition(startingPosition: EventPosition): void;
 }
 
 // @public
@@ -201,7 +201,7 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
 export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext) => Promise<void>;
+export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;
 
 // @public
 export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
@@ -229,6 +229,8 @@ export interface SendBatchOptions extends OperationOptions {
 
 // @public
 export interface SubscribeOptions {
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     trackLastEnqueuedEventProperties?: boolean;
 }
@@ -242,8 +244,8 @@ export interface Subscription {
 // @public
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
-    processError?: ProcessErrorHandler;
-    processEvent: ProcessEventHandler;
+    processError: ProcessErrorHandler;
+    processEvents: ProcessEventsHandler;
     processInitialize?: ProcessInitializeHandler;
 }
 
