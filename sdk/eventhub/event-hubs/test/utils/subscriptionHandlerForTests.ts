@@ -49,32 +49,34 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
 
-    let startPosition = EventPosition.latest();
+    let startingPosition = EventPosition.latest();
 
     if (this._initialSequenceNumbers && this._initialSequenceNumbers.get(context.partitionId)) {
       const sequenceNumber = this._initialSequenceNumbers.get(context.partitionId)!;
       loggerForTest(
         `Overriding initial event position for partition ${context.partitionId} with ${sequenceNumber}`
       );
-      startPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
+      startingPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
     }
 
-    context.setStartPosition(startPosition);
+    context.setStartingPosition(startingPosition);
   }
 
   async processClose(reason: CloseReason, context: PartitionContext) {
     this.data.get(context.partitionId)!.closeReason = reason;
   }
 
-  async processEvent(event: ReceivedEventData, context: PartitionContext) {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext) {
     // by default we don't fill out the lastEnqueuedEventInfo field (they have to enable it
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
 
-    this.events.push({
-      event,
-      partitionId: context.partitionId
-    });
+    this.events.push(...events.map(event => {
+      return {
+        event,
+        partitionId: context.partitionId
+      }
+    }));
   }
 
   async processError(err: Error, context: PartitionContext) {

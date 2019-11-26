@@ -919,18 +919,17 @@ export class MessageSession extends LinkEntity {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
-    idleTimeoutInSeconds?: number
+    maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
-    if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    if (maxWaitTimeInSeconds == null) {
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -968,7 +967,7 @@ export class MessageSession extends LinkEntity {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          idleTimeoutInSeconds
+          maxWaitTimeInSeconds
         );
         return finalAction();
       };
@@ -1070,23 +1069,27 @@ export class MessageSession extends LinkEntity {
       /**
        * Resets the timer when a new message is received. If no messages were received for
        * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-       * receiver link stays open for the next receive call, but doesnt receive messages until
+       * receiver link stays open for the next receive call, but doesnt receive messages until then.
+       * The new message wait timer mechanism is used only in `peekLock` mode.
        */
-      const resetTimerOnNewMessageReceived = (): void => {
-        if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-        if (this.newMessageWaitTimeoutInSeconds) {
-          this._newMessageReceivedTimer = setTimeout(async () => {
-            const msg =
-              `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-              `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
-            log.error("[%s] %s", this._context.namespace.connectionId, msg);
-            finalAction();
-            if (this.callee === SessionCallee.sessionManager) {
-              await this.close();
+      const resetTimerOnNewMessageReceived =
+        this.receiveMode === ReceiveMode.peekLock
+          ? (): void => {
+              if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+              if (this.newMessageWaitTimeoutInSeconds) {
+                this._newMessageReceivedTimer = setTimeout(async () => {
+                  const msg =
+                    `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
+                    `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
+                  log.error("[%s] %s", this._context.namespace.connectionId, msg);
+                  finalAction();
+                  if (this.callee === SessionCallee.sessionManager) {
+                    await this.close();
+                  }
+                }, this.newMessageWaitTimeoutInSeconds * 1000);
+              }
             }
-          }, this.newMessageWaitTimeoutInSeconds * 1000);
-        }
-      };
+          : () => {};
 
       const addCreditAndSetTimer = (reuse?: boolean): void => {
         log.batching(
@@ -1102,10 +1105,10 @@ export class MessageSession extends LinkEntity {
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
-          (idleTimeoutInSeconds as number) * 1000
+          (maxWaitTimeInSeconds as number) * 1000
         );
       };
 

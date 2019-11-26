@@ -248,8 +248,12 @@ async function main() {
   const myEventHandler = (events, context) => {
     // your code here
   };
+  const myErrorHandler = (err, context) => {
+    // your error handling code here
+  };
   const subscription = consumer.subscribe(partitionManager, {
-    processEvents: myEventHandler
+    processEvents: myEventHandler,
+    processError: myErrorHandler
   });
 
   // When ready to stop receiving
@@ -282,9 +286,13 @@ async function main() {
   const myEventHandler = (events, context) => {
     // your code here
   };
+  const myErrorHandler = (err, context) => {
+    // your error handling code here
+  }
+
   const subscription = consumer.subscribe(partitionIds[0], {
     processEvents: myEventHandler,
-    onError: myErrorHandler
+    processError: myErrorHandler
   });
 
   // When ready to stop receiving

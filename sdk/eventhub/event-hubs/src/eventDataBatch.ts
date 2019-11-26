@@ -53,6 +53,8 @@ export interface EventDataBatch {
    * produce a partition assignment when the producer is created without a `partitionId`
    * If this value is set then partitionId can not be set.
    * @readonly
+   * @internal
+   * @ignore
    */
   readonly partitionKey?: string;
 
@@ -60,6 +62,8 @@ export interface EventDataBatch {
    * The partitionId set during `EventDataBatch` creation.
    * If this value is set then partitionKey can not be set.
    * @readonly
+   * @internal
+   * @ignore
    */
   readonly partitionId?: string;
 
@@ -104,7 +108,7 @@ export interface EventDataBatch {
    * @internal
    * @ignore
    */
-  readonly batchMessage: Buffer | undefined;
+  readonly _message: Buffer | undefined;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
@@ -237,7 +241,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  get batchMessage(): Buffer | undefined {
+  get _message(): Buffer | undefined {
     return this._batchMessage;
   }
 

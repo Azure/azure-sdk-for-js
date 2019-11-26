@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and SAS in main()
 */
 
-import { ShareServiceClient, AnonymousCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { ShareServiceClient, AnonymousCredential } from "@azure/storage-file-share";
 
 async function main() {
   // Enter your storage account name and SAS

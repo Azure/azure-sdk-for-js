@@ -46,22 +46,22 @@ export class PartitionPump {
       // swallow the error from the user-defined code
     }
 
-    const startPosition = getStartPosition(
+    const startingPosition = getStartingPosition(
       this._originalInitialEventPosition,
       userRequestedDefaultPosition
     );
 
     // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
-    this._receiveEvents(startPosition, this._partitionProcessor.partitionId);
+    this._receiveEvents(startingPosition, this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
-  private async _receiveEvents(startPosition: EventPosition, partitionId: string): Promise<void> {
+  private async _receiveEvents(startingPosition: EventPosition, partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
-      startPosition,
+      startingPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
@@ -86,9 +86,7 @@ export class PartitionPump {
           return;
         }
 
-        for (const event of receivedEvents) {
-          await this._partitionProcessor.processEvent(event);
-        }
+        await this._partitionProcessor.processEvents(receivedEvents);
       } catch (err) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
@@ -144,7 +142,7 @@ export class PartitionPump {
   }
 }
 
-export function getStartPosition(
+export function getStartingPosition(
   currentPosition: EventPosition | undefined,
   positionFromInitialize: EventPosition | undefined
 ): EventPosition {
