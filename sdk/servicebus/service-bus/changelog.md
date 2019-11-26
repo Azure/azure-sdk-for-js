@@ -1,6 +1,8 @@
 # Coming Soon 1.1.1
 
 - Fix [bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757) where `receiveMessages` used in `ReceiveAndDelete` mode results in data loss. [PR 6265](https://github.com/Azure/azure-sdk-for-js/pull/6265).
+- Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
+of the `@azure/amqp-common` package.
 - We do not have retries for errors during receiver set up. User is expected to retry on their own.
 There was a misleading retry due to a failed receiver being cached which is now fixed. Related to 
 [bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
