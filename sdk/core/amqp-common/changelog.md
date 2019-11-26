@@ -1,3 +1,7 @@
+### 2019-11-26 1.0.0-preview.8
+
+- Updated network status detection to treat DNS timeouts as a `ConnectionLostError`.
+
 ### 2019-9-11 1.0.0-preview.7
 
 - Removes dependency on `ms-rest-node-auth` package. The `credentials` passed in to constructor of `AadTokenProvider` is expected to implement `getToken()` method. [PR 5010](https://github.com/Azure/azure-sdk-for-js/pull/5010)
