@@ -32,7 +32,11 @@ export class AppConfigurationClient {
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
-    }
+    // Warning: (ae-forgotten-export) The symbol "SyncTokens" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    _syncTokens: SyncTokens;
+}
 
 // @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {

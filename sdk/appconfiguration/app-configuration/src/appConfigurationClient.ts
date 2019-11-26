@@ -48,6 +48,7 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse } from "./generated/src/models";
+import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -67,6 +68,7 @@ const deserializationContentTypes = {
 export class AppConfigurationClient {
   private client: AppConfiguration;
   private spanner: Spanner<AppConfigurationClient>;
+  private _syncTokens: SyncTokens;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -84,11 +86,13 @@ export class AppConfigurationClient {
     connectionStringOrEndpoint: string,
     tokenCredentialOrNothing?: TokenCredential
   ) {
+    this._syncTokens = new SyncTokens();
+
     if (isTokenCredential(tokenCredentialOrNothing)) {
       this.client = new AppConfiguration(tokenCredentialOrNothing, apiVersion, {
         baseUri: connectionStringOrEndpoint,
         deserializationContentTypes,
-        requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
+        requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
       });
     } else {
       const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
@@ -98,7 +102,7 @@ export class AppConfigurationClient {
         this.client = new AppConfiguration(appConfigCredential, apiVersion, {
           baseUri: regexMatch[1],
           deserializationContentTypes,
-          requestPolicyFactories: (defaults) => [tracingPolicy(), ...defaults]
+          requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
         });
       } else {
         throw new Error(`Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`);
