@@ -32,15 +32,14 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   for (const name of requiredEnvironmentVariables) {
     const value = process.env[name];
 
-    if (value != null) {
-      continue;
-    }
-
-    if (tokenCredentialsNotPresentWarning) {
-      tokenCredentialsNotPresentWarning = true;
-      console.log("Functional tests not running - set client identity variables to activate");
+    if (value == null) {
+      if (tokenCredentialsNotPresentWarning) {
+        tokenCredentialsNotPresentWarning = true;
+        console.log("Functional tests not running - set client identity variables to activate");
+      }
+  
       return undefined;
-    }
+    }    
   }
 
   return {

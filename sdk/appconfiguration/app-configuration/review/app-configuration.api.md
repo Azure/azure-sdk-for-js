@@ -24,7 +24,7 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 // @public
 export class AppConfigurationClient {
     constructor(connectionString: string);
-    constructor(tokenCredential: TokenCredential, endpoint: string);
+    constructor(endpoint: string, tokenCredential: TokenCredential);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
