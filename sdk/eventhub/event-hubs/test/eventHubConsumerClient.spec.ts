@@ -288,9 +288,9 @@ describe("EventHubConsumerClient", () => {
       const logTester = new LogTester(
         [
           "Subscribing to all partitions, using a checkpoint store.",
-          "FairPartitionLoadBalancer created with owner ID"
+          /Starting event processor with ID /
         ],
-        [log.consumerClient, log.partitionLoadBalancer]
+        [log.consumerClient, log.eventProcessor]
       );
 
       clients.push(

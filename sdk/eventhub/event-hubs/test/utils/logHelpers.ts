@@ -13,7 +13,7 @@ export class LogTester {
   }[];
   private _previousEnabledLoggers: string = "";
 
-  constructor(private _expectedMessages: string[], loggers: debugModule.Debugger[]) {
+  constructor(private _expectedMessages: (string|RegExp)[], loggers: debugModule.Debugger[]) {
     this._attachedLoggers = [];
 
     for (const logger of loggers) {
@@ -34,9 +34,17 @@ export class LogTester {
 
   private check(message: string) {
     for (let i = 0; i < this._expectedMessages.length; ++i) {
-      if (message.indexOf(this._expectedMessages[i]) >= 0) {
-        this._expectedMessages.splice(i, 1);
-        break;
+      const expectedMessage = this._expectedMessages[i];
+      if (typeof expectedMessage === "string") {
+        if (message.indexOf(expectedMessage) >= 0) {
+          this._expectedMessages.splice(i, 1);
+          break;
+        }
+      } else {
+        if (message.match(expectedMessage)) {
+          this._expectedMessages.splice(i, 1);
+          break;
+        }
       }
     }
   }
