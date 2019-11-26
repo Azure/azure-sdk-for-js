@@ -280,6 +280,37 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
+    it("Receive from all partitions, no coordination but through multiple subscribe() calls #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const logTester = new LogTester(
+        [
+          ...(partitionIds.map(partitionId => `Subscribing to specific partition (${partitionId}), no checkpoint store.` )),
+          ...(partitionIds.map(partitionId => `GreedyPartitionLoadBalancer created. Watching (${partitionId}).` ))
+        ],
+        [log.consumerClient, log.partitionLoadBalancer]
+      );
+
+      const tester = new ReceivedMessagesTester(partitionIds, false);
+
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path
+        )
+      );
+
+      for (const partitionId of await partitionIds) {
+        const subscription = clients[0].subscribe(partitionId, tester);
+        subscriptions.push(subscription);
+      }
+
+      await tester.runTestAndPoll(producerClient);
+      
+      logTester.assert();
+    });
+
     it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer #RunnableInBrowser", async function(): Promise<
       void
     > {
