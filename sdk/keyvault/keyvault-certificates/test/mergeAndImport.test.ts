@@ -54,7 +54,13 @@ describe("Certificates client - merge and import certificates", () => {
     const certificateSecret = await secretClient.getSecret(certificateNames[0]);
     const base64EncodedCertificate = certificateSecret.value!;
 
-    const buffer = Buffer.from(base64EncodedCertificate, "base64");
+    let buffer: Uint8Array;
+    
+    if (isNode) {
+      buffer = Buffer.from(base64EncodedCertificate, "base64");
+    } else {
+      buffer = Uint8Array.from(atob(base64EncodedCertificate), c => c.charCodeAt(0));
+    }
 
     await client.importCertificate(certificateNames[1], buffer);
 
