@@ -38,7 +38,13 @@ export class InMemoryCheckpointStore implements CheckpointStore {
     eventHubName: string,
     consumerGroup: string
   ): Promise<PartitionOwnership[]> {
-    return Array.from(this._partitionOwnershipMap.values());
+    const ownerships = [];
+
+    for (const value of this._partitionOwnershipMap.values()) {
+      ownerships.push({ ...value });
+    }
+
+    return ownerships;
   }
 
   /**
@@ -50,16 +56,22 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     const claimedOwnerships = [];
+
     for (const ownership of partitionOwnership) {
       if (
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
         this._partitionOwnershipMap.get(ownership.partitionId)!.etag === ownership.etag
       ) {
-        ownership.etag = generate_uuid();
         var date = new Date();
-        ownership.lastModifiedTimeInMs = date.getTime();
-        this._partitionOwnershipMap.set(ownership.partitionId, ownership);
-        claimedOwnerships.push(ownership);
+
+        const newOwnership = {
+          ...ownership,
+          etag: generate_uuid(),
+          lastModifiedTimeInMs: date.getTime()
+        };
+        
+        this._partitionOwnershipMap.set(newOwnership.partitionId, newOwnership);
+        claimedOwnerships.push(newOwnership);
       }
     }
     return claimedOwnerships;
@@ -78,6 +90,8 @@ export class InMemoryCheckpointStore implements CheckpointStore {
       checkpoint.sequenceNumber
     );
     throwTypeErrorIfParameterMissing("", "updateCheckpoint", "offset", checkpoint.offset);
+
+    checkpoint = { ...checkpoint };
 
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
@@ -103,6 +117,17 @@ export class InMemoryCheckpointStore implements CheckpointStore {
     const key = `${fullyQualifiedNamespace}:${eventHubName}:${consumerGroup}`;
 
     const partitionMap = this._committedCheckpoints.get(key);
-    return partitionMap ? [...partitionMap.values()] : [];
+
+    if (partitionMap == null) {
+      return [];
+    }
+
+    const checkpoints = [];
+
+    for (const value of partitionMap.values()) {
+      checkpoints.push({ ...value });
+    }
+
+    return checkpoints;
   }
 }

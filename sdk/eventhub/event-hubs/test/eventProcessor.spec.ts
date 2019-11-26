@@ -248,6 +248,15 @@ describe("Event Processor", function(): void {
 
       // now let's "unclaim" everything by stopping our event processor
       await ep.stop();
+      
+      // sanity check - we were previously modifying the original instances
+      // in place which...isn't right.
+      currentOwnerships.should.deep.equal([
+        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        // 1002 is not going to be claimed since it's already owned so it should be untouched
+        originalClaimedPartitions[1],
+        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+      ]);
 
       const ownershipsAfterStop = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
       ownershipsAfterStop.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
@@ -711,10 +720,6 @@ describe("Event Processor", function(): void {
       await delay(12000);
       loggerForTest(`Just after the big arbitrary delay`);
 
-      for (const processor in processorByName) {
-        await processorByName[processor].stop();
-      }
-
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
@@ -723,6 +728,10 @@ describe("Event Processor", function(): void {
         client.eventHubName,
         EventHubClient.defaultConsumerGroupName
       );
+
+      for (const processor in processorByName) {
+        await processorByName[processor].stop();
+      }
 
       for (const ownership of partitionOwnership) {
         if (!partitionOwnershipMap.has(ownership.ownerId)) {
@@ -798,11 +807,6 @@ describe("Event Processor", function(): void {
         until: async () => partitionOwnershipArr.size === partitionIds.length
       });
 
-      partitionOwnershipArr.size.should.equal(partitionIds.length);
-      for (const processor in processorByName) {
-        await processorByName[processor].stop();
-      }
-
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
@@ -811,6 +815,12 @@ describe("Event Processor", function(): void {
         client.eventHubName,
         EventHubClient.defaultConsumerGroupName
       );
+
+      partitionOwnershipArr.size.should.equal(partitionIds.length);
+      for (const processor in processorByName) {
+        await processorByName[processor].stop();
+      }
+
       for (const ownership of partitionOwnership) {
         if (!partitionOwnershipMap.has(ownership.ownerId)) {
           partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
