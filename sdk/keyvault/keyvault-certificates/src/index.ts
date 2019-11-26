@@ -5,7 +5,8 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  isNode
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
@@ -1243,8 +1244,16 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     
     const span = this.createSpan("importCertificate", requestOptions);
-    let base64EncodedCertificate = Buffer.from(certificateValue).toString("base64");
-  
+
+    let base64EncodedCertificate: string;
+    if (isNode) {
+      base64EncodedCertificate = Buffer.from(certificateValue).toString("base64");
+    } else {
+      base64EncodedCertificate = btoa(
+        String.fromCharCode.apply(null, (certificateValue as any) as number[])
+      );
+    }
+
     let result: ImportCertificateResponse;
 
     try {
