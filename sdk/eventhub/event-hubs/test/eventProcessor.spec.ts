@@ -209,7 +209,9 @@ describe("Event Processor", function(): void {
       originalClaimedPartitions.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
       const fakeEventHubClient = sinon.createStubInstance(EventHubClient);
-      fakeEventHubClient.getPartitionIds.resolves(["1001", "1002", "1003"]);
+      const partitionIds = ["1001", "1002", "1003"];
+
+      fakeEventHubClient.getPartitionIds.resolves(partitionIds);
       sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
       sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
 
@@ -229,7 +231,8 @@ describe("Event Processor", function(): void {
       // pick up an extra surprise partition
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
-      await ep['_runLoop'](abortAfter(3 * 3));
+      const numTimesAbortedIsCheckedInLoop = 3;
+      await ep['_runLoop'](triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop));
 
       handlers.errors.should.be.empty;
 
@@ -1021,7 +1024,7 @@ describe("Event Processor", function(): void {
   });
 }).timeout(90000);
 
-function abortAfter(maxCalls: number): AbortSignal {
+function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
   let count = 0;
 
   const abortSignal: AbortSignal = {
