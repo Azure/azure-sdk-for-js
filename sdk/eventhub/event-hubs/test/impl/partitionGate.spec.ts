@@ -12,16 +12,16 @@ describe("PartitionGate", () => {
     gate.add("all");
     
     // all supercedes everything else
-    should.throw(() => gate.add("all"), "Partition all (or a subset) is already being processed");
-    should.throw(() => gate.add("0"), "Partition 0 (or a subset) is already being processed");
+    should.throw(() => gate.add("all"), /Partition already has a subscriber/);
+    should.throw(() => gate.add("0"), /Partition already has a subscriber/);
 
     gate.remove("all");
     
     gate.add("0");
     gate.add("1");    // and it's okay to add non-conflicting partitions
 
-    should.throw(() => gate.add("all"), "Partition all (or a subset) is already being processed");
-    should.throw(() => gate.add("0"), "Partition 0 (or a subset) is already being processed");
+    should.throw(() => gate.add("all"), /Partition already has a subscriber/);
+    should.throw(() => gate.add("0"), /Partition already has a subscriber/);
   });
 
   it("invalid IDs get thrown out", () => {
