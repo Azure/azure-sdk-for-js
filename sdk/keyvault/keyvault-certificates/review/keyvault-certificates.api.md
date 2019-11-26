@@ -74,7 +74,7 @@ export class CertificateClient {
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     restoreCertificateBackup(backup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificateWithPolicy>;
-    setContacts(contacts: Contact[], options?: SetContactsOptions): Promise<CertificateContact[] | undefined>;
+    setContacts(contacts: CertificateContact[], options?: SetContactsOptions): Promise<CertificateContact[] | undefined>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
     updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
@@ -118,12 +118,12 @@ export interface CertificateIssuer {
 // @public
 export interface CertificateOperation {
     cancellationRequested?: boolean;
-    certificateName?: string;
     certificateTransparency?: boolean;
     certificateType?: string;
     csr?: Uint8Array;
     error?: CertificateOperationError;
     readonly id?: string;
+    issuerName?: string;
     requestId?: string;
     status?: string;
     statusDetails?: string;
@@ -193,13 +193,6 @@ export interface CertificateProperties {
 export type CertificateTags = {
     [propertyName: string]: string;
 };
-
-// @public
-export interface Contact {
-    email?: string;
-    name?: string;
-    phone?: string;
-}
 
 // @public
 export interface CoreSubjectAlternativeNames {
@@ -375,12 +368,6 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export interface MergeCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface OrganizationDetails {
-    adminDetails?: AdministratorContact[];
-    id?: string;
 }
 
 export { PipelineOptions }
