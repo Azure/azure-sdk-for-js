@@ -351,7 +351,7 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
 function isSubscriptionEventHandlers(
   possible: any | SubscriptionEventHandlers
 ): possible is SubscriptionEventHandlers {
-  return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
+  return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
 function getOwnerLevel(
