@@ -4,15 +4,17 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
   public events: Map<string, ReceivedEventData[]> = new Map();
   public errors: Error[] = [];
 
-  async processEvent(event: ReceivedEventData, context: PartitionContext) {
-    let receivedEvents = this.events.get(context.partitionId);
+  async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+    for (const event of events) {
+      let receivedEvents = this.events.get(context.partitionId);
 
-    if (receivedEvents == null) {
-      receivedEvents = [];
-      this.events.set(context.partitionId, receivedEvents);
+      if (receivedEvents == null) {
+        receivedEvents = [];
+        this.events.set(context.partitionId, receivedEvents);
+      }
+
+      receivedEvents.push(event);
     }
-
-    receivedEvents.push(event);
   }
 
   async processError(err: Error, context: PartitionContext) {
