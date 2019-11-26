@@ -1,10 +1,7 @@
 import * as coreHttp from "@azure/core-http";
 import {
-  AdministratorDetails as AdministratorContact,
   CertificateOperation,
   DeletionRecoveryLevel,
-  OrganizationDetails,
-  ActionType,
   KeyUsageType,
   IssuerCredentials
 } from "./core/models";
@@ -314,12 +311,8 @@ export interface LifetimeAction {
 /**
  * The action that will be executed.
  */
-export interface CertificatePolicyAction {
-  /**
-   * The type of the action. Possible values include: 'EmailContacts', 'AutoRenew'
-   */
-  actionType?: ActionType;
-}
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
 
 /**
  * An interface representing a certificate's policy.
@@ -609,6 +602,28 @@ export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
 export interface SetContactsOptions extends coreHttp.OperationOptions {}
 
 /**
+ * Details of the organization administrator of the certificate issuer.
+ */
+export interface AdministratorDetails {
+  /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
+   * Email address.
+   */
+  email?: string;
+  /**
+   * Phone number.
+   */
+  phone?: string;
+}
+
+/**
  * Options for {@link createIssuer}.
  */
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
@@ -719,6 +734,36 @@ export interface IssuerProperties {
    * The issuer provider.
    */
   provider?: string;
+}
+
+/**
+ * The contact information for the vault certificates.
+ */
+export interface Contact {
+  /**
+   * Email address.
+   */
+  email?: string;
+  /**
+   * Name.
+   */
+  name?: string;
+  /**
+   * Phone number.
+   */
+  phone?: string;
+}
+
+export interface Contacts {
+  /**
+   * Identifier for the contacts collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The contact list for the vault certificates.
+   */
+  contactList?: Contact[];
 }
 
 /**
@@ -846,7 +891,7 @@ export interface CertificateContactAll {
   /**
    * Email address of the contact
    */
-  emailAddress: string;
+  email: string;
   /**
    * Name of the contact
    */

@@ -15,6 +15,7 @@ import { logger } from "./log";
 import {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
+  AdministratorContact,
   BackupCertificateOptions,
   BeginCreateCertificateOptions,
   BeginDeleteCertificateOptions,
@@ -55,6 +56,8 @@ import {
   SetContactsOptions,
   CreateIssuerOptions,
   CertificateOperation,
+  CertificateOperationError,
+  Contact,
   SubjectAlternativeNames,
   UpdateIssuerOptions,
   UpdateCertificatePropertiesOptions,
@@ -77,7 +80,6 @@ import {
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
   CertificateOperation as CoreCertificateOperation,
   CertificateAttributes as CoreCertificateAttributes,
   CertificatePolicy as CoreCertificatePolicy,
@@ -85,7 +87,6 @@ import {
   KeyVaultClientGetDeletedCertificatesOptionalParams,
   DeletedCertificateItem,
   DeletedCertificateBundle,
-  Contact,
   ErrorModel,
   IssuerParameters,
   IssuerCredentials,
@@ -115,7 +116,6 @@ import {
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  AdministratorDetails,
   ActionType,
   DeletionRecoveryLevel,
   CertificateAttributes,
@@ -137,7 +137,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 export {
   ActionType,
-  AdministratorDetails,
+  AdministratorContact,
   ArrayOneOrMore,
   BackupCertificateResult,
   BeginCreateCertificateOptions,
@@ -150,6 +150,7 @@ export {
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
+  CertificateOperationError,
   CertificatePolicy,
   CertificatePolicyAction,
   CertificateTags,
@@ -183,8 +184,6 @@ export {
   KeyType,
   KeyCurveName,
   KeyUsageType,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
@@ -240,7 +239,7 @@ function toCorePolicy(
     id,
     lifetimeActions: policy.lifetimeActions ? policy.lifetimeActions.map(
       (action) => ({
-        action: action.action, 
+        action: {actionType: action.action}, 
         trigger: { lifetimePercentage: action.lifetimePercentage, daysBeforeExpiry: action.daysBeforeExpiry}
       })) : undefined,
     keyProperties: {
@@ -272,7 +271,7 @@ function toCorePolicy(
 function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
   let certificatePolicy: CertificatePolicy = {
     lifetimeActions: policy.lifetimeActions ? policy.lifetimeActions.map(action => ({
-      action: action.action,
+      action: action.action ? action.action.actionType : undefined,
       daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
       lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined,
     })) : undefined,
@@ -358,7 +357,9 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 
   if (issuer.organizationDetails) {
     publicIssuer.organizationId = issuer.organizationDetails.id;
-    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails;
+    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails ?
+      issuer.organizationDetails.adminDetails.map(
+        x => ({email: x.emailAddress, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined;
   }
   return publicIssuer;
 }
@@ -673,7 +674,7 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
@@ -708,7 +709,7 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
@@ -721,6 +722,7 @@ export class CertificateClient {
     contacts: Contact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
+    let coreContacts = contacts.map( x => ({emailAddress: x.email, name: x.name, phone: x.phone}));
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("setCertificateContacts", requestOptions);
@@ -730,7 +732,7 @@ export class CertificateClient {
     try {
       result = await this.client.setCertificateContacts(
         this.vaultUrl,
-        { contactList: contacts },
+        { contactList: coreContacts },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -906,7 +908,8 @@ export class CertificateClient {
     ) {
       generatedOptions.organizationDetails = {
         id: options.organizationId,
-        adminDetails: options.administratorContacts
+        adminDetails: options.administratorContacts ? options.administratorContacts.map(
+          x => ({emailAddress: x.email, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined
       };
     }
 
@@ -973,7 +976,8 @@ export class CertificateClient {
     ) {
       generatedOptions.organizationDetails = {
         id: options.organizationId,
-        adminDetails: options.administratorContacts
+        adminDetails: options.administratorContacts ? options.administratorContacts.map(
+          x => ({emailAddress: x.email, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined
       };
     }
 
@@ -2113,7 +2117,7 @@ export class CertificateClient {
   private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
     return {
       id: contacts.id,
-      contactList: contacts.contactList && (contacts.contactList as CertificateContact[])
+      contactList: contacts.contactList && contacts.contactList.map( x => ({email: x.emailAddress, phone: x.phone, name: x.name} as CertificateContact)),
     };
   }
 

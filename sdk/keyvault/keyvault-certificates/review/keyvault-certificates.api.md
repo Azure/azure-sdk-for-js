@@ -15,8 +15,8 @@ import { TokenCredential } from '@azure/core-http';
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
-export interface AdministratorDetails {
-    emailAddress?: string;
+export interface AdministratorContact {
+    email?: string;
     firstName?: string;
     lastName?: string;
     phone?: string;
@@ -86,7 +86,7 @@ export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | unde
 
 // @public
 export interface CertificateContactAll {
-    emailAddress: string;
+    email: string;
     name: string;
     phone: string;
 }
@@ -103,7 +103,7 @@ export type CertificateContentType = "application/x-pem-file" | "application/x-p
 // @public
 export interface CertificateIssuer {
     accountId?: string;
-    administratorContacts?: AdministratorDetails[];
+    administratorContacts?: AdministratorContact[];
     createdOn?: Date;
     credentials?: IssuerCredentials;
     enabled?: boolean;
@@ -122,13 +122,19 @@ export interface CertificateOperation {
     certificateTransparency?: boolean;
     certificateType?: string;
     csr?: Uint8Array;
-    // Warning: (ae-forgotten-export) The symbol "CertificateOperationError" needs to be exported by the entry point index.d.ts
     error?: CertificateOperationError;
     readonly id?: string;
     requestId?: string;
     status?: string;
     statusDetails?: string;
     target?: string;
+}
+
+// @public
+export interface CertificateOperationError {
+    readonly code?: string;
+    readonly innerError?: CertificateOperationError;
+    readonly message?: string;
 }
 
 // @public
@@ -159,9 +165,7 @@ export module CertificatePolicy {
 }
 
 // @public
-export interface CertificatePolicyAction {
-    actionType?: ActionType;
-}
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface CertificatePollerOptions extends coreHttp.OperationOptions {
@@ -192,7 +196,7 @@ export type CertificateTags = {
 
 // @public
 export interface Contact {
-    emailAddress?: string;
+    email?: string;
     name?: string;
     phone?: string;
 }
@@ -211,7 +215,7 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
     accountId?: string;
-    administratorContacts?: AdministratorDetails[];
+    administratorContacts?: AdministratorContact[];
     enabled?: boolean;
     organizationId?: string;
     password?: string;
@@ -338,22 +342,6 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
-    attributes?: IssuerAttributes;
-    credentials?: IssuerCredentials;
-    // Warning: (ae-forgotten-export) The symbol "OrganizationDetails" needs to be exported by the entry point index.d.ts
-    organizationDetails?: OrganizationDetails_2;
-}
-
-// @public
-export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
-    attributes?: IssuerAttributes;
-    credentials?: IssuerCredentials;
-    organizationDetails?: OrganizationDetails_2;
-    provider?: string;
-}
-
-// @public
 export interface LifetimeAction {
     action?: CertificatePolicyAction;
     daysBeforeExpiry?: number;
@@ -391,7 +379,7 @@ export interface MergeCertificateOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface OrganizationDetails {
-    adminDetails?: AdministratorDetails[];
+    adminDetails?: AdministratorContact[];
     id?: string;
 }
 
