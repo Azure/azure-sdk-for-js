@@ -58,7 +58,6 @@ import {
   CreateIssuerOptions,
   CertificateOperation,
   CertificateOperationError,
-  Contact,
   SubjectAlternativeNames,
   UpdateIssuerOptions,
   UpdateCertificatePropertiesOptions,
@@ -70,7 +69,6 @@ import {
   CertificateContactAll,
   CertificatePolicyAction,
   LifetimeAction,
-  OrganizationDetails,
   RequireAtLeastOne,
   ArrayOneOrMore,
   SubjectAlternativeNamesAll
@@ -158,7 +156,6 @@ export {
   CreateCertificateOptions,
   CertificatePollerOptions,
   CoreSubjectAlternativeNames,
-  Contact,
   RequireAtLeastOne,
   CertificateContactAll,
   CertificateContact,
@@ -191,7 +188,6 @@ export {
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
   MergeCertificateOptions,
-  OrganizationDetails,
   PipelineOptions,
   PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
@@ -735,13 +731,13 @@ export class CertificateClient {
    * @param {SetContactsOptions} [options] The optional parameters
    */
   public async setContacts(
-    contacts: Contact[],
+    contacts: CertificateContact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
     let coreContacts = contacts.map((x) => ({
-      emailAddress: x.email,
-      name: x.name,
-      phone: x.phone
+      emailAddress: x ? x.email : undefined,
+      name: x ? x.name : undefined,
+      phone: x ? x.phone : undefined,
     }));
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
@@ -2150,7 +2146,7 @@ export class CertificateClient {
   ): CertificateOperation {
     return {
       cancellationRequested: operation.cancellationRequested,
-      certificateName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
+      issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
       certificateTransparency: operation.issuerParameters
         ? operation.issuerParameters.certificateTransparency
         : undefined,

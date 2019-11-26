@@ -111,7 +111,7 @@ export interface CertificateOperation {
   /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
-  certificateName?: string;
+  issuerName?: string;
   /**
    * Type of certificate to be requested from the issuer provider.
    */
@@ -733,36 +733,6 @@ export interface IssuerProperties {
    * The issuer provider.
    */
   provider?: string;
-}
-
-/**
- * The contact information for the vault certificates.
- */
-export interface Contact {
-  /**
-   * Email address.
-   */
-  email?: string;
-  /**
-   * Name.
-   */
-  name?: string;
-  /**
-   * Phone number.
-   */
-  phone?: string;
-}
-
-export interface Contacts {
-  /**
-   * Identifier for the contacts collection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The contact list for the vault certificates.
-   */
-  contactList?: Contact[];
 }
 
 /**
