@@ -77,7 +77,7 @@ export class AppConfigurationClient {
    * Initializes a new instance of the AppConfigurationClient class using 
    * a TokenCredential
    * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
-   * @param tokenCredential A TokenCredential.
+   * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    */
   constructor(endpoint: string, tokenCredential: TokenCredential);
   constructor(
