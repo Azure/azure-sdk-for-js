@@ -124,7 +124,7 @@ describe("Certificates client - create, read, update and delete", () => {
       basicCertificatePolicy,
       testPollerProperties
     );
-    await client.updateCertificate(certificateName, "", {
+    await client.updateCertificateProperties(certificateName, "", {
       tags: {
         customTag: "value"
       }
@@ -152,7 +152,7 @@ describe("Certificates client - create, read, update and delete", () => {
       const { version } = poller.getResult()!.properties;
 
       await assertThrowsAbortError(async () => {
-        await client.updateCertificate(certificateName, version || "", {
+        await client.updateCertificateProperties(certificateName, version || "", {
           tags: {
             customTag: "value"
           },
@@ -329,20 +329,18 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Create
     const createResponse = await client.createIssuer(issuerName, "Test", {
-      credentials: {
-        accountId: "keyvaultuser"
-      },
+      accountId: "keyvaultuser",
       administratorContacts: [
         {
           firstName: "John",
           lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
+          email: "admin@microsoft.com",
           phone: "4255555555"
         }
       ]
     });
     assert.equal(
-      createResponse.administratorContacts![0].emailAddress,
+      createResponse.administratorContacts![0].email,
       "admin@microsoft.com"
     );
 
@@ -372,14 +370,14 @@ describe("Certificates client - create, read, update and delete", () => {
         {
           firstName: "John",
           lastName: "Doe",
-          emailAddress: "admin@microsoft.com",
+          email: "admin@microsoft.com",
           phone: "4255555555"
         }
       ]
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(
-      getResponse.administratorContacts![0].emailAddress,
+      getResponse.administratorContacts![0].email,
       "admin@microsoft.com"
     );
 
@@ -458,24 +456,22 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can set, read and delete a certificate's contacts", async function() {
     const contacts = [
       {
-        emailAddress: "a@a.com",
+        email: "a@a.com",
         name: "a",
         phone: "111111111111"
       },
       {
-        emailAddress: "b@b.com",
+        email: "b@b.com",
         name: "b",
         phone: "222222222222"
       }
     ];
 
-    let getResponse: any;
-
     await client.setContacts(contacts);
 
-    getResponse = await client.getContacts();
-    assert.equal(getResponse.contactList![0].name, "a");
-    assert.equal(getResponse.contactList![1].name, "b");
+    let getResponse = await client.getContacts();
+    assert.equal( (getResponse && getResponse[0] && getResponse[0].name) ? getResponse[0].name : undefined, "a");
+    assert.equal( (getResponse && getResponse[1] && getResponse[1].name) ? getResponse[1].name : undefined, "b");
 
     await client.deleteContacts();
 
@@ -486,6 +482,6 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, "Contacts not found");
+    assert.equal(error.code, "ContactsNotFound");
   });
 });
