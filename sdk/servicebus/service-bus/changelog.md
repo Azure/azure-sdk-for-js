@@ -1,4 +1,4 @@
-# Coming Soon 1.1.1
+# 2019-11-26 1.1.1
 
 - Fix [bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757) where `receiveMessages` used in `ReceiveAndDelete` mode results in data loss. [PR 6265](https://github.com/Azure/azure-sdk-for-js/pull/6265).
 - Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
