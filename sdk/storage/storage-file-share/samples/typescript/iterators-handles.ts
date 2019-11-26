@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { ShareServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.

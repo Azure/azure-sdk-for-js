@@ -130,7 +130,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       hubRuntimeInfo.partitionIds.should.have.members(
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
       );
-      hubRuntimeInfo.createdAt.should.be.instanceof(Date);
+      hubRuntimeInfo.createdOn.should.be.instanceof(Date);
     });
 
     it("can cancel a request for hub runtime information", async function(): Promise<void> {
