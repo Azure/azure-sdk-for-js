@@ -238,17 +238,21 @@ function toCorePolicy(
 
   return {
     id,
-    lifetimeActions: policy.lifetimeActions ? policy.lifetimeActions.map(
-      (action) => ({
-        action: {actionType: action.action}, 
-        trigger: { lifetimePercentage: action.lifetimePercentage, daysBeforeExpiry: action.daysBeforeExpiry}
-      })) : undefined,
+    lifetimeActions: policy.lifetimeActions
+      ? policy.lifetimeActions.map((action) => ({
+          action: { actionType: action.action },
+          trigger: {
+            lifetimePercentage: action.lifetimePercentage,
+            daysBeforeExpiry: action.daysBeforeExpiry
+          }
+        }))
+      : undefined,
     keyProperties: {
       keyType: policy.keyType,
       keySize: policy.keySize,
       reuseKey: policy.reuseKey,
       curve: policy.keyCurveName,
-      exportable: policy.exportable,
+      exportable: policy.exportable
     },
     secretProperties: {
       contentType: policy.contentType
@@ -271,12 +275,16 @@ function toCorePolicy(
 
 function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
   let certificatePolicy: CertificatePolicy = {
-    lifetimeActions: policy.lifetimeActions ? policy.lifetimeActions.map(action => ({
-      action: action.action ? action.action.actionType : undefined,
-      daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-      lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined,
-    })) : undefined,
-    contentType: policy.secretProperties ? policy.secretProperties.contentType as CertificateContentType : undefined
+    lifetimeActions: policy.lifetimeActions
+      ? policy.lifetimeActions.map((action) => ({
+          action: action.action ? action.action.actionType : undefined,
+          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
+          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+        }))
+      : undefined,
+    contentType: policy.secretProperties
+      ? (policy.secretProperties.contentType as CertificateContentType)
+      : undefined
   };
 
   if (policy.attributes) {
@@ -358,9 +366,14 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 
   if (issuer.organizationDetails) {
     publicIssuer.organizationId = issuer.organizationDetails.id;
-    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails ?
-      issuer.organizationDetails.adminDetails.map(
-        x => ({email: x.emailAddress, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined;
+    publicIssuer.administratorContacts = issuer.organizationDetails.adminDetails
+      ? issuer.organizationDetails.adminDetails.map((x) => ({
+          email: x.emailAddress,
+          phone: x.phone,
+          firstName: x.firstName,
+          lastName: x.lastName
+        }))
+      : undefined;
   }
   return publicIssuer;
 }
@@ -684,7 +697,9 @@ export class CertificateClient {
    * @summary Deletes all of the certificate contacts
    * @param {DeleteContactsOptions} [options] The optional parameters
    */
-  public async deleteContacts(options: DeleteContactsOptions = {}): Promise<CertificateContact[] | undefined> {
+  public async deleteContacts(
+    options: DeleteContactsOptions = {}
+  ): Promise<CertificateContact[] | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("deleteContacts", requestOptions);
@@ -723,7 +738,11 @@ export class CertificateClient {
     contacts: Contact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-    let coreContacts = contacts.map( x => ({emailAddress: x.email, name: x.name, phone: x.phone}));
+    let coreContacts = contacts.map((x) => ({
+      emailAddress: x.email,
+      name: x.name,
+      phone: x.phone
+    }));
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("setCertificateContacts", requestOptions);
@@ -759,7 +778,9 @@ export class CertificateClient {
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
    */
-  public async getContacts(options: GetContactsOptions = {}): Promise<CertificateContact[] | undefined> {
+  public async getContacts(
+    options: GetContactsOptions = {}
+  ): Promise<CertificateContact[] | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);
 
@@ -885,7 +906,10 @@ export class CertificateClient {
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
     //Unflatten issuer credentials
-    let unflattenedOptions = {...options, credentials: {accountId: options.accountId, password: options.password }};
+    let unflattenedOptions = {
+      ...options,
+      credentials: { accountId: options.accountId, password: options.password }
+    };
 
     const requestOptions = operationOptionsToRequestOptionsBase(unflattenedOptions);
     const span = this.createSpan("createIssuer", requestOptions);
@@ -909,8 +933,14 @@ export class CertificateClient {
     ) {
       generatedOptions.organizationDetails = {
         id: options.organizationId,
-        adminDetails: options.administratorContacts ? options.administratorContacts.map(
-          x => ({emailAddress: x.email, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined
+        adminDetails: options.administratorContacts
+          ? options.administratorContacts.map((x) => ({
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
+          : undefined
       };
     }
 
@@ -977,8 +1007,14 @@ export class CertificateClient {
     ) {
       generatedOptions.organizationDetails = {
         id: options.organizationId,
-        adminDetails: options.administratorContacts ? options.administratorContacts.map(
-          x => ({emailAddress: x.email, phone: x.phone, firstName: x.firstName, lastName: x.lastName})) : undefined
+        adminDetails: options.administratorContacts
+          ? options.administratorContacts.map((x) => ({
+              emailAddress: x.email,
+              phone: x.phone,
+              firstName: x.firstName,
+              lastName: x.lastName
+            }))
+          : undefined
       };
     }
 
@@ -1115,7 +1151,9 @@ export class CertificateClient {
     certificateName: string,
     certificatePolicy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
@@ -1242,7 +1280,7 @@ export class CertificateClient {
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    
+
     const span = this.createSpan("importCertificate", requestOptions);
 
     let base64EncodedCertificate: string;
@@ -2107,26 +2145,36 @@ export class CertificateClient {
     };
   }
 
-  private getCertificateOperationFromCoreOperation(operation: CoreCertificateOperation): CertificateOperation {
+  private getCertificateOperationFromCoreOperation(
+    operation: CoreCertificateOperation
+  ): CertificateOperation {
     return {
       cancellationRequested: operation.cancellationRequested,
       certificateName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
-      certificateTransparency: operation.issuerParameters ? operation.issuerParameters.certificateTransparency : undefined,
-      certificateType: operation.issuerParameters ? operation.issuerParameters.certificateType : undefined,
+      certificateTransparency: operation.issuerParameters
+        ? operation.issuerParameters.certificateTransparency
+        : undefined,
+      certificateType: operation.issuerParameters
+        ? operation.issuerParameters.certificateType
+        : undefined,
       csr: operation.csr,
       error: operation.error,
       id: operation.id,
       requestId: operation.requestId,
       status: operation.status,
       statusDetails: operation.statusDetails,
-      target: operation.target,
-    }
+      target: operation.target
+    };
   }
 
   private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
     return {
       id: contacts.id,
-      contactList: contacts.contactList && contacts.contactList.map( x => ({email: x.emailAddress, phone: x.phone, name: x.name} as CertificateContact)),
+      contactList:
+        contacts.contactList &&
+        contacts.contactList.map(
+          (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+        )
     };
   }
 

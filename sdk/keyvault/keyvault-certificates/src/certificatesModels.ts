@@ -313,7 +313,6 @@ export interface LifetimeAction {
  */
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
-
 /**
  * An interface representing a certificate's policy.
  */
@@ -834,14 +833,13 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export interface ListPropertiesOfCertificateVersionsOptions
-  extends coreHttp.OperationOptions {
-      /**
-       * Maximum number of results to return in a page. If not specified the service will return up to
-       * 25 results.
-       */
-      maxresults?: number;
-    }
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
+  /**
+   * Maximum number of results to return in a page. If not specified the service will return up to
+   * 25 results.
+   */
+  maxresults?: number;
+}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
