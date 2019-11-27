@@ -1,4 +1,4 @@
-# 1.0.0-preview.6 TBD
+# 1.0.0-preview.6 2nd December 2019
 
 - Updated to use OpenTelemetry 0.2 via the `@opentelemetry/types` package. There were two breaking changes in this update:
   - `isRecordingEvents` on `Span` was renamed to `isRecording`. [PR link](https://github.com/open-telemetry/opentelemetry-js/pull/454)
