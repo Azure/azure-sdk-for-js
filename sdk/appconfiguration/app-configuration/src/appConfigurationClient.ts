@@ -48,7 +48,7 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse } from "./generated/src/models";
-import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
+import { syncTokenPolicy, SyncTokens, SyncTokenHeaderName } from './internal/synctokenpolicy';
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -139,6 +139,8 @@ export class AppConfigurationClient {
         ...newOptions
       });
 
+      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
+
       return transformKeyValueResponse(originalResponse);
     });
   }
@@ -164,6 +166,8 @@ export class AppConfigurationClient {
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
+
+      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
 
       return transformKeyValueResponseWithStatusCode(originalResponse);
     });
@@ -192,6 +196,8 @@ export class AppConfigurationClient {
         ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
+
+      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
 
       const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
         originalResponse
@@ -259,12 +265,16 @@ export class AppConfigurationClient {
     let currentResponse = await this.spanner.trace(
       "listConfigurationSettings",
       opts,
-      (newOptions) => {
-        return this.client.getKeyValues({
+      async (newOptions) => {
+        const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
           ...formatWildcards(newOptions)
         });
+
+        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
+
+        return response;
       }
     );
 
@@ -274,12 +284,17 @@ export class AppConfigurationClient {
       currentResponse = await this.spanner.trace(
         "listConfigurationSettings",
         opts,
-        (newOptions) => {
-          return this.client.getKeyValues({
+        // TODO: same code up above. Unify.
+        async (newOptions) => {
+          const response = await this.client.getKeyValues({
             ...newOptions,
             ...formatWildcards(newOptions),
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
+
+          this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
+
+          return response;
         }
       );
 
@@ -342,12 +357,16 @@ export class AppConfigurationClient {
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     const opts = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace("listRevisions", opts, (newOptions) => {
-      return this.client.getRevisions({
+    let currentResponse = await this.spanner.trace("listRevisions", opts, async (newOptions) => {
+      const response = await this.client.getRevisions({
         ...newOptions,
         ...formatAcceptDateTime(options),
         ...formatWildcards(newOptions)
       });
+
+      this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
+
+      return response;
     });
 
     yield {
@@ -401,6 +420,8 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
+      this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
+
       return transformKeyValueResponse(response);
     });
   }
@@ -424,6 +445,8 @@ export class AppConfigurationClient {
           ...checkAndFormatIfAndIfNoneMatch(id, options)
         });
 
+        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
+
         return transformKeyValueResponse(response);
       } else {
         const response = await this.client.deleteLock(id.key, {
@@ -431,6 +454,8 @@ export class AppConfigurationClient {
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options)
         });
+        
+        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
 
         return transformKeyValueResponse(response);
       }

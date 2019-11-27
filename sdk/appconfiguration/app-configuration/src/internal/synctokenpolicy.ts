@@ -64,8 +64,8 @@ export class SyncTokens {
    * 
    * @param syncTokenHeaderValue The full value of the sync token header.
    */
-  addSyncTokenFromHeaderValue(syncTokenHeaderValue: string) {
-    if (syncTokenHeaderValue === "") {
+  addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined) {
+    if (syncTokenHeaderValue == null || syncTokenHeaderValue === "") {
       // eventually everything gets synced up and we don't have to track
       // these headers anymore
       this._currentSyncTokens.clear();
@@ -78,7 +78,7 @@ export class SyncTokens {
     for (const newToken of newTokens) {
       const existingToken = this._currentSyncTokens.get(newToken.id);
 
-      if (!existingToken || existingToken.sequenceNumber > newToken.sequenceNumber) {
+      if (!existingToken || existingToken.sequenceNumber < newToken.sequenceNumber) {
         this._currentSyncTokens.set(newToken.id, newToken);
         continue;
       }
@@ -113,7 +113,7 @@ export class SyncTokens {
 // id: jtqGc1I4
 // value: MDoyOA==
 // sequence number: 28
-const syncTokenRegex = /^([^=]+)=([^;]+)(;sn=(\d+))$/;
+const syncTokenRegex = /^([^=]+)=([^;]+);sn=(\d+)$/;
 
 interface SyncToken {
   id: string;
@@ -133,7 +133,7 @@ export function parseSyncToken(syncToken: string) : SyncToken {
   const matches = syncToken.match(syncTokenRegex);
 
   if (matches == null) {
-    throw new Error(`Failed to parse sync token ${syncToken} with regex ${syncTokenRegex.source}`);
+    throw new Error(`Failed to parse sync token '${syncToken}' with regex ${syncTokenRegex.source}`);
   }
 
   const sequenceNumber = parseInt(matches[3], 10);
@@ -141,7 +141,7 @@ export function parseSyncToken(syncToken: string) : SyncToken {
   if (isNaN(sequenceNumber)) {
     // this should be impossible since our regex restricts to just digits
     // but there's nothing wrong with being thorough.
-    throw new Error(`${syncToken}: The sequence number field wasn't a number`);
+    throw new Error(`${syncToken}: The sequence number value '${matches[3]}' wasn't a number`);
   }
 
   return {
