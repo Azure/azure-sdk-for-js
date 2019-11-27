@@ -69,15 +69,14 @@ export interface AppConfigurationClientOptions {
 }
 
 /**
- * Provides internal configuration options for AppConfigurationClient
+ * Provides internal configuration options for AppConfigurationClient.
+ * @internal
+ * @ignore
  */
 export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
    * The sync token cache to use for this client.
    * NOTE: this is an internal option, not for general client usage.
-   * 
-   * @internal
-   * @ignore
    */
   syncTokens?: SyncTokens;
 }
