@@ -92,6 +92,7 @@ export class AppConfigurationClient {
   /**
    * Initializes a new instance of the AppConfigurationClient class.
    * @param connectionString Connection string needed for a client to connect to Azure.
+   * @param options Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
   /**
@@ -99,6 +100,7 @@ export class AppConfigurationClient {
    * a TokenCredential.
    * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
    * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
+   * @param options Options for the AppConfigurationClient.
    */
   constructor(endpoint: string, tokenCredential: TokenCredential, options?:AppConfigurationClientOptions);
   constructor(
