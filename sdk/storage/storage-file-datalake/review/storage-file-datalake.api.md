@@ -21,6 +21,7 @@ import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
 import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
@@ -37,6 +38,16 @@ import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
 export type AccessControlType = "user" | "group" | "mask" | "other";
+
+// @public (undocumented)
+export interface AccessPolicy {
+    // (undocumented)
+    expiresOn: Date;
+    // (undocumented)
+    permissions: string;
+    // (undocumented)
+    startsOn: Date;
+}
 
 // @public
 export class AccountSASPermissions {
@@ -156,8 +167,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     // (undocumented)
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DataLakeLeaseClient" needs to be exported by the entry point index.d.ts
-    //
+    // (undocumented)
+    getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     // (undocumented)
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     // (undocumented)
@@ -171,7 +182,28 @@ export class DataLakeFileSystemClient extends StorageClient {
     // (undocumented)
     readonly name: string;
     // (undocumented)
+    setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
+    // (undocumented)
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
+}
+
+// @public (undocumented)
+export class DataLakeLeaseClient {
+    constructor(client: BlobLeaseClient);
+    // (undocumented)
+    acquireLease(duration: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    // (undocumented)
+    breakLease(breakPeriod: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    // (undocumented)
+    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    // (undocumented)
+    readonly leaseId: string;
+    // (undocumented)
+    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    // (undocumented)
+    renewLease(options?: LeaseOperationOptions): Promise<Lease>;
+    // (undocumented)
+    readonly url: string;
 }
 
 // @public (undocumented)
@@ -446,6 +478,43 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
 };
 
 // @public (undocumented)
+export interface FileSystemGetAccessPolicyHeaders {
+    // (undocumented)
+    clientRequestId?: string;
+    // (undocumented)
+    date?: Date;
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    publicAccess?: PublicAccessType;
+    // (undocumented)
+    requestId?: string;
+    // (undocumented)
+    version?: string;
+}
+
+// @public (undocumented)
+export interface FileSystemGetAccessPolicyOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    conditions?: LeaseAccessConditions;
+}
+
+// @public (undocumented)
+export type FileSystemGetAccessPolicyResponse = {
+    signedIdentifiers: SignedIdentifier<AccessPolicy>[];
+} & FileSystemGetAccessPolicyHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: FileSystemGetAccessPolicyHeaders;
+        bodyAsText: string;
+        parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    };
+};
+
+// @public (undocumented)
 export interface FileSystemGetPropertiesHeaders {
     // (undocumented)
     clientRequestId?: string;
@@ -543,6 +612,37 @@ export class FileSystemSASPermissions {
     toString(): string;
     write: boolean;
 }
+
+// @public (undocumented)
+export interface FileSystemSetAccessPolicyHeaders {
+    // (undocumented)
+    clientRequestId?: string;
+    // (undocumented)
+    date?: Date;
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    requestId?: string;
+    // (undocumented)
+    version?: string;
+}
+
+// @public (undocumented)
+export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    conditions?: DataLakeRequestConditions;
+}
+
+// @public (undocumented)
+export type FileSystemSetAccessPolicyResponse = FileSystemSetAccessPolicyHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: FileSystemSetAccessPolicyHeaders;
+    };
+};
 
 // @public (undocumented)
 export interface FileSystemSetMetadataHeaders {
@@ -795,10 +895,6 @@ export interface PathGetAccessControlHeaders {
     // (undocumented)
     owner?: string;
     // (undocumented)
-    rawAcl?: string;
-    // (undocumented)
-    rawPermissions?: string;
-    // (undocumented)
     requestId?: string;
     // (undocumented)
     version?: string;
@@ -817,7 +913,7 @@ export interface PathGetAccessControlOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessControlHeaders & {
     _response: HttpResponse & {
-        parsedHeaders: PathGetAccessControlHeaders;
+        parsedHeaders: PathGetPropertiesHeaders_2;
     };
 };
 
@@ -1116,7 +1212,7 @@ export { PathUpdateResponse as FileAppendResponse }
 export { PathUpdateResponse as FileFlushResponse }
 
 // @public
-export class Pipeline {
+export class Pipeline extends Pipeline_2 {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;
@@ -1130,6 +1226,16 @@ export interface PipelineOptions {
 
 // @public (undocumented)
 export type PublicAccessType = "filesystem" | "file";
+
+// @public (undocumented)
+export interface RawAccessPolicy {
+    // (undocumented)
+    expiresOn: string;
+    // (undocumented)
+    permissions: string;
+    // (undocumented)
+    startsOn: string;
+}
 
 export { RequestPolicy }
 
@@ -1241,6 +1347,14 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
     };
 };
 
+// @public (undocumented)
+export interface SignedIdentifier<T> {
+    // (undocumented)
+    accessPolicy: T;
+    // (undocumented)
+    id: string;
+}
+
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
@@ -1309,6 +1423,12 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 }
 
 // @public (undocumented)
+export const ToBlobEndpointHostMappings: string[][];
+
+// @public (undocumented)
+export const ToDfsEndpointHostMappings: string[][];
+
+// @public (undocumented)
 export interface UserDelegationKey {
     // (undocumented)
     signedExpiresOn: Date;
@@ -1330,6 +1450,10 @@ export { UserDelegationKeyModel }
 
 export { WebResource }
 
+
+// Warnings were encountered during analysis:
+//
+// src/models.ts:372:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
