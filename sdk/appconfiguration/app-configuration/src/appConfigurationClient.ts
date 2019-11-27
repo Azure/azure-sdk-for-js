@@ -66,6 +66,12 @@ const deserializationContentTypes = {
  * Provides configuration options for AppConfigurationClient
  */
 export interface AppConfigurationClientOptions {
+}
+
+/**
+ * Provides internal configuration options for AppConfigurationClient
+ */
+export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
    * The sync token cache to use for this client.
    * NOTE: this is an internal option, not for general client usage.
@@ -73,7 +79,7 @@ export interface AppConfigurationClientOptions {
    * @internal
    * @ignore
    */
-  syncTokens: any;
+  syncTokens?: SyncTokens;
 }
 
 /**
@@ -102,7 +108,7 @@ export class AppConfigurationClient {
     options?:AppConfigurationClientOptions
   ) {
     if (isTokenCredential(tokenCredentialOrOptions)) {
-      this._syncTokens = (options && options.syncTokens) || new SyncTokens();
+      this._syncTokens = (options && (options as InternalAppConfigurationClientOptions).syncTokens) || new SyncTokens();
 
       this.client = new AppConfiguration(tokenCredentialOrOptions, apiVersion, {
         baseUri: connectionStringOrEndpoint,
@@ -110,7 +116,7 @@ export class AppConfigurationClient {
         requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
       });
     } else {
-      this._syncTokens = (tokenCredentialOrOptions && tokenCredentialOrOptions.syncTokens) || new SyncTokens();
+      this._syncTokens = (tokenCredentialOrOptions && (tokenCredentialOrOptions as InternalAppConfigurationClientOptions).syncTokens) || new SyncTokens();
 
       const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
       if (regexMatch) {

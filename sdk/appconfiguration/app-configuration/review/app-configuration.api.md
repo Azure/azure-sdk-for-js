@@ -36,8 +36,6 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
-    // @internal
-    syncTokens: any;
 }
 
 // @public
