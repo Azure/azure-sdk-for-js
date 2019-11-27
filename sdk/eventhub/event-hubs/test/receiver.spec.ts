@@ -207,12 +207,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       );
-      const data = await receiver.receiveBatch(10, 20);
+      const data = await receiver.receiveBatch(1, 20);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to receive the expected single message");
       data[0].properties!.stamp.should.equal(uid, "Received message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await receiver.receiveBatch(10, 10);
+      const data2 = await receiver.receiveBatch(1, 1);
       data2.length.should.equal(0, "Unexpected message received");
     });
 
@@ -248,13 +248,13 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       );
       debug("We should receive the last 2 messages.");
-      const data = await receiver.receiveBatch(10, 30);
+      const data = await receiver.receiveBatch(2, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to received two expected messages");
       data[0].properties!.stamp.should.equal(uid, "Message 1 has unexpected uid");
       data[1].properties!.stamp.should.equal(uid2, "Message 2 has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await receiver.receiveBatch(10, 10);
+      const data2 = await receiver.receiveBatch(1, 1);
       data2.length.should.equal(0, "Unexpected message received");
     });
   });

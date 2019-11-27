@@ -15,7 +15,7 @@ import {
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
   EventPosition,
-  CheckpointStore
+  CheckpointStore,
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -287,6 +287,22 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
+  it("id can be forced to be a specific value #RunnableInBrowser", async function(): Promise<void> {
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvents: async () => {},
+        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
+        processError: async () => { },
+      },
+      new InMemoryCheckpointStore(),
+      { ...defaultOptions, ownerId: "hello" }
+    );
+
+    processor.id.should.equal("hello");
+  });
+
   it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<
     void
   > {
@@ -302,7 +318,7 @@ describe("Event Processor", function(): void {
       client,
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
-      defaultOptions
+      { ...defaultOptions, partitionLoadBalancer: new GreedyPartitionLoadBalancer() }
     );
 
     processor.start();
@@ -411,7 +427,10 @@ describe("Event Processor", function(): void {
         client,
         subscriptionEventHandler,
         new InMemoryCheckpointStore(),
-        defaultOptions
+        {
+          ...defaultOptions,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+        }
       );
 
       processor.start();
@@ -535,9 +554,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        {
-          ...defaultOptions
-        }
+        defaultOptions
       );
 
       // start first processor
@@ -984,7 +1001,7 @@ describe("Event Processor", function(): void {
       try {
         await loopUntil({
           name: "partitionOwnership",
-          maxTimes: 20,
+          maxTimes: 30,
           timeBetweenRunsMs: 10000,
           until: async () => {
             // Ensure the partition ownerships are balanced.
@@ -1039,7 +1056,7 @@ describe("Event Processor", function(): void {
   describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
-    > {
+      > {
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
@@ -1071,7 +1088,8 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          trackLastEnqueuedEventProperties: true
+          trackLastEnqueuedEventProperties: true,
+          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
         }
       );
 
