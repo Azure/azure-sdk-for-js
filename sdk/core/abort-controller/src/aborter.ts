@@ -1,4 +1,4 @@
-/// <reference lib="es5" />
+// <reference lib="es5" />
 
 // Changes to Aborter
 // * Rename Aborter to AbortSignal
