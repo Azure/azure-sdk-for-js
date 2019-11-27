@@ -104,6 +104,12 @@ class SubscriptionHandlers {
     // performance of your underlying checkpoint store.
     await context.updateCheckpoint(event);
   }
+
+  async processError(err, context) {
+    // handle any errors that occur during the course of
+    // this subscription
+    console.log(`Errors in subscription: ${err}`);
+  }
 }
 
 const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, checkpointStore);
