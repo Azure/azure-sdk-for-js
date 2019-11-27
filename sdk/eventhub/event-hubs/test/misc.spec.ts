@@ -329,7 +329,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         }
       } finally {
         if (subscription) {
-          subscription.close();
+          await subscription.close();
         }
         await consumerClient.close();
       }
