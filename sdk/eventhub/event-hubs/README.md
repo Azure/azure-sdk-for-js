@@ -201,13 +201,15 @@ To stop receiving events, you can call `close()` on the object returned by the `
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubConsumerClient("connectionString", "eventHubName");
-  const myEventHandler = (events, context) => {
-    // your code here
-  };
+  const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+
   const subscription = consumer.subscribe({
-    processEvents: myEventHandler,
-    processError: myErrorHandler
+    processEvents: (events, context) => {
+      // event processing code goes here
+    },
+    processError: (err, context) => {
+      // error reporting/handling code here
+    }
   });
 
   // When ready to stop receiving
@@ -245,15 +247,13 @@ async function main() {
   await blobContainerClient.create(); // This can be skipped if the container already exists
   const partitionManager =  new BlobPartitionManager(blobContainerClient);
 
-  const myEventHandler = (events, context) => {
-    // your code here
-  };
-  const myErrorHandler = (err, context) => {
-    // your error handling code here
-  };
   const subscription = consumer.subscribe(partitionManager, {
-    processEvents: myEventHandler,
-    processError: myErrorHandler
+    processEvents: (events, context) => {
+      // event processing code goes here
+    },
+    processError: (err, context) => {
+      // error reporting/handling code here
+    }
   });
 
   // When ready to stop receiving
@@ -281,18 +281,16 @@ To stop receiving events, you can call `close()` on the object returned by the `
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
-  const client = new EventHubConsumerClient("connectionString", "eventHubName");
+  const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
   const partitionIds = await client.getPartitionIds();
-  const myEventHandler = (events, context) => {
-    // your code here
-  };
-  const myErrorHandler = (err, context) => {
-    // your error handling code here
-  }
 
   const subscription = consumer.subscribe(partitionIds[0], {
-    processEvents: myEventHandler,
-    processError: myErrorHandler
+    processEvents: (events, context) => {
+      // event processing code goes here
+    },
+    processError: (err, context) => {
+      // error reporting/handling code here
+    }
   });
 
   // When ready to stop receiving
@@ -318,6 +316,7 @@ const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubConsumerClient(
+    "my-consumer-group",
     "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
   );
   await client.getEventHubProperties();
