@@ -1,10 +1,10 @@
 ---
 page_type: sample
 languages:
-- typescript
+  - typescript
 products:
-- azure
-- azure-storage
+  - azure
+  - azure-storage
 urlFragment: storage-file-share-typescript
 ---
 
@@ -12,18 +12,18 @@ urlFragment: storage-file-share-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Storage File Shares in some common scenarios.
 
-|__File Name__|__Description__|
-|-------------|---------------|
-|[basic.ts][basic]|authenticate with the service using an account name & key (or anonymously with a SAS URL), upload a file, list files and directories, and download a file to a string|
-|[withConnString.ts][withConnString]|connect to and authenticate with the service using a connection string|
-|[sharedKeyCred.ts][sharedKeyCred]|authenticate with the service using an account name and a shared key|
-|[anonymousCred.ts][anonymousCred]|authenticate with the service anonymously using a SAS URL|
-|[proxyAuth.ts][proxyAuth]|connect to the service using a proxy and authenticate with an account name & key|
-|[iterators-shares.ts][iterators-shares]|connect to the service and iterate through the shares in the account|
-|[iterators-files-and-directories.ts][iterators-files-and-directories]|create a few directories and iterate through them individually (using async `for await` syntax), by page, and resume paging using a marker|
-|[iterators-handles.ts][iterators-handles]|connect to the service and iterate through open handles|
-|[customPipeline.ts][customPipeline]|use custom HTTP pipeline options when connecting to the service|
-|[advanced.ts][advanced]|use custom logging and pipeline options, then upload a local file to a share|
+| **File Name**                                                         | **Description**                                                                                                                                                       |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [basic.ts][basic]                                                     | authenticate with the service using an account name & key (or anonymously with a SAS URL), upload a file, list files and directories, and download a file to a string |
+| [withConnString.ts][withconnstring]                                   | connect to and authenticate with the service using a connection string                                                                                                |
+| [sharedKeyCred.ts][sharedkeycred]                                     | authenticate with the service using an account name and a shared key                                                                                                  |
+| [anonymousCred.ts][anonymouscred]                                     | authenticate with the service anonymously using a SAS URL                                                                                                             |
+| [proxyAuth.ts][proxyauth]                                             | connect to the service using a proxy and authenticate with an account name & key                                                                                      |
+| [iterators-shares.ts][iterators-shares]                               | connect to the service and iterate through the shares in the account                                                                                                  |
+| [iterators-files-and-directories.ts][iterators-files-and-directories] | create a few directories and iterate through them individually (using async `for await` syntax), by page, and resume paging using a marker                            |
+| [iterators-handles.ts][iterators-handles]                             | connect to the service and iterate through open handles                                                                                                               |
+| [customPipeline.ts][custompipeline]                                   | use custom HTTP pipeline options when connecting to the service                                                                                                       |
+| [advanced.ts][advanced]                                               | use custom logging and pipeline options, then upload a local file to a share                                                                                          |
 
 ## Prerequisites
 
@@ -44,14 +44,19 @@ Adapting the samples to run in the browser requires some additional consideratio
 To run the samples using the published version of the package:
 
 1. Install the dependencies using `npm`:
+
 ```bash
 npm install
 ```
+
 2. Compile the samples
+
 ```bash
 npm run build
 ```
+
 3. Run the sample with the correct environment variables set, for example (cross-platform):
+
 ```bash
 npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/basic.js
 ```
@@ -61,17 +66,16 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dis
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/basic.ts
-[proxyAuth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/proxyAuth.ts
-[withConnString]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/withConnString.ts
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/proxyAuth.ts
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/withConnString.ts
 [iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/iterators-files-and-directories.ts
-[sharedKeyCred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/sharedKeyCred.ts
-[anonymousCred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/anonymousCred.ts
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/sharedKeyCred.ts
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/anonymousCred.ts
 [iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/iterators-handles.ts
-[customPipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/customPipeline.ts
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/customPipeline.ts
 [advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/advanced.ts
 [iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/iterators-shares.ts
-
-[apiref]: https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-file-share
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/README.md

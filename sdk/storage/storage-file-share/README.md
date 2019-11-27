@@ -17,7 +17,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/) |
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-file-share) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share) |
 [Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples) |
 [Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)
@@ -34,7 +34,6 @@ The following components and their corresponding client libraries make up the Az
 ## Getting started
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/files/storage-how-to-use-files-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
-
 
 ### Install the package
 
@@ -243,9 +242,7 @@ const shareName = "<share name>";
 const directoryName = "<directory name>";
 
 async function main() {
-  const directoryClient = serviceClient
-    .getShareClient(shareName)
-    .getDirectoryClient(directoryName);
+  const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
@@ -283,9 +280,7 @@ const shareName = "<share name>";
 const directoryName = "<directory name>";
 
 async function main() {
-  const directoryClient = serviceClient
-    .getShareClient(shareName)
-    .getDirectoryClient(directoryName);
+  const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
   let dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
@@ -320,9 +315,7 @@ const shareName = "<share name>";
 const directoryName = "<directory name>";
 
 async function main() {
-  const directoryClient = serviceClient
-    .getShareClient(shareName)
-    .getDirectoryClient(directoryName);
+  const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
   let dirIter = await directoryClient.listFilesAndDirectories();
   let i = 1;
@@ -376,8 +369,7 @@ async function streamToString(readableStream) {
 async function main() {
   const fileClient = serviceClient
     .getShareClient(shareName)
-    .rootDirectoryClient
-    .getFileClient(fileName);
+    .rootDirectoryClient.getFileClient(fileName);
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
@@ -448,6 +440,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2FREADME.png)
