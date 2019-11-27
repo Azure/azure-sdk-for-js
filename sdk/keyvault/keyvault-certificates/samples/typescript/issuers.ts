@@ -19,14 +19,12 @@ async function main(): Promise<void> {
 
   // Create
   await client.createIssuer(issuerName, "Test", {
-    credentials: {
-      accountId: "keyvaultuser"
-    },
+    accountId: "keyvaultuser",
     administratorContacts: [
       {
         firstName: "John",
         lastName: "Doe",
-        emailAddress: "admin@microsoft.com",
+        email: "admin@microsoft2.com",
         phone: "4255555555"
       }
     ]

@@ -8,7 +8,7 @@ import {
   makeCreateCertificatePollOperation
 } from "./operation";
 import {
-  KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
   CertificateClientInterface,
   CertificatePolicy
@@ -29,7 +29,7 @@ export interface CreateCertificatePollerOptions {
  */
 export class CreateCertificatePoller extends Poller<
   CreateCertificatePollOperationState,
-  KeyVaultCertificate
+  KeyVaultCertificateWithPolicy
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

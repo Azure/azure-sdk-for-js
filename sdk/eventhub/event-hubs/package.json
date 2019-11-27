@@ -62,6 +62,14 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "1.0.0-preview.6",
@@ -140,13 +148,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "ws": "^7.1.1"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
-    ]
   }
 }

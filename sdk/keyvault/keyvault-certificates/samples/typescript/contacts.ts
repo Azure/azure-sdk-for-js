@@ -19,25 +19,33 @@ async function main(): Promise<void> {
 
   const contacts = [
     {
-      emailAddress: "a@a.com",
+      email: "a@a.com",
       name: "a",
       phone: "111111111111"
     },
     {
-      emailAddress: "b@b.com",
+      email: "b@b.com",
       name: "b",
       phone: "222222222222"
     }
   ];
 
-  let getResponse: any;
-
   await client.setContacts(contacts);
 
-  getResponse = await client.getContacts();
-  console.log("Contact List:", getResponse.contactList);
+  let getResponse = await client.getContacts();
+  console.log("Contact List:", getResponse);
 
   await client.deleteContacts();
+
+  let error;
+  try {
+    await client.getContacts();
+    throw Error("Expecting an error but not catching one.");
+  } catch (e) {
+    error = e;
+  }
+
+  console.log("err: ", error);
 }
 
 main().catch((err) => {

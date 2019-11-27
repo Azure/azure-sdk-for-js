@@ -1,6 +1,8 @@
 # 1.0.0-preview.8 (TBD)
 
-- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.
+- Added support for TokenCredential in `AppConfigurationClient`, allowing 
+  credentials from the `@azure/identity` package for authentication.
 
 # 1.0.0-preview.7 (2019-11-01)
 
