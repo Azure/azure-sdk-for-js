@@ -39,7 +39,7 @@ async function runSamples(language) {
     cmd = "ts-node";
   } else {
     cmd = "node";
-    await exec(`npm run build:js-samples`, directory);
+    await exec(`npm run build:node-clean`, directory);
   }
 
   console.log(`Running ${language} samples...`);

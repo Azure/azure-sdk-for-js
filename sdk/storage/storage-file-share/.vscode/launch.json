@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Debug Javascript Samples",
       "program": "${workspaceFolder}/samples/javascript/basic.js",
-      "preLaunchTask": "npm: build:js-samples"
+      "preLaunchTask": "npm: build:node-clean"
     },
     {
       "type": "node",
