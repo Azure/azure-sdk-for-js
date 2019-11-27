@@ -629,6 +629,76 @@ describe("Event Processor", function(): void {
         index++;
       }
     });
+
+    it("makes copies and never returns internal instances directly", async () => {
+      const checkpointStore = new InMemoryCheckpointStore();
+      const allObjects = new Set();
+
+      const assertUnique = (...objects: any[]) => {
+        const size = allObjects.size;
+
+        for (const obj of objects) {
+          allObjects.add(obj);
+          size.should.be.lessThan(allObjects.size);
+        }
+      };
+
+      const basicProperties = {
+        consumerGroup: "initial consumer group",
+        eventHubName: "initial event hub name",
+        fullyQualifiedNamespace: "initial fully qualified namespace",
+      };
+
+      const originalPartitionOwnership = {
+        ...basicProperties,
+        ownerId: "initial owner ID",
+        partitionId: "1001"
+      };
+
+      const copyOfPartitionOwnership = {
+        ...originalPartitionOwnership
+      };
+      
+      assertUnique(originalPartitionOwnership);
+
+      for (let i = 0; i < 2; ++i) {
+        const ownerships = await checkpointStore.claimOwnership([
+          originalPartitionOwnership
+        ]);
+
+        // second sanity check - we were also modifying the input parameter
+        // (which was also bad)
+        copyOfPartitionOwnership.should.deep.equal(originalPartitionOwnership);
+
+        assertUnique(...ownerships);
+      }
+
+      for (let i = 0; i < 2; ++i) {
+        const ownerships = await checkpointStore.listOwnership(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        assertUnique(...ownerships);
+      }
+
+      const originalCheckpoint : Checkpoint = {
+        ...basicProperties,
+        sequenceNumber: 1,
+        partitionId: "1",
+        offset: 101
+      };
+
+      const copyOfOriginalCheckpoint = {
+        ...originalCheckpoint
+      };
+
+      await checkpointStore.updateCheckpoint(originalCheckpoint);
+
+      // checking that we don't modify input parameters
+      copyOfOriginalCheckpoint.should.deep.equal(originalCheckpoint);
+
+      for (let i = 0; i < 2; ++i) {
+        const checkpoints = await checkpointStore.listCheckpoints(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        assertUnique(...checkpoints);
+      }
+    });
   });
 
   describe("Load balancing", function(): void {
