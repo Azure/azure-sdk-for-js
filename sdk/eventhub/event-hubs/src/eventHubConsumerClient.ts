@@ -333,6 +333,10 @@ export class EventHubConsumerClient {
    *
    * Use this overload if you want to read from a specific partition and not coordinate with
    * other subscribers.
+   * 
+   * Note: Reading directly from the same partition with the same CheckpointStore 
+   * and different EventHubConsumerClients will result in OwnershipLost errors as the
+   * subscribers compete to own the partition.
    *
    * @param partitionId A partition id to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - initialization
