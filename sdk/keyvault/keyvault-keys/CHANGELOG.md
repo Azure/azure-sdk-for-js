@@ -4,7 +4,6 @@
 
 - Updated dependencies to their latest available versions.
 - Fixed the support of dotenv while testing.
-- Cleaned up the docs from unsupported syntax.
 - Improved the available documentation, and added a README in the test folder.
 - KeyClient's vaultUrl property is now public, but readonly.
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.
