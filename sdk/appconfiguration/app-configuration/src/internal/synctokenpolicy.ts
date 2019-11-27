@@ -6,12 +6,16 @@ import { RequestPolicy, RequestPolicyOptions, BaseRequestPolicy, WebResource, Ht
 /**
  * The sync token header, as described here:
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
+ * @internal
+ * @ignore
  */
-export const SyncTokenHeaderName = "Sync-Token";
+export const SyncTokenHeaderName = "sync-token";
 
 /**
  * A policy factory for injecting sync tokens properly into outgoing requests.
  * @param syncTokens 
+ * @internal
+ * @ignore
  */
 export function syncTokenPolicy(syncTokens: SyncTokens) : RequestPolicyFactory {
   return {

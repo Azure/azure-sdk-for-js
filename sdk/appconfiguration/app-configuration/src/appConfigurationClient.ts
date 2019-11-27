@@ -63,6 +63,20 @@ const deserializationContentTypes = {
 };
 
 /**
+ * Provides configuration options for AppConfigurationClient
+ */
+export interface AppConfigurationClientOptions {
+  /**
+   * The sync token cache to use for this client.
+   * NOTE: this is an internal option, not for general client usage.
+   * 
+   * @internal
+   * @ignore
+   */
+  syncTokens: any;
+}
+
+/**
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
@@ -74,27 +88,30 @@ export class AppConfigurationClient {
    * Initializes a new instance of the AppConfigurationClient class.
    * @param connectionString Connection string needed for a client to connect to Azure.
    */
-  constructor(connectionString: string);
+  constructor(connectionString: string, options?: AppConfigurationClientOptions);
   /**
    * Initializes a new instance of the AppConfigurationClient class using 
    * a TokenCredential.
    * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
    * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    */
-  constructor(endpoint: string, tokenCredential: TokenCredential);
+  constructor(endpoint: string, tokenCredential: TokenCredential, options?:AppConfigurationClientOptions);
   constructor(
     connectionStringOrEndpoint: string,
-    tokenCredentialOrNothing?: TokenCredential
+    tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
+    options?:AppConfigurationClientOptions
   ) {
-    this._syncTokens = new SyncTokens();
+    if (isTokenCredential(tokenCredentialOrOptions)) {
+      this._syncTokens = (options && options.syncTokens) || new SyncTokens();
 
-    if (isTokenCredential(tokenCredentialOrNothing)) {
-      this.client = new AppConfiguration(tokenCredentialOrNothing, apiVersion, {
+      this.client = new AppConfiguration(tokenCredentialOrOptions, apiVersion, {
         baseUri: connectionStringOrEndpoint,
         deserializationContentTypes,
         requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
       });
     } else {
+      this._syncTokens = (tokenCredentialOrOptions && tokenCredentialOrOptions.syncTokens) || new SyncTokens();
+
       const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
       if (regexMatch) {
         const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);

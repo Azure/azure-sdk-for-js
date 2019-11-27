@@ -23,8 +23,8 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 
 // @public
 export class AppConfigurationClient {
-    constructor(connectionString: string);
-    constructor(endpoint: string, tokenCredential: TokenCredential);
+    constructor(connectionString: string, options?: AppConfigurationClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
@@ -32,10 +32,12 @@ export class AppConfigurationClient {
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SyncTokens" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    _syncTokens: SyncTokens;
+    }
+
+// @public
+export interface AppConfigurationClientOptions {
+    // @internal
+    syncTokens: any;
 }
 
 // @public
