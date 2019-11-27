@@ -34,7 +34,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/**/*.spec.js", "dist-esm/test/node/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
