@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
 import * as assert from "assert";
@@ -49,7 +49,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 }
 
 
-export function createAppConfigurationClientForTests(): AppConfigurationClient | undefined {
+export function createAppConfigurationClientForTests(options?: AppConfigurationClientOptions): AppConfigurationClient | undefined {
   const connectionString = process.env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
@@ -62,7 +62,7 @@ export function createAppConfigurationClientForTests(): AppConfigurationClient |
     return undefined;
   }
 
-  return new AppConfigurationClient(connectionString);
+  return new AppConfigurationClient(connectionString, options);
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
