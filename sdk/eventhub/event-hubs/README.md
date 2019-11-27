@@ -239,15 +239,15 @@ To stop receiving events, you can call `close()` on the object returned by the `
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { ContainerClient } = require("@azure/storage-blob");
-const { BlobPartitionManager } = require("@azure/eventhubs-checkpointstore-blob");
+const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
 async function main() {
   const consumerClient = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
   const blobContainerClient = new ContainerClient("storage-connection-string", "container-name");
   await blobContainerClient.create(); // This can be skipped if the container already exists
-  const partitionManager =  new BlobPartitionManager(blobContainerClient);
+  const partitionManager =  new BlobCheckpointStore(blobContainerClient);
 
-  const subscription = consumer.subscribe(partitionManager, {
+  const subscription = consumerClient.subscribe(partitionManager, {
     processEvents: (events, context) => {
       // event processing code goes here
     },
@@ -258,7 +258,7 @@ async function main() {
 
   // When ready to stop receiving
   await subscription.close();
-  await client.close();
+  await consumerClient.close();
 }
 
 main();
