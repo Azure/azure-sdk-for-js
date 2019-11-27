@@ -170,6 +170,13 @@ export interface FullEventProcessorOptions
    * Setting this value to 0 will cause the default value to be used.
    */
   inactiveTimeLimitInMs?: number;
+
+  /**
+   * An optional pump manager to use, rather than instantiating one internally
+   * @internal
+   * @ignore
+   */
+  pumpManager?: PumpManager;
 }
 
 /**
@@ -237,7 +244,7 @@ export class EventProcessor {
     this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
-    this._pumpManager = new PumpManager(this._id, this._processorOptions);
+    this._pumpManager = options.pumpManager || new PumpManager(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
@@ -277,15 +284,10 @@ export class EventProcessor {
    * Claim ownership of the given partition if it's available
    */
   private async _claimOwnership(
-    partitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIdToClaim: string
+    ownershipRequest: PartitionOwnership
   ): Promise<void> {
     log.partitionLoadBalancer(
-      `[${this._id}] Attempting to claim ownership of partition ${partitionIdToClaim}.`
-    );
-    const ownershipRequest = this._createPartitionOwnershipRequest(
-      partitionOwnershipMap,
-      partitionIdToClaim
+      `[${this._id}] Attempting to claim ownership of partition ${ownershipRequest.partitionId}.`
     );
     try {
       const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
@@ -295,11 +297,11 @@ export class EventProcessor {
       }
 
       log.partitionLoadBalancer(
-        `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
+        `[${this._id}] Successfully claimed ownership of partition ${ownershipRequest.partitionId}.`
       );
 
       log.partitionLoadBalancer(
-        `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
+        `[${this._id}] [${ownershipRequest.partitionId}] Calling user-provided PartitionProcessorFactory.`
       );
       const partitionProcessor = new PartitionProcessor(
         this._subscriptionEventHandlers,
@@ -313,7 +315,7 @@ export class EventProcessor {
         }
       );
 
-      const eventPosition = await this._getStartingPosition(partitionIdToClaim);
+      const eventPosition = await this._getStartingPosition(ownershipRequest.partitionId);
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
@@ -365,7 +367,15 @@ export class EventProcessor {
           this._eventHubClient.eventHubName,
           this._consumerGroup
         );
+
+        const abandonedMap: Map<string, PartitionOwnership> = new Map();
+
         for (const ownership of partitionOwnership) {
+          if (isAbandoned(ownership)) {
+            abandonedMap.set(ownership.partitionId, ownership);
+            continue;
+          } 
+
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
         const partitionIds = await this._eventHubClient.getPartitionIds({
@@ -383,7 +393,21 @@ export class EventProcessor {
           );
           if (partitionsToClaim) {
             for (const partitionToClaim of partitionsToClaim) {
-              await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+              let ownershipRequest: PartitionOwnership;
+
+              if (abandonedMap.has(partitionToClaim)) {
+                ownershipRequest = this._createPartitionOwnershipRequest(
+                  abandonedMap,
+                  partitionToClaim
+                );  
+              } else {
+                ownershipRequest = this._createPartitionOwnershipRequest(
+                  partitionOwnershipMap,
+                  partitionToClaim
+                );
+              }
+
+              await this._claimOwnership(ownershipRequest);
             }
           }
         }
@@ -459,6 +483,8 @@ export class EventProcessor {
    *
    */
   async stop(): Promise<void> {
+    await this.abandonPartitionOwnerships();
+
     log.eventProcessor(`[${this._id}] Stopping an EventProcessor.`);
     if (this._abortController) {
       // cancel the event processor loop
@@ -479,4 +505,18 @@ export class EventProcessor {
       log.eventProcessor(`[${this._id}] EventProcessor stopped.`);
     }
   }
+
+  private async abandonPartitionOwnerships() {
+    const allOwnerships = await this._checkpointStore.listOwnership(this._eventHubClient.fullyQualifiedNamespace, this._eventHubClient.eventHubName, this._consumerGroup);
+    const ourOwnerships = allOwnerships.filter(ownership => ownership.ownerId === this._id);
+    // unclaim any partitions that we currently own
+    for (const ownership of ourOwnerships) {
+      ownership.ownerId = "";
+    }
+    this._checkpointStore.claimOwnership(ourOwnerships);
+  }
+}
+
+function isAbandoned(ownership: PartitionOwnership): boolean {
+  return ownership.ownerId === "";
 }
