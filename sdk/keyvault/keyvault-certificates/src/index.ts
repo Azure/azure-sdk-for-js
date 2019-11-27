@@ -1261,6 +1261,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
+   * // See: @azure/keyvault-secrets
    * const certificateSecret = await secretClient.getSecret("MyCertificate");
    * const base64EncodedCertificate = certificateSecret.value!;
    * await client.importCertificate("MyCertificate", base64EncodedCertificate);
@@ -1427,15 +1428,6 @@ export class CertificateClient {
    * @ignore
    * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    *
-   * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
-   * await client.cancelCertificateOperation("MyCertificate");
-   * ```
    * @summary Cancels a certificate's operation
    * @param certificateName The name of the certificate
    * @param cancel Whether to cancel the operation or not
@@ -1555,12 +1547,16 @@ export class CertificateClient {
    * const { csr } = poller.getResult();
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
+   *
+   * const fs = require("fs");
    * fs.writeFileSync("test.csr", wrappedCsr);
    *
    * // Certificate available locally made using:
    * //   openssl genrsa -out ca.key 2048
    * //   openssl req -new -x509 -key ca.key -out ca.crt
    * // You can read more about how to create a fake certificate authority here: https://gist.github.com/Soarez/9688998
+   *
+   * const childProcess = require("child_process");
    * childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
    * const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
    *
@@ -1642,7 +1638,8 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
-   * await client.deleteCertificate("MyCertificate");
+   * const poller = await client.beginDeleteCertificate("MyCertificate");
+   * await poller.pollUntilDone();
    * // Some time is required before we're able to restore the certificate
    * await client.restoreCertificateBackup(backup.value!);
    * ```

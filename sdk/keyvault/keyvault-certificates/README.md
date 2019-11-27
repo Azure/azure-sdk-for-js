@@ -407,9 +407,7 @@ const certificateName = "MyCertificateName";
 async function main() {
   const result = await client.getCertificate(certificateName);
   await client.updateCertificateProperties(certificateName, result.properties.version, {
-    certificateAttributes: {
-      enabled: false
-    },
+    enabled: false,
     tags: {
       myCustomTag: "myCustomTagsValue"
     }
