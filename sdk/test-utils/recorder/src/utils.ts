@@ -8,11 +8,11 @@ export interface TestInfo {
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
-export function isRecordMode() {
+export function isRecordMode(): boolean {
   return env.TEST_MODE === "record";
 }
 
-export function isPlaybackMode() {
+export function isPlaybackMode(): boolean {
   return env.TEST_MODE === "playback";
 }
 
@@ -35,8 +35,8 @@ export function escapeRegExp(str: string): string {
 export async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();
   return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
+    fileReader.onloadend = (ev: ProgressEvent<FileReader>) => {
+      resolve(ev.target!.result as string);
     };
     fileReader.onerror = reject;
     fileReader.readAsText(blob);
@@ -71,12 +71,17 @@ function padStart(currentString: string, targetLength: number, padString: string
 /**
  * @returns {string}
  */
+const namesAlreadyTaken: string[] = [];
 export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
+  const name = `${prefix}${new Date().getTime()}${padStart(
     Math.floor(Math.random() * 10000).toString(),
     5,
     "00000"
   )}`;
+  if (namesAlreadyTaken.indexOf(name) > -1) {
+    throw new Error(`Test name: ${name} is duplicated.`);
+  }
+  return name;
 }
 
 /**
