@@ -1001,7 +1001,7 @@ describe("Event Processor", function(): void {
       try {
         await loopUntil({
           name: "partitionOwnership",
-          maxTimes: 20,
+          maxTimes: 30,
           timeBetweenRunsMs: 10000,
           until: async () => {
             // Ensure the partition ownerships are balanced.
