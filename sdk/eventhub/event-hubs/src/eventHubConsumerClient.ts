@@ -331,7 +331,7 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to all messages from a subset of partitions.
    *
-   * Use this overload if you want to read from a specific set of partitions and not coordinate with
+   * Use this overload if you want to read from a specific partition and not coordinate with
    * other subscribers.
    *
    * @param partitionId A partition id to subscribe to.
