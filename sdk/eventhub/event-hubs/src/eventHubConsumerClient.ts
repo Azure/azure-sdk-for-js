@@ -318,9 +318,6 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to all messages from all available partitions.
    *
-   * Use this overload if you want to read from all partitions and not coordinate with
-   * other subscribers.
-   *
    * @param handlers Handlers for the lifecycle of the subscription - initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
@@ -329,11 +326,8 @@ export class EventHubConsumerClient {
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
-   * Subscribe to all messages from a subset of partitions.
+   * Subscribe to all messages from a single partition.
    *
-   * Use this overload if you want to read from a specific partition and not coordinate with
-   * other subscribers.
-   * 
    * @param partitionId A partition id to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - initialization
    *                 per partition, receiving events, handling errors and the closing
