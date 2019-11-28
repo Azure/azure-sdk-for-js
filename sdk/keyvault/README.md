@@ -11,7 +11,7 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - @azure/keyvault-keys [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys)
 - @azure/keyvault-secrets [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
 - @azure/keyvault-certificates [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
-- [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/key-vault)
 - [Azure Key Vault REST APIs](https://docs.microsoft.com/en-us/rest/api/keyvault/)
 
 ## Getting started
@@ -177,6 +177,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2FREADME.png)

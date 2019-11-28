@@ -11,7 +11,7 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
 - @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
 - @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
-- [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
 ## Key concepts
@@ -291,6 +291,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

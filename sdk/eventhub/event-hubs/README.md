@@ -4,10 +4,10 @@ Azure Event Hubs is a highly scalable publish-subscribe service that can ingest 
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) | 
-[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) | 
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhub.html) |
-[Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) | 
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
+[Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
+[Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower, then please use the below links instead
@@ -59,12 +59,15 @@ Interaction with Event Hubs starts with either an instance of the
 or an instance of the [EventHubProducerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient) class. 
 There are constructor overloads to support different ways of instantiating these classes as shown below:
 
-
 ```javascript
 const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
 
 const producerClient = new EventHubProducerClient("my-connection-string", "my-event-hub");
-const consumerClient = new EventHubConsumerClient("my-consumer-group", "my-connection-string", "my-event-hub");
+const consumerClient = new EventHubConsumerClient(
+  "my-consumer-group",
+  "my-connection-string",
+  "my-event-hub"
+);
 ```
 
 - This constructor takes a connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
@@ -73,7 +76,10 @@ const consumerClient = new EventHubConsumerClient("my-consumer-group", "my-conne
 const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
 
 const producerClient = new EventHubProducerClient("my-connection-string-with-entity-path");
-const consumerClient = new EventHubConsumerClient("my-consumer-group", "my-connection-string-with-entity-path");
+const consumerClient = new EventHubConsumerClient(
+  "my-consumer-group",
+  "my-connection-string-with-entity-path"
+);
 ```
 
 - The [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) is for the entire Event Hubs namespace and will not contain the path to the desired Event Hub instance which is needed for this constructor overload. In this case, the path can be added manually by adding ";EntityPath=[[ EVENT HUB NAME ]]" to the end of the connection string. For example, ";EntityPath=my-event-hub-name".
@@ -86,7 +92,12 @@ const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event
 const { DefaultAzureCredential } = require("@azure/identity");
 const credential = new DefaultAzureCredential();
 const producerClient = new EventHubProducerClient("my-host-name", "my-event-hub", credential);
-const consumerClient = new EventHubConsumerClient("my-consumer-group", "my-host-name", "my-event-hub", credential);
+const consumerClient = new EventHubConsumerClient(
+  "my-consumer-group",
+  "my-host-name",
+  "my-event-hub",
+  credential
+);
 ```
 
 - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
@@ -165,9 +176,8 @@ There are options you can pass at different stages to control the process of sen
 - The `EventHubProducerClient` constructor takes an optional parameter of type `EventHubClientOptions` which you can use to specify options like number of retries.
 - The `createBatch` method takes an optional parameter of type `CreateBatchOptions` which you can use to speicify the max batch size supported by the batch being created.
 - The `sendBatch` method takes an optional parameter of type `SendBatchOptions` which you can use to specify `abortSignal` to cancel current operation.
-- In case you want to send to a specific partition, an overload of the `sendBatch` method allows you to pass the id of the partition to send events to. 
-The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fetch the available partitions ids.
-
+- In case you want to send to a specific partition, an overload of the `sendBatch` method allows you to pass the id of the partition to send events to.
+  The [Inspect an Event Hub](#inspect-an-event-hub) example above shows how to fetch the available partitions ids.
 
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
 For example: `body: { "message": "Hello World" }`
@@ -220,7 +230,7 @@ main();
 
 #### Consume events with load balanced across multiple processes
 
-Azure Event Hubs is capable of dealing with millions of events per second. 
+Azure Event Hubs is capable of dealing with millions of events per second.
 To scale your processing application, you can run multiple instances of your application and have it balance the load among themselves.
 
 Begin by creating an instance of the `EventHubConsumerClient` using one of the
@@ -244,7 +254,11 @@ async function main() {
   const blobContainerClient = new ContainerClient("storage-connection-string", "container-name");
   await blobContainerClient.create(); // This can be skipped if the container already exists
   const checkpointStore = new BlobCheckpointStore(blobContainerClient);
-  const consumerClient = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName", checkpointStore);  
+  const consumerClient = new EventHubConsumerClient(
+    "my-consumer-group", 
+    "connectionString", 
+    "eventHubName", 
+    checkpointStore);  
 
   const subscription = consumerClient.subscribe({
     processEvents: (events, context) => {
@@ -262,7 +276,6 @@ async function main() {
 
 main();
 ```
-
 
 #### Consume events from a single partition
 
