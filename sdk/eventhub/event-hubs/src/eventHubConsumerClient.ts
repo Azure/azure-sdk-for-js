@@ -35,7 +35,6 @@ const defaultConsumerClientOptions: Required<Pick<
 };
 
 /**
- * @class
  * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
  *
  * There are multiple ways to create an `EventHubConsumerClient`
