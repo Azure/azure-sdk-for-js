@@ -194,7 +194,7 @@ Begin by creating an instance of the `EventHubConsumerClient`, and then call the
 consuming events.
 
 The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe) 
-method takes callbacks to process events as they are receivied from Azure Event Hubs.
+method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
