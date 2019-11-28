@@ -132,7 +132,7 @@ You may publish events to a specific partition, or allow the Event Hubs service 
 - Create an `EventDataBatch` object using the [createBatch](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient#createbatch-createbatchoptions-) 
 - Add events to the batch using the [tryAdd](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventdatabatch#tryadd-eventdata--tryaddoptions-)
 method. You can do this until the maximum batch size limit is reached or until you are done adding the number of events you liked, whichever comes first. This method would return `false` to indicate that no more events can be added to the batch due to the max batch size being reached.
-- Send the batch of events using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubproducerclient.html#sendbatch) method.
+- Send the batch of events using the [sendBatch](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient#sendbatch-eventdatabatch--sendbatchoptions-) method.
 
 In the below example, we attempt to send 10 events to Azure Event Hubs.
 
@@ -175,7 +175,7 @@ For example: `body: { "message": "Hello World" }`
 ### Consume events from an Event Hub
 
 To consume events from an Event Hub instance, you also need to know which consumer group you want to target. 
-Once you know this, you are ready to create an [EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html). While the below example shows one way to create the client, see the
+Once you know this, you are ready to create an [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient). While the below example shows one way to create the client, see the
 [Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
 
 The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe)
