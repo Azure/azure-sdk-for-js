@@ -178,7 +178,7 @@ To consume events from an Event Hub instance, you also need to know which consum
 Once you know this, you are ready to create an [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient). While the below example shows one way to create the client, see the
 [Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
 
-The `subscribe` method on the client has 2 overloads which, combined with the constructor, can cater to several
+The `subscribe` method on the client has overloads which, combined with the constructor, can cater to several
 ways to consume events:
 
 - [Consume events in a single process](consume-events-in-a-single-process)
