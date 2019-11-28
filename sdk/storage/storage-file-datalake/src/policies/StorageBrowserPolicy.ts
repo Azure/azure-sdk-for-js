@@ -6,7 +6,7 @@ import {
   isNode,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
 } from "@azure/core-http";
 
 import { HeaderConstants, UrlConstants } from "../utils/constants";
@@ -61,6 +61,11 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
 
     // According to XHR standards, content-length should be fully controlled by browsers
     request.headers.remove(HeaderConstants.CONTENT_LENGTH);
+
+    // DFS flush file API requires content-length=0, workaround to force browsers add content-length header
+    if (request.method === "PATCH" && request.body === undefined) {
+      request.body = "";
+    }
 
     return this._nextPolicy.sendRequest(request);
   }

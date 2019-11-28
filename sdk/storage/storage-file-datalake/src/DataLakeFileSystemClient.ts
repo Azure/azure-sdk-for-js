@@ -7,17 +7,20 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { DataLakeDirectoryClient } from "./DataLakeDirectoryClient";
-import { DataLakeFileClient } from "./DataLakeFileClient";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { FileSystemOperations } from "./generated/src/operations";
 import {
+  AccessPolicy,
   FileSystemCreateOptions,
   FileSystemCreateResponse,
   FileSystemDeleteOptions,
   FileSystemDeleteResponse,
+  FileSystemGetAccessPolicyOptions,
+  FileSystemGetAccessPolicyResponse,
   FileSystemGetPropertiesOptions,
   FileSystemGetPropertiesResponse,
+  FileSystemSetAccessPolicyOptions,
+  FileSystemSetAccessPolicyResponse,
   FileSystemSetMetadataOptions,
   FileSystemSetMetadataResponse,
   ListPathsOptions,
@@ -25,12 +28,15 @@ import {
   ListPathsSegmentResponse,
   Metadata,
   Path,
+  PublicAccessType,
+  SignedIdentifier
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType } from "./transforms";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath } from "./utils/utils.common";
+import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 
 export class DataLakeFileSystemClient extends StorageClient {
   private fileSystemContext: FileSystemOperations;
@@ -194,9 +200,74 @@ export class DataLakeFileSystemClient extends StorageClient {
     }
   }
 
+  public async getAccessPolicy(
+    options: FileSystemGetAccessPolicyOptions = {}
+  ): Promise<FileSystemGetAccessPolicyResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-getAccessPolicy",
+      options.tracingOptions
+    );
+    try {
+      const rawResponse = await this.blobContainerClient.getAccessPolicy({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+
+      // Transfer and rename blobPublicAccess to publicAccess
+      const response = (rawResponse as unknown) as FileSystemGetAccessPolicyResponse;
+
+      response.publicAccess = toPublicAccessType(rawResponse.blobPublicAccess);
+      response._response.parsedHeaders.publicAccess = response.publicAccess;
+
+      delete rawResponse.blobPublicAccess;
+      delete rawResponse._response.parsedHeaders.blobPublicAccess;
+
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async setAccessPolicy(
+    access?: PublicAccessType,
+    fileSystemAcl?: SignedIdentifier<AccessPolicy>[],
+    options: FileSystemSetAccessPolicyOptions = {}
+  ): Promise<FileSystemSetAccessPolicyResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-setAccessPolicy",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.setAccessPolicy(
+        toContainerPublicAccessType(access),
+        fileSystemAcl,
+        {
+          ...options,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
   public listPaths(
     options: ListPathsOptions = {}
   ): PagedAsyncIterableIterator<Path, ListPathsSegmentResponse> {
+    options.path = options.path === "" ? undefined : options.path;
+
     const iter = this.listItems(options);
     return {
       next() {

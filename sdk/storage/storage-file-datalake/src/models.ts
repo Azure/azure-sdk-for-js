@@ -212,6 +212,68 @@ export type FileSystemSetMetadataResponse = FileSystemSetMetadataHeaders & {
   };
 };
 
+export interface FileSystemGetAccessPolicyOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  conditions?: LeaseAccessConditions;
+}
+
+export interface FileSystemGetAccessPolicyHeaders {
+  publicAccess?: PublicAccessType;
+  etag?: string;
+  lastModified?: Date;
+  clientRequestId?: string;
+  requestId?: string;
+  version?: string;
+  date?: Date;
+}
+
+export interface RawAccessPolicy {
+  startsOn?: string;
+  expiresOn?: string;
+  permissions: string;
+}
+
+export interface AccessPolicy {
+  startsOn?: Date;
+  expiresOn?: Date;
+  permissions: string;
+}
+
+export interface SignedIdentifier<T> {
+  id: string;
+  accessPolicy: T;
+}
+
+export type FileSystemGetAccessPolicyResponse = {
+  signedIdentifiers: SignedIdentifier<AccessPolicy>[];
+} & FileSystemGetAccessPolicyHeaders & {
+  _response: HttpResponse & {
+    parsedHeaders: FileSystemGetAccessPolicyHeaders;
+    bodyAsText: string;
+    parsedBody: SignedIdentifier<RawAccessPolicy>[];
+  };
+};
+
+export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  conditions?: DataLakeRequestConditions;
+}
+
+export interface FileSystemSetAccessPolicyHeaders {
+  etag?: string;
+  lastModified?: Date;
+  clientRequestId?: string;
+  requestId?: string;
+  version?: string;
+  date?: Date;
+}
+
+export type FileSystemSetAccessPolicyResponse = FileSystemSetAccessPolicyHeaders & {
+  _response: HttpResponse & {
+    parsedHeaders: FileSystemSetAccessPolicyHeaders;
+  };
+};
+
 export interface ListPathsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   recursive?: boolean;
@@ -233,7 +295,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  LeaseAccessConditions { }
 
 export interface RolePermissions {
   read: boolean;
@@ -270,8 +332,8 @@ export interface PathCreateHttpHeaders {
 export interface PathCreateOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   metadata?: Metadata;
-  permissions?: string;
-  umask?: string;
+  permissions?: string; // TODO: model or string?
+  umask?: string; // TODO: model or string?
   conditions?: DataLakeRequestConditions;
   pathHttpHeaders?: PathCreateHttpHeaders;
 }
@@ -452,9 +514,9 @@ export type PathMoveResponse = PathRemoveHeaders & {
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions {}
+export interface DirectoryCreateOptions extends PathCreateOptions { }
 
-export interface DirectoryCreateResponse extends PathCreateResponse {}
+export interface DirectoryCreateResponse extends PathCreateResponse { }
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -514,7 +576,8 @@ export type FileReadResponse = FileReadHeaders & {
 export interface FileAppendOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   conditions?: LeaseAccessConditions;
-  contentMD5?: Uint8Array;
+  transactionalContentMD5?: Uint8Array;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export interface FileFlushOptions extends CommonOptions {
@@ -525,9 +588,9 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions {}
+export interface FileCreateOptions extends PathCreateOptions { }
 
-export interface FileCreateResponse extends PathCreateResponse {}
+export interface FileCreateResponse extends PathCreateResponse { }
 
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */

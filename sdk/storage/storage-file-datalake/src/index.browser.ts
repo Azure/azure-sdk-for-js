@@ -3,9 +3,8 @@
 
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
-export * from "./DataLakePathClient";
-export * from "./DataLakeDirectoryClient";
-export * from "./DataLakeFileClient";
+export * from "./clients";
+export * from "./DataLakeLeaseClient";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";

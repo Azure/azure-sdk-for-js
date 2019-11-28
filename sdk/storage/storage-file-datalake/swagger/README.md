@@ -72,3 +72,13 @@ directive:
   transform: >
     $["x-ms-client-name"] = "acl";
 ```
+
+### Update last modified property from string type to Date for FileSystem and Path models
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions
+  transform: >
+    $.FileSystem.properties.lastModified.format = "date-time-rfc1123";
+    $.Path.properties.lastModified.format = "date-time-rfc1123";
+```

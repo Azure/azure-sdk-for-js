@@ -103,8 +103,8 @@ export abstract class StorageClient {
   protected constructor(url: string, pipeline: Pipeline) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
-    this.blobEndpointUrl = toBlobEndpointUrl(url);
-    this.dfsEndpointUrl = toDfsEndpointUrl(url);
+    this.blobEndpointUrl = toBlobEndpointUrl(this.url);
+    this.dfsEndpointUrl = toDfsEndpointUrl(this.url);
     this.accountName = getAccountNameFromUrl(this.blobEndpointUrl);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(

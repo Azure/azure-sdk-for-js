@@ -7,8 +7,8 @@
     "newLine": "LF",
     "target": "es5",
     "moduleResolution": "node",
-    "noUnusedLocals": false, // TODO: Set to true after implementing all methods
-    "noUnusedParameters": false, // TODO: Set to true after implementing all methods
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strict": true,
     "module": "esNext",
     "outDir": "./dist-esm",

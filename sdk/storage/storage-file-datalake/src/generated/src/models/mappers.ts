@@ -31,7 +31,7 @@ export const Path: coreHttp.CompositeMapper = {
       lastModified: {
         serializedName: "lastModified",
         type: {
-          name: "String"
+          name: "DateTimeRfc1123"
         }
       },
       eTag: {
@@ -105,7 +105,7 @@ export const FileSystem: coreHttp.CompositeMapper = {
       lastModified: {
         serializedName: "lastModified",
         type: {
-          name: "String"
+          name: "DateTimeRfc1123"
         }
       },
       eTag: {

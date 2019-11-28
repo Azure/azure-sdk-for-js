@@ -18,14 +18,13 @@ import {
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
-import { Service } from "./generated/src/operations";
 import { createSpan } from "./utils/tracing";
 import { toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
 import { CanonicalCode } from "@opentelemetry/types";
 
 export class DataLakeServiceClient extends StorageClient {
-  private serviceContext: Service;
+  // private serviceContext: Service;
   private blobServiceClient: BlobServiceClient;
 
   public constructor(
@@ -59,7 +58,7 @@ export class DataLakeServiceClient extends StorageClient {
       super(url, pipeline);
     }
 
-    this.serviceContext = new Service(this.storageClientContext);
+    // this.serviceContext = new Service(this.storageClientContext);
     this.blobServiceClient = new BlobServiceClient(this.blobEndpointUrl, this.pipeline);
   }
 

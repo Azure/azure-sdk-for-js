@@ -12,13 +12,12 @@ import {
   PathGetAccessControlResponse,
   PathPermissions,
   PublicAccessType,
+  RolePermissions,
   ServiceListContainersSegmentResponse,
-  ServiceListFileSystemsSegmentResponse
+  ServiceListFileSystemsSegmentResponse,
 } from "./models";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";
-import { properties } from "./generated/src/models/parameters";
-import { RolePermissions, AccessControlType } from "./models";
 
 /**
  * Get a blob endpoint URL from incoming blob or dfs endpoint URLs.
@@ -96,17 +95,19 @@ function toFileSystemAsyncIterableIterator(
   return {
     async next() {
       const rawResult = await iter.next();
-      rawResult.value.fileSystemItems = rawResult.value.containerItems.map(
-        (val: ContainerItem): FileSystemItem => {
-          return {
-            ...val,
-            properties: {
-              ...val.properties,
-              publicAccess: toPublicAccessType(val.properties.publicAccess)
-            }
-          };
-        }
-      );
+      if (rawResult.value) {
+        rawResult.value.fileSystemItems = rawResult.value.containerItems.map(
+          (val: ContainerItem): FileSystemItem => {
+            return {
+              ...val,
+              properties: {
+                ...val.properties,
+                publicAccess: toPublicAccessType(val.properties.publicAccess)
+              }
+            };
+          }
+        );
+      }
       return rawResult as any;
     },
     [Symbol.asyncIterator]() {
@@ -122,9 +123,11 @@ export function toFileSystemPagedAsyncIterableIterator(
     async next(): Promise<{ done?: boolean; value: FileSystemItem }> {
       const rawResult = await iter.next();
       const result = rawResult as { done?: boolean; value: FileSystemItem };
-      result.value.properties.publicAccess = toPublicAccessType(
-        rawResult.value.properties.publicAccess
-      );
+      if (result.value) {
+        result.value.properties.publicAccess = toPublicAccessType(
+          rawResult.value.properties.publicAccess
+        );
+      }
       return result;
     },
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<
@@ -200,12 +203,13 @@ export function toPathGetAccessControlResponse(
 ): PathGetAccessControlResponse {
   return {
     ...response,
+    _response: response._response,
     permissions: toPermissions(response.permissions),
     acl: toAcl(response.acl)
   };
 }
 
-function toRolePermissions(
+export function toRolePermissions(
   permissionsString: string,
   allowStickyBit: boolean = false
 ): RolePermissions {
@@ -216,6 +220,8 @@ function toRolePermissions(
     throw error;
   }
 
+  permissionsString = permissionsString.toLowerCase();
+
   let read = false;
   if (permissionsString[0] === "r") {
     read = true;
@@ -225,17 +231,17 @@ function toRolePermissions(
 
   let write = false;
   if (permissionsString[1] === "w") {
-    read = true;
+    write = true;
   } else if (permissionsString[1] !== "-") {
     throw error;
   }
 
   let execute = false;
   if (permissionsString[2] === "x") {
-    read = true;
+    execute = true;
   } else if (allowStickyBit) {
     if (permissionsString[2] === "t") {
-      read = true;
+      execute = true;
     } else if (permissionsString[2] !== "-") {
       throw error;
     }
@@ -246,7 +252,7 @@ function toRolePermissions(
   return { read, write, execute };
 }
 
-function toPermissions(permissionsString?: string): PathPermissions | undefined {
+export function toPermissions(permissionsString?: string): PathPermissions | undefined {
   if (permissionsString === undefined || permissionsString === "" || permissionsString === null) {
     return undefined;
   }
@@ -287,7 +293,7 @@ function toPermissions(permissionsString?: string): PathPermissions | undefined 
   };
 }
 
-function toAccessControlItem(aclItemString: string): PathAccessControlItem {
+export function toAccessControlItem(aclItemString: string): PathAccessControlItem {
   const error = new RangeError(
     `toAccessControlItem() Parameter access control item string ${aclItemString} is not valid.`
   );
@@ -333,7 +339,7 @@ function toAccessControlItem(aclItemString: string): PathAccessControlItem {
   };
 }
 
-function toAcl(aclString?: string): PathAccessControlItem[] {
+export function toAcl(aclString?: string): PathAccessControlItem[] {
   if (aclString === undefined || aclString === "" || aclString === null) {
     return [];
   }
@@ -347,7 +353,7 @@ function toAcl(aclString?: string): PathAccessControlItem[] {
   return acls;
 }
 
-function toAccessControlItemString(item: PathAccessControlItem): string {
+export function toAccessControlItemString(item: PathAccessControlItem): string {
   return `${item.defaultScope ? "default:" : ""}${item.accessControlType}:${
     item.entityId
   }:${toRolePermissionsString(item.permissions)}`;
@@ -357,7 +363,7 @@ export function toAclString(acl: PathAccessControlItem[]): string {
   return acl.map(toAccessControlItemString).join(",");
 }
 
-function toRolePermissionsString(p: RolePermissions, stickyBit: boolean = false): string {
+export function toRolePermissionsString(p: RolePermissions, stickyBit: boolean = false): string {
   return `${p.read ? "r" : "-"}${p.write ? "w" : "-"}${stickyBit ? "t" : p.execute ? "x" : "-"}`;
 }
 

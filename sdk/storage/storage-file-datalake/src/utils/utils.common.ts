@@ -5,7 +5,6 @@ import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
 import { DevelopmentConnectionString, HeaderConstants, UrlConstants } from "./constants";
 
-
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
@@ -546,9 +545,14 @@ export function getAccountNameFromUrl(blobEndpointUrl: string): string {
     try {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
       // Slicing off '/' at the end if exists
-      blobEndpointUrl = blobEndpointUrl.endsWith("/") ? blobEndpointUrl.slice(0, -1) : blobEndpointUrl;
+      blobEndpointUrl = blobEndpointUrl.endsWith("/")
+        ? blobEndpointUrl.slice(0, -1)
+        : blobEndpointUrl;
 
-      const accountName = blobEndpointUrl.substring(blobEndpointUrl.lastIndexOf("://") + 3, blobEndpointUrl.lastIndexOf(".blob."));
+      const accountName = blobEndpointUrl.substring(
+        blobEndpointUrl.lastIndexOf("://") + 3,
+        blobEndpointUrl.lastIndexOf(".blob.")
+      );
       if (!accountName) {
         throw new Error("Provided accountName is invalid.");
       }

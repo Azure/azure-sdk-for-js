@@ -18,7 +18,7 @@ export interface Path {
    * Default value: false.
    */
   isDirectory?: boolean;
-  lastModified?: string;
+  lastModified?: Date;
   eTag?: string;
   contentLength?: number;
   owner?: string;
@@ -38,7 +38,7 @@ export interface PathList {
  */
 export interface FileSystem {
   name?: string;
-  lastModified?: string;
+  lastModified?: Date;
   eTag?: string;
 }
 

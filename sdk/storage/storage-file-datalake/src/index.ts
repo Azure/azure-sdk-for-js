@@ -3,9 +3,8 @@
 
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
-export * from "./DataLakePathClient";
-export * from "./DataLakeDirectoryClient";
-export * from "./DataLakeFileClient";
+export * from "./clients";
+export * from "./DataLakeLeaseClient";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
