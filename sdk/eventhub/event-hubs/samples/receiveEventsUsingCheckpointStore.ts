@@ -30,8 +30,6 @@ const containerName = "";
 const consumerGroup = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
-  
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
@@ -42,8 +40,10 @@ async function main() {
 
   const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
 
-  const subscription = consumerClient.subscribe(
-    checkpointStore, {
+
+  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
+   
+  const subscription = consumerClient.subscribe({
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);

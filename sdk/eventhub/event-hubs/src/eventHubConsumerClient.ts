@@ -35,7 +35,6 @@ const defaultConsumerClientOptions: Required<Pick<
 };
 
 /**
- * @class
  * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
  *
  * There are multiple ways to create an `EventHubConsumerClient`
@@ -318,9 +317,6 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to all messages from all available partitions.
    *
-   * Use this overload if you want to read from all partitions and not coordinate with
-   * other subscribers.
-   *
    * @param handlers Handlers for the lifecycle of the subscription - initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
@@ -329,10 +325,7 @@ export class EventHubConsumerClient {
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
-   * Subscribe to all messages from a subset of partitions.
-   *
-   * Use this overload if you want to read from a specific set of partitions and not coordinate with
-   * other subscribers.
+   * Subscribe to all messages from a single partition.
    *
    * @param partitionId A partition id to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - initialization

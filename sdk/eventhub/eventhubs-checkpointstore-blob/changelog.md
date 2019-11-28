@@ -1,4 +1,4 @@
-### TBD - 1.0.0-preview.5
+### 2019-12-02 - 1.0.0-preview.5
 
 - Updated to use the latest version of the `@azure/event-hubs` package.
 
