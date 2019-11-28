@@ -178,23 +178,21 @@ To consume events from an Event Hub instance, you also need to know which consum
 Once you know this, you are ready to create an [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient). While the below example shows one way to create the client, see the
 [Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
 
-The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe)
-method on the client has 3 overloads to cater to the 3 ways you can consume events.
+The `subscribe` method on the client has 2 overloads which, combined with the constructor, can cater to several
+ways to consume events:
 
 - [Consume events in a single process](consume-events-in-a-single-process)
 - [Consume events with load balanced across multiple processes](consume-events-with-load-balanced-across-multiple-processes)
 - [Consume events from a single partition](consume-events-from-a-single-partition)
 
-The `subscribe` method takes an optional parameter of type [SubscriptionOptions](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/interfaces/subscriptionoptions.html) which you can use to specify options like the maxBatchSize (number of events to wait for) and maxWaitTimeInSeconds (amount of time to wait for maxBatchSize events to arrive).
-
+The `subscribe` method takes an optional parameter of type `SubscriptionOptions` which you can use to specify options like the maxBatchSize (number of events to wait for) and maxWaitTimeInSeconds (amount of time to wait for maxBatchSize events to arrive).
 
 #### Consume events in a single process
 
 Begin by creating an instance of the `EventHubConsumerClient`, and then call the `subscribe()` method on it to start
 consuming events.
 
-The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe) 
-method takes callbacks to process events as they are received from Azure Event Hubs.
+The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
@@ -234,8 +232,7 @@ of your application.
 In this example, we will use the `BlobCheckpointStore` from the `@azure/eventhubs-checkpointstore-blob` package
 which implements the required read/writes to a durable store by using Azure Blob Storage.
 
-The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe) 
-method takes callbacks to process events as they are receivied from Azure Event Hubs.
+The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
@@ -274,10 +271,8 @@ consuming events. Pass the id of the partition you want to target to the `subscr
 
 In the below example, we are using the first partition.
 
-The [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html#subscribe) 
-method takes callbacks to process events as they are receivied from Azure Event Hubs.
+The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
-
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
