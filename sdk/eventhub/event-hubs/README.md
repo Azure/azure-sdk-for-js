@@ -55,8 +55,8 @@ For more concepts and deeper discussion, see: [Event Hubs Features](https://docs
 ### Authenticate the client
 
 Interaction with Event Hubs starts with either an instance of the 
-[EventHubConsumerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubconsumerclient.html) class
-or an instance of the [EventHubProducerClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubproducerclient.html) class. 
+[EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient) class
+or an instance of the [EventHubProducerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient) class. 
 There are constructor overloads to support different ways of instantiating these classes as shown below:
 
 
@@ -129,8 +129,8 @@ In order to publish events, you'll need to create an `EventHubProducerClient`. W
 
 You may publish events to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the example below, we will take advantage of automatic routing.
 
-- Create an `EventDataBatch` object using the [createBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubproducer.html#createbatch) 
-- Add events to the batch using the [tryAdd](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventdatabatch.html#tryadd)
+- Create an `EventDataBatch` object using the [createBatch](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient#createbatch-createbatchoptions-) 
+- Add events to the batch using the [tryAdd](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventdatabatch#tryadd-eventdata--tryaddoptions-)
 method. You can do this until the maximum batch size limit is reached or until you are done adding the number of events you liked, whichever comes first. This method would return `false` to indicate that no more events can be added to the batch due to the max batch size being reached.
 - Send the batch of events using the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-event-hubs/5.0.0-preview.7/classes/eventhubproducerclient.html#sendbatch) method.
 
