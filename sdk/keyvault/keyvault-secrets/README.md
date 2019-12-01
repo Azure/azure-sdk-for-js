@@ -247,7 +247,7 @@ This will create a new version of the same secret, which will have the latest
 provided attributes.
 
 Attributes can also be updated to an existing secret version with
-`updateSecretAttributes`, as follows:
+`updateSecretProperties`, as follows:
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -263,8 +263,8 @@ const client = new SecretClient(url, credential);
 const secretName = "MySecretName";
 
 async function main() {
-  const result = client.getSecret(secretName);
-  await client.updateSecretAttributes(secretName, result.parameters.version, { enabled: false });
+  const result = await client.getSecret(secretName);
+  await client.updateSecretProperties(secretName, result.parameters.version, { enabled: false });
 }
 
 main();
