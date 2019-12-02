@@ -9,7 +9,7 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
 - @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
-- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
+- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share)
 - @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)

@@ -5,14 +5,14 @@
 Copy the sample file you want to a folder of your choice and run the following command in your samples folder to install the npm package for Azure Storage File library.
 
 ```bash
-npm install @azure/storage-file-share@12.0.0-preview.6
+npm install @azure/storage-file-share
 ```
 
 Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-file-share package.
 
 ```bash
 npm init -y
-npm install @azure/storage-file-share@12.0.0-preview.6
+npm install @azure/storage-file-share
 ```
 
 ### Running Samples
