@@ -3,7 +3,7 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.1.0"
+  version: "1.1.1"
 };
 
 export const messageDispositionTimeout = 20000;
@@ -117,8 +117,8 @@ export const COUNT_DETAILS = "CountDetails";
 export const DEFAULT_RULE_NAME = "$Default";
 
 /**
- * Max idle time before entity is deleted
- *
+ * Max idle time before entity is deleted.
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 
@@ -154,13 +154,13 @@ export const MAX_SIZE_IN_MEGABYTES = "MaxSizeInMegabytes";
 
 /**
  * The default message time to live.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DEFAULT_MESSAGE_TIME_TO_LIVE = "DefaultMessageTimeToLive";
 
 /**
  * The lock duration.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const LOCK_DURATION = "LockDuration";
 
@@ -194,7 +194,7 @@ export const DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS =
 
 /**
  * The history time window for duplicate detection.
- *
+ * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DUPLICATE_DETECTION_HISTORY_TIME_WINDOW = "DuplicateDetectionHistoryTimeWindow";
 

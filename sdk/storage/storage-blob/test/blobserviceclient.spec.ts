@@ -48,6 +48,23 @@ describe("BlobServiceClient", () => {
     }
   });
 
+  it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
+    const blobServiceClient = getBSU();
+    const result = (await blobServiceClient
+      .listContainers({ prefix: "" })
+      .byPage()
+      .next()).value;
+
+    assert.ok(result.containerItems!.length >= 0);
+
+    if (result.containerItems!.length > 0) {
+      const container = result.containerItems![0];
+      assert.ok(container.name.length > 0);
+      assert.ok(container.properties.etag.length > 0);
+      assert.ok(container.properties.lastModified);
+    }
+  });
+
   it("ListContainers with all parameters configured", async () => {
     const blobServiceClient = getBSU();
 

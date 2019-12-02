@@ -583,7 +583,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
    * const createQueueResponse = await queueClient.create();
@@ -616,7 +617,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const deleteQueueResponse = await queueClient.delete();
    * console.log(
@@ -646,6 +648,11 @@ export class QueueClient extends StorageClient {
    * Gets all user-defined metadata and system properties for the specified
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
+   *
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the `listQueues` method of {@link QueueServiceClient} using the `includeMetadata` option, which
+   * will retain their original casing.
    *
    * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
    * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
@@ -843,7 +850,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
@@ -901,7 +909,8 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const response = await queueClient.receiveMessages();
    * if (response.receivedMessageItems.length == 1) {
@@ -963,7 +972,8 @@ export class QueueClient extends StorageClient {
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const peekMessagesResponse = await queueClient.peekMessages();
    * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);

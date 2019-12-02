@@ -1,3 +1,9 @@
+# 1.0.0-preview.6 2nd December 2019
+
+- Updated to use OpenTelemetry 0.2 via the `@opentelemetry/types` package. There were two breaking changes in this update:
+  - `isRecordingEvents` on `Span` was renamed to `isRecording`. [PR link](https://github.com/open-telemetry/opentelemetry-js/pull/454)
+  - `addLink` was removed from `Span` as links are now only allowed to be added during span creation. This is possible by specifying any necessary links inside `SpanOptions`. [PR link](https://github.com/open-telemetry/opentelemetry-js/pull/449)
+
 # 1.0.0-preview.5 22nd October 2019
 
 - Fixes issue where loading multiple copies of this module could result in the tracer set by `setTracer()` being reset.

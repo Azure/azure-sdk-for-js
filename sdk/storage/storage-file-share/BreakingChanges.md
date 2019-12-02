@@ -4,6 +4,9 @@
 
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 - [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
+- [Breaking] `shareName` on `ShareClient` has been renamed to `name`. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
+- [Breaking] In browsers, `blobBody` on `FileDownloadResponse` has been renamed to `contentAsBlob` in order to avoid naming confusion between browser `Blob` objects and `Blob`s from `@azure/storage-blob`. [PR 6183](https://github.com/Azure/azure-sdk-for-js/pull/6183) 
+- [Breaking] Removed `uploadBrowserData` from `ShareFileClient` in favor of a unified method `uploadData` that accepts both browser `Blob` objects as well as Node.js `Buffer` objects.
 
 ## 2019.11 12.0.0-preview.6
 

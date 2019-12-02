@@ -18,7 +18,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 
 **Please Note:** This is a preview version of the Key Vault Certificates library.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault.html#azure-keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 
 ## Getting started
 
@@ -406,10 +406,8 @@ const certificateName = "MyCertificateName";
 
 async function main() {
   const result = await client.getCertificate(certificateName);
-  await client.updateCertificate(certificateName, result.properties.version, {
-    certificateAttributes: {
-      enabled: false
-    },
+  await client.updateCertificateProperties(certificateName, result.properties.version, {
+    enabled: false,
     tags: {
       myCustomTag: "myCustomTagsValue"
     }

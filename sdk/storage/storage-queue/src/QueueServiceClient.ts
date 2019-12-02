@@ -219,12 +219,11 @@ export class QueueServiceClient extends StorageClient {
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    *
-   * @example
+   * Example using DefaultAzureCredential from `@azure/identity`:
+   *
    * ```js
    * const account = "<account>";
    *
-   * // Use a TokenCredential implementation from the @azure/identity package.
-   * // In this case, a DefaultAzureCredential (recommended for most users)
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
@@ -233,7 +232,8 @@ export class QueueServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @example
+   * Example using an account name/key:
+   *
    * ```js
    * const account = "<account>";
    *
@@ -298,7 +298,8 @@ export class QueueServiceClient extends StorageClient {
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
    *
-   * @example
+   * Example usage:
+   *
    * ```js
    * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
    * const createQueueResponse = await queueClient.create();
@@ -331,6 +332,11 @@ export class QueueServiceClient extends StorageClient {
       "QueueServiceClient-listQueuesSegment",
       options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
       return await this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
@@ -370,6 +376,10 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
@@ -389,6 +399,10 @@ export class QueueServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<QueueItem> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.queueItems;
@@ -400,67 +414,73 @@ export class QueueServiceClient extends StorageClient {
    * under the specified account.
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
-   * @example
+   *
+   * Example using `for await` syntax:
+   *
    * ```js
-   *    let i = 1;
-   *    for await (const item of queueServiceClient.listQueues()) {
-   *      console.log(`Queue${i}: ${item.name}`);
-   *      i++;
-   *    }
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *    // Generator syntax .next()
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues();
-   *    let item = await iterator.next();
-   *    while (!item.done) {
-   *      console.log(`Queue${i}: ${iterator.value.name}`);
-   *      i++;
-   *      item = await iterator.next();
-   *    }
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues();
+   * let item = await iterator.next();
+   * while (!item.done) {
+   *   console.log(`Queue${i}: ${iterator.value.name}`);
+   *   i++;
+   *   item = await iterator.next();
+   * }
    * ```
    *
-   * @example
+   * Example using `byPage()`:
+   *
    * ```js
-   *    // Example for .byPage()
-   *    // passing optional maxPageSize in the page settings
-   *    let i = 1;
-   *    for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *      if (item2.queueItems) {
-   *        for (const queueItem of item2.queueItems) {
-   *          console.log(`Queue${i}: ${queueItem.name}`);
-   *          i++;
-   *        }
-   *      }
-   *    }
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   if (item2.queueItems) {
+   *     for (const queueItem of item2.queueItems) {
+   *       console.log(`Queue${i}: ${queueItem.name}`);
+   *       i++;
+   *     }
+   *   }
+   * }
    * ```
    *
-   * @example
+   * Example using paging with a marker:
+   *
    * ```js
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   *    let item = (await iterator.next()).value;
-   *    // Prints 2 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
-   *    // Gets next marker
-   *    let marker = item.continuationToken;
-   *    // Passing next marker as continuationToken
-   *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *    item = (await iterator.next()).value;
-   *    // Prints 10 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+   * let item = (await iterator.next()).value;
+   * 
+   * // Prints 2 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = item.continuationToken;
+   * 
+   * // Passing next marker as continuationToken
+   * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * item = (await iterator.next()).value;
+   *
+   * // Prints 10 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
    * ```
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
@@ -470,6 +490,10 @@ export class QueueServiceClient extends StorageClient {
   public listQueues(
     options: ServiceListQueuesOptions = {}
   ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     const updatedOptions: ServiceListQueuesSegmentOptions = {
       ...options,
       ...(options.includeMetadata ? { include: "metadata" } : {})

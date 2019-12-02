@@ -1,3 +1,17 @@
+# 2019-11-27 1.1.1
+
+- Fix [bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757) where `receiveMessages` used in `ReceiveAndDelete` mode results in data loss. [PR 6265](https://github.com/Azure/azure-sdk-for-js/pull/6265).
+- Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
+of the `@azure/amqp-common` package.
+- We do not have retries for errors during receiver set up. User is expected to retry on their own.
+There was a misleading retry due to a failed receiver being cached which is now fixed. Related to 
+[bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
+- Errors that arise from receivers failing to automatically reconnect after encountering a transient issue now trigger the user-provided `onError` callback passed to `receiver.registerMessageHandler`. Related to [bug 2540](https://github.com/Azure/azure-sdk-for-js/issues/2540)
+- Update jsdocs for the `receiveMessages` method to include a note that the number of messages that can
+  be received in `PeekLock` mode is capped at 2047. [PR 5758](https://github.com/Azure/azure-sdk-for-js/pull/5758).
+- Update jsdocs for user facing apis to include information on possible errors that can be thrown.
+  [PR 6088](https://github.com/Azure/azure-sdk-for-js/pull/6088)
+
 # 2019-09-26 1.1.0
 
 - Add browser support. Authentication using Azure Active Directory credentials is not supported yet - use a connection string instead.

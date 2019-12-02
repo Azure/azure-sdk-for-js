@@ -3,12 +3,12 @@
   Licensed under the MIT Licence.
 
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance. It also demonstrates the process of checkpointing an event
-  which helps new instances of your application that may have spun up for scaling or for crash recovery.
+  of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
 
-  You will see the use of a Partition Manager which is crucial to balance the load of processing events
-  across multiple instances of your application.
-
+  Checkpointing using a durable store allows your application to be more resilient. When you restart
+  your application after a crash (or an intentional stop), your application can continue consuming
+  events from where it last checkpointed.
+  
   If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate it before running this sample.
 
@@ -21,7 +21,7 @@ import {
 } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
-import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
 const connectionString = "";
 const eventHubName = "";
@@ -30,8 +30,6 @@ const containerName = "";
 const consumerGroup = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
-  
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
@@ -40,31 +38,38 @@ async function main() {
     await containerClient.create();
   }
 
-  const checkpointStore : CheckpointStore = new BlobPartitionManager(containerClient);
+  const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
 
-  const subscription = consumerClient.subscribe(
-    checkpointStore, {
-      processEvent: async (event, context) => {
-        console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
+
+  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
+   
+  const subscription = consumerClient.subscribe({
+      processEvents: async (events, context) => {
+        for (const event of events) {
+          console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
+        }
     
         try {
-          // save a checkpoint now that we've processed this event.
-          await context.updateCheckpoint(event)
+          // save a checkpoint for the last event now that we've processed this batch.
+          await context.updateCheckpoint(events[events.length - 1]);
         } catch (err) {
           console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
           throw err;
         };
 
         console.log(
-          `Successfully checkpointed event with sequence number: ${event.sequenceNumber} from partition: 'partitionContext.partitionId'`
+          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`
         );
+      },
+      processError: async (err, context) => {
+        console.log(`Error : ${err}`);
       }
     }
   );
 
   // after 30 seconds, stop processing
   await new Promise((resolve) => {
-    setInterval(async () => {
+    setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();
       resolve();

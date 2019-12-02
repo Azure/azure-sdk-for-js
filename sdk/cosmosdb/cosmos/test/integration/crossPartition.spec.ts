@@ -87,7 +87,10 @@ describe("Cross Partition", function() {
         "actual results length doesn't match with expected results length."
       );
       if (expectedOrderIds) {
-        assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);
+        assert.deepStrictEqual(
+          actualResults.map((doc) => doc.id || doc),
+          expectedOrderIds
+        );
       }
     };
 

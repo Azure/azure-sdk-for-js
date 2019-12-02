@@ -203,9 +203,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     const results: VersionTagPair[] = [];
-    for await (const item of client.listPropertiesOfCertificateVersions(certificateName, {
-      includePending: true
-    })) {
+    for await (const item of client.listPropertiesOfCertificateVersions(certificateName, {})) {
       const version = item.version!;
       const certificate = await client.getCertificateVersion(certificateName, version);
       // Versions don't match. Something must be happening under the hood.

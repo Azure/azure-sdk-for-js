@@ -129,7 +129,7 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Read the documentation
 
-API documentation for this library can be found on our [documentation site](https://azure.github.io/azure-sdk-for-js/identity.html).
+API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
 
 ### Provide Feedback
 

@@ -39,10 +39,12 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     this.done = false;
   }
 
-  async processEvent(event: ReceivedEventData, context: PartitionContext): Promise<void> {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
-    await context.updateCheckpoint(event);
-    this.expectedMessageBodies.delete(event.body);
+    for (const event of events) {
+      await context.updateCheckpoint(event);
+      this.expectedMessageBodies.delete(event.body);
+    }   
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;
@@ -74,7 +76,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   async processInitialize(context: InitializationContext): Promise<void> {
     this.contextIsOk(context);
 
-    context.setStartPosition(EventPosition.latest());
+    context.setStartingPosition(EventPosition.latest());
 
     if (!this.multipleConsumers) {
       // this'll happen because for our multi-consumer tests we share the same

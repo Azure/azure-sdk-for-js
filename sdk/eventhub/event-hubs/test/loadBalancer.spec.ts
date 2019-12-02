@@ -10,7 +10,7 @@ describe("PartitionLoadBalancer", () => {
       const m = new Map<string, PartitionOwnership>();
       const lb = new GreedyPartitionLoadBalancer();
 
-      lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
+      lb.loadBalance("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
       m.should.be.empty;
     });
 
@@ -18,24 +18,36 @@ describe("PartitionLoadBalancer", () => {
       const m = new Map<string, PartitionOwnership>();
       const lb = new GreedyPartitionLoadBalancer(["2"]);
 
-      lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2"]);
+      lb.loadBalance("ownerId", m, ["1", "2", "3"]).should.deep.eq(["2"]);
       m.should.be.empty;
     });
 
-    it("don't claim already owned partitions", () => {
+    it("don't claim partitions we already own", () => {
       const m = new Map<string, PartitionOwnership>();
 
       m.set("1", {
         consumerGroup: "",
         fullyQualifiedNamespace: "",
         eventHubName: "",
-        ownerId: "",
+        // we already own this so we won't
+        // try to reclaim it.
+        ownerId: "ownerId",
         partitionId: ""
       });
 
+      m.set("2", {
+        consumerGroup: "",
+        fullyQualifiedNamespace: "",
+        eventHubName: "",
+        // owned by someone else - we'll steal this 
+        // partition
+        ownerId: "someOtherOwnerId",
+        partitionId: ""
+      })
+
       const lb = new GreedyPartitionLoadBalancer(["1", "2", "3"]);
 
-      lb.loadBalance(m, ["1", "2", "3"]).should.deep.eq(["2", "3"]);
+      lb.loadBalance("ownerId", m, ["1", "2", "3"]).should.deep.eq(["2", "3"]);
     });
   });
 });

@@ -56,6 +56,7 @@ import {
   Rule,
   buildRule
 } from "./serializers/ruleResourceSerializer";
+import { isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusAtomManagementClient creation
@@ -432,6 +433,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
     );
 
+    if (!isJSONLikeObject(queueOptions) || queueOptions === null) {
+      throw new TypeError(
+        `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+      );
+    }
+
     const finalQueueOptions: QueueOptions = {};
     const getQueueResult = await this.getQueueDetails(queueName);
     Object.assign(finalQueueOptions, getQueueResult, queueOptions);
@@ -521,6 +528,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
     );
+
+    if (!isJSONLikeObject(topicOptions) || topicOptions === null) {
+      throw new TypeError(
+        `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+      );
+    }
 
     const finalTopicOptions: TopicOptions = {};
     const getTopicResult = await this.getTopicDetails(topicName);
@@ -633,6 +646,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
     );
+
+    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions === null) {
+      throw new TypeError(
+        `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+      );
+    }
+
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
 
     const finalSubscriptionOptions: SubscriptionOptions = {};
@@ -758,6 +778,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
     );
+
+    if (!isJSONLikeObject(ruleOptions) || ruleOptions === null) {
+      throw new TypeError(
+        `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
+      );
+    }
+
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,

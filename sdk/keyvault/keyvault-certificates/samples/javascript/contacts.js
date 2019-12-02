@@ -19,12 +19,12 @@ async function main() {
 
   const contacts = [
     {
-      emailAddress: "a@a.com",
+      email: "a@a.com",
       name: "a",
       phone: "111111111111"
     },
     {
-      emailAddress: "b@b.com",
+      email: "b@b.com",
       name: "b",
       phone: "222222222222"
     }

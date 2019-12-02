@@ -3,6 +3,8 @@
 ## TBD 12.0.1
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listQueues` method to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
+- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
 ## 2019.11 12.0.0
 
