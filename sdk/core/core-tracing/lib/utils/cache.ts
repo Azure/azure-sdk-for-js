@@ -3,15 +3,15 @@
 
 import { Tracer } from "@opentelemetry/types";
 import { getGlobalObject } from "./global";
-import { logger } from "./log";
 
 const GLOBAL_TRACER_VERSION = 2;
-const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache");
+// preview5 shipped with @azure/core-tracing.tracerCache
+// and didn't have smart detection for collisions
+const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache2");
 
 export interface TracerCache {
   version: number;
   tracer?: Tracer;
-  userProvidedTracer?: boolean;
 }
 
 let cache: TracerCache;
@@ -25,8 +25,8 @@ function loadTracerCache(): void {
       cache = existingCache;
     } else {
       setGlobalCache = false;
-      if (existingCache.userProvidedTracer) {
-        logger.warning(
+      if (existingCache.tracer) {
+        throw new Error(
           `Two incompatible versions of @azure/core-tracing have been loaded.
           This library is ${GLOBAL_TRACER_VERSION}, existing is ${existingCache.version}.`
         );

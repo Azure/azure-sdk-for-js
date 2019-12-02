@@ -5,6 +5,15 @@ import { NoOpTracer } from "./tracers/noop/noOpTracer";
 import { Tracer } from "@opentelemetry/types";
 import { getCache } from "./utils/cache";
 
+let defaultTracer: Tracer;
+
+function getDefaultTracer(): Tracer {
+  if (!defaultTracer) {
+    defaultTracer = new NoOpTracer();
+  }
+  return defaultTracer;
+}
+
 /**
  * Sets the global tracer, enabling tracing for the Azure SDK.
  * @param tracer An OpenTelemetry Tracer instance.
@@ -12,7 +21,6 @@ import { getCache } from "./utils/cache";
 export function setTracer(tracer: Tracer) {
   const cache = getCache();
   cache.tracer = tracer;
-  cache.userProvidedTracer = true;
 }
 
 /**
@@ -22,7 +30,7 @@ export function setTracer(tracer: Tracer) {
 export function getTracer() {
   const cache = getCache();
   if (!cache.tracer) {
-    cache.tracer = new NoOpTracer();
+    return getDefaultTracer();
   }
   return cache.tracer;
 }
