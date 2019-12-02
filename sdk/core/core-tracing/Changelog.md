@@ -1,4 +1,4 @@
-# 1.0.0-preview.7 TBD
+# 1.0.0-preview.7 2nd December 2019
 
 - Updated the behavior of how incompatible versions of OpenTelemetry Tracer are handled. Now, if two incompatible versions of `@azure/core-tracing` are found, we will log a warning instead of throwing on `getTracer()`/`setTracer()`, but only if the user has manually set a Tracer. This means that incompatible versions will be silently ignored when tracing is not enabled.
 
