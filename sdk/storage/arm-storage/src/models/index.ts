@@ -174,22 +174,18 @@ export interface Restriction {
 }
 
 /**
- * The SKU of the storage account.
+ * Storage SKU and its properties
  */
-export interface Sku {
+export interface SkuInformation {
   /**
-   * Gets or sets the SKU name. Required for account creation; optional for update. Note that in
-   * older versions, SKU name was called accountType. Possible values include: 'Standard_LRS',
-   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS',
-   * 'Standard_GZRS', 'Standard_RAGZRS'
+   * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
+   * 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
    */
   name: SkuName;
   /**
-   * Gets the SKU tier. This is based on the SKU name. Possible values include: 'Standard',
-   * 'Premium'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Possible values include: 'Standard', 'Premium'
    */
-  readonly tier?: SkuTier;
+  tier?: SkuTier;
   /**
    * The type of the resource, usually it is 'storageAccounts'.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -443,6 +439,26 @@ export interface AzureFilesIdentityBasedAuthentication {
 }
 
 /**
+ * Routing preference defines the type of network, either microsoft or internet routing to be used
+ * to deliver the user data, the default option is microsoft routing
+ */
+export interface RoutingPreference {
+  /**
+   * Routing Choice defines the kind of network routing opted by the user. Possible values include:
+   * 'MicrosoftRouting', 'InternetRouting'
+   */
+  routingChoice?: RoutingChoice;
+  /**
+   * A boolean flag which indicates whether microsoft routing storage endpoints are to be published
+   */
+  publishMicrosoftEndpoints?: boolean;
+  /**
+   * A boolean flag which indicates whether internet routing storage endpoints are to be published
+   */
+  publishInternetEndpoints?: boolean;
+}
+
+/**
  * Identity for the resource.
  */
 export interface Identity {
@@ -456,6 +472,21 @@ export interface Identity {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
+}
+
+/**
+ * The SKU of the storage account.
+ */
+export interface Sku {
+  /**
+   * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
+   * 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
+   */
+  name: SkuName;
+  /**
+   * Possible values include: 'Standard', 'Premium'
+   */
+  tier?: SkuTier;
 }
 
 /**
@@ -527,6 +558,74 @@ export interface StorageAccountCreateParameters {
    * values include: 'Disabled', 'Enabled'
    */
   largeFileSharesState?: LargeFileSharesState;
+  /**
+   * Maintains information about the network routing choice opted by the user for data transfer
+   */
+  routingPreference?: RoutingPreference;
+}
+
+/**
+ * The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object
+ * via a microsoft routing endpoint.
+ */
+export interface StorageAccountMicrosoftEndpoints {
+  /**
+   * Gets the blob endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blob?: string;
+  /**
+   * Gets the queue endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly queue?: string;
+  /**
+   * Gets the table endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly table?: string;
+  /**
+   * Gets the file endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly file?: string;
+  /**
+   * Gets the web endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly web?: string;
+  /**
+   * Gets the dfs endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dfs?: string;
+}
+
+/**
+ * The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a
+ * internet routing endpoint.
+ */
+export interface StorageAccountInternetEndpoints {
+  /**
+   * Gets the blob endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blob?: string;
+  /**
+   * Gets the file endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly file?: string;
+  /**
+   * Gets the web endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly web?: string;
+  /**
+   * Gets the dfs endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dfs?: string;
 }
 
 /**
@@ -563,6 +662,14 @@ export interface Endpoints {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly dfs?: string;
+  /**
+   * Gets the microsoft routing storage endpoints.
+   */
+  microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
+  /**
+   * Gets the internet routing storage endpoints
+   */
+  internetEndpoints?: StorageAccountInternetEndpoints;
 }
 
 /**
@@ -809,6 +916,10 @@ export interface StorageAccount extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Maintains information about the network routing choice opted by the user for data transfer
+   */
+  routingPreference?: RoutingPreference;
 }
 
 /**
@@ -907,6 +1018,10 @@ export interface StorageAccountUpdateParameters {
    * values include: 'Disabled', 'Enabled'
    */
   largeFileSharesState?: LargeFileSharesState;
+  /**
+   * Maintains information about the network routing choice opted by the user for data transfer
+   */
+  routingPreference?: RoutingPreference;
   /**
    * Optional. Indicates the type of storage account. Currently only StorageV2 value supported by
    * server. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
@@ -1622,15 +1737,15 @@ export interface CorsRules {
 }
 
 /**
- * The blob service properties for soft delete.
+ * The service properties for soft delete.
  */
 export interface DeleteRetentionPolicy {
   /**
-   * Indicates whether DeleteRetentionPolicy is enabled for the Blob service.
+   * Indicates whether DeleteRetentionPolicy is enabled.
    */
   enabled?: boolean;
   /**
-   * Indicates the number of days that the deleted blob should be retained. The minimum specified
+   * Indicates the number of days that the deleted item should be retained. The minimum specified
    * value can be 1 and the maximum value can be 365.
    */
   days?: number;
@@ -1663,7 +1778,7 @@ export interface BlobServiceProperties extends Resource {
    */
   defaultServiceVersion?: string;
   /**
-   * The blob service properties for soft delete.
+   * The blob service properties for blob soft delete.
    */
   deleteRetentionPolicy?: DeleteRetentionPolicy;
   /**
@@ -1674,6 +1789,11 @@ export interface BlobServiceProperties extends Resource {
    * The blob service properties for change feed events.
    */
   changeFeed?: ChangeFeed;
+  /**
+   * Sku name and tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
 }
 
 /**
@@ -1730,6 +1850,15 @@ export interface FileServiceProperties extends Resource {
    * deleted, and CORS will be disabled for the File service.
    */
   cors?: CorsRules;
+  /**
+   * The file service properties for share soft delete.
+   */
+  shareDeleteRetentionPolicy?: DeleteRetentionPolicy;
+  /**
+   * Sku name and tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
 }
 
 /**
@@ -1758,7 +1887,7 @@ export interface FileShare extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120).
+   * 5TB (5120). For Large File Shares, the maximum size is 100000.
    */
   shareQuota?: number;
 }
@@ -1778,7 +1907,7 @@ export interface FileShareItem extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120).
+   * 5TB (5120). For Large File Shares, the maximum size is 100000.
    */
   shareQuota?: number;
 }
@@ -1894,6 +2023,10 @@ export interface FileServicesSetServicePropertiesOptionalParams extends msRest.R
    * deleted, and CORS will be disabled for the File service.
    */
   cors?: CorsRules;
+  /**
+   * The file service properties for share soft delete.
+   */
+  shareDeleteRetentionPolicy?: DeleteRetentionPolicy;
 }
 
 /**
@@ -1920,7 +2053,7 @@ export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120).
+   * 5TB (5120). For Large File Shares, the maximum size is 100000.
    */
   shareQuota?: number;
 }
@@ -1935,7 +2068,7 @@ export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120).
+   * 5TB (5120). For Large File Shares, the maximum size is 100000.
    */
   shareQuota?: number;
 }
@@ -2019,9 +2152,9 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * @interface
  * The response from the List Storage SKUs operation.
- * @extends Array<Sku>
+ * @extends Array<SkuInformation>
  */
-export interface StorageSkuListResult extends Array<Sku> {
+export interface StorageSkuListResult extends Array<SkuInformation> {
 }
 
 /**
@@ -2190,6 +2323,14 @@ export type AccessTier = 'Hot' | 'Cool';
  * @enum {string}
  */
 export type LargeFileSharesState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for RoutingChoice.
+ * Possible values include: 'MicrosoftRouting', 'InternetRouting'
+ * @readonly
+ * @enum {string}
+ */
+export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
 
 /**
  * Defines values for GeoReplicationStatus.
