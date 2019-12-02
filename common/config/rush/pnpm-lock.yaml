@@ -1,6 +1,7 @@
 dependencies:
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
+  '@rush-temp/cognitiveservices-textanalytics': 'file:projects/cognitiveservices-textanalytics.tgz'
   '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:projects/core-asynciterator-polyfill.tgz'
@@ -145,10 +146,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-i3hF4EQucZmn2l4zXscwG5bilnboKHtnLMFVuzXk55dt487/9EJ5uMOP3eyTFpULGjn6xubgYFAJVpUJGVQv4w==
-  /@azure/eslint-plugin-azure-sdk/2.0.1_744341cce34b560542e774d8e76d0ee4:
+  /@azure/eslint-plugin-azure-sdk/2.0.1_d70227464f3da19960f35606e3defe4f:
     dependencies:
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      eslint: 6.7.1
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      eslint: 6.7.2
       fast-levenshtein: 2.0.6
       glob: 7.1.6
       typescript: 3.6.4
@@ -378,19 +379,19 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-GtwNB6BNDdsIPAYEdpp3JnOGO/3AJxjPvny53s3HERBdXSJTGQw8IRhiaTEX0b3w9P8+FwFZde4k+qkjn67aVw==
-  /@rollup/plugin-json/4.0.0_rollup@1.27.5:
+  /@rollup/plugin-json/4.0.0_rollup@1.27.8:
     dependencies:
-      rollup: 1.27.5
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
     dev: false
     peerDependencies:
       rollup: ^1.20.0
     resolution:
       integrity: sha512-Z65CtEVWv40+ri4CvmswyhtuUtki9yP5p0UJN/GyCKKyU4jRuDS9CG0ZuV7/XuS7zGkoajyE7E4XBEaC4GW62A==
-  /@rollup/plugin-replace/2.2.1_rollup@1.27.5:
+  /@rollup/plugin-replace/2.2.1_rollup@1.27.8:
     dependencies:
       magic-string: 0.25.4
-      rollup: 1.27.5
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
     dev: false
     peerDependencies:
@@ -483,6 +484,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
+  /@types/estree/0.0.40:
+    dev: false
+    resolution:
+      integrity: sha512-p3KZgMto/JyxosKGmnLDJ/dG5wf+qTRMUjHJcspC2oQKa4jP7mz+tv0ND56lLBu3ojHlhzY33Ol+khLyNmilkA==
   /@types/events/3.0.0:
     dev: false
     resolution:
@@ -724,10 +729,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-K8/LfZq2duW33XW/tFwEAfnZlqIfVsoyRB3kfXdPXYhl0nfM8mmh7GS0jg7WrX2Dgq/0Ha/pR1PaR+BvmWwjiQ==
-  /@typescript-eslint/eslint-plugin-tslint/2.9.0_2bf75b74bedd38ab8ec9f228a79f09fe:
+  /@typescript-eslint/eslint-plugin-tslint/2.10.0_9ce81f026c1274914d7c1e8dc2a5e3ee:
     dependencies:
-      '@typescript-eslint/experimental-utils': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      eslint: 6.7.1
+      '@typescript-eslint/experimental-utils': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      eslint: 6.7.2
       lodash.memoize: 4.1.2
       tslint: 5.20.1_typescript@3.6.4
       typescript: 3.6.4
@@ -739,12 +744,12 @@ packages:
       tslint: ^5.0.0
       typescript: '*'
     resolution:
-      integrity: sha512-v3+NSv6d1tyKiEjCYZJ1PmlT7dTOVwGob9bjvGg3S6ZrngQUnZkXFauiFH2toUsvkBIQGu6/f0RybdttA2eHxg==
-  /@typescript-eslint/eslint-plugin/2.9.0_417af00efc0b6f566e1c2512574c185f:
+      integrity: sha512-Bcw49dqC1My/cUg+0l7Ao5gn4hm6nyrKkacoLOa3C+08t8YdMshCec6FTUijHORAISWoG1RRmCGS+OHeO39fvA==
+  /@typescript-eslint/eslint-plugin/2.10.0_b3521696dde82c63983c202fc0d4064a:
     dependencies:
-      '@typescript-eslint/experimental-utils': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      eslint: 6.7.1
+      '@typescript-eslint/experimental-utils': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      eslint: 6.7.2
       eslint-utils: 1.4.3
       functional-red-black-tree: 1.0.1
       regexpp: 3.0.0
@@ -761,12 +766,12 @@ packages:
       typescript:
         optional: true
     resolution:
-      integrity: sha512-98rfOt3NYn5Gr9wekTB8TexxN6oM8ZRvYuphPs1Atfsy419SDLYCaE30aJkRiiTCwGEY98vOhFsEVm7Zs4toQQ==
-  /@typescript-eslint/experimental-utils/2.9.0_eslint@6.7.1+typescript@3.6.4:
+      integrity: sha512-rT51fNLW0u3fnDGnAHVC5nu+Das+y2CpW10yqvf6/j5xbuUV3FxA3mBaIbM24CXODXjbgUznNb4Kg9XZOUxKAw==
+  /@typescript-eslint/experimental-utils/2.10.0_eslint@6.7.2+typescript@3.6.4:
     dependencies:
       '@types/json-schema': 7.0.3
-      '@typescript-eslint/typescript-estree': 2.9.0_typescript@3.6.4
-      eslint: 6.7.1
+      '@typescript-eslint/typescript-estree': 2.10.0_typescript@3.6.4
+      eslint: 6.7.2
       eslint-scope: 5.0.0
     dev: false
     engines:
@@ -775,13 +780,13 @@ packages:
       eslint: '*'
       typescript: '*'
     resolution:
-      integrity: sha512-0lOLFdpdJsCMqMSZT7l7W2ta0+GX8A3iefG3FovJjrX+QR8y6htFlFdU7aOVPL6pDvt6XcsOb8fxk5sq+girTw==
-  /@typescript-eslint/parser/2.9.0_eslint@6.7.1+typescript@3.6.4:
+      integrity: sha512-FZhWq6hWWZBP76aZ7bkrfzTMP31CCefVIImrwP3giPLcoXocmLTmr92NLZxuIcTL4GTEOE33jQMWy9PwelL+yQ==
+  /@typescript-eslint/parser/2.10.0_eslint@6.7.2+typescript@3.6.4:
     dependencies:
       '@types/eslint-visitor-keys': 1.0.0
-      '@typescript-eslint/experimental-utils': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      '@typescript-eslint/typescript-estree': 2.9.0_typescript@3.6.4
-      eslint: 6.7.1
+      '@typescript-eslint/experimental-utils': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      '@typescript-eslint/typescript-estree': 2.10.0_typescript@3.6.4
+      eslint: 6.7.2
       eslint-visitor-keys: 1.1.0
     dev: false
     engines:
@@ -790,8 +795,8 @@ packages:
       eslint: ^5.0.0 || ^6.0.0
       typescript: '*'
     resolution:
-      integrity: sha512-fJ+dNs3CCvEsJK2/Vg5c2ZjuQ860ySOAsodDPwBaVlrGvRN+iCNC8kUfLFL8cT49W4GSiLPa/bHiMjYXA7EhKQ==
-  /@typescript-eslint/typescript-estree/2.9.0_typescript@3.6.4:
+      integrity: sha512-wQNiBokcP5ZsTuB+i4BlmVWq6o+oAhd8en2eSm/EE9m7BgZUIfEeYFd6z3S+T7bgNuloeiHA1/cevvbBDLr98g==
+  /@typescript-eslint/typescript-estree/2.10.0_typescript@3.6.4:
     dependencies:
       debug: 4.1.1
       eslint-visitor-keys: 1.1.0
@@ -810,7 +815,7 @@ packages:
       typescript:
         optional: true
     resolution:
-      integrity: sha512-v6btSPXEWCP594eZbM+JCXuFoXWXyF/z8kaSBSdCb83DF+Y7+xItW29SsKtSULgLemqJBT+LpT+0ZqdfH7QVmA==
+      integrity: sha512-oOYnplddQNm/LGVkqbkAwx4TIBuuZ36cAQq9v3nFIU9FmhemHuVzAesMSXNQDdAzCa5bFgCrfD3JWhYVKlRN2g==
   /@webassemblyjs/ast/1.8.5:
     dependencies:
       '@webassemblyjs/helper-module-context': 1.8.5
@@ -981,13 +986,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
-  /acorn/6.3.0:
+  /acorn/6.4.0:
     dev: false
     engines:
       node: '>=0.4.0'
     hasBin: true
     resolution:
-      integrity: sha512-/czfa8BwS88b9gWQVhc8eknunSA2DoJpJyTQkhheIf5E48u1N0R4q/YxxsAeqRrmK9TQ/uYfgLDfZo91UlANIA==
+      integrity: sha512-gac8OEcQ2Li1dxIEWGZzsp2BitJxwkwcOm0zHAJLcPJaVvm58FRnk6RkuLRpU1EujipU2ZFODv2P9DLMfnV8mw==
   /acorn/7.1.0:
     dev: false
     engines:
@@ -1366,10 +1371,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg=
-  /aws4/1.8.0:
+  /aws4/1.9.0:
     dev: false
     resolution:
-      integrity: sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
+      integrity: sha512-Uvq6hVe90D0B2WEnUqtdgY1bATGz3mw33nH9Y+dmA+w5DHvUmBgkr5rM/KCHpCsiFNRUfokW/szpPPgMK2hm4A==
   /axios/0.19.0:
     dependencies:
       follow-redirects: 1.5.10
@@ -1930,10 +1935,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-gaqbzQPqOoamawKg0LGVd7SzLgXS+JH61oWprSLH+P+abTczqJbhTR8CmJ2u9/bUYNmHTGJx/UEmn6doAvvuig==
-  /bluebird/3.7.1:
+  /bluebird/3.7.2:
     dev: false
     resolution:
-      integrity: sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
+      integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
   /bn.js/4.11.8:
     dev: false
     resolution:
@@ -2054,8 +2059,8 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist/3.2.8:
     dependencies:
-      caniuse-lite: 1.0.30001012
-      electron-to-chromium: 1.3.314
+      caniuse-lite: 1.0.30001013
+      electron-to-chromium: 1.3.321
     dev: false
     hasBin: true
     resolution:
@@ -2130,7 +2135,7 @@ packages:
       integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
   /cacache/12.0.3:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.2
       chownr: 1.1.3
       figgy-pudding: 3.5.1
       glob: 7.1.6
@@ -2222,10 +2227,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-  /caniuse-lite/1.0.30001012:
+  /caniuse-lite/1.0.30001013:
     dev: false
     resolution:
-      integrity: sha512-7RR4Uh04t9K1uYRWzOJmzplgEOAXbfK72oVNokCdMzA67trrhPzy93ahKk1AWHiA0c58tD2P+NHqxrA8FZ+Trg==
+      integrity: sha512-hOAXaWKuq/UVFgYawxIOdPdyMQdYcwOCDOjnZcKn7wCgFUrhP7smuNZjGLuJlPSgE6aRA4cRJ+bGSrhtEt7ZAg==
   /caseless/0.12.0:
     dev: false
     resolution:
@@ -2625,11 +2630,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
-  /core-js/3.4.3:
+  /core-js/3.4.6:
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-BVvHidX8uAmLCYPfLpXTEex7jz1uZJ1mW+shhIsBdA716O8Fg6TOwSgenSyO/bvEtnGdOTpKRZPSh4bSVI1k9w==
+      integrity: sha512-MO40uOm6V8O1ALTK7MmjYBkQgeAyy03rMspzpBJ8C5mZUKQtHTDMNeF282wX/aXuUekL4zXjgPsfs6tDp3GnwQ==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -3044,10 +3049,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.314:
+  /electron-to-chromium/1.3.321:
     dev: false
     resolution:
-      integrity: sha512-IKDR/xCxKFhPts7h+VaSXS02Z1mznP3fli1BbXWXeN89i2gCzKraU8qLpEid8YzKcmZdZD3Mly3cn5/lY9xsBQ==
+      integrity: sha512-jJy/BZK2s2eAjMPXVMSaCmo7/pSY2aKkfQ+LoAb5Wk39qAhyP9r8KU74c4qTgr9cD/lPUhJgReZxxqU0n5puog==
   /elliptic/6.5.2:
     dependencies:
       bn.js: 4.11.8
@@ -3255,9 +3260,9 @@ packages:
       source-map: 0.2.0
     resolution:
       integrity: sha1-WltTr0aTEQvrsIZ6o0MN07cKEBg=
-  /eslint-config-prettier/6.7.0_eslint@6.7.1:
+  /eslint-config-prettier/6.7.0_eslint@6.7.2:
     dependencies:
-      eslint: 6.7.1
+      eslint: 6.7.2
       get-stdin: 6.0.0
     dev: false
     hasBin: true
@@ -3265,9 +3270,9 @@ packages:
       eslint: '>=3.14.1'
     resolution:
       integrity: sha512-FamQVKM3jjUVwhG4hEMnbtsq7xOIDm+SY5iBPfR8gKsJoAB2IQnNF+bk1+8Fy44Nq7PPJaLvkRxILYdJWoguKQ==
-  /eslint-plugin-no-null/1.0.2_eslint@6.7.1:
+  /eslint-plugin-no-null/1.0.2_eslint@6.7.2:
     dependencies:
-      eslint: 6.7.1
+      eslint: 6.7.2
     dev: false
     engines:
       node: '>=5.0.0'
@@ -3319,7 +3324,7 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-8y9YjtM1JBJU/A9Kc+SbaOV4y29sSWckBwMHa+FGtVj5gN/sbnKDf6xJUl+8g7FAij9LVaP8C24DUiH/f/2Z9A==
-  /eslint/6.7.1:
+  /eslint/6.7.2:
     dependencies:
       '@babel/code-frame': 7.5.5
       ajv: 6.10.2
@@ -3363,7 +3368,7 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     hasBin: true
     resolution:
-      integrity: sha512-UWzBS79pNcsDSxgxbdjkmzn/B6BhsXMfUaOHnNwyE8nD+Q6pyT96ow2MccVayUTV4yMid4qLhMiQaywctRkBLA==
+      integrity: sha512-qMlSWJaCSxDFr8fBPvJM9kJwbazrhNcBU3+DszDW1OlEwKBBRWsJc7NJFelvwQpanHCR14cOLD41x8Eqvo3Nng==
   /esm/3.2.25:
     dev: false
     engines:
@@ -3651,7 +3656,7 @@ packages:
   /fetch-mock/8.0.0_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
-      core-js: 3.4.3
+      core-js: 3.4.6
       glob-to-regexp: 0.4.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
@@ -4176,7 +4181,7 @@ packages:
       node: '>=0.4.7'
     hasBin: true
     optionalDependencies:
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
     resolution:
       integrity: sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
   /har-schema/2.0.0:
@@ -5146,7 +5151,7 @@ packages:
       integrity: sha512-3dPs/n7vgz1rxxtynpzZTvb9y/GIaW8xjAwcIGttLbycqoFtI7yo1NGnQi6oFTherRE+GIhCAHZC4vEqWGhNvg==
   /karma-cli/2.0.0:
     dependencies:
-      resolve: 1.13.0
+      resolve: 1.13.1
     dev: false
     engines:
       node: '>= 6'
@@ -5264,11 +5269,11 @@ packages:
       requirejs: ^2.1.0
     resolution:
       integrity: sha1-/driy4fX68FvsCIok1ZNf+5Xh5g=
-  /karma-rollup-preprocessor/7.0.2_rollup@1.27.5:
+  /karma-rollup-preprocessor/7.0.2_rollup@1.27.8:
     dependencies:
       chokidar: 3.3.0
       debounce: 1.2.0
-      rollup: 1.27.5
+      rollup: 1.27.8
     dev: false
     engines:
       node: '>= 8.0.0'
@@ -5284,7 +5289,7 @@ packages:
       integrity: sha1-kTIsd/jxPUb+0GKwQuEAnUxFBdg=
   /karma-typescript-es6-transform/4.1.1:
     dependencies:
-      acorn: 6.3.0
+      acorn: 6.4.0
       acorn-walk: 6.2.0
       babel-core: 6.26.3
       babel-preset-env: 1.7.0
@@ -5311,7 +5316,7 @@ packages:
       integrity: sha512-970/okAsdUOmiMOCY8sb17A2I8neS25Ad9uhyK3GHgmRSIFJbDcNEFE8dqqUhNe9OHiCC9k3DMrSmtd/0ymP1A==
   /karma/4.4.1:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.2
       body-parser: 1.19.0
       braces: 3.0.2
       chokidar: 3.3.0
@@ -6197,7 +6202,7 @@ packages:
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.8.5
-      resolve: 1.13.0
+      resolve: 1.13.1
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: false
@@ -6937,10 +6942,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
-  /psl/1.4.0:
+  /psl/1.5.0:
     dev: false
     resolution:
-      integrity: sha512-HZzqCGPecFLyoRj5HLfuDSKYTJkAfB5thKBIkRHtGjWwY7p1dAyveIbXIq4tO0KYfDF2tHqPUgY9SDnGm00uFw==
+      integrity: sha512-4vqUjKi2huMu1OJiLhi3jN6jeeKvMZdI1tYgi/njW5zV52jNLgSAZSdN16m9bJFe61/cT8ulmw4qFitV9QRsEA==
   /public-encrypt/4.0.3:
     dependencies:
       bn.js: 4.11.8
@@ -7212,7 +7217,7 @@ packages:
       integrity: sha512-crk4Qu3pmXwgxdSgGhgA/eXiJAPQiX4GMOZZMXnqKxHX7TaoL+3gQVo/WeuAiogr07DpnfjIMpXXa+PAIvwPGQ==
   /rechoir/0.6.2:
     dependencies:
-      resolve: 1.13.0
+      resolve: 1.13.1
     dev: false
     engines:
       node: '>= 0.10'
@@ -7347,7 +7352,7 @@ packages:
   /request/2.88.0:
     dependencies:
       aws-sign2: 0.7.0
-      aws4: 1.8.0
+      aws4: 1.9.0
       caseless: 0.12.0
       combined-stream: 1.0.8
       extend: 3.0.2
@@ -7429,12 +7434,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-IDEU2CrSxe2ejgQRs5ModeiJ6Xs=
-  /resolve/1.13.0:
+  /resolve/1.13.1:
     dependencies:
       path-parse: 1.0.6
     dev: false
     resolution:
-      integrity: sha512-HHZ3hmOrk5SvybTb18xq4Ek2uLqLO5/goFCYUyvn26nWox4hdlKlfC/+dChIZ6qc4ZeYcN9ekTz0yyHsFgumMw==
+      integrity: sha512-CxqObCX8K8YtAhOBRg+lrcdn+LK+WYOS8tSjqSFbjtrI5PnS63QPhZl4+yKfrU9tdsbMu9Anr/amegT87M9Z6w==
   /resolve/1.8.1:
     dependencies:
       path-parse: 1.0.6
@@ -7510,13 +7515,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
-  /rollup-plugin-commonjs/10.1.0_rollup@1.27.5:
+  /rollup-plugin-commonjs/10.1.0_rollup@1.27.8:
     dependencies:
       estree-walker: 0.6.1
       is-reference: 1.1.4
       magic-string: 0.25.4
-      resolve: 1.13.0
-      rollup: 1.27.5
+      resolve: 1.13.1
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
     dev: false
     peerDependencies:
@@ -7552,13 +7557,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-xRkB+W/m1KLIzPUmG0ofvR+CPNcvuCuNdjVBVS7ALKSxr3EDhnzNceGkGi1m8MToSli13AzKFYH4ie9w3I5L3g==
-  /rollup-plugin-node-resolve/5.2.0_rollup@1.27.5:
+  /rollup-plugin-node-resolve/5.2.0_rollup@1.27.8:
     dependencies:
       '@types/resolve': 0.0.8
       builtin-modules: 3.1.0
       is-module: 1.0.0
-      resolve: 1.13.0
-      rollup: 1.27.5
+      resolve: 1.13.1
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
     dev: false
     peerDependencies:
@@ -7569,9 +7574,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rZqFD43y4U9nSqVq3iyWBiDwmBQJY8Txi04yI9jTKD3xcl7CbFjh1qRpQshUB3sONLubDzm7vJiwB+1MEGv67w==
-  /rollup-plugin-sourcemaps/0.4.2_rollup@1.27.5:
+  /rollup-plugin-sourcemaps/0.4.2_rollup@1.27.8:
     dependencies:
-      rollup: 1.27.5
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
       source-map-resolve: 0.5.2
     dev: false
@@ -7582,38 +7587,38 @@ packages:
       rollup: '>=0.31.2'
     resolution:
       integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
-  /rollup-plugin-terser/5.1.2_rollup@1.27.5:
+  /rollup-plugin-terser/5.1.2_rollup@1.27.8:
     dependencies:
       '@babel/code-frame': 7.5.5
       jest-worker: 24.9.0
-      rollup: 1.27.5
+      rollup: 1.27.8
       rollup-pluginutils: 2.8.2
       serialize-javascript: 1.9.1
-      terser: 4.4.0
+      terser: 4.4.2
     dev: false
     peerDependencies:
       rollup: '>=0.66.0 <2'
     resolution:
       integrity: sha512-sWKBCOS+vUkRtHtEiJPAf+WnBqk/C402fBD9AVHxSIXMqjsY7MnYWKYEUqGixtr0c8+1DjzUEPlNgOYQPVrS1g==
-  /rollup-plugin-uglify/6.0.3_rollup@1.27.5:
+  /rollup-plugin-uglify/6.0.3_rollup@1.27.8:
     dependencies:
       '@babel/code-frame': 7.5.5
       jest-worker: 24.9.0
-      rollup: 1.27.5
+      rollup: 1.27.8
       serialize-javascript: 1.9.1
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
     dev: false
     peerDependencies:
       rollup: '>=0.66.0 <2'
     resolution:
       integrity: sha512-PIv3CfhZJlOG8C85N0GX+uK09TPggmAS6Nk6fpp2ELzDAV5VUhNzOURDU2j7+MwuRr0zq9IZttUTADc/jH8Gkg==
-  /rollup-plugin-visualizer/3.3.0_rollup@1.27.5:
+  /rollup-plugin-visualizer/3.3.0_rollup@1.27.8:
     dependencies:
       mkdirp: 0.5.1
       nanoid: 2.1.7
       open: 6.4.0
       pupa: 2.0.1
-      rollup: 1.27.5
+      rollup: 1.27.8
       source-map: 0.7.3
       yargs: 15.0.2
     dev: false
@@ -7630,15 +7635,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
-  /rollup/1.27.5:
+  /rollup/1.27.8:
     dependencies:
-      '@types/estree': 0.0.39
-      '@types/node': 8.10.59
+      '@types/estree': 0.0.40
+      '@types/node': 12.12.14
       acorn: 7.1.0
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-8rfVdzuTg2kt8ObD9LNJpEwUN7B6lsl3sHc5fddtgICpLjpYeSf4m2+RftBzcCaBTMi1iYX3Ez8zFT4Gj2nJjg==
+      integrity: sha512-EVoEV5rAWl+5clnGznt1KY8PeVkzVQh/R0d2s3gHEkN7gfoyC4JmvIVuCtPbYE8NM5Ep/g+nAmvKXBjzaqTsHA==
   /run-async/2.3.0:
     dependencies:
       is-promise: 2.1.0
@@ -8444,7 +8449,7 @@ packages:
       schema-utils: 1.0.0
       serialize-javascript: 1.9.1
       source-map: 0.6.1
-      terser: 4.4.0
+      terser: 4.4.2
       webpack: 4.41.2_webpack@4.41.2
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
@@ -8455,7 +8460,7 @@ packages:
       webpack: ^4.0.0
     resolution:
       integrity: sha512-ZXmmfiwtCLfz8WKZyYUuuHf3dMYEjg8NrjHMb0JqHVHVOSkzp3cW2/XG1fP3tRhqEqSzMwzzRQGtAPbs4Cncxg==
-  /terser/4.4.0:
+  /terser/4.4.2:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -8465,7 +8470,7 @@ packages:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-oDG16n2WKm27JO8h4y/w3iqBGAOSCtq7k8dRmrn4Wf9NouL0b2WpMHGChFGZq4nFAQy1FsNJrVQHfurXOSTmOA==
+      integrity: sha512-Uufrsvhj9O1ikwgITGsZ5EZS6qPokUOkCegS7fYOdGTv+OA90vndUbU6PEjr5ePqHfNUbGyMO7xyIZv2MhsALQ==
   /test-exclude/5.2.3:
     dependencies:
       glob: 7.1.6
@@ -8587,7 +8592,7 @@ packages:
       integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
   /tough-cookie/2.4.3:
     dependencies:
-      psl: 1.4.0
+      psl: 1.5.0
       punycode: 1.4.1
     dev: false
     engines:
@@ -8596,7 +8601,7 @@ packages:
       integrity: sha512-Q5srk/4vDM54WJsJio3XNn6K2sCG+CQ8G5Wz6bZhRZoAe/+TxjWB/GlFAnYEbkYVlON9FMk/fE3h2RLpPXo4lQ==
   /tough-cookie/2.5.0:
     dependencies:
-      psl: 1.4.0
+      psl: 1.5.0
       punycode: 2.1.1
     dev: false
     engines:
@@ -8606,7 +8611,7 @@ packages:
   /tough-cookie/3.0.1:
     dependencies:
       ip-regex: 2.1.0
-      psl: 1.4.0
+      psl: 1.5.0
       punycode: 2.1.1
     dev: false
     engines:
@@ -8682,7 +8687,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-BVwVbPJRspzNh2yfslyT1PSbl5uIk03EZlb493RKHN4qej/D06n1cEhjlOJG69oFsE7OT8XjpTUcYf6pKTLMhw==
-  /ts-node/8.5.2_typescript@3.6.4:
+  /ts-node/8.5.4_typescript@3.6.4:
     dependencies:
       arg: 4.1.2
       diff: 4.0.1
@@ -8697,7 +8702,7 @@ packages:
     peerDependencies:
       typescript: '>=2.0'
     resolution:
-      integrity: sha512-W1DK/a6BGoV/D4x/SXXm6TSQx6q3blECUzd5TN+j56YEMX3yPVMpHsICLedUw3DvGF3aTQ8hfdR9AKMaHjIi+A==
+      integrity: sha512-izbVCRV68EasEPQ8MSIGBNK9dc/4sYJJKYA+IarMQct1RtEot6Xp0bXuClsbUSnKpg50ho+aOAx8en5c+y4OFw==
   /tsconfig-paths/3.9.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -8730,7 +8735,7 @@ packages:
       js-yaml: 3.13.1
       minimatch: 3.0.4
       mkdirp: 0.5.1
-      resolve: 1.13.0
+      resolve: 1.13.1
       semver: 5.7.1
       tslib: 1.10.0
       tsutils: 2.29.0_typescript@3.6.4
@@ -8860,7 +8865,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
-  /uglify-js/3.7.0:
+  /uglify-js/3.7.1:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -8869,7 +8874,7 @@ packages:
       node: '>=0.8.0'
     hasBin: true
     resolution:
-      integrity: sha512-PC/ee458NEMITe1OufAjal65i6lB58R1HWMRcxwvdz1UopW0DYqlRL3xdu3IcTvTXsB02CRHykidkTRL+A3hQA==
+      integrity: sha512-pnOF7jY82wdIhATVn87uUY/FHU+MDUdPLkmGFvGoclQmeu229eTkbG5gjGGBi3R7UuYYSEeYXY/TTY5j2aym2g==
   /ultron/1.1.1:
     dev: false
     resolution:
@@ -9141,7 +9146,7 @@ packages:
       '@webassemblyjs/helper-module-context': 1.8.5
       '@webassemblyjs/wasm-edit': 1.8.5
       '@webassemblyjs/wasm-parser': 1.8.5
-      acorn: 6.3.0
+      acorn: 6.4.0
       ajv: 6.10.2
       ajv-keywords: 3.4.1_ajv@6.10.2
       chrome-trace-event: 1.0.2
@@ -9454,13 +9459,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GH/X/hYt+x5hOat4LMnCqMd8r5Cv78heOMIJn1hr7QPPBqfeC6p89Y78+WB9yGDvfpCvgasfmWLzNzEioOUD9Q==
-  /yarn/1.19.2:
+  /yarn/1.21.0:
     dev: false
     engines:
       node: '>=4.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-OdLN/K/sA+KnW4ggNQwHYK6YJdLkSWxbx6IYd+WIQJ6xDfk8CIYKckBfwGxTBmDaEluWs83InzjFCmUqPtpY+w==
+      integrity: sha512-g9cvrdKXPZlz1eJYpKanQm3eywEmecudeyDkwiVWeswBrpHK3nJFBholkphHF9eNc8y/FNEhSQ8Et5ZAx4XyLw==
   /yauzl/2.4.1:
     dependencies:
       fd-slicer: 1.0.1
@@ -9497,17 +9502,17 @@ packages:
   'file:projects/abort-controller.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
       delay: 4.3.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       karma: 4.4.1
@@ -9527,33 +9532,33 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      ts-node: 8.5.2_typescript@3.6.4
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-TeJJKcVR1RpD/w0Jwv2Yo8ln9Dox0MqYnCgcOylmY5LmzHOYbN12tWzQT0T72Jo+GD5ifIxXD5LK+ABatgx01A==
+      integrity: sha512-SrLOQNb7dYQyLNyc4XSbGfkbcLPO/Ydg5RjE2wEFVE+ON155BVch4L4ljG2T0NkpINip6byAifZ+yMgPyM/CIw==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       assert: 1.5.0
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       mocha: 6.2.2
@@ -9562,27 +9567,73 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      ts-node: 8.5.2_typescript@3.6.4
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-I/isb5Ipbmr6MH75pedxtccwWcMYR6ziUUHgAoAyoLxKOoeT2cGkL2XOLhF2dVC0wWQeh5fzzmrzRZrgxNuloQ==
+      integrity: sha512-tl17zW8AF0InTJ6WOrVY7gZlJyExWMzBrkQtvk4jKyl4DRLDitX+yC8WsBjD6NphmJk05Nl8IqvVZmPAFAVvog==
       tarball: 'file:projects/app-configuration.tgz'
+    version: 0.0.0
+  'file:projects/cognitiveservices-textanalytics.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.6.2
+      '@opentelemetry/types': 0.2.0
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
+      '@types/mocha': 5.2.7
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      cross-env: 6.0.3
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
+      eslint-plugin-no-only-tests: 2.3.1
+      eslint-plugin-promise: 4.2.1
+      karma: 4.4.1
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.1
+      karma-edge-launcher: 0.4.2_karma@4.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.2.0
+      karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-junit-reporter: 2.0.1_karma@4.4.1
+      karma-mocha: 1.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.4.1
+      karma-remap-coverage: 0.1.5_karma-coverage@2.0.1
+      mocha: 6.2.2
+      mocha-junit-reporter: 1.23.1_mocha@6.2.2
+      mocha-multi: 1.1.3_mocha@6.2.2
+      prettier: 1.19.1
+      rimraf: 3.0.0
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
+      rollup-plugin-multi-entry: 2.1.0
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
+      tslib: 1.10.0
+      typescript: 3.6.4
+    dev: false
+    name: '@rush-temp/cognitiveservices-textanalytics'
+    resolution:
+      integrity: sha512-P/JVqZ48ut0cubjqV9lfkSLDJCMcWOdbFQEvnzQG+89enfJhVVZOCELQs7mFkDrDVxdDkB3NPb+fEptAELwfDg==
+      tarball: 'file:projects/cognitiveservices-textanalytics.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.5
       '@types/chai-as-promised': 7.1.2
@@ -9592,8 +9643,8 @@ packages:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/sinon': 7.5.1
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       async-lock: 1.2.2
       buffer: 5.4.3
@@ -9602,9 +9653,9 @@ packages:
       cross-env: 6.0.3
       debug: 4.1.1
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -9623,18 +9674,18 @@ packages:
       rhea: 1.0.13
       rhea-promise: 1.0.0
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-inject: 3.0.2
       rollup-plugin-multi-entry: 2.1.0
       rollup-plugin-node-globals: 1.4.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
       sinon: 7.5.0
       stream-browserify: 2.0.2
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       url: 0.11.0
@@ -9643,7 +9694,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-a/kleOFsLkEbJZyy54c+PRTtdQXyWrqvKPqOfOTfBk8zEcd1mEziypcwwUgdtxyzQQk1/hIf2WJlsblbMAK2pA==
+      integrity: sha512-C3k0o+aknv0OvsMgN3lgDNqrePHNsZqPlsFSHEIiJXSVj/OqzTbBSQkrg5elg5tsMpmMTX4TdXI7o+LnG6dq8w==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9651,12 +9702,12 @@ packages:
       '@types/chai': 4.2.5
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       chai: 4.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       mocha: 6.2.2
@@ -9665,30 +9716,30 @@ packages:
       npm-run-all: 4.1.5
       nyc: 14.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       shx: 0.3.2
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
-      yarn: 1.19.2
+      uglify-js: 3.7.1
+      yarn: 1.21.0
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-0d71rd/lW72LRA8yryiU5S1qBY73b+t4M8mxkT0cLYxFAgIQmzq/Z9diJC3X+hTMHcmnKCvBnCxA7ZasFwa9Eg==
+      integrity: sha512-ahJSH6OO0Vf6JSwrEkDb5KyBWxqiYmMIXaQqfguI68Yx8ZSkbR58CXZwNiv8808bxNJplnHzEEf7Pob5DoZz2w==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
     dependencies:
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       prettier: 1.19.1
@@ -9696,25 +9747,25 @@ packages:
     dev: false
     name: '@rush-temp/core-asynciterator-polyfill'
     resolution:
-      integrity: sha512-EgXqoauuc2Is0TamCb/4zSuFnYvI5YZPON2t95ijt8cVjd9sTDTjweMtlxO3qd3jxmrSKTfkjc+KM/PVI9sywQ==
+      integrity: sha512-lWiClMDplV1TEBwmoz2U9kFaBlWudcaRXYCKgBaAq5UjrxUT5nHcHROEMVeDSs8XlCSg4PFIC34fVlx13DhZ3Q==
       tarball: 'file:projects/core-asynciterator-polyfill.tgz'
     version: 0.0.0
   'file:projects/core-auth.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       inherits: 2.0.4
@@ -9723,28 +9774,28 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-77MHrphpW3bi1M1QR+x0PbBiKw47Cy9oVrWmZTwRCj+o8vbAt4WhqmOrXJC+UxOkTsddJYZYHY0ow5tK2uOjDA==
+      integrity: sha512-snFw5OdRCGILIO7TWVXMs8Sgh2nUNsmeinXejgCyD6OeyJ5cKih72SUQPkepjQQWsil6+OnwLK/aF091e7LGCg==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@azure/logger-js': 1.3.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/express': 4.17.2
       '@types/glob': 7.1.1
@@ -9759,13 +9810,13 @@ packages:
       '@types/webpack': 4.41.0
       '@types/webpack-dev-middleware': 2.0.3
       '@types/xml2js': 0.4.5
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       babel-runtime: 6.26.0
       chai: 4.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
@@ -9776,7 +9827,7 @@ packages:
       karma-chai: 0.1.0_chai@4.2.0+karma@4.4.1
       karma-chrome-launcher: 3.1.0
       karma-mocha: 1.3.0
-      karma-rollup-preprocessor: 7.0.2_rollup@1.27.5
+      karma-rollup-preprocessor: 7.0.2_rollup@1.27.8
       karma-sourcemap-loader: 0.3.7
       karma-typescript-es6-transform: 4.1.1
       karma-webpack: 4.0.2_webpack@4.41.2
@@ -9792,33 +9843,33 @@ packages:
       puppeteer: 2.0.0
       regenerator-runtime: 0.13.3
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       shx: 0.3.2
       sinon: 7.5.0
-      terser: 4.4.0
+      terser: 4.4.2
       tough-cookie: 3.0.1
       ts-loader: 6.2.1_typescript@3.6.4
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       tunnel: 0.0.6
       typescript: 3.6.4
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
       uuid: 3.3.3
       webpack: 4.41.2_webpack@4.41.2
       webpack-cli: 3.3.10_webpack@4.41.2
       webpack-dev-middleware: 3.7.2_webpack@4.41.2
       xhr-mock: 2.5.1
       xml2js: 0.4.22
-      yarn: 1.19.2
+      yarn: 1.21.0
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-Af/rsxx6LVzFWMyQ5kDROXbDLwuOCtXhI25uhMYvgjTLGr3UcwkGzFkYifzeaoRcob6zXiHaOtp27eWnO+pXlQ==
+      integrity: sha512-UcIeoYN1VPNqEU954QRgOEhzzCsWwpBf8Jse9IGAzReVNwLMDPhts9hsAt8SyHyNznH42XdKgkBx8v1Zizu+mw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -9826,17 +9877,17 @@ packages:
       '@azure/core-arm': 1.0.0-preview.7
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -9860,34 +9911,34 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       shx: 0.3.2
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
-      yarn: 1.19.2
+      uglify-js: 3.7.1
+      yarn: 1.21.0
     dev: false
     name: '@rush-temp/core-lro'
     resolution:
-      integrity: sha512-IO9wymz2fTZditVXGdytGprA4XWV7dGyXKJKn2mYcxktT5NTZ7oPEXG0G5Bp+skejE/+CTApcJuXASrf9UIFlA==
+      integrity: sha512-qgi4XnZ38t3irIVpkaEwaMiKB07rQnjdyzGQbQ9otOmHlkBoKiv0TG9NPDbcqzk36m+99lrRNuQ6hLsTl2yexA==
       tarball: 'file:projects/core-lro.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
     dependencies:
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       prettier: 1.19.1
@@ -9895,26 +9946,26 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-QU/dCvQts623zLVRNYvShGrZnIUnZfnWkZq0rk8A5Qc/gmVtP1eyjkbCX3k1Ox+zxV3Ug7wIXllCkbv5nzwA8w==
+      integrity: sha512-Ufgl9rPKNxZY03FoZLSyzA/KH0g6O3XD38M3bu/D4Eu3xa7Hmiaa+9mTN7wPpN6QukfeznPVo8CKXQVnCPefFQ==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/core-tracing.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opencensus/web-types': 0.0.7
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       inherits: 2.0.4
@@ -9923,27 +9974,27 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-zCIWgsA0Rgaew5j7fFVn//DjMOO1rSthHMnju1Z0RZ7tTstVY7x3wM5N0e7Ikhp1hPeNf2iIYrxRkr34y4Qdgw==
+      integrity: sha512-KVYz3UtzalzYhvKVRo+bGCaF5iensC+QUNOI8WFLQzgNYkHrzrGNNB/Nta1W45x3ZcKny8BRFRQyPA3UDwTSVw==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
       '@types/mocha': 5.2.7
@@ -9955,15 +10006,15 @@ packages:
       '@types/tunnel': 0.0.1
       '@types/underscore': 1.9.4
       '@types/uuid': 3.4.6
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/eslint-plugin-tslint': 2.9.0_2bf75b74bedd38ab8ec9f228a79f09fe
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/eslint-plugin-tslint': 2.10.0_9ce81f026c1274914d7c1e8dc2a5e3ee
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       cross-env: 6.0.3
       debug: 4.1.1
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       esm: 3.2.25
@@ -9989,14 +10040,14 @@ packages:
       proxy-agent: 3.1.1
       requirejs: 2.3.6
       rimraf: 3.0.0
-      rollup: 1.27.5
+      rollup: 1.27.8
       rollup-plugin-local-resolve: 1.0.7
       rollup-plugin-multi-entry: 2.1.0
       semaphore: 1.1.0
       sinon: 7.5.0
       snap-shot-it: 7.9.1
       source-map-support: 0.5.16
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       tslint: 5.20.1_typescript@3.6.4
       tslint-config-prettier: 1.18.0
@@ -10007,16 +10058,16 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-IMbCzc9ihoYkKNrZZHM1Bcaq60I2peFdnKIrj/oEd8+obrxiylOpmffOr36UZLvhVjuiUwVshAwjnPOotCtq6w==
+      integrity: sha512-4epciXp1hjG2Uxf5w4bCMopiIverHRTfumvA5PjatEmPPas2Y1UGrbFlHZTgLxado+uQRH30Jz74C9kwteC+pg==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.5
       '@types/chai-as-promised': 7.1.2
@@ -10025,10 +10076,11 @@ packages:
       '@types/long': 4.0.0
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
+      '@types/sinon': 7.5.1
       '@types/uuid': 3.4.6
       '@types/ws': 6.0.4
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       async-lock: 1.2.2
       buffer: 5.4.3
@@ -10038,9 +10090,9 @@ packages:
       cross-env: 6.0.3
       debug: 4.1.1
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       https-proxy-agent: 3.0.1
@@ -10066,16 +10118,17 @@ packages:
       puppeteer: 2.0.0
       rhea-promise: 1.0.0
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-inject: 3.0.2
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      sinon: 7.5.0
       ts-mocha: 6.0.0_mocha@6.2.2
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       uuid: 3.3.3
@@ -10083,17 +10136,17 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-AlAtT+pVeLkpES5BEY3Vt0pR6lfutmVZePzn2iAK04i+LC3k8EixyEfL7kJ8qS5EMkQuavVtvLFUB+RgCngfrQ==
+      integrity: sha512-qw8+uMiHpWjq9RHuxOsmAyyifn8ad4tsqFlJrgq8QelJXGvzTyLVwcUUTV26ueP+0MlTMKmIRUqXDmXMEzqkIQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@azure/event-hubs': 2.1.3
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.6.2
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.5
       '@types/chai-as-promised': 7.1.2
@@ -10103,8 +10156,8 @@ packages:
       '@types/node': 8.10.59
       '@types/uuid': 3.4.6
       '@types/ws': 6.0.4
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       async-lock: 1.2.2
       azure-storage: 2.10.3
       chai: 4.2.0
@@ -10113,9 +10166,9 @@ packages:
       cross-env: 6.0.3
       debug: 4.1.1
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       https-proxy-agent: 3.0.1
@@ -10126,13 +10179,13 @@ packages:
       path-browserify: 1.0.0
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-uglify: 6.0.3_rollup@1.27.5
-      ts-node: 8.5.2_typescript@3.6.4
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-uglify: 6.0.3_rollup@1.27.8
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       uuid: 3.3.3
@@ -10140,23 +10193,23 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-4GoWU7PEJxMMUrRp4xWFK9yij+rSRBbhaO3Ac30z2gGaoZjx5a0KLVHQeI7xJFjOjO3ArecjHuurqGHpm0WPKQ==
+      integrity: sha512-kjSTJgdyaXbmKzGSS/ysTm7HLPfi8GWehWPwj4x0RjAoK+45mWnfmTrV1b9qcfNj41ahQBjn1WGv5y5EmsYU8A==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
     dependencies:
       '@azure/storage-blob': 12.0.0
       '@microsoft/api-extractor': 7.6.2
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/chai-as-promised': 7.1.2
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.5
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
@@ -10164,9 +10217,9 @@ packages:
       cross-env: 6.0.3
       debug: 4.1.1
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -10188,42 +10241,42 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-inject: 3.0.2
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
-      ts-node: 8.5.2_typescript@3.6.4
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-G0KPyptlLS/TYOjb5ZqNq43rBlpOqZCPMjZB3q/Loav4LXGy1I0t05DmWhg1U38qSITJnZnDeTBCr6NF539+lg==
+      integrity: sha512-lRhS2SDR1ccJ5fxx8dd1HYlZbRG+bprPLcLTD1sg1+5niDTZuMcZYmEKP5+AdT1cBt46nRs5F+gN22nUwxejqQ==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/express': 4.17.2
       '@types/jws': 3.2.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/qs': 6.9.0
       '@types/uuid': 3.4.6
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
-      eslint: 6.7.1
+      eslint: 6.7.2
       events: 3.0.0
       express: 4.17.1
       inherits: 2.0.4
@@ -10247,13 +10300,13 @@ packages:
       puppeteer: 2.0.0
       qs: 6.9.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
@@ -10261,29 +10314,29 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-lkmAjdIY1T3yBd/yjZyJs+Uh54g0bvP/y9MuqWq5DbY4P8zmA/JV/muPb+Gm1Ol6NqOIu6ee93lG28pevhRaaw==
+      integrity: sha512-ePTSSn5QTHILN8SwFksg5nB2WsKMZnKhimjZlxQzKB3L9MdLMfFnJAqExvMJDKm/OSg9tzuqI5YAH0ccsRsmoQ==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 6.0.3
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       fs-extra: 8.1.0
@@ -10308,45 +10361,45 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
       url: 0.11.0
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-HHxbhMvL397XO6Zh1hYbV1v/n1uDKmYqntsApjfh+zSMXI8fvsMruTCs1a8UHvW/hX9aeQqhMh47xMtNGadsyQ==
+      integrity: sha512-B3MIMs2m4L9STRMjLhHlEAvy+7jGjdfSKLkEJRNiYa/M16UBroW+iCmjZghu5E0sKaibmQQ9aZ53s+aD1NCtCw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 6.0.3
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       fs-extra: 8.1.0
@@ -10371,45 +10424,45 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
       url: 0.11.0
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-5AR8lnjNCBT4Stan+cK0Q69inIo2K1L6qW2MV6FuERuMEpBVGoo/xQ4VWohmTIQZGj9yOKu7WpKxhuSRp7HW6Q==
+      integrity: sha512-AqBZvCLPW5iZc1PVIvwHSUKVY3h2dnLCAwiCmuRGMWg+MqMk8G2E4p5IPQJBg+LKB3zk4ddHWsakq9SdSW76kw==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
     dependencies:
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 6.0.3
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       fs-extra: 8.1.0
@@ -10434,43 +10487,43 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
       tslib: 1.10.0
       typescript: 3.6.4
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
       url: 0.11.0
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-AccQ4MXGswy5a5BBrh9byL2SJoVa9AiPI3Ud+VsQhoxr9mL+Z95AXcyOU93I+qIDjIjgyzXHDUGppPj6NeDr2Q==
+      integrity: sha512-XMCixFtoWpLjDLMTXMspVx048rXvncRK4WM6Ctbyt/z2y3ZwG1OvuWQgfkZ/RYVpYtdLM/MaEgwH/9bwzB+y1w==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/chai': 4.2.5
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/sinon': 7.5.1
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 6.0.3
       delay: 4.3.0
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       karma: 4.4.1
@@ -10491,32 +10544,32 @@ packages:
       prettier: 1.19.1
       puppeteer: 2.0.0
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
       sinon: 7.5.0
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
     dev: false
     name: '@rush-temp/logger'
     resolution:
-      integrity: sha512-w30sOoW8EGWHV5Nyeuj6Rx5EwkPqASd0vVbm0N3zk+GwNxUwzHdDyJDkS/IC82R0Ib8IkH5J/Ws70NvOwKV17A==
+      integrity: sha512-v1lpwKxbe2ry0tYi3+mEh004dgL0DeMPt7eJeACkmoy7wW5JzC6S3BZHso1Tl7oXwDpg4jGpZfwkD5NnyLRLDg==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.8_rhea-promise@0.1.15
       '@azure/arm-servicebus': 3.2.0
-      '@azure/eslint-plugin-azure-sdk': 2.0.1_744341cce34b560542e774d8e76d0ee4
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_d70227464f3da19960f35606e3defe4f
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.5
       '@types/chai-as-promised': 7.1.2
@@ -10526,8 +10579,8 @@ packages:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
       '@types/ws': 6.0.4
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       buffer: 5.4.3
       chai: 4.2.0
@@ -10537,9 +10590,9 @@ packages:
       debug: 4.1.1
       delay: 4.3.0
       dotenv: 8.2.0
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       https-proxy-agent: 3.0.1
@@ -10568,43 +10621,43 @@ packages:
       rhea: 1.0.13
       rhea-promise: 0.1.15
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-inject: 3.0.2
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      ts-node: 8.5.2_typescript@3.6.4
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       ws: 7.2.0
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-TV7b5kZzHicMpgLdnpsSkOvQwnsweQMJSVRqiWg4OGSw1r2esbfaoNdE5fDbGGe5VxAh218k/RoTf/vS0o1lNw==
+      integrity: sha512-v9JQLOn0+S//dIlZWY84RHP0umc+qt7wppf2TKW9jP6dmuWwI0TzNkD9xVID6yGwPBAdTmIFphV+XhN+CWetog==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
       dotenv: 8.2.0
       es6-promise: 4.2.8
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -10634,44 +10687,44 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-B3I4pvvEx8P7wGlb3EqAzT7KjhWwiWC1WtsZr0GoRJ8yWtrKW5tIjK9aa2vdVsfmLw35haKKNHPux4tDrZYJ+A==
+      integrity: sha512-jQxeNd0hwZK8WQ3LejG4ZioRryomfQ5wN9G03wtRuPgs4dkUm315yN0uhvq72nqdwPv6gA9mgj01iSBR8qjkTQ==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
       dotenv: 8.2.0
       es6-promise: 4.2.8
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -10701,44 +10754,44 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-/R09jHKOauV4ohP5CoOU4hQwxnfetO4+KzLKr8zdGRhqnjDh3ahPknJEt7oFoFOdRSe7lAk169c4aR4mLqqSwA==
+      integrity: sha512-NL8KNJp3Ptd7Jd/rPYczYkiqbowUGmvz3gn4O7TPbhpFxJjAlPGn8TF75/uijtk9tUnHZWy6YHHxLUijdPeALA==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
       '@types/node': 8.10.59
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
       dotenv: 8.2.0
       es6-promise: 4.2.8
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       execa: 3.4.0
@@ -10767,40 +10820,40 @@ packages:
       puppeteer: 2.0.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       source-map-support: 0.5.16
-      ts-node: 8.5.2_typescript@3.6.4
+      ts-node: 8.5.4_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-1QLcOSqGDthKMwhSnm31jKEK6GFDvFr+TwWkDO/hxUAnuOCHgcU4N1DooKM/frCffKgp1lvnpK6QzvsTDqb5Rw==
+      integrity: sha512-XA3RCogFIc0cGsq+wiDmK41zI+iwdc3wTZCN9HAM2eqwCaYVfQ0N/PNqholPFvCvm0DNWo03F3oz7ktyVsVeBQ==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.6.2
       '@opentelemetry/types': 0.2.0
-      '@rollup/plugin-json': 4.0.0_rollup@1.27.5
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-json': 4.0.0_rollup@1.27.8
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.59
-      '@typescript-eslint/eslint-plugin': 2.9.0_417af00efc0b6f566e1c2512574c185f
-      '@typescript-eslint/parser': 2.9.0_eslint@6.7.1+typescript@3.6.4
+      '@typescript-eslint/eslint-plugin': 2.10.0_b3521696dde82c63983c202fc0d4064a
+      '@typescript-eslint/parser': 2.10.0_eslint@6.7.2+typescript@3.6.4
       assert: 1.5.0
       cross-env: 6.0.3
-      eslint: 6.7.1
-      eslint-config-prettier: 6.7.0_eslint@6.7.1
-      eslint-plugin-no-null: 1.0.2_eslint@6.7.1
+      eslint: 6.7.2
+      eslint-config-prettier: 6.7.0_eslint@6.7.2
+      eslint-plugin-no-null: 1.0.2_eslint@6.7.2
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
@@ -10821,25 +10874,25 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       prettier: 1.19.1
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-5zhAHslkWF9KsNHMlqHwL1fxPRH1yss8LIhl+3NMnhbUas64u9Gc5VZ1ZVPJzKsANZztJKeByoLjUcAr4YXuUg==
+      integrity: sha512-q1qROJtXqz47j+jxBBSY5nK5p05cddeaf09mhFIZRh70ebarxdQY9ZODj8CxciRSAQqhMzBbl8tOIDT0J4obWw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/test-utils-recorder.tgz':
     dependencies:
-      '@rollup/plugin-replace': 2.2.1_rollup@1.27.5
+      '@rollup/plugin-replace': 2.2.1_rollup@1.27.8
       '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
@@ -10847,20 +10900,20 @@ packages:
       nise: 1.5.2
       nock: 11.7.0
       rimraf: 3.0.0
-      rollup: 1.27.5
-      rollup-plugin-commonjs: 10.1.0_rollup@1.27.5
+      rollup: 1.27.8
+      rollup-plugin-commonjs: 10.1.0_rollup@1.27.8
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.5
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.27.8
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.5
-      rollup-plugin-terser: 5.1.2_rollup@1.27.5
-      rollup-plugin-visualizer: 3.3.0_rollup@1.27.5
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.27.8
+      rollup-plugin-terser: 5.1.2_rollup@1.27.8
+      rollup-plugin-visualizer: 3.3.0_rollup@1.27.8
       tslib: 1.10.0
       typescript: 3.6.4
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-LiEbWzbNC79H95TcERxlliT+Rwse3A14ISZ7CWEUtaLStBNOalIQkEbVjaKTOB66ESEnRWwc8wdGSiCe5zxvCw==
+      integrity: sha512-ZsbtpbLumVri0ZPRcTTeWPRS0hrgLGIaMRSYBfr57ivm/q9mOxsTRwcZkRfPNkHvH25022PXCmEZQ0aV2o6OQw==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10881,13 +10934,14 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-87MSeV03Pq/hibZu2iIdQtVpn5FaN7rTjlog+nZgZyQ3637n2kWwu6a+sxmM6X0wan8fdXMnS89M9gNpJXumRQ==
+      integrity: sha512-9jr74sQhEUbO70fTRMEExmTQIenZst4iKtAemjCJ5fXqyGHH/TciZN9OuzFdO2XxyG4m41OpXDenzcmI7HyM4w==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
+  '@rush-temp/cognitiveservices-textanalytics': 'file:./projects/cognitiveservices-textanalytics.tgz'
   '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:./projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:./projects/core-asynciterator-polyfill.tgz'
