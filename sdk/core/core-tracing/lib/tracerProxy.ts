@@ -12,6 +12,7 @@ import { getCache } from "./utils/cache";
 export function setTracer(tracer: Tracer) {
   const cache = getCache();
   cache.tracer = tracer;
+  cache.userProvidedTracer = true;
 }
 
 /**
