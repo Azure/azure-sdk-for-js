@@ -35,7 +35,7 @@ async function main() {
   await client.setContacts(contacts);
 
   getResponse = await client.getContacts();
-  console.log("Contact List:", getResponse.contactList);
+  console.log("Contact List:", getResponse);
 
   await client.deleteContacts();
 }
