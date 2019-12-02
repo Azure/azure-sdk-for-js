@@ -217,12 +217,14 @@ export interface SubscriptionOptions {
   maxDeliveryCount?: number;
 
   /**
-   * ForwardTo header
+   * The URL of destination subscription to which the messages would be forwarded to.
    */
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
 }
@@ -334,12 +336,14 @@ export interface InternalSubscriptionOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * ForwardTo header
+   * The URL of destination subscription to which the messages would be forwarded to.
    */
   ForwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   UserMetadata?: string;
 }
@@ -467,7 +471,9 @@ export interface SubscriptionDetails {
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
 

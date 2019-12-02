@@ -229,7 +229,9 @@ export interface TopicOptions {
   duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
 
@@ -365,7 +367,9 @@ export interface InternalTopicOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   UserMetadata?: string;
 
@@ -504,7 +508,9 @@ export interface TopicDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
 

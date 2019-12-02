@@ -16,7 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { SasTokenProvider, parseConnectionString } from "@azure/amqp-common";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -336,6 +336,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private subscriptionResourceSerializer: AtomXmlSerializer;
   private ruleResourceSerializer: AtomXmlSerializer;
 
+  private tokenProvider: SasTokenProvider;
+
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
@@ -369,6 +371,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
     this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+
+    this.tokenProvider = new SasTokenProvider(
+      connectionStringObj.Endpoint,
+      connectionStringObj.SharedAccessKeyName,
+      connectionStringObj.SharedAccessKey
+    );
   }
 
   /**
@@ -839,6 +847,28 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }
+
+    const forwardTo = (entityFields as InternalQueueOptions | InternalSubscriptionOptions)
+      .ForwardTo;
+
+    const forwardDeadLetterMessagesTo = (entityFields as
+      | InternalQueueOptions
+      | InternalSubscriptionOptions).ForwardDeadLetteredMessagesTo;
+
+    if (forwardTo && forwardTo.length > 0) {
+      webResource.headers.set(
+        "ServiceBusSupplementaryAuthorization",
+        (await this.tokenProvider.getToken(forwardTo)).token
+      );
+    }
+
+    if (forwardDeadLetterMessagesTo && forwardDeadLetterMessagesTo.length > 0) {
+      webResource.headers.set(
+        "ServiceBusDlqSupplementaryAuthorization",
+        (await this.tokenProvider.getToken(forwardDeadLetterMessagesTo)).token
+      );
+    }
+
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
     return executeAtomXmlOperation(this, webResource, serializer);

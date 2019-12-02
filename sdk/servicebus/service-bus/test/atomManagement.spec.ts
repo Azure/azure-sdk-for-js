@@ -970,15 +970,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
+      userMetadata: "test metadata",
 
-      maxSizeInMegabytes: 3072
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, this is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      // forwardDeadLetteredMessagesTo:
+      //   "https://ServiceBusLocalTestsPerf1.servicebus.windows.net/partitioned-queue",
+
+      forwardTo: "https://ServiceBusLocalTestsPerf1.servicebus.windows.net/partitioned-queue"
+
+      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -988,9 +988,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      maxDeliveryCount: 5,
-
-      autoDeleteOnIdle: "PT2H",
+      maxDeliveryCount: 8,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1016,10 +1016,16 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       maxSizeInMegabytes: 49152,
 
+      // autoDeleteOnIdle parameter setting fails when using with forwardDeadLetteredMessagesTo
+      // autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      // forwardDeadLetteredMessagesTo:
+      //   "https://ServiceBusLocalTestsPerf1.servicebus.windows.net/partitioned-queue",
+
+      autoDeleteOnIdle: "PT1H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       path: undefined,
-      userMetadata: undefined,
+      userMetadata: "test metadata",
 
       messageCountDetails: undefined,
 
