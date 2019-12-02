@@ -3,6 +3,7 @@ process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
 module.exports = function(config) {
+  const testingAllBrowsers = !!process.env.TEST_ALL_BROWSERS;
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -39,7 +40,12 @@ module.exports = function(config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
+    preprocessors: testingAllBrowsers? {
+      "**/*.js": ["env"],
+      // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
+      // Preprocess source file to calculate code coverage, however this will make source file unreadable
+      "recordings/browsers/**/*.json": ["json"]
+    } : {
       "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
@@ -128,7 +134,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: testingAllBrowsers? ["Chrome", "Firefox", "Edge", "IE"] : ["ChromeHeadless"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
