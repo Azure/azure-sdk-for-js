@@ -4,8 +4,56 @@
 
 ```ts
 
+import { ApiKeyCredentials } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+
+// @public
+export class CognitiveServicesCredentials extends ApiKeyCredentials {
+    constructor(subscriptionKey: string);
+}
+
+// @public
+export interface DetectedLanguage {
+    iso6391Name?: string;
+    name?: string;
+    score?: number;
+}
+
 // @public (undocumented)
-export const foo = 42;
+export interface DetectLanguageResult extends TextAnalysisResult {
+    readonly detectedLanguages: DetectedLanguage[];
+    readonly primaryLanguage: DetectedLanguage | undefined;
+}
+
+// @public
+export interface DocumentStatistics {
+    charactersCount?: number;
+    transactionsCount?: number;
+}
+
+// @public (undocumented)
+export interface TextAnalysisResult {
+    readonly errorMessage?: string;
+    readonly id: string;
+    readonly statistics?: DocumentStatistics;
+}
+
+// @public
+export class TextAnalyticsClient {
+    constructor(endpointUrl: string, credential: CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
+    defaultCountryHint: string;
+    defaultLanguage: string;
+    // (undocumented)
+    detectLanguage(text: string, countryHint?: string): Promise<DetectLanguageResult>;
+    readonly endpointUrl: string;
+}
+
+// @public (undocumented)
+export interface TextAnalyticsClientOptions {
+    defaultCountryHint?: string;
+    defaultLanguage?: string;
+    pipelineOptions?: PipelineOptions;
+}
 
 
 // (No @packageDocumentation comment for this package)

@@ -63,6 +63,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-http": "^1.0.0",
+    "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.9.3"
   },
