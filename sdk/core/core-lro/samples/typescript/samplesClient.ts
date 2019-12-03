@@ -196,7 +196,7 @@ class Client {
 
   public async beginLongOperation(options?: {
     resumeFrom?: string;
-  }): Promise<PollerLike<PollOperationState<ReturnValue>, ReturnValue>> {
+  }): Promise<PollerLike<ReturnValue>> {
     const poller = new SamplePoller({
       client: this,
       ...options
