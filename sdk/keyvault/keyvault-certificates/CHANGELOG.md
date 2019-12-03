@@ -1,10 +1,10 @@
 # Release History
 
-## 4.0.0-preview.10 (2019-12-02)
+## 4.0.0-preview.10 (2019-12-03)
 
 - To better align keyvault-certificate APIs across languages, we've made a number of improvements and updates. For the full list, please see https://github.com/Azure/azure-sdk-for-js/issues/6291
 - Long-running operations are now done through 'pollers' which will poll the long-running operation to see when it has completed
-- Cancellation of a certificate request now happens on the poller rather than via the client 
+- Cancellation of a certificate request now happens on the poller rather than via the client
 - Removed an unused core-arm dependency
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 

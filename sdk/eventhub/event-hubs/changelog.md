@@ -1,12 +1,13 @@
-### 2019-12-02 5.0.0-preview.7
+### 2019-12-03 5.0.0-preview.7
 
 - Improves load-balancing capabilities to reduce the frequency that partitions are claimed by other running
-instances of `EventHubConsumerClient.subscribe` after all partitions are being read.
-([PR #6294](https://github.com/Azure/azure-sdk-for-js/pull/6294))
+  instances of `EventHubConsumerClient.subscribe` after all partitions are being read.
+  ([PR #6294](https://github.com/Azure/azure-sdk-for-js/pull/6294))
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
 Breaking changes:
-- CheckpointStore and consumer group are now passed to the EventHubConsumerClient 
+
+- CheckpointStore and consumer group are now passed to the EventHubConsumerClient
   constructor rather than being passed to subscribe().
 
 ### 2019-11-04 5.0.0-preview.6

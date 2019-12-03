@@ -12,8 +12,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 
 const packageName = "app-configuration";
-export const
-  packageVersion = "1.0.0-preview.8";
+export const packageVersion = "1.0.0-preview.9";
 
 export class AppConfigurationContext extends coreHttp.ServiceClient {
   syncToken?: string;
@@ -26,7 +25,11 @@ export class AppConfigurationContext extends coreHttp.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, options?: Models.AppConfigurationOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    options?: Models.AppConfigurationOptions
+  ) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }
