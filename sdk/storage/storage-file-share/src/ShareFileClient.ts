@@ -897,7 +897,7 @@ export class ShareFileClient extends StorageClient {
    * const downloadFileResponse = await fileClient.download(0);
    * console.log(
    *   "Downloaded file content:",
-   *   await streamToString(downloadFileResponse.contentAsBlob)}
+   *   await blobToString(await downloadFileResponse.blobBody)}
    * );
    *
    * // A helper method used to convert a browser Blob into string.
