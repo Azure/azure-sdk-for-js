@@ -40,17 +40,19 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-it("setMetadata with tracing", async () => {
+  it("setMetadata with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    
+
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb"
     };
-    await fileSystemClient.setMetadata(metadata, {tracingOptions: {spanOptions: {parent: rootSpan}}});
+    await fileSystemClient.setMetadata(metadata, {
+      tracingOptions: { spanOptions: { parent: rootSpan } }
+    });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
@@ -127,14 +129,16 @@ it("setMetadata with tracing", async () => {
       fileClients.push(fileClient);
     }
 
-    const result = (await fileSystemClient
-      .listPaths()
-      .byPage()
-      .next()).value as ListPathsSegmentResponse;
+    const result = (
+      await fileSystemClient
+        .listPaths()
+        .byPage()
+        .next()
+    ).value as ListPathsSegmentResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
-    assert.deepStrictEqual(result.paths!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.paths![0].name!));
+    assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
 
     for (const file of fileClients) {
       await file.delete();
@@ -145,18 +149,20 @@ it("setMetadata with tracing", async () => {
     const fileClients = [];
     for (let i = 0; i < 3; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file${i}`));
-      
+
       await fileClient.create();
       fileClients.push(fileClient);
     }
 
-    const result = (await fileSystemClient
-      .listPaths({ path: "" })
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileSystemClient
+        .listPaths({ path: "" })
+        .byPage()
+        .next()
+    ).value;
     assert.deepStrictEqual(result.continuation, undefined);
-    assert.deepStrictEqual(result.paths!.length, fileClients.length);
-    assert.ok(fileClients[0].url.indexOf(result.paths![0].name));
+    assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
 
     for (const file of fileClients) {
       await file.delete();
@@ -172,33 +178,37 @@ it("setMetadata with tracing", async () => {
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
-      
+
       await fileClient.create({
-        metadata: metadata,
+        metadata: metadata
       });
       fileClients.push(fileClient);
     }
 
-    const result = (await fileSystemClient
-      .listPaths({
-        userPrincipalName: true,
-        recursive: true,
-        path: ""
-      })
-      .byPage({ maxPageSize: 1 })
-      .next()).value as ListPathsSegmentResponse;
+    const result = (
+      await fileSystemClient
+        .listPaths({
+          userPrincipalName: true,
+          recursive: true,
+          path: ""
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value as ListPathsSegmentResponse;
 
-    assert.deepStrictEqual(result.paths!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result.paths![0].name!));
+    assert.deepStrictEqual(result.pathItems!.length, 1);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
 
-    const result2 = (await fileSystemClient
-      .listPaths({
-        userPrincipalName: true,
-        recursive: true,
-        path: ""
-      })
-      .byPage({ continuationToken: result.continuation, maxPageSize: 2 })
-      .next()).value;
+    const result2 = (
+      await fileSystemClient
+        .listPaths({
+          userPrincipalName: true,
+          recursive: true,
+          path: ""
+        })
+        .byPage({ continuationToken: result.continuation, maxPageSize: 2 })
+        .next()
+    ).value;
 
     assert.deepStrictEqual(result2.paths!.length, 1);
     assert.ok(fileClients[0].url.indexOf(result2.paths![0].name));
@@ -217,7 +227,7 @@ it("setMetadata with tracing", async () => {
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
-      
+
       await fileClient.create({
         metadata
       });
@@ -226,9 +236,9 @@ it("setMetadata with tracing", async () => {
 
     let i = 0;
     for await (const file of fileSystemClient.listPaths({
-        userPrincipalName: true,
-        recursive: true,
-        path: ""
+      userPrincipalName: true,
+      recursive: true,
+      path: ""
     })) {
       assert.ok(fileClients[i].url.indexOf(file.name!));
       i++;
@@ -248,7 +258,7 @@ it("setMetadata with tracing", async () => {
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
-      
+
       await fileClient.create({
         metadata
       });
@@ -281,7 +291,7 @@ it("setMetadata with tracing", async () => {
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
-      
+
       await fileClient.create({
         metadata
       });
@@ -296,7 +306,7 @@ it("setMetadata with tracing", async () => {
         path: ""
       })
       .byPage({ maxPageSize: 2 })) {
-      for (const file of response.paths || []) {
+      for (const file of response.pathItems || []) {
         assert.ok(fileClients[i].url.indexOf(file.name!));
         i++;
       }
@@ -316,7 +326,7 @@ it("setMetadata with tracing", async () => {
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
-      
+
       await fileClient.create({
         metadata
       });
@@ -332,7 +342,7 @@ it("setMetadata with tracing", async () => {
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
-    for (const file of response.paths) {
+    for (const file of response.pathItems) {
       assert.ok(fileClients[i].url.indexOf(file.name));
       i++;
     }
@@ -348,7 +358,7 @@ it("setMetadata with tracing", async () => {
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
     // Gets 2 blobs
-    for (const file of response.paths) {
+    for (const file of response.pathItems) {
       assert.ok(fileClients[i].url.indexOf(file.name));
       i++;
     }

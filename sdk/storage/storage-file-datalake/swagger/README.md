@@ -82,3 +82,19 @@ directive:
     $.FileSystem.properties.lastModified.format = "date-time-rfc1123";
     $.Path.properties.lastModified.format = "date-time-rfc1123";
 ```
+
+### Update paths to pathItems for list paths operation
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions
+  transform: >
+    $.PathList.properties.pathItems = {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Path"
+          }
+        };
+    $.PathList.properties.paths = undefined;
+
+```

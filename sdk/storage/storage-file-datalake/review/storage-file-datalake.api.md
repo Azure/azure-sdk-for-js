@@ -129,61 +129,41 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 // @public
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
-// @public (undocumented)
+// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
-    // (undocumented)
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
-    // (undocumented)
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
-    // (undocumented)
     getFileClient(fileName: string): DataLakeFileClient;
-    // (undocumented)
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
 
-// @public (undocumented)
+// @public
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<PathUpdateResponse>;
-    // (undocumented)
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
-    // (undocumented)
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    // (undocumented)
     flush(position: number, options?: FileFlushOptions): Promise<PathUpdateResponse>;
-    // (undocumented)
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export class DataLakeFileSystemClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
-    // (undocumented)
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
-    // (undocumented)
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
-    // (undocumented)
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
-    // (undocumented)
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
-    // (undocumented)
     getFileClient(fileName: string): DataLakeFileClient;
-    // (undocumented)
     getProperties(options?: FileSystemGetPropertiesOptions): Promise<FileSystemGetPropertiesResponse>;
-    // (undocumented)
     listPaths(options?: ListPathsOptions): PagedAsyncIterableIterator<Path, ListPathsSegmentResponse>;
-    // (undocumented)
     readonly name: string;
-    // (undocumented)
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
-    // (undocumented)
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
 }
 
@@ -206,39 +186,24 @@ export class DataLakeLeaseClient {
     readonly url: string;
 }
 
-// @public (undocumented)
+// @public
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
-    // (undocumented)
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-    // (undocumented)
     readonly fileSystemName: string;
-    // (undocumented)
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
-    // (undocumented)
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
-    // (undocumented)
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
-    // (undocumented)
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
-    // (undocumented)
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
-    // (undocumented)
     readonly name: string;
-    // (undocumented)
     setAccessControl(acl: PathAccessControlItem[], options?: PathSetAccessControlOptions): Promise<PathSetAccessControlResponse>;
-    // (undocumented)
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
-    // (undocumented)
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
-    // (undocumented)
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetAccessControlResponse>;
-    // (undocumented)
     toDirectoryClient(): DataLakeDirectoryClient;
-    // (undocumented)
     toFileClient(): DataLakeFileClient;
 }
 
@@ -276,15 +241,12 @@ export interface DataLakeSASSignatureValues {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export class DataLakeServiceClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
-    // (undocumented)
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
-    // (undocumented)
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
 }
 
@@ -1031,7 +993,7 @@ export interface PathHttpHeaders {
 // @public
 export interface PathList {
     // (undocumented)
-    paths?: Path[];
+    pathItems?: Path[];
 }
 
 // @public (undocumented)
