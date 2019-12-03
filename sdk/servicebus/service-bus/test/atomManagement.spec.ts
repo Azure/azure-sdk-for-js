@@ -62,7 +62,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
     before(async () => {
-      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      try {
+        await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      } catch (err) {
+        // TBD
+      }
 
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
@@ -81,18 +85,30 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
-      await createEntity(
-        EntityType.SUBSCRIPTION,
-        alwaysBeExistingSubscription,
-        alwaysBeExistingTopic
-      );
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      await createEntity(
-        EntityType.RULE,
-        alwaysBeExistingRule,
-        alwaysBeExistingTopic,
-        alwaysBeExistingSubscription
-      );
+      try {
+        await createEntity(
+          EntityType.SUBSCRIPTION,
+          alwaysBeExistingSubscription,
+          alwaysBeExistingTopic
+        );
+      } catch (err) {
+        // TBD
+      }
+      try {
+        await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      } catch (err) {
+        // TBD
+      }
+      try {
+        await createEntity(
+          EntityType.RULE,
+          alwaysBeExistingRule,
+          alwaysBeExistingTopic,
+          alwaysBeExistingSubscription
+        );
+      } catch (err) {
+        // TBD
+      }
     });
 
     after(async () => {
@@ -409,7 +425,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresDuplicateDetection: false,
       requiresSession: false,
       sizeInBytes: 0,
-      status: "Active",
+      status: EntityStatus.Active,
       supportOrdering: true,
       forwardTo: undefined,
       path: undefined,
@@ -423,8 +439,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
       defaultMessageTtl: "P2D",
@@ -455,6 +469,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
+      status: EntityStatus.ReceiveDisabled,
       enablePartitioning: true
       // maxSizeInMegabytes: 2048,
       // For partitioned entities, above value is 16384
@@ -463,8 +478,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -495,12 +508,16 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
 
+      sizeInBytes: 0,
+      messageCount: 0,
+
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
       supportOrdering: false,
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
+      status: EntityStatus.ReceiveDisabled,
       path: undefined,
       userMetadata: undefined,
 
@@ -508,7 +525,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableExpress: false,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      status: "Active",
+
       queueName: alwaysBeExistingQueue
     }
   }
@@ -567,7 +584,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       requiresDuplicateDetection: false,
       sizeInBytes: 0,
-      status: "Active",
+      status: EntityStatus.Active,
       subscriptionCount: undefined,
       supportOrdering: true,
       topicName: "alwaysBeExistingTopic1"
@@ -577,11 +594,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic2",
     testCaseTitle: "all properties",
     input: {
-      sizeInBytes: 100,
-      messageCount: 7,
-      subscriptionCount: 6,
-      maxDeliveryCount: 20,
-
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
 
@@ -601,24 +613,24 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT1H",
+      status: EntityStatus.SendDisabled,
       enablePartitioning: true,
       supportOrdering: false
     },
     output: {
-      sizeInBytes: 100,
-      messageCount: 7,
-      subscriptionCount: 6,
-      maxDeliveryCount: 20,
       defaultMessageTtl: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
-      autoDeleteOnIdle: "PT1H",
+      status: EntityStatus.SendDisabled,
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
-
+      sizeInBytes: 0,
+      messageCount: undefined,
+      subscriptionCount: undefined,
+      maxDeliveryCount: undefined,
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
 
       maxSubscriptionsPerTopic: undefined,
       maxSqlFiltersPerTopic: undefined,
@@ -650,7 +662,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      status: "Active",
       topicName: "alwaysBeExistingTopic2"
     }
   }
@@ -704,7 +715,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCount: 0,
       requiresSession: false,
       sizeInBytes: undefined,
-      status: "Active",
+      status: EntityStatus.Active,
       subscriptionName: "alwaysBeExistingSubscription1",
       topicName: "alwaysBeExistingTopic1"
     }
@@ -759,7 +770,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: "Active",
+      status: EntityStatus.Active,
 
       subscriptionName: "alwaysBeExistingSubscription2",
       topicName: "alwaysBeExistingTopic1"
@@ -939,9 +950,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
-
+      status: EntityStatus.ReceiveDisabled,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -983,13 +992,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 5,
-
+      messageCount: undefined,
+      sizeInBytes: undefined,
       autoDeleteOnIdle: "PT2H",
       authorizationRules: [
         {
@@ -1027,7 +1035,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      status: undefined,
+      status: EntityStatus.ReceiveDisabled,
 
       requiresDuplicateDetection: true,
       requiresSession: true,
@@ -1043,8 +1051,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
         // forwardDeadLetteredMessagesTo: "",
         lockDuration: "PT45S",
-        messageCount: 5,
-        sizeInBytes: 250,
         requiresDuplicateDetection: true,
         requiresSession: true,
         defaultMessageTtl: "P2D",
@@ -1121,8 +1127,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "all properties",
     input: {
-      sizeInBytes: 200,
-      messageCount: 5,
       subscriptionCount: 8,
       maxDeliveryCount: 10,
 
@@ -1145,13 +1149,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
 
-      maxSizeInMegabytes: 3072,
-
-      enablePartitioning: true
+      maxSizeInMegabytes: 3072
     },
     output: {
-      sizeInBytes: 200,
-      messageCount: 5,
+      sizeInBytes: 0,
+      messageCount: undefined,
       subscriptionCount: 8,
       maxDeliveryCount: 10,
       requiresDuplicateDetection: false,
@@ -1289,7 +1291,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: "Active",
+      status: EntityStatus.Active,
 
       subscriptionName: "alwaysbeExistingSubscription1",
       topicName: "alwaysBeExistingTopic1"

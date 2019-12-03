@@ -18,13 +18,14 @@ import {
   getInteger,
   getBoolean,
   getString,
-  getBooleanOrUndefined
+  getBooleanOrUndefined,
+  getIntegerOrUndefined
 } from "../util/utils";
 
 /**
  * @ignore
  * Builds the queue options object from the user provided options.
- * Handles the differences in casing for the property names, 
+ * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
  * @param queueOptions
  */
@@ -41,19 +42,22 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
-    SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
-    MessageCount: getStringOrUndefined(queueOptions.messageCount),
     AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
+    Status: getStringOrUndefined(queueOptions.status),
+    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
+    UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
-    UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
+    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo
+
+    // For unknown properties, keep them as-is for forward proof. ??
+    // unknown properties bag
   };
 }
 
 /**
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the 
+ * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
  */
@@ -66,10 +70,10 @@ export function buildQueue(rawQueue: any): QueueDetails {
     userMetadata: rawQueue[Constants.USER_METADATA],
 
     lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
-    sizeInBytes: getInteger(rawQueue[Constants.SIZE_IN_BYTES], "sizeInBytes"),
+    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     maxSizeInMegabytes: getInteger(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
-    messageCount: getInteger(rawQueue[Constants.MESSAGE_COUNT], "messageCount"),
+    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     maxDeliveryCount: getInteger(rawQueue[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     enablePartitioning: getBoolean(rawQueue[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
@@ -129,28 +133,17 @@ export interface QueueOptions {
   lockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  sizeInBytes?: number;
-
-  /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that
    * will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes?: number;
 
   /**
-   * The entity's message count.
-   */
-  messageCount?: number;
-
-  /**
-   * Depending on whether DeadLettering is enabled, a message is automatically 
-   * moved to the dead-letter sub-queue or deleted if it has been stored in the 
-   * queue for longer than the specified time. 
-   * This value is overwritten by a TTL specified on the message 
-   * if and only if the message TTL is smaller than the TTL set on the queue. 
+   * Depending on whether DeadLettering is enabled, a message is automatically
+   * moved to the dead-letter sub-queue or deleted if it has been stored in the
+   * queue for longer than the specified time.
+   * This value is overwritten by a TTL specified on the message
+   * if and only if the message TTL is smaller than the TTL set on the queue.
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -211,6 +204,11 @@ export interface QueueOptions {
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
+   * Entity status
+   */
+  status?: string;
+
+  /**
    * ForwardTo header
    */
   forwardTo?: string;
@@ -239,7 +237,7 @@ export interface InternalQueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver. 
+   * available for consumption by the next receiver.
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -247,22 +245,10 @@ export interface InternalQueueOptions {
   LockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  SizeInBytes?: string;
-
-  /**
    * The max size in MegaBytes
    *
    */
   MaxSizeInMegabytes?: string;
-
-  /**
-   * The entity's message count.
-   *
-   */
-  MessageCount?: string;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to
@@ -350,11 +336,6 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * Entity path
-   */
-  Path?: string;
-
-  /**
    * Entity status
    */
   Status?: string;
@@ -383,7 +364,7 @@ export interface QueueDetails {
    * The entity's size in bytes.
    *
    */
-  sizeInBytes: number;
+  sizeInBytes?: number;
 
   /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue
@@ -395,7 +376,7 @@ export interface QueueDetails {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  messageCount?: number;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically

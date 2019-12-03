@@ -424,3 +424,11 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   };
   return rawAuthorizationRule;
 }
+
+export enum EntityStatus {
+  Active = "Active",
+  ReceiveDisabled = "ReceiveDisabled",
+  SendDisabled = "SendDisabled",
+  Disabled = "Disabled",
+  Unknown = "Unknown"
+}
