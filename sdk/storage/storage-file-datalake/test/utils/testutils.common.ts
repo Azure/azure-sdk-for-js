@@ -32,7 +32,7 @@ export function setupEnvironment() {
   // `sig` param of SAS Token is being filtered here
   setReplacements([
     (recording: string): string =>
-      recording.replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa")
+      recording.replace(new RegExp(env.DFS_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa")
   ]);
 
   // SAS token may contain sensitive information

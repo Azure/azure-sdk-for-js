@@ -13,15 +13,11 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
   newPipeline,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import {
-  getDataLakeServiceClient,
-  getTokenDataLakeServiceClient,
-  setupEnvironment
-} from "../utils";
+import { getDataLakeServiceClient, getTokenDataLakeServiceClient, setupEnvironment } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   setupEnvironment();

@@ -65,9 +65,12 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("ListFileSystems with all parameters configured", async () => {
+    // Skip browser mock test because of account name replacement issue with recorded requests
+    recorder.skip("browser");
+
     const serviceClient = getDataLakeServiceClient();
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem");
+    const fileSystemNamePrefix = recorder.getUniqueName("filesystem1");
     const fileSystemName1 = `${fileSystemNamePrefix}x1`;
     const fileSystemName2 = `${fileSystemNamePrefix}x2`;
     const fileSystemClient1 = serviceClient.getFileSystemClient(fileSystemName1);
@@ -125,7 +128,7 @@ describe("DataLakeServiceClient", () => {
     const fileSystemClients = [];
     const serviceClient = getDataLakeServiceClient();
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem");
+    const fileSystemNamePrefix = recorder.getUniqueName("filesystem2");
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -156,7 +159,7 @@ describe("DataLakeServiceClient", () => {
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for ListFileSystems", async () => {
     const serviceClient = getDataLakeServiceClient();
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem");
+    const fileSystemNamePrefix = recorder.getUniqueName("filesystem3");
     const fileSystemName1 = `${fileSystemNamePrefix}x1`;
     const fileSystemName2 = `${fileSystemNamePrefix}x2`;
     const fileSystemClient1 = serviceClient.getFileSystemClient(fileSystemName1);
@@ -194,10 +197,13 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async () => {
+    // Skip browser mock test because of account name replacement issue with recorded requests
+    recorder.skip("browser");
+
     const fileSystemClients = [];
     const serviceClient = getDataLakeServiceClient();
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem");
+    const fileSystemNamePrefix = recorder.getUniqueName("filesystem4");
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -230,10 +236,13 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async () => {
+    // Skip browser mock test because of account name replacement issue with recorded requests
+    recorder.skip("browser");
+
     const fileSystemClients = [];
     const serviceClient = getDataLakeServiceClient();
 
-    const fileSystemNamePrefix = recorder.getUniqueName("filesystem");
+    const fileSystemNamePrefix = recorder.getUniqueName("filesystem5");
 
     for (let i = 0; i < 4; i++) {
       const fileSystemName = `${fileSystemNamePrefix}x${i}`;
@@ -288,7 +297,7 @@ describe("DataLakeServiceClient", () => {
 
   // it("createFileSystem and deleteFileSystem", async () => {
   //   const serviceClient = getDataLakeServiceClient();
-  //   const fileSystemName = recorder.getUniqueName("filesystem");
+  //   const fileSystemName = recorder.getUniqueName("filesystem6");
   //   const access = "filesystem";
   //   const metadata = { key: "value" };
 
