@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { HttpRequestBody, TokenCredential } from "@azure/core-http";
+import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -556,7 +556,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       });
 
       const response = rawResponse as FileReadResponse;
-      if (!response.contentAsBlob) {
+      if (!isNode && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;

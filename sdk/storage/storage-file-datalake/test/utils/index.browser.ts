@@ -13,7 +13,7 @@ export function getGenericCredential(accountType: string): AnonymousCredential {
 }
 
 export function getTokenCredential(): TokenCredential {
-  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
   let accountToken: string | undefined;
 
   accountToken = (window as any).__env__[accountTokenEnvVar];
@@ -57,7 +57,7 @@ export function getGenericDataLakeServiceClient(
 }
 
 export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
-  const accountNameEnvVar = `ACCOUNT_NAME`;
+  const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
 
   let accountName: string | undefined;
 

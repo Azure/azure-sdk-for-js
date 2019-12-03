@@ -8,7 +8,7 @@ import { getDataLakeServiceClient, setupEnvironment } from "../utils";
 
 dotenv.config({ path: "../.env" });
 
-describe.only("DataLakePathClient Node.js only", () => {
+describe("DataLakePathClient Node.js only", () => {
   setupEnvironment();
   const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;

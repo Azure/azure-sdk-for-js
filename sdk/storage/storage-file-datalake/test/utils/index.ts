@@ -62,10 +62,10 @@ export function getGenericDataLakeServiceClient(
     const pipeline = newPipeline(credential, {
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-      proxyOptions: {
-        host: "127.0.0.1",
-        port: 8888
-      }
+      // proxyOptions: {
+      //   host: "127.0.0.1",
+      //   port: 8888
+      // }
     });
     const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/`;
     return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
@@ -160,4 +160,3 @@ export async function createRandomLocalFile(
     ws.on("error", reject);
   });
 }
-
