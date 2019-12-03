@@ -1,5 +1,3 @@
-// <reference lib="es5" />
-
 // Changes to Aborter
 // * Rename Aborter to AbortSignal
 // * Remove withValue and getValue - async context should be solved differently/wholistically, not tied to cancellation
