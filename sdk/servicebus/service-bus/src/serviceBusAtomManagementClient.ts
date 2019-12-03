@@ -329,14 +329,23 @@ export interface ListRulesResponse extends Array<Rule> {
  * access the direct response from the service.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
+  /**
+   * Reference to the endpoint as extracted from input connection string.
+   */
   private endpoint: string;
 
+  /**
+   * Singleton instances of serializers used across the various operations.
+   */
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
   private ruleResourceSerializer: AtomXmlSerializer;
 
-  private tokenProvider: SasTokenProvider;
+  /**
+   * SAS token provider used to generate tokens as required for the various operations.
+   */
+  private sasTokenProvider: SasTokenProvider;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -372,7 +381,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.ruleResourceSerializer = new RuleResourceSerializer();
     this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
 
-    this.tokenProvider = new SasTokenProvider(
+    this.sasTokenProvider = new SasTokenProvider(
       connectionStringObj.Endpoint,
       connectionStringObj.SharedAccessKeyName,
       connectionStringObj.SharedAccessKey
@@ -858,14 +867,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (forwardTo && forwardTo.length > 0) {
       webResource.headers.set(
         "ServiceBusSupplementaryAuthorization",
-        (await this.tokenProvider.getToken(forwardTo)).token
+        (await this.sasTokenProvider.getToken(forwardTo)).token
       );
     }
 
     if (forwardDeadLetterMessagesTo && forwardDeadLetterMessagesTo.length > 0) {
       webResource.headers.set(
         "ServiceBusDlqSupplementaryAuthorization",
-        (await this.tokenProvider.getToken(forwardDeadLetterMessagesTo)).token
+        (await this.sasTokenProvider.getToken(forwardDeadLetterMessagesTo)).token
       );
     }
 
