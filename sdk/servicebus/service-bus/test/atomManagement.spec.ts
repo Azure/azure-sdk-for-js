@@ -6,7 +6,8 @@ import {
   QueueOptions,
   TopicOptions,
   SubscriptionOptions,
-  RuleOptions
+  RuleOptions,
+  EntityStatus
 } from "../src";
 
 import chai from "chai";
@@ -62,12 +63,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
     before(async () => {
-      try {
-        await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
-      } catch (err) {
-        // TBD
-      }
-
+      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
       } catch (err) {
@@ -85,30 +81,18 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
-      try {
-        await createEntity(
-          EntityType.SUBSCRIPTION,
-          alwaysBeExistingSubscription,
-          alwaysBeExistingTopic
-        );
-      } catch (err) {
-        // TBD
-      }
-      try {
-        await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      } catch (err) {
-        // TBD
-      }
-      try {
-        await createEntity(
-          EntityType.RULE,
-          alwaysBeExistingRule,
-          alwaysBeExistingTopic,
-          alwaysBeExistingSubscription
-        );
-      } catch (err) {
-        // TBD
-      }
+      await createEntity(
+        EntityType.SUBSCRIPTION,
+        alwaysBeExistingSubscription,
+        alwaysBeExistingTopic
+      );
+      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await createEntity(
+        EntityType.RULE,
+        alwaysBeExistingRule,
+        alwaysBeExistingTopic,
+        alwaysBeExistingSubscription
+      );
     });
 
     after(async () => {
