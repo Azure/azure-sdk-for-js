@@ -411,7 +411,7 @@ Please refer to the [JavaScript Bundle](#javascript-bundle) section for more inf
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const account = "<account name>";
-const sas = "<service Shared Access Token>";
+const sas = "<service Shared Access Signature Token>";
 const containerName = "<container name>";
 const blobName = "<blob name>"
 

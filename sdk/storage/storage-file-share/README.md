@@ -390,7 +390,7 @@ Please refer to the [JavaScript Bundle](#javascript-bundle) section for more inf
 const { ShareServiceClient } = require("@azure/storage-file-share");
 
 const account = "<account name>";
-const sas = "<service Shared Access Token>";
+const sas = "<service Shared Access Signature Token>";
 const shareName = "<share name>";
 const fileName = "<file name>"
 
