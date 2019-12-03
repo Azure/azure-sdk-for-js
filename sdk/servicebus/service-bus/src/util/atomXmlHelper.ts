@@ -336,7 +336,6 @@ function setName(entry: any, nameProperties: any): any {
 }
 
 /**
- *
  * Utility to help construct the normalized `RestError` object based on given `errorBody`
  * data and other data present in the received `response` object.
  *
