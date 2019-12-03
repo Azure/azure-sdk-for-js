@@ -1,4 +1,4 @@
-## 1.0.0-preview.5 - 3rd December, 2019
+## 1.0.0-preview.6 - 3rd December, 2019
 
 * Treat ETIMEOUT error from dns.resolve as network disconnected
 
