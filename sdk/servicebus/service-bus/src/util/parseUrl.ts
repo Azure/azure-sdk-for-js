@@ -3,4 +3,6 @@
 
 const url = require("url");
 
-export const parseURL = url.parse;
+export const parseURL = (rawUrl: string) => {
+  return new url.URL(rawUrl);
+};
