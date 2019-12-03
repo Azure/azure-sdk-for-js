@@ -16,6 +16,8 @@ import * as Constants from "./constants";
 import * as log from "../log";
 import { Buffer } from "buffer";
 
+import { parseURL } from "./parseUrl";
+
 /**
  * @ignore
  * Represents the internal ATOM XML serializer interface
@@ -303,7 +305,7 @@ function setName(entry: any, nameProperties: any): any {
       rawUrl = "https://" + rawUrl.substring(5);
     }
 
-    const parsedUrl = new URL(rawUrl);
+    const parsedUrl = parseURL(rawUrl);
     const pathname: string = parsedUrl.pathname;
 
     const firstIndexOfDelimiter = pathname.indexOf("/");
