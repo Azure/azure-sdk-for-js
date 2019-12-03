@@ -580,9 +580,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     input: {
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
       // enableExpress: true,
-
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
       // maxCorrelationFiltersPerTopic: 5,
@@ -726,11 +724,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       defaultRuleDescription: {
         Name: "test1",
         Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-      messageCount: 5,
-      enablePartitioning: true,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500
+      }
     },
     output: {
       lockDuration: "PT5M",
@@ -1111,12 +1105,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "all properties",
     input: {
-      subscriptionCount: 8,
-      maxDeliveryCount: 10,
+      // Property gets set but is not exposed to user in .NET SDK
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      // maxDeliveryCount: 10,
+      // subscriptionCount: 8,
 
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
       // enableExpress: true,
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
@@ -1127,6 +1122,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
+      status: EntityStatus.Active,
+      userMetadata: "test metadata",
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1136,10 +1133,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxSizeInMegabytes: 3072
     },
     output: {
-      sizeInBytes: 0,
+      // Property gets set but is not exposed to user in .NET SDK
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      maxDeliveryCount: undefined,
+      subscriptionCount: undefined,
+      // Used to return as 0, but now returns as undefined
+      sizeInBytes: undefined,
+
       messageCount: undefined,
-      subscriptionCount: 8,
-      maxDeliveryCount: 10,
+
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1150,7 +1152,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxSizeInMegabytes: 3072,
 
       enableBatchedOperations: true,
-      enablePartitioning: true,
+      enablePartitioning: false,
 
       maxSubscriptionsPerTopic: undefined,
       maxSqlFiltersPerTopic: undefined,
@@ -1158,28 +1160,29 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
       // maxSubscriptionsPerTopic: 3,
       // maxSqlFiltersPerTopic: 4,
       // maxCorrelationFiltersPerTopic: 5,
-
       // enableExpress: true,
-      enableExpress: false,
+
       authorizationRules: undefined,
 
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      isExpress: false,
-      enableSubscriptionPartitioning: false,
-      filteringMessagesBeforePublishing: false,
+      // Properties used to return as false, but based on newer .NET SDK based changes now returns as undefined
+      isExpress: undefined,
+      enableSubscriptionPartitioning: undefined,
+      filteringMessagesBeforePublishing: undefined,
+      enableExpress: undefined,
+
       // isExpress: true,
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
 
-      userMetadata: undefined,
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
-      status: undefined,
+      status: EntityStatus.Active,
+      userMetadata: "test metadata",
 
       messageCountDetails: undefined,
 
@@ -1244,13 +1247,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         Name: "test1",
         Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
       },
-
-      messageCount: 5,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500,
-
-      requiresSession: false,
-      enablePartitioning: true
+      requiresSession: false
     },
     output: {
       lockDuration: "PT3M",

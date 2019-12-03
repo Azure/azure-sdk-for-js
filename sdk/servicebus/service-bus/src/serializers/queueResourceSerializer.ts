@@ -49,9 +49,6 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo
-
-    // For unknown properties, keep them as-is for forward proof. ??
-    // unknown properties bag
   };
 }
 
@@ -139,6 +136,20 @@ export interface QueueOptions {
   maxSizeInMegabytes?: number;
 
   /**
+   * If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at queue creation time.
+   */
+  requiresDuplicateDetection?: boolean;
+
+  /**
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
+   */
+  requiresSession?: boolean;
+
+  /**
    * Depending on whether DeadLettering is enabled, a message is automatically
    * moved to the dead-letter sub-queue or deleted if it has been stored in the
    * queue for longer than the specified time.
@@ -151,24 +162,19 @@ export interface QueueOptions {
   defaultMessageTtl?: string;
 
   /**
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
+
+  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
-   */
-  forwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  autoDeleteOnIdle?: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -177,31 +183,14 @@ export interface QueueOptions {
   maxDeliveryCount?: number;
 
   /**
-   * If set to true, the queue will be session-aware and only SessionReceiver
-   * will be supported. Session-aware queues are not supported through REST.
-   * Settable only at queue creation time.
-   */
-  requiresSession?: boolean;
-
-  /**
    * Specifies if batched operations should be allowed.
    */
   enableBatchedOperations?: boolean;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time
-   * span specified by the DuplicateDetectionHistoryTimeWindow property.
-   * Settable only at queue creation time.
+   * Authorization rules on the queue
    */
-  requiresDuplicateDetection?: boolean;
-
-  /**
-   * If it is enabled and a message expires, the Service Bus moves the message
-   * from the queue into the queue’s dead-letter sub-queue. If disabled,
-   * message will be permanently deleted from the queue.
-   * Settable only at queue creation time.
-   */
-  deadLetteringOnMessageExpiration?: boolean;
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Entity status
@@ -219,14 +208,22 @@ export interface QueueOptions {
   userMetadata?: string;
 
   /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   */
+  autoDeleteOnIdle?: string;
+
+  /**
    * Specifies whether the queue should be partitioned.
    */
   enablePartitioning?: boolean;
 
   /**
-   * Authorization rules on the queue
+   * The URL of Service Bus queue to forward deadlettered messages to.
+   *
    */
-  authorizationRules?: AuthorizationRule[];
+  forwardDeadLetteredMessagesTo?: string;
 }
 
 /**
@@ -251,6 +248,20 @@ export interface InternalQueueOptions {
   MaxSizeInMegabytes?: string;
 
   /**
+   *  If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at queue creation time.
+   */
+  RequiresDuplicateDetection?: string;
+
+  /**
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
+   */
+  RequiresSession?: string;
+
+  /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to
    * the DeadLetterQueue or deleted if it has been stored in the queue for longer than
    * the specified time. This value is overwritten by a TTL specified on the message
@@ -262,24 +273,19 @@ export interface InternalQueueOptions {
   DefaultMessageTimeToLive?: string;
 
   /**
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
+   */
+  DeadLetteringOnMessageExpiration?: string;
+
+  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
-   */
-  ForwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  AutoDeleteOnIdle?: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -289,41 +295,9 @@ export interface InternalQueueOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * Specifies whether the queue should be partitioned.
-   */
-  EnablePartitioning?: string;
-
-  /**
-   * If set to true, the queue will be session-aware and only SessionReceiver
-   * will be supported. Session-aware queues are not supported through REST.
-   * Settable only at queue creation time.
-   */
-  RequiresSession?: string;
-
-  /**
    * Specifies if batched operations should be allowed.
    */
   EnableBatchedOperations?: string;
-
-  /**
-   *  If enabled, the topic will detect duplicate messages within the time
-   * span specified by the DuplicateDetectionHistoryTimeWindow property.
-   * Settable only at queue creation time.
-   */
-  RequiresDuplicateDetection?: string;
-
-  /**
-   * If it is enabled and a message expires, the Service Bus moves the message
-   * from the queue into the queue’s dead-letter sub-queue. If disabled,
-   * message will be permanently deleted from the queue.
-   * Settable only at queue creation time.
-   */
-  DeadLetteringOnMessageExpiration?: string;
-
-  /**
-   * The user metadata information
-   */
-  UserMetadata?: string;
 
   /**
    * Authorization rules on the queue
@@ -331,14 +305,37 @@ export interface InternalQueueOptions {
   AuthorizationRules?: any;
 
   /**
+   * Entity status
+   */
+  Status?: string;
+
+  /**
    * ForwardTo header
    */
   ForwardTo?: string;
 
   /**
-   * Entity status
+   * The user metadata information
    */
-  Status?: string;
+  UserMetadata?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   */
+  AutoDeleteOnIdle?: string;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  EnablePartitioning?: string;
+
+  /**
+   * The URL of Service Bus queue to forward deadlettered messages to.
+   *
+   */
+  ForwardDeadLetteredMessagesTo?: string;
 }
 
 /**

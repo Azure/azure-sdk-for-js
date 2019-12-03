@@ -38,7 +38,9 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
     EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
     Status: getStringOrUndefined(topicOptions.status),
+    UserMetadata: getStringOrUndefined(topicOptions.userMetadata),
     SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
+    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning)
   };
 }
@@ -115,9 +117,15 @@ export function buildTopic(rawTopic: any): TopicDetails {
  */
 export interface TopicOptions {
   /**
-   * Specifies the topic size in bytes.
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly
+   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
+   * TTL has expired will either be moved to the subscription’s associated dead-letter
+   * sub-queue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  sizeInBytes?: number;
+  defaultMessageTtl?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -137,14 +145,16 @@ export interface TopicOptions {
   requiresDuplicateDetection?: boolean;
 
   /**
-   * Enable Subscription Partitioning option
+   * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  enableSubscriptionPartitioning?: boolean;
+  duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Filtering Messages Before Publishing option
+   * Specifies if batched operations should be allowed.
    */
-  filteringMessagesBeforePublishing?: boolean;
+  enableBatchedOperations?: boolean;
 
   /**
    * Authorization rules on the topic
@@ -152,19 +162,19 @@ export interface TopicOptions {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Specifies whether the topic should be partitioned
+   * Entity status
    */
-  enablePartitioning?: boolean;
+  status?: string;
+
+  /**
+   * User metadata
+   */
+  userMetadata?: string;
 
   /**
    * Specifies whether the topic supports message ordering.
    */
   supportOrdering?: boolean;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations?: boolean;
 
   /**
    * Max idle time before entity is deleted.
@@ -174,79 +184,9 @@ export interface TopicOptions {
   autoDeleteOnIdle?: string;
 
   /**
-   * The entity's message count.
-   *
+   * Specifies whether the topic should be partitioned
    */
-  messageCount?: number;
-
-  /**
-   * The subscription count on given topic.
-   *
-   */
-  subscriptionCount?: number;
-
-  /**
-   * The maximum delivery count of messages after which if it is still not settled,
-   * gets moved to the dead-letter sub-queue.
-   *
-   */
-  maxDeliveryCount?: number;
-
-  /**
-   * Determines how long a message lives in the associated subscriptions.
-   * Subscriptions inherit the TTL from the topic unless they are created explicitly
-   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
-   * TTL has expired will either be moved to the subscription’s associated dead-letter
-   * sub-queue or will be permanently deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  defaultMessageTtl?: string;
-
-  /**
-   * Specifies the time span during which the Service Bus will detect message duplication.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  duplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * User metadata
-   */
-  userMetadata?: string;
-
-  /**
-   * Is Express option
-   */
-  isExpress?: boolean;
-
-  /**
-   * Enable express option
-   */
-  enableExpress?: boolean;
-
-  /**
-   * The maximum number of subscriptions per topic.
-   *
-   */
-  maxSubscriptionsPerTopic?: number;
-
-  /**
-   * The maximum amount of sql filters per topic.
-   *
-   */
-  maxSqlFiltersPerTopic?: number;
-
-  /**
-   * The maximum amount of correlation filters per topic.
-   *
-   */
-  maxCorrelationFiltersPerTopic?: number;
-
-  /**
-   * Entity status
-   */
-  status?: string;
+  enablePartitioning?: boolean;
 }
 
 /**
@@ -255,9 +195,15 @@ export interface TopicOptions {
  */
 export interface InternalTopicOptions {
   /**
-   * Specifies the topic size in bytes.
+   * Determines how long a message lives in the associated subscriptions. Subscriptions
+   * inherit the TTL from the topic unless they are created explicitly with a smaller TTL.
+   * Based on whether dead-lettering is enabled, a message whose TTL has expired will
+   * either be moved to the subscription’s associated DeadLtterQueue or will be
+   * permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  SizeInBytes?: string;
+  DefaultMessageTimeToLive?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -277,14 +223,17 @@ export interface InternalTopicOptions {
   RequiresDuplicateDetection?: string;
 
   /**
-   * Enable Subscription Partitioning option
+   * Specifies the time span during which the Service Bus will detect message
+   * duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  EnableSubscriptionPartitioning?: string;
+  DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Filtering Messages Before Publishing option
+   * Specifies if batched operations should be allowed.
    */
-  FilteringMessagesBeforePublishing?: string;
+  EnableBatchedOperations?: string;
 
   /**
    * Authorization rules on the topic
@@ -292,19 +241,19 @@ export interface InternalTopicOptions {
   AuthorizationRules?: any;
 
   /**
-   * Specifies whether the topic should be partitioned
+   * Entity status
    */
-  EnablePartitioning?: string;
+  Status?: string;
+
+  /**
+   * User metadata
+   */
+  UserMetadata?: string;
 
   /**
    * Specifies whether the topic supports message ordering.
    */
   SupportOrdering?: string;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  EnableBatchedOperations?: string;
 
   /**
    * Max idle time before entity is deleted.
@@ -314,80 +263,9 @@ export interface InternalTopicOptions {
   AutoDeleteOnIdle?: string;
 
   /**
-   * The entity's message count.
-   *
+   * Specifies whether the topic should be partitioned
    */
-  MessageCount?: string;
-
-  /**
-   * The subscription count on given topic.
-   *
-   */
-  SubscriptionCount?: string;
-
-  /**
-   * The maximum delivery count of messages after which if it is still not settled,
-   * gets moved to the dead-letter sub-queue.
-   *
-   */
-  MaxDeliveryCount?: string;
-
-  /**
-   * Determines how long a message lives in the associated subscriptions. Subscriptions
-   * inherit the TTL from the topic unless they are created explicitly with a smaller TTL.
-   * Based on whether dead-lettering is enabled, a message whose TTL has expired will
-   * either be moved to the subscription’s associated DeadLtterQueue or will be
-   * permanently deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  DefaultMessageTimeToLive?: string;
-
-  /**
-   * Specifies the time span during which the Service Bus will detect message
-   * duplication.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  DuplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * User metadata
-   */
-  UserMetadata?: string;
-
-  /**
-   * Is Express option
-   */
-  IsExpress?: string;
-
-  /**
-   * Enable express option
-   */
-  EnableExpress?: string;
-
-  /**
-   * The maximum number of subscriptions per topic.
-   *
-   */
-  MaxSubscriptionsPerTopic?: string;
-
-  /**
-   * The maximum amount of sql filters per topic.
-   *
-   */
-  MaxSqlFiltersPerTopic?: string;
-
-  /**
-   * The maximum amount of correlation filters per topic.
-   *
-   */
-  MaxCorrelationFiltersPerTopic?: string;
-
-  /**
-   * Entity status
-   */
-  Status?: string;
+  EnablePartitioning?: string;
 }
 
 /**
