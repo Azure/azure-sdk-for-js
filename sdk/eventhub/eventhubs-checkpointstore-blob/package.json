@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@azure/event-hubs": "5.0.0-preview.7",
-    "@azure/storage-blob": "^12.0.1",
+    "@azure/storage-blob": "^12.0.0",
     "debug": "^4.1.1",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
