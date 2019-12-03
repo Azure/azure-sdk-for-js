@@ -384,27 +384,48 @@ main();
 
 ### Download a file and convert it to a string (Browsers)
 
+Please refer to the [JavaScript Bundle](#javascript-bundle) section for more information on using this library in the browser.
+
 ```javascript
-  // Get file content from position 0 to the end
-  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+const { ShareServiceClient } = require("@azure/storage-file-share");
+
+const account = "<account name>";
+const sas = "<service Shared Access Token>";
+const shareName = "<share name>";
+const fileName = "<file name>"
+
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net${sas}`
+);
+
+async function main() {
+  const fileClient = serviceClient.getShareClient(shareName)
+    .rootDirectoryClient
+    .getFileClient(fileName);
+
+    // Get file content from position 0 to the end
+    // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content: ${await streamToString(
-      downloadFileResponse.blobBody
+    `Downloaded file content: ${await blobToString(
+      await downloadFileResponse.blobBody
     )}`
   );
+}
 
 // [Browser only] A helper method used to convert a browser Blob into string.
-export async function blobToString(blob: Blob): Promise<string> {
+async function blobToString(blob) {
   const fileReader = new FileReader();
-  return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
+  return new Promise((resolve, reject) => {
+    fileReader.onloadend = (ev) => {
+      resolve(ev.target.result);
     };
     fileReader.onerror = reject;
     fileReader.readAsText(blob);
   });
 }
+
+main()
 ```
 
 A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/basic.ts).
