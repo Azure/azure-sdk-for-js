@@ -199,6 +199,10 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
       cors: [
         "options",
         "cors"
+      ],
+      shareDeleteRetentionPolicy: [
+        "options",
+        "shareDeleteRetentionPolicy"
       ]
     },
     mapper: {
