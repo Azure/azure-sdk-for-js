@@ -484,12 +484,12 @@ const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -509,13 +509,13 @@ const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -535,13 +535,13 @@ const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -561,13 +561,13 @@ const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -587,14 +587,14 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -614,14 +614,14 @@ const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -641,13 +641,13 @@ const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,13 +675,13 @@ const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -700,13 +700,13 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -734,14 +734,14 @@ const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -769,14 +769,14 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -795,14 +795,14 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

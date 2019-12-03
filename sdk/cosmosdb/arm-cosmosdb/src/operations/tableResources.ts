@@ -246,12 +246,12 @@ const listTablesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -271,13 +271,13 @@ const getTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -297,13 +297,13 @@ const getTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -323,13 +323,13 @@ const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -357,13 +357,13 @@ const beginDeleteTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -382,13 +382,13 @@ const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
