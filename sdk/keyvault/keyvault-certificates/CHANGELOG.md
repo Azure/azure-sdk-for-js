@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.0-preview.11 (2019-12-03)
+
+- Updated `@azure/core-tracing` to version `1.0.0-preview.7`.
+
 ## 4.0.0-preview.10 (2019-12-03)
 
 - To better align keyvault-certificate APIs across languages, we've made a number of improvements and updates. For the full list, please see https://github.com/Azure/azure-sdk-for-js/issues/6291

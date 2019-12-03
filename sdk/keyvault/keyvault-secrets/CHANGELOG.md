@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.2 (2019-12-03)
+
+- Updated `@azure/core-tracing` to version `1.0.0-preview.7`.
+
 ## 4.0.1 (2019-12-03)
 
 - Updated dependencies to their latest available versions.
