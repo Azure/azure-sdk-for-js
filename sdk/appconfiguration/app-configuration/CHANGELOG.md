@@ -1,7 +1,7 @@
-# 1.0.0-preview.8 (2019-12-02)
+# 1.0.0-preview.9 (2019-12-03)
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.
-- Added support for TokenCredential in `AppConfigurationClient`, allowing 
+- Added support for TokenCredential in `AppConfigurationClient`, allowing
   credentials from the `@azure/identity` package for authentication.
 - Added support for sync-tokens, providing a consistent view of your App
   Configuration service even when doing rapid sets/updates and reads.

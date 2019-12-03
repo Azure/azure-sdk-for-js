@@ -232,13 +232,13 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB SQL database.
+ * An interface representing SqlDatabaseGetPropertiesResource.
  */
-export interface SqlDatabaseGetResults extends ARMResourceProperties {
+export interface SqlDatabaseGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL database
    */
-  sqlDatabaseGetResultsId: string;
+  id: string;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -263,6 +263,13 @@ export interface SqlDatabaseGetResults extends ARMResourceProperties {
    * A system generated property that specifies the addressable path of the users resource.
    */
   _users?: string;
+}
+
+/**
+ * An Azure Cosmos DB SQL database.
+ */
+export interface SqlDatabaseGetResults extends ARMResourceProperties {
+  resource?: SqlDatabaseGetPropertiesResource;
 }
 
 /**
@@ -312,6 +319,36 @@ export interface ExcludedPath {
 }
 
 /**
+ * An interface representing CompositePath.
+ */
+export interface CompositePath {
+  /**
+   * The path for which the indexing behavior applies to. Index paths typically start with root and
+   * end with wildcard (/path/*)
+   */
+  path?: string;
+  /**
+   * Sort order for composite paths. Possible values include: 'Ascending', 'Descending'
+   */
+  order?: CompositePathSortOrder;
+}
+
+/**
+ * An interface representing SpatialSpec.
+ */
+export interface SpatialSpec {
+  /**
+   * The path for which the indexing behavior applies to. Index paths typically start with root and
+   * end with wildcard (/path/*)
+   */
+  path?: string;
+  /**
+   * List of path's spatial type
+   */
+  types?: SpatialType[];
+}
+
+/**
  * Cosmos DB indexing policy
  */
 export interface IndexingPolicy {
@@ -332,6 +369,14 @@ export interface IndexingPolicy {
    * List of paths to exclude from indexing
    */
   excludedPaths?: ExcludedPath[];
+  /**
+   * List of composite path list
+   */
+  compositeIndexes?: CompositePath[][];
+  /**
+   * List of spatial specifics
+   */
+  spatialIndexes?: SpatialSpec[];
 }
 
 /**
@@ -396,13 +441,13 @@ export interface ConflictResolutionPolicy {
 }
 
 /**
- * An Azure Cosmos DB container.
+ * An interface representing SqlContainerGetPropertiesResource.
  */
-export interface SqlContainerGetResults extends ARMResourceProperties {
+export interface SqlContainerGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL container
    */
-  sqlContainerGetResultsId: string;
+  id: string;
   /**
    * The configuration of the indexing policy. By default, the indexing is automatic for all
    * document paths within the container
@@ -445,15 +490,59 @@ export interface SqlContainerGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB storedProcedure.
+ * An Azure Cosmos DB container.
  */
-export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
+export interface SqlContainerGetResults extends ARMResourceProperties {
+  resource?: SqlContainerGetPropertiesResource;
+}
+
+/**
+ * An interface representing SqlStoredProcedureGetPropertiesResource.
+ */
+export interface SqlStoredProcedureGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL storedProcedure
    */
-  sqlStoredProcedureGetResultsId: string;
+  id: string;
   /**
    * Body of the Stored Procedure
+   */
+  body?: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB storedProcedure.
+ */
+export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
+  resource?: SqlStoredProcedureGetPropertiesResource;
+}
+
+/**
+ * An interface representing SqlUserDefinedFunctionGetPropertiesResource.
+ */
+export interface SqlUserDefinedFunctionGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB SQL userDefinedFunction
+   */
+  id: string;
+  /**
+   * Body of the User Defined Function
    */
   body?: string;
   /**
@@ -478,40 +567,17 @@ export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
  * An Azure Cosmos DB userDefinedFunction.
  */
 export interface SqlUserDefinedFunctionGetResults extends ARMResourceProperties {
-  /**
-   * Name of the Cosmos DB SQL userDefinedFunction
-   */
-  sqlUserDefinedFunctionGetResultsId: string;
-  /**
-   * Body of the User Defined Function
-   */
-  body?: string;
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _ts?: any;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _etag?: string;
+  resource?: SqlUserDefinedFunctionGetPropertiesResource;
 }
 
 /**
- * An Azure Cosmos DB trigger.
+ * An interface representing SqlTriggerGetPropertiesResource.
  */
-export interface SqlTriggerGetResults extends ARMResourceProperties {
+export interface SqlTriggerGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL trigger
    */
-  sqlTriggerGetResultsId: string;
+  id: string;
   /**
    * Body of the Trigger
    */
@@ -544,13 +610,20 @@ export interface SqlTriggerGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB MongoDB database.
+ * An Azure Cosmos DB trigger.
  */
-export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
+export interface SqlTriggerGetResults extends ARMResourceProperties {
+  resource?: SqlTriggerGetPropertiesResource;
+}
+
+/**
+ * An interface representing MongoDBDatabaseGetPropertiesResource.
+ */
+export interface MongoDBDatabaseGetPropertiesResource {
   /**
    * Name of the Cosmos DB MongoDB database
    */
-  mongoDBDatabaseGetResultsId: string;
+  id: string;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -567,6 +640,13 @@ export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB MongoDB database.
+ */
+export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
+  resource?: MongoDBDatabaseGetPropertiesResource;
 }
 
 /**
@@ -608,13 +688,13 @@ export interface MongoIndex {
 }
 
 /**
- * An Azure Cosmos DB MongoDB collection.
+ * An interface representing MongoDBCollectionGetPropertiesResource.
  */
-export interface MongoDBCollectionGetResults extends ARMResourceProperties {
+export interface MongoDBCollectionGetPropertiesResource {
   /**
    * Name of the Cosmos DB MongoDB collection
    */
-  mongoDBCollectionGetResultsId: string;
+  id: string;
   /**
    * A key-value pair of shard keys to be applied for the request.
    */
@@ -642,13 +722,53 @@ export interface MongoDBCollectionGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB Table.
+ * An Azure Cosmos DB MongoDB collection.
  */
-export interface TableGetResults extends ARMResourceProperties {
+export interface MongoDBCollectionGetResults extends ARMResourceProperties {
+  resource?: MongoDBCollectionGetPropertiesResource;
+}
+
+/**
+ * An interface representing TableGetPropertiesResource.
+ */
+export interface TableGetPropertiesResource {
   /**
    * Name of the Cosmos DB table
    */
-  tableGetResultsId: string;
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB Table.
+ */
+export interface TableGetResults extends ARMResourceProperties {
+  resource?: TableGetPropertiesResource;
+}
+
+/**
+ * An interface representing CassandraKeyspaceGetPropertiesResource.
+ */
+export interface CassandraKeyspaceGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB Cassandra keyspace
+   */
+  id: string;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -671,26 +791,7 @@ export interface TableGetResults extends ARMResourceProperties {
  * An Azure Cosmos DB Cassandra keyspace.
  */
 export interface CassandraKeyspaceGetResults extends ARMResourceProperties {
-  /**
-   * Name of the Cosmos DB Cassandra keyspace
-   */
-  cassandraKeyspaceGetResultsId: string;
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _ts?: any;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _etag?: string;
+  resource?: CassandraKeyspaceGetPropertiesResource;
 }
 
 /**
@@ -750,13 +851,13 @@ export interface CassandraSchema {
 }
 
 /**
- * An Azure Cosmos DB Cassandra table.
+ * An interface representing CassandraTableGetPropertiesResource.
  */
-export interface CassandraTableGetResults extends ARMResourceProperties {
+export interface CassandraTableGetPropertiesResource {
   /**
    * Name of the Cosmos DB Cassandra table
    */
-  cassandraTableGetResultsId: string;
+  id: string;
   /**
    * Time to live of the Cosmos DB Cassandra table
    */
@@ -784,13 +885,20 @@ export interface CassandraTableGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB Gremlin database.
+ * An Azure Cosmos DB Cassandra table.
  */
-export interface GremlinDatabaseGetResults extends ARMResourceProperties {
+export interface CassandraTableGetResults extends ARMResourceProperties {
+  resource?: CassandraTableGetPropertiesResource;
+}
+
+/**
+ * An interface representing GremlinDatabaseGetPropertiesResource.
+ */
+export interface GremlinDatabaseGetPropertiesResource {
   /**
    * Name of the Cosmos DB Gremlin database
    */
-  gremlinDatabaseGetResultsId: string;
+  id: string;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -810,13 +918,20 @@ export interface GremlinDatabaseGetResults extends ARMResourceProperties {
 }
 
 /**
- * An Azure Cosmos DB Gremlin graph.
+ * An Azure Cosmos DB Gremlin database.
  */
-export interface GremlinGraphGetResults extends ARMResourceProperties {
+export interface GremlinDatabaseGetResults extends ARMResourceProperties {
+  resource?: GremlinDatabaseGetPropertiesResource;
+}
+
+/**
+ * An interface representing GremlinGraphGetPropertiesResource.
+ */
+export interface GremlinGraphGetPropertiesResource {
   /**
    * Name of the Cosmos DB Gremlin graph
    */
-  gremlinGraphGetResultsId: string;
+  id: string;
   /**
    * The configuration of the indexing policy. By default, the indexing is automatic for all
    * document paths within the graph
@@ -856,6 +971,13 @@ export interface GremlinGraphGetResults extends ARMResourceProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB Gremlin graph.
+ */
+export interface GremlinGraphGetResults extends ARMResourceProperties {
+  resource?: GremlinGraphGetPropertiesResource;
 }
 
 /**
@@ -1875,6 +1997,120 @@ export interface PartitionMetric extends Metric {
 }
 
 /**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends ARMProxyResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+}
+
+/**
+ * Private endpoint which the connection belongs to.
+ */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * Connection State of the Private Endpoint Connection.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status.
+   */
+  status?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection State of the Private Endpoint Connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+}
+
+/**
+ * The resource model definition for a ARM tracked top level resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DatabaseAccountsListUsagesOptionalParams extends msRest.RequestOptionsBase {
@@ -2091,6 +2327,22 @@ export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
 }
 
 /**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+}
+
+/**
+ * @interface
+ * A list of private endpoint connections
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
  * Defines values for DatabaseAccountKind.
  * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'
  * @readonly
@@ -2145,6 +2397,22 @@ export type DataType = 'String' | 'Number' | 'Point' | 'Polygon' | 'LineString' 
  * @enum {string}
  */
 export type IndexKind = 'Hash' | 'Range' | 'Spatial';
+
+/**
+ * Defines values for CompositePathSortOrder.
+ * Possible values include: 'Ascending', 'Descending'
+ * @readonly
+ * @enum {string}
+ */
+export type CompositePathSortOrder = 'Ascending' | 'Descending';
+
+/**
+ * Defines values for SpatialType.
+ * Possible values include: 'Point', 'LineString', 'Polygon', 'MultiPolygon'
+ * @readonly
+ * @enum {string}
+ */
+export type SpatialType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
 
 /**
  * Defines values for PartitionKind.
@@ -4365,5 +4633,125 @@ export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = Throughp
        * The response body as parsed JSON or XML
        */
       parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
     };
 };
