@@ -1,4 +1,4 @@
-## 1.1.0 - 2019-12-03
+## 1.1.0 - TBD
 
 - Changed `PollerLike<TState, TResult>` to be `PollerLike<TResult>`.
   Besides producing a cleaner API, the only consequence is that
