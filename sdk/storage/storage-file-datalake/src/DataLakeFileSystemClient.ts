@@ -25,15 +25,15 @@ import {
   FileSystemSetMetadataResponse,
   ListPathsOptions,
   ListPathsSegmentOptions,
-  ListPathsSegmentResponse,
   Metadata,
   Path,
   PublicAccessType,
-  SignedIdentifier
+  SignedIdentifier,
+  FileSystemListPathsResponse
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { toContainerPublicAccessType, toPublicAccessType } from "./transforms";
+import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
@@ -481,12 +481,12 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {ListPathsOptions} [options={}] Optional. Options when listing paths.
-   * @returns {PagedAsyncIterableIterator<Path, ListPathsSegmentResponse>}
+   * @returns {PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>}
    * @memberof DataLakeFileSystemClient
    */
   public listPaths(
     options: ListPathsOptions = {}
-  ): PagedAsyncIterableIterator<Path, ListPathsSegmentResponse> {
+  ): PagedAsyncIterableIterator<Path, FileSystemListPathsResponse> {
     options.path = options.path === "" ? undefined : options.path;
 
     const iter = this.listItems(options);
@@ -515,7 +515,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   private async *listSegments(
     continuation?: string,
     options: ListPathsSegmentOptions = {}
-  ): AsyncIterableIterator<ListPathsSegmentResponse> {
+  ): AsyncIterableIterator<FileSystemListPathsResponse> {
     let response;
     if (!!continuation || continuation === undefined) {
       do {
@@ -529,18 +529,30 @@ export class DataLakeFileSystemClient extends StorageClient {
   private async listPathsSegment(
     continuation?: string,
     options: ListPathsSegmentOptions = {}
-  ): Promise<ListPathsSegmentResponse> {
+  ): Promise<FileSystemListPathsResponse> {
     const { span, spanOptions } = createSpan(
       "DataLakeFileSystemClient-listPathsSegment",
       options.tracingOptions
     );
     try {
-      return await this.fileSystemContext.listPaths(options.recursive || false, {
+      const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
         ...options,
         upn: options.userPrincipalName,
         spanOptions
       });
+
+      const response = rawResponse as FileSystemListPathsResponse;
+      response.pathItems = [];
+      for (const path of rawResponse.paths || []) {
+        response.pathItems.push({
+          ...path,
+          permissions: toPermissions(path.permissions)
+        });
+      }
+      delete rawResponse.paths;
+
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

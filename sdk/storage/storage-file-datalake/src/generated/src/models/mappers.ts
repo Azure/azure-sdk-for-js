@@ -74,8 +74,8 @@ export const PathList: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PathList",
     modelProperties: {
-      pathItems: {
-        serializedName: "pathItems",
+      paths: {
+        serializedName: "paths",
         type: {
           name: "Sequence",
           element: {

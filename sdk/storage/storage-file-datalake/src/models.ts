@@ -2,9 +2,18 @@
 // Licensed under the MIT License.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
-import { LeaseAccessConditions, ModifiedAccessConditions, UserDelegationKeyModel } from "@azure/storage-blob";
+import {
+  LeaseAccessConditions,
+  ModifiedAccessConditions,
+  UserDelegationKeyModel
+} from "@azure/storage-blob";
 
-import { PathCreateResponse, PathGetPropertiesHeaders as PathGetPropertiesHeadersModel } from "./generated/src/models";
+import {
+  PathCreateResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  FileSystemListPathsHeaders,
+  PathList as PathListModel
+} from "./generated/src/models";
 import { CommonOptions } from "./StorageClient";
 
 export {
@@ -17,10 +26,9 @@ export {
 } from "@azure/storage-blob";
 
 export {
-  PathList,
   FileSystemListPathsHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
-  Path,
+  PathList as PathListModel,
   PathCreateHeaders,
   PathDeleteHeaders,
   PathDeleteResponse,
@@ -247,12 +255,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-  _response: HttpResponse & {
-    parsedHeaders: FileSystemGetAccessPolicyHeaders;
-    bodyAsText: string;
-    parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    _response: HttpResponse & {
+      parsedHeaders: FileSystemGetAccessPolicyHeaders;
+      bodyAsText: string;
+      parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    };
   };
-};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -285,6 +293,30 @@ export interface ListPathsSegmentOptions extends ListPathsOptions {
   maxResults?: number;
 }
 
+export interface Path {
+  name?: string;
+  isDirectory?: boolean;
+  lastModified?: Date;
+  eTag?: string;
+  contentLength?: number;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
+}
+
+export interface PathList {
+  pathItems?: Path[];
+}
+
+export type FileSystemListPathsResponse = PathList &
+  FileSystemListPathsHeaders & {
+    _response: HttpResponse & {
+      parsedHeaders: FileSystemListPathsHeaders;
+      bodyAsText: string;
+      parsedBody: PathListModel;
+    };
+  };
+
 /**********************************************************/
 /** DataLakePathClient option and response related models */
 /**********************************************************/
@@ -295,7 +327,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-  LeaseAccessConditions { }
+    LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -319,7 +351,6 @@ export interface PathAccessControlItem {
   entityId: string;
   permissions: RolePermissions;
 }
-
 
 export interface PathCreateHttpHeaders {
   cacheControl?: string;
@@ -514,9 +545,9 @@ export type PathMoveResponse = PathRemoveHeaders & {
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions { }
+export interface DirectoryCreateOptions extends PathCreateOptions {}
 
-export interface DirectoryCreateResponse extends PathCreateResponse { }
+export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -588,9 +619,9 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions { }
+export interface FileCreateOptions extends PathCreateOptions {}
 
-export interface FileCreateResponse extends PathCreateResponse { }
+export interface FileCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */

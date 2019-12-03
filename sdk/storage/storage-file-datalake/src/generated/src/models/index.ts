@@ -30,7 +30,7 @@ export interface Path {
  * An interface representing PathList.
  */
 export interface PathList {
-  pathItems?: Path[];
+  paths?: Path[];
 }
 
 /**

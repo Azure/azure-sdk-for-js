@@ -3,7 +3,7 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeFileSystemClient, ListPathsSegmentResponse } from "../src";
+import { DataLakeFileSystemClient, FileSystemListPathsResponse } from "../src";
 import { getDataLakeServiceClient, setupEnvironment } from "./utils";
 
 dotenv.config({ path: "../.env" });
@@ -134,7 +134,7 @@ describe("DataLakeFileSystemClient", () => {
         .listPaths()
         .byPage()
         .next()
-    ).value as ListPathsSegmentResponse;
+    ).value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
@@ -194,7 +194,7 @@ describe("DataLakeFileSystemClient", () => {
         })
         .byPage({ maxPageSize: 1 })
         .next()
-    ).value as ListPathsSegmentResponse;
+    ).value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(result.pathItems!.length, 1);
     assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
@@ -210,8 +210,8 @@ describe("DataLakeFileSystemClient", () => {
         .next()
     ).value;
 
-    assert.deepStrictEqual(result2.paths!.length, 1);
-    assert.ok(fileClients[0].url.indexOf(result2.paths![0].name));
+    assert.deepStrictEqual(result2.pathItems!.length, 1);
+    assert.ok(fileClients[0].url.indexOf(result2.pathItems![0].name));
 
     for (const file of fileClients) {
       await file.delete();

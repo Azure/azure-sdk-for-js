@@ -18,20 +18,18 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  before(async function () {
-  });
+  before(async function() {});
 
-  after(async function () {
-  });
+  after(async function() {});
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this);
     fileSystemName = recorder.getUniqueName("1container-with-dash");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -48,8 +46,8 @@ describe("Special Naming Tests", () => {
         .next()
     ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special container and blob names with spaces in URL string", async () => {
@@ -67,8 +65,8 @@ describe("Special Naming Tests", () => {
         .next()
     ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special container and blob names uppercase", async () => {
@@ -77,15 +75,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special container and blob names uppercase in URL string", async () => {
@@ -97,15 +95,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob names Chinese characters", async () => {
@@ -114,15 +112,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob names Chinese characters in URL string", async () => {
@@ -134,15 +132,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name characters", async () => {
@@ -153,14 +151,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
-      })
-      .byPage()
-      .next()).value;
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name characters in URL string", async () => {
@@ -177,16 +176,18 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        //.replace(/\\/g, "/")
-      })
-      .byPage()
-      .next()).value;
+    const response = (
+      await fileSystemClient
+        .listPaths({
+          // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+          //.replace(/\\/g, "/")
+        })
+        .byPage()
+        .next()
+    ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Russian URI encoded", async () => {
@@ -196,14 +197,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
-      })
-      .byPage()
-      .next()).value;
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileNameEncoded);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
   });
 
   it("Should work with special blob name Russian", async () => {
@@ -212,15 +214,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Russian in URL string", async () => {
@@ -232,15 +234,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Arabic URI encoded", async () => {
@@ -250,14 +252,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
-      })
-      .byPage()
-      .next()).value;
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileNameEncoded);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
   });
 
   it("Should work with special blob name Arabic", async () => {
@@ -266,15 +269,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Arabic in URL string", async () => {
@@ -286,15 +289,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Japanese URI encoded", async () => {
@@ -304,14 +307,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
-      })
-      .byPage()
-      .next()).value;
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileNameEncoded);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
   });
 
   it("Should work with special blob name Japanese", async () => {
@@ -320,15 +324,15 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 
   it("Should work with special blob name Japanese in URL string", async () => {
@@ -340,14 +344,14 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (await fileSystemClient
-      .listPaths({
+    const response = (
+      await fileSystemClient
+        .listPaths({})
+        .byPage()
+        .next()
+    ).value;
 
-      })
-      .byPage()
-      .next()).value;
-
-    assert.deepStrictEqual(response.paths.length, 1);
-    assert.deepStrictEqual(response.paths[0].name, fileName);
+    assert.deepStrictEqual(response.pathItems.length, 1);
+    assert.deepStrictEqual(response.pathItems[0].name, fileName);
   });
 });
