@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for EventGridClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/eventgrid
 ```
 
@@ -19,13 +19,14 @@ npm install @azure/eventgrid
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -57,7 +58,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -115,5 +116,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventgrid/eventgrid/README.png)
