@@ -28,12 +28,18 @@ export interface Recorder {
    * In playback mode, the string in the recordings associated to the `label` is returned.
    *
    * If the `label`(optional param) is not provided, `prefix` is used as the `label`.
+   * 
+   * The same prefix cannot exist for the same label. To ensure this is the case, both the prefix and the label used to keep a historical records of names in takenLabelPrefixPairs.
    *
    * @param {string} [prefix] Prefix for the generated random string
    * @param {string} [label] (Optional) Label to be assigned for the generated string [necessary for playing back the recordings]. If label is not provided, prefix is assumed as the label
    * @returns {string}
    */
   getUniqueName: (prefix: string, label?: string) => string;
+  /**
+   * Here's where the getUniqueNames are stored, so that we can throw if a repeated name is generated.
+   */
+  takenLabelPrefixPairs: { [key: string]: boolean },
   /**
    * In live test mode, `new Date();` is returned.
    *
@@ -87,6 +93,8 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder.playback(testContext.currentTest!.file!);
   }
 
+  const takenLabelPrefixPairs: { [key: string]: boolean } = {};
+
   return {
     stop: function() {
       if (isRecordMode()) {
@@ -123,11 +131,18 @@ export function record(testContext: Mocha.Context): Recorder {
         }
       }
     },
+
+    takenLabelPrefixPairs,
+   
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {
         label = prefix;
       }
+      if (takenLabelPrefixPairs[`${label}-${prefix}`]) {
+        throw new Error(`Label ${label} is already taken for the prefix "${prefix}", please provide a different prefix OR give the same prefix to a different label.`);
+      }
+      takenLabelPrefixPairs[`${label}-${prefix}`] = true;
       if (isRecordMode()) {
         name = getUniqueName(prefix);
         recorder.uniqueTestInfo["uniqueName"][label] = name;

@@ -71,19 +71,12 @@ function padStart(currentString: string, targetLength: number, padString: string
 /**
  * @returns {string}
  */
-const namesAlreadyTaken: { [key: string]: boolean } = {};
 export function getUniqueName(prefix: string): string {
-  const name = `${prefix}${new Date().getTime()}${padStart(
+  return `${prefix}${new Date().getTime()}${padStart(
     Math.floor(Math.random() * 10000).toString(),
     5,
     "00000"
   )}`;
-  if (namesAlreadyTaken[name]) {
-    throw new Error(`Test name: ${name} is duplicated.`);
-  } else {
-    namesAlreadyTaken[name] = true;
-  }
-  return name;
 }
 
 /**
