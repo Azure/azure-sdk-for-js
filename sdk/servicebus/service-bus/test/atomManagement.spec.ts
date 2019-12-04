@@ -717,14 +717,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: true,
-
-      // None of below work
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      }
+      requiresSession: true
     },
     output: {
       lockDuration: "PT5M",
@@ -1242,11 +1235,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
       requiresSession: false
     },
     output: {

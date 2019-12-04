@@ -41,7 +41,6 @@ export function buildSubscriptionOptions(
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
     ),
-    DefaultRuleDescription: subscriptionOptions.defaultRuleDescription,
     MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
     Status: getEntityStatusOrUndefined(subscriptionOptions.status),
@@ -160,12 +159,6 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Indicates the default rule description.
-   *
-   */
-  defaultRuleDescription?: any;
-
-  /**
    * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
@@ -253,12 +246,6 @@ export interface InternalSubscriptionOptions {
    * form of the message. Settable only at topic creation time.
    */
   DeadLetteringOnFilterEvaluationExceptions?: string;
-
-  /**
-   * Indicates the default rule description.
-   *
-   */
-  DefaultRuleDescription?: any;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
