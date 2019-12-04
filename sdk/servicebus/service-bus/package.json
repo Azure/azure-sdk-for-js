@@ -22,6 +22,7 @@
     "./dist/index.js": "./browser/service-bus.js",
     "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
     "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
+    "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
