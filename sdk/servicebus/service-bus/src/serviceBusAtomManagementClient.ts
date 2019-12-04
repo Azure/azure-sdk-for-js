@@ -864,14 +864,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalSubscriptionOptions).ForwardDeadLetteredMessagesTo;
 
-    if (forwardTo && forwardTo.length > 0) {
+    if (forwardTo) {
       webResource.headers.set(
         "ServiceBusSupplementaryAuthorization",
         (await this.sasTokenProvider.getToken(forwardTo)).token
       );
     }
 
-    if (forwardDeadLetterMessagesTo && forwardDeadLetterMessagesTo.length > 0) {
+    if (forwardDeadLetterMessagesTo) {
       webResource.headers.set(
         "ServiceBusDlqSupplementaryAuthorization",
         (await this.sasTokenProvider.getToken(forwardDeadLetterMessagesTo)).token

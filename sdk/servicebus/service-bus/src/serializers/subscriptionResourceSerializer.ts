@@ -22,7 +22,7 @@ import {
 /**
  * @ignore
  * Builds the subscription options object from the user provided options.
- * Handles the differences in casing for the property names, 
+ * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
  * @param subscriptionOptions
  */
@@ -55,7 +55,7 @@ export function buildSubscriptionOptions(
 
 /**
  * @ignore
- * Builds the subscription object from the raw json object gotten after deserializing 
+ * Builds the subscription object from the raw json object gotten after deserializing
  * the response from the service
  * @param rawSubscription
  */
@@ -116,7 +116,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
  */
 export interface SubscriptionOptions {
   /**
-   * The default lock duration is applied to subscriptions that do not define a lock 
+   * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -130,11 +130,11 @@ export interface SubscriptionOptions {
   sizeInBytes?: number;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
-   * that will cause the topic to exceed this value will fail. All messages that 
-   * are stored in the topic or any of its subscriptions count towards this value. 
-   * Multiple copies of a message that reside in one or multiple subscriptions count 
-   * as a single messages. For example, if message m exists once in subscription s1 
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
+   * that will cause the topic to exceed this value will fail. All messages that
+   * are stored in the topic or any of its subscriptions count towards this value.
+   * Multiple copies of a message that reside in one or multiple subscriptions count
+   * as a single messages. For example, if message m exists once in subscription s1
    * and twice in subscription s2, m is counted as a single message.
    */
   maxSizeInMegabytes?: number;
@@ -151,7 +151,7 @@ export interface SubscriptionOptions {
   enablePartitioning?: boolean;
 
   /**
-   * If set to true, the subscription will be session-aware and only SessionReceiver 
+   * If set to true, the subscription will be session-aware and only SessionReceiver
    * will be supported. Session-aware subscription are not supported through REST.
    * Settable only at subscription creation time.
    */
@@ -163,9 +163,9 @@ export interface SubscriptionOptions {
   enableBatchedOperations?: boolean;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether 
-   * dead-lettering is enabled, a message whose TTL has expired will either be moved 
-   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
@@ -185,20 +185,20 @@ export interface SubscriptionOptions {
   autoDeleteOnIdle?: string;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from 
-   * the queue into the subscription’s dead-letter sub-queue. If disabled, message 
-   * will be permanently deleted from the subscription’s main queue. 
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue.
    * Settable only at subscription creation time.
    */
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during 
-   * a subscription’s filter evaluation. If the value is set to true, the message that 
-   * caused the exception will be moved to the subscription’s dead-letter sub-queue. 
-   * Otherwise, it will be discarded. By default this parameter is set to true, 
-   * allowing the user a chance to investigate the cause of the exception. 
-   * It can occur from a malformed message or some incorrect assumptions being made 
+   * Determines how the Service Bus handles a message that causes an exception during
+   * a subscription’s filter evaluation. If the value is set to true, the message that
+   * caused the exception will be moved to the subscription’s dead-letter sub-queue.
+   * Otherwise, it will be discarded. By default this parameter is set to true,
+   * allowing the user a chance to investigate the cause of the exception.
+   * It can occur from a malformed message or some incorrect assumptions being made
    * in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
@@ -210,7 +210,7 @@ export interface SubscriptionOptions {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, 
+   * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
    */
@@ -222,7 +222,7 @@ export interface SubscriptionOptions {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
    * It can take a maximum of 1024 characters only.
    */
@@ -235,7 +235,7 @@ export interface SubscriptionOptions {
  */
 export interface InternalSubscriptionOptions {
   /**
-   * The default lock duration is applied to subscriptions that do not define a lock 
+   * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -249,11 +249,11 @@ export interface InternalSubscriptionOptions {
   SizeInBytes?: string;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
-   * that will cause the topic to exceed this value will fail. All messages that are 
-   * stored in the topic or any of its subscriptions count towards this value. 
-   * Multiple copies of a message that reside in one or multiple subscriptions count 
-   * as a single messages. For example, if message m exists once in subscription s1 
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
+   * that will cause the topic to exceed this value will fail. All messages that are
+   * stored in the topic or any of its subscriptions count towards this value.
+   * Multiple copies of a message that reside in one or multiple subscriptions count
+   * as a single messages. For example, if message m exists once in subscription s1
    * and twice in subscription s2, m is counted as a single message.
    */
   MaxSizeInMegabytes?: string;
@@ -270,7 +270,7 @@ export interface InternalSubscriptionOptions {
   EnablePartitioning?: string;
 
   /**
-   * If set to true, the subscription will be session-aware and only SessionReceiver 
+   * If set to true, the subscription will be session-aware and only SessionReceiver
    * will be supported. Session-aware subscription are not supported through REST.
    * Settable only at subscription creation time.
    */
@@ -282,9 +282,9 @@ export interface InternalSubscriptionOptions {
   EnableBatchedOperations?: string;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether 
-   * dead-lettering is enabled, a message whose TTL has expired will either be moved 
-   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
@@ -304,20 +304,20 @@ export interface InternalSubscriptionOptions {
   AutoDeleteOnIdle?: string;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from 
-   * the queue into the subscription’s dead-letter sub-queue. If disabled, message 
-   * will be permanently deleted from the subscription’s main queue. 
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue.
    * Settable only at subscription creation time.
    */
   DeadLetteringOnMessageExpiration?: string;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception during 
-   * a subscription’s filter evaluation. If the value is set to true, the message 
-   * that caused the exception will be moved to the subscription’s dead-letter sub-queue. 
-   * Otherwise, it will be discarded. By default this parameter is set to true, allowing 
-   * the user a chance to investigate the cause of the exception. It can occur from a 
-   * malformed message or some incorrect assumptions being made in the filter about the 
+   * Determines how the Service Bus handles a message that causes an exception during
+   * a subscription’s filter evaluation. If the value is set to true, the message
+   * that caused the exception will be moved to the subscription’s dead-letter sub-queue.
+   * Otherwise, it will be discarded. By default this parameter is set to true, allowing
+   * the user a chance to investigate the cause of the exception. It can occur from a
+   * malformed message or some incorrect assumptions being made in the filter about the
    * form of the message. Settable only at topic creation time.
    */
   DeadLetteringOnFilterEvaluationExceptions?: string;
@@ -329,7 +329,7 @@ export interface InternalSubscriptionOptions {
   ForwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, 
+   * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
    */
@@ -341,7 +341,7 @@ export interface InternalSubscriptionOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
    * It can take a maximum of 1024 characters only.
    */
@@ -363,7 +363,7 @@ export interface SubscriptionDetails {
   topicName: string;
 
   /**
-   * The default lock duration is applied to subscriptions that do not define a 
+   * The default lock duration is applied to subscriptions that do not define a
    * lock duration.
    * Settable only at subscription creation time.
    * This is specified in ISO-8601 duration format
@@ -378,11 +378,11 @@ export interface SubscriptionDetails {
   sizeInBytes?: number;
 
   /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message 
-   * that will cause the topic to exceed this value will fail. All messages that are 
-   * stored in the topic or any of its subscriptions count towards this value. 
-   * Multiple copies of a message that reside in one or multiple subscriptions 
-   * count as a single messages. For example, if message m exists once in subscription 
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
+   * that will cause the topic to exceed this value will fail. All messages that are
+   * stored in the topic or any of its subscriptions count towards this value.
+   * Multiple copies of a message that reside in one or multiple subscriptions
+   * count as a single messages. For example, if message m exists once in subscription
    * s1 and twice in subscription s2, m is counted as a single message.
    */
   maxSizeInMegabytes?: number;
@@ -399,7 +399,7 @@ export interface SubscriptionDetails {
   enablePartitioning?: boolean;
 
   /**
-   * If set to true, the subscription will be session-aware and only SessionReceiver 
+   * If set to true, the subscription will be session-aware and only SessionReceiver
    * will be supported. Session-aware subscription are not supported through REST.
    * Settable only at subscription creation time.
    */
@@ -411,9 +411,9 @@ export interface SubscriptionDetails {
   enableBatchedOperations: boolean;
 
   /**
-   * Determines how long a message lives in the subscription. Based on whether 
-   * dead-lettering is enabled, a message whose TTL has expired will either be moved 
-   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
@@ -433,21 +433,21 @@ export interface SubscriptionDetails {
   autoDeleteOnIdle: string;
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message from 
-   * the queue into the subscription’s dead-letter sub-queue. If disabled, message 
-   * will be permanently deleted from the subscription’s main queue. Settable only 
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue. Settable only
    * at subscription creation time.
    */
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * Determines how the Service Bus handles a message that causes an exception 
-   * during a subscription’s filter evaluation. If the value is set to true, 
-   * the message that caused the exception will be moved to the subscription’s 
-   * dead-letter sub-queue. Otherwise, it will be discarded. By default this 
-   * parameter is set to true, allowing the user a chance to investigate the 
-   * cause of the exception. It can occur from a malformed message or some 
-   * incorrect assumptions being made in the filter about the form of the message. 
+   * Determines how the Service Bus handles a message that causes an exception
+   * during a subscription’s filter evaluation. If the value is set to true,
+   * the message that caused the exception will be moved to the subscription’s
+   * dead-letter sub-queue. Otherwise, it will be discarded. By default this
+   * parameter is set to true, allowing the user a chance to investigate the
+   * cause of the exception. It can occur from a malformed message or some
+   * incorrect assumptions being made in the filter about the form of the message.
    * Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions: boolean;
@@ -459,7 +459,7 @@ export interface SubscriptionDetails {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * The maximum delivery count of messages after which if it is still not settled, 
+   * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
    */
@@ -471,7 +471,7 @@ export interface SubscriptionDetails {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
    * It can take a maximum of 1024 characters only.
    */
