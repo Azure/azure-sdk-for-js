@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/cognitiveservices-textanalytics";
-const packageVersion = "4.0.0";
+const packageVersion = "5.0.0-preview.1";
 
 export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -43,7 +43,7 @@ export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/text/analytics/v2.1";
+    this.baseUri = "{Endpoint}/text/analytics/v3.0-preview.1";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

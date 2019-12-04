@@ -22,6 +22,18 @@ export const endpoint: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const modelVersion: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "modelVersion"
+  ],
+  mapper: {
+    serializedName: "model-version",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const showStats: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",

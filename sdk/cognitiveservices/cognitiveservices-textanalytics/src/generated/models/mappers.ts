@@ -15,20 +15,22 @@ export const MultiLanguageInput: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "MultiLanguageInput",
     modelProperties: {
-      language: {
-        serializedName: "language",
-        type: {
-          name: "String"
-        }
-      },
       id: {
+        required: true,
         serializedName: "id",
         type: {
           name: "String"
         }
       },
       text: {
+        required: true,
         serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      language: {
+        serializedName: "language",
         type: {
           name: "String"
         }
@@ -44,6 +46,7 @@ export const MultiLanguageBatchInput: coreHttp.CompositeMapper = {
     className: "MultiLanguageBatchInput",
     modelProperties: {
       documents: {
+        required: true,
         serializedName: "documents",
         type: {
           name: "Sequence",
@@ -59,105 +62,110 @@ export const MultiLanguageBatchInput: coreHttp.CompositeMapper = {
   }
 };
 
-export const MatchRecord: coreHttp.CompositeMapper = {
-  serializedName: "MatchRecord",
+export const DocumentError: coreHttp.CompositeMapper = {
+  serializedName: "DocumentError",
   type: {
     name: "Composite",
-    className: "MatchRecord",
+    className: "DocumentError",
     modelProperties: {
-      wikipediaScore: {
-        serializedName: "wikipediaScore",
-        type: {
-          name: "Number"
-        }
-      },
-      entityTypeScore: {
-        serializedName: "entityTypeScore",
-        type: {
-          name: "Number"
-        }
-      },
-      text: {
-        serializedName: "text",
+      id: {
+        required: true,
+        serializedName: "id",
         type: {
           name: "String"
         }
       },
-      offset: {
-        serializedName: "offset",
+      error: {
+        required: true,
+        serializedName: "error",
         type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
-        type: {
-          name: "Number"
+          name: "Object"
         }
       }
     }
   }
 };
 
-export const EntityRecord: coreHttp.CompositeMapper = {
-  serializedName: "EntityRecord",
+export const InnerError: coreHttp.CompositeMapper = {
+  serializedName: "InnerError",
   type: {
     name: "Composite",
-    className: "EntityRecord",
+    className: "InnerError",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      code: {
+        required: true,
+        serializedName: "code",
         type: {
           name: "String"
         }
       },
-      matches: {
-        serializedName: "matches",
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: coreHttp.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      },
+      details: {
+        serializedName: "details",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MatchRecord"
+              className: "ErrorModel"
             }
           }
-        }
-      },
-      wikipediaLanguage: {
-        serializedName: "wikipediaLanguage",
-        type: {
-          name: "String"
-        }
-      },
-      wikipediaId: {
-        serializedName: "wikipediaId",
-        type: {
-          name: "String"
-        }
-      },
-      wikipediaUrl: {
-        readOnly: true,
-        serializedName: "wikipediaUrl",
-        type: {
-          name: "String"
-        }
-      },
-      bingId: {
-        serializedName: "bingId",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      subType: {
-        serializedName: "subType",
-        type: {
-          name: "String"
         }
       }
     }
@@ -171,12 +179,14 @@ export const DocumentStatistics: coreHttp.CompositeMapper = {
     className: "DocumentStatistics",
     modelProperties: {
       charactersCount: {
+        required: true,
         serializedName: "charactersCount",
         type: {
           name: "Number"
         }
       },
       transactionsCount: {
+        required: true,
         serializedName: "transactionsCount",
         type: {
           name: "Number"
@@ -186,27 +196,298 @@ export const DocumentStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntitiesBatchResultItem: coreHttp.CompositeMapper = {
-  serializedName: "EntitiesBatchResultItem",
+export const SentenceSentiment: coreHttp.CompositeMapper = {
+  serializedName: "SentenceSentiment",
   type: {
     name: "Composite",
-    className: "EntitiesBatchResultItem",
+    className: "SentenceSentiment",
+    modelProperties: {
+      sentiment: {
+        required: true,
+        serializedName: "sentiment",
+        type: {
+          name: "String"
+        }
+      },
+      sentenceScores: {
+        required: true,
+        serializedName: "sentenceScores",
+        type: {
+          name: "Object"
+        }
+      },
+      offset: {
+        required: true,
+        serializedName: "offset",
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        required: true,
+        serializedName: "length",
+        type: {
+          name: "Number"
+        }
+      },
+      warnings: {
+        serializedName: "warnings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DocumentSentiment: coreHttp.CompositeMapper = {
+  serializedName: "DocumentSentiment",
+  type: {
+    name: "Composite",
+    className: "DocumentSentiment",
     modelProperties: {
       id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      sentiment: {
+        required: true,
+        serializedName: "sentiment",
+        type: {
+          name: "String"
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "DocumentStatistics"
+        }
+      },
+      documentScores: {
+        required: true,
+        serializedName: "documentScores",
+        type: {
+          name: "Object"
+        }
+      },
+      sentences: {
+        required: true,
+        serializedName: "sentences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SentenceSentiment"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RequestStatistics: coreHttp.CompositeMapper = {
+  serializedName: "RequestStatistics",
+  type: {
+    name: "Composite",
+    className: "RequestStatistics",
+    modelProperties: {
+      documentsCount: {
+        required: true,
+        serializedName: "documentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      validDocumentsCount: {
+        required: true,
+        serializedName: "validDocumentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      erroneousDocumentsCount: {
+        required: true,
+        serializedName: "erroneousDocumentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      transactionsCount: {
+        required: true,
+        serializedName: "transactionsCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SentimentResponse: coreHttp.CompositeMapper = {
+  serializedName: "SentimentResponse",
+  type: {
+    name: "Composite",
+    className: "SentimentResponse",
+    modelProperties: {
+      documents: {
+        required: true,
+        serializedName: "documents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentSentiment"
+            }
+          }
+        }
+      },
+      errors: {
+        required: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentError"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "RequestStatistics"
+        }
+      },
+      modelVersion: {
+        required: true,
+        serializedName: "modelVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
+  serializedName: "SentimentConfidenceScorePerLabel",
+  type: {
+    name: "Composite",
+    className: "SentimentConfidenceScorePerLabel",
+    modelProperties: {
+      positive: {
+        required: true,
+        serializedName: "positive",
+        type: {
+          name: "Number"
+        }
+      },
+      neutral: {
+        required: true,
+        serializedName: "neutral",
+        type: {
+          name: "Number"
+        }
+      },
+      negative: {
+        required: true,
+        serializedName: "negative",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Entity: coreHttp.CompositeMapper = {
+  serializedName: "Entity",
+  type: {
+    name: "Composite",
+    className: "Entity",
+    modelProperties: {
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      subtype: {
+        serializedName: "subtype",
+        type: {
+          name: "String"
+        }
+      },
+      offset: {
+        required: true,
+        serializedName: "offset",
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        required: true,
+        serializedName: "length",
+        type: {
+          name: "Number"
+        }
+      },
+      score: {
+        required: true,
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentEntities: coreHttp.CompositeMapper = {
+  serializedName: "DocumentEntities",
+  type: {
+    name: "Composite",
+    className: "DocumentEntities",
+    modelProperties: {
+      id: {
+        required: true,
         serializedName: "id",
         type: {
           name: "String"
         }
       },
       entities: {
-        readOnly: true,
+        required: true,
         serializedName: "entities",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EntityRecord"
+              className: "Entity"
             }
           }
         }
@@ -222,184 +503,253 @@ export const EntitiesBatchResultItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorRecord: coreHttp.CompositeMapper = {
-  serializedName: "ErrorRecord",
+export const EntitiesResult: coreHttp.CompositeMapper = {
+  serializedName: "EntitiesResult",
   type: {
     name: "Composite",
-    className: "ErrorRecord",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RequestStatistics: coreHttp.CompositeMapper = {
-  serializedName: "RequestStatistics",
-  type: {
-    name: "Composite",
-    className: "RequestStatistics",
-    modelProperties: {
-      documentsCount: {
-        serializedName: "documentsCount",
-        type: {
-          name: "Number"
-        }
-      },
-      validDocumentsCount: {
-        serializedName: "validDocumentsCount",
-        type: {
-          name: "Number"
-        }
-      },
-      erroneousDocumentsCount: {
-        serializedName: "erroneousDocumentsCount",
-        type: {
-          name: "Number"
-        }
-      },
-      transactionsCount: {
-        serializedName: "transactionsCount",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const EntitiesBatchResult: coreHttp.CompositeMapper = {
-  serializedName: "EntitiesBatchResult",
-  type: {
-    name: "Composite",
-    className: "EntitiesBatchResult",
+    className: "EntitiesResult",
     modelProperties: {
       documents: {
-        readOnly: true,
+        required: true,
         serializedName: "documents",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EntitiesBatchResultItem"
+              className: "DocumentEntities"
             }
           }
         }
       },
       errors: {
-        readOnly: true,
+        required: true,
         serializedName: "errors",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorRecord"
+              className: "DocumentError"
             }
           }
         }
       },
       statistics: {
-        readOnly: true,
         serializedName: "statistics",
         type: {
           name: "Composite",
           className: "RequestStatistics"
         }
-      }
-    }
-  }
-};
-
-export const InternalError: coreHttp.CompositeMapper = {
-  serializedName: "InternalError",
-  type: {
-    name: "Composite",
-    className: "InternalError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
+      },
+      modelVersion: {
+        required: true,
+        serializedName: "modelVersion",
         type: {
           name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      innerError: {
-        serializedName: "innerError",
-        type: {
-          name: "Composite",
-          className: "InternalError"
         }
       }
     }
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
-  serializedName: "ErrorResponse",
+export const Match: coreHttp.CompositeMapper = {
+  serializedName: "Match",
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "Match",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      score: {
+        required: true,
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      },
+      text: {
+        required: true,
+        serializedName: "text",
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      offset: {
+        required: true,
+        serializedName: "offset",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      target: {
-        serializedName: "target",
+      length: {
+        required: true,
+        serializedName: "length",
         type: {
-          name: "String"
-        }
-      },
-      innerError: {
-        serializedName: "innerError",
-        type: {
-          name: "Composite",
-          className: "InternalError"
+          name: "Number"
         }
       }
     }
   }
 };
 
-export const KeyPhraseBatchResultItem: coreHttp.CompositeMapper = {
-  serializedName: "KeyPhraseBatchResultItem",
+export const LinkedEntity: coreHttp.CompositeMapper = {
+  serializedName: "LinkedEntity",
   type: {
     name: "Composite",
-    className: "KeyPhraseBatchResultItem",
+    className: "LinkedEntity",
     modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      matches: {
+        required: true,
+        serializedName: "matches",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Match"
+            }
+          }
+        }
+      },
+      language: {
+        required: true,
+        serializedName: "language",
+        type: {
+          name: "String"
+        }
+      },
       id: {
         serializedName: "id",
         type: {
           name: "String"
         }
       },
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      },
+      dataSource: {
+        required: true,
+        serializedName: "dataSource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentLinkedEntities: coreHttp.CompositeMapper = {
+  serializedName: "DocumentLinkedEntities",
+  type: {
+    name: "Composite",
+    className: "DocumentLinkedEntities",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      entities: {
+        required: true,
+        serializedName: "entities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedEntity"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "DocumentStatistics"
+        }
+      }
+    }
+  }
+};
+
+export const EntityLinkingResult: coreHttp.CompositeMapper = {
+  serializedName: "EntityLinkingResult",
+  type: {
+    name: "Composite",
+    className: "EntityLinkingResult",
+    modelProperties: {
+      documents: {
+        required: true,
+        serializedName: "documents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentLinkedEntities"
+            }
+          }
+        }
+      },
+      errors: {
+        required: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentError"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "RequestStatistics"
+        }
+      },
+      modelVersion: {
+        required: true,
+        serializedName: "modelVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentKeyPhrases: coreHttp.CompositeMapper = {
+  serializedName: "DocumentKeyPhrases",
+  type: {
+    name: "Composite",
+    className: "DocumentKeyPhrases",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       keyPhrases: {
-        readOnly: true,
+        required: true,
         serializedName: "keyPhrases",
         type: {
           name: "Sequence",
@@ -421,44 +771,50 @@ export const KeyPhraseBatchResultItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyPhraseBatchResult: coreHttp.CompositeMapper = {
-  serializedName: "KeyPhraseBatchResult",
+export const KeyPhraseResult: coreHttp.CompositeMapper = {
+  serializedName: "KeyPhraseResult",
   type: {
     name: "Composite",
-    className: "KeyPhraseBatchResult",
+    className: "KeyPhraseResult",
     modelProperties: {
       documents: {
-        readOnly: true,
+        required: true,
         serializedName: "documents",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "KeyPhraseBatchResultItem"
+              className: "DocumentKeyPhrases"
             }
           }
         }
       },
       errors: {
-        readOnly: true,
+        required: true,
         serializedName: "errors",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorRecord"
+              className: "DocumentError"
             }
           }
         }
       },
       statistics: {
-        readOnly: true,
         serializedName: "statistics",
         type: {
           name: "Composite",
           className: "RequestStatistics"
+        }
+      },
+      modelVersion: {
+        required: true,
+        serializedName: "modelVersion",
+        type: {
+          name: "String"
         }
       }
     }
@@ -471,20 +827,22 @@ export const LanguageInput: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "LanguageInput",
     modelProperties: {
-      countryHint: {
-        serializedName: "countryHint",
-        type: {
-          name: "String"
-        }
-      },
       id: {
+        required: true,
         serializedName: "id",
         type: {
           name: "String"
         }
       },
       text: {
+        required: true,
         serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      countryHint: {
+        serializedName: "countryHint",
         type: {
           name: "String"
         }
@@ -500,6 +858,7 @@ export const LanguageBatchInput: coreHttp.CompositeMapper = {
     className: "LanguageBatchInput",
     modelProperties: {
       documents: {
+        required: true,
         serializedName: "documents",
         type: {
           name: "Sequence",
@@ -522,18 +881,21 @@ export const DetectedLanguage: coreHttp.CompositeMapper = {
     className: "DetectedLanguage",
     modelProperties: {
       name: {
+        required: true,
         serializedName: "name",
         type: {
           name: "String"
         }
       },
       iso6391Name: {
+        required: true,
         serializedName: "iso6391Name",
         type: {
           name: "String"
         }
       },
       score: {
+        required: true,
         serializedName: "score",
         type: {
           name: "Number"
@@ -543,19 +905,21 @@ export const DetectedLanguage: coreHttp.CompositeMapper = {
   }
 };
 
-export const LanguageBatchResultItem: coreHttp.CompositeMapper = {
-  serializedName: "LanguageBatchResultItem",
+export const DocumentLanguage: coreHttp.CompositeMapper = {
+  serializedName: "DocumentLanguage",
   type: {
     name: "Composite",
-    className: "LanguageBatchResultItem",
+    className: "DocumentLanguage",
     modelProperties: {
       id: {
+        required: true,
         serializedName: "id",
         type: {
           name: "String"
         }
       },
       detectedLanguages: {
+        required: true,
         serializedName: "detectedLanguages",
         type: {
           name: "Sequence",
@@ -578,117 +942,50 @@ export const LanguageBatchResultItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const LanguageBatchResult: coreHttp.CompositeMapper = {
-  serializedName: "LanguageBatchResult",
+export const LanguageResult: coreHttp.CompositeMapper = {
+  serializedName: "LanguageResult",
   type: {
     name: "Composite",
-    className: "LanguageBatchResult",
+    className: "LanguageResult",
     modelProperties: {
       documents: {
-        readOnly: true,
+        required: true,
         serializedName: "documents",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "LanguageBatchResultItem"
+              className: "DocumentLanguage"
             }
           }
         }
       },
       errors: {
-        readOnly: true,
+        required: true,
         serializedName: "errors",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorRecord"
+              className: "DocumentError"
             }
           }
         }
       },
       statistics: {
-        readOnly: true,
         serializedName: "statistics",
         type: {
           name: "Composite",
           className: "RequestStatistics"
         }
-      }
-    }
-  }
-};
-
-export const SentimentBatchResultItem: coreHttp.CompositeMapper = {
-  serializedName: "SentimentBatchResultItem",
-  type: {
-    name: "Composite",
-    className: "SentimentBatchResultItem",
-    modelProperties: {
-      id: {
-        serializedName: "id",
+      },
+      modelVersion: {
+        required: true,
+        serializedName: "modelVersion",
         type: {
           name: "String"
-        }
-      },
-      score: {
-        serializedName: "score",
-        type: {
-          name: "Number"
-        }
-      },
-      statistics: {
-        serializedName: "statistics",
-        type: {
-          name: "Composite",
-          className: "DocumentStatistics"
-        }
-      }
-    }
-  }
-};
-
-export const SentimentBatchResult: coreHttp.CompositeMapper = {
-  serializedName: "SentimentBatchResult",
-  type: {
-    name: "Composite",
-    className: "SentimentBatchResult",
-    modelProperties: {
-      documents: {
-        readOnly: true,
-        serializedName: "documents",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SentimentBatchResultItem"
-            }
-          }
-        }
-      },
-      errors: {
-        readOnly: true,
-        serializedName: "errors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorRecord"
-            }
-          }
-        }
-      },
-      statistics: {
-        readOnly: true,
-        serializedName: "statistics",
-        type: {
-          name: "Composite",
-          className: "RequestStatistics"
         }
       }
     }

@@ -10,269 +10,434 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * An interface representing MultiLanguageInput.
+ * Contains an input document to be analyzed by the service.
  */
 export interface MultiLanguageInput {
   /**
-   * This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for
-   * English; "es" for Spanish etc.,
+   * A unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * The input text to process.
+   */
+  text: string;
+  /**
+   * (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en"
+   * for English; "es" for Spanish etc. If not set, use "en" for English as default.
    */
   language?: string;
-  /**
-   * Unique, non-empty document identifier.
-   */
-  id?: string;
-  text?: string;
 }
 
 /**
- * An interface representing MultiLanguageBatchInput.
+ * Contains a set of input documents to be analyzed by the service.
  */
 export interface MultiLanguageBatchInput {
-  documents?: MultiLanguageInput[];
+  /**
+   * The set of documents to process as part of this batch.
+   */
+  documents: MultiLanguageInput[];
 }
 
 /**
- * An interface representing MatchRecord.
+ * An interface representing DocumentError.
  */
-export interface MatchRecord {
+export interface DocumentError {
   /**
-   * (optional) If a well-known item with Wikipedia link is recognized, a decimal number denoting
-   * the confidence level of the Wikipedia info will be returned.
+   * Document Id.
    */
-  wikipediaScore?: number;
+  id: string;
   /**
-   * (optional) If an entity type is recognized, a decimal number denoting the confidence level of
-   * the entity type will be returned.
+   * Document Error.
    */
-  entityTypeScore?: number;
-  /**
-   * Entity text as appears in the request.
-   */
-  text?: string;
-  /**
-   * Start position (in Unicode characters) for the entity match text.
-   */
-  offset?: number;
-  /**
-   * Length (in Unicode characters) for the entity match text.
-   */
-  length?: number;
+  error: any;
 }
 
 /**
- * An interface representing EntityRecord.
+ * An interface representing InnerError.
  */
-export interface EntityRecord {
+export interface InnerError {
   /**
-   * Entity formal name.
+   * Error code. Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat',
+   * 'emptyRequest', 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect',
+   * 'invalidDocumentBatch', 'unsupportedLanguageCode', 'invalidCountryHint'
    */
-  name?: string;
+  code: Code;
   /**
-   * List of instances this entity appears in the text.
+   * Error message.
    */
-  matches?: MatchRecord[];
+  message: string;
   /**
-   * Wikipedia language for which the WikipediaId and WikipediaUrl refers to.
+   * Error target.
    */
-  wikipediaLanguage?: string;
+  target?: string;
   /**
-   * Wikipedia unique identifier of the recognized entity.
+   * Inner error contains more specific information.
    */
-  wikipediaId?: string;
-  /**
-   * URL for the entity's Wikipedia page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly wikipediaUrl?: string;
-  /**
-   * Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity
-   * Search API to fetch additional relevant information.
-   */
-  bingId?: string;
-  /**
-   * Entity type from Named Entity Recognition model
-   */
-  type?: string;
-  /**
-   * Entity sub type from Named Entity Recognition model
-   */
-  subType?: string;
+  innererror?: InnerError;
 }
 
 /**
- * An interface representing DocumentStatistics.
+ * An interface representing ErrorModel.
+ */
+export interface ErrorModel {
+  /**
+   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
+   * 'internalServerError', 'serviceUnavailable'
+   */
+  code: Code1;
+  /**
+   * Error message.
+   */
+  message: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Inner error contains more specific information.
+   */
+  innererror?: InnerError;
+  /**
+   * Details about specific errors that led to this reported error.
+   */
+  details?: ErrorModel[];
+}
+
+/**
+ * if showStats=true was specified in the request this field will contain information about the
+ * document payload.
  */
 export interface DocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  charactersCount?: number;
+  charactersCount: number;
   /**
    * Number of transactions for the document.
    */
-  transactionsCount?: number;
+  transactionsCount: number;
 }
 
 /**
- * An interface representing EntitiesBatchResultItem.
+ * An interface representing SentenceSentiment.
  */
-export interface EntitiesBatchResultItem {
+export interface SentenceSentiment {
+  /**
+   * The predicted Sentiment for the sentence. Possible values include: 'positive', 'neutral',
+   * 'negative'
+   */
+  sentiment: Sentiment;
+  /**
+   * The sentiment confidence score between 0 and 1 for the sentence for all classes.
+   */
+  sentenceScores: any;
+  /**
+   * The sentence offset from the start of the document.
+   */
+  offset: number;
+  /**
+   * The length of the sentence by Unicode standard.
+   */
+  length: number;
+  /**
+   * The warnings generated for the sentence.
+   */
+  warnings?: string[];
+}
+
+/**
+ * An interface representing DocumentSentiment.
+ */
+export interface DocumentSentiment {
   /**
    * Unique, non-empty document identifier.
    */
-  id?: string;
+  id: string;
   /**
-   * Recognized entities in the document.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
+   * include: 'positive', 'neutral', 'negative', 'mixed'
    */
-  readonly entities?: EntityRecord[];
-  /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the document payload.
-   */
+  sentiment: Sentiment1;
   statistics?: DocumentStatistics;
+  /**
+   * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
+   */
+  documentScores: any;
+  /**
+   * Sentence level sentiment analysis.
+   */
+  sentences: SentenceSentiment[];
 }
 
 /**
- * An interface representing ErrorRecord.
- */
-export interface ErrorRecord {
-  /**
-   * Input document unique identifier the error refers to.
-   */
-  id?: string;
-  /**
-   * Error message.
-   */
-  message?: string;
-}
-
-/**
- * An interface representing RequestStatistics.
+ * if showStats=true was specified in the request this field will contain information about the
+ * request payload.
  */
 export interface RequestStatistics {
   /**
    * Number of documents submitted in the request.
    */
-  documentsCount?: number;
+  documentsCount: number;
   /**
    * Number of valid documents. This excludes empty, over-size limit or non-supported languages
    * documents.
    */
-  validDocumentsCount?: number;
+  validDocumentsCount: number;
   /**
    * Number of invalid documents. This includes empty, over-size limit or non-supported languages
    * documents.
    */
-  erroneousDocumentsCount?: number;
+  erroneousDocumentsCount: number;
   /**
    * Number of transactions for the request.
    */
-  transactionsCount?: number;
+  transactionsCount: number;
 }
 
 /**
- * An interface representing EntitiesBatchResult.
+ * An interface representing SentimentResponse.
  */
-export interface EntitiesBatchResult {
+export interface SentimentResponse {
   /**
-   * Response by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Sentiment analysis per document.
    */
-  readonly documents?: EntitiesBatchResultItem[];
+  documents: DocumentSentiment[];
   /**
-   * Errors and Warnings by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Errors by document id.
    */
-  readonly errors?: ErrorRecord[];
+  errors: DocumentError[];
+  statistics?: RequestStatistics;
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the request payload.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * This field indicates which model is used for scoring.
    */
-  readonly statistics?: RequestStatistics;
+  modelVersion: string;
 }
 
 /**
- * An interface representing InternalError.
+ * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
+ * neutral, negative.
  */
-export interface InternalError {
-  code?: string;
-  message?: string;
-  innerError?: InternalError;
+export interface SentimentConfidenceScorePerLabel {
+  positive: number;
+  neutral: number;
+  negative: number;
 }
 
 /**
- * An interface representing ErrorResponse.
+ * An interface representing Entity.
  */
-export interface ErrorResponse {
-  code?: string;
-  message?: string;
-  target?: string;
-  innerError?: InternalError;
+export interface Entity {
+  /**
+   * Entity text as appears in the request.
+   */
+  text: string;
+  /**
+   * Entity type, such as Person/Location/Org/SSN etc
+   */
+  type: string;
+  /**
+   * Entity sub type, such as Age/Year/TimeRange etc
+   */
+  subtype?: string;
+  /**
+   * Start position (in Unicode characters) for the entity text.
+   */
+  offset: number;
+  /**
+   * Length (in Unicode characters) for the entity text.
+   */
+  length: number;
+  /**
+   * Confidence score between 0 and 1 of the extracted entity.
+   */
+  score: number;
 }
 
 /**
- * An interface representing KeyPhraseBatchResultItem.
+ * An interface representing DocumentEntities.
  */
-export interface KeyPhraseBatchResultItem {
+export interface DocumentEntities {
   /**
    * Unique, non-empty document identifier.
    */
-  id?: string;
+  id: string;
   /**
-   * A list of representative words or phrases. The number of key phrases returned is proportional
-   * to the number of words in the input document.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Recognized entities in the document.
    */
-  readonly keyPhrases?: string[];
+  entities: Entity[];
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the document payload.
+   * if showStats=true was specified in the request this field will contain information about the
+   * document payload.
    */
   statistics?: DocumentStatistics;
 }
 
 /**
- * An interface representing KeyPhraseBatchResult.
+ * An interface representing EntitiesResult.
  */
-export interface KeyPhraseBatchResult {
+export interface EntitiesResult {
   /**
    * Response by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly documents?: KeyPhraseBatchResultItem[];
+  documents: DocumentEntities[];
   /**
-   * Errors and Warnings by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Errors by document id.
    */
-  readonly errors?: ErrorRecord[];
+  errors: DocumentError[];
+  statistics?: RequestStatistics;
   /**
-   * =(Optional) if showStats=true was specified in the request this field will contain information
-   * about the request payload.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * This field indicates which model is used for scoring.
    */
-  readonly statistics?: RequestStatistics;
+  modelVersion: string;
+}
+
+/**
+ * An interface representing Match.
+ */
+export interface Match {
+  /**
+   * If a well-known item is recognized, a decimal number denoting the confidence level between 0
+   * and 1 will be returned.
+   */
+  score: number;
+  /**
+   * Entity text as appears in the request.
+   */
+  text: string;
+  /**
+   * Start position (in Unicode characters) for the entity match text.
+   */
+  offset: number;
+  /**
+   * Length (in Unicode characters) for the entity match text.
+   */
+  length: number;
+}
+
+/**
+ * An interface representing LinkedEntity.
+ */
+export interface LinkedEntity {
+  /**
+   * Entity Linking formal name.
+   */
+  name: string;
+  /**
+   * List of instances this entity appears in the text.
+   */
+  matches: Match[];
+  /**
+   * Language used in the data source.
+   */
+  language: string;
+  /**
+   * Unique identifier of the recognized entity from the data source.
+   */
+  id?: string;
+  /**
+   * URL for the entity's page from the data source.
+   */
+  url: string;
+  /**
+   * Data source used to extract entity linking, such as Wiki/Bing etc.
+   */
+  dataSource: string;
+}
+
+/**
+ * An interface representing DocumentLinkedEntities.
+ */
+export interface DocumentLinkedEntities {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * Recognized well-known entities in the document.
+   */
+  entities: LinkedEntity[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
+}
+
+/**
+ * An interface representing EntityLinkingResult.
+ */
+export interface EntityLinkingResult {
+  /**
+   * Response by document
+   */
+  documents: DocumentLinkedEntities[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  statistics?: RequestStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+/**
+ * An interface representing DocumentKeyPhrases.
+ */
+export interface DocumentKeyPhrases {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * A list of representative words or phrases. The number of key phrases returned is proportional
+   * to the number of words in the input document.
+   */
+  keyPhrases: string[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
+}
+
+/**
+ * An interface representing KeyPhraseResult.
+ */
+export interface KeyPhraseResult {
+  /**
+   * Response by document
+   */
+  documents: DocumentKeyPhrases[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  statistics?: RequestStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
 }
 
 /**
  * An interface representing LanguageInput.
  */
 export interface LanguageInput {
-  countryHint?: string;
   /**
    * Unique, non-empty document identifier.
    */
-  id?: string;
-  text?: string;
+  id: string;
+  text: string;
+  countryHint?: string;
 }
 
 /**
  * An interface representing LanguageBatchInput.
  */
 export interface LanguageBatchInput {
-  documents?: LanguageInput[];
+  documents: LanguageInput[];
 }
 
 /**
@@ -282,129 +447,100 @@ export interface DetectedLanguage {
   /**
    * Long name of a detected language (e.g. English, French).
    */
-  name?: string;
+  name: string;
   /**
    * A two letter representation of the detected language according to the ISO 639-1 standard (e.g.
    * en, fr).
    */
-  iso6391Name?: string;
+  iso6391Name: string;
   /**
    * A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the
    * identified language is true.
    */
-  score?: number;
+  score: number;
 }
 
 /**
- * An interface representing LanguageBatchResultItem.
+ * An interface representing DocumentLanguage.
  */
-export interface LanguageBatchResultItem {
+export interface DocumentLanguage {
   /**
    * Unique, non-empty document identifier.
    */
-  id?: string;
+  id: string;
   /**
    * A list of extracted languages.
    */
-  detectedLanguages?: DetectedLanguage[];
+  detectedLanguages: DetectedLanguage[];
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the document payload.
+   * if showStats=true was specified in the request this field will contain information about the
+   * document payload.
    */
   statistics?: DocumentStatistics;
 }
 
 /**
- * An interface representing LanguageBatchResult.
+ * An interface representing LanguageResult.
  */
-export interface LanguageBatchResult {
+export interface LanguageResult {
   /**
    * Response by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly documents?: LanguageBatchResultItem[];
+  documents: DocumentLanguage[];
   /**
-   * Errors and Warnings by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Errors by document id.
    */
-  readonly errors?: ErrorRecord[];
+  errors: DocumentError[];
+  statistics?: RequestStatistics;
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the request payload.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * This field indicates which model is used for scoring.
    */
-  readonly statistics?: RequestStatistics;
-}
-
-/**
- * An interface representing SentimentBatchResultItem.
- */
-export interface SentimentBatchResultItem {
-  /**
-   * Unique, non-empty document identifier.
-   */
-  id?: string;
-  /**
-   * A decimal number between 0 and 1 denoting the sentiment of the document. A score above 0.7
-   * usually refers to a positive document while a score below 0.3 normally has a negative
-   * connotation. Mid values refer to neutral text.
-   */
-  score?: number;
-  /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the document payload.
-   */
-  statistics?: DocumentStatistics;
-}
-
-/**
- * An interface representing SentimentBatchResult.
- */
-export interface SentimentBatchResult {
-  /**
-   * Response by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly documents?: SentimentBatchResultItem[];
-  /**
-   * Errors and Warnings by document
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: ErrorRecord[];
-  /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the request payload.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly statistics?: RequestStatistics;
+  modelVersion: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientDetectLanguageOptionalParams extends coreHttp.RequestOptionsBase {
+export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * (optional) if set to true, response will contain input and document level statistics.
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
    */
   showStats?: boolean;
-  /**
-   * Collection of documents to analyze.
-   */
-  languageBatchInput?: LanguageBatchInput;
 }
 
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientEntitiesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * (optional) if set to true, response will contain input and document level statistics.
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
    */
   showStats?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Collection of documents to analyze.
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
    */
-  multiLanguageBatchInput?: MultiLanguageBatchInput;
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
+   */
+  showStats?: boolean;
 }
 
 /**
@@ -412,14 +548,29 @@ export interface TextAnalyticsClientEntitiesOptionalParams extends coreHttp.Requ
  */
 export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * (optional) if set to true, response will contain input and document level statistics.
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
    */
   showStats?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Collection of documents to analyze. Documents can now contain a language field to indicate the
-   * text language
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
    */
-  multiLanguageBatchInput?: MultiLanguageBatchInput;
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
+   */
+  showStats?: boolean;
 }
 
 /**
@@ -427,19 +578,55 @@ export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.Re
  */
 export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * (optional) if set to true, response will contain input and document level statistics.
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
    */
   showStats?: boolean;
-  /**
-   * Collection of documents to analyze.
-   */
-  multiLanguageBatchInput?: MultiLanguageBatchInput;
 }
 
 /**
- * Contains response data for the detectLanguage operation.
+ * Defines values for Code.
+ * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
+ * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
+ * 'unsupportedLanguageCode', 'invalidCountryHint'
+ * @readonly
+ * @enum {string}
  */
-export type DetectLanguageResponse = LanguageBatchResult & {
+export type Code = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+
+/**
+ * Defines values for Code1.
+ * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
+ * 'serviceUnavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type Code1 = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+
+/**
+ * Defines values for Sentiment.
+ * Possible values include: 'positive', 'neutral', 'negative'
+ * @readonly
+ * @enum {string}
+ */
+export type Sentiment = 'positive' | 'neutral' | 'negative';
+
+/**
+ * Defines values for Sentiment1.
+ * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
+ * @readonly
+ * @enum {string}
+ */
+export type Sentiment1 = 'positive' | 'neutral' | 'negative' | 'mixed';
+
+/**
+ * Contains response data for the entitiesRecognitionGeneral operation.
+ */
+export type EntitiesRecognitionGeneralResponse = EntitiesResult & {
   /**
    * The underlying HTTP response.
    */
@@ -452,14 +639,14 @@ export type DetectLanguageResponse = LanguageBatchResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LanguageBatchResult;
+      parsedBody: EntitiesResult;
     };
 };
 
 /**
- * Contains response data for the entities operation.
+ * Contains response data for the entitiesRecognitionPii operation.
  */
-export type EntitiesResponse = EntitiesBatchResult & {
+export type EntitiesRecognitionPiiResponse = EntitiesResult & {
   /**
    * The underlying HTTP response.
    */
@@ -472,14 +659,34 @@ export type EntitiesResponse = EntitiesBatchResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntitiesBatchResult;
+      parsedBody: EntitiesResult;
+    };
+};
+
+/**
+ * Contains response data for the entitiesLinking operation.
+ */
+export type EntitiesLinkingResponse = EntityLinkingResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EntityLinkingResult;
     };
 };
 
 /**
  * Contains response data for the keyPhrases operation.
  */
-export type KeyPhrasesResponse = KeyPhraseBatchResult & {
+export type KeyPhrasesResponse = KeyPhraseResult & {
   /**
    * The underlying HTTP response.
    */
@@ -492,19 +699,34 @@ export type KeyPhrasesResponse = KeyPhraseBatchResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: KeyPhraseBatchResult;
+      parsedBody: KeyPhraseResult;
+    };
+};
+
+/**
+ * Contains response data for the languages operation.
+ */
+export type LanguagesResponse = LanguageResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LanguageResult;
     };
 };
 
 /**
  * Contains response data for the sentiment operation.
  */
-export type SentimentResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type SentimentResponse2 = SentimentResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -517,6 +739,6 @@ export type SentimentResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: SentimentResponse;
     };
 };
