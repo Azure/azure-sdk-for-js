@@ -24,7 +24,7 @@ import {
 /**
  * @ignore
  * Builds the queue options object from the user provided options.
- * Handles the differences in casing for the property names, 
+ * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
  * @param queueOptions
  */
@@ -53,7 +53,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 
 /**
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the 
+ * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
  */
@@ -146,11 +146,11 @@ export interface QueueOptions {
   messageCount?: number;
 
   /**
-   * Depending on whether DeadLettering is enabled, a message is automatically 
-   * moved to the dead-letter sub-queue or deleted if it has been stored in the 
-   * queue for longer than the specified time. 
-   * This value is overwritten by a TTL specified on the message 
-   * if and only if the message TTL is smaller than the TTL set on the queue. 
+   * Depending on whether DeadLettering is enabled, a message is automatically
+   * moved to the dead-letter sub-queue or deleted if it has been stored in the
+   * queue for longer than the specified time.
+   * This value is overwritten by a TTL specified on the message
+   * if and only if the message TTL is smaller than the TTL set on the queue.
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -165,8 +165,9 @@ export interface QueueOptions {
   duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -211,13 +212,15 @@ export interface QueueOptions {
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * The URL of destination subscription to which the messages would be forwarded to.
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardTo?: string;
 
   /**
    * The user provided metadata information associated with the queue description.
-   * Used to specify textual content such as tags, labels, etc. 
+   * Used to specify textual content such as tags, labels, etc.
    * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
@@ -241,7 +244,7 @@ export interface InternalQueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver. 
+   * available for consumption by the next receiver.
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -285,8 +288,9 @@ export interface InternalQueueOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -349,7 +353,9 @@ export interface InternalQueueOptions {
   AuthorizationRules?: any;
 
   /**
-   * The URL of destination subscription to which the messages would be forwarded to.
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   ForwardTo?: string;
 
@@ -421,8 +427,9 @@ export interface QueueDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -467,7 +474,9 @@ export interface QueueDetails {
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * ForwardTo header
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardTo?: string;
 

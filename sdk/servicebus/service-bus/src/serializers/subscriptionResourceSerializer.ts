@@ -204,8 +204,9 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -217,7 +218,9 @@ export interface SubscriptionOptions {
   maxDeliveryCount?: number;
 
   /**
-   * The URL of destination subscription to which the messages would be forwarded to.
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardTo?: string;
 
@@ -323,8 +326,9 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -336,7 +340,9 @@ export interface InternalSubscriptionOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * The URL of destination subscription to which the messages would be forwarded to.
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   ForwardTo?: string;
 
@@ -453,8 +459,9 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -466,7 +473,9 @@ export interface SubscriptionDetails {
   maxDeliveryCount: number;
 
   /**
-   * ForwardTo header
+   * Relative path of the messaging entity the messages are to be forwarded to.
+   * For e.g., `samplequeue` for configuring a sample queue as target, or
+   * `autoforwardingtopic/samplesubscription` for a sample subscription.
    */
   forwardTo?: string;
 

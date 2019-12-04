@@ -869,6 +869,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         "ServiceBusSupplementaryAuthorization",
         (await this.sasTokenProvider.getToken(forwardTo)).token
       );
+
+      (entityFields as InternalQueueOptions | InternalSubscriptionOptions).ForwardTo =
+        "https://" + this.endpoint + "/" + forwardTo;
     }
 
     if (forwardDeadLetterMessagesTo) {
@@ -876,6 +879,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         "ServiceBusDlqSupplementaryAuthorization",
         (await this.sasTokenProvider.getToken(forwardDeadLetterMessagesTo)).token
       );
+
+      (entityFields as
+        | InternalQueueOptions
+        | InternalSubscriptionOptions).ForwardDeadLetteredMessagesTo =
+        "https://" + this.endpoint + "/" + forwardDeadLetterMessagesTo;
     }
 
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
