@@ -1,6 +1,6 @@
 # Azure Storage File Data Lake client library for JavaScript
 
-Azure Data Lake includes all the capabilities required to make it easy for developers, data scientists, and analysts to store data of any size, shape, and speed, and do all types of processing and analytics across platforms and languages. It removes the complexities of ingesting and storing all of your data while making it faster to get up and running with batch, streaming, and interactive analytics.
+Azure Data Lake Storage (ADLS) includes all the capabilities required to make it easy for developers, data scientists, and analysts to store data of any size, shape, and speed, and do all types of processing and analytics across platforms and languages. It removes the complexities of ingesting and storing all of your data while making it faster to get up and running with batch, streaming, and interactive analytics.
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Storage Data Lake service.
 
@@ -17,7 +17,7 @@ Use the client libraries in this package to:
 
 ## Key concepts
 
-DataLake Storage Gen2 was designed to:
+Azure Data Lake Storage Gen2 was designed to:
 
 - Service multiple petabytes of information while sustaining hundreds of gigabits of throughput
 - Allow you to easily manage massive amounts of data
@@ -43,12 +43,12 @@ Data lake storage offers three types of resources:
 - A _file system_ in the storage account used via `DataLakeFileSystemClient`
 - A _path_ in a file system used via `DataLakeDirectoryClient` or `DataLakeFileClient`
 
-|ADLS Gen2 	                | Blob       |
+|Azure DataLake Gen2 	      | Blob       |
 | --------------------------| ---------- |
 |Filesystem                 | Container  | 
 |Path (File or Directory)   | Blob       |
 
-Note: This client library does not support hierarchical namespace (HNS) disabled storage accounts.
+> Note: This client library does not support hierarchical namespace (HNS) disabled storage accounts.
 
 ## Getting started
 
@@ -215,16 +215,16 @@ async function main() {
   // Create a file system
   const fileSystemName = `newfilesystem${new Date().getTime()}`;
   const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-  const createContainerResponse = await fileSystemClient.create();
-  console.log(`Create file system ${fileSystemName} successfully`, createContainerResponse.requestId);
+  const createResponse = await fileSystemClient.create();
+  console.log(`Create file system ${fileSystemName} successfully`, createResponse.requestId);
 }
 
 main();
 ```
 
-### List the containers
+### List the file systems
 
-Use `DataLakeServiceClient.listFileSystems()` function to iterate the containers,
+Use `DataLakeServiceClient.listFileSystems()` function to iterate the file systems,
 with the new `for-await-of` syntax:
 
 ```javascript

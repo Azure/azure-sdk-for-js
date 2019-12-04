@@ -32,7 +32,7 @@ async function main() {
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();
 
-  // List containers
+  // List file systems
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
