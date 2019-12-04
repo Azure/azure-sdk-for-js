@@ -1,0 +1,23 @@
+{
+  "name": "eventhubs-samples",
+  "version": "1.0.0",
+  "description": "The samples in this folder are for version 5.0.0 and above of this library. If you are using version 2.1.0 or lower, then please use [samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples) instead",
+  "main": "dist/runsamples.js",
+  "scripts": {
+    "test": "ts-node ./runsamples.ts",
+    "build": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "@azure/core-amqp": "next",
+    "@azure/event-hubs": "next",
+    "@azure/eventhubs-checkpointstore-blob": "next",
+    "rhea-promise": "^1.0.0"
+  }
+}

@@ -16,11 +16,13 @@ import {
   EventHubConsumerClient
 } from "@azure/event-hubs";
 
-const connectionString = "";
-const eventHubName = "";
-const consumerGroup = "";
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-async function main() {
+export async function main() {
+  console.log(`Running receiveEvents sample`);
+  
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
   const subscription = consumerClient.subscribe({
@@ -45,8 +47,13 @@ async function main() {
       resolve();
     }, 30000);
   });
+
+  console.log(`Exiting receiveEvents sample`);
 }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+if (!process.env["RUNNING_IN_TESTS"]) {
+  main().catch((err) => {
+    console.log("Error occurred: ", err);
+    process.exit(1);
+  });
+}

@@ -23,23 +23,24 @@ import {
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-const consumerGroup = "";
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const storageConnectionString = process.env["STORAGE_CONNECTION_STRING"] || "";
+const containerName = process.env["STORAGE_CONTAINER_NAME"] || "";
 
-async function main() {
+export async function main() {
+  console.log(`Running receiveEventsUsingCheckpointStore sample`);
+
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
 
-  if (!containerClient.exists()) {
+  if (!(await containerClient.exists())) {
     await containerClient.create();
   }
 
   const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
-
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
    
@@ -75,8 +76,13 @@ async function main() {
       resolve();
     }, 30000);
   });
+
+  console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
 }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+if (!process.env["RUNNING_IN_TESTS"]) {
+  main().catch((err) => {
+    console.log("Error occurred: ", err);
+    process.exit(1);
+  });
+}

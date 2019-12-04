@@ -6,7 +6,7 @@ The samples in this folder are for version 5.0.0 and above of this library. If y
 
 Run the below in your samples folder to install the npm package for Event Hubs library.
 ```bash
-npm install @azure/event-hubs@next
+npm install
 ```
 
 ## Get connection string & Event Hubs name
@@ -20,35 +20,24 @@ npm install @azure/event-hubs@next
 
 Before running a sample, update it with the connection string and the Event Hub name you have noted above.
 
-## Running a sample
+## Running samples
 
-Start by copying the sample into a npm project.
-```bash
-mkdir event-hubs-samples
-cd event-hubs-samples
-npm init
-# copy sample into this directory
-```
+1. Copy this folder to your machine.
+2. Install dependencies for the samples project.
+  
+    ```bash
+    npm install
+    ```
 
-If you don't have Typescript installed, then use `npm` to install it first.
-```bash
-npm install -g typescript
-```
+3. Rename the `sample.env` file to `.env`
+4. Open the `.env` file in a text editor and fill in values related to the 
+   sample you'd like to run.
+5. Run the samples using ts-node:
 
-Install the `@azure/event-hubs@next` package into your project, as well as any other dependencies you might need.
-```bash
-npm install --save @azure/event-hubs@next
-```
+   For example, to run the `sendEvents.ts` sample:
 
-One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
-```bash
-npm install ts-node
-```
-
-Use `ts-node` to run the sample copied previously.
-```bash
-ts-node sample.ts
-```
-
+   ```bash
+   npx ts-node sendEvents.ts
+   ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Fsamples%2FREADME.png)

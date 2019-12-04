@@ -12,10 +12,12 @@
 import { EventHubProducerClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const connectionString = "";
-const eventHubName = "";
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
+  console.log(`Running sendEvents sample`);
+
   const producer = new EventHubProducerClient(connectionString, eventHubName);
 
   console.log("Creating and sending a batch of events...");
@@ -50,8 +52,13 @@ async function main(): Promise<void> {
   }
 
   await producer.close();
+  console.log(`Exiting sendEvents sample`);
 }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+if (!process.env["RUNNING_IN_TESTS"]) {
+  main().catch((err) => {
+    console.log("Error occurred: ", err);
+    process.exit(1);
+  });
+}
+
