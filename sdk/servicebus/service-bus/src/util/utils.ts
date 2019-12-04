@@ -435,9 +435,9 @@ export enum EntityStatus {
 
 /**
  *  @ignore
- * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
+ * Helper utility to construct `EntityStatus` from given input,
  * or undefined if not passed in.
- * @param value
+ * @param status
  */
 export function getEntityStatusOrUndefined(status: any): EntityStatus | undefined {
   const stringValue = getStringOrUndefined(status);
