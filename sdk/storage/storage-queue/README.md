@@ -244,7 +244,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -273,7 +273,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -304,7 +304,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -336,7 +336,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -371,7 +371,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
