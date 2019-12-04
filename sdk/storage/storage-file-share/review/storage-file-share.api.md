@@ -85,9 +85,15 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface CloseHandlesInfo {
+    // (undocumented)
+    closedHandlesCount: number;
+}
+
+// @public
 export interface CommonOptions {
     // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
 }
@@ -114,8 +120,16 @@ export type DeleteSnapshotsOptionType = 'include';
 
 export { deserializationPolicy }
 
+// @public
+export interface DirectoryCloseHandlesHeaders {
+    date?: Date;
+    marker?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // Warning: (ae-forgotten-export) The symbol "FileAndDirectoryCreateCommonOptions" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
@@ -124,7 +138,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 }
 
 // Warning: (ae-forgotten-export) The symbol "DirectoryCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectoryCreateResponse = DirectoryCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -138,7 +152,7 @@ export interface DirectoryDeleteOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "DirectoryDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -147,15 +161,24 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
 };
 
 // @public
+export interface DirectoryForceCloseHandlesHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    marker?: string;
+    numberOfHandlesClosed?: number;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectoryForceCloseHandlesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeaders & {
-    _response: coreHttp.HttpResponse & {
+export type DirectoryForceCloseHandlesResponse = CloseHandlesInfo & DirectoryCloseHandlesHeaders & {
+    _response: HttpResponse & {
         parsedHeaders: DirectoryForceCloseHandlesHeaders;
     };
 };
@@ -172,7 +195,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "DirectoryGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -194,7 +217,7 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
 
 // Warning: (ae-forgotten-export) The symbol "ListFilesAndDirectoriesSegmentResponse" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "DirectoryListFilesAndDirectoriesSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse & DirectoryListFilesAndDirectoriesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -212,7 +235,7 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
 
 // Warning: (ae-forgotten-export) The symbol "ListHandlesResponse" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "DirectoryListHandlesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHandlesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -230,7 +253,7 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileAndDirectorySetPropertiesCommonOptions" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public (undocumented)
 export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
@@ -242,7 +265,7 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "DirectorySetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -251,7 +274,7 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
 };
 
 // Warning: (ae-forgotten-export) The symbol "DirectorySetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -265,7 +288,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileAbortCopyHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileAbortCopyResponse = FileAbortCopyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -282,6 +305,14 @@ export interface FileClearRangeOptions extends CommonOptions {
 }
 
 // @public
+export interface FileCloseHandlesHeaders {
+    date?: Date;
+    marker?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
@@ -290,7 +321,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileCreateResponse = FileCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -304,7 +335,7 @@ export interface FileDeleteOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileDeleteResponse = FileDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -385,15 +416,24 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
 }
 
 // @public
+export interface FileForceCloseHandlesHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    marker?: string;
+    numberOfHandlesClosed?: number;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileForceCloseHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileForceCloseHandlesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders & {
-    _response: coreHttp.HttpResponse & {
+export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesHeaders & {
+    _response: HttpResponse & {
         parsedHeaders: FileForceCloseHandlesHeaders;
     };
 };
@@ -404,7 +444,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -445,7 +485,7 @@ export interface FileItem {
     // (undocumented)
     name: string;
     // Warning: (ae-forgotten-export) The symbol "FileProperty" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     properties: FileProperty;
 }
@@ -456,7 +496,7 @@ export interface FileListHandlesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileListHandlesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -542,7 +582,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileSetHTTPHeadersHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -556,7 +596,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileSetMetadataResponse = FileSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -571,7 +611,7 @@ export interface FileStartCopyOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileStartCopyHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileStartCopyResponse = FileStartCopyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -612,7 +652,7 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileUploadRangeFromURLHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -628,7 +668,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileUploadRangeHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type FileUploadRangeResponse = FileUploadRangeHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -752,7 +792,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -772,7 +812,7 @@ export interface ServiceListSharesOptions extends CommonOptions {
 
 // Warning: (ae-forgotten-export) The symbol "ListSharesResponse" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ServiceListSharesSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -788,7 +828,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -801,7 +841,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
@@ -849,7 +889,7 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareCreatePermissionHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -858,7 +898,7 @@ export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
 };
 
 // Warning: (ae-forgotten-export) The symbol "ShareCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareCreateResponse = ShareCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -875,7 +915,7 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareCreateSnapshotHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -890,7 +930,7 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareDeleteResponse = ShareDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -914,16 +954,16 @@ export class ShareDirectoryClient extends StorageClient {
     delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
+    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
     getFileClient(fileName: string): ShareFileClient;
     getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
-    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
+    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<({
         kind: "file";
-    } & FileItem | {
+    } & FileItem) | ({
         kind: "directory";
-    } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
+    } & DirectoryItem), DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
     readonly name: string;
     readonly path: string;
@@ -944,7 +984,7 @@ export class ShareFileClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
+    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
@@ -1000,7 +1040,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 
 // Warning: (ae-forgotten-export) The symbol "SharePermission" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ShareGetPermissionHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1016,7 +1056,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1036,7 +1076,7 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 
 // Warning: (ae-forgotten-export) The symbol "ShareStats" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "ShareGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1055,7 +1095,7 @@ export interface ShareItem {
     // (undocumented)
     name: string;
     // Warning: (ae-forgotten-export) The symbol "ShareProperties" needs to be exported by the entry point index.d.ts
-    // 
+    //
     // (undocumented)
     properties: ShareProperties;
     // (undocumented)
@@ -1095,7 +1135,7 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1109,7 +1149,7 @@ export interface ShareSetMetadataOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1123,7 +1163,7 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ShareSetQuotaHeaders" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
     _response: coreHttp.HttpResponse & {

@@ -224,10 +224,12 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = (await dirClient
-      .listFilesAndDirectories({ prefix: "" })
-      .byPage()
-      .next()).value;
+    const result = (
+      await dirClient
+        .listFilesAndDirectories({ prefix: "" })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
@@ -280,10 +282,12 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage()
-      .next()).value;
+    const result = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
@@ -339,10 +343,12 @@ describe("DirectoryClient", () => {
     const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
     const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
 
-    const firstResult = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage({ maxPageSize: firstRequestSize })
-      .next()).value;
+    const firstResult = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage({ maxPageSize: firstRequestSize })
+        .next()
+    ).value;
 
     assert.deepStrictEqual(
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
@@ -350,13 +356,15 @@ describe("DirectoryClient", () => {
     );
     assert.notDeepEqual(firstResult.continuationToken, undefined);
 
-    const secondResult = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage({
-        continuationToken: firstResult.continuationToken,
-        maxPageSize: firstRequestSize + secondRequestSize
-      })
-      .next()).value;
+    const secondResult = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage({
+          continuationToken: firstResult.continuationToken,
+          maxPageSize: firstRequestSize + secondRequestSize
+        })
+        .next()
+    ).value;
     assert.deepStrictEqual(
       secondResult.segment.directoryItems.length + secondResult.segment.fileItems.length,
       secondRequestSize
@@ -745,10 +753,12 @@ describe("DirectoryClient", () => {
   it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (await dirClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await dirClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
@@ -764,16 +774,22 @@ describe("DirectoryClient", () => {
   it("forceCloseAllHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
 
-    assert.equal(await dirClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
+    assert.deepStrictEqual(
+      await dirClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
   });
 
   it("forceCloseHandle should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (await dirClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await dirClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);

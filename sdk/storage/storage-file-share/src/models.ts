@@ -148,6 +148,16 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
   lastWriteTime?: Date | TimeNowType | TimePreserveType;
 }
 
+/**
+ * Close handles result information.
+ *
+ * @export
+ * @interface CloseHandlesInfo
+ */
+export interface CloseHandlesInfo {
+  closedHandlesCount: number;
+}
+
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {
   if (filePermission && filePermissionKey) {
     throw new RangeError("Only one of filePermission or filePermissionKey can be specified.");
