@@ -32,14 +32,18 @@ async function exec(cmd, cwd) {
 
 async function runSamples(language) {
   let cmd;
+  let extension;
   // Tries to execute all the samples in the `directory`.
   const directory = `./samples/${language}`;
 
   if (language === "typescript") {
     cmd = "ts-node";
+    extension = ".ts";
+    await exec(`npm run build:ts-samples`, "./");
   } else {
     cmd = "node";
-    await exec(`npm run build:js-samples`, directory);
+    extension = ".js";
+    await exec(`npm run build:js-samples`, "./");
   }
 
   console.log(`Running ${language} samples...`);
@@ -47,7 +51,7 @@ async function runSamples(language) {
   const files = fs.readdirSync(directory);
 
   for (var i = 0; i < files.length; i++) {
-    if (!skipSamples.includes(files[i].split(".")[0])) {
+    if (files[i].endsWith(extension) && !skipSamples.includes(files[i].split(".")[0])) {
       try {
         console.log(`\n\n${b(del)}\n${del}`);
         console.log(`${bDel}\t${files[i]} \t `);
