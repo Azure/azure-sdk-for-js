@@ -1,7 +1,7 @@
 ## 1.0.1 - 2019-12-04
 
-Fixes an issue that can occur with angular prod builds due to triple-slash directives.
-([6344](https://github.com/Azure/azure-sdk-for-js/pull/6344))
+Fixes the [bug 6271](https://github.com/Azure/azure-sdk-for-js/pull/6271) that can occur with angular prod builds due to triple-slash directives.
+([PR 6344](https://github.com/Azure/azure-sdk-for-js/pull/6344))
 
 ## 1.0.0 - 2019-10-29
 
