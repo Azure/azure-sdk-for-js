@@ -135,16 +135,15 @@ The Azure Storage client libraries for JavaScript provides low-level and high-le
 ## Code Samples
 
 ```javascript
-const { BlobServiceClient, newPipeline, SharedKeyCredential } = require("@azure/storage-blob");
+const { AnonymousCredential, BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 async function main() {
-  // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = "<account>";
+  const accountKey = "<accountkey>";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // You can find more TokenCredential implementations in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library
   // to use client secrets, certificates, or managed identities for authentication.
