@@ -5,7 +5,8 @@ export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
   DetectLanguageOptions,
-  DetectLanguagesOptions
+  DetectLanguagesOptions,
+  RecognizeEntitiesOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 export {
@@ -14,6 +15,12 @@ export {
   DetectLanguageSuccessResult
 } from "./detectLanguageResult";
 export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
+export {
+  RecognizeEntitiesResult,
+  RecognizeEntitiesErrorResult,
+  RecognizeEntitiesSuccessResult
+} from "./recognizeEntitiesResult";
+export { RecognizeEntitiesResultCollection } from "./recognizeEntitiesResultCollection";
 export {
   TextAnalysisResult,
   TextAnalysisErrorResult,
@@ -24,6 +31,14 @@ export {
 export {
   DetectedLanguage,
   DocumentStatistics,
+  MultiLanguageInput,
   LanguageInput,
-  TextAnalyticsClientLanguagesOptionalParams
+  TextAnalyticsClientLanguagesOptionalParams,
+  TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
+  ErrorModel,
+  RequestStatistics,
+  Code1 as ErrorModelCode,
+  Code as ErrorCode,
+  InnerError,
+  Entity
 } from "./generated/models";

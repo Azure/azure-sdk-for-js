@@ -30,8 +30,8 @@ export function makeDetectLanguageResultCollection(
     .map(
       (document): DetectLanguageResult => {
         return makeDetectLanguageResult(
-          document.id || "",
-          document.detectedLanguages || [],
+          document.id,
+          document.detectedLanguages,
           document.statistics
         );
       }

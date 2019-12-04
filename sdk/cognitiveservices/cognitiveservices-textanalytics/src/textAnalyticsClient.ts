@@ -12,11 +12,22 @@ import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalytic
 import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 import { logger } from "./logger";
 import { makeDetectLanguageResult, DetectLanguageResult } from "./detectLanguageResult";
-import { LanguageInput, TextAnalyticsClientLanguagesOptionalParams } from "./generated/models";
+import {
+  LanguageInput,
+  TextAnalyticsClientLanguagesOptionalParams,
+  TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
+  ErrorModel,
+  MultiLanguageInput
+} from "./generated/models";
 import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
 } from "./detectLanguageResultCollection";
+import { makeRecognizeEntitiesResult, RecognizeEntitiesResult } from "./recognizeEntitiesResult";
+import {
+  RecognizeEntitiesResultCollection,
+  makeRecognizeEntitiesResultCollection
+} from "./recognizeEntitiesResultCollection";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -38,6 +49,9 @@ export interface TextAnalyticsClientOptions {
 export interface DetectLanguageOptions extends TextAnalyticsClientLanguagesOptionalParams {}
 
 export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOptionalParams {}
+
+export interface RecognizeEntitiesOptions
+  extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -113,14 +127,11 @@ export class TextAnalyticsClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async detectLanguage(
+  public async singleDetectLanguage(
     input: string,
     countryHint: string = this.defaultCountryHint,
     options: DetectLanguageOptions = {}
   ): Promise<DetectLanguageResult> {
-    if (!input) {
-      throw new Error("Language input can't be empty");
-    }
     const result = await this.client.languages(
       {
         documents: [
@@ -134,7 +145,8 @@ export class TextAnalyticsClient {
       options
     );
     if (result.errors.length) {
-      throw new Error(result.errors[0].error);
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
     }
 
     const firstDocument = result.documents[0];
@@ -145,26 +157,20 @@ export class TextAnalyticsClient {
     );
   }
 
-  // TODO: think about splitting up this overload for JS
-
-  public async detectLanguages(
+  public async detectLanguage(
     input: string[],
     countryHint?: string,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
-  public async detectLanguages(
+  public async detectLanguage(
     input: LanguageInput[],
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
-  public async detectLanguages(
+  public async detectLanguage(
     input: string[] | LanguageInput[],
     countryHintOrOptions?: string | DetectLanguagesOptions,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection> {
-    if (!input || !input.length) {
-      throw new Error("Language input can't be empty");
-    }
-
     let realOptions: DetectLanguagesOptions;
     let realInput: LanguageInput[];
 
@@ -191,6 +197,74 @@ export class TextAnalyticsClient {
       result.statistics
     );
   }
+
+  public async singleRecognizeEntities(
+    inputText: string,
+    language: string = this.defaultLanguage,
+    options?: RecognizeEntitiesOptions
+  ): Promise<RecognizeEntitiesResult> {
+    const result = await this.client.entitiesRecognitionGeneral(
+      {
+        documents: [
+          {
+            id: "1",
+            language,
+            text: inputText
+          }
+        ]
+      },
+      options
+    );
+
+    if (result.errors.length) {
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
+    }
+
+    const firstDocument = result.documents[0];
+    return makeRecognizeEntitiesResult("", firstDocument.entities || [], firstDocument.statistics);
+  }
+
+  public async recognizeEntities(
+    input: string[],
+    language?: string,
+    options?: RecognizeEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection>;
+  public async recognizeEntities(
+    input: MultiLanguageInput[],
+    options?: RecognizeEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection>;
+  public async recognizeEntities(
+    input: string[] | MultiLanguageInput[],
+    languageOrOptions?: string | RecognizeEntitiesOptions,
+    options?: RecognizeEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection> {
+    let realOptions: RecognizeEntitiesOptions;
+    let realInput: LanguageInput[];
+
+    if (isStringArray(input)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInput = convertToMultiLanguageInput(input, language);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (languageOrOptions as RecognizeEntitiesOptions) || {};
+    }
+
+    const result = await this.client.entitiesRecognitionGeneral(
+      {
+        documents: realInput
+      },
+      realOptions
+    );
+
+    return makeRecognizeEntitiesResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
+  }
 }
 
 function isStringArray(input: any[]): input is string[] {
@@ -203,6 +277,18 @@ function convertToLanguageInput(input: string[], countryHint: string): LanguageI
       return {
         id: "",
         countryHint,
+        text
+      };
+    }
+  );
+}
+
+function convertToMultiLanguageInput(input: string[], language: string): MultiLanguageInput[] {
+  return input.map(
+    (text: string): MultiLanguageInput => {
+      return {
+        id: "",
+        language,
         text
       };
     }

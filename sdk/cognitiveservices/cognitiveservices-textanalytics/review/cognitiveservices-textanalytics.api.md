@@ -34,7 +34,6 @@ export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageE
 // @public (undocumented)
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
     modelVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "RequestStatistics" needs to be exported by the entry point index.d.ts
     statistics?: RequestStatistics;
 }
 
@@ -55,6 +54,39 @@ export interface DocumentStatistics {
 }
 
 // @public
+export interface Entity {
+    length: number;
+    offset: number;
+    score: number;
+    subtype?: string;
+    text: string;
+    type: string;
+}
+
+// @public
+export type ErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+
+// @public
+export interface ErrorModel {
+    code: ErrorModelCode;
+    details?: ErrorModel[];
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export type ErrorModelCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+
+// @public
+export interface InnerError {
+    code: ErrorCode;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
 export interface LanguageInput {
     // (undocumented)
     countryHint?: string;
@@ -63,9 +95,45 @@ export interface LanguageInput {
     text: string;
 }
 
+// @public
+export interface MultiLanguageInput {
+    id: string;
+    language?: string;
+    text: string;
+}
+
+// @public (undocumented)
+export interface RecognizeEntitiesErrorResult extends TextAnalysisErrorResult {
+}
+
+// @public (undocumented)
+export interface RecognizeEntitiesOptions extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {
+}
+
+// @public (undocumented)
+export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
+
+// @public (undocumented)
+export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
+    modelVersion: string;
+    statistics?: RequestStatistics;
+}
+
+// @public (undocumented)
+export interface RecognizeEntitiesSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: Entity[];
+}
+
+// @public
+export interface RequestStatistics {
+    documentsCount: number;
+    erroneousDocumentsCount: number;
+    transactionsCount: number;
+    validDocumentsCount: number;
+}
+
 // @public (undocumented)
 export interface TextAnalysisErrorResult {
-    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
     readonly error: ErrorModel;
     readonly id: string;
 }
@@ -85,12 +153,24 @@ export class TextAnalyticsClient {
     defaultCountryHint: string;
     defaultLanguage: string;
     // (undocumented)
-    detectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
+    detectLanguage(input: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     // (undocumented)
-    detectLanguages(input: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
-    // (undocumented)
-    detectLanguages(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
+    // (undocumented)
+    recognizeEntities(input: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
+    recognizeEntities(input: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
+    singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
+    // (undocumented)
+    singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResult>;
+}
+
+// @public
+export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
 }
 
 // @public
