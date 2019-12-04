@@ -2,6 +2,8 @@
 
 ## 2019.12 12.0.0
 
+- [Breaking] `forceCloseAllHandles` will return `CloseHandlesInfo` type instead of number.
+- [Breaking] `forceCloseHandle` will return `closedHandlesCount` property instead of `numberOfHandlesClosed` to compatible with `CloseHandlesInfo`.
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 - [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
 - [Breaking] `shareName` on `ShareClient` has been renamed to `name`. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
