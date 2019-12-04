@@ -8,4 +8,9 @@
  * regenerated.
  */
 
+export * from "./serviceConfigurationOperations";
+export * from "./policy";
+export * from "./evaluations";
 export * from "./events";
+export * from "./log";
+export * from "./model";

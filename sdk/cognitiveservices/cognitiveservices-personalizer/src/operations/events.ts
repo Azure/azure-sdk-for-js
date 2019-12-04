@@ -27,22 +27,24 @@ export class Events {
   }
 
   /**
-   * @summary Report reward to allocate to the top ranked action for the specified event.
+   * Report reward that resulted from using the action specified in rewardActionId for the specified
+   * event.
+   * @summary Post Reward.
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number.
+   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   reward(eventId: string, rewardParameter: Models.RewardRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number.
+   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
    * @param callback The callback
    */
   reward(eventId: string, rewardParameter: Models.RewardRequest, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number.
+   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -59,8 +61,9 @@ export class Events {
   }
 
   /**
-   * @summary Report that the specified event was actually displayed to the user and a reward should
-   * be expected for it.
+   * Report that the specified event was actually displayed to the user and a reward should be
+   * expected for it
+   * @summary Activate Event.
    * @param eventId The event ID this activation applies to.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
