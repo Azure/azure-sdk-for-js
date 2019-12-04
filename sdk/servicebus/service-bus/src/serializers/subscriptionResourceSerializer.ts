@@ -16,7 +16,9 @@ import {
   MessageCountDetails,
   getString,
   getInteger,
-  getBoolean
+  getBoolean,
+  EntityStatus,
+  getEntityStatusOrUndefined
 } from "../util/utils";
 
 /**
@@ -42,7 +44,7 @@ export function buildSubscriptionOptions(
     DefaultRuleDescription: subscriptionOptions.defaultRuleDescription,
     MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    Status: getStringOrUndefined(subscriptionOptions.status),
+    Status: getEntityStatusOrUndefined(subscriptionOptions.status),
     ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
     UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
@@ -176,9 +178,9 @@ export interface SubscriptionOptions {
   enableBatchedOperations?: boolean;
 
   /**
-   * Entity status
+   * Status of the messaging entity.
    */
-  status?: string;
+  status?: EntityStatus;
 
   /**
    * ForwardTo header
@@ -271,7 +273,7 @@ export interface InternalSubscriptionOptions {
   EnableBatchedOperations?: string;
 
   /**
-   * Entity status
+   * Status of the messaging entity.
    */
   Status?: string;
 
@@ -437,9 +439,9 @@ export interface SubscriptionDetails {
   entityAvailabilityStatus: string;
 
   /**
-   * Queue entity status
+   * Status of the messaging entity.
    */
-  status: string;
+  status?: string;
 
   /**
    * Created at timestamp

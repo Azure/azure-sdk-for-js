@@ -1471,14 +1471,13 @@ async function createEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        maxDeliveryCount: 10
+        status: EntityStatus.Active
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
-        maxDeliveryCount: 10
+        lockDuration: "PT1M"
       };
     }
 
@@ -1610,14 +1609,13 @@ async function updateEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        maxDeliveryCount: 10
+        status: EntityStatus.Active
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
-        maxDeliveryCount: 10
+        lockDuration: "PT1M"
       };
     }
 

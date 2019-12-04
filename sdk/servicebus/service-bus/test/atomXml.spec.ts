@@ -585,6 +585,16 @@ class MockSerializer implements AtomXmlSerializer {
       testErrorMessage: `Expected authorizationRule input to be a JS object value, but received "notAJsObjectLikeValue"`,
       testErrorType: TypeError
     }
+  },
+  {
+    testCaseTitle: "Create queue throws Error if status is not a valid EntityStatus value",
+    input: {
+      status: "notAValidStatus"
+    },
+    output: {
+      testErrorMessage: `status must be a valid EntityStatus value, but received "notAValidStatus"`,
+      testErrorType: TypeError
+    }
   }
 ].forEach((testCase) => {
   describe(`Type validation errors on authorization rule inputs #RunInBrowser`, function(): void {

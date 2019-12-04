@@ -19,7 +19,9 @@ import {
   getBoolean,
   getString,
   getBooleanOrUndefined,
-  getIntegerOrUndefined
+  getIntegerOrUndefined,
+  EntityStatus,
+  getEntityStatusOrUndefined
 } from "../util/utils";
 
 /**
@@ -43,7 +45,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
-    Status: getStringOrUndefined(queueOptions.status),
+    Status: getEntityStatusOrUndefined(queueOptions.status),
     ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
@@ -193,9 +195,9 @@ export interface QueueOptions {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Entity status
+   * Status of the messaging entity.
    */
-  status?: string;
+  status?: EntityStatus;
 
   /**
    * ForwardTo header
@@ -305,7 +307,7 @@ export interface InternalQueueOptions {
   AuthorizationRules?: any;
 
   /**
-   * Entity status
+   * Status of the messaging entity.
    */
   Status?: string;
 
@@ -491,7 +493,7 @@ export interface QueueDetails {
   entityAvailabilityStatus?: string;
 
   /**
-   * Queue entity status
+   * Status of the messaging entity.
    */
   status?: string;
 

@@ -432,3 +432,29 @@ export enum EntityStatus {
   Disabled = "Disabled",
   Unknown = "Unknown"
 }
+
+/**
+ *  @ignore
+ * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getEntityStatusOrUndefined(status: any): EntityStatus | undefined {
+  const stringValue = getStringOrUndefined(status);
+  if (stringValue == undefined) {
+    return undefined;
+  }
+
+  if ((<any>Object).values(EntityStatus).includes(status)) {
+    const entityStatus: EntityStatus = EntityStatus[status as keyof typeof EntityStatus];
+    return entityStatus;
+  } else {
+    throw new TypeError(
+      `status must be a valid EntityStatus value, but received ${JSON.stringify(
+        status,
+        undefined,
+        2
+      )}`
+    );
+  }
+}
