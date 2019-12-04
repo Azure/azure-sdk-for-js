@@ -1,12 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, createPipelineFromOptions, signingPolicy } from "@azure/core-http";
+import {
+  PipelineOptions,
+  createPipelineFromOptions,
+  signingPolicy,
+  RequestOptionsBase,
+  InternalPipelineOptions
+} from "@azure/core-http";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
 import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 import { logger } from "./logger";
 import { makeDetectLanguageResult, DetectLanguageResult } from "./detectLanguageResult";
+import { LanguageInput } from "./generated/models";
+import {
+  DetectLanguageResultCollection,
+  makeDetectLanguageResultCollection
+} from "./detectLanguageResultCollection";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -23,6 +34,20 @@ export interface TextAnalyticsClientOptions {
    * The default language to use. Defaults to "en".
    */
   defaultLanguage?: string;
+}
+
+export interface DetectLanguageOptions extends RequestOptionsBase {
+  /**
+   * (optional) if set to true, response will contain input and document level statistics.
+   */
+  showStats?: boolean;
+}
+
+export interface DetectLanguagesOptions extends RequestOptionsBase {
+  /**
+   * (optional) if set to true, response will contain input and document level statistics.
+   */
+  showStats?: boolean;
 }
 
 /**
@@ -85,11 +110,12 @@ export class TextAnalyticsClient {
 
     const authPolicy = signingPolicy(credential);
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
-          logger: logger.info
+          logger: logger.info,
+          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
         }
       }
     };
@@ -99,16 +125,21 @@ export class TextAnalyticsClient {
   }
 
   public async detectLanguage(
-    text: string,
-    countryHint: string = this.defaultCountryHint
+    input: string,
+    countryHint: string = this.defaultCountryHint,
+    options: DetectLanguageOptions = {}
   ): Promise<DetectLanguageResult> {
+    if (!input) {
+      throw new Error("Language input can't be empty");
+    }
     const result = await this.client.detectLanguage({
+      ...options,
       languageBatchInput: {
         documents: [
           {
             id: "1",
             countryHint,
-            text
+            text: input
           }
         ]
       }
@@ -126,4 +157,67 @@ export class TextAnalyticsClient {
       firstDocument.statistics
     );
   }
+
+  // TODO: think about splitting up this overload for JS
+
+  public async detectLanguages(
+    input: string[],
+    countryHint?: string,
+    options?: DetectLanguagesOptions
+  ): Promise<DetectLanguageResultCollection>;
+  public async detectLanguages(
+    input: LanguageInput[],
+    options?: DetectLanguagesOptions
+  ): Promise<DetectLanguageResultCollection>;
+  public async detectLanguages(
+    input: string[] | LanguageInput[],
+    countryHintOrOptions?: string | DetectLanguagesOptions,
+    options?: DetectLanguagesOptions
+  ): Promise<DetectLanguageResultCollection> {
+    if (!input || !input.length) {
+      throw new Error("Language input can't be empty");
+    }
+
+    let realOptions: DetectLanguagesOptions;
+    let realInput: LanguageInput[];
+
+    if (isStringArray(input)) {
+      const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
+      realInput = convertToLanguageInput(input, countryHint);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (countryHintOrOptions as DetectLanguagesOptions) || {};
+    }
+
+    const result = await this.client.detectLanguage({
+      ...realOptions,
+      languageBatchInput: {
+        documents: realInput
+      }
+    });
+
+    if (result.errors && result.errors.length) {
+    } else if (!result.documents) {
+      throw new Error("detectLanguage failed with no errors and no results.");
+    }
+
+    return makeDetectLanguageResultCollection(result.documents || []);
+  }
+}
+
+function isStringArray(input: any[]): input is string[] {
+  return typeof input[0] === "string";
+}
+
+function convertToLanguageInput(input: string[], countryHint: string): LanguageInput[] {
+  return input.map(
+    (text: string): LanguageInput => {
+      return {
+        id: "",
+        countryHint,
+        text
+      };
+    }
+  );
 }

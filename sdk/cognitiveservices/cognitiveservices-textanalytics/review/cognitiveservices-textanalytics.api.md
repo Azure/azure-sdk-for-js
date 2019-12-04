@@ -6,6 +6,7 @@
 
 import { ApiKeyCredentials } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { RequestOptionsBase } from '@azure/core-http';
 
 // @public
 export class CognitiveServicesCredentials extends ApiKeyCredentials {
@@ -20,15 +21,40 @@ export interface DetectedLanguage {
 }
 
 // @public (undocumented)
+export interface DetectLanguageOptions extends RequestOptionsBase {
+    showStats?: boolean;
+}
+
+// @public (undocumented)
 export interface DetectLanguageResult extends TextAnalysisResult {
     readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage | undefined;
+}
+
+// @public (undocumented)
+export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
+    // Warning: (ae-forgotten-export) The symbol "RequestStatistics" needs to be exported by the entry point index.d.ts
+    statistics?: RequestStatistics;
+}
+
+// @public (undocumented)
+export interface DetectLanguagesOptions extends RequestOptionsBase {
+    showStats?: boolean;
 }
 
 // @public
 export interface DocumentStatistics {
     charactersCount?: number;
     transactionsCount?: number;
+}
+
+// @public
+export interface LanguageInput {
+    // (undocumented)
+    countryHint?: string;
+    id?: string;
+    // (undocumented)
+    text?: string;
 }
 
 // @public (undocumented)
@@ -44,7 +70,11 @@ export class TextAnalyticsClient {
     defaultCountryHint: string;
     defaultLanguage: string;
     // (undocumented)
-    detectLanguage(text: string, countryHint?: string): Promise<DetectLanguageResult>;
+    detectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
+    // (undocumented)
+    detectLanguages(input: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    // (undocumented)
+    detectLanguages(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
 }
 
