@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentStatistics } from "./generated/models";
+import { DocumentStatistics, ErrorModel } from "./generated/models";
 
-export interface TextAnalysisResult {
+export type TextAnalysisResult = TextAnalysisSuccessResult | TextAnalysisErrorResult;
+
+export interface TextAnalysisSuccessResult {
   /**
    * Unique, non-empty document identifier.
    */
@@ -14,11 +16,18 @@ export interface TextAnalysisResult {
    * about the document payload.
    */
   readonly statistics?: DocumentStatistics;
+}
+
+export interface TextAnalysisErrorResult {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  readonly id: string;
 
   /**
-   * The error message for this document result, if any.
+   * The Error for this document result.
    */
-  readonly errorMessage?: string;
+  readonly error: ErrorModel;
 }
 
 export function makeTextAnalysisResult(
@@ -31,9 +40,12 @@ export function makeTextAnalysisResult(
   };
 }
 
-export function makeTextAnalysisResultError(id: string, errorMessage: string): TextAnalysisResult {
+export function makeTextAnalysisErrorResult(
+  id: string,
+  error: ErrorModel
+): TextAnalysisErrorResult {
   return {
     id,
-    errorMessage
+    error
   };
 }

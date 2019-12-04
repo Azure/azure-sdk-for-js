@@ -8,9 +8,22 @@ export {
   DetectLanguagesOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
-export { DetectLanguageResult } from "./detectLanguageResult";
+export {
+  DetectLanguageResult,
+  DetectLanguageErrorResult,
+  DetectLanguageSuccessResult
+} from "./detectLanguageResult";
 export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
-export { TextAnalysisResult } from "./textAnalysisResult";
+export {
+  TextAnalysisResult,
+  TextAnalysisErrorResult,
+  TextAnalysisSuccessResult
+} from "./textAnalysisResult";
 
 // Models
-export { DetectedLanguage, DocumentStatistics, LanguageInput } from "./generated/models";
+export {
+  DetectedLanguage,
+  DocumentStatistics,
+  LanguageInput,
+  TextAnalyticsClientLanguagesOptionalParams
+} from "./generated/models";

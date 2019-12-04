@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextAnalysisResult, makeTextAnalysisResult } from "./textAnalysisResult";
-import { DetectedLanguage, DocumentStatistics } from "./generated/models";
+import {
+  makeTextAnalysisResult,
+  TextAnalysisSuccessResult,
+  TextAnalysisErrorResult,
+  makeTextAnalysisErrorResult
+} from "./textAnalysisResult";
+import { DetectedLanguage, DocumentStatistics, ErrorModel } from "./generated/models";
 
-export interface DetectLanguageResult extends TextAnalysisResult {
+export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
+
+export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
   /**
    * All detected languages.
    */
@@ -14,6 +21,8 @@ export interface DetectLanguageResult extends TextAnalysisResult {
    */
   readonly primaryLanguage: DetectedLanguage | undefined;
 }
+
+export interface DetectLanguageErrorResult extends TextAnalysisErrorResult {}
 
 export function makeDetectLanguageResult(
   id: string,
@@ -25,6 +34,13 @@ export function makeDetectLanguageResult(
     detectedLanguages,
     primaryLanguage: primaryLanguage(detectedLanguages)
   };
+}
+
+export function makeDetectLanguageErrorResult(
+  id: string,
+  error: ErrorModel
+): DetectLanguageErrorResult {
+  return makeTextAnalysisErrorResult(id, error);
 }
 
 function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage | undefined {

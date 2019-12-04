@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, LanguageBatchResultItem } from "./generated/models";
-import { DetectLanguageResult, makeDetectLanguageResult } from "./detectLanguageResult";
+import { RequestStatistics, DocumentLanguage, DocumentError } from "./generated/models";
+import {
+  DetectLanguageResult,
+  makeDetectLanguageResult,
+  makeDetectLanguageErrorResult
+} from "./detectLanguageResult";
 
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
   /**
@@ -10,21 +14,37 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
    * about the request payload.
    */
   statistics?: RequestStatistics;
+  /**
+   * This field indicates which model was used for scoring.
+   */
+  modelVersion: string;
 }
 
 export function makeDetectLanguageResultCollection(
-  batchResults: LanguageBatchResultItem[],
+  documents: DocumentLanguage[],
+  errors: DocumentError[],
+  modelVersion: string,
   statistics?: RequestStatistics
 ): DetectLanguageResultCollection {
-  const result: DetectLanguageResultCollection = batchResults.map(
-    (batchResult): DetectLanguageResult => {
-      return makeDetectLanguageResult(
-        batchResult.id || "",
-        batchResult.detectedLanguages || [],
-        batchResult.statistics
-      );
-    }
-  );
-  result.statistics = statistics;
-  return result;
+  const result = documents
+    .map(
+      (document): DetectLanguageResult => {
+        return makeDetectLanguageResult(
+          document.id || "",
+          document.detectedLanguages || [],
+          document.statistics
+        );
+      }
+    )
+    .concat(
+      errors.map(
+        (error): DetectLanguageResult => {
+          return makeDetectLanguageErrorResult(error.id, error.error);
+        }
+      )
+    );
+  return Object.assign(result, {
+    statistics,
+    modelVersion
+  });
 }

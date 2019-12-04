@@ -5,8 +5,8 @@
 ```ts
 
 import { ApiKeyCredentials } from '@azure/core-http';
+import * as coreHttp from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { RequestOptionsBase } from '@azure/core-http';
 
 // @public
 export class CognitiveServicesCredentials extends ApiKeyCredentials {
@@ -15,51 +15,66 @@ export class CognitiveServicesCredentials extends ApiKeyCredentials {
 
 // @public
 export interface DetectedLanguage {
-    iso6391Name?: string;
-    name?: string;
-    score?: number;
+    iso6391Name: string;
+    name: string;
+    score: number;
 }
 
 // @public (undocumented)
-export interface DetectLanguageOptions extends RequestOptionsBase {
-    showStats?: boolean;
+export interface DetectLanguageErrorResult extends TextAnalysisErrorResult {
 }
 
 // @public (undocumented)
-export interface DetectLanguageResult extends TextAnalysisResult {
-    readonly detectedLanguages: DetectedLanguage[];
-    readonly primaryLanguage: DetectedLanguage | undefined;
+export interface DetectLanguageOptions extends TextAnalyticsClientLanguagesOptionalParams {
 }
+
+// @public (undocumented)
+export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
 // @public (undocumented)
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
+    modelVersion: string;
     // Warning: (ae-forgotten-export) The symbol "RequestStatistics" needs to be exported by the entry point index.d.ts
     statistics?: RequestStatistics;
 }
 
 // @public (undocumented)
-export interface DetectLanguagesOptions extends RequestOptionsBase {
-    showStats?: boolean;
+export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOptionalParams {
+}
+
+// @public (undocumented)
+export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
+    readonly detectedLanguages: DetectedLanguage[];
+    readonly primaryLanguage: DetectedLanguage | undefined;
 }
 
 // @public
 export interface DocumentStatistics {
-    charactersCount?: number;
-    transactionsCount?: number;
+    charactersCount: number;
+    transactionsCount: number;
 }
 
 // @public
 export interface LanguageInput {
     // (undocumented)
     countryHint?: string;
-    id?: string;
+    id: string;
     // (undocumented)
-    text?: string;
+    text: string;
 }
 
 // @public (undocumented)
-export interface TextAnalysisResult {
-    readonly errorMessage?: string;
+export interface TextAnalysisErrorResult {
+    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
+    readonly error: ErrorModel;
+    readonly id: string;
+}
+
+// @public (undocumented)
+export type TextAnalysisResult = TextAnalysisSuccessResult | TextAnalysisErrorResult;
+
+// @public (undocumented)
+export interface TextAnalysisSuccessResult {
     readonly id: string;
     readonly statistics?: DocumentStatistics;
 }
@@ -76,6 +91,12 @@ export class TextAnalyticsClient {
     // (undocumented)
     detectLanguages(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
+}
+
+// @public
+export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
 }
 
 // @public (undocumented)

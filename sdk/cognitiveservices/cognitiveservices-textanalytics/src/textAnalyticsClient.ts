@@ -5,7 +5,6 @@ import {
   PipelineOptions,
   createPipelineFromOptions,
   signingPolicy,
-  RequestOptionsBase,
   InternalPipelineOptions
 } from "@azure/core-http";
 import { SDK_VERSION } from "./constants";
@@ -13,7 +12,7 @@ import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalytic
 import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 import { logger } from "./logger";
 import { makeDetectLanguageResult, DetectLanguageResult } from "./detectLanguageResult";
-import { LanguageInput } from "./generated/models";
+import { LanguageInput, TextAnalyticsClientLanguagesOptionalParams } from "./generated/models";
 import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
@@ -36,19 +35,9 @@ export interface TextAnalyticsClientOptions {
   defaultLanguage?: string;
 }
 
-export interface DetectLanguageOptions extends RequestOptionsBase {
-  /**
-   * (optional) if set to true, response will contain input and document level statistics.
-   */
-  showStats?: boolean;
-}
+export interface DetectLanguageOptions extends TextAnalyticsClientLanguagesOptionalParams {}
 
-export interface DetectLanguagesOptions extends RequestOptionsBase {
-  /**
-   * (optional) if set to true, response will contain input and document level statistics.
-   */
-  showStats?: boolean;
-}
+export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOptionalParams {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -132,9 +121,8 @@ export class TextAnalyticsClient {
     if (!input) {
       throw new Error("Language input can't be empty");
     }
-    const result = await this.client.detectLanguage({
-      ...options,
-      languageBatchInput: {
+    const result = await this.client.languages(
+      {
         documents: [
           {
             id: "1",
@@ -142,12 +130,11 @@ export class TextAnalyticsClient {
             text: input
           }
         ]
-      }
-    });
-    if (result.errors && result.errors[0]) {
-      throw new Error(result.errors[0].message);
-    } else if (!result.documents || !result.documents[0]) {
-      throw new Error("detectLanguage failed with no errors and no results.");
+      },
+      options
+    );
+    if (result.errors.length) {
+      throw new Error(result.errors[0].error);
     }
 
     const firstDocument = result.documents[0];
@@ -190,19 +177,19 @@ export class TextAnalyticsClient {
       realOptions = (countryHintOrOptions as DetectLanguagesOptions) || {};
     }
 
-    const result = await this.client.detectLanguage({
-      ...realOptions,
-      languageBatchInput: {
+    const result = await this.client.languages(
+      {
         documents: realInput
-      }
-    });
+      },
+      realOptions
+    );
 
-    if (result.errors && result.errors.length) {
-    } else if (!result.documents) {
-      throw new Error("detectLanguage failed with no errors and no results.");
-    }
-
-    return makeDetectLanguageResultCollection(result.documents || []);
+    return makeDetectLanguageResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
   }
 }
 
