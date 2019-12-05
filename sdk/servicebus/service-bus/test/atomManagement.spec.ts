@@ -42,19 +42,27 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue,
-
+    alwaysBeExistingEntity: alwaysBeExistingQueue
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: alwaysBeExistingTopic
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: alwaysBeExistingSubscription,
+    parentTopicName: alwaysBeExistingTopic
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: alwaysBeExistingRule,
     parentTopicName: alwaysBeExistingTopic,
     parentSubscriptionName: alwaysBeExistingSubscription
   }
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
     before(async () => {
-      try {
-        await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
-      } catch (err) {
-        // Create and ignore if already created
-      }
+      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
 
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
@@ -73,30 +81,18 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
-      try {
-        await createEntity(
-          EntityType.SUBSCRIPTION,
-          alwaysBeExistingSubscription,
-          alwaysBeExistingTopic
-        );
-      } catch (err) {
-        // Create and ignore if already created
-      }
-      try {
-        await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      } catch (err) {
-        // Create and ignore if already created
-      }
-      try {
-        await createEntity(
-          EntityType.RULE,
-          alwaysBeExistingRule,
-          alwaysBeExistingTopic,
-          alwaysBeExistingSubscription
-        );
-      } catch (err) {
-        // Create and ignore if already created
-      }
+      await createEntity(
+        EntityType.SUBSCRIPTION,
+        alwaysBeExistingSubscription,
+        alwaysBeExistingTopic
+      );
+      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await createEntity(
+        EntityType.RULE,
+        alwaysBeExistingRule,
+        alwaysBeExistingTopic,
+        alwaysBeExistingSubscription
+      );
     });
 
     after(async () => {
