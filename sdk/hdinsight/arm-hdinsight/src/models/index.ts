@@ -34,30 +34,6 @@ export interface ClusterDefinition {
 }
 
 /**
- * The information of AAD security group.
- */
-export interface ClientGroupInfo {
-  /**
-   * The AAD security group name.
-   */
-  groupName?: string;
-  /**
-   * The AAD security group id.
-   */
-  groupId?: string;
-}
-
-/**
- * The kafka rest proxy configuration which contains AAD security group information.
- */
-export interface KafkaRestProperties {
-  /**
-   * The information of AAD security group.
-   */
-  clientGroupInfo?: ClientGroupInfo;
-}
-
-/**
  * The security profile which contains Ssh public key for the HDInsight cluster.
  */
 export interface SecurityProfile {
@@ -354,7 +330,7 @@ export interface StorageAccount {
    */
   container?: string;
   /**
-   * The filesystem, only to be specified for Azure Data Lake Storage Gen 2.
+   * The filesystem, only to be specified for Azure Data Lake Storage type Gen 2.
    */
   fileSystem?: string;
   /**
@@ -429,10 +405,6 @@ export interface ClusterCreateProperties {
    * The cluster definition.
    */
   clusterDefinition?: ClusterDefinition;
-  /**
-   * The cluster kafka rest proxy configuration.
-   */
-  kafkaRestProperties?: KafkaRestProperties;
   /**
    * The security profile.
    */
@@ -595,10 +567,6 @@ export interface ClusterGetProperties {
    * The cluster definition.
    */
   clusterDefinition: ClusterDefinition;
-  /**
-   * The cluster kafka rest proxy configuration.
-   */
-  kafkaRestProperties?: KafkaRestProperties;
   /**
    * The security profile.
    */

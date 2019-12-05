@@ -51,45 +51,6 @@ export const ClusterDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const ClientGroupInfo: msRest.CompositeMapper = {
-  serializedName: "ClientGroupInfo",
-  type: {
-    name: "Composite",
-    className: "ClientGroupInfo",
-    modelProperties: {
-      groupName: {
-        serializedName: "groupName",
-        type: {
-          name: "String"
-        }
-      },
-      groupId: {
-        serializedName: "groupId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KafkaRestProperties: msRest.CompositeMapper = {
-  serializedName: "KafkaRestProperties",
-  type: {
-    name: "Composite",
-    className: "KafkaRestProperties",
-    modelProperties: {
-      clientGroupInfo: {
-        serializedName: "clientGroupInfo",
-        type: {
-          name: "Composite",
-          className: "ClientGroupInfo"
-        }
-      }
-    }
-  }
-};
-
 export const SecurityProfile: msRest.CompositeMapper = {
   serializedName: "SecurityProfile",
   type: {
@@ -744,13 +705,6 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
           className: "ClusterDefinition"
         }
       },
-      kafkaRestProperties: {
-        serializedName: "kafkaRestProperties",
-        type: {
-          name: "Composite",
-          className: "KafkaRestProperties"
-        }
-      },
       securityProfile: {
         serializedName: "securityProfile",
         type: {
@@ -1028,13 +982,6 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ClusterDefinition"
-        }
-      },
-      kafkaRestProperties: {
-        serializedName: "kafkaRestProperties",
-        type: {
-          name: "Composite",
-          className: "KafkaRestProperties"
         }
       },
       securityProfile: {
