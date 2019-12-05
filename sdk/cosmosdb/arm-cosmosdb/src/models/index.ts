@@ -1060,9 +1060,9 @@ export interface ExtendedResourceProperties {
 }
 
 /**
- * An interface representing ThroughputSettingsGetPropertiesResource.
+ * An Azure Cosmos DB resource throughput.
  */
-export interface ThroughputSettingsGetPropertiesResource {
+export interface ThroughputSettingsGetResults extends ARMResourceProperties {
   /**
    * Value of the Cosmos DB resource throughput
    */
@@ -1077,29 +1077,6 @@ export interface ThroughputSettingsGetPropertiesResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly offerReplacePending?: string;
-  /**
-   * A system generated property. A unique identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _ts?: any;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly _etag?: string;
-}
-
-/**
- * An Azure Cosmos DB resource throughput.
- */
-export interface ThroughputSettingsGetResults extends ARMResourceProperties {
-  resource?: ThroughputSettingsGetPropertiesResource;
 }
 
 /**

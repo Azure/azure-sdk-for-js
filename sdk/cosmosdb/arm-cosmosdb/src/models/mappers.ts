@@ -1815,58 +1815,6 @@ export const ExtendedResourceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ThroughputSettingsGetPropertiesResource: msRest.CompositeMapper = {
-  serializedName: "ThroughputSettingsGetProperties_resource",
-  type: {
-    name: "Composite",
-    className: "ThroughputSettingsGetPropertiesResource",
-    modelProperties: {
-      throughput: {
-        required: true,
-        serializedName: "throughput",
-        type: {
-          name: "Number"
-        }
-      },
-      minimumThroughput: {
-        readOnly: true,
-        serializedName: "minimumThroughput",
-        type: {
-          name: "String"
-        }
-      },
-      offerReplacePending: {
-        readOnly: true,
-        serializedName: "offerReplacePending",
-        type: {
-          name: "String"
-        }
-      },
-      _rid: {
-        readOnly: true,
-        serializedName: "_rid",
-        type: {
-          name: "String"
-        }
-      },
-      _ts: {
-        readOnly: true,
-        serializedName: "_ts",
-        type: {
-          name: "Object"
-        }
-      },
-      _etag: {
-        readOnly: true,
-        serializedName: "_etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ThroughputSettingsGetResults: msRest.CompositeMapper = {
   serializedName: "ThroughputSettingsGetResults",
   type: {
@@ -1874,11 +1822,25 @@ export const ThroughputSettingsGetResults: msRest.CompositeMapper = {
     className: "ThroughputSettingsGetResults",
     modelProperties: {
       ...ARMResourceProperties.type.modelProperties,
-      resource: {
-        serializedName: "properties.resource",
+      throughput: {
+        required: true,
+        serializedName: "properties.throughput",
         type: {
-          name: "Composite",
-          className: "ThroughputSettingsGetPropertiesResource"
+          name: "Number"
+        }
+      },
+      minimumThroughput: {
+        readOnly: true,
+        serializedName: "properties.minimumThroughput",
+        type: {
+          name: "String"
+        }
+      },
+      offerReplacePending: {
+        readOnly: true,
+        serializedName: "properties.offerReplacePending",
+        type: {
+          name: "String"
         }
       }
     }

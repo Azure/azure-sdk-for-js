@@ -88,7 +88,6 @@ export {
   TableGetPropertiesResource,
   TableGetResults,
   TableResource,
-  ThroughputSettingsGetPropertiesResource,
   ThroughputSettingsGetResults,
   ThroughputSettingsResource,
   ThroughputSettingsUpdateParameters,
