@@ -36,7 +36,7 @@ export async function run() {
   await client.setConfigurationSetting(newSetting);
   
   const revisionsIterator = client.listRevisions({
-    keys: [ newSetting.key ]
+    keyFilter: newSetting.key
   });
 
   // show all the revisions, including the date they were set.
@@ -50,7 +50,7 @@ export async function run() {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = await client.listConfigurationSettings({
-      keys: keys
+      keyFilter: keys.join(',')
   });
 
   for await (const setting of settingsIterator) {

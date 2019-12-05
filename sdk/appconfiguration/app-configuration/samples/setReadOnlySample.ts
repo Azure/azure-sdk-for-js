@@ -49,7 +49,7 @@ export async function run() {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const existingSettings = await client.listConfigurationSettings({
-    keys: keys
+    keyFilter: keys.join(',')
   });
 
   for await (const setting of existingSettings) {
