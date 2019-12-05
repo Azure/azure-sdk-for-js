@@ -19,7 +19,8 @@ import {
   ErrorModel,
   MultiLanguageInput,
   TextAnalyticsClientSentimentOptionalParams,
-  TextAnalyticsClientKeyPhrasesOptionalParams
+  TextAnalyticsClientKeyPhrasesOptionalParams,
+  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams
 } from "./generated/models";
 import {
   DetectLanguageResultCollection,
@@ -68,6 +69,9 @@ export interface RecognizeEntitiesOptions
 export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {}
 
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {}
+
+export interface RecognizePiiEntitiesOptions
+  extends TextAnalyticsClientEntitiesRecognitionPiiOptionalParams {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -413,6 +417,74 @@ export class TextAnalyticsClient {
     );
 
     return makeExtractKeyPhrasesResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
+  }
+
+  public async singleRecognizePiiEntities(
+    inputText: string,
+    language: string = this.defaultLanguage,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizeEntitiesResult> {
+    const result = await this.client.entitiesRecognitionPii(
+      {
+        documents: [
+          {
+            id: "1",
+            language,
+            text: inputText
+          }
+        ]
+      },
+      options
+    );
+
+    if (result.errors.length) {
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
+    }
+
+    const firstDocument = result.documents[0];
+    return makeRecognizeEntitiesResult("", firstDocument.entities, firstDocument.statistics);
+  }
+
+  public async recognizePiiEntities(
+    input: string[],
+    language?: string,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection>;
+  public async recognizePiiEntities(
+    input: MultiLanguageInput[],
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection>;
+  public async recognizePiiEntities(
+    input: string[] | MultiLanguageInput[],
+    languageOrOptions?: string | RecognizePiiEntitiesOptions,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizeEntitiesResultCollection> {
+    let realOptions: RecognizePiiEntitiesOptions;
+    let realInput: MultiLanguageInput[];
+
+    if (isStringArray(input)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInput = convertToMultiLanguageInput(input, language);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
+    }
+
+    const result = await this.client.entitiesRecognitionPii(
+      {
+        documents: realInput
+      },
+      realOptions
+    );
+
+    return makeRecognizeEntitiesResultCollection(
       result.documents,
       result.errors,
       result.modelVersion,

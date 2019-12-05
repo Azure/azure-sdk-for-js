@@ -170,6 +170,10 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalysisSuccessResul
     readonly entities: Entity[];
 }
 
+// @public (undocumented)
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsClientEntitiesRecognitionPiiOptionalParams {
+}
+
 // @public
 export interface RequestStatistics {
     documentsCount: number;
@@ -228,6 +232,10 @@ export class TextAnalyticsClient {
     // (undocumented)
     recognizeEntities(input: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
+    recognizePiiEntities(input: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
+    recognizePiiEntities(input: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
     singleAnalyzeSentiment(inputText: string, language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResult>;
     // (undocumented)
     singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
@@ -235,10 +243,18 @@ export class TextAnalyticsClient {
     singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResult>;
     // (undocumented)
     singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResult>;
+    // (undocumented)
+    singleRecognizePiiEntities(inputText: string, language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResult>;
 }
 
 // @public
 export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
+}
+
+// @public
+export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
     modelVersion?: string;
     showStats?: boolean;
 }

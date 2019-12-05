@@ -8,7 +8,8 @@ export {
   DetectLanguagesOptions,
   RecognizeEntitiesOptions,
   AnalyzeSentimentOptions,
-  ExtractKeyPhrasesOptions
+  ExtractKeyPhrasesOptions,
+  RecognizePiiEntitiesOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 export {
@@ -51,6 +52,7 @@ export {
   TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
   TextAnalyticsClientSentimentOptionalParams,
   TextAnalyticsClientKeyPhrasesOptionalParams,
+  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
   ErrorModel,
   RequestStatistics,
   Code1 as ErrorModelCode,
