@@ -102,6 +102,28 @@ export interface ErrorModel {
 // @public
 export type ErrorModelCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
+// @public (undocumented)
+export interface ExtractKeyPhrasesErrorResult extends TextAnalysisErrorResult {
+}
+
+// @public (undocumented)
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {
+}
+
+// @public (undocumented)
+export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
+
+// @public (undocumented)
+export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
+    modelVersion: string;
+    statistics?: RequestStatistics;
+}
+
+// @public (undocumented)
+export interface ExtractKeyPhrasesSuccessResult extends TextAnalysisSuccessResult {
+    keyPhrases: string[];
+}
+
 // @public
 export interface InnerError {
     code: ErrorCode;
@@ -198,6 +220,10 @@ export class TextAnalyticsClient {
     detectLanguage(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     // (undocumented)
+    extractKeyPhrases(input: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    // (undocumented)
+    extractKeyPhrases(input: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    // (undocumented)
     recognizeEntities(input: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
     recognizeEntities(input: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
@@ -206,11 +232,19 @@ export class TextAnalyticsClient {
     // (undocumented)
     singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
     // (undocumented)
+    singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResult>;
+    // (undocumented)
     singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResult>;
 }
 
 // @public
 export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
+}
+
+// @public
+export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
     modelVersion?: string;
     showStats?: boolean;
 }

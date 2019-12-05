@@ -18,7 +18,8 @@ import {
   TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
   ErrorModel,
   MultiLanguageInput,
-  TextAnalyticsClientSentimentOptionalParams
+  TextAnalyticsClientSentimentOptionalParams,
+  TextAnalyticsClientKeyPhrasesOptionalParams
 } from "./generated/models";
 import {
   DetectLanguageResultCollection,
@@ -34,6 +35,11 @@ import {
   AnalyzeSentimentResultCollection,
   makeAnalyzeSentimentResultCollection
 } from "./analyzeSentimentResultCollection";
+import { makeExtractKeyPhrasesResult, ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult";
+import {
+  makeExtractKeyPhrasesResultCollection,
+  ExtractKeyPhrasesResultCollection
+} from "./extractKeyPhrasesResultCollection";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -60,6 +66,8 @@ export interface RecognizeEntitiesOptions
   extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {}
 
 export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {}
+
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -337,6 +345,74 @@ export class TextAnalyticsClient {
     );
 
     return makeAnalyzeSentimentResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
+  }
+
+  public async singleExtractKeyPhrases(
+    inputText: string,
+    language: string = this.defaultLanguage,
+    options?: ExtractKeyPhrasesOptions
+  ): Promise<ExtractKeyPhrasesResult> {
+    const result = await this.client.keyPhrases(
+      {
+        documents: [
+          {
+            id: "1",
+            language,
+            text: inputText
+          }
+        ]
+      },
+      options
+    );
+
+    if (result.errors.length) {
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
+    }
+
+    const firstDocument = result.documents[0];
+    return makeExtractKeyPhrasesResult("", firstDocument.keyPhrases, firstDocument.statistics);
+  }
+
+  public async extractKeyPhrases(
+    input: string[],
+    language?: string,
+    options?: ExtractKeyPhrasesOptions
+  ): Promise<ExtractKeyPhrasesResultCollection>;
+  public async extractKeyPhrases(
+    input: MultiLanguageInput[],
+    options?: ExtractKeyPhrasesOptions
+  ): Promise<ExtractKeyPhrasesResultCollection>;
+  public async extractKeyPhrases(
+    input: string[] | MultiLanguageInput[],
+    languageOrOptions?: string | ExtractKeyPhrasesOptions,
+    options?: ExtractKeyPhrasesOptions
+  ): Promise<ExtractKeyPhrasesResultCollection> {
+    let realOptions: ExtractKeyPhrasesOptions;
+    let realInput: MultiLanguageInput[];
+
+    if (isStringArray(input)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInput = convertToMultiLanguageInput(input, language);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (languageOrOptions as ExtractKeyPhrasesOptions) || {};
+    }
+
+    const result = await this.client.keyPhrases(
+      {
+        documents: realInput
+      },
+      realOptions
+    );
+
+    return makeExtractKeyPhrasesResultCollection(
       result.documents,
       result.errors,
       result.modelVersion,
