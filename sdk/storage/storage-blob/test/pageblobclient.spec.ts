@@ -107,6 +107,26 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
+  it("uploadPages with progress report", async () => {
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
+      onProgress: () => {}
+    });
+    await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
+      onProgress: () => {}
+    });
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
   it("clearPages", async () => {
     await pageBlobClient.create(1024);
     let result = await blobClient.download(0);

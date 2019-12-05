@@ -48,6 +48,17 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
+  it("download with progress report", async () => {
+    let downloadedBytes = 0;
+    const result = await blobClient.download(0, undefined, {
+      onProgress: (data) => {
+        downloadedBytes = data.loadedBytes;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.equal(downloadedBytes, content.length);
+  });
+
   it("download should not have aborted error after download finishes", async () => {
     const aborter = new AbortController();
     const result = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
