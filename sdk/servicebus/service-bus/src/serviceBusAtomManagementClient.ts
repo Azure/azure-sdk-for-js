@@ -857,33 +857,25 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       webResource.headers.set("If-Match", "*");
     }
 
-    const forwardTo = (entityFields as InternalQueueOptions | InternalSubscriptionOptions)
-      .ForwardTo;
-
-    const forwardDeadLetterMessagesTo = (entityFields as
+    const queueOrSubscriptionFields = entityFields as
       | InternalQueueOptions
-      | InternalSubscriptionOptions).ForwardDeadLetteredMessagesTo;
-
-    if (forwardTo) {
-      webResource.headers.set(
-        "ServiceBusSupplementaryAuthorization",
-        (await this.sasTokenProvider.getToken(this.endpoint)).token
-      );
-
-      (entityFields as InternalQueueOptions | InternalSubscriptionOptions).ForwardTo =
-        "https://" + this.endpoint + "/" + forwardTo;
-    }
-
-    if (forwardDeadLetterMessagesTo) {
-      webResource.headers.set(
-        "ServiceBusDlqSupplementaryAuthorization",
-        (await this.sasTokenProvider.getToken(this.endpoint)).token
-      );
-
-      (entityFields as
-        | InternalQueueOptions
-        | InternalSubscriptionOptions).ForwardDeadLetteredMessagesTo =
-        "https://" + this.endpoint + "/" + forwardDeadLetterMessagesTo;
+      | InternalSubscriptionOptions;
+    if (
+      queueOrSubscriptionFields.ForwardTo ||
+      queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+    ) {
+      const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
+      const urlPrefix = `https://${this.endpoint}/`;
+      if (queueOrSubscriptionFields.ForwardTo) {
+        webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+        queueOrSubscriptionFields.ForwardTo = urlPrefix.concat(queueOrSubscriptionFields.ForwardTo);
+      }
+      if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+        webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = urlPrefix.concat(
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+        );
+      }
     }
 
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
