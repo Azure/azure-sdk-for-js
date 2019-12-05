@@ -130,15 +130,19 @@ jobs:
           node eng/tools/rush-runner.js unlink
         displayName: "Unlink dependencies"
 
+      # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
       - task: PublishTestResults@2
         inputs:
+          searchFolder: sdk
           testResultsFiles: "**/test-results.xml"
           testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
         condition: and(succeededOrFailed(), eq(variables['TestType'], 'node'))
         displayName: "Publish NodeJS integration test results"
 
+      # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
       - task: PublishTestResults@2
         inputs:
+          searchFolder: sdk
           testResultsFiles: "**/test-results.browser.xml"
           testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
         condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
