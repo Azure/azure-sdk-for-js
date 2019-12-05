@@ -41,7 +41,7 @@ async function main() {
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  const updatedCertificate = await client.updateCertificate(certificateName, "", {
+  const updatedCertificate = await client.updateCertificateProperties(certificateName, "", {
     tags: {
       customTag: "value"
     }

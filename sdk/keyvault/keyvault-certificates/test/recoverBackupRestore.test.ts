@@ -85,7 +85,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
-    await retry(async () => client.restoreCertificateBackup(backup.value!));
+    await retry(async () => client.restoreCertificateBackup(backup!));
     const getResult = await client.getCertificate(certificateName);
     assert.equal(
       getResult.properties.name,
@@ -133,7 +133,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
       await testClient.flushCertificate(certificateName);
 
       await assertThrowsAbortError(async () => {
-        await client.restoreCertificateBackup(backup.value!, { requestOptions: { timeout: 1 } });
+        await client.restoreCertificateBackup(backup!, { requestOptions: { timeout: 1 } });
       });
     });
   }

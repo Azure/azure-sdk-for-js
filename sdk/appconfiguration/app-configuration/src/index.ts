@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 export * from "./models";
-export * from "./appConfigurationClient";
+export {AppConfigurationClientOptions, AppConfigurationClient } from "./appConfigurationClient";

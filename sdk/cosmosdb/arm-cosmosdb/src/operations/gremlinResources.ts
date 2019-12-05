@@ -484,12 +484,12 @@ const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -509,13 +509,13 @@ const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -535,13 +535,13 @@ const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -561,13 +561,13 @@ const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -587,14 +587,14 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -614,14 +614,14 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -641,13 +641,13 @@ const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,13 +675,13 @@ const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -700,13 +700,13 @@ const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = 
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -734,14 +734,14 @@ const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -769,14 +769,14 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -795,14 +795,14 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

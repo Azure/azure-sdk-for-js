@@ -21,6 +21,8 @@ import {
 } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
+import { PartitionGate } from "./impl/partitionGate";
+import uuid from "uuid/v4";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -33,7 +35,6 @@ const defaultConsumerClientOptions: Required<Pick<
 };
 
 /**
- * @class
  * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
  *
  * There are multiple ways to create an `EventHubConsumerClient`
@@ -45,12 +46,17 @@ const defaultConsumerClientOptions: Required<Pick<
  */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
+  private _partitionGate = new PartitionGate();
+  private _id = uuid();
 
   /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
    */
   static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
+
+  private _checkpointStore: CheckpointStore;
+  private _userChoseCheckpointStore: boolean;
 
   /**
    * @constructor
@@ -66,6 +72,27 @@ export class EventHubConsumerClient {
    * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
    */
   constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
+  /**
+   * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
+   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
+   *  production-ready implementation.
+   * @param options - A set of options to apply when configuring the client.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
+   */
+  constructor(
+    consumerGroup: string,
+    connectionString: string,
+    checkpointStore: CheckpointStore,
+    options?: EventHubClientOptions
+  ); // #1.1
   /**
    * @constructor
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -89,6 +116,29 @@ export class EventHubConsumerClient {
   /**
    * @constructor
    * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
+   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
+   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
+   *  production-ready implementation.
+   * @param options - A set of options to apply when configuring the client.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   */
+  constructor(
+    consumerGroup: string,
+    connectionString: string,
+    eventHubName: string,
+    checkpointStore: CheckpointStore,
+    options?: EventHubClientOptions
+  ); // #2.1
+  /**
+   * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The path of the specific Event Hub to connect the client to.
@@ -107,39 +157,112 @@ export class EventHubConsumerClient {
     credential: TokenCredential,
     options?: EventHubClientOptions
   ); // #3
+  /**
+   * @constructor
+   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
+   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
+   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
+   *  production-ready implementation.
+   * @param options - A set of options to apply when configuring the client.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   */
+  constructor(
+    consumerGroup: string,
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    credential: TokenCredential,
+    checkpointStore: CheckpointStore,
+    options?: EventHubClientOptions
+  ); // #3.1
   constructor(
     private _consumerGroup: string,
-    fullyQualifiedNamespaceOrConnectionString2: string,
-    eventHubNameOrOptions3?: string | EventHubClientOptions,
-    credentialOrOptions4?: TokenCredential | EventHubClientOptions,
-    options5?: EventHubClientOptions
+    connectionStringOrFullyQualifiedNamespace2: string,
+    checkpointStoreOrEventHubNameOrOptions3?: CheckpointStore | EventHubClientOptions | string,
+    checkpointStoreOrCredentialOrOptions4?:
+      | CheckpointStore
+      | EventHubClientOptions
+      | TokenCredential,
+    checkpointStoreOrOptions5?: CheckpointStore | EventHubClientOptions,
+    options6?: EventHubClientOptions
   ) {
-    if (isTokenCredential(credentialOrOptions4)) {
-      // #3
+    if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
+      // #3 or 3.1
       log.consumerClient("Creating client with TokenCredential");
 
+      let eventHubClientOptions: EventHubClientOptions | undefined;
+
+      if (isCheckpointStore(checkpointStoreOrOptions5)) {
+        // 3.1
+        this._checkpointStore = checkpointStoreOrOptions5;
+        this._userChoseCheckpointStore = true;
+        eventHubClientOptions = options6;
+      } else {
+        this._checkpointStore = new InMemoryCheckpointStore();
+        this._userChoseCheckpointStore = false;
+        eventHubClientOptions = checkpointStoreOrOptions5;
+      }
+
       this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString2,
-        eventHubNameOrOptions3 as string,
-        credentialOrOptions4,
-        options5
+        connectionStringOrFullyQualifiedNamespace2,
+        checkpointStoreOrEventHubNameOrOptions3 as string,
+        checkpointStoreOrCredentialOrOptions4,
+        eventHubClientOptions
       );
-    } else if (typeof eventHubNameOrOptions3 === "string") {
-      // #2
+    } else if (typeof checkpointStoreOrEventHubNameOrOptions3 === "string") {
+      // #2 or 2.1
       log.consumerClient("Creating client with connection string and event hub name");
 
-      this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString2,
-        eventHubNameOrOptions3,
-        credentialOrOptions4 as EventHubClientOptions
-      );
-    } else {
-      // #1
-      log.consumerClient("Creating client with connection string");
+      let eventHubClientOptions: EventHubClientOptions | undefined;
+
+      if (isCheckpointStore(checkpointStoreOrCredentialOrOptions4)) {
+        // 2.1
+        this._checkpointStore = checkpointStoreOrCredentialOrOptions4;
+        this._userChoseCheckpointStore = true;
+        eventHubClientOptions = checkpointStoreOrOptions5 as EventHubClientOptions | undefined;
+      } else {
+        // 2
+        this._checkpointStore = new InMemoryCheckpointStore();
+        this._userChoseCheckpointStore = false;
+        eventHubClientOptions = checkpointStoreOrCredentialOrOptions4;
+      }
 
       this._eventHubClient = new EventHubClient(
-        fullyQualifiedNamespaceOrConnectionString2,
-        eventHubNameOrOptions3 as EventHubClientOptions
+        connectionStringOrFullyQualifiedNamespace2,
+        checkpointStoreOrEventHubNameOrOptions3,
+        eventHubClientOptions as EventHubClientOptions
+      );
+    } else {
+      // #1 or 1.1
+      log.consumerClient("Creating client with connection string");
+
+      let eventHubClientOptions: EventHubClientOptions | undefined;
+
+      if (isCheckpointStore(checkpointStoreOrEventHubNameOrOptions3)) {
+        // 1.1
+        this._checkpointStore = checkpointStoreOrEventHubNameOrOptions3;
+        this._userChoseCheckpointStore = true;
+        eventHubClientOptions = checkpointStoreOrCredentialOrOptions4 as
+          | EventHubClientOptions
+          | undefined;
+      } else {
+        // 1
+        this._checkpointStore = new InMemoryCheckpointStore();
+        this._userChoseCheckpointStore = false;
+        eventHubClientOptions = checkpointStoreOrEventHubNameOrOptions3 as
+          | EventHubClientOptions
+          | undefined;
+      }
+
+      this._eventHubClient = new EventHubClient(
+        connectionStringOrFullyQualifiedNamespace2,
+        eventHubClientOptions
       );
     }
   }
@@ -194,9 +317,6 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to all messages from all available partitions.
    *
-   * Use this overload if you want to read from all partitions and not coordinate with
-   * other subscribers.
-   *
    * @param handlers Handlers for the lifecycle of the subscription - initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
@@ -205,10 +325,7 @@ export class EventHubConsumerClient {
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
-   * Subscribe to all messages from a subset of partitions.
-   *
-   * Use this overload if you want to read from a specific set of partitions and not coordinate with
-   * other subscribers.
+   * Subscribe to all messages from a single partition.
    *
    * @param partitionId A partition id to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - initialization
@@ -223,93 +340,30 @@ export class EventHubConsumerClient {
     handlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
   ): Subscription; // #2
-  /**
-   * Subscribes to multiple partitions.
-   *
-   * Use this overload if you want to coordinate with other subscribers using a `CheckpointStore`
-   *
-   * @param checkpointStore A checkpoint store that manages ownership information and checkpoint details.
-   * @param handlers Handlers for the lifecycle of the subscription - initialization
-   *                 per partition, receiving events, handling errors and the closing
-   *                 of a subscription per partition.
-   * @param options Options to handle additional events related to partitions (errors,
-   *                opening, closing) as well as batch sizing.
-   */
   subscribe(
-    checkpointStore: CheckpointStore,
-    handlers: SubscriptionEventHandlers,
-    options?: SubscribeOptions
-  ): Subscription; // #3
-  subscribe(
-    handlersOrPartitionIdOrCheckpointStore1?: SubscriptionEventHandlers | string | CheckpointStore,
+    handlersOrPartitionId1?: SubscriptionEventHandlers | string,
     optionsOrHandlers2?: SubscribeOptions | SubscriptionEventHandlers,
     possibleOptions3?: SubscribeOptions
   ): Subscription {
     let eventProcessor: EventProcessor;
+    let targetedPartitionId: string;
 
-    if (
-      typeof handlersOrPartitionIdOrCheckpointStore1 === "string" &&
+    if (isSubscriptionEventHandlers(handlersOrPartitionId1)) {
+      // #1: subscribe overload - read from all partitions
+      ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForAllPartitions(
+        handlersOrPartitionId1,
+        optionsOrHandlers2 as SubscribeOptions | undefined
+      ));
+    } else if (
+      typeof handlersOrPartitionId1 === "string" &&
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
-      const subscribeOptions = possibleOptions3 as SubscribeOptions | undefined;
-      const partitionId = handlersOrPartitionIdOrCheckpointStore1;
-
-      log.consumerClient(`Subscribing to specific partition (${partitionId}), no coordination.`);
-
-      const checkpointStore = new InMemoryCheckpointStore();
-
-      eventProcessor = new EventProcessor(
-        this._consumerGroup,
-        this._eventHubClient,
+      ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
+        handlersOrPartitionId1,
         optionsOrHandlers2,
-        checkpointStore,
-        {
-          ...defaultConsumerClientOptions,
-          ...possibleOptions3,
-          // this load balancer will just grab _all_ the partitions, not looking at ownership
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
-          ownerLevel: getOwnerLevel(subscribeOptions, "noOwner")
-        }
-      );
-    } else if (
-      isCheckpointStore(handlersOrPartitionIdOrCheckpointStore1) &&
-      isSubscriptionEventHandlers(optionsOrHandlers2)
-    ) {
-      // #3: subscribe overload (read from all partitions and coordinate using a partition manager)
-      log.consumerClient("Subscribing to all partitions, coordinating using a partition manager.");
-      const subscribeOptions = possibleOptions3 as SubscribeOptions | undefined;
-      const checkpointStore = handlersOrPartitionIdOrCheckpointStore1;
-
-      eventProcessor = new EventProcessor(
-        this._consumerGroup,
-        this._eventHubClient,
-        optionsOrHandlers2,
-        checkpointStore,
-        {
-          ...defaultConsumerClientOptions,
-          ...possibleOptions3,
-          ownerLevel: getOwnerLevel(subscribeOptions, 0)
-        }
-      );
-    } else if (isSubscriptionEventHandlers(handlersOrPartitionIdOrCheckpointStore1)) {
-      // #1: subscribe overload - read from all partitions, don't coordinate
-      log.consumerClient("Subscribing to all partitions, don't coordinate.");
-      const subscribeOptions = optionsOrHandlers2 as SubscribeOptions | undefined;
-      const checkpointStore = new InMemoryCheckpointStore();
-
-      eventProcessor = new EventProcessor(
-        this._consumerGroup,
-        this._eventHubClient,
-        handlersOrPartitionIdOrCheckpointStore1,
-        checkpointStore,
-        {
-          ...defaultConsumerClientOptions,
-          ...(optionsOrHandlers2 as SubscribeOptions),
-          ownerLevel: getOwnerLevel(subscribeOptions, "noOwner"),
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
-        }
-      );
+        possibleOptions3
+      ));
     } else {
       throw new TypeError("Unhandled subscribe() overload");
     }
@@ -320,8 +374,96 @@ export class EventHubConsumerClient {
       get isRunning() {
         return eventProcessor.isRunning();
       },
-      close: () => eventProcessor.stop()
+      close: () => {
+        this._partitionGate.remove(targetedPartitionId);
+        return eventProcessor.stop();
+      }
     };
+  }
+
+  private createEventProcessorForAllPartitions(
+    subscriptionEventHandlers: SubscriptionEventHandlers,
+    options?: SubscribeOptions
+  ) {
+    this._partitionGate.add("all");
+
+    if (this._userChoseCheckpointStore) {
+      log.consumerClient("Subscribing to all partitions, using a checkpoint store.");
+    } else {
+      log.consumerClient("Subscribing to all partitions, no checkpoint store.");
+    }
+
+    const eventProcessor = this._createEventProcessor(
+      this._consumerGroup,
+      this._eventHubClient,
+      subscriptionEventHandlers,
+      this._checkpointStore,
+      {
+        ...defaultConsumerClientOptions,
+        ...(options as SubscribeOptions),
+        ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
+        partitionLoadBalancer: this._userChoseCheckpointStore
+          ? undefined
+          : new GreedyPartitionLoadBalancer(),
+        // make it so all the event processors process work with the same overarching owner ID
+        // this allows the EventHubConsumer to unify all the work for any processors that it spawns
+        ownerId: this._id
+      }
+    );
+
+    return { targetedPartitionId: "all", eventProcessor };
+  }
+
+  private createEventProcessorForSinglePartition(
+    partitionId: string,
+    eventHandlers: SubscriptionEventHandlers,
+    options?: SubscribeOptions
+  ) {
+    this._partitionGate.add(partitionId);
+
+    const subscribeOptions = options as SubscribeOptions | undefined;
+    
+    if (this._userChoseCheckpointStore) {
+      log.consumerClient(
+        `Subscribing to specific partition (${partitionId}), using a checkpoint store`
+      );      
+    } else {
+      log.consumerClient(
+        `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+      );
+    }
+
+    const eventProcessor = this._createEventProcessor(
+      this._consumerGroup,
+      this._eventHubClient,
+      eventHandlers,
+      this._checkpointStore,
+      {
+        ...defaultConsumerClientOptions,
+        ...options,
+        // this load balancer will just grab _all_ the partitions, not looking at ownership
+        partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
+        ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore)
+      }
+    );
+
+    return { targetedPartitionId: partitionId, eventProcessor };
+  }
+
+  private _createEventProcessor(
+    consumerGroup: string,
+    eventHubClient: EventHubClient,
+    subscriptionEventHandlers: SubscriptionEventHandlers,
+    checkpointStore: CheckpointStore,
+    options: FullEventProcessorOptions
+  ) {
+    return new EventProcessor(
+      consumerGroup,
+      eventHubClient,
+      subscriptionEventHandlers,
+      checkpointStore,
+      options
+    );
   }
 }
 
@@ -351,16 +493,20 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
 function isSubscriptionEventHandlers(
   possible: any | SubscriptionEventHandlers
 ): possible is SubscriptionEventHandlers {
-  return typeof (possible as SubscriptionEventHandlers).processEvent === "function";
+  return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
 function getOwnerLevel(
   options: SubscribeOptions | undefined,
-  defaultOwnerLevel: number | "noOwner"
+  userChoseCheckpointStore: boolean
 ): number | undefined {
   if (options && options.ownerLevel) {
     return options.ownerLevel;
   }
 
-  return typeof defaultOwnerLevel === "string" ? undefined : defaultOwnerLevel;
+  if (userChoseCheckpointStore) {
+    return 0;
+  } else {
+    return undefined;
+  }
 }

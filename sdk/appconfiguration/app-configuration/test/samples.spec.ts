@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { runAll } from "../samples";
-import { getConnectionStringFromEnvironment } from "./testHelpers";
+import { createAppConfigurationClientForTests } from "./testHelpers";
 
 describe("AppConfiguration samples", () => {
   before(function() {
-    getConnectionStringFromEnvironment() || this.skip();
+    createAppConfigurationClientForTests() || this.skip();
   });
 
   it("Make sure all the samples build and run", async () => {

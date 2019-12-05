@@ -13,12 +13,6 @@ import {
   TopicClient,
   OnMessage
 } from "../src";
-import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
-const env = getEnvVars();
 import { Receiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 import { DispositionType } from "../src/serviceBusMessage";
@@ -31,6 +25,10 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
+import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
+import { getEnvVars, EnvVarKeys } from "./utils/envVarUtils";
+import { StreamingReceiver } from "../src/core/streamingReceiver";
+
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -237,73 +235,45 @@ describe("Streaming - Misc Tests", function(): void {
     await testManualComplete();
   });
 
-  it("Bug fix #5548 - Correctly instantiates streaming receiver", async function(): Promise<void> {
-    class TestTokenProvider extends SasTokenProvider {
-      private firstCall = true;
-      private connectionStringObj: any;
-      constructor(connectionStringObj: any) {
-        super(
-          connectionStringObj.Endpoint,
-          connectionStringObj.SharedAccessKeyName,
-          connectionStringObj.SharedAccessKey
-        );
-        this.connectionStringObj = connectionStringObj;
-      }
-
-      async getToken(): Promise<TokenInfo> {
-        if (this.firstCall) {
-          this.firstCall = false;
-          throw new Error("test");
-        }
-        return super.getToken(this.connectionStringObj.Endpoint);
-      }
-    }
-
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
-
-    const connectionString = env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING];
-    const connectionStringObj: any = parseConnectionString(connectionString);
-    const sbClient = ServiceBusClient.createFromTokenProvider(
-      connectionStringObj.Endpoint.substring(5),
-      new TestTokenProvider(connectionStringObj)
-    );
-
-    const subscriptionClient = sbClient.createSubscriptionClient(
-      env[EnvVarKeys.TOPIC_NAME_NO_PARTITION],
-      env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION]
-    );
-
+  it("onDetached should forward error messages if it fails to retry", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    let streamingReceiver: StreamingReceiver | undefined;
     try {
-      const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
-      const receiver = await subscriptionClient.createReceiver(ReceiveMode.peekLock);
+      let actualError: Error | undefined;
+      streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
+        receiveMode: ReceiveMode.peekLock
+      });
 
-      const receivedMsgs: ServiceBusMessage[] = [];
-      receiver.registerMessageHandler(
-        async (msg: ServiceBusMessage) => {
-          should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
-          should.equal(
-            msg.messageId,
-            testMessage.messageId,
-            "MessageId is different than expected"
-          );
-          await msg.complete();
-          receivedMsgs.push(msg);
-        },
-        unExpectedErrorHandler,
-        { autoComplete: true }
+      streamingReceiver.receive(
+        async () => {},
+        (err) => {
+          actualError = err;
+        }
       );
 
-      const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1, 1000, 65000);
-      should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
+      // overwrite _init to throw a non-retryable error.
+      // this will be called by onDetached
+      (streamingReceiver as any)._init = async () => {
+        const error = new Error("Expected test error!");
+        // prevent retry from translating error.
+        (error as any).translated = true;
+        throw error;
+      };
 
-      await receiver.close();
+      // call detached directly
+      await streamingReceiver.onDetached();
+
+      should.equal(
+        actualError!.message,
+        "Expected test error!",
+        "Did not see the expected error in user-provided error handler."
+      );
     } finally {
-      await subscriptionClient.close();
-      await sbClient.close();
+      if (streamingReceiver) {
+        await streamingReceiver.close();
+      }
     }
   });
 });
@@ -932,6 +902,12 @@ describe("Streaming - User Error", function(): void {
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
+    should.equal(
+      !!(receiverClient as any)._context.streamingReceiver,
+      true,
+      "Expected streaming receiver not to be cached."
+    );
+
     await receiver.close();
 
     should.equal(
@@ -971,6 +947,97 @@ describe("Streaming - User Error", function(): void {
       TestClientType.UnpartitionedSubscription
     );
     await testUserError();
+  });
+});
+
+describe("Streaming - Failed init should not cache recevier", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  class TestTokenProvider extends SasTokenProvider {
+    private firstCall = true;
+    static errorMessage = "This is a faulty token provider.";
+    constructor(connectionObject: {
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+    }) {
+      super(
+        connectionObject.Endpoint,
+        connectionObject.SharedAccessKeyName,
+        connectionObject.SharedAccessKey
+      );
+    }
+
+    async getToken(audience: string): Promise<TokenInfo> {
+      if (this.firstCall) {
+        this.firstCall = false;
+        throw new Error(TestTokenProvider.errorMessage);
+      }
+      return super.getToken(audience);
+    }
+  }
+
+  it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
+    void
+  > {
+    const env = getEnvVars();
+
+    // Send a message using service bus client created with connection string
+    sbClient = getServiceBusClient();
+    let clients = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    sender = clients.senderClient.createSender();
+    await sender.send(TestMessage.getSample());
+    await sbClient.close();
+
+    // Receive using service bus client created with faulty token provider
+    const connectionObject: {
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+    } = parseConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+    const tokenProvider = new TestTokenProvider(connectionObject);
+    sbClient = ServiceBusClient.createFromTokenProvider(
+      connectionObject.Endpoint.substr(5),
+      tokenProvider
+    );
+    clients = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    receiver = clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+
+    let actualError: Error;
+    receiver.registerMessageHandler(
+      async (msg: ServiceBusMessage) => {
+        throw new Error("No messages should have been received with faulty token provider");
+      },
+      (err) => {
+        actualError = err;
+      }
+    );
+
+    // Check for expected error and that receiver was not cached
+    const errCheck = await checkWithTimeout(() => !!actualError === true);
+    should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
+    should.equal(
+      actualError!.message,
+      TestTokenProvider.errorMessage,
+      "Expected error from token provider, but unexpected error found."
+    );
+    should.equal(
+      !!(clients.receiverClient as any)._context.streamingReceiver,
+      false,
+      "Expected Streaming receiver to not be cached"
+    );
+
+    await receiver.close();
   });
 });
 

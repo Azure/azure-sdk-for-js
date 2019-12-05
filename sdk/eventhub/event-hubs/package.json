@@ -62,11 +62,19 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "1.0.0-preview.6",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.6",
+    "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/identity": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "async-lock": "^1.1.3",
@@ -92,6 +100,7 @@
     "@types/long": "^4.0.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
+    "@types/sinon": "^7.0.13",
     "@types/uuid": "^3.4.3",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
@@ -134,17 +143,10 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
+    "sinon": "^7.1.0",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "ws": "^7.1.1"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
-    ]
   }
 }

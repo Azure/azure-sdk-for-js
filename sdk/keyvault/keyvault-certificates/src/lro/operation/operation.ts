@@ -59,6 +59,9 @@ async function update(
 
   if (state.result && state.result.status !== "inProgress") {
     state.isCompleted = true;
+    if (state.result.error) {
+      state.error = new Error(state.result.error.message);
+    }
   }
 
   return makeCertificateOperationPollOperation(state);

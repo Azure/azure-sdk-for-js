@@ -14,7 +14,6 @@ import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
-import { delay } from "@azure/core-amqp";
 import { SubscriptionHandlerForTests } from './utils/subscriptionHandlerForTests';
 const env = getEnvVars();
 
@@ -25,11 +24,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   const producerClient = new EventHubProducerClient(service.connectionString, service.path);
-  const consumerClient = new EventHubConsumerClient(
-    EventHubConsumerClient.defaultConsumerGroupName,
-    service.connectionString,
-    service.path
-  );
 
   before("validate environment", function(): void {
     should.exist(
@@ -46,7 +40,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     debug("Closing the client..");
     await client.close();
     await producerClient.close();
-    await consumerClient.close();
   });
 
   describe("Single message", function(): void {
@@ -262,8 +255,22 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("Create batch", function(): void {
-    it("should be sent successfully", async function(): Promise<void> {
+  describe("Create batch", function (): void {
+    let consumerClient: EventHubConsumerClient;
+
+    beforeEach(() => {
+      consumerClient = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );    
+    })
+
+    afterEach(() => {
+      consumerClient.close();
+    });
+    
+    it("should be sent successfully", async function (): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
       const batch = await producerClient.createBatch({
@@ -278,37 +285,26 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
-      let receivedEvents: string[] = [];
-      let initialized = false;
+      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+      
+      const subscriber = consumerClient.subscribe("0", tester);      
+      await producerClient.sendBatch(batch);           
 
-      const subscriber = consumerClient.subscribe("0", {
-        processEvent: async (event, context) => {
-          receivedEvents.push(event.body);
-        },
-        processInitialize: async (context) => {
-          initialized = true;
-          context.setStartPosition(EventPosition.latest());
-        }
-      });
+      let receivedEvents;
 
-      while (!initialized) {
-        await delay(1000);
+      try {
+        receivedEvents = await tester.waitForEvents(["0"], 2);
+      } finally {
+        await subscriber.close();
       }
-
-      await producerClient.sendBatch(batch);
 
       // Mike didn't make it - the message was too big for the batch
       // and was rejected above.
-      while (receivedEvents.length !== 3 - 1) {
-        await delay(1000);
-      }
-
       [list[0], list[2]].should.be.deep.eq(
-        receivedEvents,
+        receivedEvents.map(event => event.body),
         "Received messages should be equal to our sent messages"
       );
-      await subscriber.close();
-    }).timeout(30000);
+    });
 
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
@@ -541,7 +537,21 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("multiple producers", function(): void {
+  describe("multiple producers", function (): void {
+    let consumerClient: EventHubConsumerClient;
+
+    beforeEach(() => {
+      consumerClient = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );    
+    })
+
+    afterEach(() => {
+      consumerClient.close();
+    });
+
     it("should be isolated on same partitionId", async function(): Promise<void> {
       const producers: EventHubProducer[] = [];
 
@@ -566,7 +576,21 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("Multiple messages", function(): void {
+  describe("Multiple messages", function (): void {
+    let consumerClient: EventHubConsumerClient;
+
+    beforeEach(() => {
+      consumerClient = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );    
+    })
+
+    afterEach(() => {
+      consumerClient.close();
+    });
+
     it("should be sent successfully in parallel", async function (): Promise<void> {
       const tester = await SubscriptionHandlerForTests.startingFromHere(client);
 

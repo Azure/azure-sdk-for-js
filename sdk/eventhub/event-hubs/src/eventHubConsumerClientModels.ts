@@ -77,15 +77,15 @@ export interface InitializationContext extends PartitionContext {
    * Allows for setting the start position of a partition.
    * Default (if not called) is `EventPosition.earliest()`.
    */
-  setStartPosition(startPosition: EventPosition): void;
+  setStartingPosition(startingPosition: EventPosition): void;
 }
 
 /**
  * Event handler called when events are received. The `context` parameter can be
  * used to get partition information as well as to checkpoint.
  */
-export type ProcessEventHandler = (
-  receivedEvent: ReceivedEventData,
+export type ProcessEventsHandler = (
+  events: ReceivedEventData[],
   context: PartitionContext
 ) => Promise<void>;
 
@@ -111,11 +111,11 @@ export interface SubscriptionEventHandlers {
   /**
    * Event handler called when events are received.
    */
-  processEvent: ProcessEventHandler;
+  processEvents: ProcessEventsHandler;
   /**
    * Called when errors occur during event receiving.
    */
-  processError?: ProcessErrorHandler;
+  processError: ProcessErrorHandler;
   /**
    * Called when we first start processing events from a partition.
    */
@@ -145,6 +145,15 @@ export interface SubscribeOptions {
    * The owner level to use as this subscription subscribes to partitions.
    */
   ownerLevel?: number;
+  /**
+   * The number of events to request per batch
+   */
+  maxBatchSize?: number;
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
+  maxWaitTimeInSeconds?: number;
 }
 
 /**

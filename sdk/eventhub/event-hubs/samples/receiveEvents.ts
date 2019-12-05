@@ -25,16 +25,21 @@ async function main() {
 
   const subscription = consumerClient.subscribe({
     // The callback where you add your code to process incoming events
-    processEvent: async (event, context) => {
+    processEvents: async (events, context) => {
+      for (const event of events) {
         console.log(
           `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
         );
       }
+    },
+    processError: async (err, context) => {
+      console.log(`Error : ${err}`);
+    }
   });
 
   // after 30 seconds, stop processing
   await new Promise((resolve) => {
-    setInterval(async () => {
+    setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();
       resolve();

@@ -54,13 +54,15 @@ export interface EventData {
 
 // @public
 export interface EventDataBatch {
-    // @internal
-    readonly batchMessage: Buffer | undefined;
     readonly count: number;
     readonly maxSizeInBytes: number;
     // @internal
+    readonly _message: Buffer | undefined;
+    // @internal
     readonly _messageSpanContexts: SpanContext[];
+    // @internal
     readonly partitionId?: string;
+    // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
@@ -76,8 +78,11 @@ export interface EventHubClientOptions {
 // @public
 export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
@@ -85,8 +90,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-    subscribe(checkpointStore: CheckpointStore, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-}
+    }
 
 // @public
 export class EventHubProducerClient {
@@ -105,7 +109,7 @@ export class EventHubProducerClient {
 
 // @public
 export interface EventHubProperties {
-    createdAt: Date;
+    createdOn: Date;
     name: string;
     partitionIds: string[];
 }
@@ -141,7 +145,7 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 
 // @public
 export interface InitializationContext extends PartitionContext {
-    setStartPosition(startPosition: EventPosition): void;
+    setStartingPosition(startingPosition: EventPosition): void;
 }
 
 // @public
@@ -201,7 +205,7 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
 export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessEventHandler = (receivedEvent: ReceivedEventData, context: PartitionContext) => Promise<void>;
+export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;
 
 // @public
 export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
@@ -229,6 +233,8 @@ export interface SendBatchOptions extends OperationOptions {
 
 // @public
 export interface SubscribeOptions {
+    maxBatchSize?: number;
+    maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     trackLastEnqueuedEventProperties?: boolean;
 }
@@ -242,8 +248,8 @@ export interface Subscription {
 // @public
 export interface SubscriptionEventHandlers {
     processClose?: ProcessCloseHandler;
-    processError?: ProcessErrorHandler;
-    processEvent: ProcessEventHandler;
+    processError: ProcessErrorHandler;
+    processEvents: ProcessEventsHandler;
     processInitialize?: ProcessInitializeHandler;
 }
 

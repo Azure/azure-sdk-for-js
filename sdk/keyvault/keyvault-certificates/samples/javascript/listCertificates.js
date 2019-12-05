@@ -56,7 +56,7 @@ async function main() {
   }
 
   // Updating one of the certificates to retrieve the certificate versions afterwards
-  const updatedCertificate = await client.updateCertificate(certificateName1, "", {
+  const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
       customTag: "value"
     }
@@ -64,9 +64,7 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {
-    includePending: true
-  });
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {});
   while (true) {
     let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {

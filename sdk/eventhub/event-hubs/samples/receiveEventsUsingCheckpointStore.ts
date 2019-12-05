@@ -30,8 +30,6 @@ const containerName = "";
 const consumerGroup = "";
 
 async function main() {
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
-  
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
@@ -42,29 +40,36 @@ async function main() {
 
   const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
 
-  const subscription = consumerClient.subscribe(
-    checkpointStore, {
-      processEvent: async (event, context) => {
-        console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
+
+  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
+   
+  const subscription = consumerClient.subscribe({
+      processEvents: async (events, context) => {
+        for (const event of events) {
+          console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
+        }
     
         try {
-          // save a checkpoint now that we've processed this event.
-          await context.updateCheckpoint(event)
+          // save a checkpoint for the last event now that we've processed this batch.
+          await context.updateCheckpoint(events[events.length - 1]);
         } catch (err) {
           console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
           throw err;
         };
 
         console.log(
-          `Successfully checkpointed event with sequence number: ${event.sequenceNumber} from partition: 'partitionContext.partitionId'`
+          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`
         );
+      },
+      processError: async (err, context) => {
+        console.log(`Error : ${err}`);
       }
     }
   );
 
   // after 30 seconds, stop processing
   await new Promise((resolve) => {
-    setInterval(async () => {
+    setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();
       resolve();

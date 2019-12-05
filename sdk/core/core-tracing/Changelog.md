@@ -1,5 +1,6 @@
-# 1.0.0-preview.6 TBD
+# 1.0.0-preview.7 2nd December 2019
 
+- Updated the behavior of how incompatible versions of OpenTelemetry Tracer are handled. Now, errors will be thrown only if the user has manually set a Tracer. This means that incompatible versions will be silently ignored when tracing is not enabled.
 - Updated to use OpenTelemetry 0.2 via the `@opentelemetry/types` package. There were two breaking changes in this update:
   - `isRecordingEvents` on `Span` was renamed to `isRecording`. [PR link](https://github.com/open-telemetry/opentelemetry-js/pull/454)
   - `addLink` was removed from `Span` as links are now only allowed to be added during span creation. This is possible by specifying any necessary links inside `SpanOptions`. [PR link](https://github.com/open-telemetry/opentelemetry-js/pull/449)

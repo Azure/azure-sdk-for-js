@@ -130,7 +130,7 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, onMessage, onError, {
+    StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
     })
@@ -139,7 +139,7 @@ export class Receiver {
           return;
         }
         if (!this.isClosed) {
-          sReceiver.receive();
+          sReceiver.receive(onMessage, onError);
         } else {
           await sReceiver.close();
         }
@@ -159,9 +159,8 @@ export class Receiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws Error if the underlying connection, client or receiver is closed.
@@ -170,7 +169,7 @@ export class Receiver {
    */
   async receiveMessages(
     maxMessageCount: number,
-    idleTimeoutInSeconds?: number
+    maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -183,7 +182,7 @@ export class Receiver {
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    return this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
+    return this._context.batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   /**
@@ -667,9 +666,8 @@ export class SessionReceiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws Error if the underlying connection or receiver is closed.

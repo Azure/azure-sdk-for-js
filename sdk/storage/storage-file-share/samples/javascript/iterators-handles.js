@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { ShareServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-share" in your package
+const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
