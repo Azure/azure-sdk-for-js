@@ -5,11 +5,12 @@ import {
   PipelineOptions,
   createPipelineFromOptions,
   signingPolicy,
-  InternalPipelineOptions
+  InternalPipelineOptions,
+  isTokenCredential
 } from "@azure/core-http";
+import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
-import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 import { logger } from "./logger";
 import { makeDetectLanguageResult, DetectLanguageResult } from "./detectLanguageResult";
 import {
@@ -50,6 +51,8 @@ import {
   ExtractLinkedEntitiesResultCollection,
   makeExtractLinkedEntitiesResultCollection
 } from "./extractLinkedEntitiesResultCollection";
+import { challengeBasedAuthenticationPolicy } from "./challengeBasedAuthenticationPolicy";
+import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -119,12 +122,12 @@ export class TextAnalyticsClient {
    * // TODO
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {CognitiveServicesCredentials} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | CognitiveServicesCredentials} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: CognitiveServicesCredentials,
+    credential: TokenCredential | CognitiveServicesCredentials,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -143,7 +146,9 @@ export class TextAnalyticsClient {
       };
     }
 
-    const authPolicy = signingPolicy(credential);
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,

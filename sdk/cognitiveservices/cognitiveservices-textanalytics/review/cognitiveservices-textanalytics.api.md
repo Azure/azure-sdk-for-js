@@ -7,6 +7,7 @@
 import { ApiKeyCredentials } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/identity';
 
 // @public (undocumented)
 export interface AnalyzeSentimentErrorResult extends TextAnalysisErrorResult {
@@ -251,7 +252,7 @@ export interface TextAnalysisSuccessResult {
 
 // @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
     // (undocumented)
     analyzeSentiment(input: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     // (undocumented)
