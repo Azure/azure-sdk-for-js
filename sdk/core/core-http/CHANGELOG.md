@@ -1,4 +1,5 @@
-# Changelog
+Release History
+================
 
 ## 1.0.3 - TBD
 
@@ -9,13 +10,13 @@
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
-## 1.0.0 - 2019-10-29
+# 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/core-http` package.
 - Removed the browser bundle. A browser-compatible library can still be created through the use of a bundler such as Rollup, Webpack, or Parcel.
   ([#5860](https://github.com/Azure/azure-sdk-for-js/pull/5860))
 
-## 1.0.0-preview.6 - 2019-10-22
+# 1.0.0-preview.6 - 2019-10-22
 
 - Introduced a HTTP pipeline configuration type, `PipelineOptions`, which makes it easier to configure common settings for API requests. This is now the options type used in the `@azure/keyvault-*` data plane libraries.
 - Support for HTTP request logging has been redesigned to use `@azure/logger`; use`AZURE_LOG_LEVEL="info"` to see full request/response logs when running in Node.js. In the browser, you can import `setLogLevel` from `@azure/logger` to change the log level; logs will then be written to the browser console.
@@ -26,7 +27,7 @@
 - Cancelling an operation using an `abortSignal` will now throw an `AbortError`.
   The `name` property on the error will match "AbortError".
 
-## 1.0.0-preview.4 - 2019-10-07
+# 1.0.0-preview.4 - 2019-10-07
 
 - No longer re-exports `@azure/core-tracing`. To enable tracing, call `setTracer` from `@azure/core-tracing` directly.
   ([PR #5389](https://github.com/Azure/azure-sdk-for-js/pull/5389))
@@ -37,7 +38,7 @@
 - Temporary fix for a memory leak issue resulting from creating new agents every time WebResource is cloned.
   ([PR #5396](https://github.com/Azure/azure-sdk-for-js/pull/5369))
 
-## 1.0.0-preview.3 - 2019-09-09
+# 1.0.0-preview.3 - 2019-09-09
 
 - Syncs changes from `@azure/ms-rest-js` to `@azure/core-http`.
   ([PR #4756](https://github.com/Azure/azure-sdk-for-js/pull/4756)).
@@ -55,14 +56,14 @@
 - Fixes bug where `WebResource.clone` would not copy `proxySettings` or `keepAlive` settings.
   ([PR #5047](https://github.com/Azure/azure-sdk-for-js/pull/5047)).
 
-## 1.0.0-preview.2 - 2019-08-05
+# 1.0.0-preview.2 - 2019-08-05
 
 - Removed `ServiceClientCredentials` type from `credentials` parameter of `ServiceClient` ([PR #4367](https://github.com/Azure/azure-sdk-for-js/pull/4367)). Credential implementations are now standardized on `@azure/core-auth`'s `TokenCredential` interface and provided by `@azure/identity`.
 - Added an `AccessTokenCache` so that access tokens can be cached across pipeline instances ([PR #4174](https://github.com/Azure/azure-sdk-for-js/pull/4174)).
 - Fixed the issue preventing `ServiceClient` from correctly setting the scope's resource URI when creating a `BearerTokenAuthenticationPolicy` ([PR #4335](https://github.com/Azure/azure-sdk-for-js/pull/4335)).
 - Migrated over `AxiosHttpClient` fixes from `@azure/ms-rest-js` ([PR #4106](https://github.com/Azure/azure-sdk-for-js/pull/4106)).
 
-## 1.0.0-preview.1 - 2019-06-25
+# 1.0.0-preview.1 - 2019-06-25
 
 - Forked `@azure/ms-rest-js` to `@azure/core-http` to form the base HTTP pipeline of the Azure SDK TypeScript/JavaScript libraries.
 - Added `TokenCredential` to define a simple interface for credentials that provided bearer tokens

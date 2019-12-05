@@ -1,12 +1,13 @@
-# Changelog
+Release History
+================
 
-## 2019.12 12.0.1
+# 12.0.1
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 - Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listQueues` method to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
 - Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
-## 2019.11 12.0.0
+# 2019.11 12.0.0
 
 - This release marks the general availability of the `@azure/storage-queue` package.
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
@@ -32,7 +33,7 @@
     corresponding policies from the `@azure/core-http` library are meant to be used instead.
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-## 2019.10 12.0.0-preview.5
+# 2019.10 12.0.0-preview.5
 
 - [Breaking] Major API changes for the `@azure/storage-queue` package.
   - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MesagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)

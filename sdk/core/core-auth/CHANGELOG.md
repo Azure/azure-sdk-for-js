@@ -1,6 +1,7 @@
-# Changelog
+Release History
+================
 
-# 1.0.2 - 2019-12-02
+# 1.0.2
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
@@ -18,6 +19,6 @@ This release marks the general availability of the `@azure/core-auth` package.
 - Removed the `SimpleTokenCredential` implementation since it is not useful outside of test scenarios
 - Updated to use the latest version of `@azure/core-tracing` package
 
-## 1.0.0-preview.3 - 2019-09-09
+# 1.0.0-preview.3 - 2019-09-09
 
 - Fixed a ping timeout issue. The timeout is now configurable. ([PR #4941](https://github.com/Azure/azure-sdk-for-js/pull/4941))

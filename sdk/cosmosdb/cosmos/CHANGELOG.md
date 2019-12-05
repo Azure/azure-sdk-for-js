@@ -1,26 +1,29 @@
-## 3.5.2
+Release History
+================
+
+# 3.5.2
 
 - Fix handling of special characters in item ids when signing tokens in the browser (#6379)
 
-## 3.5.1
+# 3.5.1
 
 - Fix bug when paginating GROUP BY queries or using in conjunction with TOP/OFFSET/LIMIT (#6003)
 - Improve error message for mixed type ORDER BY (#6306)
 
-## 3.5.0
+# 3.5.0
 
 - FEATURE: Endpoint discovery and multi-region failover improvements. See https://github.com/Azure/azure-sdk-for-js/pull/6283 for more information on this change. (#6283)
 - Makes changeFeed and query options optional. Fix #6232 Fix #6277 (#6273)
 
-## 3.4.2
+# 3.4.2
 
 - Fixes bug where the query may throw a 410 error during a split operation. Instead, throw 503 (#6074)
 
-## 3.4.1
+# 3.4.1
 
 - Fix region drop failover scenario and add test (#5892)
 
-## 3.4.0
+# 3.4.0
 
 - FEATURE: GROUP BY query support (#5749)
 - Update proxy-agent. Remove types folder (#5854)
@@ -29,7 +32,7 @@
 - Remove unused Range type (#5686)
 - Remove universal-user-agent (#5869)
 
-## 3.3.4
+# 3.3.4
 
 - Query bug fix. Empty result last call not reporting proper RUs (#5517)
 - Sign headers using internal package (#5523)
@@ -37,14 +40,14 @@
 - Remove internal binary-search-bounds package (#5417)
 - Fix atob bug impacting browser users (#5375)
 
-## 3.3.2
+# 3.3.2
 
 - Export TokenProvider and RequestInfo types (#5262)
 - Remove atob package in favor of local version (#5334)
 - Fix incorrect lib version in UserAgent (#5295)
 - Allow zero for Item TTL (#5257)
 
-## 3.3.0
+# 3.3.0
 
 - FEATURE: Add userAgentSuffix to CosmosClient constructor options (#5068)
 - Guard process.env to fix webpack issues (#5223)
@@ -52,7 +55,7 @@
 - Fix aggregates bug when query was returning no results (#5184)
 - sideEffects field set to false (#5022)
 
-## 3.2.0
+# 3.2.0
 
 - FEATURE: Endpoint resolution now blocks until initialized (#409)
 - FEATURE: Add bufferItems support & other cross-partition perf improvements (#397)
@@ -60,17 +63,17 @@
 - Add sample for bulk update with continuation token (#402)
 - Export default partition key path (#405)
 
-## 3.1.1
+# 3.1.1
 
 - Fix bug where offset limit iterator was being called for each item under the offset count (#398)
 - Add retry on EPIPE error (#400)
 
-## 3.1.0
+# 3.1.0
 
 - FEATURE: Set default ResponseContinuationTokenLimitInKB to 1kb. Prevents header limit errors (#384)
 - Remove unused disableSSLVerification options (#388)
 
-## 3.0.4
+# 3.0.4
 
 - Allow initialHeaders to explicitly set partition key header (#383)
 - Use package.json#files to prevent extraneous files from being pubished (#382)
@@ -78,20 +81,20 @@
 - Fixes bug when user supplies partial retry options. Close #377 (#379)
 - README updates (#374)
 
-## 3.0.3
+# 3.0.3
 
 - Fix webpack usage. Prevent resolving modules called with `require` (#373)
 - Various internal API cleanups and sample fixes
 
-## 3.0.2
+# 3.0.2
 
 Fixes a long outstanding bug where RUs were always being reported as 0 for aggregate queries (#366)
 
-## 3.0.1
+# 3.0.1
 
 Fixes broken session tokens in the browser. Cosmos uses file system friendly base64 to represent resources internally but does not work with the builtin browser atob function (#363)
 
-## 3.0.0
+# 3.0.0
 
 🎉 v3 release! 🎉 Many new features, bug fixes, and a few breaking changes. Primary goals of this release:
 

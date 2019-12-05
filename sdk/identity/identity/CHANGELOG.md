@@ -1,12 +1,13 @@
-# Changelog
+Release History
+================
 
-## 1.0.2 - 2019-12-03
+# 1.0.2
 
 - Fixed an issue where an authorization error occurs due to wrong access token being returned by the MSI endpoint when using a user-assigned managed identity with `ManagedIdentityCredential` ([PR #6134](https://github.com/Azure/azure-sdk-for-js/pull/6134))
 - Fixed an issue in `EnvironmentCredential` where authentication silently fails when one or more of the expected environment variables is not present ([PR #6313](https://github.com/Azure/azure-sdk-for-js/pull/6313))
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
-## 1.0.0 - 2019-10-29
+# 1.0.0 - 2019-10-29
 
 - This release marks the general availability of the `@azure/identity` package.
 - `EnvironmentCredential` now looks for additional environment variables: ([PR #5743](https://github.com/Azure/azure-sdk-for-js/pull/5743))

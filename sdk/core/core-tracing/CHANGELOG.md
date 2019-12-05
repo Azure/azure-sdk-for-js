@@ -1,4 +1,7 @@
-# 1.0.0-preview.7 2nd December 2019
+Release History
+================
+
+# 1.0.0-preview.7
 
 - Updated the behavior of how incompatible versions of OpenTelemetry Tracer are handled. Now, errors will be thrown only if the user has manually set a Tracer. This means that incompatible versions will be silently ignored when tracing is not enabled.
 - Updated to use OpenTelemetry 0.2 via the `@opentelemetry/types` package. There were two breaking changes in this update:

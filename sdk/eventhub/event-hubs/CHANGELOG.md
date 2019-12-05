@@ -17,7 +17,7 @@ Breaking changes:
 - CheckpointStore and consumer group are now passed to the EventHubConsumerClient
   constructor rather than being passed to subscribe().
 
-### 2019-11-04 5.0.0-preview.6
+# 2019-11-04 5.0.0-preview.6
 
 - Updated to use the latest version of the `@azure/core-tracing` & `@azure/core-amqp` package.
 
