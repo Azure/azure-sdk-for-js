@@ -52,7 +52,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     before(async () => {
       try {
         await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
-      } catch (err) {}
+      } catch (err) {
+        // Create and ignore if already created
+      }
 
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
@@ -77,10 +79,14 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           alwaysBeExistingSubscription,
           alwaysBeExistingTopic
         );
-      } catch (err) {}
+      } catch (err) {
+        // Create and ignore if already created
+      }
       try {
         await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      } catch (err) {}
+      } catch (err) {
+        // Create and ignore if already created
+      }
       try {
         await createEntity(
           EntityType.RULE,
@@ -88,7 +94,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           alwaysBeExistingTopic,
           alwaysBeExistingSubscription
         );
-      } catch (err) {}
+      } catch (err) {
+        // Create and ignore if already created
+      }
     });
 
     after(async () => {
