@@ -42,27 +42,17 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue
-  },
-  {
-    entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: alwaysBeExistingTopic
-  },
-  {
-    entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: alwaysBeExistingSubscription,
-    parentTopicName: alwaysBeExistingTopic
-  },
-  {
-    entityType: EntityType.RULE,
-    alwaysBeExistingEntity: alwaysBeExistingRule,
+    alwaysBeExistingEntity: alwaysBeExistingQueue,
+
     parentTopicName: alwaysBeExistingTopic,
     parentSubscriptionName: alwaysBeExistingSubscription
   }
 ].forEach((testCase) => {
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
     before(async () => {
-      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      try {
+        await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      } catch (err) {}
 
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
@@ -81,18 +71,24 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
-      await createEntity(
-        EntityType.SUBSCRIPTION,
-        alwaysBeExistingSubscription,
-        alwaysBeExistingTopic
-      );
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      await createEntity(
-        EntityType.RULE,
-        alwaysBeExistingRule,
-        alwaysBeExistingTopic,
-        alwaysBeExistingSubscription
-      );
+      try {
+        await createEntity(
+          EntityType.SUBSCRIPTION,
+          alwaysBeExistingSubscription,
+          alwaysBeExistingTopic
+        );
+      } catch (err) {}
+      try {
+        await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      } catch (err) {}
+      try {
+        await createEntity(
+          EntityType.RULE,
+          alwaysBeExistingRule,
+          alwaysBeExistingTopic,
+          alwaysBeExistingSubscription
+        );
+      } catch (err) {}
     });
 
     after(async () => {
@@ -623,7 +619,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: true,
+      requiresSession: false,
 
       // None of below work
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
@@ -643,10 +639,10 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: true,
+      requiresSession: false,
 
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
-      forwardTo: undefined, // Expected this to be "alwaysBeExistingTopic1"
+      forwardTo: "alwaysBeExistingTopic1",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
 
       defaultRuleDescription: undefined,
@@ -904,7 +900,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo:
         "alwaysBeExistingTopic1/Subscriptions/alwaysBeExistingSubscription1",
-      forwardTo: undefined, // Expected this to be "alwaysBeExistingTopic2"
+      forwardTo: "alwaysBeExistingTopic2",
       path: undefined,
       userMetadata: undefined,
 
@@ -1247,7 +1243,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       ],
 
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: undefined, // Expected this to be "alwaysBeExistingTopic1"
+      forwardTo: "alwaysBeExistingTopic1",
       autoDeleteOnIdle: "PT1H",
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
@@ -1557,7 +1553,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableBatchedOperations: true,
 
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: undefined, // Expected this to be set to "alwaysBeExistingTopic2"
+      forwardTo: "alwaysBeExistingTopic2",
       defaultRuleDescription: undefined,
 
       messageCount: 0,

@@ -43,6 +43,7 @@ export function buildSubscriptionOptions(
     DefaultRuleDescription: subscriptionOptions.defaultRuleDescription,
     MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
+    ForwardTo: subscriptionOptions.forwardTo,
     SizeInBytes: getStringOrUndefined(subscriptionOptions.sizeInBytes),
     MaxSizeInMegabytes: getStringOrUndefined(subscriptionOptions.maxSizeInMegabytes),
     MessageCount: getStringOrUndefined(subscriptionOptions.messageCount),

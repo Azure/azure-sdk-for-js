@@ -442,7 +442,8 @@ export function getRelativePathOrUndefined(url: string): string | undefined {
     return undefined;
   }
 
-  stringValue = stringValue.substring(9);
+  // Skip the sb:// prefix in URL
+  stringValue = stringValue.substring(5);
   const indexOfFirstSlash = stringValue.indexOf("/");
   return stringValue.substring(indexOfFirstSlash + 1);
 }

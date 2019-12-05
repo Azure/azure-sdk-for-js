@@ -865,7 +865,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
       const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
-      const urlPrefix = `https://${this.endpoint}/`;
+      const urlPrefix = `sb://${this.endpoint}/`;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         queueOrSubscriptionFields.ForwardTo = urlPrefix.concat(queueOrSubscriptionFields.ForwardTo);

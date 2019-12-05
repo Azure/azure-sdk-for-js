@@ -48,6 +48,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
+    ForwardTo: queueOptions.forwardTo,
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
 }
