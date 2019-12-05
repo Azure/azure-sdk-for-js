@@ -642,7 +642,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresSession: false,
 
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
-      forwardTo: "alwaysBeExistingTopic1",
+      forwardTo: "alwaysBeExistingTopic2",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
 
       defaultRuleDescription: undefined,
@@ -1524,7 +1524,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic2",
+      forwardTo: "alwaysBeExistingTopic1",
       defaultMessageTtl: "P1D",
       autoDeleteOnIdle: "PT2H",
       deadLetteringOnFilterEvaluationExceptions: true,
@@ -1553,7 +1553,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableBatchedOperations: true,
 
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic2",
+      forwardTo: "alwaysBeExistingTopic1",
       defaultRuleDescription: undefined,
 
       messageCount: 0,
