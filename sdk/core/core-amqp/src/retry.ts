@@ -143,7 +143,8 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
   if (isNode) {
     return new Promise((res) => {
       resolve(host, function(err: any): void {
-        if (err && err.code === "ECONNREFUSED") {
+        // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
+        if (err && (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT")) {
           res(false);
         } else {
           res(true);

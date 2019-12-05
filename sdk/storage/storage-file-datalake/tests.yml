@@ -1,0 +1,14 @@
+trigger: none
+resources:
+  repositories:
+    - repository: azure-sdk-build-tools
+      type: git
+      name: internal/azure-sdk-build-tools
+    - repository: azure-sdk-tools
+      type: github
+      name: Azure/azure-sdk-tools
+      endpoint: azure
+jobs:
+  - template: ../archetype-sdk-tests-storage.yml
+    parameters:
+      PackageName: "@azure/storage-file-datalake"

@@ -497,7 +497,11 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle - Has to be tested locally
 
-    assert.equal(await fileClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
+    assert.deepStrictEqual(
+      await fileClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
   });
 
   it("forceCloseHandle should work", async () => {
