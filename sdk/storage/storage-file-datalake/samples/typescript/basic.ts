@@ -78,7 +78,7 @@ async function main() {
   // Delete filesystem
   await fileSystemClient.delete();
 
-  console.log("deleted filesystem");
+  console.log("Deleted filesystem");
 }
 
 // A helper method used to read a Node.js readable stream into string
