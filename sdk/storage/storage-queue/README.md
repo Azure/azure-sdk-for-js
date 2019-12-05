@@ -11,7 +11,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue) |
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-queue) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue) |
 [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples) |
 [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
@@ -244,7 +244,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -273,7 +273,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -304,7 +304,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -336,7 +336,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
@@ -371,7 +371,7 @@ const queueServiceClient = new QueueServiceClient(
   credential
 );
 
-const queueName = "aNewQueue";
+const queueName = "<valid queue name>";
 
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);

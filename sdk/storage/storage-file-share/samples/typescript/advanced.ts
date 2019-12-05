@@ -4,7 +4,7 @@
 
 import fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { AnonymousCredential, ShareServiceClient, newPipeline } from "../../src"; // Change to "@azure/storage-file-share" in your package
+import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
 async function main() {
   // Fill in following settings before running this sample

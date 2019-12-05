@@ -1,3 +1,7 @@
+## 1.0.0-preview.6 - 3rd December, 2019
+
+* Treat ETIMEOUT error from dns.resolve as network disconnected.
+
 ## 1.0.0-preview.5 - 29th October, 2019
 
 - Updated to use the latest version of the `@azure/abort-controller` and `@azure/core-auth` packages.

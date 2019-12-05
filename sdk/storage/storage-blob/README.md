@@ -13,7 +13,7 @@ Use the client libararies in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage.html#azure-storage-blob) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
 [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples) |
 [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -345,7 +345,7 @@ const containerName = "<container name>";
 
 async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
-  
+
   let i = 1;
   let iter = await containerClient.listBlobsFlat();
   for await (const blob of iter) {
@@ -403,22 +403,21 @@ async function main() {
 main();
 ```
 
-### Download a blob and convert it to a string (Browsers)
+### Download a blob and convert it to a string (Browsers).
+
+Please refer to the [JavaScript Bundle](#javascript-bundle) section for more information on using this library in the browser.
 
 ```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
-const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
-const blobServiceClient = new BlobServiceClient(
-  `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
-);
-
+const account = "<account name>";
+const sas = "<service Shared Access Signature Token>";
 const containerName = "<container name>";
 const blobName = "<blob name>"
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net${sas}`
+);
 
 async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -434,11 +433,11 @@ async function main() {
   );
 
   // [Browsers only] A helper method used to convert a browser Blob into string.
-  async function blobToString(blob: Blob): Promise<string> {
+  async function blobToString(blob){
     const fileReader = new FileReader();
-    return new Promise<string>((resolve, reject) => {
-      fileReader.onloadend = (ev: any) => {
-        resolve(ev.target!.result);
+    return new Promise((resolve, reject) => {
+      fileReader.onloadend = (ev) => {
+        resolve(ev.target.result);
       };
       fileReader.onerror = reject;
       fileReader.readAsText(blob);

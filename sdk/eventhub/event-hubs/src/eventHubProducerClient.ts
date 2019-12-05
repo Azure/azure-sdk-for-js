@@ -16,7 +16,6 @@ import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 
 /**
- * @class
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace along with
  * operations for sending event data and inspecting the connected Event Hub.

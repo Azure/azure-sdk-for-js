@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -112,7 +112,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.6",
+    "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "@types/node-fetch": "^2.5.0",

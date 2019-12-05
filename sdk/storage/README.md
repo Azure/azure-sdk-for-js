@@ -9,9 +9,9 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
 - @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
-- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.6)
+- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share)
 - @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
-- [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
 ## Key concepts
@@ -135,16 +135,15 @@ The Azure Storage client libraries for JavaScript provides low-level and high-le
 ## Code Samples
 
 ```javascript
-const { BlobServiceClient, newPipeline, SharedKeyCredential } = require("@azure/storage-blob");
+const { AnonymousCredential, BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 async function main() {
-  // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = "<account>";
+  const accountKey = "<accountkey>";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use StorageSharedKeyCredential with storage account and account key
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // You can find more TokenCredential implementations in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library
   // to use client secrets, certificates, or managed identities for authentication.
@@ -291,6 +290,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

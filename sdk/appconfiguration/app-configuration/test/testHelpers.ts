@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
 import * as assert from "assert";
@@ -10,16 +10,47 @@ import * as assert from "assert";
 // in the environment
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
+import { DefaultAzureCredential, TokenCredential } from '@azure/identity';
 dotenv.config();
 
-export function getConnectionStringFromEnvironment(): string | undefined {
-  return process.env["AZ_CONFIG_CONNECTION"];
+let connectionStringNotPresentWarning = false;
+let tokenCredentialsNotPresentWarning = false;
+
+export interface CredsAndEndpoint {
+  credential: TokenCredential
+  endpoint: string 
 }
 
-let connectionStringNotPresentWarning = false;
+export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
+  const requiredEnvironmentVariables = [
+    "AZ_CONFIG_ENDPOINT",
+    "AZURE_CLIENT_ID",
+    "AZURE_TENANT_ID",
+    "AZURE_CLIENT_SECRET"
+  ];  
 
-export function createAppConfigurationClientForTests(): AppConfigurationClient | undefined {
-  const connectionString = getConnectionStringFromEnvironment();
+  for (const name of requiredEnvironmentVariables) {
+    const value = process.env[name];
+
+    if (value == null) {
+      if (tokenCredentialsNotPresentWarning) {
+        tokenCredentialsNotPresentWarning = true;
+        console.log("Functional tests not running - set client identity variables to activate");
+      }
+  
+      return undefined;
+    }    
+  }
+
+  return {
+    credential: new DefaultAzureCredential(),
+    endpoint: process.env["AZ_CONFIG_ENDPOINT"]!
+  };
+}
+
+
+export function createAppConfigurationClientForTests(options?: AppConfigurationClientOptions): AppConfigurationClient | undefined {
+  const connectionString = process.env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
@@ -31,7 +62,7 @@ export function createAppConfigurationClientForTests(): AppConfigurationClient |
     return undefined;
   }
 
-  return new AppConfigurationClient(connectionString);
+  return new AppConfigurationClient(connectionString, options);
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {

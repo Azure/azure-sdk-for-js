@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
@@ -71,7 +71,7 @@
     "@azure/core-http": "^1.0.0",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.6",
+    "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.9.3"

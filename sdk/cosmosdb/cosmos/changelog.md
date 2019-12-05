@@ -1,3 +1,7 @@
+## 3.5.2
+
+- Fix handling of special characters in item ids when signing tokens in the browser (#6379)
+
 ## 3.5.1
 
 - Fix bug when paginating GROUP BY queries or using in conjunction with TOP/OFFSET/LIMIT (#6003)

@@ -275,7 +275,7 @@ export class Receiver {
     isReceivingMessages(): boolean;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMessages(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]>;
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
     readonly receiveMode: ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;

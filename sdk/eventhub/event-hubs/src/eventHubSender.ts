@@ -466,7 +466,7 @@ export class EventHubSender extends LinkEntity {
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
-        encodedBatchMessage = events.batchMessage!;
+        encodedBatchMessage = events._message!;
       } else {
         const partitionKey = (options && options.partitionKey) || undefined;
         const messages: AmqpMessage[] = [];
