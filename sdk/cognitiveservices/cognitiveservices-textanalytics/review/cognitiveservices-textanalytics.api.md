@@ -281,17 +281,17 @@ export class TextAnalyticsClient {
     // (undocumented)
     recognizePiiEntities(input: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
-    singleAnalyzeSentiment(inputText: string, language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResult>;
+    singleAnalyzeSentiment(inputText: string, language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentSuccessResult>;
     // (undocumented)
-    singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
+    singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageSuccessResult>;
     // (undocumented)
-    singleExtractEntityLinking(inputText: string, language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResult>;
+    singleExtractEntityLinking(inputText: string, language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesSuccessResult>;
     // (undocumented)
-    singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResult>;
+    singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesSuccessResult>;
     // (undocumented)
-    singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResult>;
+    singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesSuccessResult>;
     // (undocumented)
-    singleRecognizePiiEntities(inputText: string, language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResult>;
+    singleRecognizePiiEntities(inputText: string, language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesSuccessResult>;
 }
 
 // @public

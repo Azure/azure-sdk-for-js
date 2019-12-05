@@ -25,7 +25,7 @@ export function makeExtractKeyPhrasesResult(
   id: string,
   keyPhrases: string[],
   statistics?: DocumentStatistics
-): ExtractKeyPhrasesResult {
+): ExtractKeyPhrasesSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     keyPhrases

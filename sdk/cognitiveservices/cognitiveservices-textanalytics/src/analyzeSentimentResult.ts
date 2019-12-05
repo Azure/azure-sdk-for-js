@@ -40,7 +40,7 @@ export function makeAnalyzeSentimentResult(
   documentScores: number,
   sentences: SentenceSentiment[],
   statistics?: DocumentStatistics
-): AnalyzeSentimentResult {
+): AnalyzeSentimentSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     sentiment,

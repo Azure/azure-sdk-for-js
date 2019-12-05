@@ -26,7 +26,7 @@ export function makeExtractLinkedEntitiesResult(
   id: string,
   entities: LinkedEntity[],
   statistics?: DocumentStatistics
-): ExtractLinkedEntitiesResult {
+): ExtractLinkedEntitiesSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     entities

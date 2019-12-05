@@ -24,7 +24,7 @@ export function makeRecognizeEntitiesResult(
   id: string,
   entities: Entity[],
   statistics?: DocumentStatistics
-): RecognizeEntitiesResult {
+): RecognizeEntitiesSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     entities

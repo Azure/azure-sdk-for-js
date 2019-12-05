@@ -28,7 +28,7 @@ export function makeDetectLanguageResult(
   id: string,
   detectedLanguages: DetectedLanguage[],
   statistics?: DocumentStatistics
-): DetectLanguageResult {
+): DetectLanguageSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     detectedLanguages,

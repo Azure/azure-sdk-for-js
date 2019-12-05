@@ -12,7 +12,7 @@ import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
 import { logger } from "./logger";
-import { makeDetectLanguageResult, DetectLanguageResult } from "./detectLanguageResult";
+import { makeDetectLanguageResult, DetectLanguageSuccessResult } from "./detectLanguageResult";
 import {
   LanguageInput,
   TextAnalyticsClientLanguagesOptionalParams,
@@ -28,24 +28,33 @@ import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
 } from "./detectLanguageResultCollection";
-import { makeRecognizeEntitiesResult, RecognizeEntitiesResult } from "./recognizeEntitiesResult";
+import {
+  makeRecognizeEntitiesResult,
+  RecognizeEntitiesSuccessResult
+} from "./recognizeEntitiesResult";
 import {
   RecognizeEntitiesResultCollection,
   makeRecognizeEntitiesResultCollection
 } from "./recognizeEntitiesResultCollection";
-import { makeAnalyzeSentimentResult, AnalyzeSentimentResult } from "./analyzeSentimentResult";
+import {
+  makeAnalyzeSentimentResult,
+  AnalyzeSentimentSuccessResult
+} from "./analyzeSentimentResult";
 import {
   AnalyzeSentimentResultCollection,
   makeAnalyzeSentimentResultCollection
 } from "./analyzeSentimentResultCollection";
-import { makeExtractKeyPhrasesResult, ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult";
+import {
+  makeExtractKeyPhrasesResult,
+  ExtractKeyPhrasesSuccessResult
+} from "./extractKeyPhrasesResult";
 import {
   makeExtractKeyPhrasesResultCollection,
   ExtractKeyPhrasesResultCollection
 } from "./extractKeyPhrasesResultCollection";
 import {
   makeExtractLinkedEntitiesResult,
-  ExtractLinkedEntitiesResult
+  ExtractLinkedEntitiesSuccessResult
 } from "./extractLinkedEntitiesResult";
 import {
   ExtractLinkedEntitiesResultCollection,
@@ -168,7 +177,7 @@ export class TextAnalyticsClient {
     input: string,
     countryHint: string = this.defaultCountryHint,
     options: DetectLanguageOptions = {}
-  ): Promise<DetectLanguageResult> {
+  ): Promise<DetectLanguageSuccessResult> {
     const result = await this.client.languages(
       {
         documents: [
@@ -235,7 +244,7 @@ export class TextAnalyticsClient {
     inputText: string,
     language: string = this.defaultLanguage,
     options?: RecognizeEntitiesOptions
-  ): Promise<RecognizeEntitiesResult> {
+  ): Promise<RecognizeEntitiesSuccessResult> {
     const result = await this.client.entitiesRecognitionGeneral(
       {
         documents: [
@@ -303,7 +312,7 @@ export class TextAnalyticsClient {
     inputText: string,
     language: string = this.defaultLanguage,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResult> {
+  ): Promise<AnalyzeSentimentSuccessResult> {
     const result = await this.client.sentiment(
       {
         documents: [
@@ -377,7 +386,7 @@ export class TextAnalyticsClient {
     inputText: string,
     language: string = this.defaultLanguage,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResult> {
+  ): Promise<ExtractKeyPhrasesSuccessResult> {
     const result = await this.client.keyPhrases(
       {
         documents: [
@@ -445,7 +454,7 @@ export class TextAnalyticsClient {
     inputText: string,
     language: string = this.defaultLanguage,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizeEntitiesResult> {
+  ): Promise<RecognizeEntitiesSuccessResult> {
     const result = await this.client.entitiesRecognitionPii(
       {
         documents: [
@@ -513,7 +522,7 @@ export class TextAnalyticsClient {
     inputText: string,
     language: string = this.defaultLanguage,
     options?: ExtractEntityLinkingOptions
-  ): Promise<ExtractLinkedEntitiesResult> {
+  ): Promise<ExtractLinkedEntitiesSuccessResult> {
     const result = await this.client.entitiesLinking(
       {
         documents: [
