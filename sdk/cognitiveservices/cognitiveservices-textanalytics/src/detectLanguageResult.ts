@@ -19,7 +19,7 @@ export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
   /**
    * The top language by confidence score.
    */
-  readonly primaryLanguage: DetectedLanguage | undefined;
+  readonly primaryLanguage: DetectedLanguage;
 }
 
 export interface DetectLanguageErrorResult extends TextAnalysisErrorResult {}
@@ -43,11 +43,7 @@ export function makeDetectLanguageErrorResult(
   return makeTextAnalysisErrorResult(id, error);
 }
 
-function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage | undefined {
-  if (languages.length === 0) {
-    return undefined;
-  }
-
+function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
   const sorted = languages.slice(0).sort((a, b) => {
     if (a.score === undefined) {
       return -1;
