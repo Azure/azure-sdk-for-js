@@ -438,6 +438,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue",
       "versionPolicyName": "client"

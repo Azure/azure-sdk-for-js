@@ -1,0 +1,26 @@
+{
+    "include": [
+      "dist-test/index.node.js"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "src/credentials/SharedKeyCredential.browser.ts",
+      "src/models.ts",
+      "src/generated/lib/storageClient.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html",
+      "cobertura"
+    ],
+    "exclude-after-remap":false,
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
+  }
