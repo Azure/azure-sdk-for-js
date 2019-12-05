@@ -12,6 +12,103 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        readOnly: true,
+        serializedName: "info",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorResponse"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ParameterValuesValue: msRest.CompositeMapper = {
+  serializedName: "ParameterValuesValue",
+  type: {
+    name: "Composite",
+    className: "ParameterValuesValue",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const PolicySku: msRest.CompositeMapper = {
   serializedName: "PolicySku",
   type: {
@@ -107,7 +204,13 @@ export const PolicyAssignment: msRest.CompositeMapper = {
       parameters: {
         serializedName: "properties.parameters",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ParameterValuesValue"
+            }
+          }
         }
       },
       description: {
@@ -173,28 +276,72 @@ export const PolicyAssignment: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
+export const ParameterDefinitionsValueMetadata: msRest.CompositeMapper = {
+  serializedName: "ParameterDefinitionsValue_metadata",
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "ParameterDefinitionsValueMetadata",
     modelProperties: {
-      httpStatus: {
-        serializedName: "httpStatus",
+      displayName: {
+        serializedName: "displayName",
         type: {
           name: "String"
         }
       },
-      errorCode: {
-        serializedName: "errorCode",
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ParameterDefinitionsValue: msRest.CompositeMapper = {
+  serializedName: "ParameterDefinitionsValue",
+  type: {
+    name: "Composite",
+    className: "ParameterDefinitionsValue",
+    modelProperties: {
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
-      errorMessage: {
-        serializedName: "errorMessage",
+      allowedValues: {
+        serializedName: "allowedValues",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      defaultValue: {
+        serializedName: "defaultValue",
+        type: {
+          name: "Object"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ParameterDefinitionsValueMetadata",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
@@ -246,7 +393,13 @@ export const PolicyDefinition: msRest.CompositeMapper = {
       parameters: {
         serializedName: "properties.parameters",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ParameterDefinitionsValue"
+            }
+          }
         }
       },
       id: {
@@ -281,6 +434,7 @@ export const PolicyDefinitionReference: msRest.CompositeMapper = {
     className: "PolicyDefinitionReference",
     modelProperties: {
       policyDefinitionId: {
+        required: true,
         serializedName: "policyDefinitionId",
         type: {
           name: "String"
@@ -289,7 +443,71 @@ export const PolicyDefinitionReference: msRest.CompositeMapper = {
       parameters: {
         serializedName: "parameters",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ParameterValuesValue"
+            }
+          }
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        type: {
+          name: "String"
+        }
+      },
+      groupNames: {
+        serializedName: "groupNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PolicyDefinitionGroup: msRest.CompositeMapper = {
+  serializedName: "PolicyDefinitionGroup",
+  type: {
+    name: "Composite",
+    className: "PolicyDefinitionGroup",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      additionalMetadataId: {
+        serializedName: "additionalMetadataId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -329,7 +547,13 @@ export const PolicySetDefinition: msRest.CompositeMapper = {
       parameters: {
         serializedName: "properties.parameters",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ParameterDefinitionsValue"
+            }
+          }
         }
       },
       policyDefinitions: {
@@ -341,6 +565,18 @@ export const PolicySetDefinition: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PolicyDefinitionReference"
+            }
+          }
+        }
+      },
+      policyDefinitionGroups: {
+        serializedName: "properties.policyDefinitionGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyDefinitionGroup"
             }
           }
         }

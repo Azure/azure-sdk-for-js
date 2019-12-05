@@ -453,7 +453,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -476,7 +476,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -500,7 +500,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -523,7 +523,7 @@ const getBuiltInOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -546,7 +546,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -566,7 +566,7 @@ const listBuiltInOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -600,7 +600,7 @@ const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -623,7 +623,7 @@ const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -647,7 +647,7 @@ const getAtManagementGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -670,7 +670,7 @@ const listByManagementGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -691,7 +691,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -712,7 +712,7 @@ const listBuiltInNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -733,7 +733,7 @@ const listByManagementGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
