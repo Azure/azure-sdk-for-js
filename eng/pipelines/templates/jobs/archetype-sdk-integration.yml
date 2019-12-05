@@ -124,6 +124,12 @@ jobs:
             displayName: Delete Test-Specific Azure Resources
             condition: succeededOrFailed()
 
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
+
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
