@@ -65,7 +65,6 @@ export function buildQueue(rawQueue: any): QueueDetails {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
     forwardTo: rawQueue[Constants.FORWARD_TO],
-    path: rawQueue[Constants.PATH],
     userMetadata: rawQueue[Constants.USER_METADATA],
 
     lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
@@ -461,11 +460,6 @@ export interface QueueDetails {
    * Authorization rules on the queue
    */
   authorizationRules?: AuthorizationRule[];
-
-  /**
-   * Entity path
-   */
-  path?: string;
 
   /**
    * Message count details

@@ -94,13 +94,6 @@ export function buildTopic(rawTopic: any): TopicDetails {
     messageCountDetails: getCountDetailsOrUndefined(rawTopic[Constants.COUNT_DETAILS]),
     isExpress: getBooleanOrUndefined(rawTopic[Constants.IS_EXPRESS]),
     enableExpress: getBooleanOrUndefined(rawTopic[Constants.ENABLE_EXPRESS]),
-    maxSubscriptionsPerTopic: getIntegerOrUndefined(
-      rawTopic[Constants.MAX_SUBSCRIPTIONS_PER_TOPIC]
-    ),
-    maxSqlFiltersPerTopic: getIntegerOrUndefined(rawTopic[Constants.MAX_SQL_FILTERS_PER_TOPIC]),
-    maxCorrelationFiltersPerTopic: getIntegerOrUndefined(
-      rawTopic[Constants.MAX_CORRELATION_FILTERS_PER_TOPIC]
-    ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
     isAnonymousAccessible: getBooleanOrUndefined(rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE]),
@@ -389,24 +382,6 @@ export interface TopicDetails {
    * Enable express option
    */
   enableExpress?: boolean;
-
-  /**
-   * The maximum number of subscriptions per topic.
-   *
-   */
-  maxSubscriptionsPerTopic?: number;
-
-  /**
-   * The maximum amount of sql filters per topic.
-   *
-   */
-  maxSqlFiltersPerTopic?: number;
-
-  /**
-   * The maximum amount of correlation filters per topic.
-   *
-   */
-  maxCorrelationFiltersPerTopic?: number;
 
   /**
    * Message count details

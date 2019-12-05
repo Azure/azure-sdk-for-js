@@ -412,7 +412,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       status: EntityStatus.Active,
       supportOrdering: true,
       forwardTo: undefined,
-      path: undefined,
       userMetadata: undefined
     }
   },
@@ -502,7 +501,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       status: EntityStatus.ReceiveDisabled,
-      path: undefined,
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -555,9 +553,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableExpress: false,
       enablePartitioning: false,
       enableSubscriptionPartitioning: false,
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
       entityAvailabilityStatus: "Available",
       filteringMessagesBeforePublishing: false,
       isAnonymousAccessible: false,
@@ -581,9 +576,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       // enableExpress: true,
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
       // isExpress: true,
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
@@ -613,34 +605,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
-
-      // enableExpress: true,
       enableExpress: false,
       authorizationRules: undefined,
       userMetadata: undefined,
-
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
@@ -997,7 +967,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      path: undefined,
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -1106,9 +1075,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       // enableExpress: true,
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
       // isExpress: true,
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
@@ -1147,15 +1113,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableBatchedOperations: true,
       enablePartitioning: false,
 
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
-
       // Following properties don't get set as expected
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
       // enableExpress: true,
 
       authorizationRules: undefined,
