@@ -6,7 +6,8 @@ export {
   TextAnalyticsClientOptions,
   DetectLanguageOptions,
   DetectLanguagesOptions,
-  RecognizeEntitiesOptions
+  RecognizeEntitiesOptions,
+  AnalyzeSentimentOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 export {
@@ -22,6 +23,12 @@ export {
 } from "./recognizeEntitiesResult";
 export { RecognizeEntitiesResultCollection } from "./recognizeEntitiesResultCollection";
 export {
+  AnalyzeSentimentResult,
+  AnalyzeSentimentErrorResult,
+  AnalyzeSentimentSuccessResult
+} from "./analyzeSentimentResult";
+export { AnalyzeSentimentResultCollection } from "./analyzeSentimentResultCollection";
+export {
   TextAnalysisResult,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult
@@ -35,10 +42,14 @@ export {
   LanguageInput,
   TextAnalyticsClientLanguagesOptionalParams,
   TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
+  TextAnalyticsClientSentimentOptionalParams,
   ErrorModel,
   RequestStatistics,
   Code1 as ErrorModelCode,
   Code as ErrorCode,
   InnerError,
-  Entity
+  Entity,
+  SentenceSentiment,
+  Sentiment1 as TextSentiment,
+  Sentiment
 } from "./generated/models";

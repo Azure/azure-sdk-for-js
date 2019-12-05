@@ -1,0 +1,57 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  makeTextAnalysisResult,
+  TextAnalysisSuccessResult,
+  TextAnalysisErrorResult,
+  makeTextAnalysisErrorResult
+} from "./textAnalysisResult";
+import {
+  DocumentStatistics,
+  ErrorModel,
+  Sentiment1 as TextSentiment,
+  SentenceSentiment
+} from "./generated/models";
+
+export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
+
+export interface AnalyzeSentimentSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
+   * include: 'positive', 'neutral', 'negative', 'mixed'
+   */
+  sentiment: TextSentiment;
+  /**
+   * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
+   */
+  documentScores: number;
+  /**
+   * Sentence level sentiment analysis.
+   */
+  sentences: SentenceSentiment[];
+}
+
+export interface AnalyzeSentimentErrorResult extends TextAnalysisErrorResult {}
+
+export function makeAnalyzeSentimentResult(
+  id: string,
+  sentiment: TextSentiment,
+  documentScores: number,
+  sentences: SentenceSentiment[],
+  statistics?: DocumentStatistics
+): AnalyzeSentimentResult {
+  return {
+    ...makeTextAnalysisResult(id, statistics),
+    sentiment,
+    documentScores,
+    sentences
+  };
+}
+
+export function makeAnalyzeSentimentErrorResult(
+  id: string,
+  error: ErrorModel
+): AnalyzeSentimentErrorResult {
+  return makeTextAnalysisErrorResult(id, error);
+}

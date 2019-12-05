@@ -17,7 +17,8 @@ import {
   TextAnalyticsClientLanguagesOptionalParams,
   TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
   ErrorModel,
-  MultiLanguageInput
+  MultiLanguageInput,
+  TextAnalyticsClientSentimentOptionalParams
 } from "./generated/models";
 import {
   DetectLanguageResultCollection,
@@ -28,6 +29,11 @@ import {
   RecognizeEntitiesResultCollection,
   makeRecognizeEntitiesResultCollection
 } from "./recognizeEntitiesResultCollection";
+import { makeAnalyzeSentimentResult, AnalyzeSentimentResult } from "./analyzeSentimentResult";
+import {
+  AnalyzeSentimentResultCollection,
+  makeAnalyzeSentimentResultCollection
+} from "./analyzeSentimentResultCollection";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -52,6 +58,8 @@ export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOpti
 
 export interface RecognizeEntitiesOptions
   extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {}
+
+export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -150,11 +158,7 @@ export class TextAnalyticsClient {
     }
 
     const firstDocument = result.documents[0];
-    return makeDetectLanguageResult(
-      "",
-      firstDocument.detectedLanguages || [],
-      firstDocument.statistics
-    );
+    return makeDetectLanguageResult("", firstDocument.detectedLanguages, firstDocument.statistics);
   }
 
   public async detectLanguage(
@@ -222,7 +226,7 @@ export class TextAnalyticsClient {
     }
 
     const firstDocument = result.documents[0];
-    return makeRecognizeEntitiesResult("", firstDocument.entities || [], firstDocument.statistics);
+    return makeRecognizeEntitiesResult("", firstDocument.entities, firstDocument.statistics);
   }
 
   public async recognizeEntities(
@@ -240,7 +244,7 @@ export class TextAnalyticsClient {
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection> {
     let realOptions: RecognizeEntitiesOptions;
-    let realInput: LanguageInput[];
+    let realInput: MultiLanguageInput[];
 
     if (isStringArray(input)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -259,6 +263,80 @@ export class TextAnalyticsClient {
     );
 
     return makeRecognizeEntitiesResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
+  }
+
+  public async singleAnalyzeSentiment(
+    inputText: string,
+    language: string = this.defaultLanguage,
+    options?: AnalyzeSentimentOptions
+  ): Promise<AnalyzeSentimentResult> {
+    const result = await this.client.sentiment(
+      {
+        documents: [
+          {
+            id: "1",
+            language,
+            text: inputText
+          }
+        ]
+      },
+      options
+    );
+
+    if (result.errors.length) {
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
+    }
+
+    const firstDocument = result.documents[0];
+    return makeAnalyzeSentimentResult(
+      "",
+      firstDocument.sentiment,
+      firstDocument.documentScores,
+      firstDocument.sentences,
+      firstDocument.statistics
+    );
+  }
+
+  public async analyzeSentiment(
+    input: string[],
+    language?: string,
+    options?: AnalyzeSentimentOptions
+  ): Promise<AnalyzeSentimentResultCollection>;
+  public async analyzeSentiment(
+    input: MultiLanguageInput[],
+    options?: AnalyzeSentimentOptions
+  ): Promise<AnalyzeSentimentResultCollection>;
+  public async analyzeSentiment(
+    input: string[] | MultiLanguageInput[],
+    languageOrOptions?: string | AnalyzeSentimentOptions,
+    options?: AnalyzeSentimentOptions
+  ): Promise<AnalyzeSentimentResultCollection> {
+    let realOptions: AnalyzeSentimentOptions;
+    let realInput: MultiLanguageInput[];
+
+    if (isStringArray(input)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInput = convertToMultiLanguageInput(input, language);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
+    }
+
+    const result = await this.client.sentiment(
+      {
+        documents: realInput
+      },
+      realOptions
+    );
+
+    return makeAnalyzeSentimentResultCollection(
       result.documents,
       result.errors,
       result.modelVersion,

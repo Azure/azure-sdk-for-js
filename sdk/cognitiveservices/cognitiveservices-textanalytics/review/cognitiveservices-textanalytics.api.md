@@ -8,6 +8,30 @@ import { ApiKeyCredentials } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 
+// @public (undocumented)
+export interface AnalyzeSentimentErrorResult extends TextAnalysisErrorResult {
+}
+
+// @public (undocumented)
+export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {
+}
+
+// @public (undocumented)
+export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
+
+// @public (undocumented)
+export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
+    modelVersion: string;
+    statistics?: RequestStatistics;
+}
+
+// @public (undocumented)
+export interface AnalyzeSentimentSuccessResult extends TextAnalysisSuccessResult {
+    documentScores: number;
+    sentences: SentenceSentiment[];
+    sentiment: TextSentiment;
+}
+
 // @public
 export class CognitiveServicesCredentials extends ApiKeyCredentials {
     constructor(subscriptionKey: string);
@@ -132,6 +156,18 @@ export interface RequestStatistics {
     validDocumentsCount: number;
 }
 
+// @public
+export interface SentenceSentiment {
+    length: number;
+    offset: number;
+    sentenceScores: any;
+    sentiment: Sentiment;
+    warnings?: string[];
+}
+
+// @public
+export type Sentiment = 'positive' | 'neutral' | 'negative';
+
 // @public (undocumented)
 export interface TextAnalysisErrorResult {
     readonly error: ErrorModel;
@@ -150,6 +186,10 @@ export interface TextAnalysisSuccessResult {
 // @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
+    // (undocumented)
+    analyzeSentiment(input: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    // (undocumented)
+    analyzeSentiment(input: MultiLanguageInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
     // (undocumented)
@@ -161,6 +201,8 @@ export class TextAnalyticsClient {
     recognizeEntities(input: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
     recognizeEntities(input: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
+    singleAnalyzeSentiment(inputText: string, language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResult>;
     // (undocumented)
     singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
     // (undocumented)
@@ -185,6 +227,15 @@ export interface TextAnalyticsClientOptions {
     defaultLanguage?: string;
     pipelineOptions?: PipelineOptions;
 }
+
+// @public
+export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
+}
+
+// @public
+export type TextSentiment = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 
 // (No @packageDocumentation comment for this package)
