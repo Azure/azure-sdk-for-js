@@ -10,7 +10,7 @@ messages) and `EventHubConsumerClient` (for subscribing to messages).
 | `EventHubClient.createFromConnectionString` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [All](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/)
 | `EventHubClient.receive`                    | `EventHubConsumerClient.subscribe`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
 | `EventHubClient.receiveBatch`               | Removed in favor of `EventHubConsumerClient.subscribe`           | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
-| `EventHubClient.createSender`               | `EventHubProducerClient.createProducer`                          | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
+| `EventHubClient.createSender`               | `new EventHubProducerClient`                          | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 | `EventHubClient.send`                       | `EventHubConsumerClient.sendBatch`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
 ### Migrating code from `EventHubClient` to `EventHubConsumerClient`
