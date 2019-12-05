@@ -867,7 +867,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (forwardTo) {
       webResource.headers.set(
         "ServiceBusSupplementaryAuthorization",
-        (await this.sasTokenProvider.getToken(forwardTo)).token
+        (await this.sasTokenProvider.getToken(this.endpoint)).token
       );
 
       (entityFields as InternalQueueOptions | InternalSubscriptionOptions).ForwardTo =
@@ -877,7 +877,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (forwardDeadLetterMessagesTo) {
       webResource.headers.set(
         "ServiceBusDlqSupplementaryAuthorization",
-        (await this.sasTokenProvider.getToken(forwardDeadLetterMessagesTo)).token
+        (await this.sasTokenProvider.getToken(this.endpoint)).token
       );
 
       (entityFields as

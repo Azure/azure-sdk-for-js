@@ -265,7 +265,7 @@ export function isJSONLikeObject(value: any): boolean {
 }
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to retrieve message count details from given input,
  * or undefined if not passed in.
  * @param value
@@ -307,7 +307,7 @@ export type AuthorizationRule = {
 };
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  * @param value
@@ -366,7 +366,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
 }
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
  * @param value
@@ -423,4 +423,26 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
   };
   return rawAuthorizationRule;
+}
+
+/**
+ * @ignore
+ * Helper utility to extract the relative path from given URL,
+ * or undefined / empty if not existing.
+ * Valid relative paths used in the ATOM based management API are in format
+ *     - `<queue-name>`
+ *     - `<topic-name>`
+ *     - `<topic-name>/Subscriptions/<subscription-name>`
+ *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+ * @param url
+ */
+export function getRelativePathOrUndefined(url: string): string | undefined {
+  let stringValue = getStringOrUndefined(url);
+  if (stringValue == undefined) {
+    return undefined;
+  }
+
+  stringValue = stringValue.substring(9);
+  const indexOfFirstSlash = stringValue.indexOf("/");
+  return stringValue.substring(indexOfFirstSlash + 1);
 }

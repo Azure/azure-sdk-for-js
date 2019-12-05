@@ -18,7 +18,8 @@ import {
   getInteger,
   getBoolean,
   getString,
-  getBooleanOrUndefined
+  getBooleanOrUndefined,
+  getRelativePathOrUndefined
 } from "../util/utils";
 
 /**
@@ -61,7 +62,7 @@ export function buildQueue(rawQueue: any): QueueDetails {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
-    forwardTo: rawQueue[Constants.FORWARD_TO],
+    forwardTo: getRelativePathOrUndefined(rawQueue[Constants.FORWARD_TO]),
     path: rawQueue[Constants.PATH],
     userMetadata: rawQueue[Constants.USER_METADATA],
 
@@ -97,7 +98,9 @@ export function buildQueue(rawQueue: any): QueueDetails {
       rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
       "deadLetteringOnMessageExpiration"
     ),
-    forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+    forwardDeadLetteredMessagesTo: getRelativePathOrUndefined(
+      rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
+    ),
 
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
     supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
@@ -166,8 +169,11 @@ export interface QueueOptions {
 
   /**
    * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -213,8 +219,11 @@ export interface QueueOptions {
 
   /**
    * Relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   forwardTo?: string;
 
@@ -289,8 +298,11 @@ export interface InternalQueueOptions {
 
   /**
    * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -354,8 +366,11 @@ export interface InternalQueueOptions {
 
   /**
    * Relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   ForwardTo?: string;
 
@@ -428,8 +443,11 @@ export interface QueueDetails {
 
   /**
    * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -475,8 +493,11 @@ export interface QueueDetails {
 
   /**
    * Relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., `samplequeue` for configuring a sample queue as target, or
-   * `autoforwardingtopic/samplesubscription` for a sample subscription.
+   * For e.g., Valid relative paths used in the ATOM based management API are
+   *     - `<queue-name>`
+   *     - `<topic-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>`
+   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
    */
   forwardTo?: string;
 
