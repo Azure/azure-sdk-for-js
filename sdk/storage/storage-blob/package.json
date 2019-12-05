@@ -34,7 +34,7 @@
     "execute:samples": "node execute-samples.js",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 --retries 2 dist-test/index.node.js",
+    "integration-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 --retries 2 dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
     "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o storage-blob-lintReport.html || exit 0",
@@ -46,7 +46,9 @@
     "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
     "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
+    "coverage-integration-test:node": "nyc npm run integration-test:node",
+    "coverage-unit-test:node": "cross-env TEST_MODE=playback npm run coverage-integration-test:node"
   },
   "files": [
     "BreakingChanges.md",
