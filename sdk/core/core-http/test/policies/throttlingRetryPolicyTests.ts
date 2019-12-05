@@ -3,7 +3,10 @@
 
 import { assert, AssertionError } from "chai";
 import sinon from "sinon";
-import { ThrottlingRetryPolicy } from "../../lib/policies/throttlingRetryPolicy";
+import {
+  ThrottlingRetryPolicy,
+  getDelayInMs
+} from "../../lib/policies/throttlingRetryPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
@@ -103,6 +106,42 @@ describe("ThrottlingRetryPolicy", () => {
 
       const response = await policy.sendRequest(request);
       assert.deepEqual(response, mockResponse);
+    });
+
+    it("should extract the header properly", () => {
+      const headers = new Map<string, string>();
+
+      // ie, no retry header
+      assert.notOk(getDelayInMs(headers));
+
+      headers.set("retry-after-ms", "10");
+      assert.equal(getDelayInMs(headers), 10);
+
+      headers.clear();
+      headers.set("x-ms-retry-after-ms", "101");
+      assert.equal(getDelayInMs(headers), 101);
+
+      // Retry-After's value is actually in seconds, not milliseconds like the
+      // other retry headers.
+      headers.clear();
+      headers.set("Retry-After", "1010");
+      assert.equal(getDelayInMs(headers), 1010 * 1000);
+      
+      headers.clear();
+      headers.set("retry-after-ms", "this is not a number");
+      assert.notOk(getDelayInMs(headers));
+
+      headers.clear();
+      headers.set("Retry-After", "this is not a number or a date");
+      assert.notOk(getDelayInMs(headers));
+
+      // Retry-After can also return a date
+      headers.clear();
+      const dateOneDayInTheFuture = new Date(Date.now() + 1000 * 60 * 60 * 25);
+      headers.set("Retry-After", dateOneDayInTheFuture.toISOString());
+      const delayInMsFromDate = getDelayInMs(headers);
+      assert.ok(delayInMsFromDate);
+      assert.isAtLeast(delayInMsFromDate!, 1000 * 60 * 60 * 24);
     });
   });
 

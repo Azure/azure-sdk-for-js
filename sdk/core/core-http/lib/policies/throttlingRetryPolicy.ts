@@ -58,19 +58,11 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     httpRequest: WebResource,
     httpResponse: HttpOperationResponse
   ): Promise<HttpOperationResponse> {
-    const retryAfterHeader: string | undefined = httpResponse.headers.get(
-      Constants.HeaderConstants.RETRY_AFTER
-    );
+    const delayInMs = getDelayInMs(httpResponse.headers);
 
-    if (retryAfterHeader) {
-      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
-        retryAfterHeader
-      );
-      if (delayInMs) {
-        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
-      }
+    if (delayInMs) {
+      return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
     }
-
     return httpResponse;
   }
 
@@ -94,4 +86,47 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       return undefined;
     }
   }
+}
+
+/**
+ * The headers that come back from Azure services representing
+ * the amount of time (minimum) to wait to retry (in milliseconds).
+ */
+const RetryAfterMillisecondsHeaders: string[] = [
+  Constants.HeaderConstants.RETRY_AFTER_MS,
+  Constants.HeaderConstants.X_RETRY_AFTER_MS
+];
+
+/**
+ * Extracts the retry response header, checking against several
+ * header names.
+ * @internal
+ * @ignore
+ */
+export function getDelayInMs(responseHeaders: {
+  get: (headerName: string) => string | undefined;
+}): number | undefined {
+  for (const name of RetryAfterMillisecondsHeaders) {
+    const delayValueString = responseHeaders.get(name);
+
+    if (delayValueString == null) {
+      continue;
+    }
+
+    const delayValueMs: number = Number(delayValueString);
+
+    if (Number.isNaN(delayValueMs)) {
+      return undefined;
+    }
+
+    return delayValueMs;
+  }
+
+  const retryAfterValue = responseHeaders.get(Constants.HeaderConstants.RETRY_AFTER);
+
+  if (retryAfterValue != null) {
+    return ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterValue);
+  }
+
+  return undefined;
 }
