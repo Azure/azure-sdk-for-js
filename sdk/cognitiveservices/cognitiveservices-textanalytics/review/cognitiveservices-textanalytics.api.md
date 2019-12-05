@@ -103,6 +103,10 @@ export interface ErrorModel {
 export type ErrorModelCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public (undocumented)
+export interface ExtractEntityLinkingOptions extends TextAnalyticsClientEntitiesLinkingOptionalParams {
+}
+
+// @public (undocumented)
 export interface ExtractKeyPhrasesErrorResult extends TextAnalysisErrorResult {
 }
 
@@ -124,6 +128,24 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalysisSuccessResul
     keyPhrases: string[];
 }
 
+// @public (undocumented)
+export interface ExtractLinkedEntitiesErrorResult extends TextAnalysisErrorResult {
+}
+
+// @public (undocumented)
+export type ExtractLinkedEntitiesResult = ExtractLinkedEntitiesSuccessResult | ExtractLinkedEntitiesErrorResult;
+
+// @public (undocumented)
+export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLinkedEntitiesResult> {
+    modelVersion: string;
+    statistics?: RequestStatistics;
+}
+
+// @public (undocumented)
+export interface ExtractLinkedEntitiesSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: LinkedEntity[];
+}
+
 // @public
 export interface InnerError {
     code: ErrorCode;
@@ -138,6 +160,24 @@ export interface LanguageInput {
     countryHint?: string;
     id: string;
     // (undocumented)
+    text: string;
+}
+
+// @public
+export interface LinkedEntity {
+    dataSource: string;
+    id?: string;
+    language: string;
+    matches: Match[];
+    name: string;
+    url: string;
+}
+
+// @public
+export interface Match {
+    length: number;
+    offset: number;
+    score: number;
     text: string;
 }
 
@@ -224,6 +264,10 @@ export class TextAnalyticsClient {
     detectLanguage(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     // (undocumented)
+    extractEntityLinking(input: string[], language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
+    // (undocumented)
+    extractEntityLinking(input: MultiLanguageInput[], options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
+    // (undocumented)
     extractKeyPhrases(input: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     // (undocumented)
     extractKeyPhrases(input: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
@@ -240,11 +284,19 @@ export class TextAnalyticsClient {
     // (undocumented)
     singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResult>;
     // (undocumented)
+    singleExtractEntityLinking(inputText: string, language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResult>;
+    // (undocumented)
     singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResult>;
     // (undocumented)
     singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResult>;
     // (undocumented)
     singleRecognizePiiEntities(inputText: string, language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResult>;
+}
+
+// @public
+export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHttp.RequestOptionsBase {
+    modelVersion?: string;
+    showStats?: boolean;
 }
 
 // @public

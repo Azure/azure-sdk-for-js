@@ -9,7 +9,8 @@ export {
   RecognizeEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
-  RecognizePiiEntitiesOptions
+  RecognizePiiEntitiesOptions,
+  ExtractEntityLinkingOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 export {
@@ -37,6 +38,12 @@ export {
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultCollection } from "./extractKeyPhrasesResultCollection";
 export {
+  ExtractLinkedEntitiesResult,
+  ExtractLinkedEntitiesErrorResult,
+  ExtractLinkedEntitiesSuccessResult
+} from "./extractLinkedEntitiesResult";
+export { ExtractLinkedEntitiesResultCollection } from "./extractLinkedEntitiesResultCollection";
+export {
   TextAnalysisResult,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult
@@ -53,6 +60,7 @@ export {
   TextAnalyticsClientSentimentOptionalParams,
   TextAnalyticsClientKeyPhrasesOptionalParams,
   TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
+  TextAnalyticsClientEntitiesLinkingOptionalParams,
   ErrorModel,
   RequestStatistics,
   Code1 as ErrorModelCode,
@@ -61,5 +69,7 @@ export {
   Entity,
   SentenceSentiment,
   Sentiment1 as TextSentiment,
-  Sentiment
+  Sentiment,
+  LinkedEntity,
+  Match
 } from "./generated/models";

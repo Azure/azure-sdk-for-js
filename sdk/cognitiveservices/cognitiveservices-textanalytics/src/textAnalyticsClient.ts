@@ -20,7 +20,8 @@ import {
   MultiLanguageInput,
   TextAnalyticsClientSentimentOptionalParams,
   TextAnalyticsClientKeyPhrasesOptionalParams,
-  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams
+  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
+  TextAnalyticsClientEntitiesLinkingOptionalParams
 } from "./generated/models";
 import {
   DetectLanguageResultCollection,
@@ -41,6 +42,14 @@ import {
   makeExtractKeyPhrasesResultCollection,
   ExtractKeyPhrasesResultCollection
 } from "./extractKeyPhrasesResultCollection";
+import {
+  makeExtractLinkedEntitiesResult,
+  ExtractLinkedEntitiesResult
+} from "./extractLinkedEntitiesResult";
+import {
+  ExtractLinkedEntitiesResultCollection,
+  makeExtractLinkedEntitiesResultCollection
+} from "./extractLinkedEntitiesResultCollection";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -69,6 +78,9 @@ export interface RecognizeEntitiesOptions
 export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {}
 
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {}
+
+export interface ExtractEntityLinkingOptions
+  extends TextAnalyticsClientEntitiesLinkingOptionalParams {}
 
 export interface RecognizePiiEntitiesOptions
   extends TextAnalyticsClientEntitiesRecognitionPiiOptionalParams {}
@@ -485,6 +497,74 @@ export class TextAnalyticsClient {
     );
 
     return makeRecognizeEntitiesResultCollection(
+      result.documents,
+      result.errors,
+      result.modelVersion,
+      result.statistics
+    );
+  }
+
+  public async singleExtractEntityLinking(
+    inputText: string,
+    language: string = this.defaultLanguage,
+    options?: ExtractEntityLinkingOptions
+  ): Promise<ExtractLinkedEntitiesResult> {
+    const result = await this.client.entitiesLinking(
+      {
+        documents: [
+          {
+            id: "1",
+            language,
+            text: inputText
+          }
+        ]
+      },
+      options
+    );
+
+    if (result.errors.length) {
+      const error: ErrorModel = result.errors[0].error;
+      throw new Error(error.message);
+    }
+
+    const firstDocument = result.documents[0];
+    return makeExtractLinkedEntitiesResult("", firstDocument.entities, firstDocument.statistics);
+  }
+
+  public async extractEntityLinking(
+    input: string[],
+    language?: string,
+    options?: ExtractEntityLinkingOptions
+  ): Promise<ExtractLinkedEntitiesResultCollection>;
+  public async extractEntityLinking(
+    input: MultiLanguageInput[],
+    options?: ExtractEntityLinkingOptions
+  ): Promise<ExtractLinkedEntitiesResultCollection>;
+  public async extractEntityLinking(
+    input: string[] | MultiLanguageInput[],
+    languageOrOptions?: string | ExtractEntityLinkingOptions,
+    options?: ExtractEntityLinkingOptions
+  ): Promise<ExtractLinkedEntitiesResultCollection> {
+    let realOptions: ExtractEntityLinkingOptions;
+    let realInput: MultiLanguageInput[];
+
+    if (isStringArray(input)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInput = convertToMultiLanguageInput(input, language);
+      realOptions = options || {};
+    } else {
+      realInput = input;
+      realOptions = (languageOrOptions as ExtractEntityLinkingOptions) || {};
+    }
+
+    const result = await this.client.entitiesLinking(
+      {
+        documents: realInput
+      },
+      realOptions
+    );
+
+    return makeExtractLinkedEntitiesResultCollection(
       result.documents,
       result.errors,
       result.modelVersion,
