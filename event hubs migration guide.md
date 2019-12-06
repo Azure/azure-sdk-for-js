@@ -5,12 +5,15 @@
 `EventHubClient` has been split into two clients - `EventHubProducerClient` (for sending
 messages) and `EventHubConsumerClient` (for receiving messages).
 
+`EventProcessorHost`'s functionality has been merged into `EventHubConsumerClient` as well.
+
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
 | `EventHubClient.createFromConnectionString`    | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [All](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/) |
 | `EventHubClient.createFromAadTokenCredentials` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/usingAadAuth.ts)
 | `EventHubClient.receive`                       | `EventHubConsumerClient.subscribe`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
 | `EventHubClient.receiveBatch`                  | Removed in favor of `EventHubConsumerClient.subscribe`           | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
+| `EventProcessorHost`                           | `new EventHubConsumerClient(with checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEventsUsingCheckpointStore.ts) |
 | `EventHubClient.send`                          | `EventHubConsumerClient.sendBatch`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
 ### Migrating code from `EventHubClient` to `EventHubConsumerClient` for receiving events
