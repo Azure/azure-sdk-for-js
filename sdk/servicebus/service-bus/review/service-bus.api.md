@@ -64,12 +64,12 @@ export interface OnMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;
@@ -170,7 +170,7 @@ export interface ServiceBusClientOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {
