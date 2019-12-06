@@ -648,7 +648,7 @@ describe("AppConfigurationClient", () => {
       await Promise.all(addSettingPromises);
 
       let listResult = await client.listConfigurationSettings({
-        keys: [key]
+        keyFilter: key
       });
 
       const sortedResults = await toSortedArray(listResult);
