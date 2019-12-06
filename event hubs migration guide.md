@@ -13,7 +13,7 @@ messages) and `EventHubConsumerClient` (for receiving messages).
 | `EventHubClient.receiveBatch`                  | Removed in favor of `EventHubConsumerClient.subscribe`           | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
 | `EventHubClient.send`                          | `EventHubConsumerClient.sendBatch`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
-### Migrating code from `EventHubClient` to `EventHubConsumerClient`
+### Migrating code from `EventHubClient` to `EventHubConsumerClient` for receiving events
 
 In V2, event handlers were passed as positional arguments to `receive`.
 
@@ -48,11 +48,13 @@ await subscription.close();
 See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) 
 for a sample program demonstrating this.
 
-### Migrating code from `EventHubClient` to `EventHubProducerClient`
+### Migrating code from `EventHubClient` to `EventHubProducerClient` for sending events
 
 In V2, there were multiple options on how to send data.
 
-In V5, this has been consolidated into a more efficient `sendBatch` method.
+In V5, this has been consolidated into a more efficient `sendBatch` method. 
+Batching merges information from multiple messages into a single send, reducing
+the amount of network communication needed vs sending messages one at a time.
 
 So in V2:
 ```typescript
