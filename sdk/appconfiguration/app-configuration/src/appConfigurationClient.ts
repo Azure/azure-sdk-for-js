@@ -52,7 +52,6 @@ import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse, AppConfigurationOptions } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens, SyncTokenHeaderName } from './internal/synctokenpolicy';
-import { DeserializationContentTypes } from '@azure/core-http/es/lib/policies/deserializationPolicy';
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -120,7 +119,7 @@ export class AppConfigurationClient {
       this.client = new AppConfiguration(
         tokenCredentialOrOptions,
         apiVersion,
-        getAppConfigurationOptions(connectionStringOrEndpoint, this._syncTokens, deserializationContentTypes)
+        getAppConfigurationOptions(connectionStringOrEndpoint, this._syncTokens)
       );
     } else {
       this._syncTokens =
@@ -135,7 +134,7 @@ export class AppConfigurationClient {
         this.client = new AppConfiguration(
           appConfigCredential,
           apiVersion,
-          getAppConfigurationOptions(regexMatch[1], this._syncTokens, deserializationContentTypes)
+          getAppConfigurationOptions(regexMatch[1], this._syncTokens)
         );
       } else {
         throw new Error(
@@ -498,7 +497,6 @@ export class AppConfigurationClient {
 function getAppConfigurationOptions(
   baseUri: string,
   syncTokens: SyncTokens,
-  deserializationContentTypes: DeserializationContentTypes
 ): AppConfigurationOptions {
   
   const retryPolicies = [
