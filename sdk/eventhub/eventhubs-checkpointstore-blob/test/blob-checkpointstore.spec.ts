@@ -15,7 +15,7 @@ import { ContainerClient, RestError } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
 import { Guid } from "guid-typescript";
 import { parseIntOrThrow } from "../src/blobCheckpointStore";
-import { fail, AssertionError } from 'assert';
+import { fail } from 'assert';
 const env = getEnvVars();
 
 describe("Blob Checkpoint Store", function(): void {
@@ -103,10 +103,6 @@ describe("Blob Checkpoint Store", function(): void {
       }]);
       fail("Should have thrown an error - this isn't a normal claim collision issue");
     } catch (err) {
-      if (err instanceof AssertionError) {
-        throw err;
-      }
-
       (err instanceof RestError).should.be.ok;
       // 404 because the container is missing (since we deleted it up above)
       (err as RestError).statusCode!.should.equal(404);
