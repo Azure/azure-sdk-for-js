@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "uniqueId": {
+      "type": "String"
+    },
+    "endpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net"
+    }
+  },
+  "variables": {
+    "storageApiVersion": "[providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]]",
+    "accountName": "[concat('prim', parameters('uniqueId'))]",
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-04-01",
+      "name": "[variables('accountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "isHnsEnabled": true,
+        "cors": {
+          "corsRules": [
+            {
+              "allowedOrigins": ["example.com"],
+              "allowedMethods": ["GET"],
+              "maxAgeInSeconds": 8888,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            },
+            {
+              "allowedOrigins": ["*"],
+              "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+              "maxAgeInSeconds": 86400,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            },
+            {
+              "allowedOrigins": ["example.com"],
+              "allowedMethods": ["GET"],
+              "maxAgeInSeconds": 8888,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            },
+            {
+              "allowedOrigins": ["example.com"],
+              "allowedMethods": ["GET"],
+              "maxAgeInSeconds": 8888,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            },
+            {
+              "allowedOrigins": ["example.com"],
+              "allowedMethods": ["GET"],
+              "maxAgeInSeconds": 8888,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            }
+          ]
+        },
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      }
+    }
+  ],
+  "outputs": {
+    "job-storage-account-name": {
+      "type": "string",
+      "value": "[variables('accountName')]"
+    },
+    "job-storage-account-key": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "job-azure-storage-connection-string": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('endpointSuffix'))]"
+    }
+  }
+}
