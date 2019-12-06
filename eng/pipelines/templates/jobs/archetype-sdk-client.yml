@@ -88,6 +88,12 @@ jobs:
           node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Pack libraries"
 
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
+
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
       # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
@@ -173,6 +179,23 @@ jobs:
           node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
         displayName: "Lint libraries"
 
+      - script: |
+          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        displayName: "Audit libraries"
+
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: "Component Detection"
+
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
+
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
       # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
@@ -189,17 +212,6 @@ jobs:
         inputs:
           artifactName: reports
           path: $(Build.ArtifactStagingDirectory)
-
-      - script: |
-          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
-        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit libraries"
-
-      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-        # builds should be sufficient.
-        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-        displayName: "Component Detection"
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:
@@ -233,15 +245,27 @@ jobs:
             node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose
           displayName: "Test libraries"
 
+        # Unlink node_modules folders to significantly improve performance of subsequent tasks
+        # which need to walk the directory tree (and are hardcoded to follow symlinks).
+        - script: |
+            node eng/tools/rush-runner.js unlink
+          displayName: "Unlink dependencies"
+
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
         - task: PublishTestResults@2
           inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.xml"
             testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
           condition: succeededOrFailed()
           displayName: "Publish NodeJS unit test results"
 
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
         - task: PublishTestResults@2
           inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.browser.xml"
             testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
           condition: succeededOrFailed()
