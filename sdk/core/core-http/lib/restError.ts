@@ -13,6 +13,8 @@ export class RestError extends Error {
   request?: WebResource;
   response?: HttpOperationResponse;
   details?: unknown;
+  name: string;
+
   constructor(
     message: string,
     code?: string,
@@ -21,6 +23,8 @@ export class RestError extends Error {
     response?: HttpOperationResponse
   ) {
     super(message);
+
+    this.name = "RestError";
     this.code = code;
     this.statusCode = statusCode;
     this.request = request;

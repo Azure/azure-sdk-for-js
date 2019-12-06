@@ -11,6 +11,7 @@ import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "../util/utils";
+import { RestError } from '../restError';
 
 type ResponseHandler = (
   httpRequest: WebResource,
@@ -45,11 +46,11 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
-      if (response.status !== StatusCodes.TooManyRequests) {
-        return response;
+    return this._nextPolicy.sendRequest(httpRequest.clone()).catch(err => {
+      if (err.name === "RestError" && err.statusCode === StatusCodes.TooManyRequests) {
+        return this._handleResponse(httpRequest, (err as RestError).response!);
       } else {
-        return this._handleResponse(httpRequest, response);
+        throw err;
       }
     });
   }
@@ -61,7 +62,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     const delayInMs = getDelayInMs(httpResponse.headers);
 
     if (delayInMs) {
-      return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
+      return delay(delayInMs).then((_: any) => this.sendRequest(httpRequest.clone()));
     }
     return httpResponse;
   }

@@ -430,6 +430,36 @@ describe("AppConfigurationClient", () => {
     });
   });
 
+  describe("induce throttling", () => {
+    it("throttle", async () => {
+      const promises = [];
+
+      const key = `my-throttling-key-${Date.now()}`;
+
+      for (let i = 0; i < 200; i++) {
+        promises.push(client.setConfigurationSetting({
+          key,
+          value: "my value",
+          label: i.toString()
+        }));
+        
+        settings.push({ key, label: i.toString() });
+      }
+
+      await Promise.all(promises);
+
+      const iterators = client.listConfigurationSettings({
+        keys: [key]
+      });
+      
+      const actualItems = await toSortedArray(iterators, (a, b) => Number(a.label) < Number(b.label) ? -1 : 1);
+
+      for (let i = 0; i < 200; i++) {
+        assert.equal(i, Number(actualItems[i].label));
+      }      
+    });
+  });
+
   describe("listConfigurationSettings", () => {
     const now = Date.now();
     const uniqueLabel = `listConfigSettingsLabel-${now}`;
