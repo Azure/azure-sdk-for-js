@@ -1,3 +1,9 @@
+# 1.0.0-preview.10 (TBD)
+
+- Specifying filters for listConfigurationSettings() or listRevisions() is 
+  now done with the `keyFilter` or `labelFilter` strings rather than `keys`
+  and `labels` as they were previously.
+
 # 1.0.0-preview.9 (2019-12-03)
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.

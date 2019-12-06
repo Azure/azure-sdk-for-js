@@ -472,7 +472,7 @@ describe("AppConfigurationClient", () => {
 
     it("exact match on label", async () => {
       // query with a direct label match
-      let byLabelIterator = client.listConfigurationSettings({ labels: [uniqueLabel] });
+      let byLabelIterator = client.listConfigurationSettings({ labelFilter: uniqueLabel });
       const byLabelSettings = await toSortedArray(byLabelIterator);
 
       assertEqualSettings(
@@ -497,7 +497,7 @@ describe("AppConfigurationClient", () => {
     it("label wildcards", async () => {
       // query with a direct label match
       let byLabelIterator = client.listConfigurationSettings({
-        labels: ["*" + uniqueLabel.substring(1)]
+        labelFilter: "*" + uniqueLabel.substring(1)
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
 
@@ -521,7 +521,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`] });
+      let byKeyIterator = client.listConfigurationSettings({ keyFilter: `listConfigSettingA-${now}` });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
       assertEqualSettings(
@@ -545,7 +545,7 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       // query with a key wildcard
-      let byKeyIterator = client.listConfigurationSettings({ keys: [`*istConfigSettingA-${now}`] });
+      let byKeyIterator = client.listConfigurationSettings({ keyFilter: `*istConfigSettingA-${now}` });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
       assertEqualSettings(
@@ -570,7 +570,7 @@ describe("AppConfigurationClient", () => {
     it("filter on fields", async () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       let byKeyIterator = client.listConfigurationSettings({
-        keys: [`listConfigSettingA-${now}`],
+        keyFilter: `listConfigSettingA-${now}`,
         fields: ["key", "label", "isReadOnly"]
       });
       let settings = await toSortedArray(byKeyIterator);
@@ -586,7 +586,7 @@ describe("AppConfigurationClient", () => {
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       byKeyIterator = client.listConfigurationSettings({
-        keys: [`listConfigSettingA-${now}`],
+        keyFilter: `listConfigSettingA-${now}`,
         fields: ["key", "label", "value"]
       });
       settings = await toSortedArray(byKeyIterator);
@@ -603,7 +603,7 @@ describe("AppConfigurationClient", () => {
 
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keys: ['listConfigSettingA-*'],
+        keyFilter: 'listConfigSettingA-*',
         acceptDateTime: listConfigSettingA.lastModified
       });
 
@@ -698,7 +698,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on label", async () => {
-      const revisionsWithLabelIterator = await client.listRevisions({ labels: [labelA] });
+      const revisionsWithLabelIterator = await client.listRevisions({ labelFilter: labelA });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
@@ -712,7 +712,7 @@ describe("AppConfigurationClient", () => {
 
     it("label wildcards", async () => {
       const revisionsWithLabelIterator = await client.listRevisions({
-        labels: ["*" + labelA.substring(1)]
+        labelFilter: "*" + labelA.substring(1)
       });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
@@ -726,7 +726,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({ keys: [key] });
+      const revisionsWithKeyIterator = await client.listRevisions({ keyFilter: key });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
       assertEqualSettings(
@@ -742,7 +742,7 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       const revisionsWithKeyIterator = await client.listRevisions({
-        keys: ["*" + key.substring(1)]
+        keyFilter: "*" + key.substring(1)
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
@@ -759,14 +759,14 @@ describe("AppConfigurationClient", () => {
 
     it("accepts operation options", async () => {
       await assertThrowsAbortError(async () => {
-        const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
+        const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();
       });
     });
 
     it("by date", async () => {
       let byKeyIterator = client.listRevisions({
-        keys: [key],
+        keyFilter: key,
         acceptDateTime: originalSetting.lastModified
       });
 
