@@ -80,8 +80,8 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
  * the amount of time (minimum) to wait to retry (in milliseconds).
  */
 const RetryAfterMillisecondsHeaders: string[] = [
-  Constants.HeaderConstants.RETRY_AFTER_MS,
-  Constants.HeaderConstants.X_RETRY_AFTER_MS
+  "retry-after-ms",
+  "x-ms-retry-after-ms"
 ];
 
 /**
@@ -123,6 +123,8 @@ type RestErrorWithHeaders = Pick<RestError, Exclude<keyof RestError, 'response'>
 }
 
 function isRestErrorWithHeaders(err: any): err is RestErrorWithHeaders {
+  console.log(`=====> error name is ${err.name}, is instance of RestError: ${err instanceof RestError}`);
+  
   return err
     && err.statusCode && typeof err.statusCode === "number"
     && err.response && err.response.headers && typeof err.response.headers.get === "function";
