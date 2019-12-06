@@ -37,7 +37,13 @@ async function main() {
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
-  await containerClient.create();
+  try {
+    await containerClient.create();
+  } catch (err) {
+    console.log(
+      `Creating a container fails, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+    );
+  }
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
@@ -46,20 +52,32 @@ async function main() {
 
   // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
   // BlockBlobClient.uploadFile() is only available in Node.js
-  await blockBlobClient.uploadFile(localFilePath, {
-    blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
-  });
-  console.log("uploadFile success");
+  try {
+    await blockBlobClient.uploadFile(localFilePath, {
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      concurrency: 20, // 20 concurrency
+      onProgress: (ev) => console.log(ev)
+    });
+    console.log("uploadFile succeeds");
+  } catch (err) {
+    console.log(
+      `uploadFile failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+    );
+  }
 
   // Parallel uploading a Readable stream with BlockBlobClient.uploadStream() in Node.js runtime
   // BlockBlobClient.uploadStream() is only available in Node.js
-  await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    progress: (ev) => console.log(ev)
-  });
-  console.log("uploadStream success");
+  try {
+    await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
+      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      onProgress: (ev) => console.log(ev)
+    });
+    console.log("uploadStream succeeds");
+  } catch (err) {
+    console.log(
+      `uploadStream failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+    );
+  }
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadBrowserData()
   // Uncomment following code in browsers because BlockBlobClient.uploadBrowserData() is only available in browsers
@@ -67,8 +85,8 @@ async function main() {
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    concurrency: 20, // 20 concurrency
+    onProgress: ev => console.log(ev)
   });
   */
 
@@ -76,13 +94,33 @@ async function main() {
   // downloadToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
-  });
-  console.log("downloadToBuffer success");
+  try {
+    await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
+      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      concurrency: 20, // 20 concurrency
+      onProgress: (ev) => console.log(ev)
+    });
+    console.log("downloadToBuffer succeeds");
+  } catch (err) {
+    console.log(
+      `downloadToBuffer failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+    );
+  }
+
+  // Archive the blob - Log the error codes
+  await blockBlobClient.setAccessTier("Archive");
+  try {
+    // Downloading an archived blockBlob fails
+    console.log("// Downloading an archived blockBlob fails...");
+    await blockBlobClient.download();
+  } catch (err) {
+    // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
+    console.log(
+      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+    );
+    console.log(`error message - ${err.details.message}\n`);
+  }
 
   // Delete container
   await containerClient.delete();
