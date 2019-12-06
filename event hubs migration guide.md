@@ -60,27 +60,56 @@ the amount of network communication needed vs sending messages one at a time.
 
 So in V2:
 ```typescript
+const eventsToSend = [
+  // events go here
+];
+
 const client = EventHubClient.createFromConnectionString(connectionString);
 console.log(`Sending event: ${eventData.body}`);
-await client.send(eventData, partitionId);
+
+// Would fail if the total size of events exceed the max size supported by the library.
+await client.send(eventsToSend, partitionId);
 ```
 
 In V5:
 ```typescript
-const eventHubProducerClient = new EventHubProducerClient(connectionString);
-console.log(`Sending event: ${eventData.body}`);
+const producer = new EventHubProducerClient(connectionString);
 
-// note that the partition ID is now specified as part of the 
-// batch, rather than as part of the sendBatch call.
-const batch = await eventHubProducerClient.createBatch({
-  partitionId: partitionId
-});
+const eventsToSend = [
+  // events go here
+];
 
-const added = batch.tryAdd(eventData);
+let batch = await producer.createBatch();
 
-if (!added) {
-  throw new Error("Failed to add event - larger than maximum allowed size");
+for (const event of eventsToSend) {
+  // messages can fail to be added to the batch if they exceed the maximum size configured for
+  // the EventHub.
+  const isAdded = batch.tryAdd({ body: event });
+  
+  if (!isAdded) {
+    if (batch.count === 0) {
+      // if we can't add it and the batch is empty that means the message we're trying to send
+      // is too large, even when it would be the _only_ message in the batch.
+      //
+      // To fix this you'll need to potentially split the message up across multiple batches or 
+      // skip it. In this example, we'll skip the message.
+      console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
+      continue;
+    }
+
+    // otherwise this just signals a good spot to send our batch
+    console.log(`Batch is full - sending ${batch.count} messages as a single batch.`)
+    await producer.sendBatch(batch);
+
+    // and create a new one to house the next set of messages
+    batch = await producer.createBatch();
+    continue;
+  }
 }
 
-await eventHubProducerClient.sendBatch(batch);
+// send any remaining messages, if any.
+if (batch.count > 0) {
+  console.log(`Sending remaining ${batch.count} messages as a single batch.`)
+  await producer.sendBatch(batch);
+}
 ```
