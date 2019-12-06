@@ -595,9 +595,9 @@ function isStringArray(input: any[]): input is string[] {
 
 function convertToLanguageInput(input: string[], countryHint: string): LanguageInput[] {
   return input.map(
-    (text: string): LanguageInput => {
+    (text: string, index): LanguageInput => {
       return {
-        id: "",
+        id: String(index),
         countryHint,
         text
       };
@@ -607,9 +607,9 @@ function convertToLanguageInput(input: string[], countryHint: string): LanguageI
 
 function convertToMultiLanguageInput(input: string[], language: string): MultiLanguageInput[] {
   return input.map(
-    (text: string): MultiLanguageInput => {
+    (text: string, index): MultiLanguageInput => {
       return {
-        id: "",
+        id: String(index),
         language,
         text
       };
