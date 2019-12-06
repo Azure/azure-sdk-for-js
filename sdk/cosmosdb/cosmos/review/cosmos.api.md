@@ -670,11 +670,9 @@ export type PartitionKey = PartitionKeyDefinition | string | number | {};
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
-    // (undocumented)
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
-    // (undocumented)
     version?: number;
 }
 
