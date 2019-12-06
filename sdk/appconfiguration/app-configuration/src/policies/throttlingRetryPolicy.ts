@@ -13,6 +13,10 @@ import {
   RestError
 } from "@azure/core-http";
 
+/**
+ * @internal
+ * @ignore
+ */
 export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
