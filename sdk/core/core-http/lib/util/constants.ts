@@ -79,29 +79,13 @@ export const Constants = {
 
     /**
      * The Retry-After response-header field can be used with a 503 (Service
-     * Unavailable), or 429 (Too Many Requests) responses to indicate how
-     * long the service is expected to be unavailable to the requesting client.
+     * Unavailable) or 349 (Too Many Requests) responses to indicate how long
+     * the service is expected to be unavailable to the requesting client.
      *
      * @const
      * @type {string}
      */
     RETRY_AFTER: "Retry-After",
-
-    /**
-     * See `RETRY_AFTER` documentation.
-     *
-     * @const
-     * @type {string}
-     */
-    RETRY_AFTER_MS: "retry-after-ms",
-
-    /**
-     * See `RETRY_AFTER` documentation.
-     *
-     * @const
-     * @type {string}
-     */
-    X_RETRY_AFTER_MS: "x-ms-retry-after-ms",
 
     /**
      * The UserAgent header.
