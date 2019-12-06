@@ -85,8 +85,8 @@ describe("helper methods", () => {
   describe("formatWildcards", () => {
     it("undefined", () => {
       const result = formatWildcards({
-        keys: undefined,
-        labels: undefined
+        keyFilter: undefined,
+        labelFilter: undefined
       });
 
       assert.ok(!result.key);
@@ -95,8 +95,8 @@ describe("helper methods", () => {
 
     it("single values only", () => {
       const result = formatWildcards({
-        keys: ["key1"],
-        labels: ["label1"]
+        keyFilter: "key1",
+        labelFilter: "label1"
       });
 
       assert.equal("key1", result.key);
@@ -105,8 +105,8 @@ describe("helper methods", () => {
 
     it("multiple values", () => {
       const result = formatWildcards({
-        keys: ["key1", "key2"],
-        labels: ["label1", "label2"]
+        keyFilter: "key1,key2",
+        labelFilter: "label1,label2"
       });
 
       assert.equal("key1,key2", result.key);
