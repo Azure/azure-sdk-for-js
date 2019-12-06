@@ -6,7 +6,8 @@ import {
   createPipelineFromOptions,
   signingPolicy,
   InternalPipelineOptions,
-  isTokenCredential
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
@@ -60,8 +61,9 @@ import {
   ExtractLinkedEntitiesResultCollection,
   makeExtractLinkedEntitiesResultCollection
 } from "./extractLinkedEntitiesResultCollection";
-import { challengeBasedAuthenticationPolicy } from "./challengeBasedAuthenticationPolicy";
 import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
+
+const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
 export interface TextAnalyticsClientOptions {
   /**
@@ -156,7 +158,7 @@ export class TextAnalyticsClient {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
+      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {

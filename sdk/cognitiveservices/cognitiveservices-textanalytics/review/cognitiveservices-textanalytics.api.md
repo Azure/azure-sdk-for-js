@@ -69,7 +69,7 @@ export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOpti
 // @public (undocumented)
 export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
     readonly detectedLanguages: DetectedLanguage[];
-    readonly primaryLanguage: DetectedLanguage | undefined;
+    readonly primaryLanguage: DetectedLanguage;
 }
 
 // @public
