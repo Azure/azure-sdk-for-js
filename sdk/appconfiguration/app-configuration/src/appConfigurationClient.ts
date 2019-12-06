@@ -10,7 +10,10 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   operationOptionsToRequestOptionsBase,
   isTokenCredential,
+  exponentialRetryPolicy,
+  systemErrorRetryPolicy,
 } from "@azure/core-http";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
 
 import "@azure/core-asynciterator-polyfill";
@@ -47,7 +50,7 @@ import {
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
-import { GetKeyValuesResponse } from "./generated/src/models";
+import { GetKeyValuesResponse, AppConfigurationOptions } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens, SyncTokenHeaderName } from './internal/synctokenpolicy';
 
 const apiVersion = "1.0";
@@ -109,34 +112,38 @@ export class AppConfigurationClient {
     options?:AppConfigurationClientOptions
   ) {
     if (isTokenCredential(tokenCredentialOrOptions)) {
-      this._syncTokens = (options && (options as InternalAppConfigurationClientOptions).syncTokens) || new SyncTokens();
+      this._syncTokens =
+        (options && (options as InternalAppConfigurationClientOptions).syncTokens) ||
+        new SyncTokens();
 
-      this.client = new AppConfiguration(tokenCredentialOrOptions, apiVersion, {
-        baseUri: connectionStringOrEndpoint,
-        deserializationContentTypes,
-        requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
-      });
+      this.client = new AppConfiguration(
+        tokenCredentialOrOptions,
+        apiVersion,
+        getAppConfigurationOptions(connectionStringOrEndpoint, this._syncTokens)
+      );
     } else {
-      this._syncTokens = (tokenCredentialOrOptions && (tokenCredentialOrOptions as InternalAppConfigurationClientOptions).syncTokens) || new SyncTokens();
+      this._syncTokens =
+        (tokenCredentialOrOptions &&
+          (tokenCredentialOrOptions as InternalAppConfigurationClientOptions).syncTokens) ||
+        new SyncTokens();
 
       const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
       if (regexMatch) {
         const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
 
-        this.client = new AppConfiguration(appConfigCredential, apiVersion, {
-          baseUri: regexMatch[1],
-          deserializationContentTypes,
-          requestPolicyFactories: (defaults) => [tracingPolicy(), syncTokenPolicy(this._syncTokens), ...defaults]
-        });
+        this.client = new AppConfiguration(
+          appConfigCredential,
+          apiVersion,
+          getAppConfigurationOptions(regexMatch[1], this._syncTokens)
+        );
       } else {
-        throw new Error(`Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`);
+        throw new Error(
+          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
+        );
       }
     }
 
-    this.spanner = new Spanner<AppConfigurationClient>(
-      "Azure.Data.AppConfiguration",
-      "appconfig"
-    );
+    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
   }
 
   /**
@@ -486,3 +493,29 @@ export class AppConfigurationClient {
     });
   }
 }
+
+function getAppConfigurationOptions(
+  baseUri: string,
+  syncTokens: SyncTokens,
+): AppConfigurationOptions {
+  
+  const retryPolicies = [
+    exponentialRetryPolicy(),
+    systemErrorRetryPolicy(),    
+    throttlingRetryPolicy()
+  ];
+
+  return {
+    baseUri,
+    deserializationContentTypes,
+    // we'll add in our own custom retry policies
+    noRetryPolicy: true,
+    requestPolicyFactories: (defaults) => [
+      tracingPolicy(),
+      syncTokenPolicy(syncTokens),
+      ...retryPolicies,
+      ...defaults,      
+    ]
+  };
+}
+

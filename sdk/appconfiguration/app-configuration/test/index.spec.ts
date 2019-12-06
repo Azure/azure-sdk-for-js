@@ -23,9 +23,13 @@ describe("AppConfigurationClient", () => {
   });
 
   after("cleanup", async () => {
+    const deletePromises = [];
+
     for (const setting of settings) {
-      await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+      deletePromises.push(client.deleteConfigurationSetting({ key: setting.key, label: setting.label }));
     }
+
+    await Promise.all(deletePromises);
   });
 
   describe("simple usages", () => {
@@ -623,53 +627,42 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    // TODO: this test is entirely too slow and needs to be replaced with
-    //  one that uses recorded responses.
-    /*
     it("list with multiple pages", async () => {
       const key = `listMultiplePagesOfResults-${Date.now()}`;
 
       // this number is arbitrarily chosen to match the size of a page + 1
       const expectedNumberOfLabels = 200;
 
+      const addSettingPromises = [];
+
       for (let i = 0; i < expectedNumberOfLabels; i++) {
-        await client.addConfigurationSetting({
+        addSettingPromises.push(client.addConfigurationSetting({
           key,
           value: `the value for ${i}`,
           label: i.toString()
-        });
+        }));
+
+        settings.push({ key, label: i.toString() });
       }
+
+      await Promise.all(addSettingPromises);
 
       let listResult = await client.listConfigurationSettings({
-        keys: [key]
+        keyFilter: key
       });
 
-      let allResults = new Set<string>();
-      let nextLinks = [];
+      const sortedResults = await toSortedArray(listResult);
+      assert.equal(sortedResults.length, 200);
 
-      let addLabel = (label: string) => {
-        assert.ok(!allResults.has(label));
-        allResults.add(label);
-      };
+      // make sure we have 200 unique labels
+      const uniqueLabels = new Set(sortedResults.map(res => res.label));
+      assert.equal(uniqueLabels.size, 200);
 
-      listResult.items!.forEach(item => addLabel(item.label!));
-
-      while (listResult.nextLink) {
-        nextLinks.push(listResult.nextLink);
-
-        listResult = await client.listConfigurationSettingsNext(listResult.nextLink, {
-          keys: [key]
-        });
-
-        listResult.items!.forEach(item => addLabel(item.label!));
+      for (let i = 0; i < 200; ++i) {
+        assert.ok(uniqueLabels.has(i.toString()));
       }
-
-      assert.equal(2, nextLinks.length);
-      assert.equal(expectedNumberOfLabels, allResults.size);
-      
-      await cleanupSampleValues([key], client);
     });
-    */
+
     it("accepts operation options", async () => {
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
