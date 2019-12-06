@@ -123,8 +123,6 @@ type RestErrorWithHeaders = Pick<RestError, Exclude<keyof RestError, 'response'>
 }
 
 function isRestErrorWithHeaders(err: any): err is RestErrorWithHeaders {
-  console.log(`=====> error name is ${err.name}, is instance of RestError: ${err instanceof RestError}`);
-  
   return err
     && err.statusCode && typeof err.statusCode === "number"
     && err.response && err.response.headers && typeof err.response.headers.get === "function";
