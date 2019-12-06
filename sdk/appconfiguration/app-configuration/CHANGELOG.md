@@ -3,6 +3,7 @@
 - Specifying filters for listConfigurationSettings() or listRevisions() is 
   now done with the `keyFilter` or `labelFilter` strings rather than `keys`
   and `labels` as they were previously.
+- Fixes issue [#6408](https://github.com/Azure/azure-sdk-for-js/issues/6408)
 
 # 1.0.0-preview.9 (2019-12-03)
 
