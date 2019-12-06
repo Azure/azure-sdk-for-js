@@ -1,11 +1,11 @@
-# Migration Guide (EventHubs 2 to 5)
+# Migration Guide (EventHubs v2 to v5)
 
 ## Class changes
 
 `EventHubClient` has been split into two clients - `EventHubProducerClient` (for sending
 messages) and `EventHubConsumerClient` (for receiving messages).
 
-`EventProcessorHost`'s functionality has been merged into `EventHubConsumerClient` as well.
+`EventProcessorHost`'s functionality has been merged into `EventHubConsumerClient`.
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
