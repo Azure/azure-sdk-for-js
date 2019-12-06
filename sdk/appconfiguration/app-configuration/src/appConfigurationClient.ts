@@ -13,7 +13,7 @@ import {
   exponentialRetryPolicy,
   systemErrorRetryPolicy,
 } from "@azure/core-http";
-import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
 
 import "@azure/core-asynciterator-polyfill";
