@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { ContainerClient, Metadata } from "@azure/storage-blob";
+import { ContainerClient, Metadata, RestError } from "@azure/storage-blob";
 import * as log from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
@@ -107,12 +107,21 @@ export class BlobCheckpointStore implements CheckpointStore {
           `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
         );
       } catch (err) {
-        // NOTE: there is some ordinary contention that can occur as different consumers battle over
-        // ownership. So the catching (and _only_ logging, not rethrowing) of this error is intentional.
+        const restError = err as RestError;
+
+        if (restError.statusCode === 412) {
+          // etag failures (precondition not met) aren't fatal errors. They happen
+          // as multiple consumers attempt to claim the same partition (first one wins)
+          // and losers get this error.
+          continue;
+        }
+
         log.error(
           `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
           err
         );
+
+        throw err;
       }
     }
     return partitionOwnershipArray;

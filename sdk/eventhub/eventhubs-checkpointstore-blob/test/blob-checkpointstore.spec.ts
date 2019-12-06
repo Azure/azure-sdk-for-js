@@ -11,13 +11,14 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { BlobCheckpointStore } from "../src";
-import { ContainerClient } from "@azure/storage-blob";
-import { PartitionOwnership, Checkpoint } from "@azure/event-hubs";
+import { ContainerClient, RestError } from "@azure/storage-blob";
+import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
 import { Guid } from "guid-typescript";
 import { parseIntOrThrow } from "../src/blobCheckpointStore";
+import { fail, AssertionError } from 'assert';
 const env = getEnvVars();
 
-describe("Blob Partition Manager", function(): void {
+describe("Blob Checkpoint Store", function(): void {
   const service = {
     storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING]
   };
@@ -49,6 +50,67 @@ describe("Blob Partition Manager", function(): void {
       "testConsumerGroup"
     );
     should.equal(listOwnership.length, 0);
+  });
+
+  // these errors happen when we have multiple consumers starting up
+  // at the same time and load balancing amongst themselves. This is a 
+  // normal thing and shouldn't be reported to the user.
+  it("claimOwnership ignores errors about etags", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    const originalClaimedOwnerships = await checkpointStore.claimOwnership([{
+      partitionId: "0",
+      consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+      fullyQualifiedNamespace: "fqdn",
+      eventHubName: "ehname",
+      ownerId: "me"
+    }]);
+
+    const originalETag = originalClaimedOwnerships[0] && originalClaimedOwnerships[0].etag;
+    
+    const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
+    newClaimedOwnerships.length.should.equal(1);
+
+    newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
+
+    // we've now invalidated the previous ownership's etag so using the old etag will
+    // fail.
+    const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([{
+      partitionId: "0",
+      consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+      fullyQualifiedNamespace: "fqdn",
+      eventHubName: "ehname",
+      ownerId: "me",
+      etag: originalETag
+    }]);
+
+    shouldNotThrowButNothingWillClaim.length.should.equal(0);
+  });
+
+  it("claimOwnership will throw if the error is NOT an outdated etag", async () => {
+    const checkpointStore = new BlobCheckpointStore(containerClient);
+
+    // now let's induce a bad failure (removing the container)
+    await containerClient.delete();
+
+    try {
+      await checkpointStore.claimOwnership([{
+        partitionId: "0",
+        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace: "fqdn",
+        eventHubName: "ehname",
+        ownerId: "me"
+      }]);
+      fail("Should have thrown an error - this isn't a normal claim collision issue");
+    } catch (err) {
+      if (err instanceof AssertionError) {
+        throw err;
+      }
+
+      (err instanceof RestError).should.be.ok;
+      // 404 because the container is missing (since we deleted it up above)
+      (err as RestError).statusCode!.should.equal(404);
+    }
   });
 
   it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
