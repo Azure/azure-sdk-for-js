@@ -13,7 +13,7 @@ messages) and `EventHubConsumerClient` (for receiving messages).
 | `EventHubClient.receiveBatch`                  | Removed in favor of `EventHubConsumerClient.subscribe`           | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
 | `EventHubClient.send`                          | `EventHubConsumerClient.sendBatch`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
-### Migrating code from `EventHubClient` to `EventHubConsumerClient`
+### Migrating code from `EventHubClient` to `EventHubConsumerClient` for receiving events
 
 In V2, event handlers were passed as positional arguments to `receive`.
 
@@ -22,10 +22,12 @@ In V5, event handlers are passed as part of a `SubscriptionEventHandlers` shaped
 For example, this code which receives from a partition in V2:
 
 ```typescript
+const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
   consumerGroup: "$Default"
 });
+await rcvHandler.stop();
 ```
 
 Becomes this in V5:
@@ -48,7 +50,7 @@ await subscription.close();
 See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) 
 for a sample program demonstrating this.
 
-### Migrating code from `EventHubClient` to `EventHubProducerClient`
+### Migrating code from `EventHubClient` to `EventHubProducerClient` for sending events.
 
 In V2, there were multiple options on how to send data.
 
@@ -56,6 +58,7 @@ In V5, this has been consolidated into a more efficient `sendBatch` method.
 
 So in V2:
 ```typescript
+const client = EventHubClient.createFromConnectionString(connectionString);
 console.log(`Sending event: ${eventData.body}`);
 await client.send(eventData, partitionId);
 ```
