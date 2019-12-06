@@ -11,7 +11,6 @@ import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "../util/utils";
-import { RestError } from '../restError';
 
 type ResponseHandler = (
   httpRequest: WebResource,
@@ -46,11 +45,11 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).catch(err => {
-      if (err.name === "RestError" && err.statusCode === StatusCodes.TooManyRequests) {
-        return this._handleResponse(httpRequest, (err as RestError).response!);
+    return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
+      if (response.status !== StatusCodes.TooManyRequests) {
+        return response;
       } else {
-        throw err;
+        return this._handleResponse(httpRequest, response);
       }
     });
   }
@@ -59,11 +58,19 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     httpRequest: WebResource,
     httpResponse: HttpOperationResponse
   ): Promise<HttpOperationResponse> {
-    const delayInMs = getDelayInMs(httpResponse.headers);
+    const retryAfterHeader: string | undefined = httpResponse.headers.get(
+      Constants.HeaderConstants.RETRY_AFTER
+    );
 
-    if (delayInMs) {
-      return delay(delayInMs).then((_: any) => this.sendRequest(httpRequest.clone()));
+    if (retryAfterHeader) {
+      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
+        retryAfterHeader
+      );
+      if (delayInMs) {
+        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
+      }
     }
+
     return httpResponse;
   }
 
@@ -87,47 +94,4 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       return undefined;
     }
   }
-}
-
-/**
- * The headers that come back from Azure services representing
- * the amount of time (minimum) to wait to retry (in milliseconds).
- */
-const RetryAfterMillisecondsHeaders: string[] = [
-  Constants.HeaderConstants.RETRY_AFTER_MS,
-  Constants.HeaderConstants.X_RETRY_AFTER_MS
-];
-
-/**
- * Extracts the retry response header, checking against several
- * header names.
- * @internal
- * @ignore
- */
-export function getDelayInMs(responseHeaders: {
-  get: (headerName: string) => string | undefined;
-}): number | undefined {
-  for (const name of RetryAfterMillisecondsHeaders) {
-    const delayValueString = responseHeaders.get(name);
-
-    if (delayValueString == null) {
-      continue;
-    }
-
-    const delayValueMs: number = Number(delayValueString);
-
-    if (Number.isNaN(delayValueMs)) {
-      return undefined;
-    }
-
-    return delayValueMs;
-  }
-
-  const retryAfterValue = responseHeaders.get(Constants.HeaderConstants.RETRY_AFTER);
-
-  if (retryAfterValue != null) {
-    return ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterValue);
-  }
-
-  return undefined;
 }
