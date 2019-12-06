@@ -254,7 +254,7 @@ jobs:
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
         - task: PublishTestResults@2
           inputs:
-            searchFolder: sdk
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.xml"
             testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
           condition: succeededOrFailed()
@@ -263,7 +263,7 @@ jobs:
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
         - task: PublishTestResults@2
           inputs:
-            searchFolder: sdk
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.browser.xml"
             testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
           condition: succeededOrFailed()
