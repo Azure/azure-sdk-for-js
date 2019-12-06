@@ -22,10 +22,12 @@ In V5, event handlers are passed as part of a `SubscriptionEventHandlers` shaped
 For example, this code which receives from a partition in V2:
 
 ```typescript
+const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
   consumerGroup: "$Default"
 });
+await rcvHandler.stop();
 ```
 
 Becomes this in V5:
@@ -58,6 +60,7 @@ the amount of network communication needed vs sending messages one at a time.
 
 So in V2:
 ```typescript
+const client = EventHubClient.createFromConnectionString(connectionString);
 console.log(`Sending event: ${eventData.body}`);
 await client.send(eventData, partitionId);
 ```
