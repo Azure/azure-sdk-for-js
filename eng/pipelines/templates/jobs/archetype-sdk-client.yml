@@ -251,7 +251,8 @@ jobs:
             node eng/tools/rush-runner.js unlink
           displayName: "Unlink dependencies"
 
-        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
         - task: PublishTestResults@2
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
@@ -260,7 +261,8 @@ jobs:
           condition: succeededOrFailed()
           displayName: "Publish NodeJS unit test results"
 
-        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules"
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
         - task: PublishTestResults@2
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
