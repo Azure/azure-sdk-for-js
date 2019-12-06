@@ -3,7 +3,7 @@
 ## Class changes
 
 `EventHubClient` has been split into two clients - `EventHubProducerClient` (for sending
-messages) and `EventHubConsumerClient` (for subscribing to messages).
+messages) and `EventHubConsumerClient` (for receiving messages).
 
 | In v2                                       | Equivalent in v5                                                 | Sample |
 |---------------------------------------------|------------------------------------------------------------------|--------|
