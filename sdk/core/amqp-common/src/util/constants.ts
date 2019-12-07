@@ -48,6 +48,7 @@ export const senderError = "sender_error";
 export const sessionError = "session_error";
 export const connectionError = "connection_error";
 export const defaultOperationTimeoutInSeconds = 60;
+export const defaultConnectionIdleTimeoutInMs = 60000;
 export const managementRequestKey = "managementRequest";
 export const negotiateCbsKey = "negotiateCbs";
 export const negotiateClaim = "negotiateClaim";
@@ -67,9 +68,7 @@ export const maxDeadLetterReasonLength = 4096;
 export const maxDurationValue = 922337203685477;
 export const minDurationValue = -922337203685477;
 // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
-export const maxAbsoluteExpiryTime = new Date(
-  "9999-12-31T07:59:59.000Z"
-).getTime();
+export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();
 export const aadTokenValidityMarginSeconds = 5;
 export const connectionReconnectDelay = 300;
 export const defaultRetryAttempts = 3;
