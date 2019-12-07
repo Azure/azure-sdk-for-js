@@ -73,7 +73,7 @@ export interface InnerError {
   /**
    * Inner error contains more specific information.
    */
-  innererror?: InnerError;
+  innerError?: InnerError;
 }
 
 /**

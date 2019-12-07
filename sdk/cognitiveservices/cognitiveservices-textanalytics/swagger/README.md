@@ -32,3 +32,11 @@ directive:
     transform: >
       $["x-ms-client-name"] = "innerError";
 ```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.InnerError.properties.innererror
+    transform: >
+      $["x-ms-client-name"] = "innerError";
+```
