@@ -51,7 +51,7 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse, AppConfigurationOptions } from "./generated/src/models";
-import { syncTokenPolicy, SyncTokens, SyncTokenHeaderName } from './internal/synctokenpolicy';
+import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -90,7 +90,6 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
 export class AppConfigurationClient {
   private client: AppConfiguration;
   private spanner: Spanner<AppConfigurationClient>;
-  private _syncTokens: SyncTokens;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -112,17 +111,17 @@ export class AppConfigurationClient {
     options?:AppConfigurationClientOptions
   ) {
     if (isTokenCredential(tokenCredentialOrOptions)) {
-      this._syncTokens =
+      const syncTokens =
         (options && (options as InternalAppConfigurationClientOptions).syncTokens) ||
         new SyncTokens();
 
       this.client = new AppConfiguration(
         tokenCredentialOrOptions,
         apiVersion,
-        getAppConfigurationOptions(connectionStringOrEndpoint, this._syncTokens)
+        getAppConfigurationOptions(connectionStringOrEndpoint, syncTokens)
       );
     } else {
-      this._syncTokens =
+      const syncTokens =
         (tokenCredentialOrOptions &&
           (tokenCredentialOrOptions as InternalAppConfigurationClientOptions).syncTokens) ||
         new SyncTokens();
@@ -134,7 +133,7 @@ export class AppConfigurationClient {
         this.client = new AppConfiguration(
           appConfigCredential,
           apiVersion,
-          getAppConfigurationOptions(regexMatch[1], this._syncTokens)
+          getAppConfigurationOptions(regexMatch[1], syncTokens)
         );
       } else {
         throw new Error(
@@ -170,8 +169,6 @@ export class AppConfigurationClient {
         ...newOptions
       });
 
-      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
-
       return transformKeyValueResponse(originalResponse);
     });
   }
@@ -197,8 +194,6 @@ export class AppConfigurationClient {
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
-
-      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
 
       return transformKeyValueResponseWithStatusCode(originalResponse);
     });
@@ -227,8 +222,6 @@ export class AppConfigurationClient {
         ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
-
-      this._syncTokens.addSyncTokenFromHeaderValue(originalResponse._response.headers.get(SyncTokenHeaderName));
 
       const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
         originalResponse
@@ -303,8 +296,6 @@ export class AppConfigurationClient {
           ...formatWildcards(newOptions)
         });
 
-        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
-
         return response;
       }
     );
@@ -322,8 +313,6 @@ export class AppConfigurationClient {
             ...formatWildcards(newOptions),
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
-
-          this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
 
           return response;
         }
@@ -395,8 +384,6 @@ export class AppConfigurationClient {
         ...formatWildcards(newOptions)
       });
 
-      this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
-
       return response;
     });
 
@@ -451,8 +438,6 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
-      this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
-
       return transformKeyValueResponse(response);
     });
   }
@@ -476,8 +461,6 @@ export class AppConfigurationClient {
           ...checkAndFormatIfAndIfNoneMatch(id, options)
         });
 
-        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
-
         return transformKeyValueResponse(response);
       } else {
         const response = await this.client.deleteLock(id.key, {
@@ -486,8 +469,6 @@ export class AppConfigurationClient {
           ...checkAndFormatIfAndIfNoneMatch(id, options)
         });
         
-        this._syncTokens.addSyncTokenFromHeaderValue(response._response.headers.get(SyncTokenHeaderName));
-
         return transformKeyValueResponse(response);
       }
     });
