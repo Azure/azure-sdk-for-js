@@ -139,11 +139,11 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 // @public
 export interface EventHubMessageAnnotations extends MessageAnnotations {
-    [x: string]: any;
     "x-opt-enqueued-time"?: number;
     "x-opt-offset"?: string;
     "x-opt-partition-key"?: string | null;
     "x-opt-sequence-number"?: number;
+    [x: string]: any;
 }
 
 // @public
