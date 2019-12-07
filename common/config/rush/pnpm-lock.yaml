@@ -9557,6 +9557,7 @@ packages:
       mocha: 6.2.2
       mocha-junit-reporter: 1.23.1_mocha@6.2.2
       mocha-multi: 1.1.3_mocha@6.2.2
+      nock: 11.7.0
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.0
@@ -9573,7 +9574,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-9xQfq4qcySc02G+Qt6zfRRgnB0EKiOwXrl8QkEQGYVhqHkXIwzLmz99JUDmBnt+1RpScIX6fII3uvYl4vMlE9Q==
+      integrity: sha512-KT+Iq4VO0udmNMX3aSs95zDmkAOjAXPCMQnZBGGZJE8kuTSJu5ooI/ZUZtupEH/Rg0J8Z4ZMe6eH50I5FLUEww==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
