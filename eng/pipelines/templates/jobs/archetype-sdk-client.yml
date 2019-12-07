@@ -80,6 +80,8 @@ jobs:
           BuildSHA: $(Build.SourceVersion)
           RepoId: "Azure/azure-sdk-for-js"
 
+      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+      # The default on Windows is "cores - 1" (microsoft/rushstack#436)
       - script: |
           node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
         displayName: "Build libraries"
@@ -233,14 +235,20 @@ jobs:
             node common/scripts/install-run-rush.js install
           displayName: "Install dependencies"
 
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436)
         - script: |
             node eng/tools/rush-runner.js build --verbose -p max
           displayName: "Build libraries"
 
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436)
         - script: |
             node eng/tools/rush-runner.js build:test --verbose -p max
           displayName: "Build test assets"
 
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436)
         - script: |
             node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
