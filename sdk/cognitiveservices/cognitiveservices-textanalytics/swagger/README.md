@@ -23,8 +23,6 @@ use-extension:
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
-````
-
 ### Rename InnerError
 
 ```yaml
@@ -33,4 +31,4 @@ directive:
     where: $.definitions.Error.properties.innererror
     transform: >
       $["x-ms-client-name"] = "innerError";
-````
+```

@@ -149,7 +149,7 @@ export const ErrorModel: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innererror: {
+      innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",

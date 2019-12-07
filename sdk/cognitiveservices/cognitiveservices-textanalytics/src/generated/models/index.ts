@@ -96,7 +96,7 @@ export interface ErrorModel {
   /**
    * Inner error contains more specific information.
    */
-  innererror?: InnerError;
+  innerError?: InnerError;
   /**
    * Details about specific errors that led to this reported error.
    */
