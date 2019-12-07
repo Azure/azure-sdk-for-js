@@ -81,7 +81,7 @@ jobs:
           RepoId: "Azure/azure-sdk-for-js"
 
       - script: |
-          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p 3
+          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
         displayName: "Build libraries"
 
       - script: |
@@ -234,15 +234,15 @@ jobs:
           displayName: "Install dependencies"
 
         - script: |
-            node eng/tools/rush-runner.js build --verbose -p 3
+            node eng/tools/rush-runner.js build --verbose -p max
           displayName: "Build libraries"
 
         - script: |
-            node eng/tools/rush-runner.js build:test --verbose -p 3
+            node eng/tools/rush-runner.js build:test --verbose -p max
           displayName: "Build test assets"
 
         - script: |
-            node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose -p 3
+            node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
