@@ -85,18 +85,18 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
+          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build libraries"
 
       - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
+          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
 
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
       - script: |
-          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose
+          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Integration test libraries"
         env: ${{parameters.EnvVars}}
         condition: ne(variables['TestType'],'sample')
