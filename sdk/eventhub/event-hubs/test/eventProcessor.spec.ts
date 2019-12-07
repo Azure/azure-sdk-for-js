@@ -15,7 +15,7 @@ import {
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
   EventPosition,
-  CheckpointStore,
+  CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -268,6 +268,56 @@ describe("Event Processor", function(): void {
         { ...commonFields, partitionId: "1003", ownerId: "", etag: ownershipsAfterStop[2].etag,  lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs }
       ]);
     });
+  });
+
+  it("claimOwnership throws and is reported to the user", async () => {
+    const errors = [];
+
+    const faultyCheckpointStore: CheckpointStore = {
+      listOwnership: async () => [],
+      claimOwnership: async () => {
+        throw new Error("Some random failure!");
+      },
+      updateCheckpoint: async () => {},
+      listCheckpoints: async () => []
+    };
+
+    const eventProcessor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvents: async () => {},
+        processError: async (err, _) => {
+          errors.push(err);
+        }
+      },
+      faultyCheckpointStore,
+      defaultOptions
+    );
+
+    // claimOwnership() calls that fail in the runloop of eventProcessor
+    // will get directed to the user's processError handler.
+    eventProcessor.start();
+
+    try {
+      await loopUntil({
+        name: "waiting for checkpoint store errors to show up",
+        timeBetweenRunsMs: 1000,
+        maxTimes: 5,
+        until: async () => errors.length !== 0
+      });
+
+      errors.length.should.equal(1);
+    } finally {
+      // this will also fail - we "abandon" all claimed partitions at
+      // when a processor is stopped (which requires us to claim them
+      // with an empty owner ID).
+      //
+      // Note that this one gets thrown directly from stop(), rather
+      // than reporting to processError() since we have a direct
+      // point of contact with the user.
+      await eventProcessor.stop().should.be.rejectedWith(/Some random failure!/);
+    }
   });
 
   it("should expose an id #RunnableInBrowser", async function(): Promise<void> {

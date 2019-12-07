@@ -498,8 +498,6 @@ export class EventProcessor {
    *
    */
   async stop(): Promise<void> {
-    await this.abandonPartitionOwnerships();
-
     log.eventProcessor(`[${this._id}] Stopping an EventProcessor.`);
     if (this._abortController) {
       // cancel the event processor loop
@@ -519,6 +517,8 @@ export class EventProcessor {
     } finally {
       log.eventProcessor(`[${this._id}] EventProcessor stopped.`);
     }
+
+    await this.abandonPartitionOwnerships();
   }
 
   private async abandonPartitionOwnerships() {
@@ -528,7 +528,7 @@ export class EventProcessor {
     for (const ownership of ourOwnerships) {
       ownership.ownerId = "";
     }
-    this._checkpointStore.claimOwnership(ourOwnerships);
+    return this._checkpointStore.claimOwnership(ourOwnerships);
   }
 }
 
