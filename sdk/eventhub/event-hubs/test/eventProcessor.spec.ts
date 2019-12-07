@@ -292,7 +292,10 @@ describe("Event Processor", function(): void {
         }
       },
       faultyCheckpointStore,
-      defaultOptions
+      {
+        ...defaultOptions,
+        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+      }
     );
 
     // claimOwnership() calls that fail in the runloop of eventProcessor
@@ -303,7 +306,7 @@ describe("Event Processor", function(): void {
       await loopUntil({
         name: "waiting for checkpoint store errors to show up",
         timeBetweenRunsMs: 1000,
-        maxTimes: 5,
+        maxTimes: 30,
         until: async () => errors.length !== 0
       });
 
@@ -317,6 +320,53 @@ describe("Event Processor", function(): void {
       // than reporting to processError() since we have a direct
       // point of contact with the user.
       await eventProcessor.stop().should.be.rejectedWith(/Some random failure!/);
+    }
+  });
+
+  it("errors thrown from the user's handlers are reported to processError()", async () => {
+    const errors = new Set<Error>();
+
+    const eventProcessor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processClose: async () => { throw new Error("processClose() error") },
+        processEvents: async () => { throw new Error("processEvents() error"); },
+        processInitialize: async () => { throw new Error("processInitialize() error") },
+        processError: async (err, _) => {
+          errors.add(err);
+          throw new Error("These are logged but ignored");
+        }
+      },
+      new InMemoryCheckpointStore(),
+      {
+        ...defaultOptions,
+        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+      }
+    );
+
+    // errors that occur within the user's own event handlers will get
+    // routed to their processError() handler
+    eventProcessor.start();
+
+    try {
+      await loopUntil({
+        name: "waiting for errors thrown from user's handlers",
+        timeBetweenRunsMs: 1000,
+        maxTimes: 30,
+        until: async () => errors.size >= 3
+      });
+
+      const messages = [...errors].map(e => e.message);
+      messages.sort();
+
+      messages.should.deep.equal([
+        "processClose() error",
+        "processEvents() error",
+        "processInitialize() error"
+      ]);
+    } finally {
+      await eventProcessor.stop();
     }
   });
 
