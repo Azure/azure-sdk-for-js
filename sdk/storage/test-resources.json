@@ -48,7 +48,6 @@
       "apiVersion": "[variables('storageApiVersion')]",
       "name": "[variables('accountName')]",
       "location": "[variables('location')]",
-      "tenantId": "[parameters('provisionerTenantId')]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
