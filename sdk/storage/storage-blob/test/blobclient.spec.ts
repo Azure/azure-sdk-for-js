@@ -51,7 +51,7 @@ describe("BlobClient", () => {
   it("download with progress report", async () => {
     recorder.skip(
       "browser",
-      "record & playback issue: https://github.com/Azure/azure-sdk-for-js/issues/"
+      "record & playback issue: https://github.com/Azure/azure-sdk-for-js/issues/6477"
     );
     let downloadedBytes = 0;
     const result = await blobClient.download(0, undefined, {
