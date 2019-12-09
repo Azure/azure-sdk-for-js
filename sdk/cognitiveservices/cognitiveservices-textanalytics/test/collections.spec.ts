@@ -1,4 +1,4 @@
-describe("Example unit test", () => {
+describe("Collections test", () => {
   it("should pass trivially", () => {
     // no-op
   });
