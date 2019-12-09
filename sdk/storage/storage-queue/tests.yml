@@ -9,7 +9,7 @@ resources:
       name: Azure/azure-sdk-tools
       endpoint: azure
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-queue"
       ResourceFileLocation: sdk/storage/test-resources.json
