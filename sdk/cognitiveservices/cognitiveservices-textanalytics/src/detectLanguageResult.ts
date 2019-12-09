@@ -3,15 +3,15 @@
 
 import {
   makeTextAnalysisResult,
-  TextAnalysisSuccessResult,
-  TextAnalysisErrorResult,
+  TextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
-} from "./textAnalysisResult";
+} from "./textAnalyticsResult";
 import { DetectedLanguage, DocumentStatistics, ErrorModel } from "./generated/models";
 
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
-export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
+export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * All detected languages.
    */
@@ -22,7 +22,7 @@ export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
   readonly primaryLanguage: DetectedLanguage;
 }
 
-export interface DetectLanguageErrorResult extends TextAnalysisErrorResult {}
+export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeDetectLanguageResult(
   id: string,

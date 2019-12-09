@@ -3,9 +3,9 @@
 
 import { DocumentStatistics, ErrorModel } from "./generated/models";
 
-export type TextAnalysisResult = TextAnalysisSuccessResult | TextAnalysisErrorResult;
+export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
-export interface TextAnalysisSuccessResult {
+export interface TextAnalyticsSuccessResult {
   /**
    * Unique, non-empty document identifier.
    */
@@ -18,7 +18,7 @@ export interface TextAnalysisSuccessResult {
   readonly statistics?: DocumentStatistics;
 }
 
-export interface TextAnalysisErrorResult {
+export interface TextAnalyticsErrorResult {
   /**
    * Unique, non-empty document identifier.
    */
@@ -33,7 +33,7 @@ export interface TextAnalysisErrorResult {
 export function makeTextAnalysisResult(
   id: string,
   statistics?: DocumentStatistics
-): TextAnalysisResult {
+): TextAnalyticsResult {
   return {
     id,
     statistics
@@ -43,7 +43,7 @@ export function makeTextAnalysisResult(
 export function makeTextAnalysisErrorResult(
   id: string,
   error: ErrorModel
-): TextAnalysisErrorResult {
+): TextAnalyticsErrorResult {
   return {
     id,
     error

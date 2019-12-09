@@ -44,10 +44,10 @@ export {
 } from "./extractLinkedEntitiesResult";
 export { ExtractLinkedEntitiesResultCollection } from "./extractLinkedEntitiesResultCollection";
 export {
-  TextAnalysisResult,
-  TextAnalysisErrorResult,
-  TextAnalysisSuccessResult
-} from "./textAnalysisResult";
+  TextAnalyticsResult,
+  TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult
+} from "./textAnalyticsResult";
 
 // Models
 export {

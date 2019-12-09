@@ -3,15 +3,15 @@
 
 import {
   makeTextAnalysisResult,
-  TextAnalysisSuccessResult,
-  TextAnalysisErrorResult,
+  TextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
-} from "./textAnalysisResult";
+} from "./textAnalyticsResult";
 import { DocumentStatistics, ErrorModel } from "./generated/models";
 
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
-export interface ExtractKeyPhrasesSuccessResult extends TextAnalysisSuccessResult {
+export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * A list of representative words or phrases. The number of key phrases returned is proportional
    * to the number of words in the input document.
@@ -19,7 +19,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalysisSuccessResul
   keyPhrases: string[];
 }
 
-export interface ExtractKeyPhrasesErrorResult extends TextAnalysisErrorResult {}
+export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeExtractKeyPhrasesResult(
   id: string,

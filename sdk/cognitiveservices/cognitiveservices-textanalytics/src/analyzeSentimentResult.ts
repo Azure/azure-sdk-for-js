@@ -3,10 +3,10 @@
 
 import {
   makeTextAnalysisResult,
-  TextAnalysisSuccessResult,
-  TextAnalysisErrorResult,
+  TextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
-} from "./textAnalysisResult";
+} from "./textAnalyticsResult";
 import {
   DocumentStatistics,
   ErrorModel,
@@ -16,7 +16,7 @@ import {
 
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
 
-export interface AnalyzeSentimentSuccessResult extends TextAnalysisSuccessResult {
+export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
@@ -32,7 +32,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalysisSuccessResult
   sentences: SentenceSentiment[];
 }
 
-export interface AnalyzeSentimentErrorResult extends TextAnalysisErrorResult {}
+export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeAnalyzeSentimentResult(
   id: string,

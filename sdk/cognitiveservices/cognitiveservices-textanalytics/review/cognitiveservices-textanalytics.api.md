@@ -10,7 +10,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 
 // @public (undocumented)
-export interface AnalyzeSentimentErrorResult extends TextAnalysisErrorResult {
+export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
@@ -27,7 +27,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 }
 
 // @public (undocumented)
-export interface AnalyzeSentimentSuccessResult extends TextAnalysisSuccessResult {
+export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     documentScores: number;
     sentences: SentenceSentiment[];
     sentiment: TextSentiment;
@@ -46,7 +46,7 @@ export interface DetectedLanguage {
 }
 
 // @public (undocumented)
-export interface DetectLanguageErrorResult extends TextAnalysisErrorResult {
+export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
@@ -67,7 +67,7 @@ export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOpti
 }
 
 // @public (undocumented)
-export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
+export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
     readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage;
 }
@@ -108,7 +108,7 @@ export interface ExtractEntityLinkingOptions extends TextAnalyticsClientEntities
 }
 
 // @public (undocumented)
-export interface ExtractKeyPhrasesErrorResult extends TextAnalysisErrorResult {
+export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
@@ -125,12 +125,12 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
 }
 
 // @public (undocumented)
-export interface ExtractKeyPhrasesSuccessResult extends TextAnalysisSuccessResult {
+export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
 }
 
 // @public (undocumented)
-export interface ExtractLinkedEntitiesErrorResult extends TextAnalysisErrorResult {
+export interface ExtractLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
@@ -143,7 +143,7 @@ export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLink
 }
 
 // @public (undocumented)
-export interface ExtractLinkedEntitiesSuccessResult extends TextAnalysisSuccessResult {
+export interface ExtractLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
 }
 
@@ -190,7 +190,7 @@ export interface MultiLanguageInput {
 }
 
 // @public (undocumented)
-export interface RecognizeEntitiesErrorResult extends TextAnalysisErrorResult {
+export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
@@ -207,7 +207,7 @@ export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntiti
 }
 
 // @public (undocumented)
-export interface RecognizeEntitiesSuccessResult extends TextAnalysisSuccessResult {
+export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: Entity[];
 }
 
@@ -234,21 +234,6 @@ export interface SentenceSentiment {
 
 // @public
 export type Sentiment = 'positive' | 'neutral' | 'negative';
-
-// @public (undocumented)
-export interface TextAnalysisErrorResult {
-    readonly error: ErrorModel;
-    readonly id: string;
-}
-
-// @public (undocumented)
-export type TextAnalysisResult = TextAnalysisSuccessResult | TextAnalysisErrorResult;
-
-// @public (undocumented)
-export interface TextAnalysisSuccessResult {
-    readonly id: string;
-    readonly statistics?: DocumentStatistics;
-}
 
 // @public
 export class TextAnalyticsClient {
@@ -335,6 +320,21 @@ export interface TextAnalyticsClientOptions {
 export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
     modelVersion?: string;
     showStats?: boolean;
+}
+
+// @public (undocumented)
+export interface TextAnalyticsErrorResult {
+    readonly error: ErrorModel;
+    readonly id: string;
+}
+
+// @public (undocumented)
+export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
+
+// @public (undocumented)
+export interface TextAnalyticsSuccessResult {
+    readonly id: string;
+    readonly statistics?: DocumentStatistics;
 }
 
 // @public

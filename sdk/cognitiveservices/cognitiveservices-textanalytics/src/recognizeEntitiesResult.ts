@@ -3,22 +3,22 @@
 
 import {
   makeTextAnalysisResult,
-  TextAnalysisSuccessResult,
-  TextAnalysisErrorResult,
+  TextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
-} from "./textAnalysisResult";
+} from "./textAnalyticsResult";
 import { Entity, DocumentStatistics, ErrorModel } from "./generated/models";
 
 export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
 
-export interface RecognizeEntitiesSuccessResult extends TextAnalysisSuccessResult {
+export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * Recognized entities in the document.
    */
   readonly entities: Entity[];
 }
 
-export interface RecognizeEntitiesErrorResult extends TextAnalysisErrorResult {}
+export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeRecognizeEntitiesResult(
   id: string,

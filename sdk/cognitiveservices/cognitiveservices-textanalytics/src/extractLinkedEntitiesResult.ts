@@ -3,24 +3,24 @@
 
 import {
   makeTextAnalysisResult,
-  TextAnalysisSuccessResult,
-  TextAnalysisErrorResult,
+  TextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
-} from "./textAnalysisResult";
+} from "./textAnalyticsResult";
 import { DocumentStatistics, ErrorModel, LinkedEntity } from "./generated/models";
 
 export type ExtractLinkedEntitiesResult =
   | ExtractLinkedEntitiesSuccessResult
   | ExtractLinkedEntitiesErrorResult;
 
-export interface ExtractLinkedEntitiesSuccessResult extends TextAnalysisSuccessResult {
+export interface ExtractLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * Recognized entities in the document.
    */
   readonly entities: LinkedEntity[];
 }
 
-export interface ExtractLinkedEntitiesErrorResult extends TextAnalysisErrorResult {}
+export interface ExtractLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeExtractLinkedEntitiesResult(
   id: string,
