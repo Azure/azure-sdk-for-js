@@ -40,3 +40,21 @@ directive:
     transform: >
       $["x-ms-client-name"] = "innerError";
 ```
+
+### Rename plurals in DocumentStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentStatistics.properties.charactersCount
+    transform: >
+      $["x-ms-client-name"] = "characterCount";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentStatistics.properties.transactionsCount
+    transform: >
+      $["x-ms-client-name"] = "transactionCount";
+```

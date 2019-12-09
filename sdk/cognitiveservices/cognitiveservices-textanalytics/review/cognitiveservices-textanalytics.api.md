@@ -74,8 +74,8 @@ export interface DetectLanguageSuccessResult extends TextAnalysisSuccessResult {
 
 // @public
 export interface DocumentStatistics {
-    charactersCount: number;
-    transactionsCount: number;
+    characterCount: number;
+    transactionCount: number;
 }
 
 // @public
@@ -95,7 +95,7 @@ export type ErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | '
 export interface ErrorModel {
     code: ErrorModelCode;
     details?: ErrorModel[];
-    innererror?: InnerError;
+    innerError?: InnerError;
     message: string;
     target?: string;
 }
@@ -150,7 +150,7 @@ export interface ExtractLinkedEntitiesSuccessResult extends TextAnalysisSuccessR
 // @public
 export interface InnerError {
     code: ErrorCode;
-    innererror?: InnerError;
+    innerError?: InnerError;
     message: string;
     target?: string;
 }

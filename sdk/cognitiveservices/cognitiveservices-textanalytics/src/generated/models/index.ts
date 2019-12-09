@@ -111,11 +111,11 @@ export interface DocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  charactersCount: number;
+  characterCount: number;
   /**
    * Number of transactions for the document.
    */
-  transactionsCount: number;
+  transactionCount: number;
 }
 
 /**

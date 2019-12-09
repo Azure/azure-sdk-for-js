@@ -178,14 +178,14 @@ export const DocumentStatistics: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DocumentStatistics",
     modelProperties: {
-      charactersCount: {
+      characterCount: {
         required: true,
         serializedName: "charactersCount",
         type: {
           name: "Number"
         }
       },
-      transactionsCount: {
+      transactionCount: {
         required: true,
         serializedName: "transactionsCount",
         type: {
