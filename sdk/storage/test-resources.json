@@ -45,7 +45,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2019-04-01",
+      "apiVersion": "[variables('storageApiVersion')]",
       "name": "[variables('accountName')]",
       "location": "[variables('location')]",
       "tenantId": "[parameters('provisionerTenantId')]",
