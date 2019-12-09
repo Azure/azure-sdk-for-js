@@ -65,12 +65,10 @@ import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
-export interface TextAnalyticsClientOptions {
-  /**
-   * Pipeline options used to configure TextAnalytics API requests.
-   */
-  pipelineOptions?: PipelineOptions;
-
+/**
+ * Client options used to configure TextAnalytics API requests.
+ */
+export interface TextAnalyticsClientOptions extends PipelineOptions {
   /**
    * The default country hint to use. Defaults to "us".
    */
@@ -142,9 +140,9 @@ export class TextAnalyticsClient {
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.defaultCountryHint = options.defaultCountryHint || "us";
-    this.defaultLanguage = options.defaultLanguage || "en";
-    const pipelineOptions = options.pipelineOptions || {};
+    const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
+    this.defaultCountryHint = defaultCountryHint;
+    this.defaultLanguage = defaultLanguage;
 
     const libInfo = `azsdk-js-cognitiveservices-textanalytics/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
