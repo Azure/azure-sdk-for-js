@@ -61,7 +61,7 @@ export interface InnerError {
    * 'emptyRequest', 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect',
    * 'invalidDocumentBatch', 'unsupportedLanguageCode', 'invalidCountryHint'
    */
-  code: Code;
+  code: InnerErrorCode;
   /**
    * Error message.
    */
@@ -479,7 +479,7 @@ export interface TextAnalyticsError {
    * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
    * 'internalServerError', 'serviceUnavailable'
    */
-  code: Code1;
+  code: TextAnalyticsErrorCode;
   /**
    * Error message.
    */
@@ -589,6 +589,16 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 }
 
 /**
+ * Defines values for InnerErrorCode.
+ * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
+ * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
+ * 'unsupportedLanguageCode', 'invalidCountryHint'
+ * @readonly
+ * @enum {string}
+ */
+export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+
+/**
  * Defines values for DocumentSentimentValue.
  * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
  * @readonly
@@ -605,23 +615,13 @@ export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixe
 export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
 
 /**
- * Defines values for Code.
- * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
- * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
- * 'unsupportedLanguageCode', 'invalidCountryHint'
- * @readonly
- * @enum {string}
- */
-export type Code = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
-
-/**
- * Defines values for Code1.
+ * Defines values for TextAnalyticsErrorCode.
  * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
  * 'serviceUnavailable'
  * @readonly
  * @enum {string}
  */
-export type Code1 = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.

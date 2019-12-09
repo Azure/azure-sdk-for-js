@@ -101,3 +101,23 @@ directive:
         name: "DocumentSentimentValue"
       }
 ```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsError.properties.code
+    transform: >
+      $["x-ms-enum"] = {
+        name: "TextAnalyticsErrorCode"
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.InnerError.properties.code
+    transform: >
+      $["x-ms-enum"] = {
+        name: "InnerErrorCode"
+      }
+```

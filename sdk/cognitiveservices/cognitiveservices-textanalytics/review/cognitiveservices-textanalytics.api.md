@@ -91,12 +91,6 @@ export interface Entity {
     type: string;
 }
 
-// @public
-export type ErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
-
-// @public
-export type ErrorModelCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
-
 // @public (undocumented)
 export interface ExtractEntityLinkingOptions extends TextAnalyticsClientEntitiesLinkingOptionalParams {
 }
@@ -143,11 +137,14 @@ export interface ExtractLinkedEntitiesSuccessResult extends TextAnalyticsSuccess
 
 // @public
 export interface InnerError {
-    code: ErrorCode;
+    code: InnerErrorCode;
     innerError?: InnerError;
     message: string;
     target?: string;
 }
+
+// @public
+export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 // @public
 export interface LanguageInput {
@@ -318,12 +315,15 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 
 // @public
 export interface TextAnalyticsError {
-    code: ErrorModelCode;
+    code: TextAnalyticsErrorCode;
     details?: TextAnalyticsError[];
     innerError?: InnerError;
     message: string;
     target?: string;
 }
+
+// @public
+export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public (undocumented)
 export interface TextAnalyticsErrorResult {
