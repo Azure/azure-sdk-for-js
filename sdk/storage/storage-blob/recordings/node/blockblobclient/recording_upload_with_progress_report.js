@@ -1,78 +1,76 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"uniqueName":{"container":"container157559166696905092","blob":"blob157559166710707982","randomstring":"randomstring157559166710703673"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"container":"container157592665127602446","blob":"blob157592665147600158","randomstring":"randomstring157592665147601522"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container157559166696905092')
+  .put('/container157592665127602446')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:07 GMT',
+  'Mon, 09 Dec 2019 21:24:11 GMT',
   'ETag',
-  '"0x8D779E22FF5E626"',
+  '"0x8D77CEE222E62DB"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5afc31fe-e01e-0037-58cb-ab9cd9000000',
+  'bcf7b22b-001e-00fa-59d6-aef991000000',
   'x-ms-client-request-id',
-  'a314e6ad-1e0b-4629-bc70-30453734f994',
+  '3ae0b546-ae3d-4465-9147-37fa69443fba',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Fri, 06 Dec 2019 00:21:07 GMT' ]);
+  'Mon, 09 Dec 2019 21:24:11 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container157559166696905092/blob157559166710707982', "randomstring157559166710703673")
+  .put('/container157592665127602446/blob157592665147600158', "randomstring157592665147601522")
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
-  'O1LxMPxQnxg/3zcnGwAYcw==',
+  'x/EHLw8yNJrur368nG4sNw==',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:07 GMT',
+  'Mon, 09 Dec 2019 21:24:11 GMT',
   'ETag',
-  '"0x8D779E23008EF0D"',
+  '"0x8D77CEE224BF478"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '9cd557cf-e01e-011a-77cb-ab594c000000',
+  'e6fa29f0-c01e-0124-4ad6-aeef6d000000',
   'x-ms-client-request-id',
-  '8a3d599d-de30-4836-abb3-9cf2e8b52b05',
+  '09069b53-c884-4b0a-b533-91a70f079e63',
   'x-ms-version',
   '2019-02-02',
   'x-ms-content-crc64',
-  'xNYUMFIedqQ=',
+  'PxU/7s2wiXk=',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 06 Dec 2019 00:21:06 GMT',
-  'Connection',
-  'close' ]);
+  'Mon, 09 Dec 2019 21:24:11 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container157559166696905092/blob157559166710707982')
-  .reply(200, "randomstring157559166710703673", [ 'Content-Length',
+  .get('/container157592665127602446/blob157592665147600158')
+  .reply(200, "randomstring157592665147601522", [ 'Content-Length',
   '30',
   'Content-Type',
   'application/octet-stream',
   'Content-MD5',
-  'O1LxMPxQnxg/3zcnGwAYcw==',
+  'x/EHLw8yNJrur368nG4sNw==',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:07 GMT',
+  'Mon, 09 Dec 2019 21:24:11 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D779E23008EF0D"',
+  '"0x8D77CEE224BF478"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5b1da2a1-c01e-004d-75cb-abf694000000',
+  'b29f19ef-701e-00f5-57d6-ae1467000000',
   'x-ms-client-request-id',
-  '4152031f-09b5-430e-a141-e3f285b05f40',
+  'f2a82c53-7dc9-4f85-92d3-c8786cd4d811',
   'x-ms-version',
   '2019-02-02',
   'x-ms-creation-time',
-  'Fri, 06 Dec 2019 00:21:07 GMT',
+  'Mon, 09 Dec 2019 21:24:11 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -86,20 +84,20 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 06 Dec 2019 00:21:06 GMT' ]);
+  'Mon, 09 Dec 2019 21:24:11 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container157559166696905092')
+  .delete('/container157592665127602446')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5afc32a5-e01e-0037-5dcb-ab9cd9000000',
+  'bcf7b30f-001e-00fa-1bd6-aef991000000',
   'x-ms-client-request-id',
-  '18752e7b-7ab9-4bb8-ac7b-401dcb8697e5',
+  '01af28af-1fad-4a6f-a16e-60aad2ada97d',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Fri, 06 Dec 2019 00:21:07 GMT' ]);
+  'Mon, 09 Dec 2019 21:24:11 GMT' ]);

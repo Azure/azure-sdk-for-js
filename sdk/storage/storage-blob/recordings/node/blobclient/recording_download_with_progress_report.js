@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"uniqueName":{"container":"container157559166650501151","blob":"blob157559166663906577"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"container":"container157592663733503219","blob":"blob157592663745900301"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container157559166650501151')
+  .put('/container157592663733503219')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:06 GMT',
+  'Mon, 09 Dec 2019 21:23:57 GMT',
   'ETag',
-  '"0x8D779E22FAEC578"',
+  '"0x8D77CEE19E0442E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7975dad3-701e-0032-5ccb-ab68a6000000',
+  '222f574c-e01e-00d9-7fd6-ae965a000000',
   'x-ms-client-request-id',
-  '1f425a14-3943-4d57-bace-283533f5dd6c',
+  '872bfd6a-4408-4627-b34a-7320d10be145',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Fri, 06 Dec 2019 00:21:06 GMT' ]);
+  'Mon, 09 Dec 2019 21:23:57 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container157559166650501151/blob157559166663906577', "Hello World")
+  .put('/container157592663733503219/blob157592663745900301', "Hello World")
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:06 GMT',
+  'Mon, 09 Dec 2019 21:23:57 GMT',
   'ETag',
-  '"0x8D779E22FC34980"',
+  '"0x8D77CEE19F13A63"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'efe0cc43-201e-00cf-57cb-ab57c4000000',
+  'ae24f44a-501e-0121-5dd6-ae1b12000000',
   'x-ms-client-request-id',
-  '896169e7-9920-46de-93a5-1efb0c97b4d2',
+  '79ecfc61-68e1-4ccd-ad84-beef1a9447dd',
   'x-ms-version',
   '2019-02-02',
   'x-ms-content-crc64',
@@ -45,10 +45,10 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 06 Dec 2019 00:21:05 GMT' ]);
+  'Mon, 09 Dec 2019 21:23:56 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container157559166650501151/blob157559166663906577')
+  .get('/container157592663733503219/blob157592663745900301')
   .reply(200, "Hello World", [ 'Content-Length',
   '11',
   'Content-Type',
@@ -56,21 +56,21 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Fri, 06 Dec 2019 00:21:06 GMT',
+  'Mon, 09 Dec 2019 21:23:57 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D779E22FC34980"',
+  '"0x8D77CEE19F13A63"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cf99ee02-901e-00d6-67cb-ab7bac000000',
+  'c2a784d3-401e-00b9-10d6-aed378000000',
   'x-ms-client-request-id',
-  'a5d6794c-5fe5-4845-8205-a64d4071de4f',
+  'ca418d5a-af53-4bf1-8d5d-579ce09008a5',
   'x-ms-version',
   '2019-02-02',
   'x-ms-creation-time',
-  'Fri, 06 Dec 2019 00:21:06 GMT',
+  'Mon, 09 Dec 2019 21:23:57 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -84,20 +84,20 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 06 Dec 2019 00:21:06 GMT' ]);
+  'Mon, 09 Dec 2019 21:23:56 GMT' ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container157559166650501151')
+  .delete('/container157592663733503219')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7975db96-701e-0032-02cb-ab68a6000000',
+  '222f578c-e01e-00d9-31d6-ae965a000000',
   'x-ms-client-request-id',
-  '5f20ddd5-75dc-4fd6-8a3f-3a228eac7b0e',
+  '968abbf9-ef5a-45f0-9f0e-9e5f84fc23d0',
   'x-ms-version',
   '2019-02-02',
   'Date',
-  'Fri, 06 Dec 2019 00:21:06 GMT' ]);
+  'Mon, 09 Dec 2019 21:23:57 GMT' ]);
