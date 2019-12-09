@@ -5,6 +5,13 @@
     "baseName": {
       "type": "String"
     },
+    "provisionerTenantId": {
+      "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      "metadata": {
+          "description": "The tenant ID to which the client OID belongs."
+      }
+    },
     "endpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net"
@@ -41,6 +48,7 @@
       "apiVersion": "2019-04-01",
       "name": "[variables('accountName')]",
       "location": "[variables('location')]",
+      "tenantId": "[parameters('provisionerTenantId')]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
