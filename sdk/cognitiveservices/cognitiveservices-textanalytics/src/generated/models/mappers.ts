@@ -62,30 +62,6 @@ export const MultiLanguageBatchInput: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentError: coreHttp.CompositeMapper = {
-  serializedName: "DocumentError",
-  type: {
-    name: "Composite",
-    className: "DocumentError",
-    modelProperties: {
-      id: {
-        required: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        required: true,
-        serializedName: "error",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
 export const InnerError: coreHttp.CompositeMapper = {
   serializedName: "InnerError",
   type: {
@@ -128,6 +104,86 @@ export const InnerError: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "InnerError"
+        }
+      }
+    }
+  }
+};
+
+export const TextAnalyticsError: coreHttp.CompositeMapper = {
+  serializedName: "TextAnalyticsError",
+  type: {
+    name: "Composite",
+    className: "TextAnalyticsError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "invalidRequest",
+            "invalidArgument",
+            "internalServerError",
+            "serviceUnavailable"
+          ]
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      innerError: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextAnalyticsError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DocumentError: coreHttp.CompositeMapper = {
+  serializedName: "DocumentError",
+  type: {
+    name: "Composite",
+    className: "DocumentError",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        required: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "TextAnalyticsError"
         }
       }
     }
@@ -961,61 +1017,6 @@ export const LanguageResult: coreHttp.CompositeMapper = {
         serializedName: "modelVersion",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TextAnalyticsError: coreHttp.CompositeMapper = {
-  serializedName: "TextAnalyticsError",
-  type: {
-    name: "Composite",
-    className: "TextAnalyticsError",
-    modelProperties: {
-      code: {
-        required: true,
-        serializedName: "code",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "invalidRequest",
-            "invalidArgument",
-            "internalServerError",
-            "serviceUnavailable"
-          ]
-        }
-      },
-      message: {
-        required: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      innerError: {
-        serializedName: "innererror",
-        type: {
-          name: "Composite",
-          className: "InnerError"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TextAnalyticsError"
-            }
-          }
         }
       }
     }

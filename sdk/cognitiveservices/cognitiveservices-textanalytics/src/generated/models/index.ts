@@ -39,20 +39,6 @@ export interface MultiLanguageBatchInput {
 }
 
 /**
- * An interface representing DocumentError.
- */
-export interface DocumentError {
-  /**
-   * Document Id.
-   */
-  id: string;
-  /**
-   * Document Error.
-   */
-  error: any;
-}
-
-/**
  * An interface representing InnerError.
  */
 export interface InnerError {
@@ -74,6 +60,47 @@ export interface InnerError {
    * Inner error contains more specific information.
    */
   innerError?: InnerError;
+}
+
+/**
+ * An interface representing TextAnalyticsError.
+ */
+export interface TextAnalyticsError {
+  /**
+   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
+   * 'internalServerError', 'serviceUnavailable'
+   */
+  code: TextAnalyticsErrorCode;
+  /**
+   * Error message.
+   */
+  message: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Inner error contains more specific information.
+   */
+  innerError?: InnerError;
+  /**
+   * Details about specific errors that led to this reported error.
+   */
+  details?: TextAnalyticsError[];
+}
+
+/**
+ * An interface representing DocumentError.
+ */
+export interface DocumentError {
+  /**
+   * Document Id.
+   */
+  id: string;
+  /**
+   * Document Error.
+   */
+  error: TextAnalyticsError;
 }
 
 /**
@@ -472,33 +499,6 @@ export interface LanguageResult {
 }
 
 /**
- * An interface representing TextAnalyticsError.
- */
-export interface TextAnalyticsError {
-  /**
-   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
-   * 'internalServerError', 'serviceUnavailable'
-   */
-  code: TextAnalyticsErrorCode;
-  /**
-   * Error message.
-   */
-  message: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Inner error contains more specific information.
-   */
-  innerError?: InnerError;
-  /**
-   * Details about specific errors that led to this reported error.
-   */
-  details?: TextAnalyticsError[];
-}
-
-/**
  * Optional Parameters.
  */
 export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
@@ -589,6 +589,15 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 }
 
 /**
+ * Defines values for TextAnalyticsErrorCode.
+ * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
+ * 'serviceUnavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+
+/**
  * Defines values for InnerErrorCode.
  * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
  * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
@@ -613,15 +622,6 @@ export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixe
  * @enum {string}
  */
 export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
-
-/**
- * Defines values for TextAnalyticsErrorCode.
- * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
- * 'serviceUnavailable'
- * @readonly
- * @enum {string}
- */
-export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.

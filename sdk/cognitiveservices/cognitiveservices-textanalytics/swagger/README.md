@@ -157,3 +157,14 @@ directive:
     transform: >
       $["$ref"] = "#/definitions/SentimentConfidenceScorePerLabel";
 ```
+
+### Fix bad reference for DocumentError.error
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentError.properties.error
+    transform: >
+      $["$ref"] = "#/definitions/TextAnalyticsError";
+      delete $["items"]
+```
