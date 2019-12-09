@@ -1,6 +1,7 @@
 ### TBD 1.0.0-preview.9
 
 - Improved detection of when an established socket is no longer receiving data from the service.
+- Added logging around the network connectivity check.
 
 ### 2019-11-26 1.0.0-preview.8
 
