@@ -92,6 +92,16 @@ export interface DocumentStatistics {
 }
 
 /**
+ * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
+ * neutral, negative.
+ */
+export interface SentimentConfidenceScorePerLabel {
+  positive: number;
+  neutral: number;
+  negative: number;
+}
+
+/**
  * An interface representing SentenceSentiment.
  */
 export interface SentenceSentiment {
@@ -103,7 +113,7 @@ export interface SentenceSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
-  sentenceScores: any;
+  sentenceScores: SentimentConfidenceScorePerLabel;
   /**
    * The sentence offset from the start of the document.
    */
@@ -135,7 +145,7 @@ export interface DocumentSentiment {
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: any;
+  documentScores: SentimentConfidenceScorePerLabel;
   /**
    * Sentence level sentiment analysis.
    */
@@ -184,16 +194,6 @@ export interface SentimentResponse {
    * This field indicates which model is used for scoring.
    */
   modelVersion: string;
-}
-
-/**
- * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
- * neutral, negative.
- */
-export interface SentimentConfidenceScorePerLabel {
-  positive: number;
-  neutral: number;
-  negative: number;
 }
 
 /**

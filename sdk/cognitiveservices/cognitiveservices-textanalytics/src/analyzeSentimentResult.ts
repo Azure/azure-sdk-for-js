@@ -11,7 +11,8 @@ import {
   DocumentStatistics,
   TextAnalyticsError,
   DocumentSentimentValue,
-  SentenceSentiment
+  SentenceSentiment,
+  SentimentConfidenceScorePerLabel
 } from "./generated/models";
 
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -25,7 +26,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: number;
+  documentScores: SentimentConfidenceScorePerLabel;
   /**
    * Sentence level sentiment analysis.
    */
@@ -37,7 +38,7 @@ export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {}
 export function makeAnalyzeSentimentResult(
   id: string,
   sentiment: DocumentSentimentValue,
-  documentScores: number,
+  documentScores: SentimentConfidenceScorePerLabel,
   sentences: SentenceSentiment[],
   statistics?: DocumentStatistics
 ): AnalyzeSentimentSuccessResult {

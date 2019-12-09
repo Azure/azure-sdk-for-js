@@ -158,6 +158,37 @@ export const DocumentStatistics: coreHttp.CompositeMapper = {
   }
 };
 
+export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
+  serializedName: "SentimentConfidenceScorePerLabel",
+  type: {
+    name: "Composite",
+    className: "SentimentConfidenceScorePerLabel",
+    modelProperties: {
+      positive: {
+        required: true,
+        serializedName: "positive",
+        type: {
+          name: "Number"
+        }
+      },
+      neutral: {
+        required: true,
+        serializedName: "neutral",
+        type: {
+          name: "Number"
+        }
+      },
+      negative: {
+        required: true,
+        serializedName: "negative",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const SentenceSentiment: coreHttp.CompositeMapper = {
   serializedName: "SentenceSentiment",
   type: {
@@ -180,7 +211,8 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "sentenceScores",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
       offset: {
@@ -249,7 +281,8 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "documentScores",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
       sentences: {
@@ -351,37 +384,6 @@ export const SentimentResponse: coreHttp.CompositeMapper = {
         serializedName: "modelVersion",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
-  serializedName: "SentimentConfidenceScorePerLabel",
-  type: {
-    name: "Composite",
-    className: "SentimentConfidenceScorePerLabel",
-    modelProperties: {
-      positive: {
-        required: true,
-        serializedName: "positive",
-        type: {
-          name: "Number"
-        }
-      },
-      neutral: {
-        required: true,
-        serializedName: "neutral",
-        type: {
-          name: "Number"
-        }
-      },
-      negative: {
-        required: true,
-        serializedName: "negative",
-        type: {
-          name: "Number"
         }
       }
     }

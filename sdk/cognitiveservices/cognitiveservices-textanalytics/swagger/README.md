@@ -121,3 +121,17 @@ directive:
         name: "InnerErrorCode"
       }
 ```
+
+### Add missing ref for scores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentSentiment.properties.documentScores
+    transform: >
+      $["$ref"] = "#/definitions/SentimentConfidenceScorePerLabel";
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentenceScores
+    transform: >
+      $["$ref"] = "#/definitions/SentimentConfidenceScorePerLabel";
+```
