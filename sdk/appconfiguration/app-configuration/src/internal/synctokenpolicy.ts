@@ -39,7 +39,9 @@ class SyncTokenPolicy extends BaseRequestPolicy {
       webResource.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
     }
 
-    return this._nextPolicy.sendRequest(webResource);
+    const response = await this._nextPolicy.sendRequest(webResource);
+    this._syncTokens.addSyncTokenFromHeaderValue(response.headers.get(SyncTokenHeaderName));
+    return response;
   }
 }
 
