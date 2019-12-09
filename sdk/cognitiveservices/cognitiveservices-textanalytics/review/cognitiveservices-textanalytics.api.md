@@ -5,7 +5,7 @@
 ```ts
 
 import { ApiKeyCredentials } from '@azure/core-http';
-import * as coreHttp from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 
@@ -14,7 +14,7 @@ export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
-export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -50,7 +50,7 @@ export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
-export interface DetectLanguageOptions extends TextAnalyticsClientLanguagesOptionalParams {
+export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -63,7 +63,7 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
 }
 
 // @public (undocumented)
-export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOptionalParams {
+export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -92,7 +92,7 @@ export interface Entity {
 }
 
 // @public (undocumented)
-export interface ExtractEntityLinkingOptions extends TextAnalyticsClientEntitiesLinkingOptionalParams {
+export interface ExtractEntityLinkingOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -100,7 +100,7 @@ export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -185,7 +185,7 @@ export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {
 }
 
 // @public (undocumented)
-export interface RecognizeEntitiesOptions extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {
+export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public (undocumented)
@@ -203,7 +203,7 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public (undocumented)
-export interface RecognizePiiEntitiesOptions extends TextAnalyticsClientEntitiesRecognitionPiiOptionalParams {
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
 // @public
@@ -281,46 +281,9 @@ export class TextAnalyticsClient {
 }
 
 // @public
-export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
-}
-
-// @public
-export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
-}
-
-// @public
-export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
-}
-
-// @public
-export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
-}
-
-// @public
-export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
-}
-
-// @public (undocumented)
-export interface TextAnalyticsClientOptions {
+export interface TextAnalyticsClientOptions extends PipelineOptions {
     defaultCountryHint?: string;
     defaultLanguage?: string;
-    pipelineOptions?: PipelineOptions;
-}
-
-// @public
-export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
-    modelVersion?: string;
-    showStats?: boolean;
 }
 
 // @public
@@ -339,6 +302,12 @@ export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'int
 export interface TextAnalyticsErrorResult {
     readonly error: TextAnalyticsError;
     readonly id: string;
+}
+
+// @public (undocumented)
+export interface TextAnalyticsOperationOptions extends OperationOptions {
+    modelVersion?: string;
+    showStats?: boolean;
 }
 
 // @public (undocumented)

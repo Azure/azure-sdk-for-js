@@ -7,24 +7,16 @@ import {
   signingPolicy,
   InternalPipelineOptions,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  operationOptionsToRequestOptionsBase,
+  OperationOptions
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
 import { logger } from "./logger";
 import { makeDetectLanguageResult, DetectLanguageSuccessResult } from "./detectLanguageResult";
-import {
-  LanguageInput,
-  TextAnalyticsClientLanguagesOptionalParams,
-  TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
-  TextAnalyticsError,
-  MultiLanguageInput,
-  TextAnalyticsClientSentimentOptionalParams,
-  TextAnalyticsClientKeyPhrasesOptionalParams,
-  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
-  TextAnalyticsClientEntitiesLinkingOptionalParams
-} from "./generated/models";
+import { LanguageInput, TextAnalyticsError, MultiLanguageInput } from "./generated/models";
 import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
@@ -80,22 +72,31 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
   defaultLanguage?: string;
 }
 
-export interface DetectLanguageOptions extends TextAnalyticsClientLanguagesOptionalParams {}
+export interface TextAnalyticsOperationOptions extends OperationOptions {
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is
+   * not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
+   */
+  showStats?: boolean;
+}
 
-export interface DetectLanguagesOptions extends TextAnalyticsClientLanguagesOptionalParams {}
+export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {}
 
-export interface RecognizeEntitiesOptions
-  extends TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams {}
+export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {}
 
-export interface AnalyzeSentimentOptions extends TextAnalyticsClientSentimentOptionalParams {}
+export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {}
 
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsClientKeyPhrasesOptionalParams {}
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {}
 
-export interface ExtractEntityLinkingOptions
-  extends TextAnalyticsClientEntitiesLinkingOptionalParams {}
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {}
 
-export interface RecognizePiiEntitiesOptions
-  extends TextAnalyticsClientEntitiesRecognitionPiiOptionalParams {}
+export interface ExtractEntityLinkingOptions extends TextAnalyticsOperationOptions {}
+
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {}
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -188,7 +189,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
     if (result.errors.length) {
       const error: TextAnalyticsError = result.errors[0].error;
@@ -229,7 +230,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeDetectLanguageResultCollection(
@@ -243,7 +244,7 @@ export class TextAnalyticsClient {
   public async singleRecognizeEntities(
     inputText: string,
     language: string = this.defaultLanguage,
-    options?: RecognizeEntitiesOptions
+    options: RecognizeEntitiesOptions = {}
   ): Promise<RecognizeEntitiesSuccessResult> {
     const result = await this.client.entitiesRecognitionGeneral(
       {
@@ -255,7 +256,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
 
     if (result.errors.length) {
@@ -297,7 +298,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeRecognizeEntitiesResultCollection(
@@ -311,7 +312,7 @@ export class TextAnalyticsClient {
   public async singleAnalyzeSentiment(
     inputText: string,
     language: string = this.defaultLanguage,
-    options?: AnalyzeSentimentOptions
+    options: AnalyzeSentimentOptions = {}
   ): Promise<AnalyzeSentimentSuccessResult> {
     const result = await this.client.sentiment(
       {
@@ -323,7 +324,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
 
     if (result.errors.length) {
@@ -371,7 +372,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeAnalyzeSentimentResultCollection(
@@ -385,7 +386,7 @@ export class TextAnalyticsClient {
   public async singleExtractKeyPhrases(
     inputText: string,
     language: string = this.defaultLanguage,
-    options?: ExtractKeyPhrasesOptions
+    options: ExtractKeyPhrasesOptions = {}
   ): Promise<ExtractKeyPhrasesSuccessResult> {
     const result = await this.client.keyPhrases(
       {
@@ -397,7 +398,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
 
     if (result.errors.length) {
@@ -439,7 +440,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeExtractKeyPhrasesResultCollection(
@@ -453,7 +454,7 @@ export class TextAnalyticsClient {
   public async singleRecognizePiiEntities(
     inputText: string,
     language: string = this.defaultLanguage,
-    options?: RecognizePiiEntitiesOptions
+    options: RecognizePiiEntitiesOptions = {}
   ): Promise<RecognizeEntitiesSuccessResult> {
     const result = await this.client.entitiesRecognitionPii(
       {
@@ -465,7 +466,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
 
     if (result.errors.length) {
@@ -507,7 +508,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeRecognizeEntitiesResultCollection(
@@ -521,7 +522,7 @@ export class TextAnalyticsClient {
   public async singleExtractEntityLinking(
     inputText: string,
     language: string = this.defaultLanguage,
-    options?: ExtractEntityLinkingOptions
+    options: ExtractEntityLinkingOptions = {}
   ): Promise<ExtractLinkedEntitiesSuccessResult> {
     const result = await this.client.entitiesLinking(
       {
@@ -533,7 +534,7 @@ export class TextAnalyticsClient {
           }
         ]
       },
-      options
+      operationOptionsToRequestOptionsBase(options)
     );
 
     if (result.errors.length) {
@@ -575,7 +576,7 @@ export class TextAnalyticsClient {
       {
         documents: realInput
       },
-      realOptions
+      operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeExtractLinkedEntitiesResultCollection(

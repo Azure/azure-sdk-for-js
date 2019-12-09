@@ -10,7 +10,8 @@ export {
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
-  ExtractEntityLinkingOptions
+  ExtractEntityLinkingOptions,
+  TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
 export {
@@ -56,12 +57,6 @@ export {
   SentimentConfidenceScorePerLabel,
   MultiLanguageInput,
   LanguageInput,
-  TextAnalyticsClientLanguagesOptionalParams,
-  TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
-  TextAnalyticsClientSentimentOptionalParams,
-  TextAnalyticsClientKeyPhrasesOptionalParams,
-  TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
-  TextAnalyticsClientEntitiesLinkingOptionalParams,
   TextAnalyticsError,
   RequestStatistics,
   InnerErrorCode,
