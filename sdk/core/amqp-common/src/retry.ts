@@ -105,6 +105,7 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
           );
 
           // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
+          // Only when dns.resolve returns an error we expect to see when the network is down, resolve as 'false'.
           if (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT") {
             return res(false);
           }
