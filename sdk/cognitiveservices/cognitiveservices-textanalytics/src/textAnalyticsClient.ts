@@ -18,7 +18,7 @@ import {
   LanguageInput,
   TextAnalyticsClientLanguagesOptionalParams,
   TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams,
-  ErrorModel,
+  TextAnalyticsError,
   MultiLanguageInput,
   TextAnalyticsClientSentimentOptionalParams,
   TextAnalyticsClientKeyPhrasesOptionalParams,
@@ -193,7 +193,7 @@ export class TextAnalyticsClient {
       options
     );
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 
@@ -261,7 +261,7 @@ export class TextAnalyticsClient {
     );
 
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 
@@ -329,7 +329,7 @@ export class TextAnalyticsClient {
     );
 
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 
@@ -403,7 +403,7 @@ export class TextAnalyticsClient {
     );
 
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 
@@ -471,7 +471,7 @@ export class TextAnalyticsClient {
     );
 
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 
@@ -539,7 +539,7 @@ export class TextAnalyticsClient {
     );
 
     if (result.errors.length) {
-      const error: ErrorModel = result.errors[0].error;
+      const error: TextAnalyticsError = result.errors[0].error;
       throw new Error(error.message);
     }
 

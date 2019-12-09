@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
-import { DetectedLanguage, DocumentStatistics, ErrorModel } from "./generated/models";
+import { DetectedLanguage, DocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
@@ -38,7 +38,7 @@ export function makeDetectLanguageResult(
 
 export function makeDetectLanguageErrorResult(
   id: string,
-  error: ErrorModel
+  error: TextAnalyticsError
 ): DetectLanguageErrorResult {
   return makeTextAnalysisErrorResult(id, error);
 }

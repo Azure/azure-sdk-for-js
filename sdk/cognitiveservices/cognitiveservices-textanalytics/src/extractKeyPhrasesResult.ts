@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
-import { DocumentStatistics, ErrorModel } from "./generated/models";
+import { DocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
@@ -34,7 +34,7 @@ export function makeExtractKeyPhrasesResult(
 
 export function makeExtractKeyPhrasesErrorResult(
   id: string,
-  error: ErrorModel
+  error: TextAnalyticsError
 ): ExtractKeyPhrasesErrorResult {
   return makeTextAnalysisErrorResult(id, error);
 }

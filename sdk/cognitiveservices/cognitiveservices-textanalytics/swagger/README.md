@@ -58,3 +58,24 @@ directive:
     transform: >
       $["x-ms-client-name"] = "transactionCount";
 ```
+
+### Rename the model for Error to TextAnalyticsError
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextAnalyticsError) {
+          $.TextAnalyticsError = $.Error;
+          $.TextAnalyticsError.properties.details.items["$ref"] = "#/definitions/TextAnalyticsError";
+          $.DocumentError.properties.error.items["$ref"] = "#/definitions/TextAnalyticsError";
+          delete $.Error;
+      }
+  - from: swagger-document
+    where: $["paths"]..responses["default"].schema
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/Error") {
+          $["$ref"] = "#/definitions/TextAnalyticsError";
+      }
+```

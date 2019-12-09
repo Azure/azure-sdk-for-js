@@ -92,15 +92,6 @@ export interface Entity {
 export type ErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 // @public
-export interface ErrorModel {
-    code: ErrorModelCode;
-    details?: ErrorModel[];
-    innerError?: InnerError;
-    message: string;
-    target?: string;
-}
-
-// @public
 export type ErrorModelCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public (undocumented)
@@ -322,9 +313,18 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
     showStats?: boolean;
 }
 
+// @public
+export interface TextAnalyticsError {
+    code: ErrorModelCode;
+    details?: TextAnalyticsError[];
+    innerError?: InnerError;
+    message: string;
+    target?: string;
+}
+
 // @public (undocumented)
 export interface TextAnalyticsErrorResult {
-    readonly error: ErrorModel;
+    readonly error: TextAnalyticsError;
     readonly id: string;
 }
 

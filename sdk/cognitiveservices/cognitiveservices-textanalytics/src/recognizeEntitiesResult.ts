@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
-import { Entity, DocumentStatistics, ErrorModel } from "./generated/models";
+import { Entity, DocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
 
@@ -33,7 +33,7 @@ export function makeRecognizeEntitiesResult(
 
 export function makeRecognizeEntitiesErrorResult(
   id: string,
-  error: ErrorModel
+  error: TextAnalyticsError
 ): RecognizeEntitiesErrorResult {
   return makeTextAnalysisErrorResult(id, error);
 }

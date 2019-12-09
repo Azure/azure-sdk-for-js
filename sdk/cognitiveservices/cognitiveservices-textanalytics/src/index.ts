@@ -61,7 +61,7 @@ export {
   TextAnalyticsClientKeyPhrasesOptionalParams,
   TextAnalyticsClientEntitiesRecognitionPiiOptionalParams,
   TextAnalyticsClientEntitiesLinkingOptionalParams,
-  ErrorModel,
+  TextAnalyticsError,
   RequestStatistics,
   Code1 as ErrorModelCode,
   Code as ErrorCode,

@@ -9,7 +9,7 @@ import {
 } from "./textAnalyticsResult";
 import {
   DocumentStatistics,
-  ErrorModel,
+  TextAnalyticsError,
   Sentiment1 as TextSentiment,
   SentenceSentiment
 } from "./generated/models";
@@ -51,7 +51,7 @@ export function makeAnalyzeSentimentResult(
 
 export function makeAnalyzeSentimentErrorResult(
   id: string,
-  error: ErrorModel
+  error: TextAnalyticsError
 ): AnalyzeSentimentErrorResult {
   return makeTextAnalysisErrorResult(id, error);
 }

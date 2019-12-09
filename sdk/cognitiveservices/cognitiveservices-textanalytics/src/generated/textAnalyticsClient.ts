@@ -245,7 +245,7 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntitiesResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer
@@ -273,7 +273,7 @@ const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntitiesResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer
@@ -301,7 +301,7 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntityLinkingResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer
@@ -329,7 +329,7 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyPhraseResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer
@@ -357,7 +357,7 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.LanguageResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer
@@ -385,7 +385,7 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.SentimentResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.TextAnalyticsError
     }
   },
   serializer

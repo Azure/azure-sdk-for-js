@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentStatistics, ErrorModel } from "./generated/models";
+import { DocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
@@ -27,7 +27,7 @@ export interface TextAnalyticsErrorResult {
   /**
    * The Error for this document result.
    */
-  readonly error: ErrorModel;
+  readonly error: TextAnalyticsError;
 }
 
 export function makeTextAnalysisResult(
@@ -42,7 +42,7 @@ export function makeTextAnalysisResult(
 
 export function makeTextAnalysisErrorResult(
   id: string,
-  error: ErrorModel
+  error: TextAnalyticsError
 ): TextAnalyticsErrorResult {
   return {
     id,

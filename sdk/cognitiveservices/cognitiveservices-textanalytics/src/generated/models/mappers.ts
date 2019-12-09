@@ -123,55 +123,6 @@ export const InnerError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
-  serializedName: "Error",
-  type: {
-    name: "Composite",
-    className: "ErrorModel",
-    modelProperties: {
-      code: {
-        required: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        required: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      innerError: {
-        serializedName: "innererror",
-        type: {
-          name: "Composite",
-          className: "InnerError"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const DocumentStatistics: coreHttp.CompositeMapper = {
   serializedName: "DocumentStatistics",
   type: {
@@ -986,6 +937,55 @@ export const LanguageResult: coreHttp.CompositeMapper = {
         serializedName: "modelVersion",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TextAnalyticsError: coreHttp.CompositeMapper = {
+  serializedName: "TextAnalyticsError",
+  type: {
+    name: "Composite",
+    className: "TextAnalyticsError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      innerError: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextAnalyticsError"
+            }
+          }
         }
       }
     }

@@ -77,33 +77,6 @@ export interface InnerError {
 }
 
 /**
- * An interface representing ErrorModel.
- */
-export interface ErrorModel {
-  /**
-   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
-   * 'internalServerError', 'serviceUnavailable'
-   */
-  code: Code1;
-  /**
-   * Error message.
-   */
-  message: string;
-  /**
-   * Error target.
-   */
-  target?: string;
-  /**
-   * Inner error contains more specific information.
-   */
-  innerError?: InnerError;
-  /**
-   * Details about specific errors that led to this reported error.
-   */
-  details?: ErrorModel[];
-}
-
-/**
  * if showStats=true was specified in the request this field will contain information about the
  * document payload.
  */
@@ -499,6 +472,33 @@ export interface LanguageResult {
 }
 
 /**
+ * An interface representing TextAnalyticsError.
+ */
+export interface TextAnalyticsError {
+  /**
+   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
+   * 'internalServerError', 'serviceUnavailable'
+   */
+  code: Code1;
+  /**
+   * Error message.
+   */
+  message: string;
+  /**
+   * Error target.
+   */
+  target?: string;
+  /**
+   * Inner error contains more specific information.
+   */
+  innerError?: InnerError;
+  /**
+   * Details about specific errors that led to this reported error.
+   */
+  details?: TextAnalyticsError[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
@@ -599,15 +599,6 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 export type Code = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 /**
- * Defines values for Code1.
- * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
- * 'serviceUnavailable'
- * @readonly
- * @enum {string}
- */
-export type Code1 = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
-
-/**
  * Defines values for Sentiment.
  * Possible values include: 'positive', 'neutral', 'negative'
  * @readonly
@@ -622,6 +613,15 @@ export type Sentiment = 'positive' | 'neutral' | 'negative';
  * @enum {string}
  */
 export type Sentiment1 = 'positive' | 'neutral' | 'negative' | 'mixed';
+
+/**
+ * Defines values for Code1.
+ * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
+ * 'serviceUnavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type Code1 = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.
