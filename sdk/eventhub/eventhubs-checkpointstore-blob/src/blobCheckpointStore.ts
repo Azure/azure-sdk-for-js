@@ -113,6 +113,7 @@ export class BlobCheckpointStore implements CheckpointStore {
           // etag failures (precondition not met) aren't fatal errors. They happen
           // as multiple consumers attempt to claim the same partition (first one wins)
           // and losers get this error.
+          log.blobCheckpointStore(`[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`);
           continue;
         }
 
