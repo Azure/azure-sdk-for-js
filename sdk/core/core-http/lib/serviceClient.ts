@@ -664,8 +664,8 @@ export function createPipelineFromOptions(
     ...pipelineOptions.redirectOptions
   };
 
-  const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
-  if (isNode && proxySettings) {
+  const proxySettings = pipelineOptions.proxyOptions;
+  if (isNode) {
     requestPolicyFactories.push(proxyPolicy(proxySettings));
   }
 

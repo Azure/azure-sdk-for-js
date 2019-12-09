@@ -47,6 +47,9 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 }
 
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
+  if (!proxySettings) {
+    proxySettings = getDefaultProxySettings();
+  }
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ProxyPolicy(nextPolicy, options, proxySettings!);
