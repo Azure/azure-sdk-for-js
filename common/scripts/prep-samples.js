@@ -132,7 +132,7 @@ async function main() {
     baseDir = process.cwd();
   }
 
-  const tsDir = path.join(baseDir, "samples", "typescript");
+  const tsDir = path.join(baseDir, "samples", "typescript", "src");
   const package = require(path.join(baseDir, "package.json"));
 
   console.log(

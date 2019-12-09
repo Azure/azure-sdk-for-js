@@ -2,11 +2,11 @@
  Setup: Enter your storage account name, SAS and a path pointing to local file in main()
 */
 
-import fs from "fs";
+import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
-async function main() {
+export async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -89,10 +89,12 @@ async function main() {
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+if (!process.env["BATCH_SAMPLES"]) {
+  main()
+    .then(() => {
+      console.log("Successfully executed sample.");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}

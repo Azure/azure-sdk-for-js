@@ -4,7 +4,7 @@
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
-async function main() {
+export async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
   // Please ensure your directory is mounted
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows
@@ -151,10 +151,12 @@ async function main() {
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+if (!process.env["BATCH_SAMPLES"]) {
+  main()
+    .then(() => {
+      console.log("Successfully executed sample.");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}

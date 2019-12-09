@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prebuild": "rimraf dist/"
+    "prebuild": "rimraf dist/",
+    "run:all": "cross-env BATCH_SAMPLES=true ts-node run.ts"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,9 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.0",
+    "cross-env": "^6.0.3",
     "rimraf": "^3.0.0",
+    "ts-node": "^8.3.0",
     "typescript": "~3.6.4"
   }
 }

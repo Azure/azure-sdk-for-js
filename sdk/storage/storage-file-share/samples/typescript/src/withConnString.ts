@@ -4,7 +4,7 @@
 
 import { ShareServiceClient } from "@azure/storage-file-share";
 
-async function main() {
+export async function main() {
   // Create File Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -30,10 +30,12 @@ async function main() {
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+if (!process.env["BATCH_SAMPLES"]) {
+  main()
+    .then(() => {
+      console.log("Successfully executed sample.");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}

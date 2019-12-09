@@ -8,7 +8,7 @@ import {
   StorageSharedKeyCredential
 } from "@azure/storage-file-share";
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -48,10 +48,12 @@ async function main() {
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+if (!process.env["BATCH_SAMPLES"]) {
+  main()
+    .then(() => {
+      console.log("Successfully executed sample.");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
