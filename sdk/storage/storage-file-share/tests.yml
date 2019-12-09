@@ -9,7 +9,7 @@ resources:
       name: Azure/azure-sdk-tools
       endpoint: azure
 jobs:
-  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-file-share"
       ResourceFileLocation: sdk/storage/test-resources.json
