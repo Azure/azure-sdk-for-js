@@ -308,28 +308,28 @@ export const RequestStatistics: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RequestStatistics",
     modelProperties: {
-      documentsCount: {
+      documentCount: {
         required: true,
         serializedName: "documentsCount",
         type: {
           name: "Number"
         }
       },
-      validDocumentsCount: {
+      validDocumentCount: {
         required: true,
         serializedName: "validDocumentsCount",
         type: {
           name: "Number"
         }
       },
-      erroneousDocumentsCount: {
+      erroneousDocumentCount: {
         required: true,
         serializedName: "erroneousDocumentsCount",
         type: {
           name: "Number"
         }
       },
-      transactionsCount: {
+      transactionCount: {
         required: true,
         serializedName: "transactionsCount",
         type: {

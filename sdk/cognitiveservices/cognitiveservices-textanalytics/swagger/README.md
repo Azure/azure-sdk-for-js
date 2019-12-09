@@ -59,6 +59,28 @@ directive:
       $["x-ms-client-name"] = "transactionCount";
 ```
 
+### Rename plurals in RequestStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RequestStatistics.properties.documentsCount
+    transform: >
+      $["x-ms-client-name"] = "documentCount";
+  - from: swagger-document
+    where: $.definitions.RequestStatistics.properties.validDocumentsCount
+    transform: >
+      $["x-ms-client-name"] = "validDocumentCount";
+  - from: swagger-document
+    where: $.definitions.RequestStatistics.properties.erroneousDocumentsCount
+    transform: >
+      $["x-ms-client-name"] = "erroneousDocumentCount";
+  - from: swagger-document
+    where: $.definitions.RequestStatistics.properties.transactionsCount
+    transform: >
+      $["x-ms-client-name"] = "transactionCount";
+```
+
 ### Rename the model for Error to TextAnalyticsError
 
 ```yaml

@@ -160,21 +160,21 @@ export interface RequestStatistics {
   /**
    * Number of documents submitted in the request.
    */
-  documentsCount: number;
+  documentCount: number;
   /**
    * Number of valid documents. This excludes empty, over-size limit or non-supported languages
    * documents.
    */
-  validDocumentsCount: number;
+  validDocumentCount: number;
   /**
    * Number of invalid documents. This includes empty, over-size limit or non-supported languages
    * documents.
    */
-  erroneousDocumentsCount: number;
+  erroneousDocumentCount: number;
   /**
    * Number of transactions for the request.
    */
-  transactionsCount: number;
+  transactionCount: number;
 }
 
 /**

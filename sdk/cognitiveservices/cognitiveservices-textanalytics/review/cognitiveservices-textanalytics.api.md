@@ -208,10 +208,10 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsClientEntities
 
 // @public
 export interface RequestStatistics {
-    documentsCount: number;
-    erroneousDocumentsCount: number;
-    transactionsCount: number;
-    validDocumentsCount: number;
+    documentCount: number;
+    erroneousDocumentCount: number;
+    transactionCount: number;
+    validDocumentCount: number;
 }
 
 // @public
