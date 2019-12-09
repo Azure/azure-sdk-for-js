@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseName": {
-      "type": "String"
+      "type": "string"
     },
     "provisionerTenantId": {
       "type": "string",
