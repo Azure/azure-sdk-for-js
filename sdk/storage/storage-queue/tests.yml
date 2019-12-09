@@ -9,6 +9,12 @@ resources:
       name: Azure/azure-sdk-tools
       endpoint: azure
 jobs:
-  - template: ../archetype-sdk-tests-storage.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-queue"
+      ResourceFileLocation: sdk/storage/test-resources.json
+      EnvVars:
+        ACCOUNT_NAME: $(job-storage-account-name)
+        ACCOUNT_KEY: $(job-storage-account-key)
+        ACCOUNT_SAS: $(job-azure-sdk-test-account-sas)
+        STORAGE_CONNECTION_STRING: $(job-azure-storage-connection-string)

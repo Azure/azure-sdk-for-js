@@ -17,4 +17,4 @@ jobs:
         ACCOUNT_NAME: $(job-storage-account-name)
         ACCOUNT_KEY: $(job-storage-account-key)
         ACCOUNT_SAS: $(job-azure-sdk-test-account-sas)
-        CONNECTION_STRING: $(job-azure-storage-connection-string)
+        STORAGE_CONNECTION_STRING: $(job-azure-storage-connection-string)
