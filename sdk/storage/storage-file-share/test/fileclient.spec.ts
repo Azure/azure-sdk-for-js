@@ -365,7 +365,7 @@ describe("FileClient", () => {
   });
 
   it("uploadRange with progress event", async () => {
-    recorder.skip(undefined, "Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229");
+    recorder.skip("browser", "Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/6476");
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
