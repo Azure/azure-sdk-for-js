@@ -12,9 +12,9 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-blob"
-      ResourceFileLocation: sdk/storage/storage-blob/tests-resources.json
+      ResourceFileLocation: sdk/storage/test-resources.json
       EnvVars:
-        ACCOUNT_NAME: $(aad-storage-account-name)
-        ACCOUNT_KEY: $(aad-storage-account-key)
-        ACCOUNT_SAS: $(aad-azure-sdk-test-account-sas)
-        CONNECTION_STRING: $(aad-azure-storage-connection-string)
+        ACCOUNT_NAME: $(job-storage-account-name)
+        ACCOUNT_KEY: $(job-storage-account-key)
+        ACCOUNT_SAS: $(job-azure-sdk-test-account-sas)
+        CONNECTION_STRING: $(job-azure-storage-connection-string)

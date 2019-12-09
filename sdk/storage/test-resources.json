@@ -2,18 +2,38 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "uniqueId": {
+    "baseName": {
       "type": "String"
     },
     "endpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net"
+    },
+    "utcDateYYYY": {
+      "type": "string",
+      "defaultValue": "[utcNow('yyyy')]"
+    },
+    "sasTokenExpiry": {
+      "type": "string",
+      "defaultValue": "[concat(add(int(parameters('utcDateYYYY')), 1), '-01-01T23:59:00Z')]"
+    },
+    "accountSasProperties": {
+      "type": "object",
+      "defaultValue": {
+        "signedServices": "b",
+        "signedPermission": "rl",
+        "signedResourceTypes": "sco",
+        "keyToSign": "key2",
+        "signedExpiry": "[parameters('sasTokenExpiry')]"
+      }
     }
   },
   "variables": {
-    "storageApiVersion": "[providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]]",
-    "accountName": "[concat('prim', parameters('uniqueId'))]",
-    "location": "[resourceGroup().location]"
+    "storageApiVersion": "2019-04-01",
+    "accountName": "[parameters('baseName')]",
+    "location": "[resourceGroup().location]",
+    "accountNameTidy": "[toLower(trim(parameters('accountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]"
   },
   "resources": [
     {
@@ -97,6 +117,10 @@
     "job-storage-account-key": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "job-azure-sdk-test-account-sas": {
+      "type": "string",
+      "value": "[concat('BlobEndpoint=',variables('blobEndPoint'),';SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), parameters('accountSasProperties')).accountSasToken)]"
     },
     "job-azure-storage-connection-string": {
       "type": "string",
