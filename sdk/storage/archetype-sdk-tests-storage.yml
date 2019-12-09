@@ -1,10 +1,10 @@
 parameters:
   PackageName: ""
   EnvVars:
-    ACCOUNT_NAME: $(js-storage-test-account-name)
-    ACCOUNT_KEY: $(js-storage-test-account-key)
-    ACCOUNT_SAS: $(js-storage-test-account-sas)
-    STORAGE_CONNECTION_STRING: $(js-storage-test-connection-string)
+    ACCOUNT_NAME: $(job-storage-test-account-name)
+    ACCOUNT_KEY: $(job-storage-test-account-key)
+    ACCOUNT_SAS: $(job-storage-test-account-sas)
+    STORAGE_CONNECTION_STRING: $(job-storage-test-connection-string)
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"

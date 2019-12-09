@@ -13,8 +13,3 @@ jobs:
     parameters:
       PackageName: "@azure/storage-blob"
       ResourceFileLocation: sdk/storage/test-resources.json
-      EnvVars:
-        ACCOUNT_NAME: $(job-storage-account-name)
-        ACCOUNT_KEY: $(job-storage-account-key)
-        ACCOUNT_SAS: $(job-azure-sdk-test-account-sas)
-        STORAGE_CONNECTION_STRING: $(job-azure-storage-connection-string)
