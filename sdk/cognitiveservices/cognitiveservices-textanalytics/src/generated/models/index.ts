@@ -99,7 +99,7 @@ export interface SentenceSentiment {
    * The predicted Sentiment for the sentence. Possible values include: 'positive', 'neutral',
    * 'negative'
    */
-  sentiment: Sentiment;
+  sentiment: SentenceSentimentValue;
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
@@ -130,7 +130,7 @@ export interface DocumentSentiment {
    * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
-  sentiment: Sentiment1;
+  sentiment: DocumentSentimentValue;
   statistics?: DocumentStatistics;
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
@@ -589,6 +589,22 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 }
 
 /**
+ * Defines values for DocumentSentimentValue.
+ * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
+ * @readonly
+ * @enum {string}
+ */
+export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
+
+/**
+ * Defines values for SentenceSentimentValue.
+ * Possible values include: 'positive', 'neutral', 'negative'
+ * @readonly
+ * @enum {string}
+ */
+export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
+
+/**
  * Defines values for Code.
  * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
  * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
@@ -597,22 +613,6 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
  * @enum {string}
  */
 export type Code = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
-
-/**
- * Defines values for Sentiment.
- * Possible values include: 'positive', 'neutral', 'negative'
- * @readonly
- * @enum {string}
- */
-export type Sentiment = 'positive' | 'neutral' | 'negative';
-
-/**
- * Defines values for Sentiment1.
- * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
- * @readonly
- * @enum {string}
- */
-export type Sentiment1 = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 /**
  * Defines values for Code1.

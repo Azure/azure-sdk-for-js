@@ -30,7 +30,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     documentScores: number;
     sentences: SentenceSentiment[];
-    sentiment: TextSentiment;
+    sentiment: DocumentSentimentValue;
 }
 
 // @public
@@ -71,6 +71,9 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
     readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage;
 }
+
+// @public
+export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 // @public
 export interface DocumentStatistics {
@@ -219,12 +222,12 @@ export interface SentenceSentiment {
     length: number;
     offset: number;
     sentenceScores: any;
-    sentiment: Sentiment;
+    sentiment: SentenceSentimentValue;
     warnings?: string[];
 }
 
 // @public
-export type Sentiment = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
 
 // @public
 export class TextAnalyticsClient {
@@ -336,9 +339,6 @@ export interface TextAnalyticsSuccessResult {
     readonly id: string;
     readonly statistics?: DocumentStatistics;
 }
-
-// @public
-export type TextSentiment = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 
 // (No @packageDocumentation comment for this package)

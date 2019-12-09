@@ -79,3 +79,25 @@ directive:
           $["$ref"] = "#/definitions/TextAnalyticsError";
       }
 ```
+
+### Handle enum collisions
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"] = {
+        name: "SentenceSentimentValue"
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"] = {
+        name: "DocumentSentimentValue"
+      }
+```

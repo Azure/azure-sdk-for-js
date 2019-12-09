@@ -68,8 +68,8 @@ export {
   InnerError,
   Entity,
   SentenceSentiment,
-  Sentiment1 as TextSentiment,
-  Sentiment,
+  DocumentSentimentValue,
+  SentenceSentimentValue,
   LinkedEntity,
   Match
 } from "./generated/models";

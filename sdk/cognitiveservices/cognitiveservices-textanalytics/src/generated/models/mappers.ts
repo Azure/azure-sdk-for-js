@@ -157,7 +157,12 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "sentiment",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "positive",
+            "neutral",
+            "negative"
+          ]
         }
       },
       sentenceScores: {
@@ -213,7 +218,13 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "sentiment",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "positive",
+            "neutral",
+            "negative",
+            "mixed"
+          ]
         }
       },
       statistics: {
