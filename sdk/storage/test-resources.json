@@ -3,22 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseName": {
-      "type": "string"
-    },
-    "endpointSuffix": {
       "type": "string",
-      "defaultValue": "core.windows.net"
-    }
-  },
-  "variables": {
-    "storageApiVersion": "2019-04-01",
-    "accountName": "[parameters('baseName')]",
-    "location": "[resourceGroup().location]",
-    "accountNameTidy": "[toLower(trim(parameters('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+          "description": "The base resource name."
+      }
+    },
     "utcDateYYYY": {
       "type": "string",
       "defaultValue": "[utcNow('yyyy')]"
+    },    
+    "endpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net"
     },
     "sasTokenExpiry": {
       "type": "string",
@@ -33,14 +30,20 @@
         "keyToSign": "key2",
         "signedExpiry": "[parameters('sasTokenExpiry')]"
       }
-    }
+    }    
+  },
+  "variables": {
+    "storageApiVersion": "2019-04-01",
+    "accountName": "[parameters('baseName')]",
+    "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "[variables('storageApiVersion')]",
       "name": "[variables('accountName')]",
-      "location": "[variables('location')]",
+      "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
