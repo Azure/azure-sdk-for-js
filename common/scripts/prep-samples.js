@@ -101,7 +101,12 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
   );
 
   if (!importRegex.exec(fileContents)) {
-    throw new Error(`Sample ${fileName} did not contain an import statement!`);
+    // With the newer methods of using helper files and batch running, this
+    // should be a warning
+    console.warn(
+      `[prep-samples] skipping ${fileName} because it did not contain a matching import`
+    );
+    return;
   }
 
   const relativeDir = path.dirname(fileName.replace(baseDir, ""));
