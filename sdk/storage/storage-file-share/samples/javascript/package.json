@@ -7,8 +7,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
+    "execute:all": "cross-env BATCH_RUN_SAMPLES=true node run.js"
   },
   "repository": {
     "type": "git",
@@ -29,12 +28,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/storage-file-share": "latest"
+    "@azure/abort-controller": "latest",
+    "@azure/storage-file-share": "latest",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.0",
-    "rimraf": "^3.0.0",
-    "typescript": "~3.6.4"
+    "cross-env": "^6.0.3",
+    "rimraf": "^3.0.0"
   }
 }
