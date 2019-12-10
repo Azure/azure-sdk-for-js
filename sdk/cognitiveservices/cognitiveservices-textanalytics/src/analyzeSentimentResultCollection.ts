@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, DocumentError, DocumentSentiment } from "./generated/models";
+import {
+  RequestStatistics,
+  DocumentError,
+  DocumentSentiment,
+  MultiLanguageInput
+} from "./generated/models";
 import {
   AnalyzeSentimentResult,
   makeAnalyzeSentimentResult,
   makeAnalyzeSentimentErrorResult
 } from "./analyzeSentimentResult";
+import { sortByPreviousIdOrder } from "./util";
 
 export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
   /**
@@ -21,12 +27,13 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 }
 
 export function makeAnalyzeSentimentResultCollection(
+  input: MultiLanguageInput[],
   documents: DocumentSentiment[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: RequestStatistics
 ): AnalyzeSentimentResultCollection {
-  const result = documents
+  const unsortedResult = documents
     .map(
       (document): AnalyzeSentimentResult => {
         return makeAnalyzeSentimentResult(
@@ -45,6 +52,7 @@ export function makeAnalyzeSentimentResultCollection(
         }
       )
     );
+  const result = sortByPreviousIdOrder(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

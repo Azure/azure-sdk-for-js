@@ -376,6 +376,7 @@ export class TextAnalyticsClient {
     );
 
     return makeAnalyzeSentimentResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,
