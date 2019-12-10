@@ -8,7 +8,14 @@
     "endpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net"
-    },
+    }
+  },
+  "variables": {
+    "storageApiVersion": "2019-04-01",
+    "accountName": "[parameters('baseName')]",
+    "location": "[resourceGroup().location]",
+    "accountNameTidy": "[toLower(trim(parameters('accountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
     "utcDateYYYY": {
       "type": "string",
       "defaultValue": "[utcNow('yyyy')]"
@@ -27,13 +34,6 @@
         "signedExpiry": "[parameters('sasTokenExpiry')]"
       }
     }
-  },
-  "variables": {
-    "storageApiVersion": "2019-04-01",
-    "accountName": "[parameters('baseName')]",
-    "location": "[resourceGroup().location]",
-    "accountNameTidy": "[toLower(trim(parameters('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]"
   },
   "resources": [
     {
