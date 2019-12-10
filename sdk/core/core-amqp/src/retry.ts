@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { translate, MessagingError } from "./errors";
-import { delay, isNode } from "./util/utils";
+import { delay } from "./util/utils";
 import * as log from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenOperationRetriesInMs,
   defaultMaxDelayForExponentialRetryInMs
 } from "./util/constants";
-import { resolve } from "dns";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -136,23 +136,6 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 
   if (!config.operationType) {
     throw new TypeError("Missing 'operationType' in retry configuration");
-  }
-}
-
-async function checkNetworkConnection(host: string): Promise<boolean> {
-  if (isNode) {
-    return new Promise((res) => {
-      resolve(host, function(err: any): void {
-        // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
-        if (err && (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT")) {
-          res(false);
-        } else {
-          res(true);
-        }
-      });
-    });
-  } else {
-    return window.navigator.onLine;
   }
 }
 
