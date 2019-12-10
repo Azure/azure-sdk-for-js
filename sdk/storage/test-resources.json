@@ -5,13 +5,6 @@
     "baseName": {
       "type": "string"
     },
-    "provisionerTenantId": {
-      "type": "string",
-      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-      "metadata": {
-          "description": "The tenant ID to which the client OID belongs."
-      }
-    },
     "endpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net"
@@ -117,19 +110,19 @@
     }
   ],
   "outputs": {
-    "job-storage-account-name": {
+    "STORAGE_ACCOUNT_NAME": {
       "type": "string",
       "value": "[variables('accountName')]"
     },
-    "job-storage-account-key": {
+    "STORAGE_ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
     },
-    "job-azure-sdk-test-account-sas": {
+    "STORAGE_ACCOUNT_SAS": {
       "type": "string",
       "value": "[concat('BlobEndpoint=',variables('blobEndPoint'),';SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), parameters('accountSasProperties')).accountSasToken)]"
     },
-    "job-azure-storage-connection-string": {
+    "STORAGE_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('endpointSuffix'))]"
     }
