@@ -13,7 +13,7 @@ jobs:
     parameters:
       PackageName: "@azure/storage-file-datalake"
       EnvVars:
-        DFS_ACCOUNT_NAME: $(job-storage-account-name)
-        DFS_ACCOUNT_KEY: $(job-storage-account-key)
-        DFS_ACCOUNT_SAS: $(job-azure-sdk-test-account-sas)
-        STORAGE_CONNECTION_STRING: $(job-azure-storage-connection-string)
+        DFS_ACCOUNT_NAME: $(STORAGE_DATALAKE_ACCOUNT_NAME)
+        DFS_ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
+        DFS_ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
+        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
