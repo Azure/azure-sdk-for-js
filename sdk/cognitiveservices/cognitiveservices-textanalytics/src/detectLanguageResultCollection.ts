@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, DocumentLanguage, DocumentError } from "./generated/models";
+import {
+  RequestStatistics,
+  DocumentLanguage,
+  DocumentError,
+  LanguageInput
+} from "./generated/models";
 import {
   DetectLanguageResult,
   makeDetectLanguageResult,
   makeDetectLanguageErrorResult
 } from "./detectLanguageResult";
+import { sortByPreviousIdOrder } from "./util";
 
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
   /**
@@ -21,12 +27,13 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
 }
 
 export function makeDetectLanguageResultCollection(
+  input: LanguageInput[],
   documents: DocumentLanguage[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: RequestStatistics
 ): DetectLanguageResultCollection {
-  const result = documents
+  const unsortedResult = documents
     .map(
       (document): DetectLanguageResult => {
         return makeDetectLanguageResult(
@@ -43,6 +50,7 @@ export function makeDetectLanguageResultCollection(
         }
       )
     );
+  const result = sortByPreviousIdOrder(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

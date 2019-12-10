@@ -234,6 +234,7 @@ export class TextAnalyticsClient {
     );
 
     return makeDetectLanguageResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,
