@@ -12,15 +12,18 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
+import { runSample, cleanupAfterWaiting } from './sampleHelpers';
 import {
   EventHubConsumerClient
 } from "@azure/event-hubs";
 
-const connectionString = "";
-const eventHubName = "";
-const consumerGroup = "";
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-async function main() {
+export async function main() {
+  console.log(`Running receiveEvents sample`);
+  
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
   const subscription = consumerClient.subscribe({
@@ -37,16 +40,12 @@ async function main() {
     }
   });
 
-  // after 30 seconds, stop processing
-  await new Promise((resolve) => {
-    setTimeout(async () => {
+  await cleanupAfterWaiting(async () => {
       await subscription.close();
       await consumerClient.close();
-      resolve();
-    }, 30000);
-  });
+  }, 30);
+
+  console.log(`Exiting receiveEvents sample`);
 }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+runSample(main);
