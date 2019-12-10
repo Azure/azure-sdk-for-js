@@ -20,3 +20,23 @@ export function runSample(main: () => Promise<void>) {
     process.exit(1);
   });
 }
+
+/**
+ * Runs your cleanupFn after waiting for `timeToWaitInSeconds` seconds
+ * @param cleanupFn Cleanup function to run.
+ * @param timeToWaitInSeconds Seconds to wait.
+ */
+export function cleanupAfterWaiting(cleanupFn: () => Promise<void>, timeToWaitInSeconds: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    console.log(`Waiting for ${timeToWaitInSeconds} seconds...`)
+
+    setTimeout(async () => {
+      try {
+        await cleanupFn();
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    }, timeToWaitInSeconds * 1000);
+  });
+}

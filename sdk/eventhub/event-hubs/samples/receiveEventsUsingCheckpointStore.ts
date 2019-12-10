@@ -16,7 +16,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { runSample } from './sampleHelpers';
+import { runSample, cleanupAfterWaiting } from './sampleHelpers';
 import {
   EventHubConsumerClient, CheckpointStore,
 } from "@azure/event-hubs";
@@ -70,13 +70,10 @@ export async function main() {
   );
 
   // after 30 seconds, stop processing
-  await new Promise((resolve) => {
-    setTimeout(async () => {
-      await subscription.close();
-      await consumerClient.close();
-      resolve();
-    }, 30000);
-  });
+  await cleanupAfterWaiting(async () => {
+    await subscription.close();
+    await consumerClient.close();
+  }, 30);
 
   console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
 }
