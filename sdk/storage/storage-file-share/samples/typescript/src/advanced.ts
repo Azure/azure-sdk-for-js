@@ -15,7 +15,7 @@ export async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
-  const localFilePath = "../README.md";
+  const localFilePath = "README.md";
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface

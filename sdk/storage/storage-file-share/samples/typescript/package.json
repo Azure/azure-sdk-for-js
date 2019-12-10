@@ -30,8 +30,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "next",
-    "@azure/storage-file-share": "next",
+    "@azure/abort-controller": "latest",
+    "@azure/storage-file-share": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
