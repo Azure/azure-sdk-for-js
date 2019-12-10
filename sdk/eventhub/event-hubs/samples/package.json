@@ -10,8 +10,8 @@
   },
   "keywords": [
     "Azure",
-    "Storage",
-    "File",
+    "EventHubs",
+    "CheckpointStore",
     "Node.js",
     "TypeScript"
   ],
@@ -23,7 +23,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "devDependencies": {
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "@types/node": "^12.12.17"
   },
   "dependencies": {
     "@azure/core-amqp": "next",
