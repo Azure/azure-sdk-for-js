@@ -96,13 +96,25 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 async function checkNetworkConnection(host: string): Promise<boolean> {
   if (isNode) {
     return new Promise((res) => {
+      log.retry("Calling dns.resolve to determine network connection status.");
       resolve(host, function(err: any): void {
-        // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
-        if (err && (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT")) {
-          res(false);
+        if (err) {
+          log.retry(
+            "Error thrown from dns.resolve in network connection check: '%s', %O",
+            err.code || err.name,
+            err
+          );
+
+          // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
+          // Only when dns.resolve returns an error we expect to see when the network is down, resolve as 'false'.
+          if (err.code === "ECONNREFUSED" || err.code === "ETIMEOUT") {
+            return res(false);
+          }
         } else {
-          res(true);
+          log.retry("Successfully resolved host via dns.resolve in network connection check");
         }
+
+        return res(true);
       });
     });
   } else {
