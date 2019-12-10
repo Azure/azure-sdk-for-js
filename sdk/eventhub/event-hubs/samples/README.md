@@ -32,12 +32,10 @@ Before running a sample, update it with the connection string and the Event Hub 
 3. Rename the `sample.env` file to `.env`
 4. Open the `.env` file in a text editor and fill in values related to the 
    sample you'd like to run.
-5. Run the samples using ts-node:
-
-   For example, to run the `sendEvents.ts` sample:
+5. Run the samples:
 
    ```bash
-   npx ts-node sendEvents.ts
+   npm run samples
    ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Fsamples%2FREADME.png)

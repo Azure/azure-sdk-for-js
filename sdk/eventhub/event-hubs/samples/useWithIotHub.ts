@@ -23,9 +23,5 @@ export async function main(): Promise<void> {
   console.log(`Exiting useWithIotHub sample`);
 }
 
-if (!process.env["RUNNING_IN_TESTS"]) {
-  main().catch((err) => {
-    console.log("Error occurred: ", err);
-    process.exit(1);
-  });
-}
+import { runSample } from './sampleHelpers';
+runSample(main);
