@@ -1,3 +1,8 @@
+### 5.0.0-preview.8
+
+- Fixed potential issues with claims being mismanaged when subscriptions terminate.
+- Improved reporting of errors that occur when attempting to claim partitions from CheckpointStores.
+
 ### 2019-12-03 5.0.0-preview.7
 
 - Improves load-balancing capabilities to reduce the frequency that partitions are claimed by other running

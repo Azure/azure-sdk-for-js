@@ -42,8 +42,9 @@ export class PartitionPump {
     let userRequestedDefaultPosition: EventPosition | undefined;
     try {
       userRequestedDefaultPosition = await this._partitionProcessor.initialize();
-    } catch {
+    } catch (err) {
       // swallow the error from the user-defined code
+      this._partitionProcessor.processError(err);
     }
 
     const startingPosition = getStartingPosition(
@@ -137,6 +138,7 @@ export class PartitionPump {
       await this._partitionProcessor.close(reason);
     } catch (err) {
       log.error("An error occurred while closing the receiver.", err);
+      this._partitionProcessor.processError(err);
       throw err;
     }
   }
