@@ -303,6 +303,7 @@ export class TextAnalyticsClient {
     );
 
     return makeRecognizeEntitiesResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -446,6 +447,7 @@ export class TextAnalyticsClient {
     );
 
     return makeExtractKeyPhrasesResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -514,6 +516,7 @@ export class TextAnalyticsClient {
     );
 
     return makeRecognizeEntitiesResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -582,6 +585,7 @@ export class TextAnalyticsClient {
     );
 
     return makeExtractLinkedEntitiesResultCollection(
+      realInput,
       result.documents,
       result.errors,
       result.modelVersion,

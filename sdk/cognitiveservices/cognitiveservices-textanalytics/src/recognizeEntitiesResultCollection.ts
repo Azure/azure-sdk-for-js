@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, DocumentError, DocumentEntities } from "./generated/models";
+import {
+  RequestStatistics,
+  DocumentError,
+  DocumentEntities,
+  MultiLanguageInput
+} from "./generated/models";
 import {
   RecognizeEntitiesResult,
   makeRecognizeEntitiesResult,
   makeRecognizeEntitiesErrorResult
 } from "./recognizeEntitiesResult";
+import { sortByPreviousIdOrder } from "./util";
 
 export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
   /**
@@ -21,12 +27,13 @@ export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntiti
 }
 
 export function makeRecognizeEntitiesResultCollection(
+  input: MultiLanguageInput[],
   documents: DocumentEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: RequestStatistics
 ): RecognizeEntitiesResultCollection {
-  const result = documents
+  const unsortedResult = documents
     .map(
       (document): RecognizeEntitiesResult => {
         return makeRecognizeEntitiesResult(document.id, document.entities, document.statistics);
@@ -39,6 +46,7 @@ export function makeRecognizeEntitiesResultCollection(
         }
       )
     );
+  const result = sortByPreviousIdOrder(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

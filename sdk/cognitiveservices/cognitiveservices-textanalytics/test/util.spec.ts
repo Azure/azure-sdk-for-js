@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { sortByPreviousIdOrder } from "../src/util";
 
-describe("sortByPreviousOrder", () => {
+describe("util.sortByPreviousOrder", () => {
   it("should sort outputs correctly", () => {
     const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
     const output = [{ id: "3" }, { id: "1" }, { id: "2" }];

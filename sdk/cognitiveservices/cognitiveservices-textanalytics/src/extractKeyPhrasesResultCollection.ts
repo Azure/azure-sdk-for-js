@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, DocumentError, DocumentKeyPhrases } from "./generated/models";
+import {
+  RequestStatistics,
+  DocumentError,
+  DocumentKeyPhrases,
+  MultiLanguageInput
+} from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
   makeExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult
 } from "./extractKeyPhrasesResult";
+import { sortByPreviousIdOrder } from "./util";
 
 export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
   /**
@@ -21,12 +27,13 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
 }
 
 export function makeExtractKeyPhrasesResultCollection(
+  input: MultiLanguageInput[],
   documents: DocumentKeyPhrases[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: RequestStatistics
 ): ExtractKeyPhrasesResultCollection {
-  const result = documents
+  const unsortedResult = documents
     .map(
       (document): ExtractKeyPhrasesResult => {
         return makeExtractKeyPhrasesResult(document.id, document.keyPhrases, document.statistics);
@@ -39,6 +46,7 @@ export function makeExtractKeyPhrasesResultCollection(
         }
       )
     );
+  const result = sortByPreviousIdOrder(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

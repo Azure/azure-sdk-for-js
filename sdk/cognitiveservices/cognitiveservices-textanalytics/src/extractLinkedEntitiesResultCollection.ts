@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestStatistics, DocumentError, DocumentLinkedEntities } from "./generated/models";
+import {
+  RequestStatistics,
+  DocumentError,
+  DocumentLinkedEntities,
+  MultiLanguageInput
+} from "./generated/models";
 import {
   ExtractLinkedEntitiesResult,
   makeExtractLinkedEntitiesResult,
   makeExtractLinkedEntitiesErrorResult
 } from "./extractLinkedEntitiesResult";
+import { sortByPreviousIdOrder } from "./util";
 
 export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLinkedEntitiesResult> {
   /**
@@ -21,12 +27,13 @@ export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLink
 }
 
 export function makeExtractLinkedEntitiesResultCollection(
+  input: MultiLanguageInput[],
   documents: DocumentLinkedEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: RequestStatistics
 ): ExtractLinkedEntitiesResultCollection {
-  const result = documents
+  const unsortedResult = documents
     .map(
       (document): ExtractLinkedEntitiesResult => {
         return makeExtractLinkedEntitiesResult(document.id, document.entities, document.statistics);
@@ -39,6 +46,7 @@ export function makeExtractLinkedEntitiesResultCollection(
         }
       )
     );
+  const result = sortByPreviousIdOrder(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion
