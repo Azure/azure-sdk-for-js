@@ -1,5 +1,10 @@
 import * as dotenv from "dotenv";
+import process from "process";
+
 dotenv.config();
+
+// don't have the samples execute - we'll run them manually in `main` below
+process.env["DO_NOT_EXECUTE_SAMPLE"] = "1";
 
 import { main as sendEventsMain } from "./sendEvents";
 import { main as receiveEventsMain } from "./receiveEvents";

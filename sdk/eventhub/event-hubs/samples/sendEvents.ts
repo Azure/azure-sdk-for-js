@@ -9,6 +9,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
+import { runSample } from './sampleHelpers';
 import { EventHubProducerClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
@@ -77,5 +78,4 @@ export async function main(): Promise<void> {
   console.log(`Exiting sendEvents sample`);
 }
 
-import { runSample } from './sampleHelpers';
 runSample(main);

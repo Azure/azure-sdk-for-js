@@ -11,7 +11,7 @@ dotenv.config();
  * @param main The 'main' function for the sample.
  */
 export function runSample(main: () => Promise<void>) {
-  if (!process.env["DO_NOT_EXECUTE_SAMPLE"]) {
+  if (process.env["DO_NOT_EXECUTE_SAMPLE"]) {
     return Promise.resolve();
   }
 

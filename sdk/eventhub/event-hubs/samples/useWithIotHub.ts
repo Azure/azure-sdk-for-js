@@ -4,6 +4,7 @@
 
  This sample demonstrates how to use the EventHubClient with an IotHub instance
 */
+import { runSample } from './sampleHelpers';
 import { EventHubConsumerClient } from "@azure/event-hubs";
 
 // Define IoT Hub Event Hubs-compatible connection string here.
@@ -23,5 +24,4 @@ export async function main(): Promise<void> {
   console.log(`Exiting useWithIotHub sample`);
 }
 
-import { runSample } from './sampleHelpers';
 runSample(main);

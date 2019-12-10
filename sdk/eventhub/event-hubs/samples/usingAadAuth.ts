@@ -22,6 +22,7 @@
   Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
+import { runSample } from './sampleHelpers';
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -46,5 +47,4 @@ export async function main(): Promise<void> {
   console.log(`Exiting usingAadAuth sample`);
 }
 
-import { runSample } from './sampleHelpers';
 runSample(main);
