@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rimraf dist/",
-    "run:all": "cross-env BATCH_SAMPLES=true ts-node run.ts"
+    "execute:all": "npm run build && cross-env BATCH_RUN_SAMPLES=true node dist/run.js"
   },
   "repository": {
     "type": "git",

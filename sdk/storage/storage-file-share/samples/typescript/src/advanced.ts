@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name, SAS and a path pointing to local file in main()
 */
@@ -5,6 +8,8 @@
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
+
+import { runSample } from "./sampleHelpers";
 
 export async function main() {
   // Fill in following settings before running this sample
@@ -88,13 +93,6 @@ export async function main() {
   console.log("deleted share");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-if (!process.env["BATCH_SAMPLES"]) {
-  main()
-    .then(() => {
-      console.log("Successfully executed sample.");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-}
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});

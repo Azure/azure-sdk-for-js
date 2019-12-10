@@ -1,8 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
+
+import { runSample } from "./sampleHelpers";
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -102,13 +107,6 @@ export async function main() {
   }
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-if (!process.env["BATCH_SAMPLES"]) {
-  main()
-    .then(() => {
-      console.log("Successfully executed sample.");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-}
+runSample(main).catch((err) => {
+  console.log(err.message);
+});
