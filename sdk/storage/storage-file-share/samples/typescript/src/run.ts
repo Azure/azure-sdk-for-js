@@ -12,6 +12,9 @@ import { main as iteratorsSharesMain } from "./iterators-shares";
 import { main as sharedKeyCredMain } from "./sharedKeyCred";
 import { main as withConnStringMain } from "./withConnString";
 
+import { config as dotenv } from "dotenv";
+dotenv();
+
 const samples: Array<[string, () => Promise<void>]> = [
   ["advanced", advancedMain],
   ["anonymousCred", anonymousCredMain],

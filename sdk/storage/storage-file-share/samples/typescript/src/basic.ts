@@ -96,5 +96,5 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
 }
 
 runSample(main).catch((err) => {
-  console.log(err.message);
+  console.error("Error running sample:", err.message);
 });
