@@ -96,6 +96,7 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 async function checkNetworkConnection(host: string): Promise<boolean> {
   if (isNode) {
     return new Promise((res) => {
+      log.retry("Calling dns.resolve to determine network connection status.");
       resolve(host, function(err: any): void {
         if (err) {
           log.retry(
