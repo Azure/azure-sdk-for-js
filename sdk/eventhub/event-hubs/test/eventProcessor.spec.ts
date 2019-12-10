@@ -34,7 +34,6 @@ import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
 import sinon from 'sinon';
-import { PumpManager } from '../src/pumpManager';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -188,6 +187,63 @@ describe("Event Processor", function(): void {
       });
     });
 
+    it("if we fail to claim partitions we don't start up new processors", async () => {
+      const checkpointStore = {
+        claimOwnershipCalled: false,
+
+        // the important thing is that the EventProcessor won't be able to claim
+        // any partitions, causing it to go down the "I tried but failed" path.
+        async claimOwnership(_: PartitionOwnership[]): Promise<PartitionOwnership[]> {
+          checkpointStore.claimOwnershipCalled = true;
+          return [];
+        },
+
+        // (these aren't used for this test)
+        async listOwnership(): Promise<PartitionOwnership[]> { return []; },
+        async updateCheckpoint(): Promise<void> { },
+        async listCheckpoints(): Promise<Checkpoint[]> { return []; }        
+      };
+
+      const pumpManager = {
+        createPumpCalled: false,
+          
+        async createPump() {
+          pumpManager.createPumpCalled = true;
+        },
+
+        async removeAllPumps() { }
+      }
+
+      const eventProcessor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        {
+          processEvents: async () => { },
+          processError: async () => { },
+        },
+        checkpointStore,
+        {
+          ...defaultOptions,
+          pumpManager: pumpManager
+        }
+      );
+
+      await eventProcessor['_claimOwnership']({
+        consumerGroup: "cgname",
+        eventHubName: "ehname",
+        fullyQualifiedNamespace: "fqdn",
+        ownerId: "owner",
+        partitionId: "0"
+      });
+
+      // when we fail to claim a partition we should _definitely_
+      // not attempt to start a pump.
+      pumpManager.createPumpCalled.should.be.false;
+
+      // we'll attempt to claim a partition (but won't succeed)
+      checkpointStore.claimOwnershipCalled.should.be.true;
+    });
+
     it("abandoned claims are treated as unowned claims", async () => {
       const commonFields = {
         fullyQualifiedNamespace: "irrelevant namespace",
@@ -215,13 +271,14 @@ describe("Event Processor", function(): void {
       sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
       sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
 
-      const fakePumpManager = sinon.createStubInstance(PumpManager);
-
       const ep = new EventProcessor(commonFields.consumerGroup, fakeEventHubClient as any, handlers, checkpointStore, {
         maxBatchSize: 1,
         loopIntervalInMs: 1,
         maxWaitTimeInSeconds: 1,
-        pumpManager: fakePumpManager as any
+        pumpManager: {
+          async createPump() { },
+          async removeAllPumps(): Promise<void> { }
+        }
       });
 
       // allow three iterations through the loop - one for each partition that 

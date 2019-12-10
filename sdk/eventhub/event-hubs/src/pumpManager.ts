@@ -13,8 +13,39 @@ import * as log from "./log";
  * It also starts a PartitionPump when it is created, and stops a
  * PartitionPump when it is removed.
  * @ignore
+ * @internal
  */
-export class PumpManager {
+export interface PumpManager {
+  /**
+   * Creates and starts a PartitionPump.
+   * @param eventHubClient The EventHubClient to forward to the PartitionPump.
+   * @param initialEventPosition The EventPosition to forward to the PartitionPump.
+   * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
+   * @param abortSignal Used to cancel pump creation.
+   * @ignore
+   */
+  createPump(
+    eventHubClient: EventHubClient,
+    initialEventPosition: EventPosition | undefined,
+    partitionProcessor: PartitionProcessor
+  ): Promise<void>;
+
+  /**
+   * Stops all PartitionPumps and removes them from the internal map.
+   * @param reason The reason for removing the pump.
+   * @ignore
+   */
+  removeAllPumps(reason: CloseReason): Promise<void>;
+}
+
+/**
+ * The PumpManager handles the creation and removal of PartitionPumps.
+ * It also starts a PartitionPump when it is created, and stops a
+ * PartitionPump when it is removed.
+ * @ignore
+ * @internal
+ */
+export class PumpManagerImpl implements PumpManager {
   private readonly _eventProcessorName: string;
   private readonly _options: FullEventProcessorOptions;
   private _partitionIdToPumps: {
