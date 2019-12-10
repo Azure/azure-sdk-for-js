@@ -365,7 +365,10 @@ describe("FileClient", () => {
   });
 
   it("uploadRange with progress event", async () => {
-    recorder.skip(undefined, "Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229");
+    recorder.skip(
+      "browser",
+      "record & playback issue: https://github.com/Azure/azure-sdk-for-js/issues/6476"
+    );
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
@@ -373,7 +376,10 @@ describe("FileClient", () => {
         progressUpdated = true;
       }
     });
-    assert.deepStrictEqual(progressUpdated, true);
+    assert.equal(progressUpdated, true);
+
+    const response = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(response), "HelloWorld");
   });
 
   it("clearRange", async () => {
@@ -421,6 +427,15 @@ describe("FileClient", () => {
       rangeGetContentMD5: true
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
+  });
+
+  it("download with progress report", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+    const result = await fileClient.download(0, undefined, {
+      onProgress: () => {}
+    });
+    assert.deepStrictEqual(await bodyToString(result), content);
   });
 
   it("download partial content", async () => {
