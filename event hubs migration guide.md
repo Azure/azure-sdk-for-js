@@ -94,7 +94,7 @@ for (const event of eventsToSend) {
       // if we can't add it and the batch is empty that means the message we're trying to send
       // is too large, even when it would be the _only_ message in the batch.
       //
-      // To fix this you'll need to potentially split the message up across multiple batches or 
+      // To fix this you'll need to split the message up across multiple batches or 
       // skip it. In this example, we'll skip the message.
       console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
       continue;
@@ -115,4 +115,61 @@ if (batch.count > 0) {
   console.log(`Sending remaining ${batch.count} messages as a single batch.`)
   await producer.sendBatch(batch);
 }
+```
+
+### Migrating code from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
+
+In V2, `EventProcessorHost` allowed you to start receiving events, delivered via callbacks.
+
+In V5, `EventHubConsumerClient` allows you to do the same with `subscribe()` and the 
+`SubscriptionEventHandlers` interface.
+
+So in V2:
+```typescript
+const eph = EventProcessorHost.createFromConnectionString(
+  EventProcessorHost.createHostName(ephName),
+  storageConnectionString,
+  storageContainerName,
+  ehConnectionString,
+  {
+    eventHubPath: eventHubName,
+    onEphError: (error: any) => {
+      console.log("[%s] Error: %O", ephName, error);
+    }
+  }
+);
+
+const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => { }
+
+const onError: OnReceivedError = (error: any) => {
+  console.log("[%s] Received Error: %O", ephName, error);
+};
+
+await eph.start(onMessage, onError);
+```
+
+And in V5:
+```typescript
+import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
+import { ContainerClient } from "@azure/storage-blob";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+
+const containerClient = new ContainerClient(storageConnectionString, storageContainerName);
+const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
+const eventHubConsumerClient = new EventHubConsumerClient("$Default", ehConnectionString, eventHubName);
+
+const subscription = eventHubConsumerClient.subscribe(
+  partitionId, {
+    // In V5 we deliver messages in batches, rather than a single message 
+    // at a time.
+    processEvents: (messages, context) => {},
+
+    // Prior to V5 errors were handled by separate callbacks depending 
+    // on where they were thrown.
+    // 
+    // In V5 you only need a single error handler for all of those cases.
+    processError: onErrorHandler
+});
+  
+await subscription.close();
 ```
