@@ -59,7 +59,7 @@ export async function main() {
         };
 
         console.log(
-          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`
+          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: '${context.partitionId}'`
         );
       },
       processError: async (err, context) => {
@@ -80,9 +80,6 @@ export async function main() {
   console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
 }
 
-if (!process.env["RUNNING_IN_TESTS"]) {
-  main().catch((err) => {
-    console.log("Error occurred: ", err);
-    process.exit(1);
-  });
-}
+import { runSample } from './sampleHelpers';
+runSample(main);
+
