@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prebuild": "rimraf dist/",
-    "execute:all": "npm run build && cross-env BATCH_RUN_SAMPLES=true node dist/run.js"
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",

@@ -57,12 +57,6 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node basic.js
 ```
 
-Or, to run all of the samples, use the following npm command:
-
-```bash
-npm run execute:all
-```
-
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
