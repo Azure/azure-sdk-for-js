@@ -9,8 +9,9 @@ import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
 import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
+import { getUserAgentHeaderName } from '../../src/appConfigurationClient';
 
-describe("sync tokens", () => {
+describe("http request related tests", () => {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -28,6 +29,20 @@ describe("sync tokens", () => {
             new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
           );
       });
+    });
+
+    it("useragentheadername", () => {
+      assert.ok(getUserAgentHeaderName({
+        isNodeOverride: true
+      }) === undefined);
+
+      // since we're only running these tests in node this will be the same as the 
+      // case above (undefined, thus using the normal User-Agent header)
+      assert.ok(getUserAgentHeaderName({}) === undefined);
+
+      assert.equal(getUserAgentHeaderName({
+        isNodeOverride: false
+      }), "x-ms-useragent");
     });
 
     describe("syncTokens", () => {
@@ -73,7 +88,7 @@ describe("sync tokens", () => {
   // properly extracting and sending the sync token header (which is
   // why they appear to not do much of anything meaningful with what
   // they send or reply back with).
-  describe("request/reply tests for header", () => {
+  describe("request/reply tests for sync token headers", () => {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
     let scope: any;
@@ -213,6 +228,10 @@ describe("sync tokens", () => {
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), 'clearReadOnly=value');
     });
+  });
+
+  describe("proper user agent header name is used", () => {
+    
   });
 });
 
