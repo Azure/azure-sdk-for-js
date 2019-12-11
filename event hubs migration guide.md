@@ -152,7 +152,7 @@ if (batch.count > 0) {
 
 ### Migrating code from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
 
-In V2, `EventProcessorHost` allowed you to start receiving events, delivered via callbacks.
+In V2, `EventProcessorHost` allowed you to balance the load between multiple instances of your program when receiving events.
 
 In V5, `EventHubConsumerClient` allows you to do the same with `subscribe()` and the 
 `SubscriptionEventHandlers` interface.
