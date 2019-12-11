@@ -76,6 +76,19 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
+  it("appendBlock with progress report", async () => {
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    await appendBlobClient.appendBlock(content, content.length, {
+      onProgress: () => {}
+    });
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length), content);
+    assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
   it("can be created with a sas connection string", async () => {
     const newClient = new AppendBlobClient(
       getSASConnectionStringFromEnvironment(),

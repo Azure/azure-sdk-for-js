@@ -17,13 +17,13 @@ interface FetchError extends Error {
   type?: string;
 }
 
-class ReportTransform extends Transform {
+export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
   _transform(chunk: string | Buffer, _encoding: string, callback: Function) {
     this.push(chunk);
     this.loadedBytes += chunk.length;
     this.progressCallback!({ loadedBytes: this.loadedBytes });
-    callback(undefined, chunk);
+    callback(undefined);
   }
 
   constructor(private progressCallback: (progress: TransferProgressEvent) => void) {

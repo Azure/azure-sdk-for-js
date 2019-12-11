@@ -128,8 +128,8 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 // @public
 export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
-    keys?: string[];
-    labels?: string[];
+    keyFilter?: string;
+    labelFilter?: string;
 }
 
 // @public

@@ -4,7 +4,7 @@
 import uuid from "uuid/v4";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { PumpManager } from "./pumpManager";
+import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
@@ -258,7 +258,7 @@ export class EventProcessor {
     this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
-    this._pumpManager = options.pumpManager || new PumpManager(this._id, this._processorOptions);
+    this._pumpManager = options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._partitionLoadBalancer =
       options.partitionLoadBalancer ||
@@ -305,9 +305,11 @@ export class EventProcessor {
     );
     try {
       const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
-      // since we only claim one ownership at a time, check the array length and throw
+      
+      // can happen if the partition was claimed out from underneath us - we shouldn't
+      // attempt to spin up a processor.
       if (!claimedOwnerships.length) {
-        throw new Error(`Failed to claim ownership of partition ${ownershipRequest.partitionId}`);
+        return;
       }
 
       log.partitionLoadBalancer(
@@ -498,8 +500,6 @@ export class EventProcessor {
    *
    */
   async stop(): Promise<void> {
-    await this.abandonPartitionOwnerships();
-
     log.eventProcessor(`[${this._id}] Stopping an EventProcessor.`);
     if (this._abortController) {
       // cancel the event processor loop
@@ -519,6 +519,8 @@ export class EventProcessor {
     } finally {
       log.eventProcessor(`[${this._id}] EventProcessor stopped.`);
     }
+
+    await this.abandonPartitionOwnerships();
   }
 
   private async abandonPartitionOwnerships() {
@@ -528,7 +530,7 @@ export class EventProcessor {
     for (const ownership of ourOwnerships) {
       ownership.ownerId = "";
     }
-    this._checkpointStore.claimOwnership(ourOwnerships);
+    return this._checkpointStore.claimOwnership(ourOwnerships);
   }
 }
 

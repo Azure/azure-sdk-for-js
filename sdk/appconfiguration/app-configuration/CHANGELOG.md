@@ -1,3 +1,12 @@
+# 1.0.0-preview.10 (TBD)
+
+- Specifying filters for listConfigurationSettings() or listRevisions() is 
+  now done with the `keyFilter` or `labelFilter` strings rather than `keys`
+  and `labels` as they were previously.
+- Fixed issue [#6408](https://github.com/Azure/azure-sdk-for-js/issues/6408) where
+  throttling wasn't properly implemented, causing failures when sending many
+  concurrent requests.
+
 # 1.0.0-preview.9 (2019-12-03)
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.

@@ -1,3 +1,8 @@
+### 1.0.0-preview.6
+
+- `claimOwnership()` will throw on underlying issues with storage, rather than
+   failing silently.
+
 ### 2019-12-03 - 1.0.0-preview.5
 
 - Updated to use the latest version of the `@azure/event-hubs` package.
