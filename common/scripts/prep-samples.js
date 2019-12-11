@@ -83,7 +83,7 @@ async function* findMatchingFiles(tsDir, matches) {
 }
 
 /**
- * Replaces package require/import statements with relative pathsfor CI
+ * Replaces package require/import statements with relative paths for CI
  *
  * @param {string} fileName the name of the file to open and process
  * @param {string} baseDir the base directory of the package
