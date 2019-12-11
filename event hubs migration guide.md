@@ -43,9 +43,9 @@ point of entry for receiving of any type (from single partition, all partitions,
 
 ## Migration samples
 
-* [Receiving events](#migrating-code-from-`eventhubclient`-to-`eventhubconsumerclient`-for-receiving-events)
-* [Receiving events with checkpointing](#migrating-code-from-`eventprocessorhost`-to-`eventhubconsumerclient`-for-receiving-events)
-* [Sending events](#migrating-code-from-`eventhubclient`-to-`eventhubproducerclient`-for-sending-events)
+* [Receiving events](#migrating-code-from-eventhubclient-to-eventhubconsumerclient-for-receiving-events)
+* [Receiving events with checkpointing](#migrating-code-from-eventprocessorhost-to-eventhubconsumerclient-for-receiving-events)
+* [Sending events](#migrating-code-from-eventhubclient-to-eventhubproducerclient-for-sending-events)
 
 ### Migrating code from `EventHubClient` to `EventHubConsumerClient` for receiving events
 
