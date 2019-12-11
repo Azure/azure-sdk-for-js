@@ -78,14 +78,14 @@ async function main() {
   // Patch the environment for the sample helper
   process.env.BATCH_RUN_SAMPLES = "true";
 
-  console.log("[run-samples] Running all samples in:", baseDir);
+  console.log("[run-samples] Running all samples in:", sampleDir);
 
   for await (const fileName of findMatchingFiles(
     sampleDir,
     entry => entry.isFile() && entry.name.endsWith(".js")
   )) {
     console.log("[run-samples] Running", fileName);
-    const { sampleMain } = require(fileName);
+    const { main: sampleMain } = require(fileName);
     try {
       await sampleMain();
     } catch (err) {

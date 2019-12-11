@@ -14,6 +14,21 @@ export async function main() {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
+  // Enter your proxy information
+  const proxyOptions = {
+    host: process.env.PROXY_HOST || "",
+    port: parseInt(process.env.PROXY_PORT || "3128"),
+    username: process.env.PROXY_USERNAME || "",
+    password: process.env.PROXY_PASSWORD || ""
+  };
+
+  if (proxyOptions.host === "") {
+    console.error(
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+    );
+    process.exit();
+  }
+
   // Use StorageSharedKeyCredential with storage account and account key
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
@@ -22,16 +37,8 @@ export async function main() {
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential,
     {
-      // proxy can either be a URL like "http://localhost:3128"
-      // or
-      // an option bag consisting {host, port, username, password }
-      proxyOptions: {
-        host: "http://localhost",
-        port: 3128,
-        username: "username",
-        password: "password"
-      }
       // if proxy is undefined, the library tries to load the proxy settings from the environment variables like HTTP_PROXY
+      proxyOptions
     }
   );
 
