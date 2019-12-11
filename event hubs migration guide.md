@@ -28,7 +28,7 @@ point of entry for receiving of any type (from single partition, all partitions,
 | `EventHubClient.createFromAadTokenCredentials()` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/usingAadAuth.ts)
 
 
-### Receiving events (subscribe)
+### Receiving events 
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
