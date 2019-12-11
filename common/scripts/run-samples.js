@@ -80,6 +80,8 @@ async function main() {
 
   console.log("[run-samples] Running all samples in:", sampleDir);
 
+  let didError = false;
+
   for await (const fileName of findMatchingFiles(
     sampleDir,
     entry => entry.isFile() && entry.name.endsWith(".js")
@@ -89,14 +91,19 @@ async function main() {
     try {
       await sampleMain();
     } catch (err) {
+      didError = true;
       console.error("[run-samples] Error in", fileName);
       console.error(err);
       console.warn("[run-samples] Continuing ...");
     }
   }
+
+  if (didError) {
+    throw new Error("errors occurred during sample execution");
+  }
 }
 
 main().catch(err => {
-  console.error("[prep-samples] Error:", err);
+  console.error("[run-samples] Error:", err);
   process.exit(1);
 });
