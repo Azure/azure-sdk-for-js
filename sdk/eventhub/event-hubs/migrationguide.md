@@ -39,6 +39,13 @@ point of entry for receiving of any type (from single partition, all partitions,
 |------------------------------------------------|------------------------------------------------------------------|--------|
 | `EventHubClient.send()`                          | `EventHubConsumerClient.sendBatch()`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
+### Minor renames
+
+| In v2                                          | Equivalent in v5            |
+|------------------------------------------------|-----------------------------|
+| `EventPosition.fromStart()`                    | `EventPosition.earliest()`  |
+| `EventPosition.fromEnd()`                      | `EventPosition.latest()`    |
+
 ## Migration samples
 
 * [Receiving events](#migrating-code-from-eventhubclient-to-eventhubconsumerclient-for-receiving-events)
