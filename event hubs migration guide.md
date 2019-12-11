@@ -17,7 +17,7 @@ clients, rather than having a single `EventHubClient`:
 
 We've also merged the functionality from `EventProcessorHost` into 
 `EventHubConsumerClient`, allowing `EventHubConsumerClient` to be the single
-point of entry for receiving of any type within Event Hubs.
+point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
 
 ### Construction
