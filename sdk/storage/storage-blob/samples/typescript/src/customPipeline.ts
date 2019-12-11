@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
 
-async function main() {
+import { runSample } from "./sampleHelpers";
+
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -13,10 +18,17 @@ async function main() {
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = newPipeline(sharedKeyCredential, {
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    retryOptions: { maxTries: 4 }, // Retry options
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
+  });
+
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    pipeline
   );
 
   let i = 1;
@@ -37,11 +49,6 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});

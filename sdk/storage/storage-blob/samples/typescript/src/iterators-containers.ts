@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
-async function main() {
+import { runSample } from "./sampleHelpers";
+
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -103,11 +108,6 @@ async function main() {
   }
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});

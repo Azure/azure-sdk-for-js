@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
  Setup: Enter your storage account name and SAS in main()
 */
 
-import { BlobServiceClient, AnonymousCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
-async function main() {
+import { runSample } from "./sampleHelpers";
+
+export async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -37,11 +42,6 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});

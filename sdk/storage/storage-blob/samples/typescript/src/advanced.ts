@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name, SAS and a path pointing to local file in main()
 */
 
-import fs from "fs";
+import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { AnonymousCredential, BlobServiceClient, newPipeline } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
@@ -13,11 +16,13 @@ import { AnonymousCredential, BlobServiceClient, newPipeline } from "../../src";
 import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
-async function main() {
+import { runSample } from "./sampleHelpers";
+
+export async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
-  const localFilePath = "../README.md";
+  const localFilePath = "README.md";
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
@@ -127,11 +132,6 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});

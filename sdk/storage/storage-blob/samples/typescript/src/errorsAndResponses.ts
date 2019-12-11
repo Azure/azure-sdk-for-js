@@ -1,10 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter connection string of your storage account name in main()
 */
 
-import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient } from "@azure/storage-blob";
 
-async function main() {
+import { runSample } from "./sampleHelpers";
+
+export async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -145,11 +150,6 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("\n\nSuccessfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});
