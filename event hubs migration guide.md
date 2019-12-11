@@ -117,7 +117,7 @@ let batch = await producer.createBatch();
 for (const event of eventsToSend) {
   // messages can fail to be added to the batch if they exceed the maximum size configured for
   // the EventHub.
-  const isAdded = batch.tryAdd({ body: event });
+  const isAdded = batch.tryAdd(event);
   
   if (!isAdded) {
     if (batch.count === 0) {
