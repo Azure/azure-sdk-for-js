@@ -72,6 +72,96 @@ describe("EventHub Receiver", function(): void {
     });
   });
 
+  describe("receiver names", function(): void {
+    it("are generated and unique if not provided", async function(): Promise<void> {
+      const partitionIds = await client.getPartitionIds();
+      partitionIds.length.should.be.greaterThan(1, "Event Hub should have more than 1 partition to run this test.");
+
+      const receiveHandlers: ReceiveHandler[] = [];
+      const receiverNames: Set<string> = new Set();
+
+      for (const partitionId of partitionIds) {
+        const handler = client.receive(
+          partitionId,
+          () => {},
+          () => {},
+          {
+            eventPosition: EventPosition.fromEnd()
+          }
+        );
+
+        should.equal(typeof handler.name === "string", true, "Receiver name is not a string.");
+
+        receiverNames.add(handler.name);
+        receiveHandlers.push(handler);
+      }
+
+      should.equal(receiverNames.size, partitionIds.length, "Unexpected number of receiver names found.");
+
+      // wait for all receivers to be open before stopping them.
+      await new Promise(resolve => {
+        const tid = setInterval(() => {
+          for (const handler of receiveHandlers) {
+            if (handler.isReceiverOpen === false) {
+              return;
+            }
+          }
+          clearInterval(tid);
+          resolve();
+        }, 1000);
+      });
+
+      for (const handler of receiveHandlers) {
+        await handler.stop();
+      }
+    });
+
+    it("are unique if name is provided", async function(): Promise<void> {
+      const partitionIds = await client.getPartitionIds();
+      partitionIds.length.should.be.greaterThan(1, "Event Hub should have more than 1 partition to run this test.");
+
+      const receiveHandlers: ReceiveHandler[] = [];
+      const receiverNames: Set<string> = new Set();
+
+      for (const partitionId of partitionIds) {
+        const handler = client.receive(
+          partitionId,
+          () => {},
+          () => {},
+          {
+            eventPosition: EventPosition.fromEnd(),
+            name: "test"
+          }
+        );
+
+        should.equal(typeof handler.name === "string", true, "Receiver name is not a string.");
+        handler.name.should.startWith("test", "Receiver name does not start with the user-provided value for name.");
+
+        receiverNames.add(handler.name);
+        receiveHandlers.push(handler);
+      }
+
+      should.equal(receiverNames.size, partitionIds.length, "Unexpected number of receiver names found.");
+
+      // wait for all receivers to be open before stopping them.
+      await new Promise(resolve => {
+        const tid = setInterval(() => {
+          for (const handler of receiveHandlers) {
+            if (handler.isReceiverOpen === false) {
+              return;
+            }
+          }
+          clearInterval(tid);
+          resolve();
+        }, 1000);
+      });
+
+      for (const handler of receiveHandlers) {
+        await handler.stop();
+      }
+    });
+  });
+
   describe("with EventPosition specified as", function(): void {
     it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
