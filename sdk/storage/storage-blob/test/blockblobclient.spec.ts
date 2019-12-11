@@ -47,6 +47,15 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
+  it("upload with progress report", async () => {
+    const body: string = recorder.getUniqueName("randomstring");
+    await blockBlobClient.upload(body, body.length, {
+      onProgress: () => {}
+    });
+    const result = await blobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
   it("upload with string body and all parameters set", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     const options = {
@@ -88,6 +97,23 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks![0].size, body.length);
     assert.equal(listResponse.uncommittedBlocks![1].name, base64encode("2"));
     assert.equal(listResponse.uncommittedBlocks![1].size, body.length);
+  });
+
+  it("stageBlock with progress report", async () => {
+    const body = "HelloWorld";
+    await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
+      onProgress: () => {}
+    });
+    await blockBlobClient.stageBlock(base64encode("2"), body, body.length, {
+      onProgress: () => {}
+    });
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await blockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
   it("stageBlockFromURL copy source blob as single block", async () => {

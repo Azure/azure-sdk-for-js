@@ -104,7 +104,7 @@ describe("sync tokens", () => {
       })
         .get(/.*/)
         .reply(418);
-
+      
       await assertThrowsRestError(
         async () =>
           await client.getConfigurationSetting({
@@ -114,7 +114,6 @@ describe("sync tokens", () => {
       );
 
       assert.ok(policyScope.isDone());
-      policyScope.cleanAll();
     });
 
     it("addConfigurationSetting", async () => {
@@ -171,7 +170,7 @@ describe("sync tokens", () => {
         .reply(200, '', { 'sync-token': 'listConfigurationSetting=value;sn=1'});
 
       const iterator = client.listConfigurationSettings({
-        keys: ["doesntmatter"]
+        keyFilter: "doesntmatter"
       });
 
       await iterator.next();
@@ -184,7 +183,7 @@ describe("sync tokens", () => {
         .reply(200, '', { 'sync-token': 'listRevisions=value;sn=1'});
 
       const iterator = client.listRevisions({
-        keys: ["doesntmatter"]
+        keyFilter: "doesntmatter"
       });
 
       await iterator.next();

@@ -67,7 +67,7 @@ export function createAppConfigurationClientForTests(options?: AppConfigurationC
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = await client.listConfigurationSettings({
-    keys: keys
+    keyFilter: keys.join(",")
   });
 
   for await (const setting of settingsIterator) {
@@ -83,7 +83,8 @@ export async function toSortedArray(
   pagedIterator: PagedAsyncIterableIterator<
     ConfigurationSetting,
     ListConfigurationSettingPage | ListRevisionsPage
-  >
+    >,
+  compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number
 ): Promise<ConfigurationSetting[]> {
   const settings: ConfigurationSetting[] = [];
 
@@ -100,8 +101,9 @@ export async function toSortedArray(
   // just a sanity-check
   assert.deepEqual(settings, settingsViaPageIterator);
 
-  settings.sort((a, b) =>
-    `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
+  settings.sort((a, b) => compareFn
+    ? compareFn(a, b)
+    : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
   );
 
   return settings;

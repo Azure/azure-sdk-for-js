@@ -16,6 +16,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
+import { runSample, cleanupAfterWaiting } from './sampleHelpers';
 import {
   EventHubConsumerClient, CheckpointStore,
 } from "@azure/event-hubs";
@@ -23,23 +24,24 @@ import {
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-const consumerGroup = "";
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const storageConnectionString = process.env["STORAGE_CONNECTION_STRING"] || "";
+const containerName = process.env["STORAGE_CONTAINER_NAME"] || "";
 
-async function main() {
+export async function main() {
+  console.log(`Running receiveEventsUsingCheckpointStore sample`);
+
   // this client will be used by our eventhubs-checkpointstore-blob, which 
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
 
-  if (!containerClient.exists()) {
+  if (!(await containerClient.exists())) {
     await containerClient.create();
   }
 
   const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
-
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
    
@@ -58,7 +60,7 @@ async function main() {
         };
 
         console.log(
-          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`
+          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: '${context.partitionId}'`
         );
       },
       processError: async (err, context) => {
@@ -68,15 +70,13 @@ async function main() {
   );
 
   // after 30 seconds, stop processing
-  await new Promise((resolve) => {
-    setTimeout(async () => {
-      await subscription.close();
-      await consumerClient.close();
-      resolve();
-    }, 30000);
-  });
+  await cleanupAfterWaiting(async () => {
+    await subscription.close();
+    await consumerClient.close();
+  }, 30);
+
+  console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
 }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+runSample(main);
+

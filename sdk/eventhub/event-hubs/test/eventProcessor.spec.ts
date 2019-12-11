@@ -15,7 +15,7 @@ import {
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
   EventPosition,
-  CheckpointStore,
+  CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -34,7 +34,6 @@ import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
 import sinon from 'sinon';
-import { PumpManager } from '../src/pumpManager';
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -188,6 +187,63 @@ describe("Event Processor", function(): void {
       });
     });
 
+    it("if we fail to claim partitions we don't start up new processors", async () => {
+      const checkpointStore = {
+        claimOwnershipCalled: false,
+
+        // the important thing is that the EventProcessor won't be able to claim
+        // any partitions, causing it to go down the "I tried but failed" path.
+        async claimOwnership(_: PartitionOwnership[]): Promise<PartitionOwnership[]> {
+          checkpointStore.claimOwnershipCalled = true;
+          return [];
+        },
+
+        // (these aren't used for this test)
+        async listOwnership(): Promise<PartitionOwnership[]> { return []; },
+        async updateCheckpoint(): Promise<void> { },
+        async listCheckpoints(): Promise<Checkpoint[]> { return []; }        
+      };
+
+      const pumpManager = {
+        createPumpCalled: false,
+          
+        async createPump() {
+          pumpManager.createPumpCalled = true;
+        },
+
+        async removeAllPumps() { }
+      }
+
+      const eventProcessor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        {
+          processEvents: async () => { },
+          processError: async () => { },
+        },
+        checkpointStore,
+        {
+          ...defaultOptions,
+          pumpManager: pumpManager
+        }
+      );
+
+      await eventProcessor['_claimOwnership']({
+        consumerGroup: "cgname",
+        eventHubName: "ehname",
+        fullyQualifiedNamespace: "fqdn",
+        ownerId: "owner",
+        partitionId: "0"
+      });
+
+      // when we fail to claim a partition we should _definitely_
+      // not attempt to start a pump.
+      pumpManager.createPumpCalled.should.be.false;
+
+      // we'll attempt to claim a partition (but won't succeed)
+      checkpointStore.claimOwnershipCalled.should.be.true;
+    });
+
     it("abandoned claims are treated as unowned claims", async () => {
       const commonFields = {
         fullyQualifiedNamespace: "irrelevant namespace",
@@ -215,13 +271,14 @@ describe("Event Processor", function(): void {
       sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
       sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
 
-      const fakePumpManager = sinon.createStubInstance(PumpManager);
-
       const ep = new EventProcessor(commonFields.consumerGroup, fakeEventHubClient as any, handlers, checkpointStore, {
         maxBatchSize: 1,
         loopIntervalInMs: 1,
         maxWaitTimeInSeconds: 1,
-        pumpManager: fakePumpManager as any
+        pumpManager: {
+          async createPump() { },
+          async removeAllPumps(): Promise<void> { }
+        }
       });
 
       // allow three iterations through the loop - one for each partition that 
@@ -268,6 +325,106 @@ describe("Event Processor", function(): void {
         { ...commonFields, partitionId: "1003", ownerId: "", etag: ownershipsAfterStop[2].etag,  lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs }
       ]);
     });
+  });
+
+  it("claimOwnership throws and is reported to the user", async () => {
+    const errors = [];
+
+    const faultyCheckpointStore: CheckpointStore = {
+      listOwnership: async () => [],
+      claimOwnership: async () => {
+        throw new Error("Some random failure!");
+      },
+      updateCheckpoint: async () => {},
+      listCheckpoints: async () => []
+    };
+
+    const eventProcessor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processEvents: async () => {},
+        processError: async (err, _) => {
+          errors.push(err);
+        }
+      },
+      faultyCheckpointStore,
+      {
+        ...defaultOptions,
+        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+      }
+    );
+
+    // claimOwnership() calls that fail in the runloop of eventProcessor
+    // will get directed to the user's processError handler.
+    eventProcessor.start();
+
+    try {
+      await loopUntil({
+        name: "waiting for checkpoint store errors to show up",
+        timeBetweenRunsMs: 1000,
+        maxTimes: 30,
+        until: async () => errors.length !== 0
+      });
+
+      errors.length.should.equal(1);
+    } finally {
+      // this will also fail - we "abandon" all claimed partitions at
+      // when a processor is stopped (which requires us to claim them
+      // with an empty owner ID).
+      //
+      // Note that this one gets thrown directly from stop(), rather
+      // than reporting to processError() since we have a direct
+      // point of contact with the user.
+      await eventProcessor.stop().should.be.rejectedWith(/Some random failure!/);
+    }
+  });
+
+  it("errors thrown from the user's handlers are reported to processError()", async () => {
+    const errors = new Set<Error>();
+
+    const eventProcessor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      {
+        processClose: async () => { throw new Error("processClose() error") },
+        processEvents: async () => { throw new Error("processEvents() error"); },
+        processInitialize: async () => { throw new Error("processInitialize() error") },
+        processError: async (err, _) => {
+          errors.add(err);
+          throw new Error("These are logged but ignored");
+        }
+      },
+      new InMemoryCheckpointStore(),
+      {
+        ...defaultOptions,
+        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+      }
+    );
+
+    // errors that occur within the user's own event handlers will get
+    // routed to their processError() handler
+    eventProcessor.start();
+
+    try {
+      await loopUntil({
+        name: "waiting for errors thrown from user's handlers",
+        timeBetweenRunsMs: 1000,
+        maxTimes: 30,
+        until: async () => errors.size >= 3
+      });
+
+      const messages = [...errors].map(e => e.message);
+      messages.sort();
+
+      messages.should.deep.equal([
+        "processClose() error",
+        "processEvents() error",
+        "processInitialize() error"
+      ]);
+    } finally {
+      await eventProcessor.stop();
+    }
   });
 
   it("should expose an id #RunnableInBrowser", async function(): Promise<void> {

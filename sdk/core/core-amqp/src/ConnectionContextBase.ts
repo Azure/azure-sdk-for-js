@@ -156,6 +156,7 @@ export module ConnectionContextBase {
         platform: `(${os.arch()}-${os.type()}-${os.release()})`,
         framework: `Node/${process.version}`
       },
+      idle_time_out: Constants.defaultConnectionIdleTimeoutInMs,
       operationTimeoutInSeconds: parameters.operationTimeoutInMs
         ? parameters.operationTimeoutInMs / 1000
         : undefined
