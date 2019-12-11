@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  RequestStatistics,
+  TextDocumentBatchStatistics,
   DocumentError,
   DocumentKeyPhrases,
   MultiLanguageInput
@@ -19,7 +19,7 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
    * (Optional) if showStats=true was specified in the request this field will contain information
    * about the request payload.
    */
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model was used for scoring.
    */
@@ -31,7 +31,7 @@ export function makeExtractKeyPhrasesResultCollection(
   documents: DocumentKeyPhrases[],
   errors: DocumentError[],
   modelVersion: string,
-  statistics?: RequestStatistics
+  statistics?: TextDocumentBatchStatistics
 ): ExtractKeyPhrasesResultCollection {
   const unsortedResult = documents
     .map(

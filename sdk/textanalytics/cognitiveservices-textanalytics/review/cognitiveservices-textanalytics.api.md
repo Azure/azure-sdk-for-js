@@ -23,7 +23,7 @@ export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSent
 // @public (undocumented)
 export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
     modelVersion: string;
-    statistics?: RequestStatistics;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public (undocumented)
@@ -59,7 +59,7 @@ export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageE
 // @public (undocumented)
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
     modelVersion: string;
-    statistics?: RequestStatistics;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public (undocumented)
@@ -103,7 +103,7 @@ export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKe
 // @public (undocumented)
 export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
     modelVersion: string;
-    statistics?: RequestStatistics;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public (undocumented)
@@ -121,7 +121,7 @@ export type ExtractLinkedEntitiesResult = ExtractLinkedEntitiesSuccessResult | E
 // @public (undocumented)
 export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLinkedEntitiesResult> {
     modelVersion: string;
-    statistics?: RequestStatistics;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public (undocumented)
@@ -188,7 +188,7 @@ export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | Recognize
 // @public (undocumented)
 export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
     modelVersion: string;
-    statistics?: RequestStatistics;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public (undocumented)
@@ -198,14 +198,6 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResu
 
 // @public (undocumented)
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public
-export interface RequestStatistics {
-    documentCount: number;
-    erroneousDocumentCount: number;
-    transactionCount: number;
-    validDocumentCount: number;
 }
 
 // @public
@@ -299,6 +291,14 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 export interface TextAnalyticsSuccessResult {
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
+}
+
+// @public
+export interface TextDocumentBatchStatistics {
+    documentCount: number;
+    erroneousDocumentCount: number;
+    transactionCount: number;
+    validDocumentCount: number;
 }
 
 // @public

@@ -358,11 +358,11 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
   }
 };
 
-export const RequestStatistics: coreHttp.CompositeMapper = {
-  serializedName: "RequestStatistics",
+export const TextDocumentBatchStatistics: coreHttp.CompositeMapper = {
+  serializedName: "TextDocumentBatchStatistics",
   type: {
     name: "Composite",
-    className: "RequestStatistics",
+    className: "TextDocumentBatchStatistics",
     modelProperties: {
       documentCount: {
         required: true,
@@ -432,7 +432,7 @@ export const SentimentResponse: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "RequestStatistics"
+          className: "TextDocumentBatchStatistics"
         }
       },
       modelVersion: {
@@ -570,7 +570,7 @@ export const EntitiesResult: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "RequestStatistics"
+          className: "TextDocumentBatchStatistics"
         }
       },
       modelVersion: {
@@ -752,7 +752,7 @@ export const EntityLinkingResult: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "RequestStatistics"
+          className: "TextDocumentBatchStatistics"
         }
       },
       modelVersion: {
@@ -838,7 +838,7 @@ export const KeyPhraseResult: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "RequestStatistics"
+          className: "TextDocumentBatchStatistics"
         }
       },
       modelVersion: {
@@ -1009,7 +1009,7 @@ export const LanguageResult: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "RequestStatistics"
+          className: "TextDocumentBatchStatistics"
         }
       },
       modelVersion: {

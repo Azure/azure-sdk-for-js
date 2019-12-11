@@ -183,7 +183,7 @@ export interface DocumentSentiment {
  * if showStats=true was specified in the request this field will contain information about the
  * request payload.
  */
-export interface RequestStatistics {
+export interface TextDocumentBatchStatistics {
   /**
    * Number of documents submitted in the request.
    */
@@ -216,7 +216,7 @@ export interface SentimentResponse {
    * Errors by document id.
    */
   errors: DocumentError[];
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model is used for scoring.
    */
@@ -284,7 +284,7 @@ export interface EntitiesResult {
    * Errors by document id.
    */
   errors: DocumentError[];
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model is used for scoring.
    */
@@ -375,7 +375,7 @@ export interface EntityLinkingResult {
    * Errors by document id.
    */
   errors: DocumentError[];
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model is used for scoring.
    */
@@ -414,7 +414,7 @@ export interface KeyPhraseResult {
    * Errors by document id.
    */
   errors: DocumentError[];
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model is used for scoring.
    */
@@ -491,7 +491,7 @@ export interface LanguageResult {
    * Errors by document id.
    */
   errors: DocumentError[];
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model is used for scoring.
    */

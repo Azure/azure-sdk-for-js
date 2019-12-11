@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  RequestStatistics,
+  TextDocumentBatchStatistics,
   DocumentError,
   DocumentSentiment,
   MultiLanguageInput
@@ -19,7 +19,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
    * (Optional) if showStats=true was specified in the request this field will contain information
    * about the request payload.
    */
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model was used for scoring.
    */
@@ -31,7 +31,7 @@ export function makeAnalyzeSentimentResultCollection(
   documents: DocumentSentiment[],
   errors: DocumentError[],
   modelVersion: string,
-  statistics?: RequestStatistics
+  statistics?: TextDocumentBatchStatistics
 ): AnalyzeSentimentResultCollection {
   const unsortedResult = documents
     .map(

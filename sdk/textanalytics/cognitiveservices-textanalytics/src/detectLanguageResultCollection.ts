@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  RequestStatistics,
+  TextDocumentBatchStatistics,
   DocumentLanguage,
   DocumentError,
   LanguageInput
@@ -19,7 +19,7 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
    * (Optional) if showStats=true was specified in the request this field will contain information
    * about the request payload.
    */
-  statistics?: RequestStatistics;
+  statistics?: TextDocumentBatchStatistics;
   /**
    * This field indicates which model was used for scoring.
    */
@@ -31,7 +31,7 @@ export function makeDetectLanguageResultCollection(
   documents: DocumentLanguage[],
   errors: DocumentError[],
   modelVersion: string,
-  statistics?: RequestStatistics
+  statistics?: TextDocumentBatchStatistics
 ): DetectLanguageResultCollection {
   const unsortedResult = documents
     .map(

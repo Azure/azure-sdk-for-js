@@ -199,3 +199,20 @@ directive:
 ```
 
 ### RequestStatistics => TextDocumentBatchStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextDocumentBatchStatistics) {
+          $.TextDocumentBatchStatistics = $.RequestStatistics;
+          delete $.RequestStatistics;
+      }
+  - from: swagger-document
+    where: $.definitions..properties.statistics
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/RequestStatistics") {
+          $["$ref"] = "#/definitions/TextDocumentBatchStatistics";
+      }
+```

@@ -58,7 +58,7 @@ export {
   MultiLanguageInput,
   LanguageInput,
   TextAnalyticsError,
-  RequestStatistics,
+  TextDocumentBatchStatistics,
   InnerErrorCode,
   TextAnalyticsErrorCode,
   InnerError,
