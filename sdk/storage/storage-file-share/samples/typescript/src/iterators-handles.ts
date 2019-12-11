@@ -21,9 +21,10 @@ export async function main() {
   const dirName = process.env.DIR_NAME || "";
 
   if (shareName === "" || dirName === "") {
-    throw new Error(
-      "Share/directory information not provided, but it is required to run this sample."
+    console.warn(
+      "Share/directory information not provided, but it is required to run this sample. Exiting."
     );
+    return;
   }
 
   // Use StorageSharedKeyCredential with storage account and account key

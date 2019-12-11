@@ -27,10 +27,8 @@ async function main() {
   };
 
   if (proxyOptions.host === "") {
-    console.error(
-      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
-    );
-    process.exit();
+    console.warn("Proxy information not provided, but it is required to run this sample. Exiting.");
+    return;
   }
 
   const serviceClient = new ShareServiceClient(
