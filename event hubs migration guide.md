@@ -192,7 +192,7 @@ const eventHubConsumerClient = new EventHubConsumerClient(consumerGroupName, ehC
 const subscription = eventHubConsumerClient.subscribe(
   partitionId, {
     // In V5 we deliver messages in batches, rather than a single message 
-    // at a time.
+    // at a time. You can control the batch size via the options passed to the client.
     processEvents: (messages, context) => {},
 
     // Prior to V5 errors were handled by separate callbacks depending 
