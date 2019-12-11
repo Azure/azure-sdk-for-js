@@ -167,6 +167,7 @@ export interface DirectoryForceCloseHandlesHeaders {
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
+    numberOfHandlesFailedToClosed?: number;
     requestId?: string;
     version?: string;
 }
@@ -285,6 +286,7 @@ export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
 // @public
 export interface FileAbortCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileAbortCopyHeaders" needs to be exported by the entry point index.d.ts
@@ -302,6 +304,7 @@ export type FileAttributesPreserveType = "preserve";
 // @public
 export interface FileClearRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -317,6 +320,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
     abortSignal?: AbortSignalLike;
     // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
 }
 
@@ -332,6 +336,7 @@ export type FileCreateResponse = FileCreateHeaders & {
 // @public
 export interface FileDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileDeleteHeaders" needs to be exported by the entry point index.d.ts
@@ -374,6 +379,9 @@ export interface FileDownloadHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -384,6 +392,7 @@ export interface FileDownloadHeaders {
 
 // @public
 export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase {
+    leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
     timeoutInSeconds?: number;
@@ -392,6 +401,7 @@ export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentMD5?: boolean;
@@ -410,6 +420,7 @@ export type FileDownloadResponseModel = FileDownloadHeaders & {
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeSize?: number;
@@ -422,6 +433,7 @@ export interface FileForceCloseHandlesHeaders {
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
+    numberOfHandlesFailedToClosed?: number;
     requestId?: string;
     version?: string;
 }
@@ -441,6 +453,7 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesH
 // @public
 export interface FileGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
@@ -467,6 +480,7 @@ export interface FileGetRangeListHeaders {
 // @public
 export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     range?: Range;
 }
 
@@ -489,6 +503,17 @@ export interface FileItem {
     // (undocumented)
     properties: FileProperty;
 }
+
+// @public
+export class FileLeaseClient {
+    constructor(client: ShareFileClient, leaseId?: string);
+    acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    readonly leaseId: string;
+    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    readonly url: string;
+    }
 
 // @public (undocumented)
 export interface FileListHandlesOptions extends CommonOptions {
@@ -517,6 +542,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeSize?: number;
@@ -532,11 +558,13 @@ export type FilePermissionPreserveType = "preserve";
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
 export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -579,6 +607,7 @@ export interface FileServiceProperties {
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileSetHTTPHeadersHeaders" needs to be exported by the entry point index.d.ts
@@ -593,6 +622,7 @@ export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
 // @public
 export interface FileSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileSetMetadataHeaders" needs to be exported by the entry point index.d.ts
@@ -607,6 +637,7 @@ export type FileSetMetadataResponse = FileSetMetadataHeaders & {
 // @public
 export interface FileStartCopyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
 }
 
@@ -637,6 +668,7 @@ export class FileSystemAttributes {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
+    leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
     sourceRange?: string;
@@ -646,6 +678,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
 // @public
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;
@@ -664,6 +697,7 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     contentMD5?: Uint8Array;
+    leaseAccessConditions?: LeaseAccessConditions;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
 
@@ -680,6 +714,7 @@ export type FileUploadRangeResponse = FileUploadRangeHeaders & {
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -709,6 +744,44 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
+
+// @public
+export interface Lease {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    leaseId?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface LeaseAccessConditions {
+    leaseId?: string;
+}
+
+// @public
+export type LeaseDurationType = 'infinite' | 'fixed';
+
+// @public
+export interface LeaseOperationOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type LeaseOperationResponse = Lease & {
+    _response: HttpResponse & {
+        parsedHeaders: Lease;
+    };
+};
+
+// @public
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+
+// @public
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 // @public
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
@@ -986,6 +1059,7 @@ export class ShareFileClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
+    getFileLeaseClient(proposeLeaseId?: string): FileLeaseClient;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;

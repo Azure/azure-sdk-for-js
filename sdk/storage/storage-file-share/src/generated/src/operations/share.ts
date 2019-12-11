@@ -446,7 +446,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareCreatePermissionHeaders
     }
   },
-  isXML: false,
+  isXML: true,
   serializer
 };
 
