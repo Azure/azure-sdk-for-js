@@ -97,7 +97,7 @@ export class LinkEntity {
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.name = options.name || uuid();
+    this.name = options.name ? options.name + uuid() : uuid();
     this.partitionId = options.partitionId;
   }
 
