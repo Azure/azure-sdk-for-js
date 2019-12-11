@@ -159,10 +159,11 @@ if (batch.count > 0) {
 
 ### Migrating code from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
 
-In V2, `EventProcessorHost` allowed you to balance the load between multiple instances of your program when receiving events.
+In V2, `EventProcessorHost` allowed you to balance the load between multiple instances of 
+your program when receiving events.
 
-In V5, `EventHubConsumerClient` allows you to do the same with `subscribe()` and the 
-`SubscriptionEventHandlers` interface in addition to passing a `CheckpointStore` into the constructor.
+In V5, `EventHubConsumerClient` allows you to do the same with the `subscribe()` method if you
+pass a `CheckpointStore` to the constructor.
 
 So in V2:
 ```typescript
