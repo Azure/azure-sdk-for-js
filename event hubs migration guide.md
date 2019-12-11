@@ -99,10 +99,9 @@ const eventsToSend = [
 ];
 
 const client = EventHubClient.createFromConnectionString(connectionString);
-console.log(`Sending event: ${eventData.body}`);
 
 // Would fail if the total size of events exceed the max size supported by the library.
-await client.send(eventsToSend, partitionId);
+await client.sendBatch(eventsToSend, partitionId);
 ```
 
 In V5:
