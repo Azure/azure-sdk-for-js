@@ -22,10 +22,10 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.detectLanguage(["hello world"]);
+  const [result] = await client.detectLanguage(["hello world"]);
 
-  if (isSuccess(result[0])) {
-    console.log(`Primary language detected as ${result[0].primaryLanguage.name}`);
+  if (isSuccess(result)) {
+    console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
 }
 

@@ -22,10 +22,10 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.analyzeSentiment(["I love living in Seattle!"]);
+  const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
 
-  if (isSuccess(result[0])) {
-    console.log(`Sentiment of statement is ${result[0].sentiment}`);
+  if (isSuccess(result)) {
+    console.log(`Sentiment of statement is ${result.sentiment}`);
   }
 }
 

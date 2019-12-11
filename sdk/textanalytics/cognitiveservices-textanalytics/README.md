@@ -1,164 +1,74 @@
-## An isomorphic javascript sdk for - TextAnalyticsClient
+# TextAnalytics client library for TypeScript/JavaScript
 
-This package contains an isomorphic SDK for TextAnalyticsClient.
+[Azure TextAnalytics](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes four main functions: sentiment analysis, key phrase extraction, language detection, and entity recognition.
+
+Use the client library to:
+
+- Detect what language input text is written in.
+- Determine what customers think of your brand or topic by analyzing raw text for clues about positive or negative sentiment.
+- Automatically extract key phrases to quickly identify the main points.
+- Identify and categorize entities in your text as people, places, organizations, date/time, quantities, percentages, currencies, and more.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/cognitiveservices-textanalytics/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/cognitiveservices-textanalytics) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cognitiveservices-textanalytics) |
+[Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/cognitiveservices-textanalytics/samples)
+
+## Getting started
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- Node.js version 8.x.x or higher
 
-### How to Install
+**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account) resource to use this package.
+
+### 1. Install the `@azure/cognitiveservices-textanalytics` package
 
 ```bash
 npm install @azure/cognitiveservices-textanalytics
 ```
 
-### How to use
+### 2. Create and authenticate a `TextAnalyticsClient`
 
-#### nodejs - Authentication, client creation and detectLanguage  as an example written in TypeScript.
+TextAnalytics uses both AAD and service keys for authentication.
 
-##### Install @azure/ms-rest-azure-js
+Creating a client with a service key:
 
-```bash
-npm install @azure/ms-rest-azure-js
+```js
+const client = new TextAnalyticsClient(
+  "<endpoint>",
+  new CognitiveServicesCredentials("<service key>")
+);
 ```
 
-##### Sample code
-The following sample detects the langauge in the provided text. In addition, it provides data such as Characters count, transaction count, etc. To know more, refer to the [Azure Documentation on Text Analytics](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview)
+## Examples
 
-```typescript
-import {
-  TextAnalyticsClient,
-  TextAnalyticsModels
-} from "@azure/cognitiveservices-textanalytics";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+### Detect the language of an input string
 
-async function main(): Promise<void> {
-  const textAnalyticsKey =
-    process.env["textAnalyticsKey"] || "<textAnalyticsKey>";
-  const textAnalyticsEndPoint =
-    process.env["textAnalyticsEndPoint"] || "<textAnalyticsEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    textAnalyticsKey
-  );
-  const client = new TextAnalyticsClient(
-    cognitiveServiceCredentials,
-    textAnalyticsEndPoint
-  );
-  const options: TextAnalyticsModels.TextAnalyticsClientDetectLanguageOptionalParams = {
-    showStats: true,
-    languageBatchInput: {
-      documents: [
-        {
-          id: "1",
-          text: "Sample Text"
-        },
-        {
-          id: "2",
-          text: "Texto de ejemplo"
-        }
-      ]
-    }
-  };
-  client
-    .detectLanguage(options)
-    .then(result => {
-      console.log("The result is:");
-      result.documents!.forEach(document => {
-        console.log(`Id: ${document.id}`);
-        console.log("Detected Languages:");
-        document.detectedLanguages!.forEach(dl => {
-          console.log(dl.name);
-        });
-        console.log(
-          `Characters Count: ${document.statistics!.charactersCount}`
-        );
-        console.log(
-          `Transactions Count: ${document.statistics!.transactionsCount}`
-        );
-      });
-    })
-    .catch(err => {
-      console.log("An error occurred:");
-      console.error(err);
-    });
-}
-
-main();
-
+```js
+const [result] = await client.detectLanguage(["hello world"]);
+console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 ```
 
-#### browser - Authentication, client creation and detectLanguage  as an example written in JavaScript.
+## Contributing
 
-##### Sample code
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/cognitiveservices-textanalytics sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/cognitiveservices-textanalytics/dist/cognitiveservices-textanalytics.js"></script>
-    <script type="text/javascript">
-      const textAnalyticsKey = "<YOUR_TEXT_ANALYTICS_KEY>";
-      const textAnalyticsEndPoint = "<YOUR_TEXT_ANALYTICS_ENDPOINT>";
-      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-        inHeader: {
-          "Ocp-Apim-Subscription-Key": textAnalyticsKey
-        }
-      });
-      const client = new Azure.CognitiveservicesTextanalytics.TextAnalyticsClient(
-        cognitiveServiceCredentials,
-        textAnalyticsEndPoint
-      );
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
 
-      const options = {
-        showStats: true,
-        languageBatchInput: {
-          documents: [
-            {
-              id: "1",
-              text: "Sample Text"
-            },
-            {
-              id: "2",
-              text: "Texto de ejemplo"
-            }
-          ]
-        }
-      };
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-      client
-        .detectLanguage(options)
-        .then(result => {
-          console.log("The result is:");
-          result.documents.forEach(document => {
-            console.log(`Id: ${document.id}`);
-            console.log("Detected Languages:");
-            document.detectedLanguages.forEach(dl => {
-              console.log(dl.name);
-            });
-            console.log(
-              `Characters Count: ${document.statistics.charactersCount}`
-            );
-            console.log(
-              `Transactions Count: ${document.statistics.transactionsCount}`
-            );
-          });
-        })
-        .catch(err => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-    </script>
-  </head>
-  <body></body>
-</html>
-```
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-textanalytics%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fcognitiveservices-textanalytics%2FREADME.png)

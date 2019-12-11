@@ -22,10 +22,10 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.recognizeEntities(["I love living in Seattle."]);
+  const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 
-  if (isSuccess(result[0])) {
-    for (const entity of result[0].entities) {
+  if (isSuccess(result)) {
+    for (const entity of result.entities) {
       console.log(`Found entity ${entity.text} of type ${entity.type}`);
     }
   }

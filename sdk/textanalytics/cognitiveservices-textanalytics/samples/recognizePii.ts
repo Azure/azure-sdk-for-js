@@ -22,10 +22,10 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.recognizePiiEntities(["My phone number is 555-5555"]);
+  const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 
-  if (isSuccess(result[0])) {
-    for (const entity of result[0].entities) {
+  if (isSuccess(result)) {
+    for (const entity of result.entities) {
       console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
     }
   }

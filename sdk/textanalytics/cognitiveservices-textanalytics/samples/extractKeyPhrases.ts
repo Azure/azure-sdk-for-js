@@ -22,12 +22,12 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.extractKeyPhrases([
+  const [result] = await client.extractKeyPhrases([
     "I love living in Seattle! Seattle is always sunny."
   ]);
 
-  if (isSuccess(result[0])) {
-    for (const phrase of result[0].keyPhrases) {
+  if (isSuccess(result)) {
+    for (const phrase of result.keyPhrases) {
       console.log(`Key phrase: ${phrase}`);
     }
   }
