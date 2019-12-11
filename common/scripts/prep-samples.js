@@ -33,16 +33,15 @@ const fs =
     return {
       readdir: promisify(baseFS.readdir),
       readFile: promisify(baseFS.readFile),
-      stat: promisify(baseFS.stat),
       writeFile: promisify(baseFS.writeFile)
     };
   })();
 
 /**
- * Breadth-first search for files ending in .ts, starting from `tsDir`
+ * Breadth-first search for files matching a given predicate
  *
  * @param {string} tsDir The root of the sample tree to search
- * @param {(fs.Entry) => boolean} Predicate that decides whether or not a file entry is included
+ * @param {(fs.Entry) => boolean} matches Predicate that decides whether or not a file entry is included
  * @returns
  */
 async function* findMatchingFiles(tsDir, matches) {
