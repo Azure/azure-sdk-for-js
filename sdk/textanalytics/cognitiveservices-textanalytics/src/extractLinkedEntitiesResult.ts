@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
-import { DocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
+import { TextDocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
 
 export type ExtractLinkedEntitiesResult =
   | ExtractLinkedEntitiesSuccessResult
@@ -25,7 +25,7 @@ export interface ExtractLinkedEntitiesErrorResult extends TextAnalyticsErrorResu
 export function makeExtractLinkedEntitiesResult(
   id: string,
   entities: LinkedEntity[],
-  statistics?: DocumentStatistics
+  statistics?: TextDocumentStatistics
 ): ExtractLinkedEntitiesSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),

@@ -178,3 +178,24 @@ directive:
     transform: >
       $["x-ms-client-name"] = "sentenceSentiments";
 ```
+
+### DocumentStatistics => TextDocumentStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextDocumentStatistics) {
+          $.TextDocumentStatistics = $.DocumentStatistics;
+          delete $.DocumentStatistics;
+      }
+  - from: swagger-document
+    where: $.definitions..properties.statistics
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/DocumentStatistics") {
+          $["$ref"] = "#/definitions/TextDocumentStatistics";
+      }
+```
+
+### RequestStatistics => TextDocumentBatchStatistics

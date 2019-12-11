@@ -107,7 +107,7 @@ export interface DocumentError {
  * if showStats=true was specified in the request this field will contain information about the
  * document payload.
  */
-export interface DocumentStatistics {
+export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
@@ -168,7 +168,7 @@ export interface DocumentSentiment {
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
   sentiment: DocumentSentimentValue;
-  statistics?: DocumentStatistics;
+  statistics?: TextDocumentStatistics;
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
@@ -269,7 +269,7 @@ export interface DocumentEntities {
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
-  statistics?: DocumentStatistics;
+  statistics?: TextDocumentStatistics;
 }
 
 /**
@@ -360,7 +360,7 @@ export interface DocumentLinkedEntities {
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
-  statistics?: DocumentStatistics;
+  statistics?: TextDocumentStatistics;
 }
 
 /**
@@ -399,7 +399,7 @@ export interface DocumentKeyPhrases {
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
-  statistics?: DocumentStatistics;
+  statistics?: TextDocumentStatistics;
 }
 
 /**
@@ -476,7 +476,7 @@ export interface DocumentLanguage {
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
-  statistics?: DocumentStatistics;
+  statistics?: TextDocumentStatistics;
 }
 
 /**

@@ -76,12 +76,6 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 // @public
-export interface DocumentStatistics {
-    characterCount: number;
-    transactionCount: number;
-}
-
-// @public
 export interface Entity {
     length: number;
     offset: number;
@@ -304,7 +298,13 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 // @public (undocumented)
 export interface TextAnalyticsSuccessResult {
     readonly id: string;
-    readonly statistics?: DocumentStatistics;
+    readonly statistics?: TextDocumentStatistics;
+}
+
+// @public
+export interface TextDocumentStatistics {
+    characterCount: number;
+    transactionCount: number;
 }
 
 

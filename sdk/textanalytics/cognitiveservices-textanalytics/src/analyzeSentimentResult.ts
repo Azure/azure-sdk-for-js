@@ -8,7 +8,7 @@ import {
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
 import {
-  DocumentStatistics,
+  TextDocumentStatistics,
   TextAnalyticsError,
   DocumentSentimentValue,
   SentenceSentiment,
@@ -40,7 +40,7 @@ export function makeAnalyzeSentimentResult(
   sentiment: DocumentSentimentValue,
   documentScores: SentimentConfidenceScorePerLabel,
   sentences: SentenceSentiment[],
-  statistics?: DocumentStatistics
+  statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),

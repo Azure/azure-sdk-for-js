@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentStatistics, TextAnalyticsError } from "./generated/models";
+import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
@@ -15,7 +15,7 @@ export interface TextAnalyticsSuccessResult {
    * (Optional) if showStats=true was specified in the request this field will contain information
    * about the document payload.
    */
-  readonly statistics?: DocumentStatistics;
+  readonly statistics?: TextDocumentStatistics;
 }
 
 export interface TextAnalyticsErrorResult {
@@ -32,7 +32,7 @@ export interface TextAnalyticsErrorResult {
 
 export function makeTextAnalysisResult(
   id: string,
-  statistics?: DocumentStatistics
+  statistics?: TextDocumentStatistics
 ): TextAnalyticsResult {
   return {
     id,

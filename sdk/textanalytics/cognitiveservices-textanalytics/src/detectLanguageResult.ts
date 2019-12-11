@@ -7,7 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalysisErrorResult
 } from "./textAnalyticsResult";
-import { DetectedLanguage, DocumentStatistics, TextAnalyticsError } from "./generated/models";
+import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
@@ -27,7 +27,7 @@ export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {}
 export function makeDetectLanguageResult(
   id: string,
   detectedLanguages: DetectedLanguage[],
-  statistics?: DocumentStatistics
+  statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),

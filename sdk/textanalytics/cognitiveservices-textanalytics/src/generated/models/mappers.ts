@@ -190,11 +190,11 @@ export const DocumentError: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentStatistics: coreHttp.CompositeMapper = {
-  serializedName: "DocumentStatistics",
+export const TextDocumentStatistics: coreHttp.CompositeMapper = {
+  serializedName: "TextDocumentStatistics",
   type: {
     name: "Composite",
-    className: "DocumentStatistics",
+    className: "TextDocumentStatistics",
     modelProperties: {
       characterCount: {
         required: true,
@@ -330,7 +330,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "DocumentStatistics"
+          className: "TextDocumentStatistics"
         }
       },
       documentScores: {
@@ -527,7 +527,7 @@ export const DocumentEntities: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "DocumentStatistics"
+          className: "TextDocumentStatistics"
         }
       }
     }
@@ -709,7 +709,7 @@ export const DocumentLinkedEntities: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "DocumentStatistics"
+          className: "TextDocumentStatistics"
         }
       }
     }
@@ -795,7 +795,7 @@ export const DocumentKeyPhrases: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "DocumentStatistics"
+          className: "TextDocumentStatistics"
         }
       }
     }
@@ -966,7 +966,7 @@ export const DocumentLanguage: coreHttp.CompositeMapper = {
         serializedName: "statistics",
         type: {
           name: "Composite",
-          className: "DocumentStatistics"
+          className: "TextDocumentStatistics"
         }
       }
     }

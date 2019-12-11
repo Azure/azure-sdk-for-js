@@ -53,7 +53,7 @@ export {
 // Models
 export {
   DetectedLanguage,
-  DocumentStatistics,
+  TextDocumentStatistics,
   SentimentConfidenceScorePerLabel,
   MultiLanguageInput,
   LanguageInput,
