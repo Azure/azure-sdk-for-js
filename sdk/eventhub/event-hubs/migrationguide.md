@@ -205,7 +205,7 @@ const subscription = eventHubConsumerClient.subscribe(
     processEvents: (messages, context) => {},
 
     // Prior to V5 errors were handled by separate callbacks depending 
-    // on where they were thrown.
+    // on where they were thrown i.e when managing different partitions vs receiving from each partition.
     // 
     // In V5 you only need a single error handler for all of those cases.
     processError: onErrorHandler
