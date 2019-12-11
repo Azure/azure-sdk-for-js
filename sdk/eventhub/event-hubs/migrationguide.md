@@ -119,7 +119,7 @@ while (i < eventsToSend.length) {
   const isAdded = batch.tryAdd(eventsToSend[i]);
 
   if (isAdded) {
-    console.log(`Added eventsToSend[${i}]`);
+    console.log(`Added event number ${i} to the batch`);
     ++i;
     continue;
   }
