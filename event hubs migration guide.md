@@ -20,7 +20,7 @@ We've also merged the functionality from `EventProcessorHost` into
 point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
 
-### Construction
+### Client constructors
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
