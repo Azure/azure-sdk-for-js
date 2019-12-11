@@ -113,34 +113,36 @@ const eventsToSend = [
 ];
 
 let batch = await producer.createBatch();
+let i = 0;
 
-for (let i = 0; i < eventsToSend.length; ++i) {
+while (i < eventsToSend.length) {
   // messages can fail to be added to the batch if they exceed the maximum size configured for
   // the EventHub.
   const isAdded = batch.tryAdd(eventsToSend[i]);
-  
-  if (!isAdded) {
-    if (batch.count === 0) {
-      // If we can't add it and the batch is empty that means the message we're trying to send
-      // is too large, even when it would be the _only_ message in the batch.
-      //
-      // At this point you'll need to decide if you're okay with skipping this message entirely
-      // or find some way to shrink it.
-      console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
-      continue;
-    }
 
-    // otherwise this just signals a good spot to send our batch
-    console.log(`Batch is full - sending ${batch.count} messages as a single batch.`)
-    await producer.sendBatch(batch);
-
-    // and create a new one to house the next set of messages
-    batch = await producer.createBatch();
-
-    // we'll retry adding this message
-    --i;
+  if (isAdded) {
+    console.log(`Added eventsToSend[${i}]`);
+    ++i;
     continue;
   }
+  
+  if (batch.count === 0) {
+    // If we can't add it and the batch is empty that means the message we're trying to send
+    // is too large, even when it would be the _only_ message in the batch.
+    //
+    // At this point you'll need to decide if you're okay with skipping this message entirely
+    // or find some way to shrink it.
+    console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
+    ++i;
+    continue;
+  }
+
+  // otherwise this just signals a good spot to send our batch
+  console.log(`Batch is full - sending ${batch.count} messages as a single batch.`);
+  await producer.sendBatch(batch);
+
+  // and create a new one to house the next set of messages
+  batch = await producer.createBatch();
 }
 
 // send any remaining messages, if any.
