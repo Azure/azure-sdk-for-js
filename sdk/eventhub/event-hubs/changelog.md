@@ -1,3 +1,8 @@
+### 2019-12-10 2.1.4
+
+- Updates `@azure/amqp-common` to version 1.0.0-preview.9.
+  This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
+
 ### 2019-11-18 2.1.3
 
 - Fixes a typings issue that causes TypeScript build failures when `noImplicitAny` is set to true with TypeScript versions lower than 3.7.x.
