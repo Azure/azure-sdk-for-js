@@ -1,4 +1,4 @@
-### 2019-12-10 2.1.4
+### 2019-12-11 2.1.4
 
 - Updates `@azure/amqp-common` to version 1.0.0-preview.9.
   This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
