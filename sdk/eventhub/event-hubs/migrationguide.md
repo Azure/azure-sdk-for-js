@@ -1,7 +1,7 @@
 # Migration Guide (EventHubs v2 to v5)
 
 This document is intended for users that are familiar with V2 of the JavaScript SDK for Event Hubs library (`@azure/event-hubs@2.x.x` & `@azure/event-processor-host@2.x.x`) and wish 
-to migrate their application to EventHubs V5.
+to migrate their application to V5 of the same library.
 
 For a more general introduction to Event Hubs, see the [readme.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md) 
 for the @azure/event-hubs package.
