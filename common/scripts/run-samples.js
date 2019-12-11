@@ -44,6 +44,7 @@ async function* findMatchingFiles(tsDir, matches) {
 
     if (IGNORE.includes(entry.name)) {
       console.log("[run-samples] Ignoring", fullPath);
+      continue;
     }
 
     if (entry.isDirectory()) {
