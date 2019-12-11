@@ -23,10 +23,7 @@ export async function main() {
   };
 
   if (proxyOptions.host === "") {
-    console.error(
-      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
-    );
-    process.exit();
+    throw new Error("Proxy information not provided, but it is required to run this sample.");
   }
 
   // Use StorageSharedKeyCredential with storage account and account key

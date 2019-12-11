@@ -5,7 +5,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { ShareServiceClient, StorageSharedKeyCredential } from "../../../src";
+import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
 import { runSample } from "./sampleHelpers";
 
