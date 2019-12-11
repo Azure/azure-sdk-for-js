@@ -334,7 +334,7 @@
     },
     {
       "packageName": "@azure/cognitiveservices-textanalytics",
-      "projectFolder": "sdk/cognitiveservices/cognitiveservices-textanalytics",
+      "projectFolder": "sdk/textanalytics/cognitiveservices-textanalytics",
       "versionPolicyName": "client"
     },
     {
