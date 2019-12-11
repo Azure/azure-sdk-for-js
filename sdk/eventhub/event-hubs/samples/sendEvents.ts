@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
       const isAdded = batch.tryAdd({ body: eventsToSend[i] });
 
       if (isAdded) {
-        console.log(`Added eventsToSend[${i}]`);
+        console.log(`Added eventsToSend[${i}] to the batch`);
         ++i;
         continue;
       }
