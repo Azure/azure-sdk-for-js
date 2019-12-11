@@ -6,9 +6,6 @@
   "engine": {
     "node": ">=8.0.0"
   },
-  "scripts": {
-    "execute:all": "cross-env BATCH_RUN_SAMPLES=true node run.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
