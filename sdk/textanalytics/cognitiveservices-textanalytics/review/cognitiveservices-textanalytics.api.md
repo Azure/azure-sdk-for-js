@@ -226,32 +226,32 @@ export interface SentimentConfidenceScorePerLabel {
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
     // (undocumented)
-    analyzeSentiment(input: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     // (undocumented)
-    analyzeSentiment(input: MultiLanguageInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    analyzeSentiment(inputs: MultiLanguageInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
     // (undocumented)
-    detectLanguage(input: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     // (undocumented)
-    detectLanguage(input: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     // (undocumented)
-    extractEntityLinking(input: string[], language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
+    extractEntityLinking(inputs: string[], language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
     // (undocumented)
-    extractEntityLinking(input: MultiLanguageInput[], options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
+    extractEntityLinking(inputs: MultiLanguageInput[], options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
     // (undocumented)
-    extractKeyPhrases(input: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     // (undocumented)
-    extractKeyPhrases(input: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    extractKeyPhrases(inputs: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     // (undocumented)
-    recognizeEntities(input: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizeEntities(inputs: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
-    recognizeEntities(input: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizeEntities(inputs: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
-    recognizePiiEntities(input: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
-    recognizePiiEntities(input: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizePiiEntities(inputs: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
 }
 
 // @public

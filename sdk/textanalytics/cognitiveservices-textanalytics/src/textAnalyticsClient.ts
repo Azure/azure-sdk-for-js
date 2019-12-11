@@ -158,40 +158,40 @@ export class TextAnalyticsClient {
   }
 
   public async detectLanguage(
-    input: string[],
+    inputs: string[],
     countryHint?: string,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
   public async detectLanguage(
-    input: LanguageInput[],
+    inputs: LanguageInput[],
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
   public async detectLanguage(
-    input: string[] | LanguageInput[],
+    inputs: string[] | LanguageInput[],
     countryHintOrOptions?: string | DetectLanguagesOptions,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection> {
     let realOptions: DetectLanguagesOptions;
-    let realInput: LanguageInput[];
+    let realInputs: LanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
-      realInput = convertToLanguageInput(input, countryHint);
+      realInputs = convertToLanguageInput(inputs, countryHint);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (countryHintOrOptions as DetectLanguagesOptions) || {};
     }
 
     const result = await this.client.languages(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeDetectLanguageResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -200,40 +200,40 @@ export class TextAnalyticsClient {
   }
 
   public async recognizeEntities(
-    input: string[],
+    inputs: string[],
     language?: string,
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizeEntities(
-    input: MultiLanguageInput[],
+    inputs: MultiLanguageInput[],
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizeEntities(
-    input: string[] | MultiLanguageInput[],
+    inputs: string[] | MultiLanguageInput[],
     languageOrOptions?: string | RecognizeEntitiesOptions,
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection> {
     let realOptions: RecognizeEntitiesOptions;
-    let realInput: MultiLanguageInput[];
+    let realInputs: MultiLanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInput = convertToMultiLanguageInput(input, language);
+      realInputs = convertToMultiLanguageInput(inputs, language);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (languageOrOptions as RecognizeEntitiesOptions) || {};
     }
 
     const result = await this.client.entitiesRecognitionGeneral(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeRecognizeEntitiesResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -242,40 +242,40 @@ export class TextAnalyticsClient {
   }
 
   public async analyzeSentiment(
-    input: string[],
+    inputs: string[],
     language?: string,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
   public async analyzeSentiment(
-    input: MultiLanguageInput[],
+    inputs: MultiLanguageInput[],
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
   public async analyzeSentiment(
-    input: string[] | MultiLanguageInput[],
+    inputs: string[] | MultiLanguageInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection> {
     let realOptions: AnalyzeSentimentOptions;
-    let realInput: MultiLanguageInput[];
+    let realInputs: MultiLanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInput = convertToMultiLanguageInput(input, language);
+      realInputs = convertToMultiLanguageInput(inputs, language);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
     }
 
     const result = await this.client.sentiment(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeAnalyzeSentimentResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -284,40 +284,40 @@ export class TextAnalyticsClient {
   }
 
   public async extractKeyPhrases(
-    input: string[],
+    inputs: string[],
     language?: string,
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection>;
   public async extractKeyPhrases(
-    input: MultiLanguageInput[],
+    inputs: MultiLanguageInput[],
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection>;
   public async extractKeyPhrases(
-    input: string[] | MultiLanguageInput[],
+    inputs: string[] | MultiLanguageInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection> {
     let realOptions: ExtractKeyPhrasesOptions;
-    let realInput: MultiLanguageInput[];
+    let realInputs: MultiLanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInput = convertToMultiLanguageInput(input, language);
+      realInputs = convertToMultiLanguageInput(inputs, language);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (languageOrOptions as ExtractKeyPhrasesOptions) || {};
     }
 
     const result = await this.client.keyPhrases(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeExtractKeyPhrasesResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -326,40 +326,40 @@ export class TextAnalyticsClient {
   }
 
   public async recognizePiiEntities(
-    input: string[],
+    inputs: string[],
     language?: string,
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizePiiEntities(
-    input: MultiLanguageInput[],
+    inputs: MultiLanguageInput[],
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizePiiEntities(
-    input: string[] | MultiLanguageInput[],
+    inputs: string[] | MultiLanguageInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection> {
     let realOptions: RecognizePiiEntitiesOptions;
-    let realInput: MultiLanguageInput[];
+    let realInputs: MultiLanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInput = convertToMultiLanguageInput(input, language);
+      realInputs = convertToMultiLanguageInput(inputs, language);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
     }
 
     const result = await this.client.entitiesRecognitionPii(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeRecognizeEntitiesResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -368,40 +368,40 @@ export class TextAnalyticsClient {
   }
 
   public async extractEntityLinking(
-    input: string[],
+    inputs: string[],
     language?: string,
     options?: ExtractEntityLinkingOptions
   ): Promise<ExtractLinkedEntitiesResultCollection>;
   public async extractEntityLinking(
-    input: MultiLanguageInput[],
+    inputs: MultiLanguageInput[],
     options?: ExtractEntityLinkingOptions
   ): Promise<ExtractLinkedEntitiesResultCollection>;
   public async extractEntityLinking(
-    input: string[] | MultiLanguageInput[],
+    inputs: string[] | MultiLanguageInput[],
     languageOrOptions?: string | ExtractEntityLinkingOptions,
     options?: ExtractEntityLinkingOptions
   ): Promise<ExtractLinkedEntitiesResultCollection> {
     let realOptions: ExtractEntityLinkingOptions;
-    let realInput: MultiLanguageInput[];
+    let realInputs: MultiLanguageInput[];
 
-    if (isStringArray(input)) {
+    if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInput = convertToMultiLanguageInput(input, language);
+      realInputs = convertToMultiLanguageInput(inputs, language);
       realOptions = options || {};
     } else {
-      realInput = input;
+      realInputs = inputs;
       realOptions = (languageOrOptions as ExtractEntityLinkingOptions) || {};
     }
 
     const result = await this.client.entitiesLinking(
       {
-        documents: realInput
+        documents: realInputs
       },
       operationOptionsToRequestOptionsBase(realOptions)
     );
 
     return makeExtractLinkedEntitiesResultCollection(
-      realInput,
+      realInputs,
       result.documents,
       result.errors,
       result.modelVersion,
@@ -410,12 +410,12 @@ export class TextAnalyticsClient {
   }
 }
 
-function isStringArray(input: any[]): input is string[] {
-  return typeof input[0] === "string";
+function isStringArray(inputs: any[]): inputs is string[] {
+  return typeof inputs[0] === "string";
 }
 
-function convertToLanguageInput(input: string[], countryHint: string): LanguageInput[] {
-  return input.map(
+function convertToLanguageInput(inputs: string[], countryHint: string): LanguageInput[] {
+  return inputs.map(
     (text: string, index): LanguageInput => {
       return {
         id: String(index),
@@ -426,8 +426,8 @@ function convertToLanguageInput(input: string[], countryHint: string): LanguageI
   );
 }
 
-function convertToMultiLanguageInput(input: string[], language: string): MultiLanguageInput[] {
-  return input.map(
+function convertToMultiLanguageInput(inputs: string[], language: string): MultiLanguageInput[] {
+  return inputs.map(
     (text: string, index): MultiLanguageInput => {
       return {
         id: String(index),
