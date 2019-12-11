@@ -15,7 +15,7 @@ clients, rather than having a single `EventHubClient`:
   for receiving messages.
 
 We've also merged the functionality from `EventProcessorHost` in the `@azure/event-processor-host` package into 
-`EventHubConsumerClient`, allowing `EventHubConsumerClient` to be the single
+`EventHubConsumerClient` in the `@azure/event-hubs` package, allowing `EventHubConsumerClient` to be the single
 point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
 
