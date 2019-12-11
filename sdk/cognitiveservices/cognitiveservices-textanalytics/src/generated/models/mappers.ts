@@ -341,7 +341,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
           className: "SentimentConfidenceScorePerLabel"
         }
       },
-      sentences: {
+      sentenceSentiments: {
         required: true,
         serializedName: "sentences",
         type: {

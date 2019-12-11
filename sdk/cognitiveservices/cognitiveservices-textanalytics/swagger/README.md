@@ -168,3 +168,13 @@ directive:
       $["$ref"] = "#/definitions/TextAnalyticsError";
       delete $["items"]
 ```
+
+### sentences => sentenceSentiments
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentSentiment.properties.sentences
+    transform: >
+      $["x-ms-client-name"] = "sentenceSentiments";
+```

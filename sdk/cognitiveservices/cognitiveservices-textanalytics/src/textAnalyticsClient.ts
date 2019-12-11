@@ -339,7 +339,7 @@ export class TextAnalyticsClient {
       "",
       firstDocument.sentiment,
       firstDocument.documentScores,
-      firstDocument.sentences,
+      firstDocument.sentenceSentiments,
       firstDocument.statistics
     );
   }

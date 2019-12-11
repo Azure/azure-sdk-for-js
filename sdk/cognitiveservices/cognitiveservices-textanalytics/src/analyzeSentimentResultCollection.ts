@@ -40,7 +40,7 @@ export function makeAnalyzeSentimentResultCollection(
           document.id,
           document.sentiment,
           document.documentScores,
-          document.sentences,
+          document.sentenceSentiments,
           document.statistics
         );
       }

@@ -35,7 +35,7 @@ describe("SentimentResultCollection", () => {
             negative: 0,
             neutral: 0
           },
-          sentences: [],
+          sentenceSentiments: [],
           sentiment: "positive"
         },
         {
@@ -45,7 +45,7 @@ describe("SentimentResultCollection", () => {
             negative: 1,
             neutral: 0
           },
-          sentences: [],
+          sentenceSentiments: [],
           sentiment: "negative"
         }
       ],

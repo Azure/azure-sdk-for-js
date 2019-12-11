@@ -176,7 +176,7 @@ export interface DocumentSentiment {
   /**
    * Sentence level sentiment analysis.
    */
-  sentences: SentenceSentiment[];
+  sentenceSentiments: SentenceSentiment[];
 }
 
 /**
