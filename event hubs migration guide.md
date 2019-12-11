@@ -114,18 +114,18 @@ const eventsToSend = [
 
 let batch = await producer.createBatch();
 
-for (const event of eventsToSend) {
+for (let i = 0; i < eventsToSend.length; ++i) {
   // messages can fail to be added to the batch if they exceed the maximum size configured for
   // the EventHub.
-  const isAdded = batch.tryAdd({ body: event });
+  const isAdded = batch.tryAdd(eventsToSend[i]);
   
   if (!isAdded) {
     if (batch.count === 0) {
-      // if we can't add it and the batch is empty that means the message we're trying to send
+      // If we can't add it and the batch is empty that means the message we're trying to send
       // is too large, even when it would be the _only_ message in the batch.
       //
-      // To fix this you'll need to split the message up across multiple batches or 
-      // skip it. In this example, we'll skip the message.
+      // At this point you'll need to decide if you're okay with skipping this message entirely
+      // or find some way to shrink it.
       console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
       continue;
     }
@@ -136,6 +136,9 @@ for (const event of eventsToSend) {
 
     // and create a new one to house the next set of messages
     batch = await producer.createBatch();
+
+    // we'll retry adding this message
+    --i;
     continue;
   }
 }
