@@ -3,7 +3,13 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
 // in a standalone project
-import { TextAnalyticsClient, CognitiveServicesCredentials } from "../src";
+import {
+  TextAnalyticsClient,
+  CognitiveServicesCredentials,
+  DetectLanguageResult,
+  DetectLanguageErrorResult,
+  DetectLanguageSuccessResult
+} from "../src";
 
 export async function run() {
   console.log(`Running detectLanguages sample`);
@@ -16,9 +22,15 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.singleDetectLanguage("hello world");
+  const result = await client.detectLanguage(["hello world"]);
 
-  console.log(`Primary language detected as ${result.primaryLanguage.name}`);
+  if (isSuccess(result[0])) {
+    console.log(`Primary language detected as ${result[0].primaryLanguage.name}`);
+  }
+}
+
+function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
+  return !(result as DetectLanguageErrorResult).error;
 }
 
 // If you want to run this sample from a console

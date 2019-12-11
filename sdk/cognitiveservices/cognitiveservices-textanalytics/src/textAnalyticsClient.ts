@@ -15,40 +15,23 @@ import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
 import { logger } from "./logger";
-import { makeDetectLanguageResult, DetectLanguageSuccessResult } from "./detectLanguageResult";
-import { LanguageInput, TextAnalyticsError, MultiLanguageInput } from "./generated/models";
+import { LanguageInput, MultiLanguageInput } from "./generated/models";
 import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
 } from "./detectLanguageResultCollection";
 import {
-  makeRecognizeEntitiesResult,
-  RecognizeEntitiesSuccessResult
-} from "./recognizeEntitiesResult";
-import {
   RecognizeEntitiesResultCollection,
   makeRecognizeEntitiesResultCollection
 } from "./recognizeEntitiesResultCollection";
-import {
-  makeAnalyzeSentimentResult,
-  AnalyzeSentimentSuccessResult
-} from "./analyzeSentimentResult";
 import {
   AnalyzeSentimentResultCollection,
   makeAnalyzeSentimentResultCollection
 } from "./analyzeSentimentResultCollection";
 import {
-  makeExtractKeyPhrasesResult,
-  ExtractKeyPhrasesSuccessResult
-} from "./extractKeyPhrasesResult";
-import {
   makeExtractKeyPhrasesResultCollection,
   ExtractKeyPhrasesResultCollection
 } from "./extractKeyPhrasesResultCollection";
-import {
-  makeExtractLinkedEntitiesResult,
-  ExtractLinkedEntitiesSuccessResult
-} from "./extractLinkedEntitiesResult";
 import {
   ExtractLinkedEntitiesResultCollection,
   makeExtractLinkedEntitiesResultCollection
@@ -174,32 +157,6 @@ export class TextAnalyticsClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async singleDetectLanguage(
-    input: string,
-    countryHint: string = this.defaultCountryHint,
-    options: DetectLanguageOptions = {}
-  ): Promise<DetectLanguageSuccessResult> {
-    const result = await this.client.languages(
-      {
-        documents: [
-          {
-            id: "1",
-            countryHint,
-            text: input
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeDetectLanguageResult("", firstDocument.detectedLanguages, firstDocument.statistics);
-  }
-
   public async detectLanguage(
     input: string[],
     countryHint?: string,
@@ -242,33 +199,6 @@ export class TextAnalyticsClient {
     );
   }
 
-  public async singleRecognizeEntities(
-    inputText: string,
-    language: string = this.defaultLanguage,
-    options: RecognizeEntitiesOptions = {}
-  ): Promise<RecognizeEntitiesSuccessResult> {
-    const result = await this.client.entitiesRecognitionGeneral(
-      {
-        documents: [
-          {
-            id: "1",
-            language,
-            text: inputText
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeRecognizeEntitiesResult("", firstDocument.entities, firstDocument.statistics);
-  }
-
   public async recognizeEntities(
     input: string[],
     language?: string,
@@ -308,39 +238,6 @@ export class TextAnalyticsClient {
       result.errors,
       result.modelVersion,
       result.statistics
-    );
-  }
-
-  public async singleAnalyzeSentiment(
-    inputText: string,
-    language: string = this.defaultLanguage,
-    options: AnalyzeSentimentOptions = {}
-  ): Promise<AnalyzeSentimentSuccessResult> {
-    const result = await this.client.sentiment(
-      {
-        documents: [
-          {
-            id: "1",
-            language,
-            text: inputText
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeAnalyzeSentimentResult(
-      "",
-      firstDocument.sentiment,
-      firstDocument.documentScores,
-      firstDocument.sentenceSentiments,
-      firstDocument.statistics
     );
   }
 
@@ -386,33 +283,6 @@ export class TextAnalyticsClient {
     );
   }
 
-  public async singleExtractKeyPhrases(
-    inputText: string,
-    language: string = this.defaultLanguage,
-    options: ExtractKeyPhrasesOptions = {}
-  ): Promise<ExtractKeyPhrasesSuccessResult> {
-    const result = await this.client.keyPhrases(
-      {
-        documents: [
-          {
-            id: "1",
-            language,
-            text: inputText
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeExtractKeyPhrasesResult("", firstDocument.keyPhrases, firstDocument.statistics);
-  }
-
   public async extractKeyPhrases(
     input: string[],
     language?: string,
@@ -455,33 +325,6 @@ export class TextAnalyticsClient {
     );
   }
 
-  public async singleRecognizePiiEntities(
-    inputText: string,
-    language: string = this.defaultLanguage,
-    options: RecognizePiiEntitiesOptions = {}
-  ): Promise<RecognizeEntitiesSuccessResult> {
-    const result = await this.client.entitiesRecognitionPii(
-      {
-        documents: [
-          {
-            id: "1",
-            language,
-            text: inputText
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeRecognizeEntitiesResult("", firstDocument.entities, firstDocument.statistics);
-  }
-
   public async recognizePiiEntities(
     input: string[],
     language?: string,
@@ -522,33 +365,6 @@ export class TextAnalyticsClient {
       result.modelVersion,
       result.statistics
     );
-  }
-
-  public async singleExtractEntityLinking(
-    inputText: string,
-    language: string = this.defaultLanguage,
-    options: ExtractEntityLinkingOptions = {}
-  ): Promise<ExtractLinkedEntitiesSuccessResult> {
-    const result = await this.client.entitiesLinking(
-      {
-        documents: [
-          {
-            id: "1",
-            language,
-            text: inputText
-          }
-        ]
-      },
-      operationOptionsToRequestOptionsBase(options)
-    );
-
-    if (result.errors.length) {
-      const error: TextAnalyticsError = result.errors[0].error;
-      throw new Error(error.message);
-    }
-
-    const firstDocument = result.documents[0];
-    return makeExtractLinkedEntitiesResult("", firstDocument.entities, firstDocument.statistics);
   }
 
   public async extractEntityLinking(

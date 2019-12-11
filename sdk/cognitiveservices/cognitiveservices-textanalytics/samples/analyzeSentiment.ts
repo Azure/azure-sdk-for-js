@@ -3,7 +3,13 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
 // in a standalone project
-import { TextAnalyticsClient, CognitiveServicesCredentials } from "../src";
+import {
+  TextAnalyticsClient,
+  CognitiveServicesCredentials,
+  AnalyzeSentimentResult,
+  AnalyzeSentimentSuccessResult,
+  AnalyzeSentimentErrorResult
+} from "../src";
 
 export async function run() {
   console.log(`Running analyzeSentiment sample`);
@@ -16,9 +22,15 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.singleAnalyzeSentiment("I love living in Seattle!");
+  const result = await client.analyzeSentiment(["I love living in Seattle!"]);
 
-  console.log(`Sentiment of statement is ${result.sentiment}`);
+  if (isSuccess(result[0])) {
+    console.log(`Sentiment of statement is ${result[0].sentiment}`);
+  }
+}
+
+function isSuccess(result: AnalyzeSentimentResult): result is AnalyzeSentimentSuccessResult {
+  return !(result as AnalyzeSentimentErrorResult).error;
 }
 
 // If you want to run this sample from a console

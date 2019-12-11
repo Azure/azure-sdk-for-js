@@ -3,7 +3,13 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
 // in a standalone project
-import { TextAnalyticsClient, CognitiveServicesCredentials } from "../src";
+import {
+  TextAnalyticsClient,
+  CognitiveServicesCredentials,
+  ExtractKeyPhrasesResult,
+  ExtractKeyPhrasesSuccessResult,
+  ExtractKeyPhrasesErrorResult
+} from "../src";
 
 export async function run() {
   console.log(`Running extractKeyPhrases sample`);
@@ -16,13 +22,19 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.singleExtractKeyPhrases(
+  const result = await client.extractKeyPhrases([
     "I love living in Seattle! Seattle is always sunny."
-  );
+  ]);
 
-  for (const phrase of result.keyPhrases) {
-    console.log(`Key phrase: ${phrase}`);
+  if (isSuccess(result[0])) {
+    for (const phrase of result[0].keyPhrases) {
+      console.log(`Key phrase: ${phrase}`);
+    }
   }
+}
+
+function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrasesSuccessResult {
+  return !(result as ExtractKeyPhrasesErrorResult).error;
 }
 
 // If you want to run this sample from a console

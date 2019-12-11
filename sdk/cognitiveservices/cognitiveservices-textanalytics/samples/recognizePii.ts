@@ -3,7 +3,13 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
 // in a standalone project
-import { TextAnalyticsClient, CognitiveServicesCredentials } from "../src";
+import {
+  TextAnalyticsClient,
+  CognitiveServicesCredentials,
+  RecognizeEntitiesResult,
+  RecognizeEntitiesSuccessResult,
+  RecognizeEntitiesErrorResult
+} from "../src";
 
 export async function run() {
   console.log(`Running recognizePii sample`);
@@ -16,11 +22,17 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.singleRecognizePiiEntities("My phone number is 555-5555");
+  const result = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 
-  for (const entity of result.entities) {
-    console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
+  if (isSuccess(result[0])) {
+    for (const entity of result[0].entities) {
+      console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
+    }
   }
+}
+
+function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
+  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

@@ -3,7 +3,13 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
 // in a standalone project
-import { TextAnalyticsClient, CognitiveServicesCredentials } from "../src";
+import {
+  TextAnalyticsClient,
+  CognitiveServicesCredentials,
+  ExtractLinkedEntitiesResult,
+  ExtractLinkedEntitiesSuccessResult,
+  ExtractLinkedEntitiesErrorResult
+} from "../src";
 
 export async function run() {
   console.log(`Running extractLinkEntities sample`);
@@ -16,13 +22,21 @@ export async function run() {
     new CognitiveServicesCredentials(subscriptionKey)
   );
 
-  const result = await client.singleExtractEntityLinking("I love living in Seattle.");
+  const result = await client.extractEntityLinking(["I love living in Seattle."]);
 
-  for (const entity of result.entities) {
-    console.log(
-      `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
-    );
+  if (isSuccess(result[0])) {
+    for (const entity of result[0].entities) {
+      console.log(
+        `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+      );
+    }
   }
+}
+
+function isSuccess(
+  result: ExtractLinkedEntitiesResult
+): result is ExtractLinkedEntitiesSuccessResult {
+  return !(result as ExtractLinkedEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

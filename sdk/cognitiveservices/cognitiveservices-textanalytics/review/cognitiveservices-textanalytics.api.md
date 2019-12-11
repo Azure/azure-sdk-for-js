@@ -266,18 +266,6 @@ export class TextAnalyticsClient {
     recognizePiiEntities(input: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
     recognizePiiEntities(input: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    // (undocumented)
-    singleAnalyzeSentiment(inputText: string, language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentSuccessResult>;
-    // (undocumented)
-    singleDetectLanguage(input: string, countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageSuccessResult>;
-    // (undocumented)
-    singleExtractEntityLinking(inputText: string, language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesSuccessResult>;
-    // (undocumented)
-    singleExtractKeyPhrases(inputText: string, language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesSuccessResult>;
-    // (undocumented)
-    singleRecognizeEntities(inputText: string, language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesSuccessResult>;
-    // (undocumented)
-    singleRecognizePiiEntities(inputText: string, language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesSuccessResult>;
 }
 
 // @public
