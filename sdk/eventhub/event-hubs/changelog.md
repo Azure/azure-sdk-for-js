@@ -1,3 +1,7 @@
+### 2.1.5
+
+- User-provided names passed to `client.receive` now have unique ids appended to them.
+
 ### 2019-12-11 2.1.4
 
 - Updates `@azure/amqp-common` to version 1.0.0-preview.9.
