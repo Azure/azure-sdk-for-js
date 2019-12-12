@@ -896,7 +896,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   readonly provisioningState?: string;
   /**
-   * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+   * Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
   /**
@@ -914,6 +914,14 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * 'Delete'.
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Agent pool tags to be persisted on the agent pool virtual machine scale set.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Agent pool node labels to be persisted across all nodes in agent pool.
+   */
+  nodeLabels?: { [propertyName: string]: string };
   /**
    * Taints added to new nodes during node pool create and scale. For example,
    * key=value:NoSchedule.
@@ -1027,7 +1035,7 @@ export interface AgentPool extends SubResource {
    */
   readonly provisioningState?: string;
   /**
-   * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+   * Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
   /**
@@ -1045,6 +1053,14 @@ export interface AgentPool extends SubResource {
    * 'Delete'.
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Agent pool tags to be persisted on the agent pool virtual machine scale set.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Agent pool node labels to be persisted across all nodes in agent pool.
+   */
+  nodeLabels?: { [propertyName: string]: string };
   /**
    * Taints added to new nodes during node pool create and scale. For example,
    * key=value:NoSchedule.
@@ -1108,7 +1124,7 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 }
 
 /**
- * Profile of the managed cluster load balancer
+ * Profile of the managed cluster load balancer.
  */
 export interface ManagedClusterLoadBalancerProfile {
   /**
@@ -1127,6 +1143,17 @@ export interface ManagedClusterLoadBalancerProfile {
    * The effective outbound IP resources of the cluster load balancer.
    */
   effectiveOutboundIPs?: ResourceReference[];
+  /**
+   * Desired number of allocated SNAT ports per VM. Allowed values must be in the range of 0 to
+   * 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
+   * Default value: 0.
+   */
+  allocatedOutboundPorts?: number;
+  /**
+   * Desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120
+   * (inclusive). The default value is 30 minutes. Default value: 30.
+   */
+  idleTimeoutInMinutes?: number;
 }
 
 /**
@@ -1164,6 +1191,11 @@ export interface ContainerServiceNetworkProfile {
    */
   dockerBridgeCidr?: string;
   /**
+   * The outbound (egress) routing method. Possible values include: 'loadBalancer',
+   * 'userDefinedRouting'. Default value: 'loadBalancer'.
+   */
+  outboundType?: OutboundType;
+  /**
    * The load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'
    */
   loadBalancerSku?: LoadBalancerSku;
@@ -1171,6 +1203,30 @@ export interface ContainerServiceNetworkProfile {
    * Profile of the cluster load balancer.
    */
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
+}
+
+/**
+ * An interface representing UserAssignedIdentity.
+ */
+export interface UserAssignedIdentity {
+  /**
+   * The resource id of the user assigned identity.
+   */
+  resourceId?: string;
+  /**
+   * The client id of the user assigned identity.
+   */
+  clientId?: string;
+  /**
+   * The object id of the user assigned identity.
+   */
+  objectId?: string;
+}
+
+/**
+ * Information of user assigned identity used by this add-on.
+ */
+export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {
 }
 
 /**
@@ -1185,6 +1241,11 @@ export interface ManagedClusterAddonProfile {
    * Key-value pairs for configuring an add-on.
    */
   config?: { [propertyName: string]: string };
+  /**
+   * Information of user assigned identity used by this add-on.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly identity?: ManagedClusterAddonProfileIdentity;
 }
 
 /**
@@ -1222,6 +1283,12 @@ export interface ManagedClusterAPIServerAccessProfile {
    * Whether to create the cluster as a private cluster or not.
    */
   enablePrivateCluster?: boolean;
+}
+
+/**
+ * An interface representing ManagedClusterPropertiesIdentityProfileValue.
+ */
+export interface ManagedClusterPropertiesIdentityProfileValue extends UserAssignedIdentity {
 }
 
 /**
@@ -1275,6 +1342,11 @@ export interface ManagedCluster extends Resource {
    */
   readonly fqdn?: string;
   /**
+   * FQDN of private cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateFQDN?: string;
+  /**
    * Properties of the agent pool.
    */
   agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
@@ -1319,6 +1391,10 @@ export interface ManagedCluster extends Resource {
    * Access profile for managed cluster API server.
    */
   apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
+  /**
+   * Identities associated with the cluster.
+   */
+  identityProfile?: { [propertyName: string]: ManagedClusterPropertiesIdentityProfileValue };
   /**
    * The identity of the managed cluster, if configured.
    */
@@ -1727,6 +1803,14 @@ export type NetworkPlugin = 'azure' | 'kubenet';
  * @enum {string}
  */
 export type NetworkPolicy = 'calico' | 'azure';
+
+/**
+ * Defines values for OutboundType.
+ * Possible values include: 'loadBalancer', 'userDefinedRouting'
+ * @readonly
+ * @enum {string}
+ */
+export type OutboundType = 'loadBalancer' | 'userDefinedRouting';
 
 /**
  * Defines values for LoadBalancerSku.
