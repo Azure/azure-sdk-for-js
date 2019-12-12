@@ -30,6 +30,18 @@ async function main() {
   // Enter your storage account name
   const account = process.env.ACCOUNT_NAME || "";
 
+  // Azure AD Credential information is required to run this sample:
+  if (
+    !process.env.AZURE_TENANT_ID ||
+    !process.env.AZURE_CLIENT_ID ||
+    !process.env.AZURE_CLIENT_SECRET
+  ) {
+    console.warn(
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+    );
+    return;
+  }
+
   // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
