@@ -173,6 +173,34 @@ export class Rollouts {
   }
 
   /**
+   * @summary Lists the rollouts in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RolloutsListResponse>
+   */
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RolloutsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.Rollout[]>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rollout[]>): void;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout[]>, callback?: msRest.ServiceCallback<Models.Rollout[]>): Promise<Models.RolloutsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.RolloutsListResponse>;
+  }
+
+  /**
    * This is an asynchronous operation and can be polled to completion using the location header
    * returned by this operation.
    * @summary Creates or updates a rollout.
@@ -288,6 +316,41 @@ const restartOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Rollout
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Rollout"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.CloudError

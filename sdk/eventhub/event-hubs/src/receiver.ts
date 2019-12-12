@@ -259,35 +259,6 @@ export class EventHubConsumer {
   }
 
   /**
-   * Returns an async iterable that retrieves events.
-   *
-   * The async iterable cannot indicate that it is done.
-   * When using `for await (let event of consumer.getEventIterator()) {}` to iterate over the events returned
-   * by the async iterable, take care to exit the for loop after receiving the
-   * desired number of messages, or provide an `AbortSignal` to control when to exit the loop.
-   *
-   * @param [options] A set of options to apply to an event iterator.
-   */
-  async *getEventIterator(
-    options: EventIteratorOptions = {}
-  ): AsyncIterableIterator<ReceivedEventData> {
-    const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
-
-    while (true) {
-      const currentBatch = await this.receiveBatch(
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        options.abortSignal
-      );
-      if (!currentBatch || !currentBatch.length) {
-        continue;
-      }
-      yield currentBatch[0];
-    }
-  }
-
-  /**
    * Returns a promise that resolves to an array of events received from the service.
    *
    * @param maxMessageCount The maximum number of messages to receive.

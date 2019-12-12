@@ -39,6 +39,7 @@ const RedactedString = "REDACTED";
 const defaultAllowedHeaderNames = [
   "x-ms-client-request-id",
   "x-ms-return-client-request-id",
+  "x-ms-useragent",
   "traceparent",
 
   "Accept",

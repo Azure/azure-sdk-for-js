@@ -1,11 +1,16 @@
+# 1.1.2
+
+- Updates `@azure/amqp-common` to version 1.0.0-preview.9.
+  This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
+
 # 2019-11-27 1.1.1
 
 - Fix [bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757) where `receiveMessages` used in `ReceiveAndDelete` mode results in data loss. [PR 6265](https://github.com/Azure/azure-sdk-for-js/pull/6265).
 - Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
-of the `@azure/amqp-common` package.
+  of the `@azure/amqp-common` package.
 - We do not have retries for errors during receiver set up. User is expected to retry on their own.
-There was a misleading retry due to a failed receiver being cached which is now fixed. Related to 
-[bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
+  There was a misleading retry due to a failed receiver being cached which is now fixed. Related to
+  [bug 5541](https://github.com/Azure/azure-sdk-for-js/issues/5541).
 - Errors that arise from receivers failing to automatically reconnect after encountering a transient issue now trigger the user-provided `onError` callback passed to `receiver.registerMessageHandler`. Related to [bug 2540](https://github.com/Azure/azure-sdk-for-js/issues/2540)
 - Update jsdocs for the `receiveMessages` method to include a note that the number of messages that can
   be received in `PeekLock` mode is capped at 2047. [PR 5758](https://github.com/Azure/azure-sdk-for-js/pull/5758).

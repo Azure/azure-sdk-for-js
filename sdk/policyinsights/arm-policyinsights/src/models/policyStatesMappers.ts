@@ -7,11 +7,13 @@
  */
 
 export {
+  ComplianceDetail,
   ExpressionEvaluationDetails,
   IfNotExistsEvaluationDetails,
   PolicyAssignmentSummary,
   PolicyDefinitionSummary,
   PolicyEvaluationDetails,
+  PolicyGroupSummary,
   PolicyState,
   PolicyStatesQueryResults,
   QueryFailure,
