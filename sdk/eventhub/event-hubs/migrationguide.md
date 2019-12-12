@@ -174,15 +174,19 @@ const eph = EventProcessorHost.createFromConnectionString(
   ehConnectionString,
   {
     eventHubPath: eventHubName,
-    onEphError: (error: any) => {
+    onEphError: (error) => {
+      // This is your error handler for errors occuring during load balancing.
       console.log("[%s] Error: %O", ephName, error);
     }
   }
 );
 
-const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => { }
+// In V2, you get a single event passed to your callback. If you had asynchronous code running in your callback,
+// it is not awaited before the callback is called for the next event.
+const onMessage = (context, event) => { /** your code here **/ }
 
-const onError: OnReceivedError = (error: any) => {
+// This is your error handler for errors occuring when receiving events.
+const onError = (error) => {
   console.log("[%s] Received Error: %O", ephName, error);
 };
 
@@ -201,9 +205,12 @@ const eventHubConsumerClient = new EventHubConsumerClient(consumerGroupName, ehC
 
 const subscription = eventHubConsumerClient.subscribe(
   partitionId, {
-    // In V5 we deliver messages in batches, rather than a single message 
-    // at a time. You can control the batch size via the options passed to the client.
-    processEvents: (messages, context) => {},
+    // In V5 we deliver events in batches, rather than a single message at a time.
+    // You can control the batch size via the options passed to the client.
+    //
+    // If you have asynchronous code running in your callback, it will be awaited before the
+    // callback is called for the next batch of events. 
+    processEvents: (events, context) => {},
 
     // Prior to V5 errors were handled by separate callbacks depending 
     // on where they were thrown i.e when managing different partitions vs receiving from each partition.
