@@ -37,6 +37,6 @@ function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntities
 
 // If you want to run this sample from a console
 // uncomment these lines so run() will get called
-run().catch((err) => {
-  console.log(`ERROR: ${err}`);
-});
+// run().catch((err) => {
+//   console.log(`ERROR: ${err}`);
+// });
