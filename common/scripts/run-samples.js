@@ -55,8 +55,6 @@ async function* findMatchingFiles(tsDir, matches) {
       }
     } else if (matches(entry)) {
       yield fullPath;
-    } else {
-      console.log("[run-samples] Skipping", fullPath);
     }
   }
 
@@ -102,7 +100,7 @@ async function main() {
     }
   }
 
-  if (errors !== []) {
+  if (errors.length > 0) {
     console.error("[run-samples] Errors occurred in the following files:");
     for (const [fileName, error] of errors) {
       console.error("  -", fileName, "(", error, ")");

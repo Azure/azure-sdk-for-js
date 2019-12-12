@@ -127,6 +127,7 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
       : `const $1 = require("${relativePath}");`
   );
 
+  console.log("[prep-samples] Updating imports in", fileName);
   return fs.writeFile(fileName, updatedContents, { encoding: "utf-8" });
 }
 
@@ -155,7 +156,6 @@ async function main() {
       entry.name.endsWith(".ts") &&
       !entry.name.endsWith(".d.ts")
   )) {
-    console.log("[prep-samples] Updating imports in", fileName);
     await enableLocalRun(fileName, baseDir, package.name);
   }
 
@@ -164,7 +164,6 @@ async function main() {
     jsDir,
     entry => entry.isFile() && entry.name.endsWith(".js")
   )) {
-    console.log("[prep-samples] Updating imports in", fileName);
     await enableLocalRun(fileName, baseDir, package.name);
   }
 }
