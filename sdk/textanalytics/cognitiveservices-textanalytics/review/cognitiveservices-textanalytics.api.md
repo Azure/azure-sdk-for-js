@@ -232,9 +232,9 @@ export class TextAnalyticsClient {
     defaultCountryHint: string;
     defaultLanguage: string;
     // (undocumented)
-    detectLanguage(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguages(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     // (undocumented)
-    detectLanguage(inputs: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguages(inputs: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     // (undocumented)
     extractEntityLinking(inputs: string[], language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;

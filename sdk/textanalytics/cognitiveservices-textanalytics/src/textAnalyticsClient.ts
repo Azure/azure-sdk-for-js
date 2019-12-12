@@ -37,6 +37,8 @@ import {
   makeExtractLinkedEntitiesResultCollection
 } from "./extractLinkedEntitiesResultCollection";
 import { CognitiveServicesCredential } from "./cognitiveServicesCredential";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -157,16 +159,16 @@ export class TextAnalyticsClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async detectLanguage(
+  public async detectLanguages(
     inputs: string[],
     countryHint?: string,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
-  public async detectLanguage(
+  public async detectLanguages(
     inputs: LanguageInput[],
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
-  public async detectLanguage(
+  public async detectLanguages(
     inputs: string[] | LanguageInput[],
     countryHintOrOptions?: string | DetectLanguagesOptions,
     options?: DetectLanguagesOptions
@@ -183,20 +185,35 @@ export class TextAnalyticsClient {
       realOptions = (countryHintOrOptions as DetectLanguagesOptions) || {};
     }
 
-    const result = await this.client.languages(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-detectLanguages",
+      realOptions
     );
 
-    return makeDetectLanguageResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.languages(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeDetectLanguageResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async recognizeEntities(
@@ -225,20 +242,35 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as RecognizeEntitiesOptions) || {};
     }
 
-    const result = await this.client.entitiesRecognitionGeneral(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-recognizeEntities",
+      realOptions
     );
 
-    return makeRecognizeEntitiesResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.entitiesRecognitionGeneral(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeRecognizeEntitiesResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async analyzeSentiment(
@@ -267,20 +299,35 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
     }
 
-    const result = await this.client.sentiment(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-analyzeSentiment",
+      realOptions
     );
 
-    return makeAnalyzeSentimentResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.sentiment(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeAnalyzeSentimentResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async extractKeyPhrases(
@@ -309,20 +356,35 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as ExtractKeyPhrasesOptions) || {};
     }
 
-    const result = await this.client.keyPhrases(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-extractKeyPhrases",
+      realOptions
     );
 
-    return makeExtractKeyPhrasesResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.keyPhrases(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeExtractKeyPhrasesResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async recognizePiiEntities(
@@ -351,20 +413,35 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
     }
 
-    const result = await this.client.entitiesRecognitionPii(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-recognizePiiEntities",
+      realOptions
     );
 
-    return makeRecognizeEntitiesResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.entitiesRecognitionPii(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeRecognizeEntitiesResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async extractEntityLinking(
@@ -393,20 +470,35 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as ExtractEntityLinkingOptions) || {};
     }
 
-    const result = await this.client.entitiesLinking(
-      {
-        documents: realInputs
-      },
-      operationOptionsToRequestOptionsBase(realOptions)
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-extractEntityLinking",
+      realOptions
     );
 
-    return makeExtractLinkedEntitiesResultCollection(
-      realInputs,
-      result.documents,
-      result.errors,
-      result.modelVersion,
-      result.statistics
-    );
+    try {
+      const result = await this.client.entitiesLinking(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+
+      return makeExtractLinkedEntitiesResultCollection(
+        realInputs,
+        result.documents,
+        result.errors,
+        result.modelVersion,
+        result.statistics
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 

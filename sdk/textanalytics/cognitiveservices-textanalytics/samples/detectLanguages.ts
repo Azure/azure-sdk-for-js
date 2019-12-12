@@ -5,7 +5,7 @@
 // in a standalone project
 import {
   TextAnalyticsClient,
-  CognitiveServicesCredentials,
+  CognitiveServicesCredential,
   DetectLanguageResult,
   DetectLanguageErrorResult,
   DetectLanguageSuccessResult
@@ -19,10 +19,10 @@ export async function run() {
   const subscriptionKey = process.env["AZ_CONFIG_SUBSCRIPTION_KEY"]!;
   const client = new TextAnalyticsClient(
     endPoint,
-    new CognitiveServicesCredentials(subscriptionKey)
+    new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.detectLanguage(["hello world"]);
+  const [result] = await client.detectLanguages(["hello world"]);
 
   if (isSuccess(result)) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);

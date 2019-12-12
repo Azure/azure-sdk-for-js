@@ -25,7 +25,7 @@ export async function run() {
 
   const client = new TextAnalyticsClient(endPoint, credential);
 
-  const [result] = await client.detectLanguage(["hello world"]);
+  const [result] = await client.detectLanguages(["hello world"]);
 
   if (isSuccess(result)) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
