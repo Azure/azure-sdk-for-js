@@ -12,6 +12,7 @@ import {
   isTokenCredential,
   exponentialRetryPolicy,
   systemErrorRetryPolicy,
+  ServiceClientCredentials,
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -48,9 +49,9 @@ import {
   transformKeyValue,
   formatAcceptDateTime
 } from "./internal/helpers";
-import { tracingPolicy } from "@azure/core-http";
+import { tracingPolicy, isNode as isNodeFromCoreHttp } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
-import { GetKeyValuesResponse, AppConfigurationOptions } from "./generated/src/models";
+import { GetKeyValuesResponse, AppConfigurationOptions as GeneratedAppConfigurationClientOptions } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
 
 const apiVersion = "1.0";
@@ -82,6 +83,11 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
    * NOTE: this is an internal option, not for general client usage.
    */
   syncTokens?: SyncTokens;
+  /**
+   * Whether we want to run as if we're in node or in the browser.
+   * (currently only affects which name we use for the user agent header)
+   */
+  isNodeOverride?: boolean;
 }
 
 /**
@@ -110,31 +116,22 @@ export class AppConfigurationClient {
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
     options?:AppConfigurationClientOptions
   ) {
-    if (isTokenCredential(tokenCredentialOrOptions)) {
-      const syncTokens =
-        (options && (options as InternalAppConfigurationClientOptions).syncTokens) ||
-        new SyncTokens();
+    let appConfigOptions: InternalAppConfigurationClientOptions = {};
+    let appConfigCredential: ServiceClientCredentials | TokenCredential;
+    let appConfigEndpoint: string;
 
-      this.client = new AppConfiguration(
-        tokenCredentialOrOptions,
-        apiVersion,
-        getAppConfigurationOptions(connectionStringOrEndpoint, syncTokens)
-      );
+    if (isTokenCredential(tokenCredentialOrOptions)) {
+      appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
+      appConfigCredential = tokenCredentialOrOptions;
+      appConfigEndpoint = connectionStringOrEndpoint;
     } else {
-      const syncTokens =
-        (tokenCredentialOrOptions &&
-          (tokenCredentialOrOptions as InternalAppConfigurationClientOptions).syncTokens) ||
-        new SyncTokens();
+      appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
 
       const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
-      if (regexMatch) {
-        const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
 
-        this.client = new AppConfiguration(
-          appConfigCredential,
-          apiVersion,
-          getAppConfigurationOptions(regexMatch[1], syncTokens)
-        );
+      if (regexMatch) {
+        appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
+        appConfigEndpoint = regexMatch[1];
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
@@ -142,6 +139,14 @@ export class AppConfigurationClient {
       }
     }
 
+    const syncTokens = appConfigOptions.syncTokens || new SyncTokens();
+
+    this.client = new AppConfiguration(
+      appConfigCredential,
+      apiVersion,
+      getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
+    );
+    
     this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
   }
 
@@ -475,14 +480,20 @@ export class AppConfigurationClient {
   }
 }
 
-function getAppConfigurationOptions(
+/**
+ * Gets the options for the generated AppConfigurationClient
+ * @internal
+ * @ignore
+ */
+export function getGeneratedClientOptions(
   baseUri: string,
   syncTokens: SyncTokens,
-): AppConfigurationOptions {
-  
+  internalAppConfigOptions: InternalAppConfigurationClientOptions
+): GeneratedAppConfigurationClientOptions {
+
   const retryPolicies = [
     exponentialRetryPolicy(),
-    systemErrorRetryPolicy(),    
+    systemErrorRetryPolicy(),
     throttlingRetryPolicy()
   ];
 
@@ -495,8 +506,30 @@ function getAppConfigurationOptions(
       tracingPolicy(),
       syncTokenPolicy(syncTokens),
       ...retryPolicies,
-      ...defaults,      
-    ]
+      ...defaults,
+    ],
+    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions)
   };
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function getUserAgentHeaderName(internalAppConfigOptions: InternalAppConfigurationClientOptions) {
+  const isNode = internalAppConfigOptions.isNodeOverride == null
+    ? isNodeFromCoreHttp
+    : internalAppConfigOptions.isNodeOverride;
+  
+  let userAgentHeaderName: string | undefined;
+
+  if (!isNode) {
+    // we only need to override this when we're in the browser
+    // where we're (mostly) not allowed to override the User-Agent 
+    // header.
+    userAgentHeaderName = "x-ms-useragent";
+  }
+  
+  return userAgentHeaderName;
 }
 
