@@ -19,9 +19,8 @@ npm install @azure/arm-compute
 
 ##### Install @azure/ms-rest-nodeauth
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
