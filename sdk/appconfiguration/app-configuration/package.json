@@ -53,10 +53,15 @@
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "swagger": "autorest --typescript swagger/swagger.md",
-    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "npm run test",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "test": "npm run build:test && npm run unit-test",
+    "test:node:playback": "cross-env TEST_MODE=playback npm run integration-test:node",    
+    "test:node:record": "cross-env TEST_MODE=record npm run integration-test:node"    
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -78,6 +83,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
@@ -86,6 +92,7 @@
     "@types/sinon": "^7.0.13",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
+    "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, setReplaceableVariables, setReplacements, isPlaybackMode } from "@azure/test-utils-recorder";
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
@@ -21,6 +22,35 @@ export interface CredsAndEndpoint {
   endpoint: string 
 }
 
+export function applyReplacements() {
+  setReplaceableVariables({
+    AZ_CONFIG_CONNECTION: "AZ_CONFIG_CONNECTION",
+    AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+    AZURE_CLIENT_ID: "AZURE_CLIENT_ID",
+    AZURE_CLIENT_SECRET: "AZURE_CLIENT_SECRET",
+    AZURE_TENANT_ID: "AZURE_TENANT_ID"
+  });
+
+  const replacedEndpoint = "https://myappconfig.azconfig.io";
+  setReplacements([
+    (recording: any): any =>
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+
+    // TODO:
+    // Remove these two when this issue is fixed: https://github.com/Azure/azure-sdk-for-js/issues/6539
+    (recording: any): any =>
+      recording.replace(
+        /scope=https:\/\/myappconfig\.azconfig\.io/g,
+        `scope=${encodeURIComponent(replacedEndpoint)}`
+      ),
+    (recording: any): any =>
+      recording.replace(
+        new RegExp(env.AZ_CONFIG_ENDPOINT, "g"),
+        replacedEndpoint
+      ),
+  ]);
+}
+
 export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
@@ -29,37 +59,41 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     "AZURE_CLIENT_SECRET"
   ];  
 
-  for (const name of requiredEnvironmentVariables) {
-    const value = process.env[name];
+  if (!isPlaybackMode()) {
+    for (const name of requiredEnvironmentVariables) {
+      const value = env[name];
 
-    if (value == null) {
-      if (tokenCredentialsNotPresentWarning) {
-        tokenCredentialsNotPresentWarning = true;
-        console.log("Functional tests not running - set client identity variables to activate");
-      }
-  
-      return undefined;
-    }    
+      if (value == null) {
+        if (tokenCredentialsNotPresentWarning) {
+          tokenCredentialsNotPresentWarning = true;
+          console.log("Functional tests not running - set client identity variables to activate");
+        }
+    
+        return undefined;
+      }    
+    }
   }
 
   return {
     credential: new DefaultAzureCredential(),
-    endpoint: process.env["AZ_CONFIG_ENDPOINT"]!
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }
 
 
 export function createAppConfigurationClientForTests(options?: AppConfigurationClientOptions): AppConfigurationClient | undefined {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"];
+  const connectionString = env["AZ_CONFIG_CONNECTION"];
 
-  if (connectionString == null) {
-    if (!connectionStringNotPresentWarning) {
-      connectionStringNotPresentWarning = true;
-      console.log(
-        "Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate"
-      );
+  if (!isPlaybackMode()) {
+    if (connectionString == null) {
+      if (!connectionStringNotPresentWarning) {
+        connectionStringNotPresentWarning = true;
+        console.log(
+          "Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate"
+        );
+      }
+      return undefined;
     }
-    return undefined;
   }
 
   return new AppConfigurationClient(connectionString, options);
