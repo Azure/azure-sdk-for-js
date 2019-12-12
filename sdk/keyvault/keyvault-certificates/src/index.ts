@@ -1641,7 +1641,7 @@ export class CertificateClient {
    * const poller = await client.beginDeleteCertificate("MyCertificate");
    * await poller.pollUntilDone();
    * // Some time is required before we're able to restore the certificate
-   * await client.restoreCertificateBackup(backup.value!);
+   * await client.restoreCertificateBackup(backup!);
    * ```
    * @summary Restores a certificate from a backup
    * @param backup The back-up certificate to restore from
