@@ -733,7 +733,7 @@ export class CertificateClient {
     let coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
-      phone: x ? x.phone : undefined,
+      phone: x ? x.phone : undefined
     }));
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 

@@ -1,8 +1,5 @@
 import * as coreHttp from "@azure/core-http";
-import {
-  DeletionRecoveryLevel,
-  KeyUsageType
-} from "./core/models";
+import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
  * Defines values for KeyType.
@@ -395,13 +392,14 @@ export interface PolicySubjectProperties {
   /**
    * The subject alternative names.
    */
-  subjectAlternativeNames: SubjectAlternativeNames;  
+  subjectAlternativeNames: SubjectAlternativeNames;
 }
 
 /**
  * An type representing a certificate's policy with at least one of the subject properties.
  */
-export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
+export type CertificatePolicy = CertificatePolicyProperties &
+  RequireAtLeastOne<PolicySubjectProperties>;
 
 /**
  * The CertificatePolicy module exports values that
