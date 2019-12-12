@@ -1,8 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { QueueServiceClient } = require("../.."); // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient } = require("@azure/storage-queue");
+
+const { runSample } = require("./sampleHelpers");
 
 async function main() {
   // Create Queue Service Client from Account connection string or SAS connection string
@@ -27,11 +32,8 @@ async function main() {
   );
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});
+
+module.exports = { main };

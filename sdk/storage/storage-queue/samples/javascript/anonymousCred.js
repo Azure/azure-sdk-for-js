@@ -1,8 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and SAS in main()
 */
 
-const { QueueServiceClient, AnonymousCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient, AnonymousCredential } = require("@azure/storage-queue");
+
+const { runSample } = require("./sampleHelpers");
 
 async function main() {
   // Enter your storage account name and SAS
@@ -33,11 +38,8 @@ async function main() {
   );
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+runSample(main).catch((err) => {
+  console.error("Error running sample:", err.message);
+});
+
+module.exports = { main };
