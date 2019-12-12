@@ -43,3 +43,5 @@ stages:
           safeName: azureeventhubs
         - name: azure-eventhubs-checkpointstore-blob
           safeName: azureeventhubscheckpointstoreblob
+        - name: azure-event-processor-host
+          safename: azureeventprocessorhost
