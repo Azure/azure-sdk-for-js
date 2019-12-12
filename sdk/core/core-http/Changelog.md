@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Added in constant to represent the `x-ms-useragent` header for browsers.
+
 ## 1.0.2 - 2019-12-02
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`

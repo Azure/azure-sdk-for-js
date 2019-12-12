@@ -1,4 +1,10 @@
-# 1.0.0-preview.10 (TBD)
+# 1.0.0-preview.11
+
+- Fixed issue [#6528](https://github.com/Azure/azure-sdk-for-js/pull/6528) where
+  the proper user agent header (`x-ms-useragent`) wasn't being sent when we were
+  running in a browser.
+
+# 1.0.0-preview.10
 
 - Specifying filters for listConfigurationSettings() or listRevisions() is 
   now done with the `keyFilter` or `labelFilter` strings rather than `keys`
