@@ -81,7 +81,7 @@ async function main() {
 
   console.log("[run-samples] Running all samples in:", sampleDir);
 
-  let didError = false;
+  let errors = [];
 
   for await (const fileName of findMatchingFiles(
     sampleDir,
@@ -92,15 +92,22 @@ async function main() {
     try {
       await sampleMain();
     } catch (err) {
-      didError = true;
-      console.error("[run-samples] Error in", fileName);
-      console.error(err);
+      const truncatedError = err
+        .toString()
+        .split("\n")[0]
+        .slice(0, 100);
+      errors.push([path.basename(fileName), truncatedError]);
+      console.warn("[run-samples] Error in", fileName, ":", err);
       console.warn("[run-samples] Continuing ...");
     }
   }
 
-  if (didError) {
-    throw new Error("errors occurred during sample execution");
+  if (errors !== []) {
+    console.error("[run-samples] Errors occurred in the following files:");
+    for (const [fileName, error] of errors) {
+      console.error("  -", fileName, "(", error, ")");
+    }
+    process.exit(1);
   }
 }
 
