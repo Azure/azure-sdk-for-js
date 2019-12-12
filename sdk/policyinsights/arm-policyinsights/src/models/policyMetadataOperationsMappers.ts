@@ -7,16 +7,10 @@
  */
 
 export {
-  App,
-  AppAvailabilityInfo,
-  AppListResult,
-  AppPatch,
-  AppSkuInfo,
-  AppTemplate,
-  AppTemplatesResult,
-  BaseResource,
-  ErrorDetails,
-  ErrorResponseBody,
-  OperationInputs,
-  Resource
+  ErrorDefinition,
+  ErrorResponse,
+  PolicyMetadata,
+  PolicyMetadataCollection,
+  SlimPolicyMetadata,
+  TypedErrorInfo
 } from "../models/mappers";

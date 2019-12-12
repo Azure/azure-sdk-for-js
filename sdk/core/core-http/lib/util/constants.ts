@@ -7,7 +7,7 @@ export const Constants = {
    * @const
    * @type {string}
    */
-  coreHttpVersion: "1.0.2",
+  coreHttpVersion: "1.0.3",
 
   /**
    * Specifies HTTP.
