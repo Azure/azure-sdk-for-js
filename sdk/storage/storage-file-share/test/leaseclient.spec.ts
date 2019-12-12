@@ -69,8 +69,7 @@ describe("LeaseClient", () => {
 
   it("acquireLease without proposed lease id", async () => {
     const leaseClient = fileClient.getFileLeaseClient();
-    const acquireResp = await leaseClient.acquireLease(duration);
-    assert.equal(acquireResp.leaseId, leaseClient.leaseId);
+    await leaseClient.acquireLease(duration);
 
     const result = await fileClient.getProperties();
     assert.equal(result.leaseDuration, "infinite");
@@ -80,8 +79,7 @@ describe("LeaseClient", () => {
 
   it("acquireLease again with another lease id", async () => {
     const leaseClient = fileClient.getFileLeaseClient();
-    const acquireResp = await leaseClient.acquireLease(duration);
-    assert.equal(acquireResp.leaseId, leaseClient.leaseId);
+    await leaseClient.acquireLease(duration);
 
     const anotherLeaseClient = fileClient.getFileLeaseClient(guid);
     try {
@@ -93,9 +91,8 @@ describe("LeaseClient", () => {
   });
 
   it("acquireLease again with same lease id", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
-    const acquireResp = await leaseClient.acquireLease();
-    assert.equal(acquireResp.leaseId, leaseClient.leaseId);
+    const leaseClient = fileClient.getFileLeaseClient(guid);
+    await leaseClient.acquireLease();
     leaseClient.acquireLease(duration);
   });
 
@@ -112,9 +109,7 @@ describe("LeaseClient", () => {
 
   it("changeLease", async () => {
     const leaseClient = fileClient.getFileLeaseClient();
-    const acquireResp = await leaseClient.acquireLease(duration);
-    assert.equal(acquireResp.leaseId, leaseClient.leaseId);
-
+    await leaseClient.acquireLease(duration);
     const changeResp = await leaseClient.changeLease(guid);
     assert.equal(changeResp.leaseId, guid);
   });
@@ -169,8 +164,7 @@ describe("LeaseClient", () => {
     let result = await fileClient.getProperties();
     assert.equal(result.leaseState, "broken");
 
-    const acquireResp = await leaseClient.acquireLease();
-    assert.equal(leaseClient.leaseId, acquireResp.leaseId);
+    await leaseClient.acquireLease();
     result = await fileClient.getProperties();
     assert.equal(result.leaseState, "leased");
 

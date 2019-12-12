@@ -1,5 +1,10 @@
 # Changelog
 
+## 2019.12 12.1.0
+- File lease: add `FileLeaseClient` for lease management operations (acquire, change, break, release) and also add lease request and response headers accordingly for supported APIs:
+  - response headers (lease-durations, lease-status, lease-state) for Get file properties, Get file.
+  - request headers (lease-id) for Get file properties, Get file; Abort copy file, Copy file, Create file, Delete file, Put range, Set file metadata, Set file properties, resize, setHTTPHeaders; Get file metadata, List range.
+
 ## 2019.12 12.0.0
 
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).

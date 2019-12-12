@@ -95,7 +95,10 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    */
   metadata?: Metadata;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileCreateOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -117,7 +120,10 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
    */
   fileHttpHeaders?: FileHttpHeaders;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileProperties
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -136,11 +142,14 @@ export interface FileDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileDeleteOptions
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDeleteOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -198,7 +207,10 @@ export interface FileDownloadOptions extends CommonOptions {
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDownloadOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -238,7 +250,10 @@ export interface FileUploadRangeOptions extends CommonOptions {
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadRangeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -273,7 +288,10 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    */
   sourceConditions?: SourceModifiedAccessConditions;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadRangeFromURLOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -324,7 +342,10 @@ export interface FileGetRangeListOptions extends CommonOptions {
    */
   range?: Range;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileGetRangeListOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -345,7 +366,10 @@ export interface FileGetPropertiesOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileGetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -403,7 +427,10 @@ export interface FileStartCopyOptions extends CommonOptions {
    */
   metadata?: Metadata;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileStartCopyOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -424,7 +451,10 @@ export interface FileSetMetadataOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileSetMetadataOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -447,7 +477,10 @@ export interface FileSetHttpHeadersOptions
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileSetHttpHeadersOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -468,7 +501,10 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileAbortCopyFromURLOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -491,7 +527,10 @@ export interface FileResizeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileResizeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -512,7 +551,10 @@ export interface FileClearRangeOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileClearRangeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -659,7 +701,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadStreamOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -724,7 +769,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
    */
   concurrency?: number;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileParallelUploadOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -789,7 +837,10 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    */
   concurrency?: number;
   /**
-   * Additional parameters for the operation
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDownloadToBufferOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -2569,8 +2620,8 @@ export class ShareFileClient extends StorageClient {
    * Get a {@link FileLeaseClient} that manages leases on the file.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
-   * @memberof ContainerClient
+   * @returns {FileLeaseClient} A new FileLeaseClient object for managing leases on the file.
+   * @memberof ShareFileClient
    */
   public getFileLeaseClient(proposeLeaseId?: string): FileLeaseClient {
     return new FileLeaseClient(this, proposeLeaseId);
@@ -2578,9 +2629,9 @@ export class ShareFileClient extends StorageClient {
 }
 
 /**
- * The details for a specific lease.
+ * The details of the response for a specific lease operation.
  */
-export interface Lease {
+export interface LeaseOperationResponseHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
@@ -2619,7 +2670,7 @@ export interface Lease {
  *
  * See {@link FileLeaseClient}.
  */
-export type LeaseOperationResponse = Lease & {
+export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -2627,7 +2678,7 @@ export type LeaseOperationResponse = Lease & {
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Lease;
+    parsedHeaders: LeaseOperationResponseHeaders;
   };
 };
 
@@ -2703,8 +2754,7 @@ export class FileLeaseClient {
   }
 
   /**
-   * The Lease File operation establishes and manages a lock on a file for write and delete
-   * operations
+   * The Lease File operation establishes and manages a lock on a file for write and delete operations.
    *
    * @param {number} duration Specifies the duration of lease. The only allowed value is -1, for a lease that never expires.
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
