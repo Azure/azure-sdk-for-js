@@ -2,6 +2,8 @@
 
 - Fixed potential issues with claims being mismanaged when subscriptions terminate.
 - Improved reporting of errors that occur when attempting to claim partitions from CheckpointStores.
+- Updated to use the latest version of the `@azure/core-amqp` package.
+  This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
 
 ### 2019-12-03 5.0.0-preview.7
 
