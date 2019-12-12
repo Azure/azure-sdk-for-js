@@ -4,12 +4,12 @@
 import { ApiKeyCredentials } from "@azure/core-http";
 
 /**
- * Creates a new CognitiveServicesCredentials object.
+ * Creates a new CognitiveServicesCredential object.
  *
  * @constructor
  * @param {string} subscriptionKey   The CognitiveServices subscription key
  */
-export class CognitiveServicesCredentials extends ApiKeyCredentials {
+export class CognitiveServicesCredential extends ApiKeyCredentials {
   constructor(subscriptionKey: string) {
     if (!subscriptionKey || (subscriptionKey && typeof subscriptionKey.valueOf() !== "string")) {
       throw new Error("subscriptionKey cannot be null or undefined and must be of type string.");

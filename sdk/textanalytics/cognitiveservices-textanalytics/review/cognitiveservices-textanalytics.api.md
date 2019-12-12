@@ -34,7 +34,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
-export class CognitiveServicesCredentials extends ApiKeyCredentials {
+export class CognitiveServicesCredential extends ApiKeyCredentials {
     constructor(subscriptionKey: string);
 }
 
@@ -224,7 +224,7 @@ export interface SentimentConfidenceScorePerLabel {
 
 // @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredentials, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredential, options?: TextAnalyticsClientOptions);
     // (undocumented)
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     // (undocumented)

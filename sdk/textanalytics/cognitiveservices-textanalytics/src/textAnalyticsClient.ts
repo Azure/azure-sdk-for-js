@@ -36,7 +36,7 @@ import {
   ExtractLinkedEntitiesResultCollection,
   makeExtractLinkedEntitiesResultCollection
 } from "./extractLinkedEntitiesResultCollection";
-import { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
+import { CognitiveServicesCredential } from "./cognitiveServicesCredential";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -115,12 +115,12 @@ export class TextAnalyticsClient {
    * // TODO
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | CognitiveServicesCredentials} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | CognitiveServicesCredential} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | CognitiveServicesCredentials,
+    credential: TokenCredential | CognitiveServicesCredential,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;

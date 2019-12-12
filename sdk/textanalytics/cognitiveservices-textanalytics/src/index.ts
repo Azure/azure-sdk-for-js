@@ -13,7 +13,7 @@ export {
   ExtractEntityLinkingOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
-export { CognitiveServicesCredentials } from "./cognitiveServicesCredentials";
+export { CognitiveServicesCredential } from "./cognitiveServicesCredential";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
