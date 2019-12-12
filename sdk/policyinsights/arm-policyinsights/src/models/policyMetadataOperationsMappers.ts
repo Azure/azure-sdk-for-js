@@ -7,18 +7,10 @@
  */
 
 export {
-  ComplianceDetail,
-  ExpressionEvaluationDetails,
-  IfNotExistsEvaluationDetails,
-  PolicyAssignmentSummary,
-  PolicyDefinitionSummary,
-  PolicyEvaluationDetails,
-  PolicyGroupSummary,
-  PolicyState,
-  PolicyStatesQueryResults,
-  QueryFailure,
-  QueryFailureError,
-  SummarizeResults,
-  Summary,
-  SummaryResults
+  ErrorDefinition,
+  ErrorResponse,
+  PolicyMetadata,
+  PolicyMetadataCollection,
+  SlimPolicyMetadata,
+  TypedErrorInfo
 } from "../models/mappers";

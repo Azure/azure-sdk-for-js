@@ -22,6 +22,7 @@ class PolicyInsightsClient extends PolicyInsightsClientContext {
   policyEvents: operations.PolicyEvents;
   policyStates: operations.PolicyStates;
   operations: operations.Operations;
+  policyMetadata: operations.PolicyMetadataOperations;
 
   /**
    * Initializes a new instance of the PolicyInsightsClient class.
@@ -35,6 +36,7 @@ class PolicyInsightsClient extends PolicyInsightsClientContext {
     this.policyEvents = new operations.PolicyEvents(this);
     this.policyStates = new operations.PolicyStates(this);
     this.operations = new operations.Operations(this);
+    this.policyMetadata = new operations.PolicyMetadataOperations(this);
   }
 }
 
