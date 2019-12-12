@@ -2,20 +2,20 @@ import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
- * Defines values for KeyType.
+ * Defines values for CertificateKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 /**
- * Defines values for KeyCurveName.
+ * Defines values for CertificateKeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
  * @readonly
  * @enum {string}
  */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * @internal
@@ -348,7 +348,7 @@ export interface CertificatePolicyProperties {
   /**
    * Elliptic curve name. Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  keyCurveName?: KeyCurveName;
+  keyCurveName?: CertificateKeyCurveName;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
@@ -357,7 +357,7 @@ export interface CertificatePolicyProperties {
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: KeyType;
+  keyType?: CertificateKeyType;
   /**
    * List of key usages.
    */

@@ -109,6 +109,12 @@ export interface CertificateIssuer {
 }
 
 // @public
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+// @public
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+
+// @public
 export interface CertificateOperation {
     cancellationRequested?: boolean;
     certificateTransparency?: boolean;
@@ -286,12 +292,6 @@ export interface IssuerProperties {
     readonly name?: string;
     provider?: string;
 }
-
-// @public
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
-
-// @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";

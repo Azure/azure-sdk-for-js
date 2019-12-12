@@ -44,8 +44,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  KeyType,
-  KeyCurveName,
+  CertificateKeyType,
+  CertificateKeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -178,8 +178,8 @@ export {
   IssuerCredentials,
   IssuerParameters,
   IssuerProperties,
-  KeyType,
-  KeyCurveName,
+  CertificateKeyType,
+  CertificateKeyCurveName,
   KeyUsageType,
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
@@ -319,7 +319,7 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
   }
 
   if (policy.keyProperties) {
-    certificatePolicy.keyType = policy.keyProperties.keyType as KeyType;
+    certificatePolicy.keyType = policy.keyProperties.keyType as CertificateKeyType;
     certificatePolicy.keySize = policy.keyProperties.keySize;
     certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
     certificatePolicy.keyCurveName = policy.keyProperties.curve;
