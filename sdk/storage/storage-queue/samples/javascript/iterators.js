@@ -96,13 +96,17 @@ async function main() {
   }
   // Gets next marker
   let marker = response.value.continuationToken;
-  // Passing next marker as continuationToken
-  iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-  response = await iterator.next();
-  // Prints 10 queue names
-  if (response.value.queueItems) {
-    for (const queueItem of response.value.queueItems) {
-      console.log(`Queue ${i++}: ${queueItem.name}`);
+  if (marker) {
+    // Passing next marker as continuationToken
+    iterator = queueServiceClient
+      .listQueues()
+      .byPage({ continuationToken: marker, maxPageSize: 10 });
+    response = await iterator.next();
+    // Prints 10 queue names
+    if (response.value.queueItems) {
+      for (const queueItem of response.value.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
+      }
     }
   }
 }

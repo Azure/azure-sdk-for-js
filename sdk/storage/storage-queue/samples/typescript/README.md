@@ -12,16 +12,16 @@ urlFragment: storage-queue-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Storage Queues in some common scenarios.
 
-| **File Name**                       | **Description**                                                                                                             |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| [basic.ts][basic]                   | authenticate with the service using an account name & key (or anonymously with a SAS URL); send, peek, and dequeue messages |
-| [withConnString.ts][withconnstring] | connect to and authenticate with the service using a connection string                                                      |
-| [sharedKeyCred.ts][sharedkeycred]   | authenticate with the service using an account name and a shared key                                                        |
-| [anonymousCred.ts][anonymouscred]   | authenticate with the service anonymously using a SAS URL                                                                   |
-| [azureAdAuth.ts][azureadauth]       | authenticate with the service using Azure Active Directory                                                                  |
-| [proxyAuth.ts][proxyauth]           | connect to the service using a proxy and authenticate with an account name & key                                            |
-| [iterators.ts][iterators]           | different options for iterating over messages, showing options for paging, resuming paging etc.                             |
-| [customPipeline.ts][custompipeline] | use custom HTTP pipeline options when connecting to the service                                                             |
+| **File Name**                       | **Description**                                                                                                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [basic.ts][basic]                   | authenticate with the service using an account name & key (or anonymously with a SAS URL); send, peek, and dequeue messages                                       |
+| [withConnString.ts][withconnstring] | connect to and authenticate with the service using a connection string                                                                                            |
+| [sharedKeyCred.ts][sharedkeycred]   | authenticate with the service using an account name and a shared key                                                                                              |
+| [anonymousCred.ts][anonymouscred]   | authenticate with the service anonymously using a SAS URL                                                                                                         |
+| [azureAdAuth.ts][azureadauth]       | authenticate with the service using Azure Active Directory                                                                                                        |
+| [proxyAuth.ts][proxyauth]           | connect to the service using a proxy and authenticate with an account name & key                                                                                  |
+| [iterators.ts][iterators]           | different options for iterating over messages, showing options for paging, resuming paging etc. (requires several queues to already exist in order to see output) |
+| [customPipeline.ts][custompipeline] | use custom HTTP pipeline options when connecting to the service                                                                                                   |
 
 ## Prerequisites
 

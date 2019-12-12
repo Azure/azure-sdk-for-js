@@ -12,16 +12,16 @@ urlFragment: storage-queue-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Storage Queues in some common scenarios.
 
-| **File Name**                       | **Description**                                                                                                             |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| [basic.js][basic]                   | authenticate with the service using an account name & key (or anonymously with a SAS URL); send, peek, and dequeue messages |
-| [withConnString.js][withconnstring] | connect to and authenticate with the service using a connection string                                                      |
-| [sharedKeyCred.js][sharedkeycred]   | authenticate with the service using an account name and a shared key                                                        |
-| [anonymousCred.js][anonymouscred]   | authenticate with the service anonymously using a SAS URL                                                                   |
-| [azureAdAuth.js][azureadauth]       | authenticate with the service using Azure Active Directory                                                                  |
-| [proxyAuth.js][proxyauth]           | connect to the service using a proxy and authenticate with an account name & key                                            |
-| [iterators.js][iterators]           | different options for iterating over messages, showing options for paging, resuming paging etc.                             |
-| [customPipeline.js][custompipeline] | use custom HTTP pipeline options when connecting to the service                                                             |
+| **File Name**                       | **Description**                                                                                                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [basic.js][basic]                   | authenticate with the service using an account name & key (or anonymously with a SAS URL); send, peek, and dequeue messages                                       |
+| [withConnString.js][withconnstring] | connect to and authenticate with the service using a connection string                                                                                            |
+| [sharedKeyCred.js][sharedkeycred]   | authenticate with the service using an account name and a shared key                                                                                              |
+| [anonymousCred.js][anonymouscred]   | authenticate with the service anonymously using a SAS URL                                                                                                         |
+| [azureAdAuth.js][azureadauth]       | authenticate with the service using Azure Active Directory                                                                                                        |
+| [proxyAuth.js][proxyauth]           | connect to the service using a proxy and authenticate with an account name & key                                                                                  |
+| [iterators.js][iterators]           | different options for iterating over messages, showing options for paging, resuming paging etc. (requires several queues to already exist in order to see output) |
+| [customPipeline.js][custompipeline] | use custom HTTP pipeline options when connecting to the service                                                                                                   |
 
 ## Prerequisites
 
