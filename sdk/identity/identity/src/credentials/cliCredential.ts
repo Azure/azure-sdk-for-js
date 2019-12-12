@@ -9,7 +9,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 
 /**
- * Provides the user access token and expire time
+ * Provides the user access token
  * with cli command "az account get-access-token" in powershell.  
  */
 export class CliCredential implements TokenCredential {
