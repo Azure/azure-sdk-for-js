@@ -144,7 +144,7 @@ jobs:
           searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
           testResultsFiles: "**/test-results.xml"
           testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
-        condition: and(succeededOrFailed(), eq(variables['TestType'], 'node'))
+        condition: and(always(), eq(variables['TestType'], 'node'))
         displayName: "Publish NodeJS integration test results"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
@@ -154,5 +154,5 @@ jobs:
           searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
           testResultsFiles: "**/test-results.browser.xml"
           testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
-        condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
+        condition: and(always(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"
