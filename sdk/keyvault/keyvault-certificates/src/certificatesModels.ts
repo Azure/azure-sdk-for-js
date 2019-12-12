@@ -786,7 +786,7 @@ export interface CertificateIssuer {
   /**
    * A small set of useful properties of a certificate issuer
    */
-  issuerProperties?: IssuerProperties;
+  properties?: IssuerProperties;
 }
 
 /**

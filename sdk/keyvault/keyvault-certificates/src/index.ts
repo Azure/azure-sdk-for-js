@@ -350,7 +350,7 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     updatedOn: attributes.updated
   };
 
-  publicIssuer.issuerProperties = {
+  publicIssuer.properties = {
     id: publicIssuer.id,
     name: parsedId.name,
     provider: issuer.provider

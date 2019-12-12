@@ -101,10 +101,10 @@ export interface CertificateIssuer {
     readonly createdOn?: Date;
     enabled?: boolean;
     id?: string;
-    issuerProperties?: IssuerProperties;
     readonly name?: string;
     organizationId?: string;
     password?: string;
+    properties?: IssuerProperties;
     readonly updatedOn?: Date;
 }
 
