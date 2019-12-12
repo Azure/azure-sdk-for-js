@@ -3,16 +3,20 @@
 
 import * as child_process from "child_process";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 
+/**
+ * Provides the user access token and expire time
+ * with cli command "az account get-access-token" in powershell.  
+ */
 export class CliCredential implements TokenCredential {
   private identityClient: IdentityClient;
 
   /**
-   * Creates an instance of the CliCredential with the details
+   * Creates an instance of the CliCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
@@ -34,26 +38,10 @@ export class CliCredential implements TokenCredential {
   */
   public async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return new Promise((resolve, reject) => {
-      let scope: string
-
-      if (Array.isArray(scopes)) {
-        if (scopes.length > 1) {
-          reject(new Error("CliCredential only supports a single scope"));
-        }
-        scope = scopes[0];
-      } else {
-        scope = scopes;
-      }
-
-      if (!scope) {
-        reject(new Error("scope must be provided"));
-      }
+      let scope: string = "";
 
       const resource = scope.replace(/\/.default$/, "");
 
-      // TODO: Do we need to be concerned with shell escaping here?
-      //
-      // NOTE: On Windows, we have to call `az.cmd` not just `az`. I hope it's just called `az` on these other platforms.
       const child = child_process.spawn(`az${process.platform === "win32" ? ".cmd" : ""}`, ["account", "get-access-token", "--resource", resource]);
 
       let responseData = "";
