@@ -71,7 +71,9 @@ import {
   LifetimeAction,
   RequireAtLeastOne,
   ArrayOneOrMore,
-  SubjectAlternativeNamesAll
+  SubjectAlternativeNamesAll,
+  CertificatePolicyProperties,
+  PolicySubjectProperties
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -152,6 +154,8 @@ export {
   CertificateOperationError,
   CertificatePolicy,
   CertificatePolicyAction,
+  CertificatePolicyProperties,
+  PolicySubjectProperties,
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,

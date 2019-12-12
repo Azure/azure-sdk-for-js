@@ -136,9 +136,6 @@ export interface CertificateOperationError {
     readonly message?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CertificatePolicyProperties" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "PolicySubjectProperties" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
@@ -149,6 +146,26 @@ export module CertificatePolicy {
 
 // @public
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
+// @public
+export interface CertificatePolicyProperties {
+    certificateTransparency?: boolean;
+    certificateType?: string;
+    contentType?: CertificateContentType;
+    readonly createdOn?: Date;
+    enabled?: boolean;
+    enhancedKeyUsage?: string[];
+    exportable?: boolean;
+    issuerName?: WellKnownIssuer | string;
+    keyCurveName?: CertificateKeyCurveName;
+    keySize?: number;
+    keyType?: CertificateKeyType;
+    keyUsage?: KeyUsageType[];
+    lifetimeActions?: LifetimeAction[];
+    reuseKey?: boolean;
+    readonly updatedOn?: Date;
+    validityInMonths?: number;
+}
 
 // @public
 export interface CertificatePollerOptions extends coreHttp.OperationOptions {
@@ -348,6 +365,12 @@ export interface MergeCertificateOptions extends coreHttp.OperationOptions {
 }
 
 export { PipelineOptions }
+
+// @public
+export interface PolicySubjectProperties {
+    subject: string;
+    subjectAlternativeNames: SubjectAlternativeNames;
+}
 
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
