@@ -22,9 +22,7 @@ export class CliCredential implements TokenCredential {
    */
   constructor(
     options?: TokenCredentialOptions
-  ) {
-    this.identityClient = new IdentityClient(options);
-  }
+  ) { }
 
   /**
   * Authenticates with Azure Active Directory and returns an access token if
@@ -39,6 +37,15 @@ export class CliCredential implements TokenCredential {
   public async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return new Promise((resolve, reject) => {
       let scope: string = "";
+
+      if (Array.isArray(scopes)) {
+        if (scopes.length > 1) {
+          reject(new Error("CliCredential only supports a single scope"));
+        }
+        scope = scopes[0];
+      } else {
+        scope = scopes;
+      }
 
       const resource = scope.replace(/\/.default$/, "");
 
