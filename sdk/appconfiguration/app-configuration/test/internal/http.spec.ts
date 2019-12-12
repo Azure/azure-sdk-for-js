@@ -229,10 +229,6 @@ describe("http request related tests", () => {
       assert.equal(syncTokens.getSyncTokenHeaderValue(), 'clearReadOnly=value');
     });
   });
-
-  describe("proper user agent header name is used", () => {
-    
-  });
 });
 
 function splitAndSort(syncTokens: string | undefined): string {
