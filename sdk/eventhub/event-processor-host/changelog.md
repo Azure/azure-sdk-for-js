@@ -3,7 +3,7 @@
 - Updates minimum version of `@azure/event-hubs` from version 2.1.1 to version 2.1.4.
   This update brings in improvements when attempting to reconnect after a transient failure.
   See the [changelog](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/event-hubs_2.1.4/sdk/eventhub/event-hubs/changelog.md#2019-12-11-214)
-  for `@azure/event-hubs` for a full list of the improvements from version 2.1.1.
+  for `@azure/event-hubs` for a full list of the improvements since version 2.1.1.
 
 ### 2019-08-06 2.1.0
 
