@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.3 - 2019-12-10
+## 1.0.3 - TBD
 
 - Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
 
