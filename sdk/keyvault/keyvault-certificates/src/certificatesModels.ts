@@ -1,9 +1,7 @@
 import * as coreHttp from "@azure/core-http";
 import {
-  CertificateOperation,
   DeletionRecoveryLevel,
-  KeyUsageType,
-  IssuerCredentials
+  KeyUsageType
 } from "./core/models";
 
 /**
@@ -188,7 +186,7 @@ export interface KeyVaultCertificate {
   /**
    * The name of certificate.
    */
-  name: string;
+  readonly name: string;
   /**
    * The properties of the certificate
    */
@@ -314,9 +312,9 @@ export interface LifetimeAction {
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
- * An interface representing a certificate's policy.
+ * An interface representing a certificate's policy (without the subject properties).
  */
-export interface CertificatePolicy {
+export interface CertificatePolicyProperties {
   /**
    * Indicates if the certificates generated under this policy should be published to certificate
    * transparency logs.
@@ -383,15 +381,27 @@ export interface CertificatePolicy {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
+}
+
+/**
+ * An interface representing the possible subject properties of a certificate's policy.
+ * The final type requires at least one of these properties to exist.
+ */
+export interface PolicySubjectProperties {
   /**
    * The subject name. Should be a valid X509 distinguished Name.
    */
-  subject?: string;
+  subject: string;
   /**
    * The subject alternative names.
    */
-  subjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames: SubjectAlternativeNames;  
 }
+
+/**
+ * An type representing a certificate's policy with at least one of the subject properties.
+ */
+export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
 /**
  * The CertificatePolicy module exports values that
@@ -430,11 +440,11 @@ export interface CertificateProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  id?: string;
+  readonly id?: string;
   /**
    * The name of certificate.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * Not before date in UTC.
    */
@@ -456,7 +466,7 @@ export interface CertificateProperties {
   /**
    * When the issuer was updated.
    */
-  updatedOn?: Date;
+  readonly updatedOn?: Date;
   /**
    * The vault URI.
    */
@@ -464,7 +474,7 @@ export interface CertificateProperties {
   /**
    * The version of certificate. May be undefined.
    */
-  version?: string;
+  readonly version?: string;
   /**
    * Thumbprint of the certificate.
    */
@@ -728,7 +738,7 @@ export interface IssuerProperties {
   /**
    * Name of the issuer.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The issuer provider.
    */
@@ -750,15 +760,15 @@ export interface CertificateIssuer {
   /**
    * When the issuer was created.
    */
-  createdOn?: Date;
+  readonly createdOn?: Date;
   /**
    * When the issuer was updated.
    */
-  updatedOn?: Date;
+  readonly updatedOn?: Date;
   /**
    * Name of the issuer
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The user name/account name/account id.
    */
@@ -767,10 +777,6 @@ export interface CertificateIssuer {
    * The password/secret/account key.
    */
   password?: string;
-  /**
-   * The credentials to be used for the issuer.
-   */
-  credentials?: IssuerCredentials;
   /**
    * Id of the organization.
    */

@@ -52,7 +52,7 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    beginCreateCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
+    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
@@ -76,7 +76,7 @@ export class CertificateClient {
     restoreCertificateBackup(backup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificateWithPolicy>;
     setContacts(contacts: CertificateContact[], options?: SetContactsOptions): Promise<CertificateContact[] | undefined>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
-    updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
+    updateCertificateProperties(certificateName: string, version?: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     readonly vaultUrl: string;
 }
@@ -92,27 +92,20 @@ export interface CertificateContactAll {
 }
 
 // @public
-export interface CertificateContacts {
-    contactList?: CertificateContact[];
-    readonly id?: string;
-}
-
-// @public
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
 // @public
 export interface CertificateIssuer {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
-    createdOn?: Date;
-    credentials?: IssuerCredentials;
+    readonly createdOn?: Date;
     enabled?: boolean;
     id?: string;
     issuerProperties?: IssuerProperties;
-    name?: string;
+    readonly name?: string;
     organizationId?: string;
     password?: string;
-    updatedOn?: Date;
+    readonly updatedOn?: Date;
 }
 
 // @public
@@ -137,27 +130,11 @@ export interface CertificateOperationError {
     readonly message?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CertificatePolicyProperties" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PolicySubjectProperties" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CertificatePolicy {
-    certificateTransparency?: boolean;
-    certificateType?: string;
-    contentType?: CertificateContentType;
-    readonly createdOn?: Date;
-    enabled?: boolean;
-    enhancedKeyUsage?: string[];
-    exportable?: boolean;
-    issuerName?: WellKnownIssuer | string;
-    keyCurveName?: KeyCurveName;
-    keySize?: number;
-    keyType?: KeyType;
-    keyUsage?: KeyUsageType[];
-    lifetimeActions?: LifetimeAction[];
-    reuseKey?: boolean;
-    subject?: string;
-    subjectAlternativeNames?: SubjectAlternativeNames;
-    readonly updatedOn?: Date;
-    validityInMonths?: number;
-}
+export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
 // @public
 export module CertificatePolicy {
@@ -178,14 +155,14 @@ export interface CertificateProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: CertificateTags;
-    updatedOn?: Date;
+    readonly updatedOn?: Date;
     vaultUrl?: string;
-    version?: string;
+    readonly version?: string;
     readonly x509Thumbprint?: Uint8Array;
 }
 
@@ -306,7 +283,7 @@ export interface IssuerParameters {
 // @public
 export interface IssuerProperties {
     id?: string;
-    name?: string;
+    readonly name?: string;
     provider?: string;
 }
 
@@ -324,7 +301,7 @@ export interface KeyVaultCertificate {
     cer?: Uint8Array;
     id?: string;
     readonly keyId?: string;
-    name: string;
+    readonly name: string;
     properties: CertificateProperties;
     readonly secretId?: string;
 }

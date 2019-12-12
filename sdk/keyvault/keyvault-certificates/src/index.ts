@@ -159,7 +159,6 @@ export {
   RequireAtLeastOne,
   CertificateContactAll,
   CertificateContact,
-  CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
   DeleteIssuerOptions,
@@ -270,41 +269,10 @@ function toCorePolicy(
 }
 
 function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
-  let certificatePolicy: CertificatePolicy = {
-    lifetimeActions: policy.lifetimeActions
-      ? policy.lifetimeActions.map((action) => ({
-          action: action.action ? action.action.actionType : undefined,
-          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
-        }))
-      : undefined,
-    contentType: policy.secretProperties
-      ? (policy.secretProperties.contentType as CertificateContentType)
-      : undefined
-  };
-
-  if (policy.attributes) {
-    certificatePolicy.enabled = policy.attributes.enabled;
-  }
-
-  if (policy.keyProperties) {
-    certificatePolicy.keyType = policy.keyProperties.keyType as KeyType;
-    certificatePolicy.keySize = policy.keyProperties.keySize;
-    certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
-    certificatePolicy.keyCurveName = policy.keyProperties.curve;
-    certificatePolicy.exportable = policy.keyProperties.exportable;
-  }
-
-  if (policy.issuerParameters) {
-    certificatePolicy.issuerName = policy.issuerParameters && policy.issuerParameters.name;
-    certificatePolicy.certificateType = policy.issuerParameters
-      .certificateType as CertificateContentType;
-    certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
-  }
+  let subjectAlternativeNames: SubjectAlternativeNames | undefined;
+  const x509Properties: X509CertificateProperties = policy.x509CertificateProperties || {};
 
   if (policy.x509CertificateProperties) {
-    const x509Properties: X509CertificateProperties = policy.x509CertificateProperties || {};
-    let subjectAlternativeNames: SubjectAlternativeNames | undefined;
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
       if (names.emails && names.emails.length) {
@@ -326,14 +294,43 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
         };
       }
     }
-    certificatePolicy = {
-      ...certificatePolicy,
-      enhancedKeyUsage: x509Properties.ekus,
-      keyUsage: x509Properties.keyUsage,
-      validityInMonths: x509Properties.validityInMonths,
-      subject: x509Properties.subject,
-      subjectAlternativeNames
-    };
+  }
+
+  let certificatePolicy: CertificatePolicy = {
+    lifetimeActions: policy.lifetimeActions
+      ? policy.lifetimeActions.map((action) => ({
+          action: action.action ? action.action.actionType : undefined,
+          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
+          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+        }))
+      : undefined,
+    contentType: policy.secretProperties
+      ? (policy.secretProperties.contentType as CertificateContentType)
+      : undefined,
+    enhancedKeyUsage: x509Properties.ekus,
+    keyUsage: x509Properties.keyUsage,
+    validityInMonths: x509Properties.validityInMonths,
+    subject: x509Properties.subject,
+    subjectAlternativeNames: subjectAlternativeNames!
+  };
+
+  if (policy.attributes) {
+    certificatePolicy.enabled = policy.attributes.enabled;
+  }
+
+  if (policy.keyProperties) {
+    certificatePolicy.keyType = policy.keyProperties.keyType as KeyType;
+    certificatePolicy.keySize = policy.keyProperties.keySize;
+    certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
+    certificatePolicy.keyCurveName = policy.keyProperties.curve;
+    certificatePolicy.exportable = policy.keyProperties.exportable;
+  }
+
+  if (policy.issuerParameters) {
+    certificatePolicy.issuerName = policy.issuerParameters && policy.issuerParameters.name;
+    certificatePolicy.certificateType = policy.issuerParameters
+      .certificateType as CertificateContentType;
+    certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
   }
 
   return certificatePolicy;
@@ -348,7 +345,6 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     name: parsedId.name,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
-    credentials: issuer.credentials,
     enabled: attributes.enabled,
     createdOn: attributes.created,
     updatedOn: attributes.updated
@@ -1145,7 +1141,7 @@ export class CertificateClient {
    */
   public async beginCreateCertificate(
     certificateName: string,
-    certificatePolicy: CertificatePolicy,
+    policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
   ): Promise<
     PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
@@ -1153,7 +1149,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
-      certificatePolicy,
+      certificatePolicy: policy,
       createCertificateOptions: options,
       requestOptions,
       client: this.pollerClient,
@@ -1401,7 +1397,7 @@ export class CertificateClient {
    */
   public async updateCertificateProperties(
     certificateName: string,
-    version: string,
+    version: string = "",
     options: UpdateCertificatePropertiesOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
