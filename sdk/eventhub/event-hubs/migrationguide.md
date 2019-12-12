@@ -176,7 +176,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     eventHubPath: eventHubName,
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
-      console.log("[%s] Error: %O", ephName, error);
+      console.log("Error when running EPH: %O", error);
     }
   }
 );
@@ -187,7 +187,7 @@ const onMessage = (context, event) => { /** your code here **/ }
 
 // This is your error handler for errors occuring when receiving events.
 const onError = (error) => {
-  console.log("[%s] Received Error: %O", ephName, error);
+  console.log("Received Error: %O", error);
 };
 
 await eph.start(onMessage, onError);
@@ -210,13 +210,19 @@ const subscription = eventHubConsumerClient.subscribe(
     //
     // If you have asynchronous code running in your callback, it will be awaited before the
     // callback is called for the next batch of events. 
-    processEvents: (events, context) => {},
+    processEvents: (events, context) => { /** your code here **/ },
 
     // Prior to V5 errors were handled by separate callbacks depending 
     // on where they were thrown i.e when managing different partitions vs receiving from each partition.
     // 
     // In V5 you only need a single error handler for all of those cases.
-    processError: onErrorHandler
+    processError: (error, context) => { 
+      if (context.partitionId) {
+        console.log("Error when receiving events from partition %s: %O", context.partitionId, error)
+      } else {
+        console.log("Error from the consumer client: %O", error);
+      }
+    }
 });
   
 await subscription.close();
