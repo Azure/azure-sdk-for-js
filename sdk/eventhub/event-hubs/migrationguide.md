@@ -208,7 +208,7 @@ const subscription = eventHubConsumerClient.subscribe(
     // In V5 we deliver events in batches, rather than a single message at a time.
     // You can control the batch size via the options passed to the client.
     //
-    // If you have asynchronous code running in your callback, it will be awaited before the
+    // If your callback is an async function or returns a promise, it will be awaited before the
     // callback is called for the next batch of events. 
     processEvents: (events, context) => { /** your code here **/ },
 
