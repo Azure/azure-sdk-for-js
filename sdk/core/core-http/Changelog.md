@@ -2,7 +2,7 @@
 
 ## 1.0.3
 
-- Added in constant to represent the `x-ms-useragent` header for browsers.
+- Added `x-ms-useragent` to the list of allowed headers in request logs.
 
 ## 1.0.2 - 2019-12-02
 
