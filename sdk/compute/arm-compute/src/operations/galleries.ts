@@ -42,6 +42,20 @@ export class Galleries {
   }
 
   /**
+   * Update a Shared Image Gallery.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets
+   * and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+   * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleriesUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, gallery: Models.GalleryUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,gallery,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleriesUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery.
@@ -155,6 +169,27 @@ export class Galleries {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update a Shared Image Gallery.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets
+   * and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+   * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, gallery: Models.GalleryUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        gallery,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -336,6 +371,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Gallery
     },
     202: {
+      bodyMapper: Mappers.Gallery
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "gallery",
+    mapper: {
+      ...Mappers.GalleryUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.Gallery
     },
     default: {
