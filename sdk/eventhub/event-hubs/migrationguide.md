@@ -174,16 +174,20 @@ const eph = EventProcessorHost.createFromConnectionString(
   ehConnectionString,
   {
     eventHubPath: eventHubName,
-    onEphError: (error: any) => {
-      console.log("[%s] Error: %O", ephName, error);
+    onEphError: (error) => {
+      // This is your error handler for errors occuring during load balancing.
+      console.log("Error when running EPH: %O", error);
     }
   }
 );
 
-const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => { }
+// In V2, you get a single event passed to your callback. If you had asynchronous code running in your callback,
+// it is not awaited before the callback is called for the next event.
+const onMessage = (context, event) => { /** your code here **/ }
 
-const onError: OnReceivedError = (error: any) => {
-  console.log("[%s] Received Error: %O", ephName, error);
+// This is your error handler for errors occuring when receiving events.
+const onError = (error) => {
+  console.log("Received Error: %O", error);
 };
 
 await eph.start(onMessage, onError);
@@ -201,15 +205,24 @@ const eventHubConsumerClient = new EventHubConsumerClient(consumerGroupName, ehC
 
 const subscription = eventHubConsumerClient.subscribe(
   partitionId, {
-    // In V5 we deliver messages in batches, rather than a single message 
-    // at a time. You can control the batch size via the options passed to the client.
-    processEvents: (messages, context) => {},
+    // In V5 we deliver events in batches, rather than a single message at a time.
+    // You can control the batch size via the options passed to the client.
+    //
+    // If your callback is an async function or returns a promise, it will be awaited before the
+    // callback is called for the next batch of events. 
+    processEvents: (events, context) => { /** your code here **/ },
 
     // Prior to V5 errors were handled by separate callbacks depending 
     // on where they were thrown i.e when managing different partitions vs receiving from each partition.
     // 
     // In V5 you only need a single error handler for all of those cases.
-    processError: onErrorHandler
+    processError: (error, context) => { 
+      if (context.partitionId) {
+        console.log("Error when receiving events from partition %s: %O", context.partitionId, error)
+      } else {
+        console.log("Error from the consumer client: %O", error);
+      }
+    }
 });
   
 await subscription.close();
