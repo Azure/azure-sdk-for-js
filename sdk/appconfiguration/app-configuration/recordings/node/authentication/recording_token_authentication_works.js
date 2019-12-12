@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"uniqueName":{"":"157618858141607651"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"":"157619056627005659"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/AZURE_TENANT_ID/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=AZURE_CLIENT_ID&client_secret=AZURE_CLIENT_SECRET&scope=https%3A%2F%2Fmyappconfig.azconfig.io%2F.default")
@@ -18,31 +18,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'e2dc9e1f-4343-4e48-b658-39d5ffdf0a00',
+  'b8e3ac01-8b3c-4846-a394-f914ed090c00',
   'x-ms-ests-server',
   '2.1.9707.19 - WST ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AtPuEiFxJGhOn11AF25HqzCknlA2AQAAAKWxhNUOAAAA; expires=Sat, 11-Jan-2020 22:09:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgeCss6i-a1ErAaFouNHNVSknlA2AQAAAGa5hNUOAAAA; expires=Sat, 11-Jan-2020 22:42:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Thu, 12 Dec 2019 22:09:41 GMT',
+  'Thu, 12 Dec 2019 22:42:46 GMT',
   'Content-Length',
   '1244'
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/token-authentication-test-157618858141607651', {"key":"token-authentication-test-157618858141607651","value":"hello"})
+  .put('/kv/token-authentication-test-157619056627005659', {"key":"token-authentication-test-157619056627005659","value":"hello"})
   .query(true)
-  .reply(200, {"etag":"STgd4ieb5Jw7WrQTDO3bUCoAfdH","key":"token-authentication-test-157618858141607651","label":null,"content_type":null,"value":"hello","tags":{},"locked":false,"last_modified":"2019-12-12T22:09:42+00:00"}, [
+  .reply(200, {"etag":"Xwpyie1gpbhFkzOPm0Ac4rnmokA","key":"token-authentication-test-157619056627005659","label":null,"content_type":null,"value":"hello","tags":{},"locked":false,"last_modified":"2019-12-12T22:42:47+00:00"}, [
   'Server',
   'openresty/1.15.8.1',
   'Date',
-  'Thu, 12 Dec 2019 22:09:41 GMT',
+  'Thu, 12 Dec 2019 22:42:46 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -50,15 +50,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Thu, 12 Dec 2019 22:09:42 GMT',
+  'Thu, 12 Dec 2019 22:42:47 GMT',
   'ETag',
-  '"STgd4ieb5Jw7WrQTDO3bUCoAfdH"',
+  '"Xwpyie1gpbhFkzOPm0Ac4rnmokA"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxMzUyMDU0;sn=1352054',
+  'zAJw6V16=NjotMSMxMzUyNTk3;sn=1352597',
   'x-ms-request-id',
-  '7ba486dc-b096-4b1b-8ff9-009d3f2bcf77',
+  'b11ed118-fecc-4eae-a8ac-e6073d3f76c6',
   'x-ms-correlation-request-id',
-  '7ba486dc-b096-4b1b-8ff9-009d3f2bcf77',
+  'b11ed118-fecc-4eae-a8ac-e6073d3f76c6',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

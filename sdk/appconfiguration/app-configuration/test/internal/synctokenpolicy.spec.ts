@@ -7,10 +7,24 @@ import {
 } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
+import { env, record, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { createAppConfigurationClientForTests, assertThrowsRestError, applyReplacements, CredsAndEndpoint } from "../testHelpers";
 const nock = require("nock");
-import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
 
-describe("sync tokens", () => {
+describe.only("sync tokens", () => {
+  let recorder: Recorder;
+  let uniqueId: string;
+  
+  beforeEach(function() {
+    applyReplacements();
+    recorder = record(this);
+    uniqueId = recorder.getUniqueName("");
+  });
+
+  afterEach(function() {
+    recorder.stop();
+  });
+
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -73,147 +87,149 @@ describe("sync tokens", () => {
   // properly extracting and sending the sync token header (which is
   // why they appear to not do much of anything meaningful with what
   // they send or reply back with).
-  describe("request/reply tests for header", () => {
-    let client: AppConfigurationClient;
-    let syncTokens: SyncTokens;
-    let scope: any;
+  if (!isRecordMode() && !isPlaybackMode()) {
+    describe("request/reply tests for header", () => {
+      let client: AppConfigurationClient;
+      let syncTokens: SyncTokens;
+      let scope: any;
 
-    beforeEach(function() {
-      syncTokens = new SyncTokens();
+      beforeEach(function() {
+        syncTokens = new SyncTokens();
 
-      client =
-        createAppConfigurationClientForTests({
-          syncTokens: syncTokens
-        }) || this.skip();
-      
-      scope = nock(/.*/);
-    });
-
-    afterEach(() => {
-      assert.ok(scope.isDone());
-      nock.cleanAll();
-    });
-
-    it("policy is setup properly to send sync tokens", async function() {
-      syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);
-
-      const policyScope = nock(/.*/, {
-        reqheaders: {
-          "sync-token": "hello=world"
-        }
-      })
-        .get(/.*/)
-        .reply(418);
-      
-      await assertThrowsRestError(
-        async () =>
-          await client.getConfigurationSetting({
-            key: "doesntmatter"
-          }),
-        418
-      );
-
-      assert.ok(policyScope.isDone());
-    });
-
-    it("addConfigurationSetting", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'addConfigurationSetting=value;sn=1'});
-
-      await client.addConfigurationSetting({
-        key: "doesntmatter"
+        client =
+          createAppConfigurationClientForTests({
+            syncTokens: syncTokens
+          }) || this.skip();
+        
+        scope = nock(/.*/);
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'addConfigurationSetting=value');
-    });
-
-    it("getConfigurationSetting", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'getConfigurationSetting=value;sn=1'});
-
-      await client.getConfigurationSetting({
-        key: "doesntmatter"
+      afterEach(() => {
+        assert.ok(scope.isDone());
+        nock.cleanAll();
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'getConfigurationSetting=value');
-    });
+      it("policy is setup properly to send sync tokens", async function() {
+        syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);
 
-    it("setConfigurationSetting", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'setConfigurationSetting=value;sn=1'});
+        const policyScope = nock(/.*/, {
+          reqheaders: {
+            "sync-token": "hello=world"
+          }
+        })
+          .get(/.*/)
+          .reply(418);
+        
+        await assertThrowsRestError(
+          async () =>
+            await client.getConfigurationSetting({
+              key: "doesntmatter"
+            }),
+          418
+        );
 
-      await client.setConfigurationSetting({
-        key: "doesntmatter"
+        assert.ok(policyScope.isDone());
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setConfigurationSetting=value');
-    });
+      it("addConfigurationSetting", async () => {
+        scope
+          .put(/.*/)
+          .reply(200, '', { 'sync-token': 'addConfigurationSetting=value;sn=1'});
 
-    it("deleteConfigurationSetting", async () => {
-      scope
-        .delete(/.*/)
-        .reply(200, '', { 'sync-token': 'deleteConfigurationSetting=value;sn=1'});
+        await client.addConfigurationSetting({
+          key: "doesntmatter"
+        });
 
-      await client.deleteConfigurationSetting({
-        key: "doesntmatter"
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'addConfigurationSetting=value');
       });
 
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'deleteConfigurationSetting=value');
-    });
+      it("getConfigurationSetting", async () => {
+        scope
+          .get(/.*/)
+          .reply(200, '', { 'sync-token': 'getConfigurationSetting=value;sn=1'});
 
-    it("listConfigurationSetting", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'listConfigurationSetting=value;sn=1'});
+        await client.getConfigurationSetting({
+          key: "doesntmatter"
+        });
 
-      const iterator = client.listConfigurationSettings({
-        keyFilter: "doesntmatter"
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'getConfigurationSetting=value');
       });
 
-      await iterator.next();
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listConfigurationSetting=value');
-    });
+      it("setConfigurationSetting", async () => {
+        scope
+          .put(/.*/)
+          .reply(200, '', { 'sync-token': 'setConfigurationSetting=value;sn=1'});
 
-    it("listRevisions", async () => {
-      scope
-        .get(/.*/)
-        .reply(200, '', { 'sync-token': 'listRevisions=value;sn=1'});
+        await client.setConfigurationSetting({
+          key: "doesntmatter"
+        });
 
-      const iterator = client.listRevisions({
-        keyFilter: "doesntmatter"
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setConfigurationSetting=value');
       });
 
-      await iterator.next();
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listRevisions=value');
+      it("deleteConfigurationSetting", async () => {
+        scope
+          .delete(/.*/)
+          .reply(200, '', { 'sync-token': 'deleteConfigurationSetting=value;sn=1'});
+
+        await client.deleteConfigurationSetting({
+          key: "doesntmatter"
+        });
+
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'deleteConfigurationSetting=value');
+      });
+
+      it("listConfigurationSetting", async () => {
+        scope
+          .get(/.*/)
+          .reply(200, '', { 'sync-token': 'listConfigurationSetting=value;sn=1'});
+
+        const iterator = client.listConfigurationSettings({
+          keyFilter: "doesntmatter"
+        });
+
+        await iterator.next();
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listConfigurationSetting=value');
+      });
+
+      it("listRevisions", async () => {
+        scope
+          .get(/.*/)
+          .reply(200, '', { 'sync-token': 'listRevisions=value;sn=1'});
+
+        const iterator = client.listRevisions({
+          keyFilter: "doesntmatter"
+        });
+
+        await iterator.next();
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'listRevisions=value');
+      });
+
+      it("setReadOnly (clear and set)", async () => {
+        scope
+          .put(/.*/)
+          .reply(200, '', { 'sync-token': 'setReadOnly=value;sn=1'});
+
+        scope
+          .delete(/.*/)
+          .reply(200, '', { 'sync-token': 'clearReadOnly=value;sn=1'});
+        
+        await client.setReadOnly({
+          key: "doesntmatter"
+        }, true);
+
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setReadOnly=value');
+
+        syncTokens.addSyncTokenFromHeaderValue(undefined);    // clear out any previous sync tokens
+
+        await client.setReadOnly({
+          key: "doesntmatter"
+        }, false);
+
+        assert.equal(syncTokens.getSyncTokenHeaderValue(), 'clearReadOnly=value');
+      });
     });
-
-    it("setReadOnly (clear and set)", async () => {
-      scope
-        .put(/.*/)
-        .reply(200, '', { 'sync-token': 'setReadOnly=value;sn=1'});
-
-      scope
-        .delete(/.*/)
-        .reply(200, '', { 'sync-token': 'clearReadOnly=value;sn=1'});
-      
-      await client.setReadOnly({
-        key: "doesntmatter"
-      }, true);
-
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'setReadOnly=value');
-
-      syncTokens.addSyncTokenFromHeaderValue(undefined);    // clear out any previous sync tokens
-
-      await client.setReadOnly({
-        key: "doesntmatter"
-      }, false);
-
-      assert.equal(syncTokens.getSyncTokenHeaderValue(), 'clearReadOnly=value');
-    });
-  });
+  }
 });
 
 function splitAndSort(syncTokens: string | undefined): string {
