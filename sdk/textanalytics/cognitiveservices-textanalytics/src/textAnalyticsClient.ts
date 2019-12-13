@@ -33,9 +33,9 @@ import {
   ExtractKeyPhrasesResultCollection
 } from "./extractKeyPhrasesResultCollection";
 import {
-  ExtractLinkedEntitiesResultCollection,
-  makeExtractLinkedEntitiesResultCollection
-} from "./extractLinkedEntitiesResultCollection";
+  RecognizeLinkedEntitiesResultCollection,
+  makeRecognizeLinkedEntitiesResultCollection
+} from "./recognizeLinkedEntitiesResultCollection";
 import { CognitiveServicesCredential } from "./cognitiveServicesCredential";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -79,7 +79,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {}
 
-export interface ExtractEntityLinkingOptions extends TextAnalyticsOperationOptions {}
+export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {}
 
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {}
 
@@ -444,21 +444,21 @@ export class TextAnalyticsClient {
     }
   }
 
-  public async extractEntityLinking(
+  public async recognizeLinkedEntities(
     inputs: string[],
     language?: string,
-    options?: ExtractEntityLinkingOptions
-  ): Promise<ExtractLinkedEntitiesResultCollection>;
-  public async extractEntityLinking(
+    options?: RecognizeLinkedEntitiesOptions
+  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  public async recognizeLinkedEntities(
     inputs: MultiLanguageInput[],
-    options?: ExtractEntityLinkingOptions
-  ): Promise<ExtractLinkedEntitiesResultCollection>;
-  public async extractEntityLinking(
+    options?: RecognizeLinkedEntitiesOptions
+  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  public async recognizeLinkedEntities(
     inputs: string[] | MultiLanguageInput[],
-    languageOrOptions?: string | ExtractEntityLinkingOptions,
-    options?: ExtractEntityLinkingOptions
-  ): Promise<ExtractLinkedEntitiesResultCollection> {
-    let realOptions: ExtractEntityLinkingOptions;
+    languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
+    options?: RecognizeLinkedEntitiesOptions
+  ): Promise<RecognizeLinkedEntitiesResultCollection> {
+    let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: MultiLanguageInput[];
 
     if (isStringArray(inputs)) {
@@ -467,11 +467,11 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = inputs;
-      realOptions = (languageOrOptions as ExtractEntityLinkingOptions) || {};
+      realOptions = (languageOrOptions as RecognizeLinkedEntitiesOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-extractEntityLinking",
+      "TextAnalyticsClient-recognizeLinkedEntities",
       realOptions
     );
 
@@ -483,7 +483,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractLinkedEntitiesResultCollection(
+      return makeRecognizeLinkedEntitiesResultCollection(
         realInputs,
         result.documents,
         result.errors,

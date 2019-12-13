@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
 import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
 import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";
-import { makeExtractLinkedEntitiesResultCollection } from "../src/extractLinkedEntitiesResultCollection";
+import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
 import { makeRecognizeEntitiesResultCollection } from "../src/recognizeEntitiesResultCollection";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
 
@@ -239,7 +239,7 @@ describe("RecognizeEntitiesResultCollection", () => {
   });
 });
 
-describe("ExtractLinkedEntitiesResultCollection", () => {
+describe("RecognizeLinkedEntitiesResultCollection", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -255,7 +255,7 @@ describe("ExtractLinkedEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeExtractLinkedEntitiesResultCollection(
+    const result = makeRecognizeLinkedEntitiesResultCollection(
       input,
       [
         {

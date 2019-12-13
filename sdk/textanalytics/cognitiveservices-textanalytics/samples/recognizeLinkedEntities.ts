@@ -6,9 +6,9 @@
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  ExtractLinkedEntitiesResult,
-  ExtractLinkedEntitiesSuccessResult,
-  ExtractLinkedEntitiesErrorResult
+  RecognizeLinkedEntitiesResult,
+  RecognizeLinkedEntitiesErrorResult,
+  RecognizeLinkedEntitiesSuccessResult
 } from "../src";
 
 export async function run() {
@@ -22,7 +22,7 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.extractEntityLinking(["I love living in Seattle."]);
+  const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
 
   if (isSuccess(result)) {
     for (const entity of result.entities) {
@@ -34,9 +34,9 @@ export async function run() {
 }
 
 function isSuccess(
-  result: ExtractLinkedEntitiesResult
-): result is ExtractLinkedEntitiesSuccessResult {
-  return !(result as ExtractLinkedEntitiesErrorResult).error;
+  result: RecognizeLinkedEntitiesResult
+): result is RecognizeLinkedEntitiesSuccessResult {
+  return !(result as RecognizeLinkedEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

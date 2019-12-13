@@ -8,13 +8,14 @@ import {
   MultiLanguageInput
 } from "./generated/models";
 import {
-  ExtractLinkedEntitiesResult,
-  makeExtractLinkedEntitiesResult,
-  makeExtractLinkedEntitiesErrorResult
-} from "./extractLinkedEntitiesResult";
+  RecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesErrorResult
+} from "./recognizeLinkedEntitiesResult";
 import { sortByPreviousIdOrder } from "./util";
 
-export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLinkedEntitiesResult> {
+export interface RecognizeLinkedEntitiesResultCollection
+  extends Array<RecognizeLinkedEntitiesResult> {
   /**
    * (Optional) if showStats=true was specified in the request this field will contain information
    * about the request payload.
@@ -26,23 +27,27 @@ export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLink
   modelVersion: string;
 }
 
-export function makeExtractLinkedEntitiesResultCollection(
+export function makeRecognizeLinkedEntitiesResultCollection(
   input: MultiLanguageInput[],
   documents: DocumentLinkedEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): ExtractLinkedEntitiesResultCollection {
+): RecognizeLinkedEntitiesResultCollection {
   const unsortedResult = documents
     .map(
-      (document): ExtractLinkedEntitiesResult => {
-        return makeExtractLinkedEntitiesResult(document.id, document.entities, document.statistics);
+      (document): RecognizeLinkedEntitiesResult => {
+        return makeRecognizeLinkedEntitiesResult(
+          document.id,
+          document.entities,
+          document.statistics
+        );
       }
     )
     .concat(
       errors.map(
-        (error): ExtractLinkedEntitiesResult => {
-          return makeExtractLinkedEntitiesErrorResult(error.id, error.error);
+        (error): RecognizeLinkedEntitiesResult => {
+          return makeRecognizeLinkedEntitiesErrorResult(error.id, error.error);
         }
       )
     );

@@ -9,33 +9,33 @@ import {
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
 
-export type ExtractLinkedEntitiesResult =
-  | ExtractLinkedEntitiesSuccessResult
-  | ExtractLinkedEntitiesErrorResult;
+export type RecognizeLinkedEntitiesResult =
+  | RecognizeLinkedEntitiesSuccessResult
+  | RecognizeLinkedEntitiesErrorResult;
 
-export interface ExtractLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * Recognized entities in the document.
    */
   readonly entities: LinkedEntity[];
 }
 
-export interface ExtractLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {}
+export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {}
 
-export function makeExtractLinkedEntitiesResult(
+export function makeRecognizeLinkedEntitiesResult(
   id: string,
   entities: LinkedEntity[],
   statistics?: TextDocumentStatistics
-): ExtractLinkedEntitiesSuccessResult {
+): RecognizeLinkedEntitiesSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     entities
   };
 }
 
-export function makeExtractLinkedEntitiesErrorResult(
+export function makeRecognizeLinkedEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError
-): ExtractLinkedEntitiesErrorResult {
+): RecognizeLinkedEntitiesErrorResult {
   return makeTextAnalysisErrorResult(id, error);
 }

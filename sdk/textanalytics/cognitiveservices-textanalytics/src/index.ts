@@ -10,7 +10,7 @@ export {
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
-  ExtractEntityLinkingOptions,
+  RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
 export { CognitiveServicesCredential } from "./cognitiveServicesCredential";
@@ -39,11 +39,11 @@ export {
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultCollection } from "./extractKeyPhrasesResultCollection";
 export {
-  ExtractLinkedEntitiesResult,
-  ExtractLinkedEntitiesErrorResult,
-  ExtractLinkedEntitiesSuccessResult
-} from "./extractLinkedEntitiesResult";
-export { ExtractLinkedEntitiesResultCollection } from "./extractLinkedEntitiesResultCollection";
+  RecognizeLinkedEntitiesResult,
+  RecognizeLinkedEntitiesErrorResult,
+  RecognizeLinkedEntitiesSuccessResult
+} from "./recognizeLinkedEntitiesResult";
+export { RecognizeLinkedEntitiesResultCollection } from "./recognizeLinkedEntitiesResultCollection";
 export {
   TextAnalyticsResult,
   TextAnalyticsErrorResult,

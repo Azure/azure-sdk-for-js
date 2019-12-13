@@ -86,10 +86,6 @@ export interface Entity {
 }
 
 // @public (undocumented)
-export interface ExtractEntityLinkingOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public (undocumented)
 export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
 }
 
@@ -109,24 +105,6 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
 // @public (undocumented)
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
-}
-
-// @public (undocumented)
-export interface ExtractLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
-}
-
-// @public (undocumented)
-export type ExtractLinkedEntitiesResult = ExtractLinkedEntitiesSuccessResult | ExtractLinkedEntitiesErrorResult;
-
-// @public (undocumented)
-export interface ExtractLinkedEntitiesResultCollection extends Array<ExtractLinkedEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public (undocumented)
-export interface ExtractLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: LinkedEntity[];
 }
 
 // @public
@@ -197,6 +175,28 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public (undocumented)
+export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
+}
+
+// @public (undocumented)
+export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
+}
+
+// @public (undocumented)
+export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
+
+// @public (undocumented)
+export interface RecognizeLinkedEntitiesResultCollection extends Array<RecognizeLinkedEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public (undocumented)
+export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: LinkedEntity[];
+}
+
+// @public (undocumented)
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
@@ -237,10 +237,6 @@ export class TextAnalyticsClient {
     detectLanguages(inputs: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     // (undocumented)
-    extractEntityLinking(inputs: string[], language?: string, options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
-    // (undocumented)
-    extractEntityLinking(inputs: MultiLanguageInput[], options?: ExtractEntityLinkingOptions): Promise<ExtractLinkedEntitiesResultCollection>;
-    // (undocumented)
     extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     // (undocumented)
     extractKeyPhrases(inputs: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
@@ -248,6 +244,10 @@ export class TextAnalyticsClient {
     recognizeEntities(inputs: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
     recognizeEntities(inputs: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    // (undocumented)
+    recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
+    // (undocumented)
+    recognizeLinkedEntities(inputs: MultiLanguageInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     // (undocumented)
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     // (undocumented)
