@@ -43,6 +43,8 @@ async function main() {
     if (!result.done) {
       console.log("Blob " + i++ + ": " + result.value.name);
       asyncIter.next().then(printBlob);
+    } else {
+      containerClient.delete().then(() => console.log("deleted container"));
     }
   }
 
