@@ -12,7 +12,7 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/keyvault-secrets"
-      ResourceFileLocation: sdk/keyvault/keyvault-secrets/tests-resources.json
+      ResourceFileLocation: sdk/keyvault/test-resources.json
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
