@@ -94,7 +94,10 @@ export function browserConfig(test = false, production = false) {
       banner: banner,
       format: "umd",
       name: "azblob",
-      sourcemap: true
+      sourcemap: true,
+      globals: {
+        "fs-extra": "fs-extra"
+      }
     },
     preserveSymlinks: false,
     plugins: [
