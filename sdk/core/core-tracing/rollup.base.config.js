@@ -99,9 +99,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/core-tracing.min.js";
-    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;
