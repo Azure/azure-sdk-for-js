@@ -10,6 +10,9 @@ import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
 import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
 import { getGeneratedClientOptions, packageVersion } from '../../src/appConfigurationClient';
+import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
+import { getGeneratedClientOptions } from '../../src/appConfigurationClient';
+import * as chai from "chai";
 
 describe("http request related tests", () => {
   describe("unit tests", () => {
