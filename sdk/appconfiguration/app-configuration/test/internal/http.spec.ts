@@ -9,7 +9,7 @@ import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
 import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
-import { getUserAgentHeaderName } from '../../src/appConfigurationClient';
+import { getGeneratedClientOptions } from '../../src/appConfigurationClient';
 
 describe("http request related tests", () => {
   describe("unit tests", () => {
@@ -32,17 +32,36 @@ describe("http request related tests", () => {
     });
 
     it("useragentheadername", () => {
-      assert.ok(getUserAgentHeaderName({
+      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
+        isNodeOverride: false
+      });
+
+      assert.equal(options.userAgentHeaderName, "x-ms-useragent", "Pretending we're running in a browser.");
+
+      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
         isNodeOverride: true
-      }) === undefined);
+      });
+
+      assert.equal(options.userAgentHeaderName, "User-Agent", "Pretending we're running in node.");
 
       // since we're only running these tests in node this will be the same as the 
       // case above (undefined, thus using the normal User-Agent header)
-      assert.ok(getUserAgentHeaderName({}) === undefined);
+      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
 
-      assert.equal(getUserAgentHeaderName({
-        isNodeOverride: false
-      }), "x-ms-useragent");
+      assert.equal(options.userAgentHeaderName, "User-Agent", "We know that we're running node.");
+    });
+      
+    it("useragent", () => {
+      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
+        userAgentOptions: {
+          userAgentPrefix: "MyCustomUserAgent"
+        }
+      });
+
+      chai.assert.match(options.userAgent as string, /^MyCustomUserAgent azsdk-js-app-configuration\/[^ ]+ core-http\/[^ ]+.+$/, `Using a custom user agent`);
+
+      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
+      chai.assert.match(options.userAgent as string, /^azsdk-js-app-configuration\/[^ ]+ core-http\/[^ ]+.+$/, "Using the default user agent");
     });
 
     describe("syncTokens", () => {

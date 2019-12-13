@@ -13,6 +13,8 @@ import {
   exponentialRetryPolicy,
   systemErrorRetryPolicy,
   ServiceClientCredentials,
+  UserAgentOptions,
+  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -49,11 +51,16 @@ import {
   transformKeyValue,
   formatAcceptDateTime
 } from "./internal/helpers";
-import { tracingPolicy, isNode as isNodeFromCoreHttp } from "@azure/core-http";
+import { tracingPolicy, isNode as coreHttpIsNode } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse, AppConfigurationOptions as GeneratedAppConfigurationClientOptions } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
 
+const packageName = "azsdk-js-app-configuration";
+
+// this constant should always be the same as the package.json's version - we use it when forming the 
+// User - Agent header. There's a unit test that makes sure it always stays in sync.
+export const packageVersion = "1.0.0-preview.11";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -70,6 +77,18 @@ const deserializationContentTypes = {
  * Provides configuration options for AppConfigurationClient.
  */
 export interface AppConfigurationClientOptions {
+  // NOTE: AppConfigurationClient is currently using it's own version of the ThrottlingRetryPolicy
+  // which we are going to unify with core-http. When we do that we can have this options 
+  // interface extend PipelineOptions, and also switch over to using`createPipelineFromOptions`
+  // which will auto-create all of these policies and remove a lot of code.
+  // 
+  // In the meantime we'll just deal with having our own interface that's compatible with PipelineOptions
+  // for the small subset we absolutely need to support.
+  
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentOptions; 
 }
 
 /**
@@ -508,28 +527,41 @@ export function getGeneratedClientOptions(
       ...retryPolicies,
       ...defaults,
     ],
-    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions)
+    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
+    userAgent: getUserAgentPrefix(internalAppConfigOptions.userAgentOptions && internalAppConfigOptions.userAgentOptions.userAgentPrefix)    
   };
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
+  const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;
+  
+  if (userSuppliedUserAgent == null) {
+    return appConfigDefaultUserAgent;
+  }
+  else {
+    return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
+  }
 }
 
 /**
  * @ignore
  * @internal
  */
-export function getUserAgentHeaderName(internalAppConfigOptions: InternalAppConfigurationClientOptions) {
-  const isNode = internalAppConfigOptions.isNodeOverride == null
-    ? isNodeFromCoreHttp
-    : internalAppConfigOptions.isNodeOverride;
+function getUserAgentHeaderName(isNodeOverride: boolean | undefined): string {
+  const definitelyIsNode = isNodeOverride != null
+    ? isNodeOverride
+    : coreHttpIsNode;
   
-  let userAgentHeaderName: string | undefined;
-
-  if (!isNode) {
+  if (definitelyIsNode) {
+    return "User-Agent";
+  } else {
     // we only need to override this when we're in the browser
     // where we're (mostly) not allowed to override the User-Agent 
     // header.
-    userAgentHeaderName = "x-ms-useragent";
+    return "x-ms-useragent";
   }
-  
-  return userAgentHeaderName;
 }
-

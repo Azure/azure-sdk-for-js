@@ -3,6 +3,16 @@
 - Fixed issue [#6528](https://github.com/Azure/azure-sdk-for-js/pull/6528) where
   the proper user agent header (`x-ms-useragent`) wasn't being sent when we were
   running in a browser.
+- Allow developers to prepend additional information to the user agent header.
+
+  Example:
+  ```typescript
+  new AppConfigurationClient(connectionString, {
+    userAgentOptions: {
+      userAgentPrefix: "MyUserAgent"
+    }
+  });
+  ```
 
 # 1.0.0-preview.10
 
