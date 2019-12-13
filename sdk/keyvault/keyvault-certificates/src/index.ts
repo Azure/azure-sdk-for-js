@@ -73,7 +73,8 @@ import {
   ArrayOneOrMore,
   SubjectAlternativeNamesAll,
   CertificatePolicyProperties,
-  PolicySubjectProperties
+  PolicySubjectProperties,
+  DefaultCertificatePolicy
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -168,6 +169,7 @@ export {
   DeleteIssuerOptions,
   DeletedCertificate,
   DeletionRecoveryLevel,
+  DefaultCertificatePolicy,
   ErrorModel,
   GetContactsOptions,
   GetIssuerOptions,

@@ -140,11 +140,6 @@ export interface CertificateOperationError {
 export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
 // @public
-export module CertificatePolicy {
-    const Default: CertificatePolicy;
-}
-
-// @public
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 // @public
@@ -213,6 +208,12 @@ export interface CreateIssuerOptions extends coreHttp.OperationOptions {
     organizationId?: string;
     password?: string;
 }
+
+// @public
+export const DefaultCertificatePolicy: {
+    issuerName: string;
+    subject: string;
+};
 
 // @public
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {

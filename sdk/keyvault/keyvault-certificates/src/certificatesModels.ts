@@ -402,20 +402,14 @@ export type CertificatePolicy = CertificatePolicyProperties &
   RequireAtLeastOne<PolicySubjectProperties>;
 
 /**
- * The CertificatePolicy module exports values that
+ * The DefaultCertificatePolicy exports values that
  * are useful as default parameters to methods that
  * modify the certificate's policy.
  */
-export module CertificatePolicy {
-  /**
-   * The minimum working properties for a Certificate's Policy.
-   * If used, the certificate will be a self-signed certificate.
-   */
-  export const Default: CertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
-}
+export const DefaultCertificatePolicy = {
+  issuerName: "Self",
+  subject: "cn=MyCert"
+};
 
 /**
  * An interface representing the properties of a certificate

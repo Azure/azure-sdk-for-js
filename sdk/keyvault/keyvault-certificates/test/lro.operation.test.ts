@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation, CertificatePolicy } from "../src";
+import { CertificateClient, CertificateOperation, DefaultCertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -34,7 +34,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
-      CertificatePolicy.Default,
+      DefaultCertificatePolicy,
       testPollerProperties
     );
     createPoller.stopPolling();
@@ -58,7 +58,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const createPoller = await client.beginCreateCertificate(
         certificateName,
-        CertificatePolicy.Default,
+        DefaultCertificatePolicy,
         testPollerProperties
       );
       createPoller.stopPolling();
