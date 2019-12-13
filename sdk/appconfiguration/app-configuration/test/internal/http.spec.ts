@@ -8,8 +8,9 @@ import {
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
-import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
+import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
 import { getGeneratedClientOptions } from '../../src/appConfigurationClient';
+import * as chai from "chai";
 
 describe("http request related tests", () => {
   describe("unit tests", () => {
