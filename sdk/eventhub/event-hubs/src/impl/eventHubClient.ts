@@ -410,11 +410,10 @@ export class EventHubClient {
   private _createClientSpan(operationName: OperationNames, parentSpan?: Span | SpanContext): Span {
     const tracer = getTracer();
     const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: SpanKind.CLIENT,
+      kind: SpanKind.INTERNAL,
       parent: parentSpan
     });
 
-    span.setAttribute("component", "eventhubs");
     span.setAttribute("message_bus.destination", this.eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 
