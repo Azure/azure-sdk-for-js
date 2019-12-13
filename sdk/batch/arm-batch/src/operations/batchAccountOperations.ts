@@ -28,7 +28,7 @@ export class BatchAccountOperations {
   }
 
   /**
-   * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated
+   * Create a new Batch account with the specified parameters. Existing accounts cannot be updated
    * with this API and should instead be updated with the Update Batch Account API.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName A name for the Batch account which must be unique within the region. Batch
@@ -286,7 +286,7 @@ export class BatchAccountOperations {
   }
 
   /**
-   * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated
+   * Create a new Batch account with the specified parameters. Existing accounts cannot be updated
    * with this API and should instead be updated with the Update Batch Account API.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName A name for the Batch account which must be unique within the region. Batch
