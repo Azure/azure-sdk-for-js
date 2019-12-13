@@ -58,8 +58,12 @@ import { syncTokenPolicy, SyncTokens } from './internal/synctokenpolicy';
 
 const packageName = "azsdk-js-app-configuration";
 
-// this constant should always be the same as the package.json's version - we use it when forming the 
-// User - Agent header. There's a unit test that makes sure it always stays in sync.
+/**
+ * This constant should always be the same as the package.json's version - we use it when forming the 
+ * User - Agent header. There's a unit test that makes sure it always stays in sync.
+ * @internal
+ * @ignore
+ */
 export const packageVersion = "1.0.0-preview.11";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
