@@ -45,6 +45,23 @@ export class GalleryImages {
   }
 
   /**
+   * Update a gallery Image Definition.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
+   * updated.
+   * @param galleryImageName The name of the gallery Image Definition to be updated. The allowed
+   * characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
+   * maximum length is 80 characters.
+   * @param galleryImage Parameters supplied to the update gallery image operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleryImagesUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: Models.GalleryImageUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImagesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,galleryImageName,galleryImage,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryImagesUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a gallery Image Definition.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to
@@ -154,6 +171,31 @@ export class GalleryImages {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update a gallery Image Definition.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
+   * updated.
+   * @param galleryImageName The name of the gallery Image Definition to be updated. The allowed
+   * characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
+   * maximum length is 80 characters.
+   * @param galleryImage Parameters supplied to the update gallery image operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: Models.GalleryImageUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryImageName,
+        galleryImage,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -290,6 +332,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.GalleryImage
     },
     202: {
+      bodyMapper: Mappers.GalleryImage
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "galleryImage",
+    mapper: {
+      ...Mappers.GalleryImageUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.GalleryImage
     },
     default: {
