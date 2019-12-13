@@ -1565,7 +1565,14 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobBeginCopyFromURLOptions = {}
   ): Promise<
-    PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>
+    PollerLike<
+      PollOperationState<BlobBeginCopyFromURLResponse>,
+      BlobBeginCopyFromURLResponse,
+      | BlobStartCopyFromURLResponse
+      | BlobGetPropertiesResponse
+      | BlobAbortCopyFromURLResponse
+      | undefined
+    >
   > {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),

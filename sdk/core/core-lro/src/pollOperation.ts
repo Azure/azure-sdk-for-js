@@ -11,12 +11,13 @@ export interface PollOperationState<TResult> {
   result?: TResult;
 }
 
-export interface PollOperation<TState, TResult> {
+export interface PollOperation<TState, TResult, TPossibleResponse = unknown> {
   state: TState;
+  lastResponse?: TPossibleResponse;
   update(options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: TState) => void;
-  }): Promise<PollOperation<TState, TResult>>;
-  cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult>>;
+  }): Promise<PollOperation<TState, TResult, TPossibleResponse>>;
+  cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult, TPossibleResponse>>;
   toString(): string;
 }

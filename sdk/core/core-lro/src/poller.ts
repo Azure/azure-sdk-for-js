@@ -27,7 +27,7 @@ export class PollerCancelledError extends Error {
 /**
  * Abstract representation of a poller, intended to expose just the minimal that the user needs to work with.
  */
-export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+export interface PollerLike<TState extends PollOperationState<TResult>, TResult, TPossibleResponse = unknown> {
   /**
    * Defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
@@ -70,6 +70,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    * depending on the implementation.
    */
   getResult(): TResult | undefined;
+  getLastResponse(): TPossibleResponse | Error | undefined;
   /**
    * Returns a serialized version of the poller.
    */
@@ -80,8 +81,8 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * A class that represents the definition of a program that polls through consecutive requests
  * until it reaches a state of completion.
  */
-export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
-  implements PollerLike<TState, TResult> {
+export abstract class Poller<TState extends PollOperationState<TResult>, TResult, TPossibleResponse = unknown>
+  implements PollerLike<TState, TResult, TPossibleResponse> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
@@ -89,9 +90,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   private cancelPromise?: Promise<void>;
   private promise: Promise<TResult>;
   private pollProgressCallbacks: PollProgressCallback<TState>[] = [];
-  protected operation: PollOperation<TState, TResult>;
+  protected operation: PollOperation<TState, TResult, TPossibleResponse>;
 
-  constructor(operation: PollOperation<TState, TResult>) {
+  constructor(operation: PollOperation<TState, TResult, TPossibleResponse>) {
     this.operation = operation;
     this.promise = new Promise(
       (
@@ -268,6 +269,15 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   public getResult(): TResult | undefined {
     const state: PollOperationState<TResult> = this.operation.state;
     return state.result;
+  }
+
+  public getLastResponse(): TPossibleResponse | Error | undefined {
+    const state = this.getOperationState();
+    if (state.error) {
+      return state.error;
+    }
+
+    return this.operation.lastResponse;
   }
 
   /**

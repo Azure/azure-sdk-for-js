@@ -3,11 +3,12 @@
 
 import { delay } from "@azure/core-http";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
+import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse } from "../Clients";
 import {
-  BlobClient,
-  BlobStartCopyFromURLOptions,
-  BlobBeginCopyFromURLResponse
-} from "../Clients";
+  BlobStartCopyFromURLResponse,
+  BlobGetPropertiesResponse,
+  BlobAbortCopyFromURLResponse
+} from "../generated/src/models";
 
 /**
  * Defines the operations from a {@link BlobClient} that are needed for the poller
@@ -59,7 +60,14 @@ export interface BlobBeginCopyFromUrlPollState
  * @ignore
  */
 export interface BlobBeginCopyFromURLPollOperation
-  extends PollOperation<BlobBeginCopyFromUrlPollState, BlobBeginCopyFromURLResponse> {}
+  extends PollOperation<
+    BlobBeginCopyFromUrlPollState,
+    BlobBeginCopyFromURLResponse,
+    | BlobStartCopyFromURLResponse
+    | BlobGetPropertiesResponse
+    | BlobAbortCopyFromURLResponse
+    | undefined
+  > {}
 
 /**
  * The set of options used to configure the poller.
@@ -84,7 +92,11 @@ export interface BlobBeginCopyFromUrlPollerOptions {
  */
 export class BlobBeginCopyFromUrlPoller extends Poller<
   BlobBeginCopyFromUrlPollState,
-  BlobBeginCopyFromURLResponse
+  BlobBeginCopyFromURLResponse,
+  | BlobStartCopyFromURLResponse
+  | BlobGetPropertiesResponse
+  | BlobAbortCopyFromURLResponse
+  | undefined
 > {
   public intervalInMs: number;
 
@@ -104,12 +116,15 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeBlobBeginCopyFromURLPollOperation({
-      ...state,
-      blobClient,
-      copySource,
-      startCopyFromURLOptions
-    });
+    const operation = makeBlobBeginCopyFromURLPollOperation(
+      {
+        ...state,
+        blobClient,
+        copySource,
+        startCopyFromURLOptions
+      },
+      undefined
+    );
 
     super(operation);
 
@@ -138,21 +153,22 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
   const state = this.state;
   const { copyId } = state;
   if (state.isCompleted) {
-    return makeBlobBeginCopyFromURLPollOperation(state);
+    return makeBlobBeginCopyFromURLPollOperation(state, this.lastResponse);
   }
 
   if (!copyId) {
     state.isCancelled = true;
-    return makeBlobBeginCopyFromURLPollOperation(state);
+    return makeBlobBeginCopyFromURLPollOperation(state, this.lastResponse);
   }
 
   // if abortCopyFromURL throws, it will bubble up to user's poller.cancelOperation call
-  await state.blobClient.abortCopyFromURL(copyId, {
+  const result = await state.blobClient.abortCopyFromURL(copyId, {
     abortSignal: options.abortSignal
   });
   state.isCancelled = true;
+  state.result = result;
 
-  return makeBlobBeginCopyFromURLPollOperation(state);
+  return makeBlobBeginCopyFromURLPollOperation(state, result);
 };
 
 /**
@@ -167,10 +183,11 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
 ): Promise<BlobBeginCopyFromURLPollOperation> {
   const state = this.state;
   const { blobClient, copySource, startCopyFromURLOptions } = state;
+  let result: BlobStartCopyFromURLResponse | BlobGetPropertiesResponse | undefined = undefined;
 
   if (!state.isStarted) {
     state.isStarted = true;
-    const result = await blobClient.startCopyFromURL(copySource, startCopyFromURLOptions);
+    result = await blobClient.startCopyFromURL(copySource, startCopyFromURLOptions);
 
     // copyId is needed to abort
     state.copyId = result.copyId;
@@ -180,8 +197,8 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
     }
   } else if (!state.isCompleted) {
     try {
-      const result = await state.blobClient.getProperties({ abortSignal: options.abortSignal });
-      const { copyStatus, copyProgress } = result;
+      result = await state.blobClient.getProperties({ abortSignal: options.abortSignal });
+      const { copyStatus, copyProgress } = result as BlobGetPropertiesResponse;
       const prevCopyProgress = state.copyProgress;
       if (copyProgress) {
         state.copyProgress = copyProgress;
@@ -198,7 +215,8 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
         state.isCompleted = true;
       } else if (copyStatus === "failed") {
         state.error = new Error(
-          `Blob copy failed with reason: "${result.copyStatusDescription || "unknown"}"`
+          `Blob copy failed with reason: "${(result as BlobGetPropertiesResponse)
+            .copyStatusDescription || "unknown"}"`
         );
         state.isCompleted = true;
       }
@@ -208,7 +226,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
     }
   }
 
-  return makeBlobBeginCopyFromURLPollOperation(state);
+  return makeBlobBeginCopyFromURLPollOperation(state, result);
 };
 
 /**
@@ -234,12 +252,14 @@ const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toStrin
  * @ignore
  */
 function makeBlobBeginCopyFromURLPollOperation(
-  state: BlobBeginCopyFromUrlPollState
+  state: BlobBeginCopyFromUrlPollState,
+  response: BlobStartCopyFromURLResponse | BlobGetPropertiesResponse | undefined
 ): BlobBeginCopyFromURLPollOperation {
   return {
     state: { ...state },
     cancel,
     toString,
-    update
+    update,
+    lastResponse: response
   };
 }
