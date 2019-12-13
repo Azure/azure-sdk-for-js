@@ -542,9 +542,8 @@ export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): s
   if (userSuppliedUserAgent == null) {
     return appConfigDefaultUserAgent;
   }
-  else {
-    return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
-  }
+
+  return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
 }
 
 /**
