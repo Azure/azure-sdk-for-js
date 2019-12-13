@@ -8,10 +8,8 @@ import {
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
-import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
 import { getGeneratedClientOptions, packageVersion } from '../../src/appConfigurationClient';
 import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
-import { getGeneratedClientOptions } from '../../src/appConfigurationClient';
 import * as chai from "chai";
 
 describe("http request related tests", () => {
@@ -64,7 +62,7 @@ describe("http request related tests", () => {
       chai.assert.match(options.userAgent as string, new RegExp(`^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`), `Using a custom user agent`);
 
       options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-      chai.assert.match(options.userAgent as string, new RegExp(/^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`, "Using the default user agent");
+      chai.assert.match(options.userAgent as string, new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`), "Using the default user agent");
     });
 
     describe("syncTokens", () => {
