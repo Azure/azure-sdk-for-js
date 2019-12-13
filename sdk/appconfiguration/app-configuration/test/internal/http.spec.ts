@@ -9,7 +9,7 @@ import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 const nock = require("nock");
 import { createAppConfigurationClientForTests, assertThrowsRestError, getTokenAuthenticationCredential } from "../testHelpers";
-import { getGeneratedClientOptions } from '../../src/appConfigurationClient';
+import { getGeneratedClientOptions, packageVersion } from '../../src/appConfigurationClient';
 
 describe("http request related tests", () => {
   describe("unit tests", () => {
@@ -58,10 +58,10 @@ describe("http request related tests", () => {
         }
       });
 
-      chai.assert.match(options.userAgent as string, /^MyCustomUserAgent azsdk-js-app-configuration\/[^ ]+ core-http\/[^ ]+.+$/, `Using a custom user agent`);
+      chai.assert.match(options.userAgent as string, new RegExp(`^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`), `Using a custom user agent`);
 
       options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-      chai.assert.match(options.userAgent as string, /^azsdk-js-app-configuration\/[^ ]+ core-http\/[^ ]+.+$/, "Using the default user agent");
+      chai.assert.match(options.userAgent as string, new RegExp(/^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`, "Using the default user agent");
     });
 
     describe("syncTokens", () => {
