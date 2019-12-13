@@ -1,4 +1,4 @@
-import { CertificateClient, CertificatePolicy } from "../../src";
+import { CertificateClient, DefaultCertificatePolicy } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, reads it in various ways,
@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   const certificateName = "MyCertificate";
 
   // Creating a self-signed certificate
-  const createPoller = await client.beginCreateCertificate(certificateName, CertificatePolicy.Default);
+  const createPoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy);
 
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);

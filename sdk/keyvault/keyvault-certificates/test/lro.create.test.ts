@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, KeyVaultCertificate, CertificatePolicy } from "../src";
+import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -34,7 +34,7 @@ describe("Certificates client - LRO - create", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
-      CertificatePolicy.Default,
+      DefaultCertificatePolicy,
       testPollerProperties
     );
     assert.ok(poller.getOperationState().isStarted);
@@ -56,7 +56,7 @@ describe("Certificates client - LRO - create", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
-      CertificatePolicy.Default,
+      DefaultCertificatePolicy,
       testPollerProperties
     );
     assert.ok(poller.getOperationState().isStarted);
@@ -73,7 +73,7 @@ describe("Certificates client - LRO - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(certificateName, CertificatePolicy.Default, {
+    const resumePoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy, {
       resumeFrom: serialized,
       ...testPollerProperties
     });
