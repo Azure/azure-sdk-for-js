@@ -1,28 +1,30 @@
-## 1.0.0-preview.7 - TBD
+# Release History
+
+## 1.0.0-preview.7 (Unreleased)
 
 - Improved detection of when an established socket is no longer receiving data from the service.
 - Added logging around the network connectivity check.
 
-## 1.0.0-preview.6 - 3rd December, 2019
+## 1.0.0-preview.6 (2019-12-03)
 
 - Treat ETIMEOUT error from dns.resolve as network disconnected.
 
 - Treat ETIMEOUT error from dns.resolve as network disconnected.
 
-# 1.0.0-preview.5 - 29th October, 2019
+## 1.0.0-preview.5 (2019-10-29)
 
 - Updated to use the latest version of the `@azure/abort-controller` and `@azure/core-auth` packages.
 
-# 1.0.0-preview.4 - 7th October, 2019
+## 1.0.0-preview.4 (2019-10-07)
 
 - Fixes bug where calling `sendRequest` from a `RequestResponseLink` mulitple
   times in parallel would result in all but 1 calls being retried.
 
-# 1.0.0-preview.3 - 9th September, 2019
+## 1.0.0-preview.3 (2019-09-09)
 
 Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
 
-# 1.0.0-preview.2 - 5th August, 2019
+## 1.0.0-preview.2 (2019-08-05)
 
 - Retry updates
   - The properties on the `RetryConfig` interface have been refactored for ease of use. The new `RetryOptions` in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
@@ -33,7 +35,7 @@ Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
 - New error `InsufficientCreditError` is introduced for the scenario where [rhea](https://www.npmjs.com/package/rhea) is unable to send events due to its internal buffer being full. This is a transient error and so is treated as retryable.
 - The error `OperationTimeoutError` was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
 
-# 1.0.0-preview.1 - 28th June, 2019
+## 1.0.0-preview.1 (2019-06-28)
 
 This library is based off of the [@azure/amqp-common](https://www.npmjs.com/package/@azure/amqp-common)
 library. Both are meant to contain common functionality required by Azure Javascript libraries that

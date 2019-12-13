@@ -1,29 +1,28 @@
-Release History
-================
+# Release History
 
-# 3.5.2
+## 3.5.2 (2019-12-03)
 
 - Fix handling of special characters in item ids when signing tokens in the browser (#6379)
 
-# 3.5.1
+## 3.5.1 (2019-11-25)
 
 - Fix bug when paginating GROUP BY queries or using in conjunction with TOP/OFFSET/LIMIT (#6003)
 - Improve error message for mixed type ORDER BY (#6306)
 
-# 3.5.0
+## 3.5.0 (2019-11-21)
 
 - FEATURE: Endpoint discovery and multi-region failover improvements. See https://github.com/Azure/azure-sdk-for-js/pull/6283 for more information on this change. (#6283)
 - Makes changeFeed and query options optional. Fix #6232 Fix #6277 (#6273)
 
-# 3.4.2
+## 3.4.2 (2019-11-07)
 
 - Fixes bug where the query may throw a 410 error during a split operation. Instead, throw 503 (#6074)
 
-# 3.4.1
+## 3.4.1 (2019-11-05)
 
 - Fix region drop failover scenario and add test (#5892)
 
-# 3.4.0
+## 3.4.0 (2019-10-28)
 
 - FEATURE: GROUP BY query support (#5749)
 - Update proxy-agent. Remove types folder (#5854)
@@ -32,7 +31,7 @@ Release History
 - Remove unused Range type (#5686)
 - Remove universal-user-agent (#5869)
 
-# 3.3.4
+## 3.3.4 (2019-10-14)
 
 - Query bug fix. Empty result last call not reporting proper RUs (#5517)
 - Sign headers using internal package (#5523)
@@ -40,14 +39,14 @@ Release History
 - Remove internal binary-search-bounds package (#5417)
 - Fix atob bug impacting browser users (#5375)
 
-# 3.3.2
+## 3.3.2 (2019-10-03)
 
 - Export TokenProvider and RequestInfo types (#5262)
 - Remove atob package in favor of local version (#5334)
 - Fix incorrect lib version in UserAgent (#5295)
 - Allow zero for Item TTL (#5257)
 
-# 3.3.0
+## 3.3.0 (2019-09-24)
 
 - FEATURE: Add userAgentSuffix to CosmosClient constructor options (#5068)
 - Guard process.env to fix webpack issues (#5223)
@@ -55,7 +54,7 @@ Release History
 - Fix aggregates bug when query was returning no results (#5184)
 - sideEffects field set to false (#5022)
 
-# 3.2.0
+## 3.2.0 (2019-08-26)
 
 - FEATURE: Endpoint resolution now blocks until initialized (#409)
 - FEATURE: Add bufferItems support & other cross-partition perf improvements (#397)
@@ -63,17 +62,17 @@ Release History
 - Add sample for bulk update with continuation token (#402)
 - Export default partition key path (#405)
 
-# 3.1.1
+## 3.1.1 (2019-08-07)
 
 - Fix bug where offset limit iterator was being called for each item under the offset count (#398)
 - Add retry on EPIPE error (#400)
 
-# 3.1.0
+## 3.1.0 (2019-07-26)
 
 - FEATURE: Set default ResponseContinuationTokenLimitInKB to 1kb. Prevents header limit errors (#384)
 - Remove unused disableSSLVerification options (#388)
 
-# 3.0.4
+## 3.0.4 (2019-07-22)
 
 - Allow initialHeaders to explicitly set partition key header (#383)
 - Use package.json#files to prevent extraneous files from being pubished (#382)
@@ -81,20 +80,20 @@ Release History
 - Fixes bug when user supplies partial retry options. Close #377 (#379)
 - README updates (#374)
 
-# 3.0.3
+## 3.0.3 (2019-07-17)
 
 - Fix webpack usage. Prevent resolving modules called with `require` (#373)
 - Various internal API cleanups and sample fixes
 
-# 3.0.2
+## 3.0.2 (2019-07-09)
 
 Fixes a long outstanding bug where RUs were always being reported as 0 for aggregate queries (#366)
 
-# 3.0.1
+## 3.0.1 (2019-07-02)
 
 Fixes broken session tokens in the browser. Cosmos uses file system friendly base64 to represent resources internally but does not work with the builtin browser atob function (#363)
 
-# 3.0.0
+## 3.0.0 (2019-06-28)
 
 🎉 v3 release! 🎉 Many new features, bug fixes, and a few breaking changes. Primary goals of this release:
 
@@ -272,11 +271,11 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Enable noUnusedLocals and noUnusedParameters (#275)
 - Azure Pipelines YAML for CI builds (#298)
 
-## Changes in 2.0.1
+## 2.0.1
 
 - Fix type issue (See #141)
 
-## Changes in 2.0.0
+## 2.0.0
 
 - Multi-region Write support
 - Shared resource response properties added to responses
@@ -284,7 +283,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Modified items.query to allow for cross partition query
 - Misc fixes/doc updates
 
-## Changes in 2.0.0-3
+## 2.0.0-3
 
 - New object model
 - Updated documentation and samples
@@ -293,18 +292,18 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Added prettier
 - Added public CI (Travis and VSTS)
 
-## Changes in 2.0.0-0
+## 2.0.0-0
 
 - Added Promise support
 - Added token handler option for auth
 - typings now emitted from source (moved source to TypeScript)
 - Added CosmosClient (DocumentClient now considered deprecated)
 
-## Changes in 1.14.4 :
+## 1.14.4
 
 - npm documentation fixed.
 
-## Changes in 1.14.3 :
+## 1.14.3
 
 - Added support for default retries on connection issues.
 - Added support to read collection change feed.
@@ -312,44 +311,44 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Added support for query metrics.
 - Modified http Agent's maximum number of connections.
 
-## Changes in 1.14.2 :
+## 1.14.2
 
 - Updated documentation to use Azure Cosmos DB.
 - Added Support for proxyUrl setting in ConnectionPolicy.
 
-## Changes in 1.14.1 :
+## 1.14.1
 
 - Minor fix for case sensitive file systems.
 
-## Changes in 1.14.0 :
+## 1.14.0
 
 - Adds support for Session Consistency.
 - This SDK version requires the latest version of Azure Cosmos DB Emulator available for download from https://aka.ms/cosmosdb-emulator.
 
-## Changes in 1.13.0 :
+## 1.13.0
 
 - Splitproofed cross partition queries.
 - Adds supports for resource link with leading and trailing slashes (and corresponding tests).
 
-## Changes in 1.12.2 :
+## 1.12.2
 
 - npm documentation fixed.
 
-## Changes in 1.12.1 :
+## 1.12.1
 
 - Fixed bug in executeStoredProcedure where documents involved had special unicode characters (LS, PS).
 - Fixed bug in handling documents with unicode characters in partition key.
 - Fixed support for creating collection with name media (github #114).
 - Fixed support for permission authorization token (github #178).
 
-## Changes in 1.12.0 :
+## 1.12.0
 
 - Added support for Request Unit per Minute (RU/m) feature.
 - Added support for a new consistency level called ConsistentPrefix.
 - Added support for UriFactory.
 - Fixed the unicode support bug (github #171)
 
-## Changes in 1.11.0 :
+## 1.11.0
 
 - Added the support for aggregation queries (COUNT, MIN, MAX, SUM, and AVG).
 - Added the option for controlling degree of parallelism for cross partition queries.
@@ -358,22 +357,22 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Fixed the continuation token bug for single partition collection (github #107).
 - Fixed the executeStoredProcedure bug in handling 0 as single param (github #155).
 
-## Changes in 1.10.2 :
+## 1.10.2
 
 - Fixed user-agent header to include the SDK version.
 - Minor code cleanup.
 
-## Changes in 1.10.1 :
+## 1.10.1
 
 - Disabling SSL verification when using the SDK to target the emulator(hostname=localhost).
 - Added support for enabling script logging during stored procedure execution.
 
-## Changes in 1.10.0 :
+## 1.10.0
 
 - Added support for cross partition parallel queries.
 - Added support for TOP/ORDER BY queries for partitioned collections.
 
-## Changes in 1.9.0 :
+## 1.9.0
 
 - Added retry policy support for throttled requests. (Throttled requests receive a request rate too large exception, error code 429.)
   By default, DocumentClient retries nine times for each request when error code 429 is encountered, honoring the retryAfter time in the response header.
@@ -385,87 +384,87 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 - The RetryOptions class was added, exposing the RetryOptions property on the ConnectionPolicy class that can be used to override some of the default retry options.
 
-## Changes in 1.8.0 :
+## 1.8.0
 
 - Added the support for geo-replicated database accounts.
 
-## Changes in 1.7.0 :
+## 1.7.0
 
 - Added the support for TimeToLive(TTL) feature for documents.
 
-## Changes in 1.6.0 :
+## 1.6.0
 
 - Added support for Partitioned Collections.
 - Added support for new offer types.
 
-## Changes in 1.5.6 :
+## 1.5.6
 
 - Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results.
 - Move compareFunction from Range class to RangePartitionResolver class.
 
-## Changes in 1.5.5 :
+## 1.5.5
 
 - Fixed hashParitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
 
-## Changes in 1.5.4 :
+## 1.5.4
 
 - Dedicated HTTPS Agent: Avoid modifying the global. Use a dedicated agent for all of the lib’s requests.
 
-## Changes in 1.5.3 :
+## 1.5.3
 
 - Properly handle dashes in the mediaIds.
 
-## Changes in 1.5.2 :
+## 1.5.2
 
 - Fix memory leak.
 
-## Changes in 1.5.1 :
+## 1.5.1
 
 - Renamed "Hash" directory to "hash".
 
-## Changes in 1.5.0 :
+## 1.5.0
 
 - Added client-side sharding support.
 - Added hash partition resolver implementation.
 - Added range partitoin resolver implementation.
 
-## Changes in 1.4.0 :
+## 1.4.0
 
 - Implement Upsert. New upsertXXX methods on documentClient.
 
-## Changes in 1.3.0 :
+## 1.3.0
 
 - Skipped to bring version numbers in alignment with other SDKs.
 
-## Changes in 1.2.2 :
+## 1.2.2
 
 - Split Q promises wrapper to new repository.
 - Update to package file for npm registry.
 
-## Changes in 1.2.1 :
+## 1.2.1
 
 - Implements ID Based Routing.
 - Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
 
-## Changes in 1.2.0 :
+## 1.2.0
 
 - Added support for GeoSpatial index.
 - Validates id property for all resources. Ids for resources cannot contain ?, /, #, \\, characters or end with a space.
 - Adds new header "index transformation progress" to ResourceResponse.
 
-## Changes in 1.1.0 :
+## 1.1.0
 
 - Implements V2 indexing policy.
 
-## Changes in 1.0.3 :
+## 1.0.3
 
 - Issue [#40](https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
 
-## Changes in 1.0.2 :
+## 1.0.2
 
 - Issue [#45](https://github.com/Azure/azure-documentdb-node/issues/45) - Promises wrapper does not include header with error.
 
-## Changes in 1.0.1 :
+## 1.0.1
 
 - Implemented ability to query for conflicts by adding readConflicts, readConflictAsync, queryConflicts.
 - Updated API documentation.

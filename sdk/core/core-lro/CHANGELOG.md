@@ -1,14 +1,13 @@
-Release History
-================
+# Release History
 
-# 1.0.1
+## 1.0.1 (Unreleased)
 
-# 1.0.0 - 2019-10-29
+## 1.0.0 (2019-10-29)
 
 This release marks the general availability of the `@azure/core-lro` package.
 
 - Updated PollOperation to be more strictly typed.
 
-# 1.0.0-preview.1 - 2019-10-22
+## 1.0.0-preview.1 (2019-10-22)
 
 - Initial implementation of an abstraction for Long Running Operations (LROs).

@@ -1,7 +1,6 @@
-Release History
-================
+# Release History
 
-# 12.0.0
+## 12.0.0 (2019-12-04)
 
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 - [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
@@ -17,7 +16,7 @@ Release History
 - Added a warning to the documentation of `downloadToBuffer` that explains the limitations of Node.js `Buffer` sizes to around 2GB on 64-bit architectures and 1GB on 32-bit architectures.
 - Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
-# 2019.11 12.0.0-preview.6
+## 12.0.0-preview.6 (2019.11)
 
 - [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
   - `FileServiceClient` becomes `ShareServiceClient`
@@ -44,7 +43,7 @@ Release History
   corresponding policies from the `@azure/core-http` library are meant to be used instead.
 - Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 
-## 2019.10 12.0.0-preview.5
+## 12.0.0-preview.5 (2019.10)
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - Created new interface `CommonOptions`. This interface is for standard options that apply to all methods that invoke remote operations. This interface currently contains options that enable client-side tracing of the SDK. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
@@ -70,7 +69,7 @@ Release History
 - [Breaking] `forceCloseHandlesSegment` is not exposed from the library in favour of the new method `forceCloseAllHandles` on `FileClient` and `DirectoryClient`. [PR #5620](https://github.com/Azure/azure-sdk-for-js/pull/5620)
 - [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
-## 2019.10 12.0.0-preview.4
+## 12.0.0-preview.4 (2019.10)
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `FileServiceClient` or `FileClient` are instantiated.
 - Added name properties on all the clients for convenience.
@@ -94,7 +93,7 @@ Release History
   });
   ```
 
-## 2019.08 12.0.0-preview.3
+## 12.0.0-preview.3 (2019.08)
 
 - Updated Azure Storage Service API version to 2019-02-02.
 - Added a new API `ShareClient.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
@@ -116,7 +115,7 @@ Release History
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
-## 2019.08 12.0.0-preview.2
+## 12.0.0-preview.2 (2019.08)
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
@@ -126,7 +125,7 @@ Release History
   - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 
-## 2019.07 12.0.0-preview.1
+## 12.0.0-preview.1 (2019.07)
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - ServiceURL, ShareURL, DirectoryURL and FileURL to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
@@ -161,7 +160,7 @@ Release History
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-## 2019.09 10.3.0
+## 10.3.0 (2019.09)
 
 - Updated Azure Storage Service API version to 2019-02-02.
 - Added a new API `ShareURL.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
@@ -169,7 +168,7 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Added APIs `DirectoryURL.setProperties()` and `FileURL.setProperties()`, and updated APIs `DirectoryURL.create()` and `FileURL.create()` for setting file permission, attributes, creation time, and last write time.
 - Added a new API `FileURL.uploadRangeFromURL()` which allows range in a file to be written using a range of another file as a source. This permits synchronous server-side copies to be orchestrated for files of any size.
 
-## 2019.06 10.2.0
+## 10.2.0 (2019.06)
 
 - Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 - Fixed a bug that `Aborter` cannot work during retry interval.
@@ -185,7 +184,7 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Added `DirectoryURL.forceCloseHandlesSegment()`, `FileURL.forceCloseHandlesSegment()`, `DirectoryURL.forceCloseHandle()` and `FileURL.forceCloseHandle()` to close handles.
 - Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 
-## 2019.01 10.1.0
+## 10.1.0 (2019.01)
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
@@ -198,6 +197,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
-## 2018.12 10.0.0-preview
+## 10.0.0-preview (2018.12)
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.

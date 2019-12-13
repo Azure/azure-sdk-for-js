@@ -41,6 +41,7 @@ known_presence_issues:
   - ['sdk/storage/storage-file-share/samples/typescript/CHANGELOG.md','#1583']
   - ['sdk/template/template/CHANGELOG.md','#1583']
   - ['sdk/test-utils/recorder/CHANGELOG.md','#1583']
+  - ['sdk/eventhub/event-hubs/samples/CHANGELOG.md','#1583']
 
 known_content_issues:
   - ["README.md", "#1583"]
