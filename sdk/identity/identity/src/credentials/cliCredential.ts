@@ -2,19 +2,18 @@
 // Licensed under the MIT License.
 
 import * as child_process from "child_process";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
+import { TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
+import { logger } from '../util/logging';
 
 /**
- * Provides the user access token
- * with cli command "az account get-access-token" in powershell.  
+ * Provides the user access token and expire time
+ * with azure cli command "az account get-access-token" in powershell.  
  */
 export class CliCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-
   /**
    * Creates an instance of the CliCredential class.
    *
@@ -35,44 +34,42 @@ export class CliCredential implements TokenCredential {
   *                TokenCredential implementation might make.
   */
   public async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+    const { span } = createSpan("CliCredential-getToken", options);
     return new Promise((resolve, reject) => {
-      let scope: string = "";
-
-      if (Array.isArray(scopes)) {
-        if (scopes.length > 1) {
-          reject(new Error("CliCredential only supports a single scope"));
-        }
-        scope = scopes[0];
-      } else {
-        scope = scopes;
-      }
-
+      let scope: string;
+      scope = typeof scopes === "string" ? scopes : scopes[0];
+      logger.info(`use the scope ${scope}`);
       const resource = scope.replace(/\/.default$/, "");
-
-      const child = child_process.spawn(`az${process.platform === "win32" ? ".cmd" : ""}`, ["account", "get-access-token", "--resource", resource]);
-
       let responseData = "";
-      child.stdout.on("data", (d) => {
-        responseData += d
-      });
 
-      child.stdout.on("end", () => {
+      try {
+        // const child = child_process.spawn(`az${process.platform === "win32" ? ".cmd" : ""}`, ["account", "get-access-token", "--resource", resource]);
         const { span } = createSpan("CliCredential-getToken", options);
-        try {
+        let az = process.platform === "win32" ? "az.cmd" : "az";
+        child_process.exec(`${az} account get-access-token --resource ${resource}`, (err, stdout, stderr) => {
+          responseData = stdout;
+
+          if (stderr.startsWith("'az.cmd' is not recognized")) {
+            const code = CanonicalCode.UNKNOWN;
+            span.setStatus({
+              code,
+              message: "Azure CLI not Installed"
+            });
+          }
           const response: { accessToken: string, expiresOn: string } = JSON.parse(responseData);
           resolve({ token: response.accessToken, expiresOnTimestamp: new Date(response.expiresOn).getTime() });
-        } catch (error) {
-          const code =
-            error.name === AuthenticationErrorName
-              ? CanonicalCode.UNAUTHENTICATED
-              : CanonicalCode.UNKNOWN;
-          span.setStatus({
-            code,
-            message: error.message
-          });
-          reject(error);
-        }
-      });
-    })
+        });
+      } catch (err) {
+        const code =
+          err.name === AuthenticationErrorName
+            ? CanonicalCode.UNAUTHENTICATED
+            : CanonicalCode.UNKNOWN;
+        span.setStatus({
+          code,
+          message: err.message
+        });
+        reject(err);
+      }
+    });
   }
 }
