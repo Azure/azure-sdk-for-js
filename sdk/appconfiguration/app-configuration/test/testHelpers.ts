@@ -11,6 +11,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from '@azure/identity';
+import { InternalAppConfigurationClientOptions } from '../src/appConfigurationClient';
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
@@ -49,7 +50,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 }
 
 
-export function createAppConfigurationClientForTests(options?: AppConfigurationClientOptions): AppConfigurationClient | undefined {
+export function createAppConfigurationClientForTests(options?: InternalAppConfigurationClientOptions): AppConfigurationClient | undefined {
   const connectionString = process.env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {

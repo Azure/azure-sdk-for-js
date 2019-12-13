@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3 - TBD
+
+- Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
+- Added `x-ms-useragent` to the list of allowed headers in request logs.
+
 ## 1.0.2 - 2019-12-02
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`

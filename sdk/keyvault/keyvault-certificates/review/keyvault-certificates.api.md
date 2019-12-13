@@ -52,7 +52,7 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    beginCreateCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
+    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
@@ -76,7 +76,7 @@ export class CertificateClient {
     restoreCertificateBackup(backup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificateWithPolicy>;
     setContacts(contacts: CertificateContact[], options?: SetContactsOptions): Promise<CertificateContact[] | undefined>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
-    updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
+    updateCertificateProperties(certificateName: string, version?: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     readonly vaultUrl: string;
 }
@@ -92,28 +92,27 @@ export interface CertificateContactAll {
 }
 
 // @public
-export interface CertificateContacts {
-    contactList?: CertificateContact[];
-    readonly id?: string;
-}
-
-// @public
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
 // @public
 export interface CertificateIssuer {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
-    createdOn?: Date;
-    credentials?: IssuerCredentials;
+    readonly createdOn?: Date;
     enabled?: boolean;
     id?: string;
-    issuerProperties?: IssuerProperties;
-    name?: string;
+    readonly name?: string;
     organizationId?: string;
     password?: string;
-    updatedOn?: Date;
+    properties?: IssuerProperties;
+    readonly updatedOn?: Date;
 }
+
+// @public
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+// @public
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 // @public
 export interface CertificateOperation {
@@ -138,7 +137,13 @@ export interface CertificateOperationError {
 }
 
 // @public
-export interface CertificatePolicy {
+export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
+
+// @public
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
+// @public
+export interface CertificatePolicyProperties {
     certificateTransparency?: boolean;
     certificateType?: string;
     contentType?: CertificateContentType;
@@ -147,25 +152,15 @@ export interface CertificatePolicy {
     enhancedKeyUsage?: string[];
     exportable?: boolean;
     issuerName?: WellKnownIssuer | string;
-    keyCurveName?: KeyCurveName;
+    keyCurveName?: CertificateKeyCurveName;
     keySize?: number;
-    keyType?: KeyType;
+    keyType?: CertificateKeyType;
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
     reuseKey?: boolean;
-    subject?: string;
-    subjectAlternativeNames?: SubjectAlternativeNames;
     readonly updatedOn?: Date;
     validityInMonths?: number;
 }
-
-// @public
-export module CertificatePolicy {
-    const Default: CertificatePolicy;
-}
-
-// @public
-export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface CertificatePollerOptions extends coreHttp.OperationOptions {
@@ -178,14 +173,14 @@ export interface CertificateProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: CertificateTags;
-    updatedOn?: Date;
+    readonly updatedOn?: Date;
     vaultUrl?: string;
-    version?: string;
+    readonly version?: string;
     readonly x509Thumbprint?: Uint8Array;
 }
 
@@ -213,6 +208,12 @@ export interface CreateIssuerOptions extends coreHttp.OperationOptions {
     organizationId?: string;
     password?: string;
 }
+
+// @public
+export const DefaultCertificatePolicy: {
+    issuerName: string;
+    subject: string;
+};
 
 // @public
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
@@ -306,15 +307,9 @@ export interface IssuerParameters {
 // @public
 export interface IssuerProperties {
     id?: string;
-    name?: string;
+    readonly name?: string;
     provider?: string;
 }
-
-// @public
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
-
-// @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 // @public
 export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
@@ -324,7 +319,7 @@ export interface KeyVaultCertificate {
     cer?: Uint8Array;
     id?: string;
     readonly keyId?: string;
-    name: string;
+    readonly name: string;
     properties: CertificateProperties;
     readonly secretId?: string;
 }
@@ -371,6 +366,12 @@ export interface MergeCertificateOptions extends coreHttp.OperationOptions {
 }
 
 export { PipelineOptions }
+
+// @public
+export interface PolicySubjectProperties {
+    subject: string;
+    subjectAlternativeNames: SubjectAlternativeNames;
+}
 
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {

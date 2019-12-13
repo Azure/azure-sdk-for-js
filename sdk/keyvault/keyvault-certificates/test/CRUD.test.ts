@@ -362,7 +362,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Read
     getResponse = await client.getIssuer(issuerName);
-    assert.equal(getResponse.issuerProperties.provider, "Test");
+    assert.equal(getResponse.properties.provider, "Test");
 
     // Update
     await client.updateIssuer(issuerName, {
