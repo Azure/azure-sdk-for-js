@@ -1,0 +1,43 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "baseName": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().name]",
+            "metadata": {
+                "description": "The base resource name."
+            }
+        }
+    },
+    "variables": {
+        "apiVersion": "2019-02-01-preview",
+        "accountName": "[parameters('baseName')]",
+        "location": "[resourceGroup().location]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.EventHub/namespaces",
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[variables('accountName')]",
+            "location": "[variables('location')]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 5
+            },
+            "properties": {
+                "zoneRedundant": false,
+                "isAutoInflateEnabled": false,
+                "maximumThroughputUnits": 0,
+                "kafkaEnabled": true
+            }
+        }
+    ],
+    "outputs": {
+        "CONNECTION_STRING": {
+            "type": "string",
+            "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces', variables('accountName')), variables('apiVersion')).value[0].connectionString]"
+        }
+      }
+}

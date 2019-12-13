@@ -14,6 +14,7 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/event-hubs"
+      ResourceFileLocation: sdk/keyvault/test-resources.json
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
         Linux_Node10:
@@ -69,7 +70,5 @@ jobs:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        IOTHUB_EH_COMPATIBLE_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        IOTHUB_EH_COMPATIBLE_CONNECTION_STRING_BROWSER: $(js-event-hubs-test-browser-iothub-connection-string)
-        EVENTHUB_CONNECTION_STRING_BROWSER: $(js-event-hubs-test-browser-connection-string)
+        IOTHUB_EH_COMPATIBLE_CONNECTION_STRING: $(IOTHUB_EH_COMPATIBLE_CONNECTION_STRING)
+        EVENTHUB_CONNECTION_STRING: $(CONNECTION_STRING)
