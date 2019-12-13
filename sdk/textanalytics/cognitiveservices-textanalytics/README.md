@@ -1,4 +1,4 @@
-# TextAnalytics client library for TypeScript/JavaScript
+# Azure TextAnalytics client library for JS
 
 [Azure TextAnalytics](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes four main functions: sentiment analysis, key phrase extraction, language detection, and entity recognition.
 
@@ -42,6 +42,10 @@ const client = new TextAnalyticsClient(
 );
 ```
 
+## Key concepts
+
+Content still being written.
+
 ## Examples
 
 ### Detect the language of an input string
@@ -50,6 +54,24 @@ const client = new TextAnalyticsClient(
 const [result] = await client.detectLanguage(["hello world"]);
 console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 ```
+
+## Troubleshooting
+
+### Enable logs
+
+You can set the following environment variable to get the debug logs when using this library.
+
+- Getting debug logs from the Key Vault Secrets SDK
+
+```bash
+export DEBUG=azure*
+```
+
+## Next steps
+
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/cognitiveservices-textanalytics/samples)
+directory for detailed examples on how to use this library.
 
 ## Contributing
 
