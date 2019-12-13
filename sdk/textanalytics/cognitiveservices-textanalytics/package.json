@@ -26,7 +26,6 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "browser/*.js*",
     "dist/",
     "dist-esm/src/",
     "types/textanalytics.d.ts",
@@ -49,7 +48,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o textAnalytics-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
