@@ -37,7 +37,7 @@ point of entry for receiving of any type (from single partition, all partitions,
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
-| `EventHubClient.send()`                          | `EventHubConsumerClient.sendBatch()`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
+| `EventHubClient.send()`                          | `EventHubProducerClient.sendBatch()`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
 ### Minor renames
 
