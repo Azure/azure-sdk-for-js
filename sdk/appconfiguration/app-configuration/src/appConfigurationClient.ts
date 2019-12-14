@@ -530,7 +530,8 @@ export function getGeneratedClientOptions(
       syncTokenPolicy(syncTokens),
       ...retryPolicies,
       ...defaults,
-    ],
+    ],    
+    generateClientRequestIdHeader: true,
     userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
     userAgent: getUserAgentPrefix(internalAppConfigOptions.userAgentOptions && internalAppConfigOptions.userAgentOptions.userAgentPrefix)    
   };
