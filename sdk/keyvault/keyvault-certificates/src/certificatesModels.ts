@@ -786,11 +786,6 @@ export interface CertificateIssuer {
  */
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
   /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-  /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
   includePending?: boolean;
@@ -799,34 +794,17 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {};
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {};
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
