@@ -226,7 +226,7 @@ function toCoreAttributes(properties: CertificateProperties): CoreCertificateAtt
 function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes
+  attributes: CertificateAttributes = {}
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -1361,9 +1361,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateCertificatePolicy", requestOptions);
 
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, policy, certificateAttributes);
+    const corePolicy = toCorePolicy(undefined, policy);
 
     let result: UpdateCertificatePolicyResponse;
     try {

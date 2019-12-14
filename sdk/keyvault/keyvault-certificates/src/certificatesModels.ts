@@ -715,9 +715,7 @@ export interface UpdateCertificatePropertiesOptions
 /**
  * Options for {@link updateCertificatePolicy}.
  */
-export interface UpdateCertificatePolicyOptions
-  extends CertificateProperties,
-    coreHttp.OperationOptions {}
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing the properties of a certificate issuer
