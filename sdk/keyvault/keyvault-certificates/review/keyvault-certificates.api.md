@@ -51,19 +51,19 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 // @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
-    backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
+    backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
-    deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
+    deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[]>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
-    getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;
+    getContacts(options?: GetContactsOptions): Promise<CertificateContact[]>;
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
     importCertificate(certificateName: string, certificateValue: Uint8Array, options?: ImportCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
@@ -74,7 +74,7 @@ export class CertificateClient {
     mergeCertificate(certificateName: string, x509Certificates: Uint8Array[], options?: MergeCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptions): Promise<null>;
     restoreCertificateBackup(backup: Uint8Array, options?: RestoreCertificateBackupOptions): Promise<KeyVaultCertificateWithPolicy>;
-    setContacts(contacts: CertificateContact[], options?: SetContactsOptions): Promise<CertificateContact[] | undefined>;
+    setContacts(contacts: CertificateContact[], options?: SetContactsOptions): Promise<CertificateContact[]>;
     updateCertificatePolicy(certificateName: string, policy: CertificatePolicy, options?: UpdateCertificatePolicyOptions): Promise<CertificatePolicy>;
     updateCertificateProperties(certificateName: string, version?: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
