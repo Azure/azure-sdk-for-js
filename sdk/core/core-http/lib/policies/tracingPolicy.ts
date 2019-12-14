@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
+import { SpanOptions, SpanKind } from "@opentelemetry/types";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -11,17 +12,28 @@ import {
 import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 
-export function tracingPolicy(): RequestPolicyFactory {
+export interface TracingPolicyOptions {
+  userAgent?: string;
+}
+
+export function tracingPolicy(policyOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
-      return new TracingPolicy(nextPolicy, options);
+      return new TracingPolicy(nextPolicy, options, policyOptions);
     }
   };
 }
 
 export class TracingPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  private userAgent?: string;
+
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    policyOptions: TracingPolicyOptions
+  ) {
     super(nextPolicy, options);
+    this.userAgent = policyOptions.userAgent;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -31,7 +43,20 @@ export class TracingPolicy extends BaseRequestPolicy {
 
     // create a new span
     const tracer = getTracer();
-    const span = tracer.startSpan("core-http", request.spanOptions);
+    const spanOptions: SpanOptions = {
+      ...request.spanOptions,
+      kind: SpanKind.CLIENT
+    };
+    const span = tracer.startSpan("core-http", spanOptions);
+    span.setAttributes({
+      "http.method": request.method,
+      "http.url": request.url,
+      "http.requestId": request.requestId
+    });
+
+    if (this.userAgent) {
+      span.setAttribute("http.user_agent", this.userAgent);
+    }
 
     try {
       // set headers
@@ -47,6 +72,11 @@ export class TracingPolicy extends BaseRequestPolicy {
       }
 
       const response = await this._nextPolicy.sendRequest(request);
+      span.setAttribute("http.status_code", response.status);
+      const serviceRequestId = response.headers.get("x-ms-request-id");
+      if (serviceRequestId) {
+        span.setAttribute("serviceRequestId", serviceRequestId);
+      }
       span.end();
       return response;
     } catch (err) {
