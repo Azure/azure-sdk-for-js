@@ -154,8 +154,9 @@ export interface VaultProperties {
    */
   enabledForTemplateDeployment?: boolean;
   /**
-   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. It
-   * does not accept false value.
+   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. If
+   * it's not set to any value(true or false) when creating new key vault, it will be set to true
+   * by default. Once it's been set to true value, it can NOT be reverted to false.
    */
   enableSoftDelete?: boolean;
   /**
@@ -212,8 +213,9 @@ export interface VaultPatchProperties {
    */
   enabledForTemplateDeployment?: boolean;
   /**
-   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. It
-   * does not accept false value.
+   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. If
+   * it's not set to any value(true or false) when creating new key vault, it will be set to true
+   * by default. Once it's been set to true value, it can NOT be reverted to false.
    */
   enableSoftDelete?: boolean;
   /**
