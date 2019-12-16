@@ -1390,7 +1390,7 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * await client.updateCertificate("MyCertificate", "", {
+   * await client.updateCertificateProperties("MyCertificate", "", {
    *   tags: {
    *     customTag: "value"
    *   }
@@ -1765,7 +1765,8 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * client.getDeletedCertificate("MyDeletedCertificate");
+   * const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
+   * console.log("Deleted certificate:", deletedCertificate);
    * ```
    * @summary Gets a deleted certificate
    * @param certificateName The name of the certificate
