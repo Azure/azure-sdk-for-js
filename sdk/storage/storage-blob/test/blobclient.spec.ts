@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import {
   bodyToString,
@@ -176,12 +176,14 @@ describe("BlobClient", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -194,12 +196,14 @@ describe("BlobClient", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -233,23 +237,27 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    const result = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
@@ -413,10 +421,12 @@ describe("BlobClient", () => {
     recorder.skip("browser");
     const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
-    const result = await (await newBlobURL.beginCopyFromURL(blobClient.url, {
-      tier: initialTier,
-      rehydratePriority: "Standard"
-    })).pollUntilDone();
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: initialTier,
+        rehydratePriority: "Standard"
+      })
+    ).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
@@ -460,6 +470,7 @@ describe("BlobClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(blobClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -469,7 +480,7 @@ describe("BlobClient", () => {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]
