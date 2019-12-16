@@ -738,11 +738,7 @@ export interface IssuerProperties {
 /**
  * An interface representing the properties of an issuer
  */
-export interface CertificateIssuer {
-  /**
-   * Certificate Identifier.
-   */
-  id?: string;
+export interface CertificateIssuer extends IssuerProperties {
   /**
    * Determines whether the object is enabled.
    */
@@ -755,10 +751,6 @@ export interface CertificateIssuer {
    * When the issuer was updated.
    */
   readonly updatedOn?: Date;
-  /**
-   * Name of the issuer
-   */
-  readonly name?: string;
   /**
    * The user name/account name/account id.
    */
@@ -775,10 +767,6 @@ export interface CertificateIssuer {
    * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
-  /**
-   * A small set of useful properties of a certificate issuer
-   */
-  properties?: IssuerProperties;
 }
 
 /**

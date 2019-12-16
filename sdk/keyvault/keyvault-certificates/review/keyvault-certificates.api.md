@@ -100,16 +100,13 @@ export interface CertificateContactAll {
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
 // @public
-export interface CertificateIssuer {
+export interface CertificateIssuer extends IssuerProperties {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
     readonly createdOn?: Date;
     enabled?: boolean;
-    id?: string;
-    readonly name?: string;
     organizationId?: string;
     password?: string;
-    properties?: IssuerProperties;
     readonly updatedOn?: Date;
 }
 
