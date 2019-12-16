@@ -697,7 +697,7 @@ export class CertificateClient {
    */
   public async deleteContacts(
     options: DeleteContactsOptions = {}
-  ): Promise<CertificateContact[]> {
+  ): Promise<CertificateContact[] | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("deleteContacts", requestOptions);
@@ -713,7 +713,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList!;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
   }
 
   /**
@@ -735,7 +735,7 @@ export class CertificateClient {
   public async setContacts(
     contacts: CertificateContact[],
     options: SetContactsOptions = {}
-  ): Promise<CertificateContact[]> {
+  ): Promise<CertificateContact[] | undefined> {
     let coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
@@ -756,7 +756,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList!;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
   }
 
   /**
@@ -778,7 +778,7 @@ export class CertificateClient {
    */
   public async getContacts(
     options: GetContactsOptions = {}
-  ): Promise<CertificateContact[]> {
+  ): Promise<CertificateContact[] | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getCertificateContacts", requestOptions);
 
@@ -792,7 +792,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result).contactList!;
+    return this.coreContactsToCertificateContacts(result).contactList;
   }
 
   private async *listPropertiesOfIssuersPage(
@@ -1609,7 +1609,7 @@ export class CertificateClient {
   public async backupCertificate(
     certificateName: string,
     options: BackupCertificateOptions = {}
-  ): Promise<Uint8Array> {
+  ): Promise<Uint8Array | undefined> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("backupCertificate", requestOptions);
 
@@ -1624,7 +1624,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return result._response.parsedBody.value!;
+    return result._response.parsedBody.value;
   }
 
   /**
