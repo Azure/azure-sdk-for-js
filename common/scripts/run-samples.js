@@ -11,7 +11,7 @@
 const baseFS = require("fs");
 const path = require("path");
 
-const IGNORE = ["node_modules", "sampleHelpers.js"];
+const IGNORE = ["node_modules"];
 
 // Node >= 10 provide fs.promises, but since we're still building Node 8 for now
 // we need to use util.promisify if fs.promises doesn't exist
