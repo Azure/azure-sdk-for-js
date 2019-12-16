@@ -137,17 +137,11 @@ describe("http request related tests", () => {
 
     it("default client request ID", async () => {
       scope
-        .matchHeader('x-ms-client-request-id', /[A-Za-z0-9\-]+/)
+        .matchHeader('x-ms-client-request-id', /^[A-Za-z0-9\-]+$/)
         .get(/.*/)
         .reply(200);
       
-      const iterator = await client.listConfigurationSettings({
-        requestOptions: {
-          customHeaders: {
-            "x-ms-client-request-id": "this is my custom client request id"
-          }
-        }
-      });
+      const iterator = await client.listConfigurationSettings();
 
       await iterator.next();
     });
