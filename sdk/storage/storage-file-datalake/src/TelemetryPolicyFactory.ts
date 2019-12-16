@@ -21,6 +21,10 @@ import { SDK_VERSION } from "./utils/constants";
  * @implements {RequestPolicyFactory}
  */
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
+  /**
+   * @internal
+   * @ignore
+   */
   public readonly telemetryString: string;
 
   /**

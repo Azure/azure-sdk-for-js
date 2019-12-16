@@ -11,15 +11,16 @@ import {
 } from "./requestPolicy";
 import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { URLBuilder } from "../url";
 
 export interface TracingPolicyOptions {
   userAgent?: string;
 }
 
-export function tracingPolicy(policyOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
+export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
-      return new TracingPolicy(nextPolicy, options, policyOptions);
+      return new TracingPolicy(nextPolicy, options, tracingOptions);
     }
   };
 }
@@ -30,10 +31,10 @@ export class TracingPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    policyOptions: TracingPolicyOptions
+    tracingOptions: TracingPolicyOptions
   ) {
     super(nextPolicy, options);
-    this.userAgent = policyOptions.userAgent;
+    this.userAgent = tracingOptions.userAgent;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -47,11 +48,12 @@ export class TracingPolicy extends BaseRequestPolicy {
       ...request.spanOptions,
       kind: SpanKind.CLIENT
     };
-    const span = tracer.startSpan("core-http", spanOptions);
+    const path = URLBuilder.parse(request.url).getPath() || "/";
+    const span = tracer.startSpan(path, spanOptions);
     span.setAttributes({
       "http.method": request.method,
       "http.url": request.url,
-      "http.requestId": request.requestId
+      requestId: request.requestId
     });
 
     if (this.userAgent) {
