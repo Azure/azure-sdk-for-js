@@ -89,7 +89,7 @@
   "outputs": {
     "EVENTHUB_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces', variables('accountName')), variables('apiVersion')).primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('accountName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
     "IOTHUB_CONNECTION_STRING": {
       "type": "string",
