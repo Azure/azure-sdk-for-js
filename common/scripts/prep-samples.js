@@ -129,8 +129,8 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
 
   // Remove trailing call to main()
   const updatedContents = importRenamedContents.replace(
-    /^main\(\)\.catch.*/s,
-    "\n"
+    new RegExp("main\\(\\)\\.catch.*", "s"),
+    ""
   );
 
   console.log("[prep-samples] Updating imports in", fileName);

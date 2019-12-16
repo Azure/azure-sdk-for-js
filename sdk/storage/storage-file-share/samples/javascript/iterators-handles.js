@@ -7,8 +7,6 @@
 
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
-const { runSample } = require("./sampleHelpers");
-
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
   // Please ensure your directory is mounted
@@ -162,8 +160,8 @@ async function main() {
   }
 }
 
-runSample(main).catch((err) => {
+module.exports = { main };
+
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
-
-module.exports = { main };

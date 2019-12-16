@@ -7,8 +7,6 @@
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
@@ -95,6 +93,6 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
   });
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

@@ -13,8 +13,6 @@ const {
   newPipeline
 } = require("@azure/storage-file-share");
 
-const { runSample } = require("./sampleHelpers");
-
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
@@ -104,8 +102,8 @@ async function main() {
   console.log("deleted share");
 }
 
-runSample(main).catch((err) => {
+module.exports = { main };
+
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
-
-module.exports = { main };

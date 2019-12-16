@@ -7,8 +7,6 @@
 
 const { ShareServiceClient } = require("@azure/storage-file-share");
 
-const { runSample } = require("./sampleHelpers");
-
 async function main() {
   // Create File Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -34,8 +32,8 @@ async function main() {
   console.log(`deleted share ${shareName}`);
 }
 
-runSample(main).catch((err) => {
+module.exports = { main };
+
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
-
-module.exports = { main };

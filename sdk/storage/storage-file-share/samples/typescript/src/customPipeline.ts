@@ -11,8 +11,6 @@ import {
   StorageSharedKeyCredential
 } from "@azure/storage-file-share";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
@@ -52,6 +50,6 @@ export async function main() {
   console.log(`deleted share ${shareName}`);
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

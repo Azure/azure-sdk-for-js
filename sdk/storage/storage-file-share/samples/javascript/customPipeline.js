@@ -11,8 +11,6 @@ const {
   newPipeline
 } = require("@azure/storage-file-share");
 
-const { runSample } = require("./sampleHelpers");
-
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
@@ -52,8 +50,8 @@ async function main() {
   console.log(`deleted share ${shareName}`);
 }
 
-runSample(main).catch((err) => {
+module.exports = { main };
+
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
-
-module.exports = { main };
