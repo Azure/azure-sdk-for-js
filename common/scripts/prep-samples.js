@@ -40,15 +40,15 @@ const fs =
 /**
  * Breadth-first search for files matching a given predicate
  *
- * @param {string} tsDir The root of the sample tree to search
+ * @param {string} dir The root of the sample tree to search
  * @param {(fs.Entry) => boolean} matches Predicate that decides whether or not a file entry is included
  * @returns
  */
-async function* findMatchingFiles(tsDir, matches) {
-  const initialFiles = await fs.readdir(tsDir, { withFileTypes: true });
+async function* findMatchingFiles(dir, matches) {
+  const initialFiles = await fs.readdir(dir, { withFileTypes: true });
 
   // BFS Queue and queue index
-  const q = initialFiles.map(f => [f, tsDir]);
+  const q = initialFiles.map(f => [f, dir]);
 
   while (q.length) {
     // [fs.Dirent, string] (file and dirName part of the full path)
