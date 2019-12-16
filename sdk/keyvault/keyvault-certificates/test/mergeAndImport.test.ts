@@ -85,7 +85,7 @@ describe("Certificates client - merge and import certificates", () => {
       );
 
       const certificateOperationPoller = await client.getCertificateOperation(certificateName);
-      const { csr } = certificateOperationPoller.getCertificateOperation();
+      const { csr } = await certificateOperationPoller.getResult()!;
       const base64Csr = Buffer.from(csr!).toString("base64");
       const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

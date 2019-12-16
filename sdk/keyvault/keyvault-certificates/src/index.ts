@@ -135,6 +135,7 @@ import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 export {
   ActionType,
@@ -660,7 +661,7 @@ export class CertificateClient {
   public async beginDeleteCertificate(
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
-  ): Promise<DeleteCertificatePoller> {
+  ): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,
@@ -1143,7 +1144,9 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<CreateCertificatePoller> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
@@ -1458,13 +1461,10 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * let pendingCertificate = createPoller.getResult();
+   * const pendingCertificate = createPoller.getResult();
    * console.log(pendingCertificate);
-   *
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * pendingCertificate = poller.getResult();
-   * console.log(pendingCertificate);
-   * const certificateOperation = poller.getCertificateOperation();
+   * const certificateOperation = poller.getResult();
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1474,7 +1474,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<CertificateOperationPoller> {
+  ): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1853,7 +1853,7 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<RecoverDeletedCertificatePoller> {
+  ): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,

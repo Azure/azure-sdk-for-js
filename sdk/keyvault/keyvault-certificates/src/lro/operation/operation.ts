@@ -4,17 +4,14 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import {
-  CertificateClientInterface,
-  KeyVaultCertificateWithPolicy
-} from "../../certificatesModels";
+import { CertificateClientInterface } from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 /**
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CertificateOperationPollOperationState
-  extends PollOperationState<KeyVaultCertificateWithPolicy> {
+  extends PollOperationState<CertificateOperation> {
   /**
    * The name of the certificate.
    */
@@ -27,17 +24,13 @@ export interface CertificateOperationPollOperationState
    * An interface representing a CertificateClient. For internal use.
    */
   client: CertificateClientInterface;
-  /**
-   * The operation of the certificate
-   */
-  certificateOperation?: CertificateOperation;
 }
 
 /**
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
-  extends PollOperation<CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy> {}
+  extends PollOperation<CertificateOperationPollOperationState, CertificateOperation> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -60,23 +53,14 @@ async function update(
 
   if (!state.isStarted) {
     state.isStarted = true;
-    state.result = await client.getCertificate(certificateName, requestOptions);
-    state.certificateOperation = await client.getPlainCertificateOperation(
-      certificateName,
-      requestOptions
-    );
-  } else if (!state.isCompleted) {
-    state.certificateOperation = await client.getPlainCertificateOperation(
-      certificateName,
-      requestOptions
-    );
   }
 
-  if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
+  state.result = await client.getPlainCertificateOperation(certificateName, requestOptions);
+
+  if (state.result && state.result.status !== "inProgress") {
     state.isCompleted = true;
-    state.result = await client.getCertificate(certificateName, requestOptions);
-    if (state.certificateOperation.error) {
-      state.error = new Error(state.certificateOperation.error.message);
+    if (state.result.error) {
+      state.error = new Error(state.result.error.message);
     }
   }
 
@@ -99,10 +83,7 @@ async function cancel(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  state.certificateOperation = await client.cancelCertificateOperation(
-    certificateName,
-    requestOptions
-  );
+  state.result = await client.cancelCertificateOperation(certificateName, requestOptions);
 
   return makeCertificateOperationPollOperation({
     ...this.state,

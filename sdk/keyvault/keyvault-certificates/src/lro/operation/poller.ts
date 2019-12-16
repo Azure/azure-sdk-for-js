@@ -7,10 +7,7 @@ import {
   CertificateOperationPollOperationState,
   makeCertificateOperationPollOperation
 } from "./operation";
-import {
-  CertificateClientInterface,
-  KeyVaultCertificateWithPolicy
-} from "../../certificatesModels";
+import { CertificateClientInterface } from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 export interface CertificateOperationPollerOptions {
@@ -26,7 +23,7 @@ export interface CertificateOperationPollerOptions {
  */
 export class CertificateOperationPoller extends Poller<
   CertificateOperationPollOperationState,
-  KeyVaultCertificateWithPolicy
+  CertificateOperation
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -61,12 +58,5 @@ export class CertificateOperationPoller extends Poller<
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
-  }
-
-  /**
-   * Method to get the certificate operation
-   */
-  public getCertificateOperation(): CertificateOperation {
-    return this.operation.state.certificateOperation!;
   }
 }
