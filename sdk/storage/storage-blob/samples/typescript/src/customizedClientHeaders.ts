@@ -22,8 +22,6 @@ import {
   RequestPolicyOptions
 } from "@azure/storage-blob";
 
-import { runSample } from "./sampleHelpers";
-
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   prefix: string;
@@ -90,6 +88,6 @@ export async function main() {
   console.log(response._response.request.headers.get("x-ms-client-request-id"));
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

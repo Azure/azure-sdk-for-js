@@ -7,8 +7,6 @@
 
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
@@ -42,6 +40,6 @@ export async function main() {
   console.log("deleted container");
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

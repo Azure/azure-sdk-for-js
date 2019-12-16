@@ -7,8 +7,6 @@
 
 import { BlobServiceClient } from "@azure/storage-blob";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -150,6 +148,6 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
   });
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

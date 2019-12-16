@@ -24,8 +24,6 @@
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Enter your storage account name
   const account = process.env.ACCOUNT_NAME || "";
@@ -68,6 +66,6 @@ export async function main() {
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

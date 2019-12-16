@@ -16,8 +16,6 @@ import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/stor
 import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
@@ -132,6 +130,6 @@ export async function main() {
   console.log("deleted container");
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

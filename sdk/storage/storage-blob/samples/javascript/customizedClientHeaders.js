@@ -19,8 +19,6 @@ const {
   BaseRequestPolicy
 } = require("@azure/storage-blob");
 
-const { runSample } = require("./sampleHelpers");
-
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   // Constructor to accept parameters
@@ -85,8 +83,8 @@ async function main() {
   console.log(response._response.request.headers.get("x-ms-client-request-id"));
 }
 
-runSample(main).catch((err) => {
+module.exports = { main };
+
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
-
-module.exports = { main };
