@@ -7,8 +7,9 @@
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { PollerLike } from '@azure/core-lro';
+import { Poller } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { RequestOptionsBase } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -52,15 +53,19 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
-    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
-    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificatePoller" needs to be exported by the entry point index.d.ts
+    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<CreateCertificatePoller>;
+    // Warning: (ae-forgotten-export) The symbol "DeleteCertificatePoller" needs to be exported by the entry point index.d.ts
+    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<DeleteCertificatePoller>;
+    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedCertificatePoller" needs to be exported by the entry point index.d.ts
+    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<RecoverDeletedCertificatePoller>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>>;
+    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPoller" needs to be exported by the entry point index.d.ts
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperationPoller>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;
@@ -339,23 +344,19 @@ export interface LifetimeAction {
 // @public
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
