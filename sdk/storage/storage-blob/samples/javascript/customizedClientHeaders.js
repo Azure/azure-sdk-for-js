@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
   You can create your own policy and inject it into the default pipeline, or create your own Pipeline.
   A request policy is a filter triggered before and after a HTTP request. With a filter, we can tweak HTTP requests and responses. 
@@ -9,7 +12,12 @@
   Setup: Enter your storage account name and shared key in main()
 */
 
-const { newPipeline, AnonymousCredential, BlobServiceClient, BaseRequestPolicy } = require("../.."); // Change to "@azure/storage-blob" in your package
+const {
+  newPipeline,
+  AnonymousCredential,
+  BlobServiceClient,
+  BaseRequestPolicy
+} = require("@azure/storage-blob");
 
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
@@ -64,17 +72,19 @@ async function main() {
     `https://${account}.blob.core.windows.net${accountSas}`,
     pipeline
   );
-  const response = (await blobServiceClient
-    .listContainers()
-    .byPage()
-    .next()).value;
+  const response = (
+    await blobServiceClient
+      .listContainers()
+      .byPage()
+      .next()
+  ).value;
 
   // Check customized client request ID
   console.log(response._response.request.headers.get("x-ms-client-request-id"));
 }
 
-main()
-  .then(() => {
-    console.log("Successfully executed sample");
-  })
-  .catch(console.error);
+module.exports = { main };
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
   ONLY AVAILABLE IN NODE.JS RUNTIME
 
@@ -18,12 +21,24 @@
       - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample(Can leverage process.env).
 */
 
-const { BlobServiceClient } = require("../.."); // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient } = require("@azure/storage-blob");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   // Enter your storage account name
   const account = process.env.ACCOUNT_NAME || "";
+
+  // Azure AD Credential information is required to run this sample:
+  if (
+    !process.env.AZURE_TENANT_ID ||
+    !process.env.AZURE_CLIENT_ID ||
+    !process.env.AZURE_CLIENT_SECRET
+  ) {
+    console.warn(
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+    );
+    return;
+  }
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
@@ -51,11 +66,8 @@ async function main() {
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+module.exports = { main };
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});
