@@ -45,7 +45,7 @@ export class ServiceBusManagementClientContext extends msRestAzure.AzureServiceC
 
     super(credentials, options);
 
-    this.apiVersion = '2017-04-01';
+    this.apiVersion = '2019-11-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
