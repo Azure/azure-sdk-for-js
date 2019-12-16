@@ -17,11 +17,10 @@ export function createSpan(
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
     ...tracingOptions.spanOptions,
-    kind: SpanKind.CLIENT
+    kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.Storage.Queue.${operationName}`, spanOptions);
-  span.setAttribute("component", "storage");
 
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
