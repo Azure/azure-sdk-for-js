@@ -17,7 +17,7 @@
   "keywords": [
     "Azure",
     "Storage",
-    "File",
+    "Queue",
     "Node.js",
     "TypeScript"
   ],
