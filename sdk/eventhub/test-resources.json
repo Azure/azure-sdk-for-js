@@ -13,15 +13,18 @@
   "variables": {
     "apiVersion": "2017-04-01",
     "iotApiVersion": "2018-04-01",
-    "accountName": "[parameters('baseName')]",
-    "iotAccountName": "[concat('iot', parameters('baseName'))]",
+    "namespaceName": "[parameters('baseName')]",
+    "iotName": "[concat('iot', parameters('baseName'))]",
+    "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
+    "eventHubName": "eventhub",
+    "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]",
     "location": "[resourceGroup().location]"
   },
   "resources": [
     {
       "type": "Microsoft.EventHub/namespaces",
       "apiVersion": "[variables('apiVersion')]",
-      "name": "[variables('accountName')]",
+      "name": "[variables('namespaceName')]",
       "location": "[variables('location')]",
       "sku": {
         "name": "Standard",
@@ -31,52 +34,13 @@
       "properties": {
         "zoneRedundant": false,
         "isAutoInflateEnabled": false,
-        "maximumThroughputUnits": 0,
-        "cors": {
-          "corsRules": [
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["*"],
-              "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
-              "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            }
-          ]
-        }
+        "maximumThroughputUnits": 0
       }
     },
     {
       "type": "Microsoft.Devices/IotHubs",
       "apiVersion": "[variables('ioTapiVersion')]",
-      "name": "[variables('iotAccountName')]",
+      "name": "[variables('iotName')]",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "S1",
@@ -84,16 +48,66 @@
         "capacity": 5
       },
       "properties": {}
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('authorizationName')]",
+      "location": "[variables('location')]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "rights": ["Listen", "Manage", "Send"]
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('eventHubNameFull')]",
+      "location": "[variables('location')]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "messageRetentionInDays": 7,
+        "partitionCount": 1
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('namespaceName'), '/default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"
+      ],
+      "properties": {
+        "defaultAction": "Deny",
+        "virtualNetworkRules": [],
+        "ipRules": []
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('eventHubNameFull'), '/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"
+      ],
+      "properties": {}
     }
   ],
   "outputs": {
+    "EVENTHUB_NAME": {
+      "type": "string",
+      "value": "[variables('eventHubName')]"
+    },
     "EVENTHUB_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('accountName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
     "IOTHUB_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotAccountName')), variables('iotApiVersion')).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotAccountName')), variables('iotApiVersion')).value[0].primaryKey)]"
+      "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), variables('iotApiVersion')).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), variables('iotApiVersion')).value[0].primaryKey)]"
     }
   }
 }
