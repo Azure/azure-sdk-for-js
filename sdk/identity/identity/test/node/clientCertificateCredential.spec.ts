@@ -118,7 +118,7 @@ describe("ClientCertificateCredential", function() {
               children: [
                 {
                   children: [],
-                  name: "core-http"
+                  name: "/tenantId/oauth2/v2.0/token"
                 }
               ]
             }
