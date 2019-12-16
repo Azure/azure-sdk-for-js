@@ -1403,7 +1403,7 @@ export class CertificateClient {
    */
   public async updateCertificateProperties(
     certificateName: string,
-    version: string = "",
+    version: string,
     options: UpdateCertificatePropertiesOptions = {}
   ): Promise<KeyVaultCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
