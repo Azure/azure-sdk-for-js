@@ -1,4 +1,7 @@
-const { SecretClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -66,6 +69,8 @@ async function main() {
   await client.beginDeleteSecret(bankAccountSecretName);
   await client.beginDeleteSecret(storageAccountSecretName);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

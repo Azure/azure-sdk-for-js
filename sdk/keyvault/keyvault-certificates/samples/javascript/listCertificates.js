@@ -1,4 +1,7 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample list previously created certificates in a single chunk and by page,
@@ -43,7 +46,9 @@ async function main() {
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listPropertiesOfCertificatesByPage = client.listPropertiesOfCertificates({ includePending: true }).byPage();
+  let listPropertiesOfCertificatesByPage = client
+    .listPropertiesOfCertificates({ includePending: true })
+    .byPage();
   while (true) {
     let { done, value } = await listPropertiesOfCertificatesByPage.next();
     if (done) {
@@ -64,7 +69,10 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {});
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(
+    certificateName1,
+    {}
+  );
   while (true) {
     let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {
@@ -90,6 +98,8 @@ async function main() {
     console.log("Deleted certificate: ", value);
   }
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

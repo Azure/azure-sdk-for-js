@@ -1,6 +1,10 @@
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 const fs = require("fs");
 const childProcess = require("child_process");
-const { CertificateClient } = require("../../dist");
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
@@ -57,6 +61,8 @@ ${base64Csr}
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

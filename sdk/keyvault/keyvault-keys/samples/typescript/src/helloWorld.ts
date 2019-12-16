@@ -1,7 +1,10 @@
-import { KeyClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant

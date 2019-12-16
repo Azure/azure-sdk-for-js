@@ -1,4 +1,7 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, reads it in various ways,
@@ -62,6 +65,8 @@ async function main() {
   console.log("Deleted Date: ", deletedCertificate.deletedOn);
   console.log("Scheduled Purge Date: ", deletedCertificate.scheduledPurgeDate);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

@@ -1,4 +1,7 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, then makes a backup from it,
@@ -45,6 +48,8 @@ async function main() {
 
   console.log("Restored certificate: ", restoredCertificate);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

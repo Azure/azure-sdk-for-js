@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 const { CertificateClient } = require("../../dist");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -51,6 +54,8 @@ async function main() {
   const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

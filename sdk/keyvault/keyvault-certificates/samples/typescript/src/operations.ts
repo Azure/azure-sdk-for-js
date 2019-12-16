@@ -1,9 +1,12 @@
-import { CertificateClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates, updates and deletes a certificate's operation.
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory

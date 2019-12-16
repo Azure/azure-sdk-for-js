@@ -1,7 +1,10 @@
-import { SecretClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -39,7 +42,9 @@ async function main(): Promise<void> {
   await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (const secretProperties of client.listPropertiesOfSecretVersions(bankAccountSecretName)) {
+  for await (const secretProperties of client.listPropertiesOfSecretVersions(
+    bankAccountSecretName
+  )) {
     const secret = await client.getSecret(secretProperties.name);
     console.log("secret version: ", secret);
   }

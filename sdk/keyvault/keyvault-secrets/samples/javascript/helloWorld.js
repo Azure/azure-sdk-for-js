@@ -1,4 +1,7 @@
-const { SecretClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -32,6 +35,8 @@ async function main() {
   // If we don't want to purge the secret later, we don't need to wait until this finishes
   await client.beginDeleteSecret(secretName);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

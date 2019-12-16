@@ -1,6 +1,10 @@
-const { SecretClient } = require("../../src");
-const { DefaultAzureCredential } = require("@azure/identity");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 const fs = require("fs");
+
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 function writeFile(filename, text) {
   return new Promise((resolve, reject) => {
@@ -67,6 +71,8 @@ async function main() {
   // If we don't want to purge the secret later, we don't need to wait until this finishes
   await client.beginDeleteSecret(secretName);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);

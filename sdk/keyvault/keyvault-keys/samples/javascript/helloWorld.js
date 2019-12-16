@@ -1,4 +1,7 @@
-const { KeyClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
@@ -43,13 +46,17 @@ async function main() {
   }
 
   // Update the key
-  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, { enabled: false });
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, {
+    enabled: false
+  });
   console.log("updated key: ", updatedKey);
 
   await client.beginDeleteKey(keyName);
   await client.beginDeleteKey(ecKeyName);
   await client.beginDeleteKey(rsaKeyName);
 }
+
+module.exports = { main };
 
 main().catch((err) => {
   console.log("error code: ", err.code);
