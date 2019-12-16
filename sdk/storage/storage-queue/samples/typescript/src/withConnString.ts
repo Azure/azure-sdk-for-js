@@ -7,8 +7,6 @@
 
 import { QueueServiceClient } from "@azure/storage-queue";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Create Queue Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -32,6 +30,6 @@ export async function main() {
   );
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

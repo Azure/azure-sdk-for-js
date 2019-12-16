@@ -120,11 +120,17 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
     relativePath += "/src";
   }
 
-  const updatedContents = fileContents.replace(
+  const importRenamedContents = fileContents.replace(
     importRegex,
     isTs
       ? `import $1 from "${relativePath}";`
       : `const $1 = require("${relativePath}");`
+  );
+
+  // Remove trailing call to main()
+  const updatedContents = importRenamedContents.replace(
+    /^main\(\)\.catch.*/s,
+    "\n"
   );
 
   console.log("[prep-samples] Updating imports in", fileName);

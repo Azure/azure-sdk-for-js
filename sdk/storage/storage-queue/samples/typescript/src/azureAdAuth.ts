@@ -25,8 +25,6 @@ import { QueueServiceClient } from "@azure/storage-queue";
 
 import { DefaultAzureCredential } from "@azure/identity";
 
-import { runSample } from "./sampleHelpers";
-
 export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
@@ -68,6 +66,6 @@ export async function main() {
   }
 }
 
-runSample(main).catch((err) => {
+main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
