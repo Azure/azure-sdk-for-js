@@ -38,18 +38,6 @@
       }
     },
     {
-      "type": "Microsoft.Devices/IotHubs",
-      "apiVersion": "[variables('ioTapiVersion')]",
-      "name": "[variables('iotName')]",
-      "location": "[resourceGroup().location]",
-      "sku": {
-        "name": "S1",
-        "tier": "Standard",
-        "capacity": 5
-      },
-      "properties": {}
-    },
-    {
       "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
       "apiVersion": "[variables('apiVersion')]",
       "name": "[variables('authorizationName')]",
@@ -75,9 +63,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "name": "[concat(variables('namespaceName'), '/default')]",
       "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
       "properties": {
         "defaultAction": "Deny",
         "virtualNetworkRules": [],
@@ -94,6 +80,60 @@
         "[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"
       ],
       "properties": {}
+    },
+    {
+      "type": "Microsoft.Devices/IotHubs",
+      "apiVersion": "[variables('ioTapiVersion')]",
+      "name": "[variables('iotName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard",
+        "capacity": 1
+      },
+      "properties": {
+        "ipFilterRules": [],
+        "eventHubEndpoints": {
+          "events": {
+            "retentionTimeInDays": 1,
+            "partitionCount": 4
+          }
+        },
+        "routing": {
+          "endpoints": {
+            "serviceBusQueues": [],
+            "serviceBusTopics": [],
+            "eventHubs": [],
+            "storageContainers": []
+          },
+          "routes": [],
+          "fallbackRoute": {
+            "name": "$fallback",
+            "source": "DeviceMessages",
+            "condition": "true",
+            "endpointNames": ["events"],
+            "isEnabled": true
+          }
+        },
+        "messagingEndpoints": {
+          "fileNotifications": {
+            "lockDurationAsIso8601": "PT1M",
+            "ttlAsIso8601": "PT1H",
+            "maxDeliveryCount": 10
+          }
+        },
+        "enableFileUploadNotifications": false,
+        "cloudToDevice": {
+          "maxDeliveryCount": 10,
+          "defaultTtlAsIso8601": "PT1H",
+          "feedback": {
+            "lockDurationAsIso8601": "PT1M",
+            "ttlAsIso8601": "PT1H",
+            "maxDeliveryCount": 10
+          }
+        },
+        "features": "None"
+      }
     }
   ],
   "outputs": {
