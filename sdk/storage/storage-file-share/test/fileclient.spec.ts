@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
@@ -581,6 +581,8 @@ describe("FileClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
+
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -590,7 +592,7 @@ describe("FileClient", () => {
               name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]

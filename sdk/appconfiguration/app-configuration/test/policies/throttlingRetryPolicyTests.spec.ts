@@ -3,9 +3,16 @@
 
 import chai from "chai";
 import sinon from "sinon";
-import { HttpOperationResponse, WebResource, HttpHeaders, RequestPolicyOptions, RequestPolicy, RestError } from '@azure/core-http';
-import { ThrottlingRetryPolicy, getDelayInMs } from '../../src/policies/throttlingRetryPolicy';
-import { assertThrowsRestError } from '../testHelpers';
+import {
+  HttpOperationResponse,
+  WebResource,
+  HttpHeaders,
+  RequestPolicyOptions,
+  RequestPolicy,
+  RestError
+} from "@azure/core-http";
+import { ThrottlingRetryPolicy, getDelayInMs } from "../../src/policies/throttlingRetryPolicy";
+import { assertThrowsRestError } from "../testHelpers";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
@@ -28,7 +35,8 @@ describe("ThrottlingRetryPolicy", () => {
 
   function createDefaultThrottlingRetryPolicy(
     response: HttpOperationResponse = defaultResponse,
-    nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) => new PassThroughPolicy(response)
+    nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
+      new PassThroughPolicy(response)
   ) {
     return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
   }
@@ -56,7 +64,9 @@ describe("ThrottlingRetryPolicy", () => {
 
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
-
+      // requestId is unique, even across retries.
+      delete response.request.requestId;
+      delete request.requestId;
       chai.assert.deepEqual(response.request, request);
     });
 
@@ -74,10 +84,14 @@ describe("ThrottlingRetryPolicy", () => {
           sendRequest: (_: WebResource) => {
             throw new RestError("some other error, but not an 429 with a timeout", "", 500);
           }
-        }
+        };
       });
 
-      await assertThrowsRestError(() => policy.sendRequest(request), 500, "some other error, but not an 429 with a timeout");
+      await assertThrowsRestError(
+        () => policy.sendRequest(request),
+        500,
+        "some other error, but not an 429 with a timeout"
+      );
     });
 
     it("should pass the response to the handler if the status code equals 429", async () => {
@@ -95,7 +109,7 @@ describe("ThrottlingRetryPolicy", () => {
             chai.assert.deepEqual(response, mockResponse);
             return Promise.resolve(response);
           }
-        }
+        };
       });
 
       const response = await policy.sendRequest(request);
@@ -120,7 +134,7 @@ describe("ThrottlingRetryPolicy", () => {
       headers.clear();
       headers.set("Retry-After", "1010");
       chai.assert.equal(getDelayInMs(headers), 1010 * 1000);
-      
+
       headers.clear();
       headers.set("retry-after-ms", "this is not a number");
       chai.assert.notOk(getDelayInMs(headers));

@@ -99,6 +99,7 @@ export interface SpanGraphNode {
 // @public
 export class TestSpan extends NoOpSpan {
     constructor(parentTracer: TestTracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
+    readonly attributes: Attributes;
     context(): SpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
@@ -106,6 +107,8 @@ export class TestSpan extends NoOpSpan {
     kind: SpanKind;
     name: string;
     readonly parentSpanId?: string;
+    setAttribute(key: string, value: unknown): this;
+    setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
     readonly startTime: TimeInput;
     status: Status;

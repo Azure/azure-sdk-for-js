@@ -677,7 +677,7 @@ export function createPipelineFromOptions(
   };
 
   requestPolicyFactories.push(
-    tracingPolicy(),
+    tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(keepAliveOptions),
     userAgentPolicy({ value: userAgentValue }),
     generateClientRequestIdPolicy(),

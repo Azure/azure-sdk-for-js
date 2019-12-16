@@ -23,11 +23,10 @@ export function createSpan(
 
   tracingOptions.spanOptions = {
     ...tracingOptions.spanOptions,
-    kind: SpanKind.CLIENT
+    kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.Identity.${operationName}`, tracingOptions.spanOptions);
-  span.setAttribute("component", "identity");
 
   let newOptions = options;
   if (span.isRecording()) {

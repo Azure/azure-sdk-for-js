@@ -154,10 +154,9 @@ describe("helper methods", () => {
   });
 
   it("transformKeyValue", () => {
-
     const configurationSetting = transformKeyValue({
       key: "hello",
-      locked: true,
+      locked: true
     });
 
     assert.deepEqual(
@@ -192,7 +191,7 @@ describe("helper methods", () => {
       {
         isReadOnly: true,
         key: "hello",
-        
+
         statusCode: 204,
         _response: fakeHttp204Response._response
       },
@@ -227,7 +226,7 @@ describe("helper methods", () => {
     );
   });
 
-  function getAllConfigurationSettingFields(): (Exclude<keyof ConfigurationSetting, "key">)[] {
+  function getAllConfigurationSettingFields(): Exclude<keyof ConfigurationSetting, "key">[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
       etag: "",
@@ -240,7 +239,7 @@ describe("helper methods", () => {
     };
 
     const keys = Object.keys(configObjectWithAllFieldsRequired).filter((key) => key !== "key");
-    return keys as (Exclude<keyof ConfigurationSetting, "key">[]);
+    return keys as Exclude<keyof ConfigurationSetting, "key">[];
   }
 
   const fakeHttp204Response: HttpResponseField<any> = {
@@ -256,6 +255,7 @@ describe("helper methods", () => {
         withCredentials: false,
         headers: new HttpHeaders(),
         timeout: 0,
+        requestId: "",
         clone: function() {
           return this;
         },

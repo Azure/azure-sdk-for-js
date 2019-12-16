@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { setupEnvironment } from "./utils/testutils.common";
+import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -182,6 +183,8 @@ describe("QueueClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(queueClient.url).getPath() || "";
+
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -191,7 +194,7 @@ describe("QueueClient", () => {
               name: "Azure.Storage.Queue.QueueClient-getProperties",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]

@@ -12,6 +12,7 @@ omitted_paths:
   - eng/tools/versioning/*
   - samples/Bundling/**
   - "sdk/**/samples/*/README.md"
+  - "sdk/**/swagger/README.md"
 language: js
 root_check_enabled: True
 required_readme_sections:

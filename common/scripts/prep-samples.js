@@ -33,22 +33,22 @@ const fs =
     return {
       readdir: promisify(baseFS.readdir),
       readFile: promisify(baseFS.readFile),
-      stat: promisify(baseFS.stat),
       writeFile: promisify(baseFS.writeFile)
     };
   })();
 
 /**
- * Breadth-first search for files ending in .ts, starting from `tsDir`
+ * Breadth-first search for files matching a given predicate
  *
- * @param {string} tsDir The root of the sample tree to search
+ * @param {string} dir The root of the sample tree to search
+ * @param {(fs.Entry) => boolean} matches Predicate that decides whether or not a file entry is included
  * @returns
  */
-async function* findAllTsFiles(tsDir) {
-  const initialFiles = await fs.readdir(tsDir, { withFileTypes: true });
+async function* findMatchingFiles(dir, matches) {
+  const initialFiles = await fs.readdir(dir, { withFileTypes: true });
 
   // BFS Queue and queue index
-  const q = initialFiles.map(f => [f, tsDir]);
+  const q = initialFiles.map(f => [f, dir]);
 
   while (q.length) {
     // [fs.Dirent, string] (file and dirName part of the full path)
@@ -61,11 +61,7 @@ async function* findAllTsFiles(tsDir) {
       for (const child of children) {
         q.push([child, fullPath]);
       }
-    } else if (
-      entry.isFile() &&
-      entry.name.endsWith(".ts") &&
-      !entry.name.endsWith(".d.ts")
-    ) {
+    } else if (matches(entry)) {
       yield fullPath;
     } else if (
       entry.isBlockDevice() ||
@@ -87,21 +83,26 @@ async function* findAllTsFiles(tsDir) {
 }
 
 /**
- * Replaces package imports with relative imports for CI
+ * Replaces package require/import statements with relative paths for CI
  *
- * @param {string} file the name of the file to open and process
- * @param {string} baseDir The base directory of the package
+ * @param {string} fileName the name of the file to open and process
+ * @param {string} baseDir the base directory of the package
  * @param {string} pkgName name of the package to use when looking for package-local imports
  */
 async function enableLocalRun(fileName, baseDir, pkgName) {
   const fileContents = await fs.readFile(fileName, { encoding: "utf-8" });
-  const importRegex = new RegExp(
-    `import\\s+(.*)\\s+from\\s+"${pkgName}";?\\s?`,
-    "s"
-  );
+  const isTs = fileName.endsWith(".ts");
+  const importRegex = isTs
+    ? new RegExp(`import\\s+(.*)\\s+from\\s+"${pkgName}";?\\s?`, "s")
+    : new RegExp(`const\\s+(.*)\\s*=\\s*require\\("${pkgName}"\\);?\\s?`, "s");
 
   if (!importRegex.exec(fileContents)) {
-    throw new Error(`Sample ${fileName} did not contain an import statement!`);
+    // With the newer methods of using helper files and batch running, this
+    // should be a warning
+    console.warn(
+      `[prep-samples] skipping ${fileName} because it did not contain a matching import/require`
+    );
+    return;
   }
 
   const relativeDir = path.dirname(fileName.replace(baseDir, ""));
@@ -112,12 +113,27 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
   const depth =
     relativeDir.length - relativeDir.split(path.sep).join("").length;
 
-  const relativeImportPath = new Array(depth).fill("..").join("/") + "/src";
-  const updatedContents = fileContents.replace(
+  let relativePath = new Array(depth).fill("..").join("/");
+
+  if (isTs) {
+    // TypeScript imports should use src directly
+    relativePath += "/src";
+  }
+
+  const importRenamedContents = fileContents.replace(
     importRegex,
-    `import $1 from "${relativeImportPath}";`
+    isTs
+      ? `import $1 from "${relativePath}";`
+      : `const $1 = require("${relativePath}");`
   );
 
+  // Remove trailing call to main()
+  const updatedContents = importRenamedContents.replace(
+    new RegExp("main\\(\\)\\.catch.*", "s"),
+    ""
+  );
+
+  console.log("[prep-samples] Updating imports in", fileName);
   return fs.writeFile(fileName, updatedContents, { encoding: "utf-8" });
 }
 
@@ -132,16 +148,28 @@ async function main() {
     baseDir = process.cwd();
   }
 
-  const tsDir = path.join(baseDir, "samples", "typescript");
   const package = require(path.join(baseDir, "package.json"));
-
   console.log(
     "[prep-samples] Preparing samples for package:",
     `${package.name}@${package.version}`
   );
 
-  for await (const fileName of findAllTsFiles(tsDir)) {
-    console.log("[prep-samples] Updating imports in", fileName);
+  const tsDir = path.join(baseDir, "samples", "typescript", "src");
+  for await (const fileName of findMatchingFiles(
+    tsDir,
+    entry =>
+      entry.isFile() &&
+      entry.name.endsWith(".ts") &&
+      !entry.name.endsWith(".d.ts")
+  )) {
+    await enableLocalRun(fileName, baseDir, package.name);
+  }
+
+  const jsDir = path.join(baseDir, "samples", "javascript");
+  for await (const fileName of findMatchingFiles(
+    jsDir,
+    entry => entry.isFile() && entry.name.endsWith(".js")
+  )) {
     await enableLocalRun(fileName, baseDir, package.name);
   }
 }
