@@ -7,7 +7,10 @@ import {
   CertificateOperationPollOperationState,
   makeCertificateOperationPollOperation
 } from "./operation";
-import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import {
+  CertificateClientInterface,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 export interface CertificateOperationPollerOptions {

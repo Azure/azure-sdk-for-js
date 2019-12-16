@@ -4,7 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import {
+  CertificateClientInterface,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 /**

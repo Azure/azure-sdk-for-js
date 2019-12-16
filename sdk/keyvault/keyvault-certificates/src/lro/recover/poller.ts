@@ -7,7 +7,10 @@ import {
   RecoverDeletedCertificatePollOperationState,
   makeRecoverDeletedCertificatePollOperation
 } from "./operation";
-import { KeyVaultCertificateWithPolicy, CertificateClientInterface } from "../../certificatesModels";
+import {
+  KeyVaultCertificateWithPolicy,
+  CertificateClientInterface
+} from "../../certificatesModels";
 
 export interface RecoverDeletedCertificatePollerOptions {
   client: CertificateClientInterface;

@@ -794,12 +794,12 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {};
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {};
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.

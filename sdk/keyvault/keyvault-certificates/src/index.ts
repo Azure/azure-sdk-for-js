@@ -1148,9 +1148,7 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<
-    CreateCertificatePoller
-  > {
+  ): Promise<CreateCertificatePoller> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
