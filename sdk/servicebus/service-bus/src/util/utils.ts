@@ -442,8 +442,19 @@ export function getRelativePathOrUndefined(url: string): string | undefined {
     return undefined;
   }
 
-  // Skip the sb:// prefix in URL
-  stringValue = stringValue.substring(5);
+  // Skip the network protocol prefix in URL. 
+  // The service ensures the value of this property will always use a valid FQDN
+  if (stringValue.startsWith("sb://")) {
+    stringValue = stringValue.substring(5);
+  } else if (stringValue.startsWith("http://")) {
+    stringValue = stringValue.substring(7);
+  } else if (stringValue.startsWith("https://")) {
+    stringValue = stringValue.substring(8);
+  } else {
+    // Return complete URI value if it's not one of the recognized FQDN formats
+    return stringValue;
+  }
+
   const indexOfFirstSlash = stringValue.indexOf("/");
   return stringValue.substring(indexOfFirstSlash + 1);
 }
