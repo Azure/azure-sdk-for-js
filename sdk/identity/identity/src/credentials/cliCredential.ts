@@ -48,13 +48,13 @@ export class CliCredential implements TokenCredential {
         let az = process.platform === "win32" ? "az.cmd" : "az";
         child_process.exec(`${az} account get-access-token --resource ${resource}`, (err, stdout, stderr) => {
           responseData = stdout;
-
-          if (stderr.startsWith("'az.cmd' is not recognized")) {
-            const code = CanonicalCode.UNKNOWN;
-            span.setStatus({
-              code,
-              message: "Azure CLI not Installed"
-            });
+          if (process.platform == "linux") {
+            if (stderr.match("az:(.*)not found")) {
+              throw new Error("Azure CLI not Installed");
+            }
+          }
+          else if (stderr.startsWith("'az.cmd' is not recognized")) {
+            throw new Error("Azure CLI not Installed");
           }
           const response: { accessToken: string, expiresOn: string } = JSON.parse(responseData);
           resolve({ token: response.accessToken, expiresOnTimestamp: new Date(response.expiresOn).getTime() });
