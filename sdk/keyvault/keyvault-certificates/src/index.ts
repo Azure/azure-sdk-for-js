@@ -1275,7 +1275,7 @@ export class CertificateClient {
    */
   public async importCertificate(
     certificateName: string,
-    certificateValue: Uint8Array,
+    certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -1284,10 +1284,10 @@ export class CertificateClient {
 
     let base64EncodedCertificate: string;
     if (isNode) {
-      base64EncodedCertificate = Buffer.from(certificateValue).toString("base64");
+      base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
     } else {
       base64EncodedCertificate = btoa(
-        String.fromCharCode.apply(null, (certificateValue as any) as number[])
+        String.fromCharCode.apply(null, (certificateBytes as any) as number[])
       );
     }
 
@@ -1454,7 +1454,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   /**
@@ -1532,7 +1532,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   /**
@@ -2023,7 +2023,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   private getCertificateFromCertificateBundle(
@@ -2141,10 +2141,13 @@ export class CertificateClient {
   }
 
   private getCertificateOperationFromCoreOperation(
+    certificateName: string,
+    vaultUrl: string,
     operation: CoreCertificateOperation
   ): CertificateOperation {
     return {
       cancellationRequested: operation.cancellationRequested,
+      name: certificateName,
       issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
       certificateTransparency: operation.issuerParameters
         ? operation.issuerParameters.certificateTransparency
@@ -2158,7 +2161,8 @@ export class CertificateClient {
       requestId: operation.requestId,
       status: operation.status,
       statusDetails: operation.statusDetails,
-      target: operation.target
+      target: operation.target,
+      vaultUrl: vaultUrl
     };
   }
 

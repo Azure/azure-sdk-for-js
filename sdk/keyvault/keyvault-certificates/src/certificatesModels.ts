@@ -104,6 +104,10 @@ export interface CertificateOperation {
    */
   readonly id?: string;
   /**
+   * The name of certificate.
+   */
+  readonly name?: string;
+  /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
   issuerName?: string;
@@ -144,6 +148,10 @@ export interface CertificateOperation {
    * Identifier for the certificate operation.
    */
   requestId?: string;
+  /**
+   * The vault URI.
+   */
+  readonly vaultUrl?: string;
 }
 
 /**
@@ -462,7 +470,7 @@ export interface CertificateProperties {
   /**
    * The vault URI.
    */
-  vaultUrl?: string;
+  readonly vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
    */
@@ -487,7 +495,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
    * The url of the recovery object, used to
    * identify and recover the deleted certificate.
    */
-  recoveryId?: string;
+  readonly recoveryId?: string;
   /**
    * The time when the certificate is scheduled
    * to be purged, in UTC
