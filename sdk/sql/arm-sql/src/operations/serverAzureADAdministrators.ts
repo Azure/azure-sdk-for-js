@@ -28,36 +28,7 @@ export class ServerAzureADAdministrators {
   }
 
   /**
-   * Creates a new Server Active Directory Administrator or updates an existing server Active
-   * Directory Administrator.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param properties The required parameters for creating or updating an Active Directory
-   * Administrator.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>
-   */
-  createOrUpdate(resourceGroupName: string, serverName: string, properties: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,properties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>;
-  }
-
-  /**
-   * Deletes an existing server Active Directory Administrator.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse>
-   */
-  deleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse>;
-  }
-
-  /**
-   * Returns an server Administrator.
+   * Gets a server Administrator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -92,7 +63,36 @@ export class ServerAzureADAdministrators {
   }
 
   /**
-   * Returns a list of server Administrators.
+   * Creates a new Server Active Directory Administrator or updates an existing server Active
+   * Directory Administrator.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param parameters The required parameters for creating or updating an Active Directory
+   * Administrator.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,serverName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes an existing server Active Directory Administrator.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,serverName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets a list of server Administrators.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -106,7 +106,7 @@ export class ServerAzureADAdministrators {
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>): void;
+  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.AdministratorListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -114,8 +114,8 @@ export class ServerAzureADAdministrators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ServerAdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdministratorListResult>): void;
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdministratorListResult>, callback?: msRest.ServiceCallback<Models.AdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,17 +132,17 @@ export class ServerAzureADAdministrators {
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param properties The required parameters for creating or updating an Active Directory
+   * @param parameters The required parameters for creating or updating an Active Directory
    * Administrator.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, properties: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         serverName,
-        properties,
+        parameters,
         options
       },
       beginCreateOrUpdateOperationSpec,
@@ -167,6 +167,34 @@ export class ServerAzureADAdministrators {
       beginDeleteMethodOperationSpec,
       options);
   }
+
+  /**
+   * Gets a list of server Administrators.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServerAzureADAdministratorsListByServerNextResponse>
+   */
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsListByServerNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AdministratorListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdministratorListResult>): void;
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdministratorListResult>, callback?: msRest.ServiceCallback<Models.AdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByServerNextOperationSpec,
+      callback) as Promise<Models.ServerAzureADAdministratorsListByServerNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -178,10 +206,10 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName0
+    Parameters.administratorName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -206,14 +234,14 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -229,16 +257,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName0
+    Parameters.administratorName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "properties",
+    parameterPath: "parameters",
     mapper: {
       ...Mappers.ServerAzureADAdministrator,
       required: true
@@ -251,9 +279,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ServerAzureADAdministrator
     },
-    202: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -268,23 +294,38 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName0
+    Parameters.administratorName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByServerNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
-    },
-    202: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
-    },
-    204: {
-      bodyMapper: Mappers.ServerAzureADAdministrator
+      bodyMapper: Mappers.AdministratorListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

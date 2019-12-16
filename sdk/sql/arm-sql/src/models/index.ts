@@ -850,24 +850,6 @@ export interface ReplicationLink extends ProxyResource {
 }
 
 /**
- * An server Active Directory Administrator.
- */
-export interface ServerAzureADAdministrator extends ProxyResource {
-  /**
-   * The server administrator login value.
-   */
-  login: string;
-  /**
-   * The server administrator Sid (Secure ID).
-   */
-  sid: string;
-  /**
-   * The server Active Directory Administrator tenant id.
-   */
-  tenantId: string;
-}
-
-/**
  * Server communication link.
  */
 export interface ServerCommunicationLink extends ProxyResource {
@@ -2308,7 +2290,7 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
@@ -2418,6 +2400,12 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2435,7 +2423,7 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
@@ -2545,6 +2533,12 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2558,7 +2552,7 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
@@ -2668,6 +2662,12 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2686,7 +2686,7 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
@@ -2796,6 +2796,12 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -3774,525 +3780,6 @@ export interface ElasticPoolOperation extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isCancellable?: boolean;
-}
-
-/**
- * The maximum size capability.
- */
-export interface MaxSizeCapability {
-  /**
-   * The maximum size limit (see 'unit' for the units).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
-   * 'Terabytes', 'Petabytes'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: MaxSizeUnit;
-}
-
-/**
- * The log size capability.
- */
-export interface LogSizeCapability {
-  /**
-   * The log size limit (see 'unit' for the units).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
-   * 'Terabytes', 'Petabytes', 'Percent'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: LogSizeUnit;
-}
-
-/**
- * The maximum size range capability.
- */
-export interface MaxSizeRangeCapability {
-  /**
-   * Minimum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly minValue?: MaxSizeCapability;
-  /**
-   * Maximum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxValue?: MaxSizeCapability;
-  /**
-   * Scale/step size for discrete values between the minimum value and the maximum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly scaleSize?: MaxSizeCapability;
-  /**
-   * Size of transaction log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly logSize?: LogSizeCapability;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The performance level capability.
- */
-export interface PerformanceLevelCapability {
-  /**
-   * Performance level value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-}
-
-/**
- * The license type capability
- */
-export interface LicenseTypeCapability {
-  /**
-   * License type identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The service objectives capability.
- */
-export interface ServiceObjectiveCapability {
-  /**
-   * The unique ID of the service objective.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The service objective name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported maximum database sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The performance level.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly performanceLevel?: PerformanceLevelCapability;
-  /**
-   * The sku.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: Sku;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * The included (free) max size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The edition capability.
- */
-export interface EditionCapability {
-  /**
-   * The database edition name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported service objectives for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedServiceLevelObjectives?: ServiceObjectiveCapability[];
-  /**
-   * Whether or not zone redundancy is supported for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zoneRedundant?: boolean;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The minimum per-database performance level capability.
- */
-export interface ElasticPoolPerDatabaseMinPerformanceLevelCapability {
-  /**
-   * The minimum performance level per database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The max per-database performance level capability.
- */
-export interface ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
-  /**
-   * The maximum performance level per database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-  /**
-   * The list of supported min database performance levels.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMinPerformanceLevels?: ElasticPoolPerDatabaseMinPerformanceLevelCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The Elastic Pool performance level capability.
- */
-export interface ElasticPoolPerformanceLevelCapability {
-  /**
-   * The performance level for the pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly performanceLevel?: PerformanceLevelCapability;
-  /**
-   * The sku.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: Sku;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * The maximum number of databases supported.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxDatabaseCount?: number;
-  /**
-   * The included (free) max size for this performance level.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * The list of supported max sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The list of supported per database max sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The list of supported per database max performance levels.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMaxPerformanceLevels?: ElasticPoolPerDatabaseMaxPerformanceLevelCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The elastic pool edition capability.
- */
-export interface ElasticPoolEditionCapability {
-  /**
-   * The elastic pool edition name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported elastic pool DTU levels for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedElasticPoolPerformanceLevels?: ElasticPoolPerformanceLevelCapability[];
-  /**
-   * Whether or not zone redundancy is supported for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zoneRedundant?: boolean;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The server capability
- */
-export interface ServerVersionCapability {
-  /**
-   * The server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported database editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedEditions?: EditionCapability[];
-  /**
-   * The list of supported elastic pool editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedElasticPoolEditions?: ElasticPoolEditionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed instance virtual cores capability.
- */
-export interface ManagedInstanceVcoresCapability {
-  /**
-   * The virtual cores identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The virtual cores value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: number;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed server family capability.
- */
-export interface ManagedInstanceFamilyCapability {
-  /**
-   * Family name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * SKU name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: string;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * List of supported virtual cores values.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedVcoresValues?: ManagedInstanceVcoresCapability[];
-  /**
-   * Included size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * Storage size ranges.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedStorageSizes?: MaxSizeRangeCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed server capability
- */
-export interface ManagedInstanceEditionCapability {
-  /**
-   * The managed server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The supported families.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedFamilies?: ManagedInstanceFamilyCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed instance capability
- */
-export interface ManagedInstanceVersionCapability {
-  /**
-   * The server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported managed instance editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedEditions?: ManagedInstanceEditionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The location capability.
- */
-export interface LocationCapabilities {
-  /**
-   * The location name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported server versions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedServerVersions?: ServerVersionCapability[];
-  /**
-   * The list of supported managed instance versions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedManagedInstanceVersions?: ManagedInstanceVersionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
 }
 
 /**
@@ -5747,6 +5234,841 @@ export interface PrivateLinkResource extends ProxyResource {
 }
 
 /**
+ * Azure Active Directory administrator.
+ */
+export interface ServerAzureADAdministrator extends ProxyResource {
+  /**
+   * Login name of the server administrator.
+   */
+  login: string;
+  /**
+   * SID (object ID) of the server administrator.
+   */
+  sid: string;
+  /**
+   * Tenant ID of the administrator.
+   */
+  tenantId?: string;
+}
+
+/**
+ * The maximum size capability.
+ */
+export interface MaxSizeCapability {
+  /**
+   * The maximum size limit (see 'unit' for the units).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
+   * 'Terabytes', 'Petabytes'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: MaxSizeUnit;
+}
+
+/**
+ * The log size capability.
+ */
+export interface LogSizeCapability {
+  /**
+   * The log size limit (see 'unit' for the units).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
+   * 'Terabytes', 'Petabytes', 'Percent'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: LogSizeUnit;
+}
+
+/**
+ * The maximum size range capability.
+ */
+export interface MaxSizeRangeCapability {
+  /**
+   * Minimum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minValue?: MaxSizeCapability;
+  /**
+   * Maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxValue?: MaxSizeCapability;
+  /**
+   * Scale/step size for discrete values between the minimum value and the maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scaleSize?: MaxSizeCapability;
+  /**
+   * Size of transaction log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logSize?: LogSizeCapability;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The performance level capability.
+ */
+export interface PerformanceLevelCapability {
+  /**
+   * Performance level value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+}
+
+/**
+ * The license type capability
+ */
+export interface LicenseTypeCapability {
+  /**
+   * License type identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * Supported auto pause delay time range
+ */
+export interface AutoPauseDelayTimeRange {
+  /**
+   * Minimum value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minValue?: number;
+  /**
+   * Maximum value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxValue?: number;
+  /**
+   * Step value for discrete values between the minimum value and the maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stepSize?: number;
+  /**
+   * Default value is no value is provided
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly default?: number;
+  /**
+   * Unit of time that delay is expressed in. Possible values include: 'Minutes'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PauseDelayTimeUnit;
+  /**
+   * Value that is used to not pause (infinite delay before pause)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly doNotPauseValue?: number;
+}
+
+/**
+ * The min capacity capability
+ */
+export interface MinCapacityCapability {
+  /**
+   * Min capacity value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The service objectives capability.
+ */
+export interface ServiceObjectiveCapability {
+  /**
+   * The unique ID of the service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The service objective name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported maximum database sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly performanceLevel?: PerformanceLevelCapability;
+  /**
+   * The sku.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * The included (free) max size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * Whether or not zone redundancy is supported for the service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * Supported time range for auto pause delay
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedAutoPauseDelay?: AutoPauseDelayTimeRange;
+  /**
+   * List of supported min capacities
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMinCapacities?: MinCapacityCapability[];
+  /**
+   * The compute model
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly computeModel?: string;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The read scale capability.
+ */
+export interface ReadScaleCapability {
+  /**
+   * The maximum number of read scale replicas.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxNumberOfReplicas?: number;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The storage account type capability.
+ */
+export interface StorageCapability {
+  /**
+   * The storage account type for the database's backups. Possible values include: 'GRS', 'LRS',
+   * 'ZRS'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageAccountType?: StorageAccountType;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The edition capability.
+ */
+export interface EditionCapability {
+  /**
+   * The database edition name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported service objectives for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedServiceLevelObjectives?: ServiceObjectiveCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The read scale capability for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly readScale?: ReadScaleCapability;
+  /**
+   * The list of supported storage capabilities for this edition
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedStorageCapabilities?: StorageCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The minimum per-database performance level capability.
+ */
+export interface ElasticPoolPerDatabaseMinPerformanceLevelCapability {
+  /**
+   * The minimum performance level per database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The max per-database performance level capability.
+ */
+export interface ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
+  /**
+   * The maximum performance level per database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+  /**
+   * The list of supported min database performance levels.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMinPerformanceLevels?: ElasticPoolPerDatabaseMinPerformanceLevelCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The Elastic Pool performance level capability.
+ */
+export interface ElasticPoolPerformanceLevelCapability {
+  /**
+   * The performance level for the pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly performanceLevel?: PerformanceLevelCapability;
+  /**
+   * The sku.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * The maximum number of databases supported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxDatabaseCount?: number;
+  /**
+   * The included (free) max size for this performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * The list of supported max sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The list of supported per database max sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The list of supported per database max performance levels.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMaxPerformanceLevels?: ElasticPoolPerDatabaseMaxPerformanceLevelCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The elastic pool edition capability.
+ */
+export interface ElasticPoolEditionCapability {
+  /**
+   * The elastic pool edition name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported elastic pool DTU levels for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedElasticPoolPerformanceLevels?: ElasticPoolPerformanceLevelCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The server capability
+ */
+export interface ServerVersionCapability {
+  /**
+   * The server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported database editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedEditions?: EditionCapability[];
+  /**
+   * The list of supported elastic pool editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedElasticPoolEditions?: ElasticPoolEditionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance virtual cores capability.
+ */
+export interface ManagedInstanceVcoresCapability {
+  /**
+   * The virtual cores identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The virtual cores value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Included size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * Storage size ranges.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedStorageSizes?: MaxSizeRangeCapability[];
+  /**
+   * True if this service objective is supported for managed instances in an instance pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instancePoolSupported?: boolean;
+  /**
+   * True if this service objective is supported for standalone managed instances.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly standaloneSupported?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed server family capability.
+ */
+export interface ManagedInstanceFamilyCapability {
+  /**
+   * Family name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * SKU name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: string;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * List of supported virtual cores values.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedVcoresValues?: ManagedInstanceVcoresCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed server capability
+ */
+export interface ManagedInstanceEditionCapability {
+  /**
+   * The managed server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The supported families.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFamilies?: ManagedInstanceFamilyCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance virtual cores capability.
+ */
+export interface InstancePoolVcoresCapability {
+  /**
+   * The virtual cores identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The virtual cores value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Storage limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageLimit?: MaxSizeCapability;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The instance pool family capability.
+ */
+export interface InstancePoolFamilyCapability {
+  /**
+   * Family name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * List of supported virtual cores values.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedVcoresValues?: InstancePoolVcoresCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The instance pool capability
+ */
+export interface InstancePoolEditionCapability {
+  /**
+   * The instance pool version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The supported families.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFamilies?: InstancePoolFamilyCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance capability
+ */
+export interface ManagedInstanceVersionCapability {
+  /**
+   * The server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported managed instance editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedEditions?: ManagedInstanceEditionCapability[];
+  /**
+   * The list of supported instance pool editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedInstancePoolEditions?: InstancePoolEditionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The location capability.
+ */
+export interface LocationCapabilities {
+  /**
+   * The location name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported server versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedServerVersions?: ServerVersionCapability[];
+  /**
+   * The list of supported managed instance versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedManagedInstanceVersions?: ManagedInstanceVersionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * Workload group operations for a data warehouse
+ */
+export interface WorkloadGroup extends ProxyResource {
+  /**
+   * The workload group minimum percentage resource.
+   */
+  minResourcePercent: number;
+  /**
+   * The workload group cap percentage resource.
+   */
+  maxResourcePercent: number;
+  /**
+   * The workload group request minimum grant percentage.
+   */
+  minResourcePercentPerRequest: number;
+  /**
+   * The workload group request maximum grant percentage.
+   */
+  maxResourcePercentPerRequest?: number;
+  /**
+   * The workload group importance level.
+   */
+  importance?: string;
+  /**
+   * The workload group query execution timeout.
+   */
+  queryExecutionTimeout?: number;
+}
+
+/**
+ * Workload classifier operations for a data warehouse
+ */
+export interface WorkloadClassifier extends ProxyResource {
+  /**
+   * The workload classifier member name.
+   */
+  memberName: string;
+  /**
+   * The workload classifier label.
+   */
+  label?: string;
+  /**
+   * The workload classifier context.
+   */
+  context?: string;
+  /**
+   * The workload classifier start time for classification.
+   */
+  startTime?: string;
+  /**
+   * The workload classifier end time for classification.
+   */
+  endTime?: string;
+  /**
+   * The workload classifier importance.
+   */
+  importance?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DatabasesFailoverOptionalParams extends msRest.RequestOptionsBase {
@@ -6074,18 +6396,6 @@ export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface CapabilitiesListByLocationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * If specified, restricts the response to only include the selected item. Possible values
-   * include: 'supportedEditions', 'supportedElasticPoolEditions',
-   * 'supportedManagedInstanceVersions'
-   */
-  include?: CapabilityGroup;
-}
-
-/**
- * Optional Parameters.
- */
 export interface ManagedInstanceKeysListByInstanceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * An OData filter expression that filters elements in the collection.
@@ -6126,6 +6436,19 @@ export interface UsagesListByInstancePoolOptionalParams extends msRest.RequestOp
    * Optional request parameter to include managed instance usages within the instance pool.
    */
   expandChildren?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CapabilitiesListByLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * If specified, restricts the response to only include the selected item. Possible values
+   * include: 'supportedEditions', 'supportedElasticPoolEditions',
+   * 'supportedManagedInstanceVersions', 'supportedInstancePoolEditions',
+   * 'supportedManagedInstanceEditions'
+   */
+  include?: CapabilityGroup;
 }
 
 /**
@@ -6252,14 +6575,6 @@ export interface RecommendedElasticPoolListMetricsResult extends Array<Recommend
  * @extends Array<ReplicationLink>
  */
 export interface ReplicationLinkListResult extends Array<ReplicationLink> {
-}
-
-/**
- * @interface
- * The response to a list Active Directory Administrators request.
- * @extends Array<ServerAzureADAdministrator>
- */
-export interface ServerAdministratorListResult extends Array<ServerAzureADAdministrator> {
 }
 
 /**
@@ -6977,6 +7292,45 @@ export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource
 }
 
 /**
+ * @interface
+ * A list of active directory administrators.
+ * @extends Array<ServerAzureADAdministrator>
+ */
+export interface AdministratorListResult extends Array<ServerAzureADAdministrator> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of workload groups.
+ * @extends Array<WorkloadGroup>
+ */
+export interface WorkloadGroupListResult extends Array<WorkloadGroup> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of workload classifiers for a workload group.
+ * @extends Array<WorkloadClassifier>
+ */
+export interface WorkloadClassifierListResult extends Array<WorkloadClassifier> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for CheckNameAvailabilityReason.
  * Possible values include: 'Invalid', 'AlreadyExists'
  * @readonly
@@ -7445,38 +7799,6 @@ export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
 export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
 
 /**
- * Defines values for MaxSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
- * @readonly
- * @enum {string}
- */
-export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
-
-/**
- * Defines values for LogSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
- * @readonly
- * @enum {string}
- */
-export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
-
-/**
- * Defines values for CapabilityStatus.
- * Possible values include: 'Visible', 'Available', 'Default', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
-
-/**
- * Defines values for PerformanceLevelUnit.
- * Possible values include: 'DTU', 'VCores'
- * @readonly
- * @enum {string}
- */
-export type PerformanceLevelUnit = 'DTU' | 'VCores';
-
-/**
  * Defines values for CreateMode.
  * Possible values include: 'Default', 'Copy', 'Secondary', 'PointInTimeRestore', 'Restore',
  * 'Recovery', 'RestoreExternalBackup', 'RestoreExternalBackupSecondary',
@@ -7619,6 +7941,46 @@ export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creatin
 export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery';
 
 /**
+ * Defines values for MaxSizeUnit.
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
+ * @readonly
+ * @enum {string}
+ */
+export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
+
+/**
+ * Defines values for LogSizeUnit.
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
+ * @readonly
+ * @enum {string}
+ */
+export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
+
+/**
+ * Defines values for CapabilityStatus.
+ * Possible values include: 'Visible', 'Available', 'Default', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
+
+/**
+ * Defines values for PerformanceLevelUnit.
+ * Possible values include: 'DTU', 'VCores'
+ * @readonly
+ * @enum {string}
+ */
+export type PerformanceLevelUnit = 'DTU' | 'VCores';
+
+/**
+ * Defines values for PauseDelayTimeUnit.
+ * Possible values include: 'Minutes'
+ * @readonly
+ * @enum {string}
+ */
+export type PauseDelayTimeUnit = 'Minutes';
+
+/**
  * Defines values for LongTermRetentionDatabaseState.
  * Possible values include: 'All', 'Live', 'Deleted'
  * @readonly
@@ -7643,21 +8005,30 @@ export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
 export type SensitivityLabelSource = 'current' | 'recommended';
 
 /**
- * Defines values for CapabilityGroup.
- * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
- * 'supportedManagedInstanceVersions'
- * @readonly
- * @enum {string}
- */
-export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions';
-
-/**
  * Defines values for ReplicaType.
  * Possible values include: 'Primary', 'ReadableSecondary'
  * @readonly
  * @enum {string}
  */
 export type ReplicaType = 'Primary' | 'ReadableSecondary';
+
+/**
+ * Defines values for CapabilityGroup.
+ * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
+ * 'supportedManagedInstanceVersions', 'supportedInstancePoolEditions',
+ * 'supportedManagedInstanceEditions'
+ * @readonly
+ * @enum {string}
+ */
+export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions' | 'supportedInstancePoolEditions' | 'supportedManagedInstanceEditions';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'GRS', 'LRS', 'ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'GRS' | 'LRS' | 'ZRS';
 
 /**
  * Defines values for Type.
@@ -8924,126 +9295,6 @@ export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult &
        * The response body as parsed JSON or XML
        */
       parsedBody: ReplicationLinkListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerAzureADAdministratorsCreateOrUpdateResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type ServerAzureADAdministratorsDeleteMethodResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerAzureADAdministratorsGetResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type ServerAzureADAdministratorsListByServerResponse = ServerAdministratorListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServerAzureADAdministratorsBeginCreateOrUpdateResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type ServerAzureADAdministratorsBeginDeleteMethodResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
     };
 };
 
@@ -13568,26 +13819,6 @@ export type ElasticPoolOperationsListByElasticPoolNextResponse = ElasticPoolOper
 };
 
 /**
- * Contains response data for the listByLocation operation.
- */
-export type CapabilitiesListByLocationResponse = LocationCapabilities & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LocationCapabilities;
-    };
-};
-
-/**
  * Contains response data for the listByDatabase operation.
  */
 export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
@@ -15484,5 +15715,325 @@ export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceLi
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerAzureADAdministratorsGetResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerAzureADAdministratorsCreateOrUpdateResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type ServerAzureADAdministratorsListByServerResponse = AdministratorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdministratorListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ServerAzureADAdministratorsBeginCreateOrUpdateResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ServerAzureADAdministratorsListByServerNextResponse = AdministratorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdministratorListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type CapabilitiesListByLocationResponse = LocationCapabilities & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LocationCapabilities;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkloadGroupsGetResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkloadGroupsCreateOrUpdateResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type WorkloadGroupsListByDatabaseResponse = WorkloadGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkloadGroupsBeginCreateOrUpdateResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type WorkloadGroupsListByDatabaseNextResponse = WorkloadGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkloadClassifiersGetResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkloadClassifiersCreateOrUpdateResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkloadGroup operation.
+ */
+export type WorkloadClassifiersListByWorkloadGroupResponse = WorkloadClassifierListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifierListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkloadClassifiersBeginCreateOrUpdateResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkloadGroupNext operation.
+ */
+export type WorkloadClassifiersListByWorkloadGroupNextResponse = WorkloadClassifierListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifierListResult;
     };
 };
