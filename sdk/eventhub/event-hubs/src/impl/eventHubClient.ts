@@ -407,10 +407,14 @@ export class EventHubClient {
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
   }
 
-  private _createClientSpan(operationName: OperationNames, parentSpan?: Span | SpanContext): Span {
+  private _createClientSpan(
+    operationName: OperationNames,
+    parentSpan?: Span | SpanContext,
+    internal: boolean = false
+  ): Span {
     const tracer = getTracer();
     const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: SpanKind.INTERNAL,
+      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
       parent: parentSpan
     });
 
@@ -585,7 +589,7 @@ export class EventHubClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options));
+    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options), true);
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
