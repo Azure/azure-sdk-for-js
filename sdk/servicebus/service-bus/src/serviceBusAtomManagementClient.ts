@@ -868,17 +868,19 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       const urlPrefix = `sb://${this.endpoint}/`;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
-        queueOrSubscriptionFields.ForwardTo = isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)
-          ? queueOrSubscriptionFields.ForwardTo
-          : urlPrefix.concat(queueOrSubscriptionFields.ForwardTo);
+        if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)) {
+          queueOrSubscriptionFields.ForwardTo = urlPrefix.concat(
+            queueOrSubscriptionFields.ForwardTo
+          );
+        }
       }
       if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
         webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = isAbsoluteUri(
-          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-        )
-          ? queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-          : urlPrefix.concat(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo);
+        if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = urlPrefix.concat(
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+          );
+        }
       }
     }
 
