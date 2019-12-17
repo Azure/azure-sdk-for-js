@@ -4,6 +4,10 @@
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 // This sample creates, updates and deletes certificate contacts.
 
 export async function main(): Promise<void> {

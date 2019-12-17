@@ -4,6 +4,10 @@
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
 // then deletes them, then lists the deleted certificates.

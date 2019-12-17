@@ -4,6 +4,9 @@
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // This sample creates a self-signed certificate, then deletes it, then recovers it.
 // Soft-delete is required for this sample to run: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete
 

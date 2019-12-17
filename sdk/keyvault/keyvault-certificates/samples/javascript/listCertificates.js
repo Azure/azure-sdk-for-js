@@ -4,6 +4,9 @@
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
 // then deletes them, then lists the deleted certificates.

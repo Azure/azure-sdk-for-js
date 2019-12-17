@@ -7,6 +7,10 @@ import * as childProcess from "child_process";
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.
 

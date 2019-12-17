@@ -4,6 +4,10 @@
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 // This sample creates a self-signed certificate, reads it in various ways,
 // updates the tags of the certificate and finally deletes the certificate.
 

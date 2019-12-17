@@ -4,6 +4,9 @@
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // This sample creates a self-signed certificate, then makes a backup from it,
 // then deletes it and purges it, and finally restores it.
 

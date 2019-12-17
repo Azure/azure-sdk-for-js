@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-const { CertificateClient } = require("../../dist");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates, updates and deletes a certificate's operation.
 
