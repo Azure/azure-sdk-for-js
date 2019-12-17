@@ -96,7 +96,7 @@ export class PartitionPump {
 
         const span = createSpanForReceivedEvents(receivedEvents, this._eventHubClient, this._processorOptions, getTracer());
 
-        return trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
+        await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
       } catch (err) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
