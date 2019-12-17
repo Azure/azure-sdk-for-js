@@ -1853,7 +1853,9 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,
