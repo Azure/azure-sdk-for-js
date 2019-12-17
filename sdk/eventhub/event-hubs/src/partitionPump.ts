@@ -97,7 +97,7 @@ export class PartitionPump {
           return;
         }
 
-        const span = createSpanForReceivedEvents(
+        const span = createProcessingSpan(
           receivedEvents,
           this._eventHubClient,
           this._processorOptions,
@@ -180,7 +180,7 @@ export function getStartingPosition(
  * @internal
  * @ignore
  */
-export function createSpanForReceivedEvents(
+export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
   eventHubProperties: { eventHubName: string; endpoint: string },
   tracingOptions: TracingOptions,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { getStartingPosition, createSpanForReceivedEvents, trace } from "../src/partitionPump";
+import { getStartingPosition, createProcessingSpan, trace } from "../src/partitionPump";
 import { EventPosition } from "../src/eventPosition";
 import { NoOpSpan } from "@azure/core-tracing";
 import {
@@ -43,7 +43,7 @@ describe("PartitionPump", () => {
       const fakeParentSpan = new NoOpSpan();
       const createdSpan = new SlightlyLessNoOpSpan("myspan");
 
-      const actualReturnedSpan = await createSpanForReceivedEvents(
+      const actualReturnedSpan = await createProcessingSpan(
         [],
         eventHubProperties,
         {
@@ -99,7 +99,7 @@ describe("PartitionPump", () => {
         ) as ReceivedEventData
       ];
 
-      await createSpanForReceivedEvents(
+      await createProcessingSpan(
         receivedEvents,
         eventHubProperties,
         {},
