@@ -427,34 +427,9 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
 /**
  * @ignore
- * Helper utility to extract the relative path from given URL,
- * or undefined / empty if not existing.
- * Valid relative paths used in the ATOM based management API are in format
- *     - `<queue-name>`
- *     - `<topic-name>`
- *     - `<topic-name>/Subscriptions/<subscription-name>`
- *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+ * Helper utility to check if given string is an absolute URI
  * @param url
  */
-export function getRelativePathOrUndefined(url: string): string | undefined {
-  let stringValue = getStringOrUndefined(url);
-  if (stringValue == undefined) {
-    return undefined;
-  }
-
-  // Skip the network protocol prefix in URL. 
-  // The service ensures the value of this property will always use a valid FQDN
-  if (stringValue.startsWith("sb://")) {
-    stringValue = stringValue.substring(5);
-  } else if (stringValue.startsWith("http://")) {
-    stringValue = stringValue.substring(7);
-  } else if (stringValue.startsWith("https://")) {
-    stringValue = stringValue.substring(8);
-  } else {
-    // Return complete URI value if it's not one of the recognized FQDN formats
-    return stringValue;
-  }
-
-  const indexOfFirstSlash = stringValue.indexOf("/");
-  return stringValue.substring(indexOfFirstSlash + 1);
+export function isAbsoluteUri(url: string) {
+  return url.startsWith("sb://") || url.startsWith("http://") || url.startsWith("https://");
 }

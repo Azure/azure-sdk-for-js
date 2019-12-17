@@ -520,7 +520,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn"
+        "accessedOn",
+        "forwardTo",
+        "forwardDeadLetteredMessagesTo"
       ]);
     });
   });
@@ -679,6 +681,26 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         testCase.input
       );
 
+      if (response.forwardTo) {
+        assert.equal(
+          response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
+          true,
+          `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
+        );
+      }
+
+      if (response.forwardDeadLetteredMessagesTo) {
+        assert.equal(
+          response.forwardDeadLetteredMessagesTo.indexOf(
+            testCase.input!.forwardDeadLetteredMessagesTo
+          ) > 0,
+          true,
+          `Expected forwardDeadLetteredMessagesTo field in response to contain ${
+            testCase.input!.forwardDeadLetteredMessagesTo
+          }`
+        );
+      }
+
       should.equal(
         response.subscriptionName,
         testCase.subscriptionName,
@@ -688,7 +710,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn"
+        "accessedOn",
+        "forwardTo",
+        "forwardDeadLetteredMessagesTo"
       ]);
     });
   });
@@ -929,11 +953,34 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       );
       await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+
+      if (response.forwardTo) {
+        assert.equal(
+          response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
+          true,
+          `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
+        );
+      }
+
+      if (response.forwardDeadLetteredMessagesTo) {
+        assert.equal(
+          response.forwardDeadLetteredMessagesTo.indexOf(
+            testCase.input!.forwardDeadLetteredMessagesTo
+          ) > 0,
+          true,
+          `Expected forwardDeadLetteredMessagesTo field in response to contain ${
+            testCase.input!.forwardDeadLetteredMessagesTo
+          }`
+        );
+      }
+
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn"
+        "accessedOn",
+        "forwardTo",
+        "forwardDeadLetteredMessagesTo"
       ]);
     });
   });
@@ -1062,7 +1109,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn"
+        "accessedOn",
+        "forwardTo",
+        "forwardDeadLetteredMessagesTo"
       ]);
     });
   });
@@ -1322,11 +1371,33 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           testCase.input
         );
 
+        if (response.forwardTo) {
+          assert.equal(
+            response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
+            true,
+            `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
+          );
+        }
+
+        if (response.forwardDeadLetteredMessagesTo) {
+          assert.equal(
+            response.forwardDeadLetteredMessagesTo.indexOf(
+              testCase.input!.forwardDeadLetteredMessagesTo
+            ) > 0,
+            true,
+            `Expected forwardDeadLetteredMessagesTo field in response to contain ${
+              testCase.input!.forwardDeadLetteredMessagesTo
+            }`
+          );
+        }
+
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn"
+          "accessedOn",
+          "forwardTo",
+          "forwardDeadLetteredMessagesTo"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1446,7 +1517,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn"
+          "accessedOn",
+          "forwardTo",
+          "forwardDeadLetteredMessagesTo"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1591,11 +1664,33 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           testCase.input
         );
 
+        if (response.forwardTo) {
+          assert.equal(
+            response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
+            true,
+            `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
+          );
+        }
+
+        if (response.forwardDeadLetteredMessagesTo) {
+          assert.equal(
+            response.forwardDeadLetteredMessagesTo.indexOf(
+              testCase.input!.forwardDeadLetteredMessagesTo
+            ) > 0,
+            true,
+            `Expected forwardDeadLetteredMessagesTo field in response to contain ${
+              testCase.input!.forwardDeadLetteredMessagesTo
+            }`
+          );
+        }
+
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn"
+          "accessedOn",
+          "forwardTo",
+          "forwardDeadLetteredMessagesTo"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1702,7 +1797,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn"
+          "accessedOn",
+          "forwardTo",
+          "forwardDeadLetteredMessagesTo"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);

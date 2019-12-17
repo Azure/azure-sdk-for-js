@@ -16,8 +16,7 @@ import {
   MessageCountDetails,
   getString,
   getInteger,
-  getBoolean,
-  getRelativePathOrUndefined
+  getBoolean
 } from "../util/utils";
 
 /**
@@ -94,14 +93,14 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS],
       "deadLetteringOnFilterEvaluationExceptions"
     ),
-    forwardDeadLetteredMessagesTo: getRelativePathOrUndefined(
+    forwardDeadLetteredMessagesTo: getStringOrUndefined(
       rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
     ),
     defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
 
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
 
-    forwardTo: getRelativePathOrUndefined(rawSubscription[Constants.FORWARD_TO]),
+    forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
     entityAvailabilityStatus: getString(

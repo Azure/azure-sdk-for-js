@@ -18,8 +18,7 @@ import {
   getInteger,
   getBoolean,
   getString,
-  getBooleanOrUndefined,
-  getRelativePathOrUndefined
+  getBooleanOrUndefined
 } from "../util/utils";
 
 /**
@@ -63,7 +62,7 @@ export function buildQueue(rawQueue: any): QueueDetails {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
-    forwardTo: getRelativePathOrUndefined(rawQueue[Constants.FORWARD_TO]),
+    forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
     path: rawQueue[Constants.PATH],
     userMetadata: rawQueue[Constants.USER_METADATA],
 
@@ -99,7 +98,7 @@ export function buildQueue(rawQueue: any): QueueDetails {
       rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
       "deadLetteringOnMessageExpiration"
     ),
-    forwardDeadLetteredMessagesTo: getRelativePathOrUndefined(
+    forwardDeadLetteredMessagesTo: getStringOrUndefined(
       rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
     ),
 

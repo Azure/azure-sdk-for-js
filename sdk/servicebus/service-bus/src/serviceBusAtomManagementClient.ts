@@ -56,7 +56,7 @@ import {
   Rule,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUri } from "./util/utils";
 
 /**
  * Options to use with ServiceBusAtomManagementClient creation
@@ -868,13 +868,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       const urlPrefix = `sb://${this.endpoint}/`;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
-        queueOrSubscriptionFields.ForwardTo = urlPrefix.concat(queueOrSubscriptionFields.ForwardTo);
+        queueOrSubscriptionFields.ForwardTo = isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)
+          ? queueOrSubscriptionFields.ForwardTo
+          : urlPrefix.concat(queueOrSubscriptionFields.ForwardTo);
       }
       if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
         webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = urlPrefix.concat(
+        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = isAbsoluteUri(
           queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-        );
+        )
+          ? queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+          : urlPrefix.concat(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo);
       }
     }
 
