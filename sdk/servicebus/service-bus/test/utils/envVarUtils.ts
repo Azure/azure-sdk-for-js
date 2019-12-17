@@ -23,7 +23,17 @@ export enum EnvVarKeys {
   AAD_TENANT_ID = "AAD_TENANT_ID",
   RESOURCE_GROUP = "RESOURCE_GROUP",
   AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID",
-  CLEAN_NAMESPACE = "CLEAN_NAMESPACE"
+  CLEAN_NAMESPACE = "CLEAN_NAMESPACE",
+  MANAGEMENT_QUEUE_1 = "MANAGEMENT_QUEUE_1",
+  MANAGEMENT_TOPIC_1 = "MANAGEMENT_TOPIC_1",
+  MANAGEMENT_SUBSCRIPTION_1 = "MANAGEMENT_SUBSCRIPTION_1",
+  MANAGEMENT_RULE_1 = "MANAGEMENT_RULE_1",
+  MANAGEMENT_TOPIC_2 = "MANAGEMENT_TOPIC_2",
+  MANAGEMENT_SUBSCRIPTION_2 = "MANAGEMENT_SUBSCRIPTION_2",
+  MANAGEMENT_TOPIC_3 = "MANAGEMENT_TOPIC_3",
+  MANAGEMENT_SUBSCRIPTION_3 = "MANAGEMENT_SUBSCRIPTION_3",
+  MANAGEMENT_NEW_ENTITY_1 = "MANAGEMENT_NEW_ENTITY_1",
+  MANAGEMENT_NEW_ENTITY_2 = "MANAGEMENT_NEW_ENTITY_2"
 }
 
 const mandatoryEnvVars = [EnvVarKeys.SERVICEBUS_CONNECTION_STRING];
@@ -107,6 +117,36 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
       break;
     case EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME:
       defaultValue = "topic-filter-default-subscription";
+      break;
+    case EnvVarKeys.MANAGEMENT_QUEUE_1:
+      defaultValue = "management-queue-1";
+      break;
+    case EnvVarKeys.MANAGEMENT_TOPIC_1:
+      defaultValue = "management-topic-1";
+      break;
+    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1:
+      defaultValue = "management-subscription-1";
+      break;
+    case EnvVarKeys.MANAGEMENT_RULE_1:
+      defaultValue = "management-rule-1";
+      break;
+    case EnvVarKeys.MANAGEMENT_TOPIC_2:
+      defaultValue = "management-topic-2";
+      break;
+    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2:
+      defaultValue = "management-subscription-2";
+      break;
+    case EnvVarKeys.MANAGEMENT_TOPIC_3:
+      defaultValue = "management-topic-3";
+      break;
+    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3:
+      defaultValue = "management-subscription-3";
+      break;
+    case EnvVarKeys.MANAGEMENT_NEW_ENTITY_1:
+      defaultValue = "management-new-entity-1";
+      break;
+    case EnvVarKeys.MANAGEMENT_NEW_ENTITY_2:
+      defaultValue = "management-new-entity-2";
       break;
   }
 
@@ -221,7 +261,32 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
     [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
     [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
-    [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false
+    [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false,
+    [EnvVarKeys.MANAGEMENT_QUEUE_1]: getEnvVarValue(EnvVarKeys.MANAGEMENT_QUEUE_1, forBrowser),
+    [EnvVarKeys.MANAGEMENT_TOPIC_1]: getEnvVarValue(EnvVarKeys.MANAGEMENT_TOPIC_1, forBrowser),
+    [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1]: getEnvVarValue(
+      EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1,
+      forBrowser
+    ),
+    [EnvVarKeys.MANAGEMENT_RULE_1]: getEnvVarValue(EnvVarKeys.MANAGEMENT_RULE_1, forBrowser),
+    [EnvVarKeys.MANAGEMENT_TOPIC_2]: getEnvVarValue(EnvVarKeys.MANAGEMENT_TOPIC_2, forBrowser),
+    [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2]: getEnvVarValue(
+      EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2,
+      forBrowser
+    ),
+    [EnvVarKeys.MANAGEMENT_TOPIC_3]: getEnvVarValue(EnvVarKeys.MANAGEMENT_TOPIC_3, forBrowser),
+    [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3]: getEnvVarValue(
+      EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3,
+      forBrowser
+    ),
+    [EnvVarKeys.MANAGEMENT_NEW_ENTITY_1]: getEnvVarValue(
+      EnvVarKeys.MANAGEMENT_NEW_ENTITY_1,
+      forBrowser
+    ),
+    [EnvVarKeys.MANAGEMENT_NEW_ENTITY_2]: getEnvVarValue(
+      EnvVarKeys.MANAGEMENT_NEW_ENTITY_2,
+      forBrowser
+    )
   };
 
   return result;

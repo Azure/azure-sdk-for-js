@@ -34,38 +34,44 @@ enum EntityType {
   RULE = "Rule"
 }
 
-const alwaysBeExistingQueue = "alwaysbeexistingqueue";
-const alwaysBeExistingTopic = "alwaysbeexistingtopic";
-const alwaysBeExistingSubscription = "alwaysbeexistingsubscription";
-const alwaysBeExistingRule = "alwaysbeexistingrule";
+const managementQueue1 = env[EnvVarKeys.MANAGEMENT_QUEUE_1];
+const managementTopic1 = env[EnvVarKeys.MANAGEMENT_TOPIC_1];
+const managementSubscription1 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1];
+const managementRule1 = env[EnvVarKeys.MANAGEMENT_RULE_1];
+const managementTopic2 = env[EnvVarKeys.MANAGEMENT_TOPIC_2];
+const managementTopic3 = env[EnvVarKeys.MANAGEMENT_TOPIC_3];
+const managementSubscription2 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2];
+const managementSubscription3 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3];
+const newManagementEntity1 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_1];
+const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
 
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue
+    entityName: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: alwaysBeExistingTopic
+    entityName: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: alwaysBeExistingSubscription,
-    parentTopicName: alwaysBeExistingTopic
+    entityName: managementSubscription1,
+    parentTopicName: managementTopic1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: alwaysBeExistingRule,
-    parentTopicName: alwaysBeExistingTopic,
-    parentSubscriptionName: alwaysBeExistingSubscription
+    entityName: managementRule1,
+    parentTopicName: managementTopic1,
+    parentSubscriptionName: managementSubscription1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
+  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
     before(async () => {
-      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      await createEntity(EntityType.TOPIC, managementTopic1);
 
       try {
-        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
+        await deleteEntity(EntityType.TOPIC, managementTopic2);
       } catch (err) {
         // Ignoring as creating topic test with input variations may fail
         // and handling this clean along with test case results in resource conflict error
@@ -73,7 +79,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
       try {
-        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic2");
+        await deleteEntity(EntityType.TOPIC, managementTopic3);
       } catch (err) {
         // Ignoring as creating topic test with input variations may fail
         // and handling this clean along with test case results in resource conflict error
@@ -81,23 +87,19 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
       }
 
-      await createEntity(
-        EntityType.SUBSCRIPTION,
-        alwaysBeExistingSubscription,
-        alwaysBeExistingTopic
-      );
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await createEntity(EntityType.SUBSCRIPTION, managementSubscription1, managementTopic1);
+      await createEntity(EntityType.QUEUE, managementQueue1);
       await createEntity(
         EntityType.RULE,
-        alwaysBeExistingRule,
-        alwaysBeExistingTopic,
-        alwaysBeExistingSubscription
+        managementRule1,
+        managementTopic1,
+        managementSubscription1
       );
     });
 
     after(async () => {
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      await deleteEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
 
     it(`List on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
@@ -171,7 +173,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
           case EntityType.SUBSCRIPTION:
             try {
-              error = await getEntity(testCase.entityType, "notexisting", alwaysBeExistingTopic);
+              error = await getEntity(testCase.entityType, "notexisting", managementTopic1);
             } catch (err) {
               error = err;
             }
@@ -182,8 +184,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
               error = await getEntity(
                 testCase.entityType,
                 "notexisting",
-                alwaysBeExistingTopic,
-                alwaysBeExistingSubscription
+                managementTopic1,
+                managementSubscription1
               );
             } catch (err) {
               error = err;
@@ -212,7 +214,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       try {
         await createEntity(
           testCase.entityType,
-          testCase.alwaysBeExistingEntity,
+          testCase.entityName,
           testCase.parentTopicName,
           testCase.parentSubscriptionName
         );
@@ -244,13 +246,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
       const response = await updateEntity(
         testCase.entityType,
-        testCase.alwaysBeExistingEntity,
+        testCase.entityName,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.alwaysBeExistingEntity,
+        testCase.entityName,
         "Entity name mismatch"
       );
     });
@@ -282,13 +284,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
       const response = await getEntity(
         testCase.entityType,
-        testCase.alwaysBeExistingEntity,
+        testCase.entityName,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.alwaysBeExistingEntity,
+        testCase.entityName,
         "Entity name mismatch"
       );
     });
@@ -345,13 +347,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
       await createEntity(
         testCase.entityType,
-        "entity1",
+        newManagementEntity1,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
       const response = await deleteEntity(
         testCase.entityType,
-        "entity1",
+        newManagementEntity1,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
@@ -362,21 +364,21 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
       const response = await createEntity(
         testCase.entityType,
-        "entity2",
+        newManagementEntity2,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
 
       await deleteEntity(
         testCase.entityType,
-        "entity2",
+        newManagementEntity2,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
 
       should.equal(
         response[testCase.entityType.toLowerCase() + "Name"],
-        "entity2",
+        newManagementEntity2,
         "Entity name mismatch"
       );
     });
@@ -405,7 +407,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
       messageCount: 0,
-      queueName: alwaysBeExistingQueue,
+      queueName: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
       sizeInBytes: 0,
@@ -509,22 +511,22 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       status: "Active",
-      queueName: alwaysBeExistingQueue
+      queueName: managementQueue1
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
-        alwaysBeExistingQueue,
+        managementQueue1,
         undefined,
         undefined,
         true,
         testCase.input
       );
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -541,7 +543,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // If this is a retry for failed operation, background clean up is still pending. Try again later."
 [
   {
-    topicName: "alwaysBeExistingTopic1",
+    topicName: managementTopic2,
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
@@ -570,11 +572,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       status: "Active",
       subscriptionCount: undefined,
       supportOrdering: true,
-      topicName: "alwaysBeExistingTopic1"
+      topicName: managementTopic2
     }
   },
   {
-    topicName: "alwaysBeExistingTopic2",
+    topicName: managementTopic3,
     testCaseTitle: "all properties",
     input: {
       sizeInBytes: 100,
@@ -651,11 +653,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       status: "Active",
-      topicName: "alwaysBeExistingTopic2"
+      topicName: managementTopic3
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
@@ -681,8 +683,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // Subscription tests
 [
   {
-    subscriptionName: "alwaysBeExistingSubscription1",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription2,
+    topicName: managementTopic2,
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -705,13 +707,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresSession: false,
       sizeInBytes: undefined,
       status: "Active",
-      subscriptionName: "alwaysBeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription2,
+      topicName: managementTopic2
     }
   },
   {
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT5M",
@@ -761,12 +763,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       status: "Active",
 
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -799,8 +801,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     testCaseTitle: "Undefined rule options",
     ruleName: "temp_rule_1",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: undefined,
     output: {
       filter: {
@@ -817,15 +819,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       },
 
       ruleName: "temp_rule_1",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Sql Filter rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
@@ -854,15 +856,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       },
 
       ruleName: "temp_rule_2",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
     ruleName: "temp_rule_3",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: {
       filter: {
         correlationId: "abcd"
@@ -889,12 +891,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       },
 
       ruleName: "temp_rule_3",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -1032,13 +1034,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresDuplicateDetection: true,
       requiresSession: true,
       enablePartitioning: true,
-      queueName: alwaysBeExistingQueue
+      queueName: managementQueue1
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
+      await createEntity(EntityType.QUEUE, managementQueue1, undefined, undefined, true, {
         // This should be a proper URL else the service returns an error
         // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
         // forwardDeadLetteredMessagesTo: "",
@@ -1080,14 +1082,14 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       });
     });
     afterEach(async () => {
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
 
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
           EntityType.QUEUE,
-          alwaysBeExistingQueue,
+          managementQueue1,
           undefined,
           undefined,
           true,
@@ -1110,7 +1112,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // Topic tests
 [
   {
-    topicName: "alwaysBeExistingTopic1",
+    topicName: managementTopic2,
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
@@ -1118,7 +1120,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    topicName: "alwaysBeExistingTopic1",
+    topicName: managementTopic2,
     testCaseTitle: "all properties",
     input: {
       sizeInBytes: 200,
@@ -1197,11 +1199,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       messageCountDetails: undefined,
 
-      topicName: "alwaysbeexistingtopic1"
+      topicName: managementTopic2
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1230,8 +1232,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // Subscription tests
 [
   {
-    topicName: alwaysBeExistingTopic,
-    subscriptionName: "alwaysBeExistingSubscription1",
+    topicName: managementTopic1,
+    subscriptionName: managementSubscription2,
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -1239,8 +1241,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    topicName: "alwaysBeExistingTopic1",
-    subscriptionName: "alwaysbeExistingSubscription1",
+    topicName: managementTopic2,
+    subscriptionName: managementSubscription2,
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT3M",
@@ -1291,12 +1293,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       status: "Active",
 
-      subscriptionName: "alwaysbeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription2,
+      topicName: managementTopic2
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1328,8 +1330,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     testCaseTitle: "Undefined rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: undefined,
     output: {
       testErrorMessage: `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
@@ -1338,8 +1340,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     testCaseTitle: "Sql Filter rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
@@ -1362,15 +1364,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       },
 
       ruleName: "temp_rule_2",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
     ruleName: "temp_rule_3",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: managementSubscription3,
+    topicName: managementTopic2,
     input: {
       filter: {
         correlationId: "defg"
@@ -1397,12 +1399,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       },
 
       ruleName: "temp_rule_3",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription3,
+      topicName: managementTopic2
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -1439,15 +1441,6 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
       err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
       true,
       `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err.message}"`
-    );
-  }
-
-  if (expectedtestOutput.testErrorCode) {
-    isErrorExpected = true;
-    should.equal(
-      err.code && err.code.startsWith(expectedtestOutput.testErrorCode),
-      true,
-      `Expected error code to start with "${expectedtestOutput.testErrorCode}" but received "${err.code}"`
     );
   }
 
