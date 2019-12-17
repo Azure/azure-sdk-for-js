@@ -9,7 +9,7 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { getParentSpan, TracingOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
@@ -183,7 +183,7 @@ export function getStartingPosition(
 export function createSpanForReceivedEvents(
   receivedEvents: ReceivedEventData[],
   eventHubProperties: { eventHubName: string; endpoint: string },
-  operationOptions: OperationOptions,
+  tracingOptions: TracingOptions,
   tracerLite: Pick<Tracer, "startSpan">
 ): Span {
   const links: Link[] = [];
@@ -203,7 +203,7 @@ export function createSpanForReceivedEvents(
   const span = tracerLite.startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links: links,
-    parent: getParentSpan(operationOptions)
+    parent: getParentSpan(tracingOptions)
   });
 
   span.setAttributes({
