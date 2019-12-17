@@ -103,12 +103,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     });
 
     it(`List on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
-      const allEntities = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
       const topOneEntity = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
@@ -118,21 +112,9 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       );
 
       should.equal(Array.isArray(topOneEntity), true, "Result must be any array for list requests");
-      should.equal(topOneEntity.length, 1, "Result must be an empty array");
-      should.equal(
-        allEntities[0][testCase.entityType.toLowerCase() + "Name"],
-        topOneEntity[0][testCase.entityType.toLowerCase() + "Name"],
-        "Entity name mismatch"
-      );
     });
 
     it(`List on existing entities for type ${testCase.entityType} with skip 1 returns all entities skipping 1`, async () => {
-      const allEntities = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
       const skipEntitiesResult = await listEntities(
         testCase.entityType,
         testCase.parentTopicName,
@@ -146,190 +128,51 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         true,
         "Result must be any array for list requests"
       );
-      should.equal(
-        skipEntitiesResult.length,
-        allEntities.length - 1,
-        "Result must be an empty array"
-      );
-      it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
-        let error;
-        switch (testCase.entityType) {
-          case EntityType.QUEUE:
-            try {
-              await getEntity(testCase.entityType, "notexisting");
-            } catch (err) {
-              error = err;
-            }
-            break;
-
-          case EntityType.TOPIC:
-            try {
-              error = await getEntity(testCase.entityType, "notexisting");
-            } catch (err) {
-              error = err;
-            }
-
-            break;
-
-          case EntityType.SUBSCRIPTION:
-            try {
-              error = await getEntity(testCase.entityType, "notexisting", managementTopic1);
-            } catch (err) {
-              error = err;
-            }
-            break;
-
-          case EntityType.RULE:
-            try {
-              error = await getEntity(
-                testCase.entityType,
-                "notexisting",
-                managementTopic1,
-                managementSubscription1
-              );
-            } catch (err) {
-              error = err;
-            }
-            break;
-
-          default:
-            throw new Error("TestError: Unrecognized EntityType");
-        }
-
-        should.equal(error.statusCode, 404, "Error must not be undefined");
-        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
-        should.equal(
-          error.message.startsWith("The messaging entity") ||
-            error.message.startsWith("Entity") ||
-            error.message.startsWith("SubCode") ||
-            error.message.startsWith("No service"),
-          true,
-          `Expected error message to be a textual content but got "${error.message}"`
-        );
-      });
-    });
-
-    it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.entityName,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 409, "Error must not be undefined");
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Expected error message to be a textual content but got "${error.message}"`
-      );
-    });
-
-    it(`Lists available ${testCase.entityType} entities successfully`, async () => {
-      const response = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
-    });
-
-    it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await updateEntity(
-        testCase.entityType,
-        testCase.entityName,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.entityName,
-        "Entity name mismatch"
-      );
-    });
-
-    it(`Update on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      try {
-        await updateEntity(
-          testCase.entityType,
-          "nonexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Expected error message to be a textual content but got "${error.message}"`
-      );
-    });
-
-    it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await getEntity(
-        testCase.entityType,
-        testCase.entityName,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.entityName,
-        "Entity name mismatch"
-      );
-    });
-
-    it(`Deletes a non-existent ${testCase.entityType} entity returns an error`, async () => {
-      let error;
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          "notexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 404);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Expected error message to be a textual content but got "${error.message}"`
-      );
     });
 
     it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
       let error;
-      try {
-        error = await getEntity(
-          testCase.entityType,
-          "nonexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          try {
+            await getEntity(testCase.entityType, "notexisting");
+          } catch (err) {
+            error = err;
+          }
+          break;
+
+        case EntityType.TOPIC:
+          try {
+            error = await getEntity(testCase.entityType, "notexisting");
+          } catch (err) {
+            error = err;
+          }
+
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          try {
+            error = await getEntity(testCase.entityType, "notexisting", managementTopic1);
+          } catch (err) {
+            error = err;
+          }
+          break;
+
+        case EntityType.RULE:
+          try {
+            error = await getEntity(
+              testCase.entityType,
+              "notexisting",
+              managementTopic1,
+              managementSubscription1
+            );
+          } catch (err) {
+            error = err;
+          }
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
       }
 
       should.equal(error.statusCode, 404, "Error must not be undefined");
@@ -343,45 +186,180 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         `Expected error message to be a textual content but got "${error.message}"`
       );
     });
+  });
 
-    it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
+  it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
+    let error;
+    try {
       await createEntity(
         testCase.entityType,
-        newManagementEntity1,
+        testCase.entityName,
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
-      const response = await deleteEntity(
+    } catch (err) {
+      error = err;
+    }
+
+    should.equal(error.statusCode, 409, "Error must not be undefined");
+    should.equal(
+      error.message.startsWith("The messaging entity") ||
+        error.message.startsWith("Entity") ||
+        error.message.startsWith("SubCode") ||
+        error.message.startsWith("No service"),
+      true,
+      `Expected error message to be a textual content but got "${error.message}"`
+    );
+  });
+
+  it(`Lists available ${testCase.entityType} entities successfully`, async () => {
+    const response = await listEntities(
+      testCase.entityType,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+
+    should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+  });
+
+  it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
+    const response = await updateEntity(
+      testCase.entityType,
+      testCase.entityName,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+    should.equal(
+      response[testCase.entityType.toLowerCase() + "Name"],
+      testCase.entityName,
+      "Entity name mismatch"
+    );
+  });
+
+  it(`Update on non-existent ${testCase.entityType} entity throws an error`, async () => {
+    let error;
+    try {
+      await updateEntity(
         testCase.entityType,
-        newManagementEntity1,
+        "nonexisting",
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
+    } catch (err) {
+      error = err;
+    }
 
-      should.equal(response._response.status, 200);
-    });
+    should.equal(error.statusCode, 404, "Error must not be undefined");
+    should.equal(
+      error.message.startsWith("The messaging entity") ||
+        error.message.startsWith("Entity") ||
+        error.message.startsWith("SubCode") ||
+        error.message.startsWith("No service"),
+      true,
+      `Expected error message to be a textual content but got "${error.message}"`
+    );
+  });
 
-    it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await createEntity(
-        testCase.entityType,
-        newManagementEntity2,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
+  it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
+    const response = await getEntity(
+      testCase.entityType,
+      testCase.entityName,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+    should.equal(
+      response[testCase.entityType.toLowerCase() + "Name"],
+      testCase.entityName,
+      "Entity name mismatch"
+    );
+  });
 
+  it(`Deletes a non-existent ${testCase.entityType} entity returns an error`, async () => {
+    let error;
+    try {
       await deleteEntity(
         testCase.entityType,
-        newManagementEntity2,
+        "notexisting",
         testCase.parentTopicName,
         testCase.parentSubscriptionName
       );
+    } catch (err) {
+      error = err;
+    }
 
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        newManagementEntity2,
-        "Entity name mismatch"
+    should.equal(error.statusCode, 404);
+    should.equal(
+      error.message.startsWith("The messaging entity") ||
+        error.message.startsWith("Entity") ||
+        error.message.startsWith("SubCode") ||
+        error.message.startsWith("No service"),
+      true,
+      `Expected error message to be a textual content but got "${error.message}"`
+    );
+  });
+
+  it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
+    let error;
+    try {
+      error = await getEntity(
+        testCase.entityType,
+        "nonexisting",
+        testCase.parentTopicName,
+        testCase.parentSubscriptionName
       );
-    });
+    } catch (err) {
+      error = err;
+    }
+
+    should.equal(error.statusCode, 404, "Error must not be undefined");
+    should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+    should.equal(
+      error.message.startsWith("The messaging entity") ||
+        error.message.startsWith("Entity") ||
+        error.message.startsWith("SubCode") ||
+        error.message.startsWith("No service"),
+      true,
+      `Expected error message to be a textual content but got "${error.message}"`
+    );
+  });
+
+  it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
+    await createEntity(
+      testCase.entityType,
+      newManagementEntity1,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+    const response = await deleteEntity(
+      testCase.entityType,
+      newManagementEntity1,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+
+    should.equal(response._response.status, 200);
+  });
+
+  it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
+    const response = await createEntity(
+      testCase.entityType,
+      newManagementEntity2,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+
+    await deleteEntity(
+      testCase.entityType,
+      newManagementEntity2,
+      testCase.parentTopicName,
+      testCase.parentSubscriptionName
+    );
+
+    should.equal(
+      response[testCase.entityType.toLowerCase() + "Name"],
+      newManagementEntity2,
+      "Entity name mismatch"
+    );
   });
 });
 
