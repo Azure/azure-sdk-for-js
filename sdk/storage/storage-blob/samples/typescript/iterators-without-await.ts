@@ -25,7 +25,8 @@ async function main() {
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
-  for (let index = 0; index < 7; index++) {
+  const numberOfBlobs = 7;
+  for (let i = 0; i < numberOfBlobs; i++) {
     // Create a blob
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
@@ -36,12 +37,12 @@ async function main() {
   }
 
   console.log("Listing all blobs without await");
-  let i = 1;
+  let index = 1;
   let asyncIter = containerClient.listBlobsFlat();
 
   function printBlob(result: { done?: boolean; value: BlobItem }) {
     if (!result.done) {
-      console.log("Blob " + i++ + ": " + result.value.name);
+      console.log("Blob " + index++ + ": " + result.value.name);
       asyncIter.next().then(printBlob);
     } else {
       containerClient.delete().then(() => console.log("deleted container"));
