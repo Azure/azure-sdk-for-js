@@ -788,26 +788,6 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     );
     await testMultipleReceiveCalls();
   });
-
-  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testMultipleReceiveCalls();
-  });
-
-  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
-    );
-    await testMultipleReceiveCalls();
-  });
 });
 
 describe("Sessions Streaming - Settle an already Settled message throws error", () => {
@@ -887,26 +867,6 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.complete);
   });
 
-  it("UnPartitioned Queue: complete() throws error(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testSettlement(DispositionType.complete);
-  });
-
-  it("UnPartitioned Subscription: complete() throws error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
-    );
-    await testSettlement(DispositionType.complete);
-  });
-
   it("Partitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.PartitionedQueueWithSessions,
@@ -921,26 +881,6 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await beforeEachTest(
       TestClientType.PartitionedTopicWithSessions,
       TestClientType.PartitionedSubscriptionWithSessions
-    );
-    await testSettlement(DispositionType.abandon);
-  });
-
-  it("UnPartitioned Queue: abandon() throws error(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testSettlement(DispositionType.abandon);
-  });
-
-  it("UnPartitioned Subscription: abandon() throws error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
@@ -963,26 +903,6 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.defer);
   });
 
-  it("UnPartitioned Queue: defer() throws error(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testSettlement(DispositionType.defer);
-  });
-
-  it("UnPartitioned Subscription: defer() throws error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
-    );
-    await testSettlement(DispositionType.defer);
-  });
-
   it("Partitioned Queue: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
@@ -999,26 +919,6 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await beforeEachTest(
       TestClientType.PartitionedTopicWithSessions,
       TestClientType.PartitionedSubscriptionWithSessions
-    );
-    await testSettlement(DispositionType.deadletter);
-  });
-
-  it("UnPartitioned Queue: deadLetter() throws error(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testSettlement(DispositionType.deadletter);
-  });
-
-  it("UnPartitioned Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1070,26 +970,6 @@ describe("Sessions Streaming - User Error", function(): void {
     await beforeEachTest(
       TestClientType.PartitionedTopicWithSessions,
       TestClientType.PartitionedSubscriptionWithSessions
-    );
-    await testUserError();
-  });
-
-  it("UnPartitioned Queue: onError handler is called for user error(with sessions) #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testUserError();
-  });
-
-  it("UnPartitioned Subscription: onError handler is called for user error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testUserError();
   });
