@@ -9,17 +9,27 @@ import {
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
 
+/**
+ * The result of the recognize linked entities operation on a single document.
+ */
 export type RecognizeLinkedEntitiesResult =
   | RecognizeLinkedEntitiesSuccessResult
   | RecognizeLinkedEntitiesErrorResult;
 
+/**
+ * The result of the recognize linked entities operation on a single document,
+ * containing a collection of the `LinkedEntity` objects identified in that document.
+ */
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * Recognized entities in the document.
+   * Gets the collection of entities identified in the input document.
    */
   readonly entities: LinkedEntity[];
 }
 
+/**
+ * An error result from the recognize linked entities operation on a single document.
+ */
 export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeRecognizeLinkedEntitiesResult(

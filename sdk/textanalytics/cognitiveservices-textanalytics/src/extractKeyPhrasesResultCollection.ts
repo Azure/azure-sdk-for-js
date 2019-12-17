@@ -14,14 +14,20 @@ import {
 } from "./extractKeyPhrasesResult";
 import { sortByPreviousIdOrder } from "./util";
 
+/**
+ * Collection of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
+ * annotated with information about the batch operation.
+ */
 export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the request payload.
+   * Gets statistics about the input document batch and how it was processed
+   * by the service. This property will have a value when showStats is set to true
+   * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
   /**
-   * This field indicates which model was used for scoring.
+   * Gets the version of the text analytics model used by this operation on this
+   * batch of input documents.
    */
   modelVersion: string;
 }

@@ -3,8 +3,15 @@
 
 import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
+/**
+ * The result of a text analytics operation on a single input document.
+ */
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
+/**
+ * Base type for results of text analytics operations corresponding to a single
+ * input document.
+ */
 export interface TextAnalyticsSuccessResult {
   /**
    * Unique, non-empty document identifier.
@@ -12,12 +19,17 @@ export interface TextAnalyticsSuccessResult {
   readonly id: string;
 
   /**
-   * (Optional) if showStats=true was specified in the request this field will contain information
-   * about the document payload.
+   * Gets statistics about the input document and how it was processed
+   * by the service. This property will have a value when showStats is set to true
+   * in the client call.
    */
   readonly statistics?: TextDocumentStatistics;
 }
 
+/**
+ * Base type for error results of text analytics operations corresponding to a
+ * single document.
+ */
 export interface TextAnalyticsErrorResult {
   /**
    * Unique, non-empty document identifier.

@@ -15,11 +15,18 @@ import {
   SentimentConfidenceScorePerLabel
 } from "./generated/models";
 
+/**
+ * The result of the analyze sentiment operation on a single document.
+ */
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
 
+/**
+ *  The result of the analyze sentiment operation on a single document,
+ *  containing the predicted sentiment for each sentence as well as for the full document.
+ */
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
+   * Predicted sentiment for document. Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
   sentiment: DocumentSentimentValue;
@@ -28,11 +35,14 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
    */
   documentScores: SentimentConfidenceScorePerLabel;
   /**
-   * Sentence level sentiment analysis.
+   * Gets the predicted sentiment for each sentence in the corresponding document.
    */
   sentences: SentenceSentiment[];
 }
 
+/**
+ * An error result from the analyze sentiment operation on a single document.
+ */
 export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeAnalyzeSentimentResult(
