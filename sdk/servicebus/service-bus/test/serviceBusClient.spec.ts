@@ -505,8 +505,9 @@ describe("Errors after close()", function(): void {
       caughtError = error;
     }
 
-    const expectedErrorMsg = `Failed to ${operation} the message as the AMQP link with which the message was ` +
-    `received is no longer alive.`
+    const expectedErrorMsg =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
     should.equal(caughtError && caughtError.message, expectedErrorMsg);
   }
 
@@ -601,7 +602,10 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.registerMessageHandler(() => Promise.resolve(), (e) => console.log(e));
+      receiver.registerMessageHandler(
+        () => Promise.resolve(),
+        (e) => console.log(e)
+      );
     } catch (err) {
       errorReceiveStream = err.message;
     }
@@ -765,10 +769,12 @@ describe("Errors after close()", function(): void {
     const entityToClose = "namespace";
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
-    it("Partitioned Queue: errors after close() on namespace", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on namespace #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue,
         entityToClose
       );
 
@@ -778,12 +784,12 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(expectedErrorMsg);
     });
 
-    it("Partitioned Queue with sessions: errors after close() on namespace", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on namespace #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
         entityToClose,
         true
       );
@@ -794,12 +800,12 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(expectedErrorMsg, true);
     });
 
-    it("Partitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
+    it("Unpartitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription,
         entityToClose
       );
 
@@ -810,12 +816,12 @@ describe("Errors after close()", function(): void {
       await testRules(expectedErrorMsg);
     });
 
-    it("Partitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
+        TestClientType.UnpartitionedTopicWithSessions,
+        TestClientType.UnpartitionedSubscriptionWithSessions,
         entityToClose,
         true
       );
@@ -879,24 +885,27 @@ describe("Errors after close()", function(): void {
   describe("Errors after close() on senderClient", function(): void {
     const entityToClose = "senderClient";
 
-    it("Partitioned Queue: errors after close() on senderClient", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on senderClient #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue,
         entityToClose
       );
+
       await testSender(
         getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, true)
       );
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Partitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on senderClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
         entityToClose,
         true
       );
@@ -907,10 +916,12 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Partitioned Topic: errors after close() on senderClient", async function(): Promise<void> {
+    it("Unpartitioned Topic: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription,
         entityToClose
       );
 
@@ -920,12 +931,12 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Partitioned Topic with sessions: errors after close() on senderClient", async function(): Promise<
+    it("Unpartitioned Topic with sessions: errors after close() on senderClient", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
+        TestClientType.UnpartitionedTopicWithSessions,
+        TestClientType.UnpartitionedSubscriptionWithSessions,
         entityToClose,
         true
       );
@@ -940,12 +951,12 @@ describe("Errors after close()", function(): void {
   describe("Errors after close() on receiverClient", function(): void {
     const entityToClose = "receiverClient";
 
-    it("Partitioned Queue: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Queue: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue,
         entityToClose
       );
 
@@ -955,12 +966,12 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath));
     });
 
-    it("Partitioned Queue with sessions: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
         entityToClose,
         true
       );
@@ -976,12 +987,12 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath), true);
     });
 
-    it("Partitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription,
         entityToClose
       );
 
@@ -992,12 +1003,12 @@ describe("Errors after close()", function(): void {
       await testRules(getClientClosedErrorMsg(receiverClient.entityPath));
     });
 
-    it("Partitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
+        TestClientType.UnpartitionedTopicWithSessions,
+        TestClientType.UnpartitionedSubscriptionWithSessions,
         entityToClose,
         true
       );
@@ -1018,10 +1029,12 @@ describe("Errors after close()", function(): void {
   describe("Errors after close() on sender", function(): void {
     const entityToClose = "sender";
 
-    it("Partitioned Queue: errors after close() on sender", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on sender #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue,
         entityToClose
       );
 
@@ -1030,12 +1043,12 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Partitioned Queue with sessions: errors after close() on sender", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on sender #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
         entityToClose,
         true
       );
@@ -1045,10 +1058,10 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Partitioned Topic: errors after close() on sender", async function(): Promise<void> {
+    it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<void> {
       await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription,
         entityToClose
       );
 
@@ -1057,12 +1070,12 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Partitioned Topic with sessions: errors after close() on sender", async function(): Promise<
+    it("Unpartitioned Topic with sessions: errors after close() on sender", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
+        TestClientType.UnpartitionedTopicWithSessions,
+        TestClientType.UnpartitionedSubscriptionWithSessions,
         entityToClose,
         true
       );
@@ -1076,10 +1089,12 @@ describe("Errors after close()", function(): void {
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
 
-    it("Partitioned Queue: errors after close() on receiver", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on receiver #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue,
         entityToClose
       );
 
@@ -1089,12 +1104,12 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
 
-    it("Partitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions,
         entityToClose,
         true
       );
@@ -1110,12 +1125,12 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
 
-    it("Partitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
+    it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription,
         entityToClose
       );
 
@@ -1125,12 +1140,12 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
 
-    it("Partitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
       void
     > {
       await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
+        TestClientType.UnpartitionedTopicWithSessions,
+        TestClientType.UnpartitionedSubscriptionWithSessions,
         entityToClose,
         true
       );

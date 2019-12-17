@@ -880,42 +880,44 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     await firstBatchPromise;
   }
 
-  it("Partitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+  it("Unpartitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testParallelReceiveCalls();
   });
 
-  it("Partitioned Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testParallelReceiveCalls();
-  });
-
-  it("Partitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+  it("Unpartitioned Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
+    await testParallelReceiveCalls();
+  });
+
+  it("Unpartitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done #RunInBrowser", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testParallelReceiveCalls(true);
   });
 
-  it("Partitioned Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testParallelReceiveCalls(true);
   });
-
 
   const messages: SendableMessageInfo[] = [
     {
@@ -973,37 +975,40 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     await msgs2[0].complete();
   }
 
-  it("Partitioned Queue: Multiple sequential receiveMessages calls", async function(): Promise<
+  it("Unpartitioned Queue: Multiple sequential receiveMessages calls #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSequentialReceiveBatchCalls();
   });
 
-  it("Partitioned Subscription: Multiple sequential receiveMessages calls", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSequentialReceiveBatchCalls();
-  });
-
-  it("Partitioned Queue with Sessions: Multiple sequential receiveMessages calls", async function(): Promise<
+  it("Unpartitioned Subscription: Multiple sequential receiveMessages calls", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
+    await testSequentialReceiveBatchCalls();
+  });
+
+  it("Unpartitioned Queue with Sessions: Multiple sequential receiveMessages calls #RunInBrowser", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testSequentialReceiveBatchCalls(true);
   });
 
-  it("Partitioned Subscription with Sessions: Multiple sequential receiveMessages calls", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions: Multiple sequential receiveMessages calls", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSequentialReceiveBatchCalls(true);
