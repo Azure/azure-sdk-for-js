@@ -9,11 +9,10 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan } from './util/operationOptions';
+import { getParentSpan, OperationOptions } from './util/operationOptions';
 import { getTracer } from '@azure/core-tracing';
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from './diagnostics/instrumentEventData';
-import { OperationOptions } from '../../../core/core-auth/types/core-auth';
 import { Tracer } from '@opentelemetry/types';
 import { ReceivedEventData } from './eventData';
 
