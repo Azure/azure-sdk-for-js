@@ -66,7 +66,7 @@ export class CertificateClient {
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;
     getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getIssuer(issuerName: string, options?: GetIssuerOptions): Promise<CertificateIssuer>;
-    importCertificate(certificateName: string, certificateValue: Uint8Array, options?: ImportCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
+    importCertificate(certificateName: string, certificateBytes: Uint8Array, options?: ImportCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
     listDeletedCertificates(options?: ListDeletedCertificatesOptions): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
     listPropertiesOfCertificates(options?: ListPropertiesOfCertificatesOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
     listPropertiesOfCertificateVersions(certificateName: string, options?: ListPropertiesOfCertificateVersionsOptions): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>;
@@ -123,10 +123,12 @@ export interface CertificateOperation {
     error?: CertificateOperationError;
     readonly id?: string;
     issuerName?: string;
+    readonly name?: string;
     requestId?: string;
     status?: string;
     statusDetails?: string;
     target?: string;
+    readonly vaultUrl?: string;
 }
 
 // @public
@@ -179,7 +181,7 @@ export interface CertificateProperties {
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: CertificateTags;
     readonly updatedOn?: Date;
-    vaultUrl?: string;
+    readonly vaultUrl?: string;
     readonly version?: string;
     readonly x509Thumbprint?: Uint8Array;
 }
@@ -226,7 +228,7 @@ export interface DeleteContactsOptions extends coreHttp.OperationOptions {
 // @public
 export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
     readonly deletedOn?: Date;
-    recoveryId?: string;
+    readonly recoveryId?: string;
     readonly scheduledPurgeDate?: Date;
 }
 
