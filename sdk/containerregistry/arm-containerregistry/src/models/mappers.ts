@@ -339,11 +339,79 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const Status1: msRest.CompositeMapper = {
+export const UserIdentityProperties: msRest.CompositeMapper = {
+  serializedName: "UserIdentityProperties",
+  type: {
+    name: "Composite",
+    className: "UserIdentityProperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IdentityProperties: msRest.CompositeMapper = {
+  serializedName: "IdentityProperties",
+  type: {
+    name: "Composite",
+    className: "IdentityProperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserIdentityProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Status: msRest.CompositeMapper = {
   serializedName: "Status",
   type: {
     name: "Composite",
-    className: "Status1",
+    className: "Status",
     modelProperties: {
       displayStatus: {
         readOnly: true,
@@ -485,6 +553,7 @@ export const QuarantinePolicy: msRest.CompositeMapper = {
     modelProperties: {
       status: {
         serializedName: "status",
+        defaultValue: 'disabled',
         type: {
           name: "String"
         }
@@ -501,12 +570,14 @@ export const TrustPolicy: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
+        defaultValue: 'Notary',
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        defaultValue: 'disabled',
         type: {
           name: "String"
         }
@@ -523,6 +594,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
     modelProperties: {
       days: {
         serializedName: "days",
+        defaultValue: 7,
         type: {
           name: "Number"
         }
@@ -536,6 +608,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        defaultValue: 'disabled',
         type: {
           name: "String"
         }
@@ -569,6 +642,51 @@ export const Policies: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RetentionPolicy"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultProperties: msRest.CompositeMapper = {
+  serializedName: "KeyVaultProperties",
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionProperty: msRest.CompositeMapper = {
+  serializedName: "EncryptionProperty",
+  type: {
+    name: "Composite",
+    className: "EncryptionProperty",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
         }
       }
     }
@@ -639,6 +757,13 @@ export const Registry: msRest.CompositeMapper = {
           className: "Sku"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
       loginServer: {
         readOnly: true,
         serializedName: "properties.loginServer",
@@ -665,7 +790,7 @@ export const Registry: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Composite",
-          className: "Status1"
+          className: "Status"
         }
       },
       adminUserEnabled: {
@@ -694,6 +819,13 @@ export const Registry: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Policies"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperty"
         }
       }
     }
@@ -724,6 +856,13 @@ export const RegistryUpdateParameters: msRest.CompositeMapper = {
           className: "Sku"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
       adminUserEnabled: {
         serializedName: "properties.adminUserEnabled",
         type: {
@@ -742,6 +881,13 @@ export const RegistryUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Policies"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperty"
         }
       }
     }
@@ -898,7 +1044,7 @@ export const Replication: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Composite",
-          className: "Status1"
+          className: "Status"
         }
       }
     }
@@ -1965,20 +2111,44 @@ export const RunGetLogResult: msRest.CompositeMapper = {
   }
 };
 
-export const UserIdentityProperties: msRest.CompositeMapper = {
-  serializedName: "UserIdentityProperties",
+export const TaskRun: msRest.CompositeMapper = {
+  serializedName: "TaskRun",
   type: {
     name: "Composite",
-    className: "UserIdentityProperties",
+    className: "TaskRun",
     modelProperties: {
-      principalId: {
-        serializedName: "principalId",
+      ...Resource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
       },
-      clientId: {
-        serializedName: "clientId",
+      runRequest: {
+        serializedName: "properties.runRequest",
+        type: {
+          name: "Composite",
+          className: "RunRequest"
+        }
+      },
+      runResult: {
+        readOnly: true,
+        serializedName: "properties.runResult",
+        type: {
+          name: "Composite",
+          className: "Run"
+        }
+      },
+      forceUpdateTag: {
+        serializedName: "properties.forceUpdateTag",
         type: {
           name: "String"
         }
@@ -1987,44 +2157,39 @@ export const UserIdentityProperties: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProperties: msRest.CompositeMapper = {
-  serializedName: "IdentityProperties",
+export const TaskRunUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "TaskRunUpdateParameters",
   type: {
     name: "Composite",
-    className: "IdentityProperties",
+    className: "TaskRunUpdateParameters",
     modelProperties: {
-      principalId: {
-        serializedName: "principalId",
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
+      runRequest: {
+        serializedName: "properties.runRequest",
+        type: {
+          name: "Composite",
+          className: "RunRequest"
+        }
+      },
+      forceUpdateTag: {
+        serializedName: "properties.forceUpdateTag",
         type: {
           name: "String"
         }
       },
-      tenantId: {
-        serializedName: "tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
-        }
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
+      tags: {
+        serializedName: "tags",
         type: {
           name: "Dictionary",
           value: {
             type: {
-              name: "Composite",
-              className: "UserIdentityProperties"
+              name: "String"
             }
           }
         }
@@ -2902,6 +3067,47 @@ export const TaskUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorSchema: msRest.CompositeMapper = {
+  serializedName: "ErrorSchema",
+  type: {
+    name: "Composite",
+    className: "ErrorSchema",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
         }
       }
     }
@@ -3857,7 +4063,6 @@ export const GenerateCredentialsParameters: msRest.CompositeMapper = {
       },
       expiry: {
         serializedName: "expiry",
-        defaultValue: new Date('9999-12-31T15:59:59.9999999-08:00'),
         type: {
           name: "DateTime"
         }
@@ -4054,6 +4259,34 @@ export const RunListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Run"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TaskRunListResult: msRest.CompositeMapper = {
+  serializedName: "TaskRunListResult",
+  type: {
+    name: "Composite",
+    className: "TaskRunListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TaskRun"
             }
           }
         }

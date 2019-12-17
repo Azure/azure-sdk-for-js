@@ -157,7 +157,7 @@ export interface OperationMetricSpecificationDefinition {
 }
 
 /**
- * The definition of Azure Monitoring metrics list.
+ * The definition of Azure Monitoring list.
  */
 export interface OperationServiceSpecificationDefinition {
   /**
@@ -206,9 +206,49 @@ export interface Sku {
 }
 
 /**
+ * An interface representing UserIdentityProperties.
+ */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   */
+  principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   */
+  clientId?: string;
+}
+
+/**
+ * Managed identity for the resource.
+ */
+export interface IdentityProperties {
+  /**
+   * The principal ID of resource identity.
+   */
+  principalId?: string;
+  /**
+   * The tenant ID of resource.
+   */
+  tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+   * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/**
  * The status of an Azure resource at the time the operation was called.
  */
-export interface Status1 {
+export interface Status {
   /**
    * The short label for the status.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -290,7 +330,7 @@ export interface NetworkRuleSet {
 export interface QuarantinePolicy {
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -300,12 +340,12 @@ export interface QuarantinePolicy {
  */
 export interface TrustPolicy {
   /**
-   * The type of trust policy. Possible values include: 'Notary'
+   * The type of trust policy. Possible values include: 'Notary'. Default value: 'Notary'.
    */
   type?: TrustPolicyType;
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -315,7 +355,8 @@ export interface TrustPolicy {
  */
 export interface RetentionPolicy {
   /**
-   * The number of days to retain manifest before it expires.
+   * The number of days to retain an untagged manifest after which it gets purged. Default value:
+   * 7.
    */
   days?: number;
   /**
@@ -325,7 +366,7 @@ export interface RetentionPolicy {
   readonly lastUpdatedTime?: Date;
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -346,6 +387,35 @@ export interface Policies {
    * The retention policy for a container registry.
    */
   retentionPolicy?: RetentionPolicy;
+}
+
+/**
+ * An interface representing KeyVaultProperties.
+ */
+export interface KeyVaultProperties {
+  /**
+   * Key vault uri to access the encryption key.
+   */
+  keyIdentifier?: string;
+  /**
+   * The client id of the identity which will be used to access key vault.
+   */
+  identity?: string;
+}
+
+/**
+ * An interface representing EncryptionProperty.
+ */
+export interface EncryptionProperty {
+  /**
+   * Indicates whether or not the encryption is enabled for container registry. Possible values
+   * include: 'enabled', 'disabled'
+   */
+  status?: EncryptionStatus;
+  /**
+   * Key vault properties.
+   */
+  keyVaultProperties?: KeyVaultProperties;
 }
 
 /**
@@ -386,6 +456,10 @@ export interface Registry extends Resource {
    */
   sku: Sku;
   /**
+   * The identity of the container registry.
+   */
+  identity?: IdentityProperties;
+  /**
    * The URL that can be used to log into the container registry.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -405,7 +479,7 @@ export interface Registry extends Resource {
    * The status of the container registry at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status1;
+  readonly status?: Status;
   /**
    * The value that indicates whether the admin user is enabled. Default value: false.
    */
@@ -423,6 +497,10 @@ export interface Registry extends Resource {
    * The policies for a container registry.
    */
   policies?: Policies;
+  /**
+   * The encryption settings of container registry.
+   */
+  encryption?: EncryptionProperty;
 }
 
 /**
@@ -438,6 +516,10 @@ export interface RegistryUpdateParameters {
    */
   sku?: Sku;
   /**
+   * The identity of the container registry.
+   */
+  identity?: IdentityProperties;
+  /**
    * The value that indicates whether the admin user is enabled.
    */
   adminUserEnabled?: boolean;
@@ -449,6 +531,10 @@ export interface RegistryUpdateParameters {
    * The policies for a container registry.
    */
   policies?: Policies;
+  /**
+   * The encryption settings of container registry.
+   */
+  encryption?: EncryptionProperty;
 }
 
 /**
@@ -536,7 +622,7 @@ export interface Replication extends Resource {
    * The status of the replication at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status1;
+  readonly status?: Status;
 }
 
 /**
@@ -1194,43 +1280,55 @@ export interface RunGetLogResult {
 }
 
 /**
- * An interface representing UserIdentityProperties.
+ * The task run that has the ARM resource and properties.
+ * The task run will have the information of request and result of a run.
  */
-export interface UserIdentityProperties {
+export interface TaskRun extends Resource {
   /**
-   * The principal id of user assigned identity.
+   * Identity for the resource.
    */
-  principalId?: string;
+  identity?: IdentityProperties;
   /**
-   * The client id of user assigned identity.
+   * The provisioning state of this task run. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  clientId?: string;
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The request (parameters) for the run
+   */
+  runRequest?: RunRequestUnion;
+  /**
+   * The result of this task run
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runResult?: Run;
+  /**
+   * How the run should be forced to rerun even if the run request configuration has not changed
+   */
+  forceUpdateTag?: string;
 }
 
 /**
- * Managed identity for the resource.
+ * The parameters for updating a task run.
  */
-export interface IdentityProperties {
+export interface TaskRunUpdateParameters {
   /**
-   * The principal ID of resource identity.
+   * Identity for the resource.
    */
-  principalId?: string;
+  identity?: IdentityProperties;
   /**
-   * The tenant ID of resource.
+   * The request (parameters) for the new run
    */
-  tenantId?: string;
+  runRequest?: RunRequestUnion;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
-   * UserAssigned', 'None'
+   * How the run should be forced to rerun even if the run request configuration has not changed
    */
-  type?: ResourceIdentityType;
+  forceUpdateTag?: string;
   /**
-   * The list of user identities associated with the resource. The user identity
-   * dictionary key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-   * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   * The ARM resource tags.
    */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1771,6 +1869,30 @@ export interface TaskUpdateParameters {
 }
 
 /**
+ * An error response from the Azure Container Registry service.
+ */
+export interface ErrorModel {
+  /**
+   * error code.
+   */
+  code: string;
+  /**
+   * error message.
+   */
+  message: string;
+}
+
+/**
+ * An error response from the Azure Container Registry service.
+ */
+export interface ErrorSchema {
+  /**
+   * Azure container registry build API error body.
+   */
+  error?: ErrorModel;
+}
+
+/**
  * The properties of a run argument.
  */
 export interface Argument {
@@ -2279,8 +2401,8 @@ export interface ScopeMap extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
   /**
    * The list of scoped permissions for registry artifacts.
-   * E.g. repositories/repository-name/pull,
-   * repositories/repository-name/delete
+   * E.g. repositories/repository-name/content/read,
+   * repositories/repository-name/metadata/write
    */
   actions: string[];
 }
@@ -2329,7 +2451,7 @@ export interface TokenCertificate {
  */
 export interface TokenPassword {
   /**
-   * The password created datetime of the password.
+   * The creation datetime of the password.
    */
   creationTime?: Date;
   /**
@@ -2337,7 +2459,8 @@ export interface TokenPassword {
    */
   expiry?: Date;
   /**
-   * The password name "password" or "password2". Possible values include: 'password1', 'password2'
+   * The password name "password1" or "password2". Possible values include: 'password1',
+   * 'password2'
    */
   name?: TokenPasswordName;
   /**
@@ -2386,7 +2509,7 @@ export interface Token extends ProxyResource {
    * The status of the token example enabled or disabled. Possible values include: 'enabled',
    * 'disabled'
    */
-  status?: Status;
+  status?: TokenStatus;
 }
 
 /**
@@ -2401,7 +2524,7 @@ export interface TokenUpdateParameters {
    * The status of the token example enabled or disabled. Possible values include: 'enabled',
    * 'disabled'
    */
-  status?: Status;
+  status?: TokenStatus;
   /**
    * The credentials that can be used for authenticating the token.
    */
@@ -2419,11 +2542,10 @@ export interface GenerateCredentialsParameters {
   tokenId?: string;
   /**
    * The expiry date of the generated credentials after which the credentials become invalid.
-   * Default value: new Date('9999-12-31T15:59:59.9999999-08:00').
    */
   expiry?: Date;
   /**
-   * Specifies name of the password which should be regenerated if any -- password or password2.
+   * Specifies name of the password which should be regenerated if any -- password1 or password2.
    * Possible values include: 'password1', 'password2'
    */
   name?: TokenPasswordName;
@@ -2539,6 +2661,18 @@ export interface RunListResult extends Array<Run> {
 
 /**
  * @interface
+ * The collection of task runs.
+ * @extends Array<TaskRun>
+ */
+export interface TaskRunListResult extends Array<TaskRun> {
+  /**
+   * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The collection of tasks.
  * @extends Array<Task>
  */
@@ -2598,6 +2732,15 @@ export type SkuName = 'Classic' | 'Basic' | 'Standard' | 'Premium';
 export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
 
 /**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
  * @readonly
@@ -2636,6 +2779,14 @@ export type PolicyStatus = 'enabled' | 'disabled';
  * @enum {string}
  */
 export type TrustPolicyType = 'Notary';
+
+/**
+ * Defines values for EncryptionStatus.
+ * Possible values include: 'enabled', 'disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionStatus = 'enabled' | 'disabled';
 
 /**
  * Defines values for PasswordName.
@@ -2709,15 +2860,6 @@ export type Architecture = 'amd64' | 'x86' | '386' | 'arm' | 'arm64';
  * @enum {string}
  */
 export type Variant = 'v6' | 'v7' | 'v8';
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
- * 'None'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for TaskStatus.
@@ -2816,12 +2958,12 @@ export type TokenCertificateName = 'certificate1' | 'certificate2';
 export type TokenPasswordName = 'password1' | 'password2';
 
 /**
- * Defines values for Status.
+ * Defines values for TokenStatus.
  * Possible values include: 'enabled', 'disabled'
  * @readonly
  * @enum {string}
  */
-export type Status = 'enabled' | 'disabled';
+export type TokenStatus = 'enabled' | 'disabled';
 
 /**
  * Contains response data for the checkNameAvailability operation.
@@ -3700,6 +3842,146 @@ export type RunsListNextResponse = RunListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RunListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TaskRunsGetResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type TaskRunsCreateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type TaskRunsUpdateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TaskRunsListResponse = TaskRunListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRunListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type TaskRunsBeginCreateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type TaskRunsBeginUpdateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TaskRunsListNextResponse = TaskRunListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRunListResult;
     };
 };
 
