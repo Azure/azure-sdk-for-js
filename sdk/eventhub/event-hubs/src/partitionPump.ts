@@ -9,12 +9,12 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, OperationOptions } from './util/operationOptions';
-import { getTracer } from '@azure/core-tracing';
+import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
-import { extractSpanContextFromEventData } from './diagnostics/instrumentEventData';
-import { Tracer } from '@opentelemetry/types';
-import { ReceivedEventData } from './eventData';
+import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
+import { Tracer } from "@opentelemetry/types";
+import { ReceivedEventData } from "./eventData";
 
 const defaultEventPosition = EventPosition.earliest();
 
@@ -64,7 +64,10 @@ export class PartitionPump {
     log.partitionPump("Successfully started the receiver.");
   }
 
-  private async _receiveEvents(startingPosition: EventPosition, partitionId: string): Promise<void> {
+  private async _receiveEvents(
+    startingPosition: EventPosition,
+    partitionId: string
+  ): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
@@ -94,7 +97,12 @@ export class PartitionPump {
           return;
         }
 
-        const span = createSpanForReceivedEvents(receivedEvents, this._eventHubClient, this._processorOptions, getTracer());
+        const span = createSpanForReceivedEvents(
+          receivedEvents,
+          this._eventHubClient,
+          this._processorOptions,
+          getTracer()
+        );
 
         await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
       } catch (err) {
@@ -172,9 +180,14 @@ export function getStartingPosition(
  * @internal
  * @ignore
  */
-export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[], eventHubProperties: { eventHubName: string, endpoint: string }, operationOptions: OperationOptions, tracerLite: Pick<Tracer, 'startSpan'>) : Span {
+export function createSpanForReceivedEvents(
+  receivedEvents: ReceivedEventData[],
+  eventHubProperties: { eventHubName: string; endpoint: string },
+  operationOptions: OperationOptions,
+  tracerLite: Pick<Tracer, "startSpan">
+): Span {
   const links: Link[] = [];
-        
+
   for (const receivedEvent of receivedEvents) {
     const spanContext = extractSpanContextFromEventData(receivedEvent);
 
@@ -184,7 +197,7 @@ export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[],
 
     links.push({
       spanContext
-    })
+    });
   }
 
   const span = tracerLite.startSpan("Azure.EventHubs.process", {
@@ -194,7 +207,7 @@ export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[],
   });
 
   span.setAttributes({
-    "component": "eventhubs",
+    component: "eventhubs",
     "message_bus.destination": eventHubProperties.eventHubName,
     "peer.address": eventHubProperties.endpoint
   });
@@ -206,19 +219,17 @@ export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[],
  * @ignore
  * @internal
  */
-export async function trace(fn: () => Promise<void>, span: Span): Promise < void> {
+export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
   try {
     await fn();
     span.setStatus({ code: CanonicalCode.OK });
-  }
-  catch (err) {
+  } catch (err) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
       message: err.message
     });
     throw err;
-  }
-  finally {
+  } finally {
     span.end();
   }
 }

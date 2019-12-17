@@ -2,7 +2,7 @@ import { CloseReason } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
-import { OperationOptions } from './util/operationOptions';
+import { OperationOptions } from "./util/operationOptions";
 
 /**
  * @internal

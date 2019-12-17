@@ -88,9 +88,15 @@ describe("PartitionPump", () => {
       };
 
       const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData({ ...requiredEventProperties }, new SlightlyLessNoOpSpan("a")) as ReceivedEventData,
+        instrumentEventData(
+          { ...requiredEventProperties },
+          new SlightlyLessNoOpSpan("a")
+        ) as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
-        instrumentEventData({ ...requiredEventProperties }, new SlightlyLessNoOpSpan("c")) as ReceivedEventData
+        instrumentEventData(
+          { ...requiredEventProperties },
+          new SlightlyLessNoOpSpan("c")
+        ) as ReceivedEventData
       ];
 
       await createSpanForReceivedEvents(
