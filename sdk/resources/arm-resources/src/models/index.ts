@@ -1111,6 +1111,37 @@ export interface WhatIfOperationResult {
 }
 
 /**
+ * key and value pairs for tags
+ */
+export interface Tags {
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Tag Request for Patch operation.
+ */
+export interface TagPatchRequest {
+  /**
+   * The operation type for the patch api. Possible values include: 'Replace', 'Merge', 'Delete'
+   */
+  operation?: OperationEnum;
+  /**
+   * tags object passing in the request.
+   */
+  properties?: Tags;
+}
+
+/**
+ * Tags for the resource.
+ */
+export interface TagsResource extends Resource {
+  /**
+   * tags property.
+   */
+  properties: Tags;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DeploymentsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
@@ -1541,6 +1572,14 @@ export type PropertyChangeType = 'Create' | 'Delete' | 'Modify' | 'Array';
  * @enum {string}
  */
 export type ChangeType = 'Create' | 'Delete' | 'Ignore' | 'Deploy' | 'NoChange' | 'Modify';
+
+/**
+ * Defines values for OperationEnum.
+ * Possible values include: 'Replace', 'Merge', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationEnum = 'Replace' | 'Merge' | 'Delete';
 
 /**
  * Contains response data for the list operation.
@@ -3093,6 +3132,26 @@ export type ResourceGroupsListResponse = ResourceGroupListResult & {
 };
 
 /**
+ * Contains response data for the beginExportTemplate operation.
+ */
+export type ResourceGroupsBeginExportTemplateResponse = ResourceGroupExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupExportResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type ResourceGroupsListNextResponse = ResourceGroupListResult & {
@@ -3169,6 +3228,66 @@ export type TagsListResponse = TagsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the resourceCreate operation.
+ */
+export type TagsResourceCreateResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the resourceUpdate operation.
+ */
+export type TagsResourceUpdateResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the resourceGet operation.
+ */
+export type TagsResourceGetResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
     };
 };
 

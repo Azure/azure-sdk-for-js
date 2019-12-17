@@ -1849,6 +1849,69 @@ export const WhatIfOperationResult: msRest.CompositeMapper = {
   }
 };
 
+export const Tags: msRest.CompositeMapper = {
+  serializedName: "Tags",
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TagPatchRequest: msRest.CompositeMapper = {
+  serializedName: "TagPatchRequest",
+  type: {
+    name: "Composite",
+    className: "TagPatchRequest",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
+        }
+      }
+    }
+  }
+};
+
+export const TagsResource: msRest.CompositeMapper = {
+  serializedName: "TagsResource",
+  type: {
+    name: "Composite",
+    className: "TagsResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentsWhatIfAtSubscriptionScopeHeaders: msRest.CompositeMapper = {
   serializedName: "deployments-whatifatsubscriptionscope-headers",
   type: {

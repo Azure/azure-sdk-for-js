@@ -43,6 +43,8 @@ export {
   Sku,
   SubResource,
   TagCount,
+  Tags,
+  TagsResource,
   TagValue,
   TemplateHashResult,
   TemplateLink,
