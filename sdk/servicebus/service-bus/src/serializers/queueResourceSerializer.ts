@@ -168,12 +168,9 @@ export interface QueueOptions {
   duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Absolute URI or relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -218,12 +215,9 @@ export interface QueueOptions {
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * Absolute URI or relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI or relative path of the queue or topic messaging entity the
+   * messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   forwardTo?: string;
 
@@ -297,12 +291,9 @@ export interface InternalQueueOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Absolute URI or relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -365,12 +356,9 @@ export interface InternalQueueOptions {
   AuthorizationRules?: any;
 
   /**
-   * Absolute URI or relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI or relative path of the queue or topic messaging entity the
+   * messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   ForwardTo?: string;
 
@@ -443,6 +431,7 @@ export interface QueueDetails {
 
   /**
    * Absolute URI of the messaging entity the dead-lettered messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -488,6 +477,7 @@ export interface QueueDetails {
 
   /**
    * Absolute URI of the messaging entity the messages are to be forwarded to.
+   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
    */
   forwardTo?: string;
 
