@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
+import { logger } from "./log";
 import * as os from "os";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
@@ -124,7 +124,7 @@ export namespace ConnectionContext {
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
       connectionContext.wasConnectionCloseCalled = false;
-      log.context(
+      logger.verbose(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id,
         connectionContext.wasConnectionCloseCalled
@@ -135,7 +135,7 @@ export namespace ConnectionContext {
       const connectionError =
         context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           connectionError
@@ -143,7 +143,7 @@ export namespace ConnectionContext {
       }
       const contextError = context.error;
       if (contextError) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           contextError
@@ -170,9 +170,9 @@ export namespace ConnectionContext {
 
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
-      log.error("[%s] state: %O", connectionContext.connection.id, state);
+      logger.verbose("[%s] state: %O", connectionContext.connection.id, state);
       if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        log.error(
+        logger.verbose(
           "[%s] connection.close() was not called from the sdk and there were some " +
             "sender or receiver links or both. We should reconnect.",
           connectionContext.connection.id
@@ -182,14 +182,14 @@ export namespace ConnectionContext {
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
-            log.error(
+            logger.verbose(
               "[%s] calling detached on sender '%s' with address '%s'.",
               connectionContext.connection.id,
               sender.name,
               sender.address
             );
             sender.onDetached(connectionError || contextError).catch((err) => {
-              log.error(
+              logger.verbose(
                 "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
                 sender.name,
@@ -198,7 +198,7 @@ export namespace ConnectionContext {
               );
             });
           } else {
-            log.error(
+            logger.verbose(
               "[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
                 "calling detached on the sender.",
               connectionContext.connection.id,
@@ -211,14 +211,14 @@ export namespace ConnectionContext {
         for (const receiverName of Object.keys(connectionContext.receivers)) {
           const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
-            log.error(
+            logger.verbose(
               "[%s] calling detached on receiver '%s' with address '%s'.",
               connectionContext.connection.id,
               receiver.name,
               receiver.address
             );
             receiver.onDetached(connectionError || contextError).catch((err) => {
-              log.error(
+              logger.verbose(
                 "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
                 receiver.name,
@@ -227,7 +227,7 @@ export namespace ConnectionContext {
               );
             });
           } else {
-            log.error(
+            logger.verbose(
               "[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
                 "calling detached on the receiver.",
               connectionContext.connection.id,
@@ -241,14 +241,14 @@ export namespace ConnectionContext {
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.error
@@ -258,14 +258,14 @@ export namespace ConnectionContext {
 
     const error: OnAmqpEvent = async (context: EventContext) => {
       if (context.connection && context.connection.error) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
-        log.error(
+        logger.verbose(
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
           context.error
@@ -279,7 +279,7 @@ export namespace ConnectionContext {
     connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
     connectionContext.connection.on(ConnectionEvents.error, error);
 
-    log.context("[%s] Created connection context successfully.", connectionContext.connectionId);
+    logger.verbose("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
   }
 }
