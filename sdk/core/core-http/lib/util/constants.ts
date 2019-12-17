@@ -93,6 +93,11 @@ export const Constants = {
      * @const
      * @type {string}
      */
-    USER_AGENT: "User-Agent"
+    USER_AGENT: "User-Agent",
+
+    /**
+     * The service version used to send operation request
+     */
+    X_MS_VERSION: "x-ms-version"
   }
 };

@@ -25,7 +25,7 @@ import {
   isNode,
   OperationSpec
 } from "../lib/coreHttp";
-import { ParameterPath } from "../lib/operationParameter";
+import { ParameterPath, OperationParameter } from "../lib/operationParameter";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -401,6 +401,128 @@ describe("ServiceClient", function() {
     assert.strictEqual(
       response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"),
       "blah blah 2"
+    );
+  });
+
+  it("should use version from operation spec", async function() {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+    const parameter: OperationParameter = {
+      parameterPath: "version",
+      mapper: {
+        required: true,
+        isConstant: true,
+        serializedName: "x-ms-version",
+        defaultValue: '2019-02-02',
+        type: {
+          name: "String"
+        }
+      }
+    };
+
+    const client = new ServiceClient(undefined, {
+      httpClient
+    });
+
+    const response: RestResponse = await client.sendOperationRequest(
+      {},
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {},
+        headerParameters: [
+          parameter
+        ]
+      }
+    );
+
+    assert.strictEqual(response._response.status, 200);
+    assert.strictEqual(
+      response._response.request.headers.get("x-ms-version"),
+      "2019-02-02"
+    );
+  });
+
+  it("should prefer serviceVersion from client options over operation spec version", async function() {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+    const parameter: OperationParameter = {
+      parameterPath: "version",
+      mapper: {
+        required: true,
+        isConstant: true,
+        serializedName: "x-ms-version",
+        defaultValue: '2019-02-02',
+        type: {
+          name: "String"
+        }
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      serviceVersions: "2019-07-07"
+    });
+
+    const response: RestResponse = await client1.sendOperationRequest(
+      {},
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {},
+        headerParameters: [
+          parameter
+        ]
+      }
+    );
+
+    assert.strictEqual(response._response.status, 200);
+    assert.strictEqual(
+      response._response.request.headers.get("x-ms-version"),
+      "2019-07-07"
+    );
+  });
+
+  it("should use per-operation customHeaders over client serviceVersion from options", async function() {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      serviceVersions: "2019-07-07"
+    });
+
+    const response: RestResponse = await client1.sendOperationRequest(
+      {
+        options: {
+          customHeaders: {
+            ["x-ms-version"]: "2020-01-01"
+          }
+        }
+      },
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {}
+      }
+    );
+
+    assert.strictEqual(response._response.status, 200);
+    assert.strictEqual(
+      response._response.request.headers.get("x-ms-version"),
+      "2020-01-01"
     );
   });
 

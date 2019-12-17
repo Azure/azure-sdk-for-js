@@ -52,6 +52,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { Constants } from './util/constants';
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -141,6 +142,11 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+
+  /**
+   * Specifies the version of the operation to use for this request.
+   */
+  serviceVersions?: string;
 }
 
 /**
@@ -169,6 +175,7 @@ export class ServiceClient {
   private readonly _requestPolicyFactories: RequestPolicyFactory[];
   private readonly _withCredentials: boolean;
 
+  private readonly _serviceVersion?: string;
   /**
    * The ServiceClient constructor
    * @constructor
@@ -186,6 +193,7 @@ export class ServiceClient {
     this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
+    this._serviceVersion = options.serviceVersions;
 
     let requestPolicyFactories: RequestPolicyFactory[];
     if (Array.isArray(options.requestPolicyFactories)) {
@@ -413,6 +421,11 @@ export class ServiceClient {
             }
           }
         }
+      }
+
+      // override x-ms-version header with client's service version if it is specified.
+      if (this._serviceVersion) {
+        httpRequest.headers.set(Constants.HeaderConstants.X_MS_VERSION, this._serviceVersion);
       }
 
       const options: RequestOptionsBase | undefined = operationArguments.options;
