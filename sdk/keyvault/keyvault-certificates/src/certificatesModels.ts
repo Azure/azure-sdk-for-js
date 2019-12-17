@@ -715,9 +715,7 @@ export interface UpdateCertificatePropertiesOptions
 /**
  * Options for {@link updateCertificatePolicy}.
  */
-export interface UpdateCertificatePolicyOptions
-  extends CertificateProperties,
-    coreHttp.OperationOptions {}
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing the properties of a certificate issuer
@@ -740,11 +738,7 @@ export interface IssuerProperties {
 /**
  * An interface representing the properties of an issuer
  */
-export interface CertificateIssuer {
-  /**
-   * Certificate Identifier.
-   */
-  id?: string;
+export interface CertificateIssuer extends IssuerProperties {
   /**
    * Determines whether the object is enabled.
    */
@@ -757,10 +751,6 @@ export interface CertificateIssuer {
    * When the issuer was updated.
    */
   readonly updatedOn?: Date;
-  /**
-   * Name of the issuer
-   */
-  readonly name?: string;
   /**
    * The user name/account name/account id.
    */
@@ -777,21 +767,12 @@ export interface CertificateIssuer {
    * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
-  /**
-   * A small set of useful properties of a certificate issuer
-   */
-  properties?: IssuerProperties;
 }
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
  */
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
@@ -801,34 +782,17 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */

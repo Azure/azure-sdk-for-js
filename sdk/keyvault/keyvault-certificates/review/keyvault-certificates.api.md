@@ -54,7 +54,7 @@ export class CertificateClient {
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
-    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>>;
+    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
@@ -95,16 +95,13 @@ export interface CertificateContactAll {
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
 // @public
-export interface CertificateIssuer {
+export interface CertificateIssuer extends IssuerProperties {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
     readonly createdOn?: Date;
     enabled?: boolean;
-    id?: string;
-    readonly name?: string;
     organizationId?: string;
     password?: string;
-    properties?: IssuerProperties;
     readonly updatedOn?: Date;
 }
 
@@ -339,23 +336,19 @@ export interface LifetimeAction {
 // @public
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
     includePending?: boolean;
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
 export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-    maxresults?: number;
 }
 
 // @public
@@ -405,7 +398,7 @@ export interface UpdateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export interface UpdateCertificatePolicyOptions extends CertificateProperties, coreHttp.OperationOptions {
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {
 }
 
 // @public

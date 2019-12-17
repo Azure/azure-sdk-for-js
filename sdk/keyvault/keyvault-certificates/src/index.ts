@@ -226,7 +226,7 @@ function toCoreAttributes(properties: CertificateProperties): CoreCertificateAtt
 function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes
+  attributes: CertificateAttributes = {}
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -349,17 +349,12 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   const publicIssuer: CertificateIssuer = {
     id: issuer.id,
     name: parsedId.name,
+    provider: issuer.provider,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
     enabled: attributes.enabled,
     createdOn: attributes.created,
     updatedOn: attributes.updated
-  };
-
-  publicIssuer.properties = {
-    id: publicIssuer.id,
-    name: parsedId.name,
-    provider: issuer.provider
   };
 
   if (issuer.organizationDetails) {
@@ -1361,9 +1356,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateCertificatePolicy", requestOptions);
 
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, policy, certificateAttributes);
+    const corePolicy = toCorePolicy(undefined, policy);
 
     let result: UpdateCertificatePolicyResponse;
     try {
@@ -1861,7 +1854,9 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,
