@@ -12,8 +12,11 @@
   },
   "variables": {
     "apiVersion": "2017-04-01",
+    "storageApiVersion": "2019-04-01",
     "iotApiVersion": "2018-04-01",
     "namespaceName": "[parameters('baseName')]",
+    "storageAccountName": "[concat('storage', parameters('baseName'))]",
+    "containerName": "container",
     "iotName": "[concat('iot', parameters('baseName'))]",
     "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
     "eventHubName": "eventhub",
@@ -54,8 +57,8 @@
       "location": "[variables('location')]",
       "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
       "properties": {
-        "messageRetentionInDays": 7,
-        "partitionCount": 1
+        "messageRetentionInDays": 1,
+        "partitionCount": 4
       }
     },
     {
@@ -82,10 +85,53 @@
       "properties": {}
     },
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "[concat('default/', variables('containerName'))]",
+          "type": "blobServices/containers",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": ["[variables('storageAccountName')]"]
+        }
+      ]
+    },
+    {
       "type": "Microsoft.Devices/IotHubs",
       "apiVersion": "[variables('ioTapiVersion')]",
       "name": "[variables('iotName')]",
       "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
       "sku": {
         "name": "S1",
         "tier": "Standard",
@@ -113,6 +159,13 @@
             "condition": "true",
             "endpointNames": ["events"],
             "isEnabled": true
+          }
+        },
+        "storageEndpoints": {
+          "$default": {
+            "sasTtlAsIso8601": "PT1H",
+            "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
+            "containerName": "[variables('containerName')]"
           }
         },
         "messagingEndpoints": {
@@ -147,7 +200,7 @@
     },
     "IOTHUB_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), variables('iotApiVersion')).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), variables('iotApiVersion')).value[0].primaryKey)]"
+      "value": "[concat('Endpoint=',reference(resourceId('Microsoft.Devices/IoTHubs',variables('iotName'))).eventHubEndpoints.events.endpoint,';SharedAccessKeyName=iothubowner;SharedAccessKey=',listKeys(resourceId('Microsoft.Devices/IotHubs',variables('iotName')),variables('iotApiVersion')).value[0].primaryKey,';EntityPath=',variables('iotName'))]"
     }
   }
 }
