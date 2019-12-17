@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     external: ["fs-extra", "nock", "path"],

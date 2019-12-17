@@ -97,7 +97,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
   return baseConfig;
 }
 
-export function browserConfig({ test = false, production = false } = {}) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     external: [],
