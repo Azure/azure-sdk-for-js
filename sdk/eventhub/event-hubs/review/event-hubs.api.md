@@ -232,7 +232,7 @@ export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface SubscribeOptions {
+export interface SubscribeOptions extends OperationOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;

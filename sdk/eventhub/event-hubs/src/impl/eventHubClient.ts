@@ -307,8 +307,10 @@ export class EventHubClient {
 
   /**
    * The Service Bus endpoint.
+   * @internal
+   * @ignore
    */
-  private _endpoint: string;
+  public readonly endpoint: string;
 
   /**
    * @property
@@ -401,7 +403,7 @@ export class EventHubClient {
 
     ConnectionConfig.validate(config);
 
-    this._endpoint = config.endpoint;
+    this.endpoint = config.endpoint;
 
     this._clientOptions = options || {};
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
@@ -416,7 +418,7 @@ export class EventHubClient {
 
     span.setAttribute("component", "eventhubs");
     span.setAttribute("message_bus.destination", this.eventHubName);
-    span.setAttribute("peer.address", this._endpoint);
+    span.setAttribute("peer.address", this.endpoint);
 
     return span;
   }
@@ -481,7 +483,7 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this.eventHubName, this._endpoint, this._context, options);
+    return new EventHubProducer(this.eventHubName, this.endpoint, this._context, options);
   }
 
   /**
