@@ -3,11 +3,18 @@
 
 import { getStartingPosition, createSpanForReceivedEvents, trace } from "../src/partitionPump";
 import { EventPosition } from "../src/eventPosition";
-import { NoOpSpan } from '@azure/core-tracing';
-import { Attributes, CanonicalCode, Status, SpanOptions, SpanContext, SpanKind } from "@opentelemetry/types";
+import { NoOpSpan } from "@azure/core-tracing";
+import {
+  Attributes,
+  CanonicalCode,
+  Status,
+  SpanOptions,
+  SpanContext,
+  SpanKind
+} from "@opentelemetry/types";
 import chai from "chai";
-import { ReceivedEventData } from '../src/eventData';
-import { instrumentEventData } from '../src/diagnostics/instrumentEventData';
+import { ReceivedEventData } from "../src/eventData";
+import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
 
 const should = chai.should();
 
@@ -24,46 +31,105 @@ describe("PartitionPump", () => {
     getStartingPosition(undefined, undefined).offset!.should.equal(-1);
   });
 
-  describe("telemetry", () => {
+  describe.only("telemetry", () => {
     const eventHubProperties = {
       endpoint: "theendpoint",
       eventHubName: "theeventhubname"
     };
 
-    it("proper attributes should be set", async () => {
+    it("basic span properties are set", async () => {
       let name: string | undefined;
       let options: SpanOptions | undefined;
       const fakeParentSpan = new NoOpSpan();
+      const createdSpan = new SlightlyLessNoOpSpan("myspan");
 
-      const testSpan = new SlightlyLessNoOpSpan("myspan");
-
-      const span = await createSpanForReceivedEvents([], eventHubProperties, {
-        tracingOptions: {
-          spanOptions: {
-            parent: fakeParentSpan
+      const actualReturnedSpan = await createSpanForReceivedEvents(
+        [],
+        eventHubProperties,
+        {
+          tracingOptions: {
+            spanOptions: {
+              parent: fakeParentSpan
+            }
+          }
+        },
+        {
+          startSpan: (nameArg, optionsArg) => {
+            name = nameArg;
+            options = optionsArg;
+            return createdSpan;
           }
         }
-      }, {
-        startSpan: (nameArg, optionsArg) => {
-          name = nameArg;
-          options = optionsArg;
-          return testSpan;
-        }
-      });
-    
-      should.exist(span);
-      should.equal(name, "Azure.EventHubs.process");
-    
-      should.exist(options);
+      );
 
-      testSpan.attributes!.should.deep.equal({
-        "component": "eventhubs",
+      should.equal(name, "Azure.EventHubs.process");
+
+      should.exist(options);
+      options!.kind!.should.equal(SpanKind.CONSUMER);
+      options!.parent!.should.equal(fakeParentSpan);
+
+      createdSpan.should.be.equal(actualReturnedSpan);
+      createdSpan.attributes!.should.deep.equal({
+        component: "eventhubs",
         "message_bus.destination": "theeventhubname",
         "peer.address": "theendpoint"
       });
+    });
 
-      options!.kind!.should.equal(SpanKind.CONSUMER);
-      options!.parent!.should.equal(fakeParentSpan);
+    it("received events are linked to this span using Diagnostic-Id", async () => {
+      let options: SpanOptions | undefined;
+
+      const requiredEventProperties = {
+        body: "",
+        enqueuedTimeUtc: new Date(),
+        offset: 0,
+        partitionKey: null,
+        sequenceNumber: 0
+      };
+
+      const receivedEvents: ReceivedEventData[] = [
+        instrumentEventData({ ...requiredEventProperties }, new SlightlyLessNoOpSpan("a")) as ReceivedEventData,
+        { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
+        instrumentEventData({ ...requiredEventProperties }, new SlightlyLessNoOpSpan("c")) as ReceivedEventData
+      ];
+
+      await createSpanForReceivedEvents(
+        receivedEvents,
+        eventHubProperties,
+        {},
+        {
+          startSpan: (_, optionsArg) => {
+            options = optionsArg;
+            return new NoOpSpan();
+          }
+        }
+      );
+
+      // middle event, since it has no trace information, doesn't get included
+      // in the telemetry
+      options!.links!.length.should.equal(3 - 1);
+      options!.links![0]!.spanContext.traceId.should.equal(`afaketraceid`);
+      options!.links![1]!.spanContext.traceId.should.equal(`cfaketraceid`);
+    });
+
+    it("trace - normal", async () => {
+      const span = new SlightlyLessNoOpSpan("id");
+      await trace(async () => {}, span);
+
+      span.status!.code.should.equal(CanonicalCode.OK);
+      span.endCalled.should.be.ok;
+    });
+
+    it("trace - throws", async () => {
+      const span = new SlightlyLessNoOpSpan("id");
+
+      await trace(async () => {
+        throw new Error("error thrown from fn");
+      }, span).should.be.rejectedWith(/error thrown from fn/);
+
+      span.status!.code.should.equal(CanonicalCode.UNKNOWN);
+      span.status!.message!.should.equal("error thrown from fn");
+      span.endCalled.should.be.ok;
     });
 
     class SlightlyLessNoOpSpan extends NoOpSpan {
@@ -74,7 +140,7 @@ describe("PartitionPump", () => {
       constructor(private _id: string) {
         super();
       }
-      
+
       context(): SpanContext {
         return {
           traceId: `${this._id}faketraceid`,
@@ -91,7 +157,7 @@ describe("PartitionPump", () => {
         return this;
       }
 
-      setAttributes(attributes: Attributes): this{
+      setAttributes(attributes: Attributes): this {
         this.attributes = attributes;
         return this;
       }
@@ -100,53 +166,5 @@ describe("PartitionPump", () => {
         this.endCalled = true;
       }
     }
-
-    it("events get linked to this span", async () => {
-      let options: SpanOptions | undefined;
-
-      const junk = { body: "", enqueuedTimeUtc: new Date(), offset: 0, partitionKey: null, sequenceNumber: 0 };
-
-      const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData({ ...junk }, new SlightlyLessNoOpSpan("a")) as ReceivedEventData,
-        { properties: {}, ...junk },   // no diagnostic ID means it gets skipped
-        instrumentEventData({ ...junk }, new SlightlyLessNoOpSpan("c")) as ReceivedEventData
-      ];
-
-      const span = await createSpanForReceivedEvents(receivedEvents, eventHubProperties, {}, {
-        startSpan: (_, optionsArg) => {
-          options = optionsArg;
-          return new NoOpSpan();
-        }
-      });
-
-      should.exist(span);
-
-      // middle event, since it has no trace information, doesn't get included
-      // in the telemetry
-      options!.links!.length.should.equal(3 - 1);
-      options!.links![0]!.spanContext.traceId.should.equal(`afaketraceid`);
-      options!.links![1]!.spanContext.traceId.should.equal(`cfaketraceid`);
-    });
-
-    it("trace - normal", async () => {
-      const span = new SlightlyLessNoOpSpan("id");
-      await trace(async () => { }, span);
-
-      span.status!.code.should.equal(CanonicalCode.OK);
-      span.endCalled.should.be.ok;
-    });
-
-    it("trace - throws", async () => {
-      const span = new SlightlyLessNoOpSpan("id");
-
-      await trace(async () => { throw new Error("error thrown from fn") }, span)
-        .should
-        .be
-        .rejectedWith(/error thrown from fn/);
-        
-      span.status!.code.should.equal(CanonicalCode.UNKNOWN);
-      span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
-    });
   });
 });

@@ -206,7 +206,7 @@ export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[],
  * @ignore
  * @internal
  */
-export async function trace<T>(fn: () => Promise<T>, span: Span): Promise < void> {
+export async function trace(fn: () => Promise<void>, span: Span): Promise < void> {
   try {
     await fn();
     span.setStatus({ code: CanonicalCode.OK });
