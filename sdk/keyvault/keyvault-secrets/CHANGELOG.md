@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.2 (2019-12-03)
+## 4.0.2 (2019-12-04)
 
 - Updated dependencies to their latest available versions.
 - Fixed the support of dotenv while testing.

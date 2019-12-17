@@ -1,9 +1,11 @@
-# 1.1.2
+# Release History
+
+## 1.1.2 (2019-12-12)
 
 - Updates `@azure/amqp-common` to version 1.0.0-preview.9.
   This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
 
-# 2019-11-27 1.1.1
+## 1.1.1 (2019-11-27)
 
 - Fix [bug 5757](https://github.com/Azure/azure-sdk-for-js/issues/5757) where `receiveMessages` used in `ReceiveAndDelete` mode results in data loss. [PR 6265](https://github.com/Azure/azure-sdk-for-js/pull/6265).
 - Updated network status detection to treat DNS timeouts as a `ConnectionLostError` by using the latest version
@@ -17,12 +19,12 @@
 - Update jsdocs for user facing apis to include information on possible errors that can be thrown.
   [PR 6088](https://github.com/Azure/azure-sdk-for-js/pull/6088)
 
-# 2019-09-26 1.1.0
+## 1.1.0 (2019-09-26)
 
 - Add browser support. Authentication using Azure Active Directory credentials is not supported yet - use a connection string instead.
   [PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
 
-# 2019-09-12 1.0.4
+## 1.0.4 (2019-09-12)
 
 - Increase timeout value from 20 seconds to 60 seconds when settling messages.
   [PR 4907](https://github.com/Azure/azure-sdk-for-js/pull/4907) related to [bug 3764](https://github.com/Azure/azure-sdk-for-js/issues/3764)
@@ -33,22 +35,22 @@
 - Improve logging when not able to settle a message due to not having access to the right receiver. [PR 4943](https://github.com/Azure/azure-sdk-for-js/pull/4943)
 - Fix bug where the library consistently fails to settle a message due to having lost reference to the right receiver. [PR 4947](https://github.com/Azure/azure-sdk-for-js/pull/4947)
 
-# 2019-07-18 1.0.3
+## 1.0.3 (2019-07-18)
 
 - Update `amqp-common` dependency version to 1.0.0-preview.6. This includes fix for the [bug 3971](https://github.com/Azure/azure-sdk-for-js/issues/3971) where the token audience in the credential created during [MSI based login](https://www.npmjs.com/package/@azure/ms-rest-nodeauth/v/2.0.2#msi-managed-service-identity-based-login-from-a-virtual-machine-created-in-azure) was being ignored. [PR 4146](https://github.com/Azure/azure-sdk-for-js/pull/4146)
 - Added event handlers for `error` and `protocolError` events on the connection object to avoid the case of unhandled exceptions like [bug 4136](https://github.com/Azure/azure-sdk-for-js/issues/4136)
 
-# 2019-05-21 1.0.2
+## 1.0.2 (2019-05-21)
 
 - Added missing package.json file to the npm package to fix issues bundling with webpack and other bundlers.
   This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
 
-# 2019-05-16 1.0.1
+## 1.0.1 (2019-05-16)
 
 - Readme updated to remove the status about this library being in preview. This library is now out
   of preview.
 
-# 2019-05-16 1.0.0
+## 1.0.0 (2019-05-16)
 
 - `receiveMessages()` now returns rejected promise when network connection is lost.
 - Receiving messages from a session whose id is an empty string is now allowed.
@@ -64,21 +66,21 @@
 - User agent string which is passed as a AMQP connection property is updated to follow the new standard.
   For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
 
-# 2019-04-24 1.0.0-preview.3
+## 1.0.0-preview.3 (2019-04-24)
 
 - Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.
 
-# 2019-04-08 1.0.0-preview.2
+## 1.0.0-preview.2 (2019-04-08)
 
 ### Breaking Changes
 
 The second preview of the @azure/service-bus library has the below breaking changes from the previous
 version:
 
-#### Name changes
+### Name changes
 
 Some of our classes and functions have undergone a naming change to better describe what they are
 meant to do.
@@ -100,7 +102,7 @@ meant to do.
 - A third way of receiving messages is introduced on the receiver via `getMessageIterator` function
   which returns an async iterator over messages.
 
-#### Authentication
+### Authentication
 
 - If you have been using the `createFromAadTokenCredentials` function to create an instance of the
   `Namespace` class (which is now `ServiceBusClient`), you will now need to use the
@@ -122,7 +124,7 @@ meant to do.
   We already have code in place to create new AMQP links to resume send/receive operations. Fixes
   [Bug 1268](https://github.com/Azure/azure-sdk-for-js/issues/1268) - InvalidOperationError: A link to connection '.....' \$cbs node has already been opened. - UnauthorizedError: Unauthorized access. 'Listen' claim(s) are required to perform this operation.
 
-# 2019-02-05 1.0.0-preview.1
+## 1.0.0-preview.1 (2019-02-05)
 
 The first preview of the @azure/service-bus library has the below features
 
