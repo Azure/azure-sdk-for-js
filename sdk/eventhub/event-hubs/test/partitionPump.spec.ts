@@ -4,7 +4,7 @@
 import { getStartingPosition, createSpanForReceivedEvents, trace } from "../src/partitionPump";
 import { EventPosition } from "../src/eventPosition";
 import { NoOpSpan } from '@azure/core-tracing';
-import { Attributes, CanonicalCode, Status, SpanOptions, SpanContext } from "@opentelemetry/types";
+import { Attributes, CanonicalCode, Status, SpanOptions, SpanContext, SpanKind } from "@opentelemetry/types";
 import chai from "chai";
 import { ReceivedEventData } from '../src/eventData';
 import { instrumentEventData } from '../src/diagnostics/instrumentEventData';
@@ -62,6 +62,7 @@ describe("PartitionPump", () => {
         "peer.address": "theendpoint"
       });
 
+      options!.kind!.should.equal(SpanKind.CONSUMER);
       options!.parent!.should.equal(fakeParentSpan);
     });
 

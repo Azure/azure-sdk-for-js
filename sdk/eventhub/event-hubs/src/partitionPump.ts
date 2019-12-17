@@ -188,7 +188,7 @@ export function createSpanForReceivedEvents(receivedEvents: ReceivedEventData[],
   }
 
   const span = tracerLite.startSpan("Azure.EventHubs.process", {
-    kind: SpanKind.INTERNAL,
+    kind: SpanKind.CONSUMER,
     links: links,
     parent: getParentSpan(operationOptions)
   });
