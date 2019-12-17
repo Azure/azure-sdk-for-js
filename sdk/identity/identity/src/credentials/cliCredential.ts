@@ -45,8 +45,7 @@ export class CliCredential implements TokenCredential {
       try {
         // const child = child_process.spawn(`az${process.platform === "win32" ? ".cmd" : ""}`, ["account", "get-access-token", "--resource", resource]);
         const { span } = createSpan("CliCredential-getToken", options);
-        let az = process.platform === "win32" ? "az.cmd" : "az";
-        child_process.exec(`${az} account get-access-token --resource ${resource}`, (err, stdout, stderr) => {
+        child_process.exec(`az account get-access-token --resource ${resource}`, (err, stdout, stderr) => {
           responseData = stdout;
           if (process.platform == "linux" || process.platform == "darwin") {
             if (stderr.match("az:(.*)not found")) {
