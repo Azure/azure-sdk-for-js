@@ -31,7 +31,7 @@ describe("PartitionPump", () => {
     getStartingPosition(undefined, undefined).offset!.should.equal(-1);
   });
 
-  describe.only("telemetry", () => {
+  describe("telemetry", () => {
     const eventHubProperties = {
       endpoint: "theendpoint",
       eventHubName: "theeventhubname"
