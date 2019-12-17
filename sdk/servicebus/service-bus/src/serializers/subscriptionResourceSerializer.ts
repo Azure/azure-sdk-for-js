@@ -207,7 +207,7 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * Absolute URI or relative path of the messaging entity the dead-lettered messages are to be forwarded to.
    * For e.g., Valid relative paths used in the ATOM based management API are
    *     - `<queue-name>`
    *     - `<topic-name>`
@@ -224,7 +224,7 @@ export interface SubscriptionOptions {
   maxDeliveryCount?: number;
 
   /**
-   * Relative path of the messaging entity the messages are to be forwarded to.
+   * Absolute URI or relative path of the messaging entity the messages are to be forwarded to.
    * For e.g., Valid relative paths used in the ATOM based management API are
    *     - `<queue-name>`
    *     - `<topic-name>`
@@ -335,7 +335,7 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
+   * Absolute URI or relative path of the messaging entity the dead-lettered messages are to be forwarded to.
    * For e.g., Valid relative paths used in the ATOM based management API are
    *     - `<queue-name>`
    *     - `<topic-name>`
@@ -352,7 +352,7 @@ export interface InternalSubscriptionOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * Relative path of the messaging entity the messages are to be forwarded to.
+   * Absolute URI or relative path of the messaging entity the messages are to be forwarded to.
    * For e.g., Valid relative paths used in the ATOM based management API are
    *     - `<queue-name>`
    *     - `<topic-name>`
@@ -474,12 +474,7 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * Relative path of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI of the messaging entity the dead-lettered messages are to be forwarded to.
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -491,12 +486,7 @@ export interface SubscriptionDetails {
   maxDeliveryCount: number;
 
   /**
-   * Relative path of the messaging entity the messages are to be forwarded to.
-   * For e.g., Valid relative paths used in the ATOM based management API are
-   *     - `<queue-name>`
-   *     - `<topic-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>`
-   *     - `<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+   * Absolute URI of the messaging entity the messages are to be forwarded to.
    */
   forwardTo?: string;
 
