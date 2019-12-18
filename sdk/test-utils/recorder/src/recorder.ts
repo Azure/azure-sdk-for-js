@@ -131,7 +131,15 @@ export function record(testContext: Mocha.Context): Recorder {
       }
       if (isRecordMode()) {
         name = getUniqueName(prefix);
-        recorder.uniqueTestInfo["uniqueName"][label] = name;
+        if (recorder.uniqueTestInfo["uniqueName"][label]) {
+          throw new Error(
+            `getUniqueName: function(prefix: string, label?: string),
+            Label "${label}" is already taken for the prefix "${prefix}",
+            please provide a different prefix OR give a new label while keeping the same prefix "${prefix}".`
+          );
+        } else {
+          recorder.uniqueTestInfo["uniqueName"][label] = name;
+        }
       } else if (isPlaybackMode()) {
         if (recorder.uniqueTestInfo["uniqueName"]) {
           name = recorder.uniqueTestInfo["uniqueName"][label];
