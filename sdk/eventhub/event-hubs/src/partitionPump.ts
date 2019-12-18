@@ -202,7 +202,7 @@ export function createProcessingSpan(
 
   const span = tracerLite.startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
-    links: links,
+    links,
     parent: getParentSpan(tracingOptions)
   });
 
