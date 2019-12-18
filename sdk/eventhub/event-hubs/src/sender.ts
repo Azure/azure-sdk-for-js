@@ -5,7 +5,7 @@ import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
@@ -105,11 +105,12 @@ export class EventHubProducer {
       const error = new Error(
         "Creating a batch with partition key is not supported when using producers that were created using a partition id."
       );
-      log.error(
+      logger.warning(
         "[%s] Creating a batch with partition key is not supported when using producers that were created using a partition id. %O",
         this._context.connectionId,
         error
       );
+      logErrorStackTrace(error);
       throw error;
     }
 
@@ -122,9 +123,10 @@ export class EventHubProducer {
         const error = new Error(
           `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
-        log.error(
+        logger.warning(
           `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
         );
+        logErrorStackTrace(error);
         throw error;
       }
       maxMessageSize = options.maxSizeInBytes;
@@ -164,11 +166,11 @@ export class EventHubProducer {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "send", "eventData", eventData);
     if (Array.isArray(eventData) && eventData.length === 0) {
-      log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
+      logger.info(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
     if (isEventDataBatch(eventData) && eventData.count === 0) {
-      log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
+      logger.info(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
     if (!Array.isArray(eventData) && !isEventDataBatch(eventData)) {
@@ -229,12 +231,13 @@ export class EventHubProducer {
       }
       this._isClosed = true;
     } catch (err) {
-      log.error(
+      logger.warning(
         "[%s] An error occurred while closing the Sender for %s: %O",
         this._context.connectionId,
         this._context.config.entityPath,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -268,7 +271,8 @@ export class EventHubProducer {
         `The EventHubProducer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubProducer using the "createProducer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.warning(`[${this._context.connectionId}] %O`, error);
+      logErrorStackTrace(error);
       throw error;
     }
   }
