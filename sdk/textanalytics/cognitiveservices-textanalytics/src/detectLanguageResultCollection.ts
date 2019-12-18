@@ -20,13 +20,13 @@ import { sortByPreviousIdOrder } from "./util";
  */
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
   /**
-   * Gets statistics about the input document batch and how it was processed
+   * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
    * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
   /**
-   * Gets the version of the text analytics model used by this operation on this
+   * The version of the text analytics model used by this operation on this
    * batch of input documents.
    */
   modelVersion: string;

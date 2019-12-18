@@ -20,7 +20,7 @@ export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | Recognize
  */
 export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * Gets the collection of entities identified in the input document.
+   * The collection of entities identified in the input document.
    */
   readonly entities: Entity[];
 }

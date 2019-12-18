@@ -22,7 +22,7 @@ export type RecognizeLinkedEntitiesResult =
  */
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * Gets the collection of entities identified in the input document.
+   * The collection of entities identified in the input document.
    */
   readonly entities: LinkedEntity[];
 }

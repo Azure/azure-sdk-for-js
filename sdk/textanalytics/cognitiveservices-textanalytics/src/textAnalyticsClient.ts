@@ -192,7 +192,7 @@ export class TextAnalyticsClient {
    * @param inputs A collection of input strings to analyze.
    * @param countryHint Indicates the country of origin for all of
    *   the input strings to assist the text analytics model in predicting
-   *   the language they is written in.  If unspecified, this value will be
+   *   the language they are written in.  If unspecified, this value will be
    *   set to the default country hint in `TextAnalyticsClientOptions`.
    *   If set to an empty string, the service will apply a model where the
    *   country is explicitly set to "None".
@@ -350,7 +350,7 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Runs a predictive model to identify the positive, negative or neutral
+   * Runs a predictive model to identify the positive, negative, neutral, or mixed
    * sentiment contained in the input strings, as well as scores indicating
    * the model's confidence in each of the predicted sentiments.
    * For a list of languages supported by this operation, see
@@ -369,7 +369,7 @@ export class TextAnalyticsClient {
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
   /**
-   * Runs a predictive model to identify the positive, negative or neutral
+   * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
    * the model's confidence in each of the predicted sentiments.
    * For a list of languages supported by this operation, see

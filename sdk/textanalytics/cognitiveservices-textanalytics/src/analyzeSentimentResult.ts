@@ -35,7 +35,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
    */
   documentScores: SentimentConfidenceScorePerLabel;
   /**
-   * Gets the predicted sentiment for each sentence in the corresponding document.
+   * The predicted sentiment for each sentence in the corresponding document.
    */
   sentences: SentenceSentiment[];
 }

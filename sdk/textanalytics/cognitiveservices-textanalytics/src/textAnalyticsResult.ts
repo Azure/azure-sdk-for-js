@@ -19,7 +19,7 @@ export interface TextAnalyticsSuccessResult {
   readonly id: string;
 
   /**
-   * Gets statistics about the input document and how it was processed
+   * Statistics about the input document and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
    * in the client call.
    */
