@@ -277,7 +277,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn
   ],
@@ -362,7 +362,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.fileAttributes,
+    Parameters.fileAttributes0,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn
   ],
