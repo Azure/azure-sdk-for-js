@@ -12,7 +12,7 @@ import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { TokenCredential, Constants } from "@azure/core-amqp";
-import * as log from "./log";
+import { logger } from "./log";
 
 import {
   SubscribeOptions,
@@ -194,7 +194,7 @@ export class EventHubConsumerClient {
   ) {
     if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
-      log.consumerClient("Creating client with TokenCredential");
+      logger.info("Creating EventHubConsumerClient with TokenCredential.");
 
       let eventHubClientOptions: EventHubClientOptions | undefined;
 
@@ -217,7 +217,7 @@ export class EventHubConsumerClient {
       );
     } else if (typeof checkpointStoreOrEventHubNameOrOptions3 === "string") {
       // #2 or 2.1
-      log.consumerClient("Creating client with connection string and event hub name");
+      logger.info("Creating EventHubConsumerClient with connection string and event hub name.");
 
       let eventHubClientOptions: EventHubClientOptions | undefined;
 
@@ -240,7 +240,7 @@ export class EventHubConsumerClient {
       );
     } else {
       // #1 or 1.1
-      log.consumerClient("Creating client with connection string");
+      logger.info("Creating EventHubConsumerClient with connection string.");
 
       let eventHubClientOptions: EventHubClientOptions | undefined;
 
@@ -388,9 +388,11 @@ export class EventHubConsumerClient {
     this._partitionGate.add("all");
 
     if (this._userChoseCheckpointStore) {
-      log.consumerClient("Subscribing to all partitions, using a checkpoint store.");
+      logger.verbose(
+        "EventHubConsumerClient subscribing to all partitions, using a checkpoint store."
+      );
     } else {
-      log.consumerClient("Subscribing to all partitions, no checkpoint store.");
+      logger.verbose("EventHubConsumerClient subscribing to all partitions, no checkpoint store.");
     }
 
     const eventProcessor = this._createEventProcessor(
@@ -422,14 +424,14 @@ export class EventHubConsumerClient {
     this._partitionGate.add(partitionId);
 
     const subscribeOptions = options as SubscribeOptions | undefined;
-    
+
     if (this._userChoseCheckpointStore) {
-      log.consumerClient(
-        `Subscribing to specific partition (${partitionId}), using a checkpoint store`
-      );      
+      logger.verbose(
+        `EventHubConsumerClient subscribing to specific partition (${partitionId}), using a checkpoint store.`
+      );
     } else {
-      log.consumerClient(
-        `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+      logger.verbose(
+        `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`
       );
     }
 
