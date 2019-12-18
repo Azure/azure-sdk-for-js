@@ -27,4 +27,19 @@ jobs:
         AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        SERVICEBUS_CONNECTION_STRING: $(SERVICEBUS_CONNECTION_STRING)
+        RESOURCE_GROUP: $(RESOURCE_GROUP)
+        QUEUE_NAME: "partitioned-queue"
+        QUEUE_NAME_NO_PARTITION: "unpartitioned-queue"
+        QUEUE_NAME_SESSION: "partitioned-sessions-queue"
+        QUEUE_NAME_NO_PARTITION_SESSION: "unpartitioned-sessions-queue"
+        TOPIC_NAME: "performance-test-topic"
+        TOPIC_NAME_NO_PARTITION: "unpartitioned-topic"
+        TOPIC_NAME_SESSION: "partitioned-sessions-topic"
+        SUBSCRIPTION_NAME: "performance-test-2"
+        SUBSCRIPTION_NAME_NO_PARTITION: "unpartitioned-subscription"
+        SUBSCRIPTION_NAME_SESSION: "partitioned-sessions-subscription"
+        SUBSCRIPTION_NAME_NO_PARTITION_SESSION: "unpartitioned-sessions-subscription"
+        TOPIC_FILTER_SUBSCRIPTION_NAME: "topic-subscription"
+        TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME: "topic-subscription-default"
