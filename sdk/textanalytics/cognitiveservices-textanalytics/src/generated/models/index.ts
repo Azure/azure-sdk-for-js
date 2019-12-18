@@ -47,7 +47,7 @@ export interface InnerError {
    * 'emptyRequest', 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect',
    * 'invalidDocumentBatch', 'unsupportedLanguageCode', 'invalidCountryHint'
    */
-  code: InnerErrorCode;
+  code: InnerErrorCodeValue;
   /**
    * Error message.
    */
@@ -74,7 +74,7 @@ export interface TextAnalyticsError {
    * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
    * 'internalServerError', 'serviceUnavailable'
    */
-  code: TextAnalyticsErrorCode;
+  code: ErrorCodeValue;
   /**
    * Error message.
    */
@@ -593,23 +593,23 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 }
 
 /**
- * Defines values for TextAnalyticsErrorCode.
+ * Defines values for ErrorCodeValue.
  * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
  * 'serviceUnavailable'
  * @readonly
  * @enum {string}
  */
-export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 /**
- * Defines values for InnerErrorCode.
+ * Defines values for InnerErrorCodeValue.
  * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
  * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
  * 'unsupportedLanguageCode', 'invalidCountryHint'
  * @readonly
  * @enum {string}
  */
-export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 /**
  * Defines values for DocumentSentimentValue.

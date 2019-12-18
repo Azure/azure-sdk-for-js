@@ -82,6 +82,9 @@ export interface Entity {
 }
 
 // @public
+export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+
+// @public
 export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
 }
 
@@ -105,7 +108,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 
 // @public
 export interface InnerError {
-    code: InnerErrorCode;
+    code: InnerErrorCodeValue;
     details?: {
         [propertyName: string]: string;
     };
@@ -115,7 +118,7 @@ export interface InnerError {
 }
 
 // @public
-export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 // @public
 export interface LanguageInput {
@@ -249,15 +252,12 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
 
 // @public
 export interface TextAnalyticsError {
-    code: TextAnalyticsErrorCode;
+    code: ErrorCodeValue;
     details?: TextAnalyticsError[];
     innerError?: InnerError;
     message: string;
     target?: string;
 }
-
-// @public
-export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public
 export interface TextAnalyticsErrorResult {
