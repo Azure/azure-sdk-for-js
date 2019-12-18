@@ -20,9 +20,9 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist/index.js": "./browser/service-bus.js",
-    "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
     "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
     "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
+    "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
@@ -53,7 +53,7 @@
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "node .scripts/buildBrowserTestResources.js && karma start --single-run",
+    "integration-test:browser": "karma start --single-run",
     "integration-test:node": "mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o service-bus-lintReport.html || exit 0",
@@ -85,7 +85,6 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/arm-servicebus": "^3.2.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-json": "^4.0.0",

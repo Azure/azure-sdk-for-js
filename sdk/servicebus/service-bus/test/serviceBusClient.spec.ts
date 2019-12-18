@@ -33,11 +33,10 @@ import {
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
 import { getEnvVars, isNode } from "./utils/envVarUtils";
-import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
+import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
@@ -344,6 +343,8 @@ describe("Test createFromAadTokenCredentials", function(): void {
   it("throws error when using `CreateFromAadTokenCredentials` in browser #RunInBrowser", async function(): Promise<
     void
   > {
+    // We use the `!isNode` check here to ensure this test is run only in browser only
+    // as by default all tests run in Node
     if (!isNode) {
       const credentials: any = {};
       await testCreateFromAadTokenCredentials(serviceBusEndpoint, credentials).catch((err) => {
@@ -372,31 +373,13 @@ describe("Test createFromAadTokenCredentials", function(): void {
   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
     void
   > {
-    const env = getEnvVars();
-
-    let tokenCreds = await loginWithServicePrincipalSecret(
-      env.AAD_CLIENT_ID,
-      env.AAD_CLIENT_SECRET,
-      env.AAD_TENANT_ID,
-      {
-        tokenAudience: aadServiceBusAudience
-      }
-    );
+    const tokenCreds = await getTokenCredentialsFromAAD();
     sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    const env = getEnvVars();
-
-    let tokenCreds = await loginWithServicePrincipalSecret(
-      env.AAD_CLIENT_ID,
-      env.AAD_CLIENT_SECRET,
-      env.AAD_TENANT_ID,
-      {
-        tokenAudience: aadServiceBusAudience
-      }
-    );
+    const tokenCreds = await getTokenCredentialsFromAAD();
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
     await sbClient.close();
   });
@@ -505,8 +488,9 @@ describe("Errors after close()", function(): void {
       caughtError = error;
     }
 
-    const expectedErrorMsg = `Failed to ${operation} the message as the AMQP link with which the message was ` +
-    `received is no longer alive.`
+    const expectedErrorMsg =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
     should.equal(caughtError && caughtError.message, expectedErrorMsg);
   }
 
@@ -601,7 +585,10 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.registerMessageHandler(() => Promise.resolve(), (e) => console.log(e));
+      receiver.registerMessageHandler(
+        () => Promise.resolve(),
+        (e) => console.log(e)
+      );
     } catch (err) {
       errorReceiveStream = err.message;
     }
