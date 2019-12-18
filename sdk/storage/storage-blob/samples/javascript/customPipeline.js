@@ -1,8 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageSharedKeyCredential, newPipeline } = require("../.."); // Change to "@azure/storage-blob" in your package
+const {
+  BlobServiceClient,
+  StorageSharedKeyCredential,
+  newPipeline
+} = require("@azure/storage-blob");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -44,11 +51,8 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+module.exports = { main };
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

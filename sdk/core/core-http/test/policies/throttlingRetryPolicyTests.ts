@@ -65,6 +65,8 @@ describe("ThrottlingRetryPolicy", () => {
 
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
+      delete response.request.requestId;
+      delete request.requestId;
 
       assert.deepEqual(response.request, request);
     });
@@ -83,6 +85,8 @@ describe("ThrottlingRetryPolicy", () => {
       });
 
       const response = await policy.sendRequest(request);
+      delete request.requestId;
+      delete response.request.requestId;
 
       assert.deepEqual(response, mockResponse);
     });
@@ -97,11 +101,15 @@ describe("ThrottlingRetryPolicy", () => {
         request: request
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
+        delete response.request.requestId;
+        delete mockResponse.request.requestId;
         assert.deepEqual(response, mockResponse);
         return Promise.resolve(response);
       });
 
       const response = await policy.sendRequest(request);
+      delete request.requestId;
+      delete response.request.requestId;
       assert.deepEqual(response, mockResponse);
     });
   });

@@ -6,6 +6,7 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
@@ -667,6 +668,9 @@ describe("DirectoryClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const subDirPath = URLBuilder.parse(subDirClient.url).getPath() || "";
+    const filePath = URLBuilder.parse(fileClient.url).getPath() || "";
+
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -679,7 +683,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareDirectoryClient-create",
                   children: [
                     {
-                      name: "core-http",
+                      name: subDirPath,
                       children: []
                     }
                   ]
@@ -693,7 +697,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-create",
                   children: [
                     {
-                      name: "core-http",
+                      name: filePath,
                       children: []
                     }
                   ]
@@ -704,7 +708,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: "core-http",
+                  name: filePath,
                   children: []
                 }
               ]
@@ -716,7 +720,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-delete",
                   children: [
                     {
-                      name: "core-http",
+                      name: filePath,
                       children: []
                     }
                   ]
@@ -727,7 +731,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: "core-http",
+                  name: filePath,
                   children: []
                 }
               ]
@@ -736,7 +740,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
-                  name: "core-http",
+                  name: subDirPath,
                   children: []
                 }
               ]

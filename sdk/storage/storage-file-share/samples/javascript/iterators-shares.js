@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
@@ -102,11 +105,8 @@ async function main() {
   }
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+module.exports = { main };
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

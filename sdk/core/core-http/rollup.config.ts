@@ -32,7 +32,8 @@ const nodeConfig = {
     "tunnel",
     "uuid/v4",
     "xml2js",
-    "@azure/core-tracing"
+    "@azure/core-tracing",
+    "@opentelemetry/types"
   ],
   output: {
     file: "./dist/coreHttp.node.js",

@@ -1,5 +1,5 @@
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -164,6 +164,7 @@ describe("DataLakePathClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -176,7 +177,7 @@ describe("DataLakePathClient", () => {
                   name: "Azure.Storage.Blob.BlobClient-download",
                   children: [
                     {
-                      name: "core-http",
+                      name: urlPath,
                       children: []
                     }
                   ]

@@ -255,7 +255,6 @@ export class EventHubProducer {
       links
     });
 
-    span.setAttribute("component", "eventhubs");
     span.setAttribute("message_bus.destination", this._eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 

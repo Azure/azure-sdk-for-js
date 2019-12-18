@@ -226,7 +226,7 @@ function toCoreAttributes(properties: CertificateProperties): CoreCertificateAtt
 function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes
+  attributes: CertificateAttributes = {}
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -349,17 +349,12 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   const publicIssuer: CertificateIssuer = {
     id: issuer.id,
     name: parsedId.name,
+    provider: issuer.provider,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
     enabled: attributes.enabled,
     createdOn: attributes.created,
     updatedOn: attributes.updated
-  };
-
-  publicIssuer.properties = {
-    id: publicIssuer.id,
-    name: parsedId.name,
-    provider: issuer.provider
   };
 
   if (issuer.organizationDetails) {
@@ -1275,7 +1270,7 @@ export class CertificateClient {
    */
   public async importCertificate(
     certificateName: string,
-    certificateValue: Uint8Array,
+    certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -1284,10 +1279,10 @@ export class CertificateClient {
 
     let base64EncodedCertificate: string;
     if (isNode) {
-      base64EncodedCertificate = Buffer.from(certificateValue).toString("base64");
+      base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
     } else {
       base64EncodedCertificate = btoa(
-        String.fromCharCode.apply(null, (certificateValue as any) as number[])
+        String.fromCharCode.apply(null, (certificateBytes as any) as number[])
       );
     }
 
@@ -1361,9 +1356,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateCertificatePolicy", requestOptions);
 
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, policy, certificateAttributes);
+    const corePolicy = toCorePolicy(undefined, policy);
 
     let result: UpdateCertificatePolicyResponse;
     try {
@@ -1454,7 +1447,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   /**
@@ -1532,7 +1525,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   /**
@@ -1861,7 +1854,9 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
+  ): Promise<
+    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,
@@ -2024,7 +2019,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
   }
 
   private getCertificateFromCertificateBundle(
@@ -2142,10 +2137,13 @@ export class CertificateClient {
   }
 
   private getCertificateOperationFromCoreOperation(
+    certificateName: string,
+    vaultUrl: string,
     operation: CoreCertificateOperation
   ): CertificateOperation {
     return {
       cancellationRequested: operation.cancellationRequested,
+      name: certificateName,
       issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
       certificateTransparency: operation.issuerParameters
         ? operation.issuerParameters.certificateTransparency
@@ -2159,7 +2157,8 @@ export class CertificateClient {
       requestId: operation.requestId,
       status: operation.status,
       statusDetails: operation.statusDetails,
-      target: operation.target
+      target: operation.target,
+      vaultUrl: vaultUrl
     };
   }
 

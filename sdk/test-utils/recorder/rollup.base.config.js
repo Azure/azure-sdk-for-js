@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     external: ["fs-extra", "nock", "path"],
@@ -98,9 +98,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/azure-test-utils-recorder.min.js";
-    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;

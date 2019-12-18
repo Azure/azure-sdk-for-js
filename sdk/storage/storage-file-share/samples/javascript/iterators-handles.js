@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
@@ -12,8 +15,15 @@ async function main() {
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-mac
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
-  const shareName = "";
-  const dirName = "";
+  const shareName = process.env.SHARE_NAME || "";
+  const dirName = process.env.DIR_NAME || "";
+
+  if (shareName === "" || dirName === "") {
+    console.warn(
+      "Share/directory information not provided, but it is required to run this sample. Exiting."
+    );
+    return;
+  }
 
   // Use StorageSharedKeyCredential with storage account and account key
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
@@ -150,11 +160,8 @@ async function main() {
   }
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+module.exports = { main };
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

@@ -29,7 +29,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 The sample are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require Node.js >= 10.0.0.
 
-You need [an Azure subscription][freesub] and [an Azure Storage account][azstorage] to run these sample programs. Samples retrieve credentials to access the storage account from environment variables. See each individual sample for details on which environment variables it requires to function.
+You need [an Azure subscription][freesub] and [an Azure Storage account][azstorage] to run these sample programs. Samples retrieve credentials to access the storage account from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser requires some additional consideration. For details, please see the [package README][package].
 
@@ -43,7 +43,15 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Run the sample with the correct environment variables set, for example (cross-platform):
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node basic.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
 npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node basic.js
