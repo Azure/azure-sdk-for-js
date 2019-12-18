@@ -3,13 +3,10 @@
 
 import { getStartingPosition, createProcessingSpan, trace } from "../src/partitionPump";
 import { EventPosition } from "../src/eventPosition";
-import { NoOpSpan } from "@azure/core-tracing";
+import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
 import {
-  Attributes,
   CanonicalCode,
-  Status,
   SpanOptions,
-  SpanContext,
   SpanKind
 } from "@opentelemetry/types";
 import chai from "chai";
@@ -37,13 +34,27 @@ describe("PartitionPump", () => {
       eventHubName: "theeventhubname"
     };
 
-    it("basic span properties are set", async () => {
-      let name: string | undefined;
-      let options: SpanOptions | undefined;
-      const fakeParentSpan = new NoOpSpan();
-      const createdSpan = new SlightlyLessNoOpSpan("myspan");
+    class TestTracer2 extends TestTracer {
+      public spanOptions: SpanOptions | undefined;
+      public spanName: string | undefined;
 
-      const actualReturnedSpan = await createProcessingSpan(
+      constructor() {
+        super();
+      }
+
+      startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
+        this.spanName = nameArg;
+        this.spanOptions = optionsArg;
+        return super.startSpan(nameArg, optionsArg);
+      }
+    }
+
+    it("basic span properties are set", async () => {
+      const fakeParentSpan = new NoOpSpan();
+      const tracer = new TestTracer2();
+      setTracer(tracer);
+
+      await createProcessingSpan(
         [],
         eventHubProperties,
         {
@@ -52,24 +63,18 @@ describe("PartitionPump", () => {
               parent: fakeParentSpan
             }
           }
-        },
-        {
-          startSpan: (nameArg, optionsArg) => {
-            name = nameArg;
-            options = optionsArg;
-            return createdSpan;
-          }
         }
       );
 
-      should.equal(name, "Azure.EventHubs.process");
+      should.equal(tracer.spanName, "Azure.EventHubs.process");
 
-      should.exist(options);
-      options!.kind!.should.equal(SpanKind.CONSUMER);
-      options!.parent!.should.equal(fakeParentSpan);
+      should.exist(tracer.spanOptions);
+      tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
+      tracer.spanOptions!.parent!.should.equal(fakeParentSpan);
 
-      createdSpan.should.be.equal(actualReturnedSpan);
-      createdSpan.attributes!.should.deep.equal({
+      const attributes = tracer.getRootSpans()[0].attributes;
+
+      attributes!.should.deep.equal({
         component: "eventhubs",
         "message_bus.destination": "theeventhubname",
         "peer.address": "theendpoint"
@@ -77,8 +82,6 @@ describe("PartitionPump", () => {
     });
 
     it("received events are linked to this span using Diagnostic-Id", async () => {
-      let options: SpanOptions | undefined;
-
       const requiredEventProperties = {
         body: "",
         enqueuedTimeUtc: new Date(),
@@ -86,40 +89,44 @@ describe("PartitionPump", () => {
         partitionKey: null,
         sequenceNumber: 0
       };
+      
+      const tracer = new TestTracer2();
+      setTracer(tracer);
+
+      const firstEvent = tracer.startSpan("a");
+      const thirdEvent = tracer.startSpan("c");
 
       const receivedEvents: ReceivedEventData[] = [
         instrumentEventData(
           { ...requiredEventProperties },
-          new SlightlyLessNoOpSpan("a")
+          firstEvent,
         ) as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
         instrumentEventData(
           { ...requiredEventProperties },
-          new SlightlyLessNoOpSpan("c")
+          thirdEvent
         ) as ReceivedEventData
       ];
-
+      
       await createProcessingSpan(
         receivedEvents,
         eventHubProperties,
-        {},
-        {
-          startSpan: (_, optionsArg) => {
-            options = optionsArg;
-            return new NoOpSpan();
-          }
-        }
+        {}
       );
 
       // middle event, since it has no trace information, doesn't get included
       // in the telemetry
-      options!.links!.length.should.equal(3 - 1);
-      options!.links![0]!.spanContext.traceId.should.equal(`afaketraceid`);
-      options!.links![1]!.spanContext.traceId.should.equal(`cfaketraceid`);
+      tracer.spanOptions!.links!.length.should.equal(3 - 1);
+      // the test tracer just hands out a string integer that just gets 
+      // incremented
+      tracer.spanOptions!.links![0]!.spanContext.traceId.should.equal(firstEvent.context().traceId);
+      tracer.spanOptions!.links![1]!.spanContext.traceId.should.equal(thirdEvent.context().traceId);
     });
 
     it("trace - normal", async () => {
-      const span = new SlightlyLessNoOpSpan("id");
+      const tracer = new TestTracer();
+      const span = tracer.startSpan("whatever");
+      
       await trace(async () => {}, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
@@ -127,7 +134,8 @@ describe("PartitionPump", () => {
     });
 
     it("trace - throws", async () => {
-      const span = new SlightlyLessNoOpSpan("id");
+      const tracer = new TestTracer();
+      const span = tracer.startSpan("whatever");
 
       await trace(async () => {
         throw new Error("error thrown from fn");
@@ -135,42 +143,7 @@ describe("PartitionPump", () => {
 
       span.status!.code.should.equal(CanonicalCode.UNKNOWN);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      span.endCalled.should.be.ok;      
     });
-
-    class SlightlyLessNoOpSpan extends NoOpSpan {
-      public status: Status | undefined;
-      public attributes: Attributes | undefined;
-      public endCalled: boolean = false;
-
-      constructor(private _id: string) {
-        super();
-      }
-
-      context(): SpanContext {
-        return {
-          traceId: `${this._id}faketraceid`,
-          spanId: `${this._id}fakespanid`
-        };
-      }
-
-      setStatus(status: Status): this {
-        if (this.status) {
-          throw new Error("Status was already initialized");
-        }
-
-        this.status = status;
-        return this;
-      }
-
-      setAttributes(attributes: Attributes): this {
-        this.attributes = attributes;
-        return this;
-      }
-
-      end() {
-        this.endCalled = true;
-      }
-    }
   });
 });

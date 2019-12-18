@@ -13,7 +13,6 @@ import { getParentSpan, TracingOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
-import { Tracer } from "@opentelemetry/types";
 import { ReceivedEventData } from "./eventData";
 
 const defaultEventPosition = EventPosition.earliest();
@@ -101,7 +100,6 @@ export class PartitionPump {
           receivedEvents,
           this._eventHubClient,
           this._processorOptions,
-          getTracer()
         );
 
         await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
@@ -183,8 +181,7 @@ export function getStartingPosition(
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
   eventHubProperties: { eventHubName: string; endpoint: string },
-  tracingOptions: TracingOptions,
-  tracerLite: Pick<Tracer, "startSpan">
+  tracingOptions: TracingOptions
 ): Span {
   const links: Link[] = [];
 
@@ -200,7 +197,7 @@ export function createProcessingSpan(
     });
   }
 
-  const span = tracerLite.startSpan("Azure.EventHubs.process", {
+  const span = getTracer().startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links,
     parent: getParentSpan(tracingOptions)
