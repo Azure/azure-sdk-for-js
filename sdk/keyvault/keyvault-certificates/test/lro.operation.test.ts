@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation, DefaultCertificatePolicy } from "../src";
+import { CertificateClient, CertificateOperation, DefaultCertificatePolicy, KeyVaultCertificateWithPolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -44,12 +44,11 @@ describe("Certificates client - LRO - certificate operation", () => {
     // The pending certificate operation can be obtained this way:
     assert.equal(poller.getPublicState().operation!.status, "inProgress");
 
-    const operation: CertificateOperation = await poller.pollUntilDone();
+    const completeCertificate: KeyVaultCertificateWithPolicy = await poller.pollUntilDone();
+    assert.equal(completeCertificate.name, certificateName);
+    const operation: CertificateOperation = poller.getPublicState().operation!;
     assert.equal(operation.status, "completed");
     assert.ok(poller.getOperationState().isCompleted);
-
-    // The final certificate operation can also be obtained this way:
-    assert.equal(poller.getPublicState().operation!.status, "completed");
 
     await testClient.flushCertificate(certificateName);
   });
@@ -83,9 +82,11 @@ describe("Certificates client - LRO - certificate operation", () => {
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);
-    const operation: CertificateOperation = await resumePoller.pollUntilDone();
-    assert.equal(operation.status, "completed");
+    const createdCertificate: KeyVaultCertificateWithPolicy = await resumePoller.pollUntilDone();
+    assert.equal(createdCertificate.name, certificateName);
     assert.ok(resumePoller.getOperationState().isCompleted);
+    const operation: CertificateOperation = resumePoller.getPublicState().operation!;
+    assert.equal(operation.status, "completed");
 
     await testClient.flushCertificate(certificateName);
   });
