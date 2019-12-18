@@ -159,7 +159,6 @@ export interface CertificateOperationPollOperationState extends PollOperationSta
 
 // @public
 export interface CertificateOperationPublicState {
-    // (undocumented)
     operation?: CertificateOperation;
 }
 
@@ -398,13 +397,11 @@ export interface PolicySubjectProperties {
 
 // @public
 export interface PollerLikeWithPublicState<TPublic, TState, TResult> extends PollerLike<TState, TResult> {
-    // (undocumented)
     getPublicState(): TPublic;
 }
 
 // @public
 export interface PollOperationStateWithPublicState<TPublic, TResult> extends PollOperationState<TResult> {
-    // (undocumented)
     public: TPublic;
 }
 
