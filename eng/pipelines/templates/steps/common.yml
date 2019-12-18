@@ -14,5 +14,9 @@ steps:
     displayName: "Use NodeJS $(NodeVersion)"
 
   - script: |
+      npm --version
+    displayName: What version of NPM are we using?
+
+  - script: |
       npm install -g npm@6.9.0
     displayName: "Install npm 6.9.0"
