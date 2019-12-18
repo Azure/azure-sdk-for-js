@@ -33,6 +33,15 @@ export interface CertificateOperationPublicState {
 }
 
 /**
+ * An interface representing the public state of a create certificate's poll operation
+ */
+export interface CertificateOperationPollOperationStatePublic
+  extends PollOperationStateWithPublicState<
+    CertificateOperationPublicState,
+    KeyVaultCertificateWithPolicy
+  > {}
+
+/**
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CertificateOperationPollOperationState

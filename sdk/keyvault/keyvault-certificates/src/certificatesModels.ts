@@ -18,6 +18,7 @@ export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
+ * @internal
  * @ignore
  * An interface representing the CertificateClient. For internal use.
  */

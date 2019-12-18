@@ -138,7 +138,7 @@ import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CertificateOperationPublicState,
-  CertificateOperationPollOperationState,
+  CertificateOperationPollOperationStatePublic,
   PollOperationStateWithPublicState
 } from "./lro/operation/operation";
 
@@ -197,17 +197,13 @@ export {
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
-  PollOperationStateWithPublicState,
-  CertificateClientInterface,
-  CancelCertificateOperationOptions,
-  DeleteCertificateOptions,
-  RecoverDeletedCertificateOptions,
   MergeCertificateOptions,
   PipelineOptions,
-  PurgeDeletedCertificateOptions,
   PollerLikeWithPublicState,
   CertificateOperationPublicState,
-  CertificateOperationPollOperationState,
+  CertificateOperationPollOperationStatePublic,
+  PollOperationStateWithPublicState,
+  PurgeDeletedCertificateOptions,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
   SubjectAlternativeNamesAll,
@@ -1495,7 +1491,7 @@ export class CertificateClient {
   ): Promise<
     PollerLikeWithPublicState<
       CertificateOperationPublicState,
-      CertificateOperationPollOperationState,
+      CertificateOperationPollOperationStatePublic,
       KeyVaultCertificateWithPolicy
     >
   > {

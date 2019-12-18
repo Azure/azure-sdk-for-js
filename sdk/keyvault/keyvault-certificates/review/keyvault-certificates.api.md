@@ -9,7 +9,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestOptionsBase } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -50,10 +49,6 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 }
 
 // @public
-export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
-}
-
-// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
@@ -65,7 +60,7 @@ export class CertificateClient {
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy>>;
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationStatePublic, KeyVaultCertificateWithPolicy>>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;
@@ -84,17 +79,6 @@ export class CertificateClient {
     updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface CertificateClientInterface {
-    cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
-    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options: CreateCertificateOptions): Promise<KeyVaultCertificate>;
-    deleteCertificate(name: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
-    getCertificate(name: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
-    getDeletedCertificate(name: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
-    getPlainCertificateOperation(certificateName: string, options?: GetPlainCertificateOperationOptions): Promise<CertificateOperation>;
-    recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
 }
 
 // @public
@@ -152,10 +136,7 @@ export interface CertificateOperationError {
 }
 
 // @public
-export interface CertificateOperationPollOperationState extends PollOperationStateWithPublicState<CertificateOperationPublicState, KeyVaultCertificateWithPolicy> {
-    certificateName: string;
-    client: CertificateClientInterface;
-    requestOptions?: RequestOptionsBase;
+export interface CertificateOperationPollOperationStatePublic extends PollOperationStateWithPublicState<CertificateOperationPublicState, KeyVaultCertificateWithPolicy> {
 }
 
 // @public
@@ -244,10 +225,6 @@ export const DefaultCertificatePolicy: {
 
 // @public
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface DeleteCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -412,10 +389,6 @@ export interface PollOperationStateWithPublicState<TPublic, TResult> extends Pol
 
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public
