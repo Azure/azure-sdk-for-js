@@ -7,7 +7,7 @@ import { Span, SpanContext, SpanKind } from "@opentelemetry/types";
 export function createMessageSpan(parentSpan?: Span | SpanContext): Span {
   const tracer = getTracer();
   const span = tracer.startSpan("Azure.EventHubs.message", {
-    kind: SpanKind.INTERNAL,
+    kind: SpanKind.PRODUCER,
     parent: parentSpan
   });
 
