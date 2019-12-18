@@ -224,9 +224,8 @@ export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface SubscribeOptions {
-    fallbackPositions?: EventPosition | Map<string, EventPosition>;
 export interface SubscribeOptions extends TracingOptions {
+    fallbackPositions?: EventPosition | Map<string, EventPosition>;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
