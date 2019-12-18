@@ -41,26 +41,35 @@ export interface BeginCreateCertificateOptions extends CreateCertificateOptions,
 }
 
 // @public
+export type BeginCreateCertificatePoller = PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+
+// @public
 export interface BeginDeleteCertificateOptions extends CertificatePollerOptions {
 }
+
+// @public
+export type BeginDeleteCertificatePoller = PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>;
 
 // @public
 export interface BeginRecoverDeletedCertificateOptions extends CertificatePollerOptions {
 }
 
 // @public
+export type BeginRecoverDeletedCertificatePoller = PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+
+// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
-    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
-    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
+    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<BeginCreateCertificatePoller>;
+    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<BeginDeleteCertificatePoller>;
+    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<BeginRecoverDeletedCertificatePoller>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationStatePublic, KeyVaultCertificateWithPolicy>>;
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<GetCertificateOperationPoller>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;
@@ -255,6 +264,9 @@ export interface ErrorModel {
 // @public
 export interface GetCertificateOperationOptions extends CertificatePollerOptions {
 }
+
+// @public
+export type GetCertificateOperationPoller = PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationStatePublic, KeyVaultCertificateWithPolicy>;
 
 // @public
 export interface GetCertificateOptions extends coreHttp.OperationOptions {
