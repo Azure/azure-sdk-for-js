@@ -93,6 +93,17 @@ export const InnerError: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       target: {
         serializedName: "target",
         type: {
@@ -100,7 +111,7 @@ export const InnerError: coreHttp.CompositeMapper = {
         }
       },
       innerError: {
-        serializedName: "innererror",
+        serializedName: "innerError",
         type: {
           name: "Composite",
           className: "InnerError"
@@ -143,7 +154,7 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
         }
       },
       innerError: {
-        serializedName: "innererror",
+        serializedName: "innerError",
         type: {
           name: "Composite",
           className: "InnerError"

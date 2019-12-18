@@ -4,8 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { CertificateClientInterface } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
+import { CertificateClientInterface, CertificateOperation } from "../../certificatesModels";
 
 /**
  * An interface representing the state of a create certificate's poll operation

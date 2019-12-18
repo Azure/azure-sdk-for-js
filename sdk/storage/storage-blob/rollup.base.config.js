@@ -86,7 +86,7 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
@@ -167,20 +167,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/azure-storage-blob.min.js";
-    baseConfig.plugins.push(
-      terser({
-        output: {
-          preamble: banner
-        }
-      })
-      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
-      // visualizer({
-      //   filename: "./statistics.html",
-      //   sourcemap: true
-      // })
-    );
   }
 
   return baseConfig;
