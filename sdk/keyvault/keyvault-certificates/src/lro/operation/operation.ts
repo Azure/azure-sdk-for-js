@@ -11,6 +11,9 @@ import { CertificateClientInterface, CertificateOperation, KeyVaultCertificateWi
  * TODO: Move this to @azure/core-lro.
  */
 export interface PollOperationStateWithPublicState<TPublic, TResult> extends PollOperationState<TResult> {
+  /**
+   * Public properties of a poller.
+   */
   public: TPublic;
 }
 
@@ -18,6 +21,9 @@ export interface PollOperationStateWithPublicState<TPublic, TResult> extends Pol
  * The public state of the poller that tracks the progress of a certificate's operation.
  */
 export interface CertificateOperationPublicState {
+  /**
+   * The operation of the certificate. Updated with each poll request.
+   */
   operation?: CertificateOperation;
 }
 

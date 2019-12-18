@@ -61,9 +61,6 @@ export class CertificateClient {
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    // Warning: (ae-forgotten-export) The symbol "PollerLikeWithPublicState" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPublicState" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPollOperationState" needs to be exported by the entry point index.d.ts
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy>>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
@@ -83,6 +80,20 @@ export class CertificateClient {
     updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface CertificateClientInterface {
+    // Warning: (ae-forgotten-export) The symbol "CancelCertificateOperationOptions" needs to be exported by the entry point index.d.ts
+    cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
+    createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options: CreateCertificateOptions): Promise<KeyVaultCertificate>;
+    // Warning: (ae-forgotten-export) The symbol "DeleteCertificateOptions" needs to be exported by the entry point index.d.ts
+    deleteCertificate(name: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
+    getCertificate(name: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
+    getDeletedCertificate(name: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
+    getPlainCertificateOperation(certificateName: string, options?: GetPlainCertificateOperationOptions): Promise<CertificateOperation>;
+    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
+    recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
 }
 
 // @public
@@ -137,6 +148,19 @@ export interface CertificateOperationError {
     readonly code?: string;
     readonly innerError?: CertificateOperationError;
     readonly message?: string;
+}
+
+// @public
+export interface CertificateOperationPollOperationState extends PollOperationStateWithPublicState<CertificateOperationPublicState, KeyVaultCertificateWithPolicy> {
+    certificateName: string;
+    client: CertificateClientInterface;
+    requestOptions?: RequestOptionsBase;
+}
+
+// @public
+export interface CertificateOperationPublicState {
+    // (undocumented)
+    operation?: CertificateOperation;
 }
 
 // @public
@@ -370,6 +394,18 @@ export { PipelineOptions }
 export interface PolicySubjectProperties {
     subject: string;
     subjectAlternativeNames: SubjectAlternativeNames;
+}
+
+// @public
+export interface PollerLikeWithPublicState<TPublic, TState, TResult> extends PollerLike<TState, TResult> {
+    // (undocumented)
+    getPublicState(): TPublic;
+}
+
+// @public
+export interface PollOperationStateWithPublicState<TPublic, TResult> extends PollOperationState<TResult> {
+    // (undocumented)
+    public: TPublic;
 }
 
 // @public

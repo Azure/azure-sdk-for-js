@@ -136,7 +136,7 @@ import { CertificateOperationPoller, PollerLikeWithPublicState } from "./lro/ope
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { CertificateOperationPublicState, CertificateOperationPollOperationState } from './lro/operation/operation';
+import { CertificateOperationPublicState, CertificateOperationPollOperationState, PollOperationStateWithPublicState } from './lro/operation/operation';
 
 export {
   ActionType,
@@ -193,9 +193,14 @@ export {
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
   ListDeletedCertificatesOptions,
+  PollOperationStateWithPublicState,
+  CertificateClientInterface,
   MergeCertificateOptions,
   PipelineOptions,
   PurgeDeletedCertificateOptions,
+  PollerLikeWithPublicState,
+  CertificateOperationPublicState,
+  CertificateOperationPollOperationState,
   RestoreCertificateBackupOptions,
   SetContactsOptions,
   SubjectAlternativeNamesAll,

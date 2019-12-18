@@ -19,6 +19,9 @@ import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../..
  * TODO: Move this to @azure/core-lro.
  */
 export interface PollerLikeWithPublicState<TPublic, TState, TResult> extends PollerLike<TState, TResult> {
+  /**
+   * A method to get the public state of this poller.
+   */
   getPublicState(): TPublic;
 }
 
