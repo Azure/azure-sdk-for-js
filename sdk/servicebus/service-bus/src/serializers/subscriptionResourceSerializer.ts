@@ -207,9 +207,10 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * Absolute URI or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -221,9 +222,10 @@ export interface SubscriptionOptions {
   maxDeliveryCount?: number;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the
+   * Absolute URI or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
@@ -329,9 +331,10 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * Absolute URI or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -343,9 +346,10 @@ export interface InternalSubscriptionOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the
+   * Absolute URI or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
 
@@ -462,8 +466,10 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * Absolute URI of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -475,8 +481,10 @@ export interface SubscriptionDetails {
   maxDeliveryCount: number;
 
   /**
-   * Absolute URI of the messaging entity the messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * Absolute URI or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 

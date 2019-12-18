@@ -168,9 +168,10 @@ export interface QueueOptions {
   duplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * Absolute URI or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -215,9 +216,10 @@ export interface QueueOptions {
   deadLetteringOnMessageExpiration?: boolean;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the
+   * Absolute URI or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
@@ -291,9 +293,10 @@ export interface InternalQueueOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the dead-lettered
+   * Absolute URI or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -356,9 +359,10 @@ export interface InternalQueueOptions {
   AuthorizationRules?: any;
 
   /**
-   * Absolute URI or relative path of the queue or topic messaging entity the
+   * Absolute URI or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
 
@@ -430,8 +434,10 @@ export interface QueueDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * Absolute URI of the messaging entity the dead-lettered messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -476,8 +482,10 @@ export interface QueueDetails {
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * Absolute URI of the messaging entity the messages are to be forwarded to.
-   * For e.g., sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>
+   * Absolute URI or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
