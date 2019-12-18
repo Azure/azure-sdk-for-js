@@ -10,8 +10,6 @@ import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 
-const defaultEventPosition = EventPosition.earliest();
-
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
@@ -24,7 +22,7 @@ export class PartitionPump {
   constructor(
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
-    private readonly _originalInitialEventPosition: EventPosition | undefined,
+    private readonly _startPosition: EventPosition,
     options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
@@ -39,30 +37,24 @@ export class PartitionPump {
 
   async start(): Promise<void> {
     this._isReceiving = true;
-    let userRequestedDefaultPosition: EventPosition | undefined;
     try {
-      userRequestedDefaultPosition = await this._partitionProcessor.initialize();
+      await this._partitionProcessor.initialize();
     } catch (err) {
       // swallow the error from the user-defined code
       this._partitionProcessor.processError(err);
     }
 
-    const startingPosition = getStartingPosition(
-      this._originalInitialEventPosition,
-      userRequestedDefaultPosition
-    );
-
     // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
-    this._receiveEvents(startingPosition, this._partitionProcessor.partitionId);
+    this._receiveEvents(this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
-  private async _receiveEvents(startingPosition: EventPosition, partitionId: string): Promise<void> {
+  private async _receiveEvents(partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
-      startingPosition,
+      this._startPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
@@ -141,20 +133,5 @@ export class PartitionPump {
       this._partitionProcessor.processError(err);
       throw err;
     }
-  }
-}
-
-export function getStartingPosition(
-  currentPosition: EventPosition | undefined,
-  positionFromInitialize: EventPosition | undefined
-): EventPosition {
-  if (currentPosition != null) {
-    return currentPosition;
-  }
-
-  if (positionFromInitialize) {
-    return positionFromInitialize;
-  } else {
-    return defaultEventPosition;
   }
 }

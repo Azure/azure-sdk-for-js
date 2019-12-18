@@ -5,7 +5,8 @@ import {
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
-  CheckpointStore
+  CheckpointStore,
+  EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
@@ -243,7 +244,9 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscription = clients[0].subscribe("0", tester);
+      const subscription = clients[0].subscribe("0", tester, {
+        fallbackPositions: EventPosition.latest()
+      });
 
       subscriptions.push(subscription);
 
@@ -272,7 +275,9 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscription = clients[0].subscribe(tester);
+      const subscription = clients[0].subscribe(tester, {
+        fallbackPositions: EventPosition.latest()
+      });
 
       await tester.runTestAndPoll(producerClient);
       subscriptions.push(subscription);
@@ -302,7 +307,9 @@ describe("EventHubConsumerClient", () => {
       );
 
       for (const partitionId of await partitionIds) {
-        const subscription = clients[0].subscribe(partitionId, tester);
+        const subscription = clients[0].subscribe(partitionId, tester, {
+          fallbackPositions: EventPosition.latest()
+        });
         subscriptions.push(subscription);
       }
 
@@ -337,7 +344,9 @@ describe("EventHubConsumerClient", () => {
 
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
-      const subscriber1 = clients[0].subscribe(tester);
+      const subscriber1 = clients[0].subscribe(tester, {
+        fallbackPositions: EventPosition.latest()
+      });
       subscriptions.push(subscriber1);
 
       clients.push(
@@ -351,7 +360,9 @@ describe("EventHubConsumerClient", () => {
         )
       );
 
-      const subscriber2 = clients[1].subscribe(tester);
+      const subscriber2 = clients[1].subscribe(tester, {
+        fallbackPositions: EventPosition.latest()
+      });
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);

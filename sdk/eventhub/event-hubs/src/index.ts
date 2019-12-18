@@ -19,7 +19,6 @@ export {
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
-  InitializationContext,
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,

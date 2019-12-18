@@ -1,6 +1,5 @@
 import {
   SubscriptionEventHandlers,
-  InitializationContext,
   PartitionContext
 } from "../../src/eventHubConsumerClientModels";
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
@@ -13,27 +12,30 @@ import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-export type SequenceNumberMap = Map<string, number>;
+export interface HandlerAndPositions {
+  fallbackPositions: Map<string, EventPosition>;
+  subscriptionEventHandler: SubscriptionHandlerForTests
+}
 
 export class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
   private _maxTimeToWaitSeconds = 30;
   private _timeBetweenChecksMs = 1000;
 
-  constructor(private _initialSequenceNumbers?: SequenceNumberMap) {}
-
   static async startingFromHere(
     client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
-  ) {
+  ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
-
-    const sequenceNumbers = new Map<string, number>();
+    const fallbackPositions = new Map<string, EventPosition>();
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
-      sequenceNumbers.set(props.partitionId, props.lastEnqueuedSequenceNumber);
+      fallbackPositions.set(props.partitionId, EventPosition.fromSequenceNumber(props.lastEnqueuedSequenceNumber));
     }
 
-    return new SubscriptionHandlerForTests(sequenceNumbers);
+    return {
+      fallbackPositions: fallbackPositions,
+      subscriptionEventHandler: new SubscriptionHandlerForTests()
+    };
   }
 
   public data: Map<
@@ -46,20 +48,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
   public events: { partitionId: string; event: ReceivedEventData }[] = [];
 
-  async processInitialize(context: InitializationContext) {
+  async processInitialize(context: PartitionContext) {
     this.data.set(context.partitionId, {});
-
-    let startingPosition = EventPosition.latest();
-
-    if (this._initialSequenceNumbers && this._initialSequenceNumbers.get(context.partitionId)) {
-      const sequenceNumber = this._initialSequenceNumbers.get(context.partitionId)!;
-      loggerForTest(
-        `Overriding initial event position for partition ${context.partitionId} with ${sequenceNumber}`
-      );
-      startingPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
-    }
-
-    context.setStartingPosition(startingPosition);
   }
 
   async processClose(reason: CloseReason, context: PartitionContext) {

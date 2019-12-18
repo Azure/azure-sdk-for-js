@@ -283,7 +283,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         service.path
       );
 
-      const tester = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
+      const { subscriptionEventHandler, fallbackPositions } = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
 
       const msgToSendCount = 50;
       debug("Sending %d messages.", msgToSendCount);
@@ -310,8 +310,10 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       let subscription: Subscription | undefined = undefined;
 
       try {
-        subscription = consumerClient.subscribe(tester);
-        const receivedEvents = await tester.waitForFullEvents(hubInfo.partitionIds, msgToSendCount);
+        subscription = consumerClient.subscribe(subscriptionEventHandler, {
+          fallbackPositions
+        });
+        const receivedEvents = await subscriptionEventHandler.waitForFullEvents(hubInfo.partitionIds, msgToSendCount);
 
         for (const d of receivedEvents) {
           debug(">>>> _raw_amqp_mesage: ", (d as any)._raw_amqp_mesage);

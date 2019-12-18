@@ -25,8 +25,8 @@ export interface PumpManager {
    * @ignore
    */
   createPump(
+    startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    initialEventPosition: EventPosition | undefined,
     partitionProcessor: PartitionProcessor
   ): Promise<void>;
 
@@ -73,15 +73,14 @@ export class PumpManagerImpl implements PumpManager {
 
   /**
    * Creates and starts a PartitionPump.
+   * @param startPosition The position in the partition to start reading from.
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
-   * @param initialEventPosition The EventPosition to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
-   * @param abortSignal Used to cancel pump creation.
    * @ignore
    */
   public async createPump(
+    startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    initialEventPosition: EventPosition | undefined,
     partitionProcessor: PartitionProcessor
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
@@ -105,7 +104,7 @@ export class PumpManagerImpl implements PumpManager {
     const pump = new PartitionPump(
       eventHubClient,
       partitionProcessor,
-      initialEventPosition,
+      startPosition,
       this._options
     );
 

@@ -285,15 +285,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
-      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+      const { subscriptionEventHandler, fallbackPositions } = await SubscriptionHandlerForTests.startingFromHere(client);
       
-      const subscriber = consumerClient.subscribe("0", tester);      
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
+        fallbackPositions
+      });
       await producerClient.sendBatch(batch);           
 
       let receivedEvents;
 
       try {
-        receivedEvents = await tester.waitForEvents(["0"], 2);
+        receivedEvents = await subscriptionEventHandler.waitForEvents(["0"], 2);
       } finally {
         await subscriber.close();
       }
@@ -592,7 +594,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
 
     it("should be sent successfully in parallel", async function (): Promise<void> {
-      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+      const { subscriptionEventHandler, fallbackPositions } = await SubscriptionHandlerForTests.startingFromHere(client);
 
       const promises = [];
       for (let i = 0; i < 5; i++) {
@@ -600,10 +602,12 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
       await Promise.all(promises);
 
-      const subscription = await consumerClient.subscribe(tester);
+      const subscription = await consumerClient.subscribe(subscriptionEventHandler, {
+        fallbackPositions
+      });
 
       try {
-        const events = await tester.waitForEvents(await client.getPartitionIds({}), 5);
+        const events = await subscriptionEventHandler.waitForEvents(await client.getPartitionIds({}), 5);
 
         // we've allowed the server to choose which partition the messages are distributed to
         // so our expectation here is just that all the bodies have arrived

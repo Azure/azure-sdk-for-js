@@ -217,7 +217,6 @@ export interface FullEventProcessorOptions
  */
 export class EventProcessor {
   private _consumerGroup: string;
-  private _eventHubClient: EventHubClient;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string;
@@ -242,7 +241,7 @@ export class EventProcessor {
    */
   constructor(
     consumerGroup: string,
-    eventHubClient: EventHubClient,
+    private _eventHubClient: EventHubClient,
     private _subscriptionEventHandlers: SubscriptionEventHandlers,
     private _checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
@@ -256,7 +255,6 @@ export class EventProcessor {
     }
 
     this._consumerGroup = consumerGroup;
-    this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager = options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
@@ -333,7 +331,7 @@ export class EventProcessor {
 
       const eventPosition = await this._getStartingPosition(ownershipRequest.partitionId);
 
-      await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
+      await this._pumpManager.createPump(eventPosition, this._eventHubClient, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
     } catch (err) {
       log.error(
@@ -343,7 +341,7 @@ export class EventProcessor {
     }
   }
 
-  private async _getStartingPosition(partitionIdToClaim: string) {
+  private async _getStartingPosition(partitionIdToClaim: string) : Promise<EventPosition> {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
@@ -358,7 +356,8 @@ export class EventProcessor {
       return EventPosition.fromOffset(validCheckpoints[0].offset);
     }
 
-    return undefined;
+    log.eventProcessor(`No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`);
+    return getFallbackPosition(partitionIdToClaim, this._processorOptions.fallbackPositions);
   }
 
   /**
@@ -536,4 +535,26 @@ export class EventProcessor {
 
 function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+function getFallbackPosition(partitionIdToClaim: string, fallbackPositions?: EventPosition | Map<string, EventPosition>) : EventPosition {
+  if (fallbackPositions == null) {
+    return EventPosition.earliest();
+  }
+
+  if (fallbackPositions instanceof EventPosition) {
+    return fallbackPositions;
+  }
+
+  const fallbackPosition = fallbackPositions.get(partitionIdToClaim);
+  
+  if (fallbackPosition == null) {
+    return EventPosition.earliest();
+  }
+
+  return fallbackPosition;
 }
