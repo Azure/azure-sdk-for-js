@@ -88,7 +88,7 @@ export class PartitionPump {
         const span = createProcessingSpan(
           receivedEvents,
           this._eventHubClient,
-          this._processorOptions,
+          this._processorOptions
         );
 
         await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);

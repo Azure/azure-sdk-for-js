@@ -3,11 +3,7 @@
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
-import {
-  CanonicalCode,
-  SpanOptions,
-  SpanKind
-} from "@opentelemetry/types";
+import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/types";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
@@ -41,17 +37,13 @@ describe("PartitionPump", () => {
       const tracer = new TestTracer2();
       setTracer(tracer);
 
-      await createProcessingSpan(
-        [],
-        eventHubProperties,
-        {
-          tracingOptions: {
-            spanOptions: {
-              parent: fakeParentSpan
-            }
+      await createProcessingSpan([], eventHubProperties, {
+        tracingOptions: {
+          spanOptions: {
+            parent: fakeParentSpan
           }
         }
-      );
+      });
 
       should.equal(tracer.spanName, "Azure.EventHubs.process");
 
@@ -76,7 +68,7 @@ describe("PartitionPump", () => {
         partitionKey: null,
         sequenceNumber: 0
       };
-      
+
       const tracer = new TestTracer2();
       setTracer(tracer);
 
@@ -84,27 +76,17 @@ describe("PartitionPump", () => {
       const thirdEvent = tracer.startSpan("c");
 
       const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData(
-          { ...requiredEventProperties },
-          firstEvent,
-        ) as ReceivedEventData,
+        instrumentEventData({ ...requiredEventProperties }, firstEvent) as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
-        instrumentEventData(
-          { ...requiredEventProperties },
-          thirdEvent
-        ) as ReceivedEventData
+        instrumentEventData({ ...requiredEventProperties }, thirdEvent) as ReceivedEventData
       ];
-      
-      await createProcessingSpan(
-        receivedEvents,
-        eventHubProperties,
-        {}
-      );
+
+      await createProcessingSpan(receivedEvents, eventHubProperties, {});
 
       // middle event, since it has no trace information, doesn't get included
       // in the telemetry
       tracer.spanOptions!.links!.length.should.equal(3 - 1);
-      // the test tracer just hands out a string integer that just gets 
+      // the test tracer just hands out a string integer that just gets
       // incremented
       tracer.spanOptions!.links![0]!.spanContext.traceId.should.equal(firstEvent.context().traceId);
       tracer.spanOptions!.links![1]!.spanContext.traceId.should.equal(thirdEvent.context().traceId);
@@ -113,7 +95,7 @@ describe("PartitionPump", () => {
     it("trace - normal", async () => {
       const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
-      
+
       await trace(async () => {}, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
@@ -130,7 +112,7 @@ describe("PartitionPump", () => {
 
       span.status!.code.should.equal(CanonicalCode.UNKNOWN);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;      
+      span.endCalled.should.be.ok;
     });
   });
 });
