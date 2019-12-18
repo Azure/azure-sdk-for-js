@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().name]",
+        "metadata": {
+          "description": "The base resource name."
+        }
+      }
+  },
+  "variables": {
+    "apiVersion": "2017-04-01",
+    "busName": "[parameters('baseName')]",
+    "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ServiceBus/namespaces",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('busName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {
+        "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('authorizationName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Manage",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "defaultAction": "Deny",
+        "virtualNetworkRules": [],
+        "ipRules": []
+      }
+    }
+  ],
+  "outputs": {
+    "SERVICEBUS_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listkeys(variables('busName'), variables('apiVersion')).primaryConnectionString]"
+    }
+  }
+}
