@@ -101,7 +101,7 @@ export class Container {
    * @param id The id of the {@link Item}.
    * @param partitionKey The partition key of the {@link Item}
    * @example Replace an item
-   * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
+   * const {body: replacedItem} = await container.item("<item id>", "<partition key>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
   public item(id: string, partitionKey: any): Item {
     return new Item(this, id, partitionKey, this.clientContext);
