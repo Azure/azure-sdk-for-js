@@ -132,10 +132,11 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
+import { CertificateOperationPoller, PollerLikeWithPublicState } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { CertificateOperationPublicState, CertificateOperationPollOperationState } from './lro/operation/operation';
 
 export {
   ActionType,
@@ -1461,10 +1462,11 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * const pendingCertificate = createPoller.getResult();
+   * let pendingCertificate = createPoller.getResult();
    * console.log(pendingCertificate);
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const certificateOperation = poller.getResult();
+   * pendingCertificate = poller.getResult();
+   * const certificateOperation = poller.getPublicState().operation!;
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1474,7 +1476,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>> {
+  ): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1539,7 +1541,7 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const { csr } = poller.getResult();
+   * const { csr } = poller.getPublicState().operation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    *

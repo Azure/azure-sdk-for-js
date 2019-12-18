@@ -9,6 +9,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { RequestOptionsBase } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -60,7 +61,10 @@ export class CertificateClient {
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>>;
+    // Warning: (ae-forgotten-export) The symbol "PollerLikeWithPublicState" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPublicState" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPollOperationState" needs to be exported by the entry point index.d.ts
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy>>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;

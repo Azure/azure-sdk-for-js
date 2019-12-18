@@ -4,13 +4,28 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { CertificateClientInterface, CertificateOperation } from "../../certificatesModels";
+import { CertificateClientInterface, CertificateOperation, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+
+/**
+ * The operation state of a poller, but with an additional public property of a custom type.
+ * TODO: Move this to @azure/core-lro.
+ */
+export interface PollOperationStateWithPublicState<TPublic, TResult> extends PollOperationState<TResult> {
+  public: TPublic;
+}
+
+/**
+ * The public state of the poller that tracks the progress of a certificate's operation.
+ */
+export interface CertificateOperationPublicState {
+  operation?: CertificateOperation;
+}
 
 /**
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CertificateOperationPollOperationState
-  extends PollOperationState<CertificateOperation> {
+  extends PollOperationStateWithPublicState<CertificateOperationPublicState, KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
    */
@@ -29,7 +44,7 @@ export interface CertificateOperationPollOperationState
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
-  extends PollOperation<CertificateOperationPollOperationState, CertificateOperation> {}
+  extends PollOperation<CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -52,14 +67,23 @@ async function update(
 
   if (!state.isStarted) {
     state.isStarted = true;
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    state.public.operation = await client.getPlainCertificateOperation(
+      certificateName,
+      requestOptions
+    );
+  } else if (!state.isCompleted) {
+    state.public.operation = await client.getPlainCertificateOperation(
+      certificateName,
+      requestOptions
+    );
   }
 
-  state.result = await client.getPlainCertificateOperation(certificateName, requestOptions);
-
-  if (state.result && state.result.status !== "inProgress") {
+  if (state.public.operation && state.public.operation.status !== "inProgress") {
     state.isCompleted = true;
-    if (state.result.error) {
-      state.error = new Error(state.result.error.message);
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    if (state.public.operation.error) {
+      state.error = new Error(state.public.operation.error.message);
     }
   }
 
@@ -82,7 +106,10 @@ async function cancel(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  state.result = await client.cancelCertificateOperation(certificateName, requestOptions);
+  state.public.operation = await client.cancelCertificateOperation(
+    certificateName,
+    requestOptions
+  );
 
   return makeCertificateOperationPollOperation({
     ...this.state,

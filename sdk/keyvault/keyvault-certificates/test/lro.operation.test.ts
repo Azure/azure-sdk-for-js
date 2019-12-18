@@ -42,14 +42,14 @@ describe("Certificates client - LRO - certificate operation", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending certificate operation can be obtained this way:
-    assert.equal(poller.getOperationState().result!.status, "inProgress");
+    assert.equal(poller.getPublicState().operation!.status, "inProgress");
 
     const operation: CertificateOperation = await poller.pollUntilDone();
     assert.equal(operation.status, "completed");
     assert.ok(poller.getOperationState().isCompleted);
 
     // The final certificate operation can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.status, "completed");
+    assert.equal(poller.getPublicState().operation!.status, "completed");
 
     await testClient.flushCertificate(certificateName);
   });
