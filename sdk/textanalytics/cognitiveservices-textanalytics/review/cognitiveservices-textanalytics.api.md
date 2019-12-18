@@ -106,6 +106,9 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 // @public
 export interface InnerError {
     code: InnerErrorCode;
+    details?: {
+        [propertyName: string]: string;
+    };
     innerError?: InnerError;
     message: string;
     target?: string;
@@ -264,8 +267,8 @@ export interface TextAnalyticsErrorResult {
 
 // @public
 export interface TextAnalyticsOperationOptions extends OperationOptions {
+    includeStatistics?: boolean;
     modelVersion?: string;
-    showStats?: boolean;
 }
 
 // @public

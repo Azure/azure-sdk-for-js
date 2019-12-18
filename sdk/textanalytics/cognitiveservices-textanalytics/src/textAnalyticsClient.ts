@@ -69,7 +69,7 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
   /**
    * If set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**

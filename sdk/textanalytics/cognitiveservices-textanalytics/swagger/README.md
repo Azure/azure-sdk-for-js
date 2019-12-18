@@ -216,3 +216,15 @@ directive:
           $["$ref"] = "#/definitions/TextDocumentBatchStatistics";
       }
 ```
+
+### Rename showStats -> includeStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..parameters[*]
+    transform: >
+      if ($.name === "showStats") {
+        $["x-ms-client-name"] = "includeStatistics";
+      }
+```

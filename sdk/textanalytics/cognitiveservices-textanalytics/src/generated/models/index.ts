@@ -53,6 +53,10 @@ export interface InnerError {
    */
   message: string;
   /**
+   * Error details.
+   */
+  details?: { [propertyName: string]: string };
+  /**
    * Error target.
    */
   target?: string;
@@ -510,7 +514,7 @@ export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams ext
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -525,7 +529,7 @@ export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -540,7 +544,7 @@ export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHt
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -555,7 +559,7 @@ export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.Re
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -570,7 +574,7 @@ export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.Req
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -585,7 +589,7 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**

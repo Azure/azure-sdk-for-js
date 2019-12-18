@@ -21,7 +21,7 @@ import { sortByPreviousIdOrder } from "./util";
 export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
   /**
    * Gets statistics about the input document batch and how it was processed
-   * by the service. This property will have a value when showStats is set to true
+   * by the service. This property will have a value when includeStatistics is set to true
    * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
