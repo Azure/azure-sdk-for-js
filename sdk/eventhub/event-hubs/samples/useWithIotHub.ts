@@ -10,7 +10,7 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 // Define IoT Hub Event Hubs-compatible connection string here.
 // To find the correct connection string to use, visit:
 // https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
-const connectionString = process.env["IOTHUB_CONNECTION_STRING"] || "";
+const connectionString = process.env["IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
 export async function main(): Promise<void> {
