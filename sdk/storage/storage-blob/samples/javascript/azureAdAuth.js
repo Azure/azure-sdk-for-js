@@ -24,6 +24,9 @@
 const { BlobServiceClient } = require("@azure/storage-blob");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Enter your storage account name
   const account = process.env.ACCOUNT_NAME || "";

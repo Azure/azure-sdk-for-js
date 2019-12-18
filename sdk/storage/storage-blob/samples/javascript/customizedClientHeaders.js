@@ -19,6 +19,9 @@ const {
   BaseRequestPolicy
 } = require("@azure/storage-blob");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   // Constructor to accept parameters
