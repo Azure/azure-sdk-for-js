@@ -9,8 +9,15 @@ import {
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
+/**
+ * The result of the extract key phrases operation on a single document.
+ */
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
+/**
+ * The result of the extract key phrases operation on a single document,
+ * containing a collection of the key phrases identified in that document.
+ */
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * A list of representative words or phrases. The number of key phrases returned is proportional
@@ -19,6 +26,9 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
   keyPhrases: string[];
 }
 
+/**
+ * An error result from the extract key phrases operation on a single document.
+ */
 export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeExtractKeyPhrasesResult(

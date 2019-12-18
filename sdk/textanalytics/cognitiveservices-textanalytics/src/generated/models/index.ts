@@ -47,11 +47,15 @@ export interface InnerError {
    * 'emptyRequest', 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect',
    * 'invalidDocumentBatch', 'unsupportedLanguageCode', 'invalidCountryHint'
    */
-  code: InnerErrorCode;
+  code: InnerErrorCodeValue;
   /**
    * Error message.
    */
   message: string;
+  /**
+   * Error details.
+   */
+  details?: { [propertyName: string]: string };
   /**
    * Error target.
    */
@@ -70,7 +74,7 @@ export interface TextAnalyticsError {
    * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
    * 'internalServerError', 'serviceUnavailable'
    */
-  code: TextAnalyticsErrorCode;
+  code: ErrorCodeValue;
   /**
    * Error message.
    */
@@ -510,7 +514,7 @@ export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams ext
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -525,7 +529,7 @@ export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -540,7 +544,7 @@ export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHt
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -555,7 +559,7 @@ export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.Re
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -570,7 +574,7 @@ export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.Req
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
@@ -585,27 +589,27 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
   /**
    * (Optional) if set to true, response will contain input and document level statistics.
    */
-  showStats?: boolean;
+  includeStatistics?: boolean;
 }
 
 /**
- * Defines values for TextAnalyticsErrorCode.
+ * Defines values for ErrorCodeValue.
  * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
  * 'serviceUnavailable'
  * @readonly
  * @enum {string}
  */
-export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 /**
- * Defines values for InnerErrorCode.
+ * Defines values for InnerErrorCodeValue.
  * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
  * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
  * 'unsupportedLanguageCode', 'invalidCountryHint'
  * @readonly
  * @enum {string}
  */
-export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 /**
  * Defines values for DocumentSentimentValue.

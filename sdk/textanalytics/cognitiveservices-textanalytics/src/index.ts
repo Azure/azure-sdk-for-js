@@ -4,7 +4,6 @@
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
-  DetectLanguageOptions,
   DetectLanguagesOptions,
   RecognizeEntitiesOptions,
   AnalyzeSentimentOptions,
@@ -59,8 +58,8 @@ export {
   LanguageInput,
   TextAnalyticsError,
   TextDocumentBatchStatistics,
-  InnerErrorCode,
-  TextAnalyticsErrorCode,
+  InnerErrorCodeValue,
+  ErrorCodeValue,
   InnerError,
   Entity,
   SentenceSentiment,
