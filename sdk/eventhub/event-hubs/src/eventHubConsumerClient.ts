@@ -422,11 +422,11 @@ export class EventHubConsumerClient {
     this._partitionGate.add(partitionId);
 
     const subscribeOptions = options as SubscribeOptions | undefined;
-    
+
     if (this._userChoseCheckpointStore) {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), using a checkpoint store`
-      );      
+      );
     } else {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no checkpoint store.`
@@ -442,7 +442,7 @@ export class EventHubConsumerClient {
         ...defaultConsumerClientOptions,
         ...options,
         processingTarget: partitionId,
-        ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore),
+        ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore)
       }
     );
 

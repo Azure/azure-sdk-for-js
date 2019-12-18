@@ -76,8 +76,8 @@ describe("EventHubConsumerClient", () => {
         );
 
         subscriptionHandlers = {
-          processEvents: async () => { },
-          processError: async () => { }
+          processEvents: async () => {},
+          processError: async () => {}
         };
 
         const fakeEventProcessorConstructor = (
@@ -102,15 +102,21 @@ describe("EventHubConsumerClient", () => {
       });
 
       it("conflicting subscribes", () => {
-        validateOptions = () => { };
-        
+        validateOptions = () => {};
+
         client.subscribe(subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => client.subscribe("0", subscriptionHandlers), /Partition already has a subscriber/);
+        should.throw(
+          () => client.subscribe("0", subscriptionHandlers),
+          /Partition already has a subscriber/
+        );
 
         clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => clientWithCheckpointStore.subscribe(subscriptionHandlers), /Partition already has a subscriber/);
+        should.throw(
+          () => clientWithCheckpointStore.subscribe(subscriptionHandlers),
+          /Partition already has a subscriber/
+        );
       });
 
       it("subscribe to single partition, no checkpoint store", () => {
@@ -124,9 +130,7 @@ describe("EventHubConsumerClient", () => {
 
           // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
           // immediately so we bypass the FairPartitionLoadBalancer entirely
-          options.processingTarget!.constructor.name.should.equal(
-            "GreedyPartitionLoadBalancer"
-          );
+          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
         };
 
         const subscription = client.subscribe(subscriptionHandlers);
@@ -156,9 +160,7 @@ describe("EventHubConsumerClient", () => {
       it("subscribe to all partitions, no checkpoint store", () => {
         validateOptions = (options) => {
           should.not.exist(options.ownerLevel);
-          options.processingTarget!.constructor.name.should.equal(
-            "GreedyPartitionLoadBalancer"
-          );
+          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
         };
 
         client.subscribe(subscriptionHandlers);
@@ -174,7 +176,7 @@ describe("EventHubConsumerClient", () => {
       });
 
       it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async () => {
-        let ownerId: string|undefined = undefined;
+        let ownerId: string | undefined = undefined;
 
         validateOptions = (options) => {
           should.exist(options.ownerId);
@@ -285,8 +287,11 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          ...(partitionIds.map(partitionId => `Subscribing to specific partition (${partitionId}), no checkpoint store.` )),
-          ...(partitionIds.map(partitionId => `Single partition target: ${partitionId}`))
+          ...partitionIds.map(
+            (partitionId) =>
+              `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+          ),
+          ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
         ],
         [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
       );
@@ -307,7 +312,7 @@ describe("EventHubConsumerClient", () => {
       }
 
       await tester.runTestAndPoll(producerClient);
-      
+
       logTester.assert();
     });
 

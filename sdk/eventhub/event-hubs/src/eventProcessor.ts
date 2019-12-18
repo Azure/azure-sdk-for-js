@@ -143,9 +143,8 @@ export interface CheckpointStore {
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions
-  extends // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends
-    // for our internal classes (these are optional for external users)
+export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends
+  extends // for our internal classes (these are optional for external users)
     Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
@@ -258,11 +257,11 @@ export class EventProcessor {
     this._consumerGroup = consumerGroup;
     this._eventHubClient = eventHubClient;
     this._processorOptions = options;
-    this._pumpManager = options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
+    this._pumpManager =
+      options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
     this._processingTarget =
-      options.processingTarget ||
-      new FairPartitionLoadBalancer(inactiveTimeLimitInMS);
+      options.processingTarget || new FairPartitionLoadBalancer(inactiveTimeLimitInMS);
     if (options.loopIntervalInMs) {
       this._loopIntervalInMs = options.loopIntervalInMs;
     }
@@ -297,15 +296,13 @@ export class EventProcessor {
   /*
    * Claim ownership of the given partition if it's available
    */
-  private async _claimOwnership(
-    ownershipRequest: PartitionOwnership
-  ): Promise<void> {
+  private async _claimOwnership(ownershipRequest: PartitionOwnership): Promise<void> {
     log.partitionLoadBalancer(
       `[${this._id}] Attempting to claim ownership of partition ${ownershipRequest.partitionId}.`
     );
     try {
       const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
-      
+
       // can happen if the partition was claimed out from underneath us - we shouldn't
       // attempt to spin up a processor.
       if (!claimedOwnerships.length) {
@@ -326,15 +323,21 @@ export class EventProcessor {
   }
 
   private async _startPump(partitionId: string) {
-    log.partitionLoadBalancer(`[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`);
+    log.partitionLoadBalancer(
+      `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
+    );
 
-    const partitionProcessor = new PartitionProcessor(this._subscriptionEventHandlers, this._checkpointStore, {
-      fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
-      eventHubName: this._eventHubClient.eventHubName,
-      consumerGroup: this._consumerGroup,
-      partitionId: partitionId,
-      eventProcessorId: this.id
-    });
+    const partitionProcessor = new PartitionProcessor(
+      this._subscriptionEventHandlers,
+      this._checkpointStore,
+      {
+        fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+        eventHubName: this._eventHubClient.eventHubName,
+        consumerGroup: this._consumerGroup,
+        partitionId: partitionId,
+        eventProcessorId: this.id
+      }
+    );
 
     const eventPosition = await this._getStartingPosition(partitionId);
     await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
@@ -380,7 +383,10 @@ export class EventProcessor {
    * EventHubConsumer for processing events from that partition.
    */
 
-  private async _runLoopWithLoadBalancing(loadBalancer: PartitionLoadBalancer, abortSignal: AbortSignalLike): Promise<void> {
+  private async _runLoopWithLoadBalancing(
+    loadBalancer: PartitionLoadBalancer,
+    abortSignal: AbortSignalLike
+  ): Promise<void> {
     // periodically check if there is any partition not being processed and process it
     while (!abortSignal.aborted) {
       try {
@@ -398,7 +404,7 @@ export class EventProcessor {
           if (isAbandoned(ownership)) {
             abandonedMap.set(ownership.partitionId, ownership);
             continue;
-          } 
+          }
 
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
@@ -424,7 +430,7 @@ export class EventProcessor {
                 ownershipRequest = this._createPartitionOwnershipRequest(
                   abandonedMap,
                   partitionToClaim
-                );  
+                );
               } else {
                 ownershipRequest = this._createPartitionOwnershipRequest(
                   partitionOwnershipMap,
@@ -499,8 +505,11 @@ export class EventProcessor {
       this._loopTask = this._runLoopWithoutLoadBalancing(this._processingTarget);
     } else {
       log.eventProcessor(`[${this._id}] Multiple partitions, using load balancer`);
-      this._loopTask = this._runLoopWithLoadBalancing(this._processingTarget, this._abortController.signal);
-    }    
+      this._loopTask = this._runLoopWithLoadBalancing(
+        this._processingTarget,
+        this._abortController.signal
+      );
+    }
   }
 
   isRunning() {
@@ -541,8 +550,12 @@ export class EventProcessor {
   }
 
   private async abandonPartitionOwnerships() {
-    const allOwnerships = await this._checkpointStore.listOwnership(this._eventHubClient.fullyQualifiedNamespace, this._eventHubClient.eventHubName, this._consumerGroup);
-    const ourOwnerships = allOwnerships.filter(ownership => ownership.ownerId === this._id);
+    const allOwnerships = await this._checkpointStore.listOwnership(
+      this._eventHubClient.fullyQualifiedNamespace,
+      this._eventHubClient.eventHubName,
+      this._consumerGroup
+    );
+    const ourOwnerships = allOwnerships.filter((ownership) => ownership.ownerId === this._id);
     // unclaim any partitions that we currently own
     for (const ownership of ourOwnerships) {
       ownership.ownerId = "";
