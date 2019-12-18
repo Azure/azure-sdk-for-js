@@ -5,14 +5,14 @@ import {
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
-  CheckpointStore
+  CheckpointStore,
+  logger
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
-import * as log from "../src/log";
 import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 import { FullEventProcessorOptions, EventProcessor } from "../src/eventProcessor";
@@ -76,8 +76,8 @@ describe("EventHubConsumerClient", () => {
         );
 
         subscriptionHandlers = {
-          processEvents: async () => { },
-          processError: async () => { }
+          processEvents: async () => {},
+          processError: async () => {}
         };
 
         const fakeEventProcessorConstructor = (
@@ -102,15 +102,21 @@ describe("EventHubConsumerClient", () => {
       });
 
       it("conflicting subscribes", () => {
-        validateOptions = () => { };
-        
+        validateOptions = () => {};
+
         client.subscribe(subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => client.subscribe("0", subscriptionHandlers), /Partition already has a subscriber/);
+        should.throw(
+          () => client.subscribe("0", subscriptionHandlers),
+          /Partition already has a subscriber/
+        );
 
         clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
-        should.throw(() => clientWithCheckpointStore.subscribe(subscriptionHandlers), /Partition already has a subscriber/);
+        should.throw(
+          () => clientWithCheckpointStore.subscribe(subscriptionHandlers),
+          /Partition already has a subscriber/
+        );
       });
 
       it("subscribe to single partition, no checkpoint store", () => {
@@ -174,7 +180,7 @@ describe("EventHubConsumerClient", () => {
       });
 
       it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async () => {
-        let ownerId: string|undefined = undefined;
+        let ownerId: string | undefined = undefined;
 
         validateOptions = (options) => {
           should.exist(options.ownerId);
@@ -230,7 +236,7 @@ describe("EventHubConsumerClient", () => {
           "Subscribing to specific partition (0), no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching (0)."
         ],
-        [log.consumerClient, log.partitionLoadBalancer]
+        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
       );
 
       const tester = new ReceivedMessagesTester(["0"], false);
@@ -259,7 +265,7 @@ describe("EventHubConsumerClient", () => {
           "Subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
-        [log.consumerClient, log.partitionLoadBalancer]
+        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -285,10 +291,15 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          ...(partitionIds.map(partitionId => `Subscribing to specific partition (${partitionId}), no checkpoint store.` )),
-          ...(partitionIds.map(partitionId => `GreedyPartitionLoadBalancer created. Watching (${partitionId}).` ))
+          ...partitionIds.map(
+            (partitionId) =>
+              `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+          ),
+          ...partitionIds.map(
+            (partitionId) => `GreedyPartitionLoadBalancer created. Watching (${partitionId}).`
+          )
         ],
-        [log.consumerClient, log.partitionLoadBalancer]
+        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -307,7 +318,7 @@ describe("EventHubConsumerClient", () => {
       }
 
       await tester.runTestAndPoll(producerClient);
-      
+
       logTester.assert();
     });
 
@@ -321,7 +332,7 @@ describe("EventHubConsumerClient", () => {
           "Subscribing to all partitions, using a checkpoint store.",
           /Starting event processor with ID /
         ],
-        [log.consumerClient, log.eventProcessor]
+        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
       );
 
       clients.push(
