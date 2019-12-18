@@ -6,6 +6,9 @@ const fs = require("fs");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 function writeFile(filename, text) {
   return new Promise((resolve, reject) => {
     fs.writeFile(filename, text, (err) => {

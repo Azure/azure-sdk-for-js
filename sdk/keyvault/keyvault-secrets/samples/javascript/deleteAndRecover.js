@@ -4,6 +4,9 @@
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }

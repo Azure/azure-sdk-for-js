@@ -6,6 +6,10 @@ import * as fs from "fs";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {
     fs.writeFile(filename, text, (err) => {
