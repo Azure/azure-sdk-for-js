@@ -8,7 +8,10 @@ import {
   makeCertificateOperationPollOperation,
   CertificateOperationPublicState
 } from "./operation";
-import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import {
+  CertificateClientInterface,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 
 /**
  * An interface representing a poller state with a public property
@@ -18,7 +21,8 @@ import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../..
  * A poller-like interface, similar to @azure/core-lro PollerLike, but with public available state
  * TODO: Move this to @azure/core-lro.
  */
-export interface PollerLikeWithPublicState<TPublic, TState, TResult> extends PollerLike<TState, TResult> {
+export interface PollerLikeWithPublicState<TPublic, TState, TResult>
+  extends PollerLike<TState, TResult> {
   /**
    * A method to get the public state of this poller.
    */

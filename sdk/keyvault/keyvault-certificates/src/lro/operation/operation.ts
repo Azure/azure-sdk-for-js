@@ -4,13 +4,18 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { CertificateClientInterface, CertificateOperation, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import {
+  CertificateClientInterface,
+  CertificateOperation,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 
 /**
  * The operation state of a poller, but with an additional public property of a custom type.
  * TODO: Move this to @azure/core-lro.
  */
-export interface PollOperationStateWithPublicState<TPublic, TResult> extends PollOperationState<TResult> {
+export interface PollOperationStateWithPublicState<TPublic, TResult>
+  extends PollOperationState<TResult> {
   /**
    * Public properties of a poller.
    */
@@ -31,7 +36,10 @@ export interface CertificateOperationPublicState {
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CertificateOperationPollOperationState
-  extends PollOperationStateWithPublicState<CertificateOperationPublicState, KeyVaultCertificateWithPolicy> {
+  extends PollOperationStateWithPublicState<
+    CertificateOperationPublicState,
+    KeyVaultCertificateWithPolicy
+  > {
   /**
    * The name of the certificate.
    */
@@ -112,10 +120,7 @@ async function cancel(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  state.public.operation = await client.cancelCertificateOperation(
-    certificateName,
-    requestOptions
-  );
+  state.public.operation = await client.cancelCertificateOperation(certificateName, requestOptions);
 
   return makeCertificateOperationPollOperation({
     ...this.state,

@@ -50,6 +50,10 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 }
 
 // @public
+export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
@@ -84,15 +88,12 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientInterface {
-    // Warning: (ae-forgotten-export) The symbol "CancelCertificateOperationOptions" needs to be exported by the entry point index.d.ts
     cancelCertificateOperation(certificateName: string, options?: CancelCertificateOperationOptions): Promise<CertificateOperation>;
     createCertificate(certificateName: string, certificatePolicy: CertificatePolicy, options: CreateCertificateOptions): Promise<KeyVaultCertificate>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteCertificateOptions" needs to be exported by the entry point index.d.ts
     deleteCertificate(name: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
     getCertificate(name: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
     getDeletedCertificate(name: string, options?: GetDeletedCertificateOptions): Promise<DeletedCertificate>;
     getPlainCertificateOperation(certificateName: string, options?: GetPlainCertificateOperationOptions): Promise<CertificateOperation>;
-    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedCertificateOptions" needs to be exported by the entry point index.d.ts
     recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
 }
 
@@ -243,6 +244,10 @@ export const DefaultCertificatePolicy: {
 
 // @public
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface DeleteCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -407,6 +412,10 @@ export interface PollOperationStateWithPublicState<TPublic, TResult> extends Pol
 
 // @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
 
 // @public

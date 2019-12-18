@@ -136,7 +136,11 @@ import { CertificateOperationPoller, PollerLikeWithPublicState } from "./lro/ope
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { CertificateOperationPublicState, CertificateOperationPollOperationState, PollOperationStateWithPublicState } from './lro/operation/operation';
+import {
+  CertificateOperationPublicState,
+  CertificateOperationPollOperationState,
+  PollOperationStateWithPublicState
+} from "./lro/operation/operation";
 
 export {
   ActionType,
@@ -195,6 +199,9 @@ export {
   ListDeletedCertificatesOptions,
   PollOperationStateWithPublicState,
   CertificateClientInterface,
+  CancelCertificateOperationOptions,
+  DeleteCertificateOptions,
+  RecoverDeletedCertificateOptions,
   MergeCertificateOptions,
   PipelineOptions,
   PurgeDeletedCertificateOptions,
@@ -1453,7 +1460,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -1481,7 +1492,13 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLikeWithPublicState<CertificateOperationPublicState, CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<
+    PollerLikeWithPublicState<
+      CertificateOperationPublicState,
+      CertificateOperationPollOperationState,
+      KeyVaultCertificateWithPolicy
+    >
+  > {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1532,7 +1549,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -2026,7 +2047,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   private getCertificateFromCertificateBundle(
