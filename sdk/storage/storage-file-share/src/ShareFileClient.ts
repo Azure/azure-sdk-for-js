@@ -2858,7 +2858,7 @@ export class FileLeaseClient {
   public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("FileLeaseClient-breakLease", options.tracingOptions);
     try {
-      return await this._file.breakLease(this._leaseId, {
+      return await this._file.breakLease({
         abortSignal: options.abortSignal,
         spanOptions
       });

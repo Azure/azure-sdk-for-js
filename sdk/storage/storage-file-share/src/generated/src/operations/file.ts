@@ -291,26 +291,22 @@ export class File {
   /**
    * [Update] The Lease File operation establishes and manages a lock on a file for write and delete
    * operations
-   * @param leaseId Specifies the current lease ID on the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileBreakLeaseResponse>
    */
-  breakLease(leaseId: string, options?: Models.FileBreakLeaseOptionalParams): Promise<Models.FileBreakLeaseResponse>;
+  breakLease(options?: Models.FileBreakLeaseOptionalParams): Promise<Models.FileBreakLeaseResponse>;
   /**
-   * @param leaseId Specifies the current lease ID on the resource.
    * @param callback The callback
    */
-  breakLease(leaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  breakLease(callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param leaseId Specifies the current lease ID on the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  breakLease(leaseId: string, options: Models.FileBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  breakLease(leaseId: string, options?: Models.FileBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileBreakLeaseResponse> {
+  breakLease(options: Models.FileBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  breakLease(options?: Models.FileBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
-        leaseId,
         options
       },
       breakLeaseOperationSpec,
@@ -903,10 +899,10 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.comp9
   ],
   headerParameters: [
-    Parameters.leaseId1,
     Parameters.version,
     Parameters.requestId,
-    Parameters.action3
+    Parameters.action3,
+    Parameters.leaseId0
   ],
   responses: {
     202: {
