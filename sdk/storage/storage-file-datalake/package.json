@@ -44,7 +44,7 @@
     "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
     "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "coverage-integration-test:node": "nyc npm run integration-test:node",
+    "coverage-integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 --retries 2 dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "coverage-unit-test:node": "cross-env TEST_MODE=playback npm run coverage-integration-test:node"
   },
   "files": [
@@ -57,20 +57,50 @@
     "tsconfig.json"
   ],
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "ADLS",
+    "DFS",
+    "DataLake",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "Browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
-    "@azure/storage-blob": "^12.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
+    "@azure/storage-blob": "^12.0.0",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/test-utils-recorder": "^1.0.0",
     "@azure/identity": "^1.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
+    "@opentelemetry/types": "^0.2.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.5",
@@ -79,7 +109,6 @@
     "@types/query-string": "6.2.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
-    "@opentelemetry/types": "^0.2.0",
     "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
@@ -89,6 +118,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
     "execa": "^3.3.0",
     "fs-extra": "^8.1.0",
     "inherits": "^2.0.3",
@@ -127,34 +157,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "util": "^0.12.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "keywords": [
-    "Azure",
-    "Storage",
-    "ADLS",
-    "DFS",
-    "DataLake",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   }
 }
