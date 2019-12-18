@@ -30,7 +30,7 @@ import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
-import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
+import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
 import sinon from 'sinon';
@@ -289,7 +289,10 @@ describe("Event Processor", function(): void {
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
       const numTimesAbortedIsCheckedInLoop = 3;
-      await ep['_runLoop'](triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop));
+      await ep['_runLoopWithLoadBalancing'](
+        ep['_processingTarget'] as PartitionLoadBalancer,
+        triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
+      );
 
       handlers.errors.should.be.empty;
 
@@ -351,7 +354,7 @@ describe("Event Processor", function(): void {
       faultyCheckpointStore,
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -398,7 +401,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -475,7 +478,7 @@ describe("Event Processor", function(): void {
       client,
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, partitionLoadBalancer: new GreedyPartitionLoadBalancer() }
+      { ...defaultOptions, processingTarget: new GreedyPartitionLoadBalancer() }
     );
 
     processor.start();
@@ -535,7 +538,7 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
-        partitionLoadBalancer,
+        processingTarget: partitionLoadBalancer,
         ...defaultOptions
       }
     );
@@ -586,7 +589,7 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer()
         }
       );
 
@@ -1246,7 +1249,7 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           trackLastEnqueuedEventProperties: true,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer()
         }
       );
 

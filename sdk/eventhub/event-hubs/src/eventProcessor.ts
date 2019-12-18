@@ -156,9 +156,9 @@ export interface FullEventProcessorOptions
       >
     > {
   /**
-   * A load balancer to use
+   * A load balancer to use to find targets or a specific partition to target.
    */
-  partitionLoadBalancer?: PartitionLoadBalancer;
+  processingTarget?: PartitionLoadBalancer | string;
   /**
    * The amount of time to wait between each attempt at claiming partitions.
    */
@@ -224,7 +224,7 @@ export class EventProcessor {
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
-  private _partitionLoadBalancer: PartitionLoadBalancer;
+  private _processingTarget: PartitionLoadBalancer | string;
   private _loopIntervalInMs = 10000;
   private _inactiveTimeLimitInMs = 60000;
 
@@ -260,8 +260,8 @@ export class EventProcessor {
     this._processorOptions = options;
     this._pumpManager = options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
     const inactiveTimeLimitInMS = options.inactiveTimeLimitInMs || this._inactiveTimeLimitInMs;
-    this._partitionLoadBalancer =
-      options.partitionLoadBalancer ||
+    this._processingTarget =
+      options.processingTarget ||
       new FairPartitionLoadBalancer(inactiveTimeLimitInMS);
     if (options.loopIntervalInMs) {
       this._loopIntervalInMs = options.loopIntervalInMs;
@@ -316,31 +316,30 @@ export class EventProcessor {
         `[${this._id}] Successfully claimed ownership of partition ${ownershipRequest.partitionId}.`
       );
 
-      log.partitionLoadBalancer(
-        `[${this._id}] [${ownershipRequest.partitionId}] Calling user-provided PartitionProcessorFactory.`
-      );
-      const partitionProcessor = new PartitionProcessor(
-        this._subscriptionEventHandlers,
-        this._checkpointStore,
-        {
-          fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
-          eventHubName: this._eventHubClient.eventHubName,
-          consumerGroup: this._consumerGroup,
-          partitionId: ownershipRequest.partitionId,
-          eventProcessorId: this.id
-        }
-      );
-
-      const eventPosition = await this._getStartingPosition(ownershipRequest.partitionId);
-
-      await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
-      log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
+      await this._startPump(ownershipRequest.partitionId);
     } catch (err) {
       log.error(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
       await this._handleSubscriptionError(err);
     }
+  }
+
+  private async _startPump(partitionId: string) {
+    log.partitionLoadBalancer(`[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`);
+
+    const partitionProcessor = new PartitionProcessor(this._subscriptionEventHandlers, this._checkpointStore, {
+      fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
+      eventHubName: this._eventHubClient.eventHubName,
+      consumerGroup: this._consumerGroup,
+      partitionId: partitionId,
+      eventProcessorId: this.id
+    });
+
+    const eventPosition = await this._getStartingPosition(partitionId);
+    await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
+
+    log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
   }
 
   private async _getStartingPosition(partitionIdToClaim: string) {
@@ -361,6 +360,15 @@ export class EventProcessor {
     return undefined;
   }
 
+  private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
+    try {
+      return this._startPump(partitionId);
+    } catch (err) {
+      log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+      await this._handleSubscriptionError(err);
+    }
+  }
+
   /**
    * Every loop to this method will result in this EventProcessor owning at most one new partition.
    *
@@ -372,7 +380,7 @@ export class EventProcessor {
    * EventHubConsumer for processing events from that partition.
    */
 
-  private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
+  private async _runLoopWithLoadBalancing(loadBalancer: PartitionLoadBalancer, abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
     while (!abortSignal.aborted) {
       try {
@@ -403,7 +411,7 @@ export class EventProcessor {
         }
 
         if (partitionIds.length > 0) {
-          const partitionsToClaim = this._partitionLoadBalancer.loadBalance(
+          const partitionsToClaim = loadBalancer.loadBalance(
             this._id,
             partitionOwnershipMap,
             partitionIds
@@ -485,7 +493,14 @@ export class EventProcessor {
     this._isRunning = true;
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
-    this._loopTask = this._runLoop(this._abortController.signal);
+
+    if (typeof this._processingTarget === "string") {
+      log.eventProcessor(`[${this._id}] Single partition target: ${this._processingTarget}`);
+      this._loopTask = this._runLoopWithoutLoadBalancing(this._processingTarget);
+    } else {
+      log.eventProcessor(`[${this._id}] Multiple partitions, using load balancer`);
+      this._loopTask = this._runLoopWithLoadBalancing(this._processingTarget, this._abortController.signal);
+    }    
   }
 
   isRunning() {
@@ -513,7 +528,9 @@ export class EventProcessor {
 
       // waits for the event processor loop to complete
       // will complete immediately if _loopTask is undefined
-      await this._loopTask;
+      if (this._loopTask) {
+        await this._loopTask;
+      }
     } catch (err) {
       log.error(`[${this._id}] An error occured while stopping the EventProcessor: ${err}`);
     } finally {
