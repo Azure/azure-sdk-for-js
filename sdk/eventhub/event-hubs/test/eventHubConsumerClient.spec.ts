@@ -233,7 +233,7 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "Subscribing to specific partition (0), no checkpoint store.",
+          "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching (0)."
         ],
         [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
@@ -262,7 +262,7 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "Subscribing to all partitions, no checkpoint store.",
+          "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
         [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
@@ -293,7 +293,7 @@ describe("EventHubConsumerClient", () => {
         [
           ...partitionIds.map(
             (partitionId) =>
-              `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+              `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`
           ),
           ...partitionIds.map(
             (partitionId) => `GreedyPartitionLoadBalancer created. Watching (${partitionId}).`
@@ -329,7 +329,7 @@ describe("EventHubConsumerClient", () => {
       // instead of the beginning of time.
       const logTester = new LogTester(
         [
-          "Subscribing to all partitions, using a checkpoint store.",
+          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
           /Starting event processor with ID /
         ],
         [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
