@@ -251,7 +251,7 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscription);
 
       await tester.runTestAndPoll(producerClient);
-      await subscription.close();   // or else we won't see the partition abandoning messages
+      await subscription.close(); // or else we won't see the partition abandoning messages
 
       logTester.assert();
     });

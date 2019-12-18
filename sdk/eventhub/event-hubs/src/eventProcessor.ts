@@ -143,9 +143,8 @@ export interface CheckpointStore {
  * ```
  * @internal
  */
-export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends
-  extends // for our internal classes (these are optional for external users)
-    Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
+export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
+  extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
       Exclude<
@@ -547,7 +546,7 @@ export class EventProcessor {
     }
 
     if (targetWithoutOwnership(this._processingTarget)) {
-      log.eventProcessor(`[${this._id}] No partitions owned, skipping abandoning.`)
+      log.eventProcessor(`[${this._id}] No partitions owned, skipping abandoning.`);
     } else {
       await this.abandonPartitionOwnerships();
     }
@@ -573,6 +572,6 @@ function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
 }
 
-function targetWithoutOwnership(target: PartitionLoadBalancer | string) : target is string {
+function targetWithoutOwnership(target: PartitionLoadBalancer | string): target is string {
   return typeof target === "string";
 }
