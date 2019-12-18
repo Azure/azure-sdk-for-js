@@ -12,3 +12,7 @@ steps:
     inputs:
       versionSpec: "$(NodeVersion)"
     displayName: "Use NodeJS $(NodeVersion)"
+
+  - script: |
+      npm --version
+    displayName: NPM version
