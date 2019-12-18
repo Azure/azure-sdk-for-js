@@ -25,7 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require a Node.js >= 10.0.0.
+The samples are compatible with Node.js >= 8.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -33,7 +33,13 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 npm install -g typescript
 ```
 
-You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs. Samples retrieve credentials to access the Key Vault from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs. To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2Ftests-resources.json)
+
+If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [this page](kvsoftdelete) for more information.
+
+Samples retrieve credentials to access the Key Vault from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
