@@ -500,7 +500,7 @@ export class EventProcessor {
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
 
-    if (typeof this._processingTarget === "string") {
+    if (targetWithoutOwnership(this._processingTarget)) {
       log.eventProcessor(`[${this._id}] Single partition target: ${this._processingTarget}`);
       this._loopTask = this._runLoopWithoutLoadBalancing(this._processingTarget);
     } else {
@@ -546,10 +546,15 @@ export class EventProcessor {
       log.eventProcessor(`[${this._id}] EventProcessor stopped.`);
     }
 
-    await this.abandonPartitionOwnerships();
+    if (targetWithoutOwnership(this._processingTarget)) {
+      log.eventProcessor(`[${this._id}] No partitions owned, skipping abandoning.`)
+    } else {
+      await this.abandonPartitionOwnerships();
+    }
   }
 
   private async abandonPartitionOwnerships() {
+    log.eventProcessor(`[${this._id}] Abandoning owned partitions`);
     const allOwnerships = await this._checkpointStore.listOwnership(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
@@ -566,4 +571,8 @@ export class EventProcessor {
 
 function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
+}
+
+function targetWithoutOwnership(target: PartitionLoadBalancer | string) : target is string {
+  return typeof target === "string";
 }

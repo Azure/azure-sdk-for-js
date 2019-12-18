@@ -230,7 +230,8 @@ describe("EventHubConsumerClient", () => {
       const logTester = new LogTester(
         [
           "Subscribing to specific partition (0), no checkpoint store.",
-          "Single partition target: 0"
+          "Single partition target: 0",
+          "No partitions owned, skipping abandoning."
         ],
         [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
       );
@@ -250,6 +251,8 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscription);
 
       await tester.runTestAndPoll(producerClient);
+      await subscription.close();   // or else we won't see the partition abandoning messages
+
       logTester.assert();
     });
 
@@ -289,7 +292,8 @@ describe("EventHubConsumerClient", () => {
         [
           ...partitionIds.map(
             (partitionId) =>
-              `Subscribing to specific partition (${partitionId}), no checkpoint store.`
+              `Subscribing to specific partition (${partitionId}), no checkpoint store.`,
+            `Abandoning owned partitions`
           ),
           ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
         ],
@@ -324,7 +328,8 @@ describe("EventHubConsumerClient", () => {
       const logTester = new LogTester(
         [
           "Subscribing to all partitions, using a checkpoint store.",
-          /Starting event processor with ID /
+          /Starting event processor with ID /,
+          "Abandoning owned partitions"
         ],
         [log.consumerClient, log.eventProcessor, log.eventProcessor]
       );
@@ -360,6 +365,11 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
+
+      // or else we won't see the abandoning message
+      for (const subscription of subscriptions) {
+        await subscription.close();
+      }
       logTester.assert();
     });
   });
