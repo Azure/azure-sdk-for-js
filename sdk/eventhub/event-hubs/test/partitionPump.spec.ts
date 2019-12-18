@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { getStartingPosition, createProcessingSpan, trace } from "../src/partitionPump";
-import { EventPosition } from "../src/eventPosition";
+import { createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
 import {
   CanonicalCode,
