@@ -1,8 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("../../"); // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -42,7 +48,7 @@ async function main() {
 
   function printBlob(result) {
     if (!result.done) {
-      console.log("Blob " + (index++) + ": " + result.value.name);
+      console.log("Blob " + index++ + ": " + result.value.name);
       asyncIter.next().then(printBlob);
     } else {
       containerClient.delete().then(() => console.log("deleted container"));
@@ -52,11 +58,8 @@ async function main() {
   asyncIter.next().then(printBlob);
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+module.exports = { main };
+
+main().catch((err) => {
+  console.log(err.message);
+});

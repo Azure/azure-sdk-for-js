@@ -2,9 +2,13 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, StorageSharedKeyCredential, BlobItem } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageSharedKeyCredential, BlobItem } from "@azure/storage-blob";
 
-async function main() {
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -52,11 +56,6 @@ async function main() {
   asyncIter.next().then(printBlob);
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.log(err.message);
+});

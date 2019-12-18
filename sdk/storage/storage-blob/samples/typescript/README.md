@@ -23,6 +23,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [iterators-blobs.ts][iterators-blobs]                     | different methods for iterating over blobs in a container, showing options for paging, resuming paging, etc.                                               |
 | [iterators-containers.ts][iterators-containers]           | different methods for iterating over containers in an account, showing options for paging, resuming paging, etc.                                           |
 | [iterators-blobs-hierarchy.ts][iterators-blobs-hierarchy] | iterating over blobs by hierarchy, using separators in the blob names, showing options for paging, resuming paging, etc.                                   |
+| [iterators-without-await.ts][iterators-without-await]     | iterating over blobs in a container without using `for await` syntax                                                                                       |
 | [customPipeline.ts][custompipeline]                       | use custom HTTP pipeline options when connecting to the service                                                                                            |
 | [customizedClientHeaders.ts][customizedclientheaders]     | use a custom request policy to add metadata to requests, in this case through the custom x-ms-client-request-id header                                     |
 | [errorsAndResponses.ts][errorsandresponses]               | demonstrate various errors and responses                                                                                                                   |
@@ -87,6 +88,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iterators-blobs-hierarchy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/iterators-blobs-hierarchy.ts
 [iterators-blobs]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/iterators-blobs.ts
 [iterators-containers]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/iterators-containers.ts
+[iterators-blobs-hierarchy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/iterators-without-await.ts
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/proxyAuth.ts
 [readingsnapshot]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/readingSnapshot.ts
 [sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/sharedKeyCred.ts
