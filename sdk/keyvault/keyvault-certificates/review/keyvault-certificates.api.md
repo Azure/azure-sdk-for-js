@@ -5,9 +5,9 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { PollerLike as CorePollerLike } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { PollerLike as PollerLike_2 } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
@@ -197,6 +197,8 @@ export type CertificateTags = {
     [propertyName: string]: string;
 };
 
+export { CorePollerLike }
+
 // @public
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
@@ -209,7 +211,7 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export type CreateCertificatePollerLike = PollerLike_2<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+export type CreateCertificatePollerLike = CorePollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
 
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
@@ -231,7 +233,7 @@ export interface DeleteCertificateOperationOptions extends coreHttp.OperationOpt
 }
 
 // @public
-export type DeleteCertificatePollerLike = PollerLike_2<PollOperationState<DeletedCertificate>, DeletedCertificate>;
+export type DeleteCertificatePollerLike = CorePollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>;
 
 // @public
 export interface DeleteContactsOptions extends coreHttp.OperationOptions {
@@ -384,7 +386,7 @@ export interface PolicySubjectProperties {
 }
 
 // @public
-export interface PollerLike<TState, TResult> extends PollerLike_2<TState, TResult> {
+export interface PollerLike<TState, TResult> extends CorePollerLike<TState, TResult> {
     getState(): TState;
 }
 
@@ -393,7 +395,7 @@ export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOption
 }
 
 // @public
-export type RecoverDeletedCertificatePollerLike = PollerLike_2<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+export type RecoverDeletedCertificatePollerLike = CorePollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
 
 // @public
 export type RequireAtLeastOne<T> = {

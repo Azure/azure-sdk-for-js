@@ -12,6 +12,7 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
+import { PollerLike as CorePollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -165,6 +166,7 @@ export {
   CreateCertificateOptions,
   CertificatePollerOptions,
   PollerLike,
+  CorePollerLike,
   CertificateOperationPollPublicState,
   CreateCertificatePollerLike,
   DeleteCertificatePollerLike,

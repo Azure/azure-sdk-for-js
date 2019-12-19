@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
+import { Poller, PollerLike as CorePollerLike, PollOperationState } from "@azure/core-lro";
 import { DeleteCertificatePollState, makeDeleteCertificatePollOperation } from "./operation";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
 
@@ -17,7 +17,7 @@ export interface DeleteCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type DeleteCertificatePollerLike = PollerLike<
+export type DeleteCertificatePollerLike = CorePollerLike<
   PollOperationState<DeletedCertificate>,
   DeletedCertificate
 >;

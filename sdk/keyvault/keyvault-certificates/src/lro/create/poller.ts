@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
+import { Poller, PollerLike as CorePollerLike, PollOperationState } from "@azure/core-lro";
 import { CreateCertificatePollState, makeCreateCertificatePollOperation } from "./operation";
 import {
   KeyVaultCertificateWithPolicy,
@@ -24,7 +24,7 @@ export interface CreateCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type CreateCertificatePollerLike = PollerLike<
+export type CreateCertificatePollerLike = CorePollerLike<
   PollOperationState<KeyVaultCertificateWithPolicy>,
   KeyVaultCertificateWithPolicy
 >;
