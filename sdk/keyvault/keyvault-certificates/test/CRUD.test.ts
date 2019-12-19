@@ -417,7 +417,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can read, cancel and delete a certificate's operation", async function() {
+  it.only("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -435,7 +435,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Cancel
     await operationPoller.cancelOperation();
-    certificateOperation = operationPoller.getResult();
+    certificateOperation = operationPoller.getState().certificateOperation!;
     assert.equal(certificateOperation.cancellationRequested, true);
 
     // Delete

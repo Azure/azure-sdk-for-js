@@ -7,9 +7,8 @@ import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { PollerStoppedError } from "@azure/core-lro";
 
-describe("Certificates client - LRO - certificate operation", () => {
+describe.only("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
@@ -60,23 +59,15 @@ describe("Certificates client - LRO - certificate operation", () => {
   it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     const createPoller = await client.beginCreateCertificate(
-        certificateName,
-        DefaultCertificatePolicy,
-        testPollerProperties
-      );
-      createPoller.stopPolling();
+      certificateName,
+      DefaultCertificatePolicy,
+      testPollerProperties
+    );
+
+    createPoller.stopPolling();
+
     const poller = await client.getCertificateOperation(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
-
-    poller.pollUntilDone().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
-      assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "This poller is already stopped");
-    });
-
-    poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
@@ -84,9 +75,12 @@ describe("Certificates client - LRO - certificate operation", () => {
       resumeFrom: serialized,
       ...testPollerProperties
     });
-
     assert.ok(resumePoller.getOperationState().isStarted);
-    const operation: CertificateOperation = await resumePoller.pollUntilDone();
+
+    const completeCertificate: KeyVaultCertificateWithPolicy = await resumePoller.pollUntilDone();
+    assert.equal(completeCertificate.name, certificateName);
+
+    const operation: CertificateOperation = resumePoller.getState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
 
