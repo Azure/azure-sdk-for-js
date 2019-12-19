@@ -626,3 +626,161 @@ class MockSerializer implements AtomXmlSerializer {
     });
   });
 });
+
+[
+  {
+    testCaseTitle: `Receives error code "UnauthorizedRequestError" when response status is "401"`,
+    input: {
+      responseStatus: 401,
+      body: ""
+    },
+    output: {
+      errorCode: "UnauthorizedRequestError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "MessageEntityNotFoundError" when response status is "404"`,
+    input: {
+      responseStatus: 404,
+      body: ""
+    },
+    output: {
+      errorCode: "MessageEntityNotFoundError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "DELETE`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "DELETE"
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "PUT" with "If-Match" headers set`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "PUT",
+      requestHeaders: { "If-Match": "*" }
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and error message has subcode 40901 in it`,
+    input: {
+      responseStatus: 409,
+      body: { Error: { Detail: " ... SubCode=40901  ..." } }
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "MessageEntityAlreadyExistsError" when response status is "409" and no other special conditions are required`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "GET"
+    },
+    output: {
+      errorCode: "MessageEntityAlreadyExistsError"
+    }
+  },
+  {
+    input: {
+      testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message has subcode 40301 in it`,
+      responseStatus: 403,
+      body: { Error: { Detail: " ... SubCode=40301  ..." } }
+    },
+    output: {
+      errorCode: "InvalidOperationError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message does NOT have subcode 40301 in it`,
+    input: {
+      responseStatus: 403,
+      body: ""
+    },
+    output: {
+      errorCode: "QuotaExceededError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "400"`,
+    input: {
+      responseStatus: 400,
+      body: ""
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServerBusyError" when response status is "503"`,
+    input: {
+      responseStatus: 503,
+      body: ""
+    },
+    output: {
+      errorCode: "ServerBusyError"
+    }
+  },
+  {
+    testCaseTitle: `Receives useful error message when service returned information doesn't have the 'Detail' property defined`,
+    input: {
+      responseStatus: 500,
+      body: { Error: { NoDetails: "no Detail property available" } }
+    },
+    output: {
+      errorCode: "ServiceError",
+      errorMessage:
+        "Detailed error message information not available. Look at the 'code' property on error for more information."
+    }
+  }
+].forEach((testCase) => {
+  describe(`Verify error codes and messages get constructed correctly for different scenarios #RunInBrowser`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      mockServiceBusAtomManagementClient.sendRequest = async () => {
+        const response = {
+          request: new WebResource("", testCase.input.requestMethod as "DELETE" | "GET" | "PUT"),
+          status: testCase.input.responseStatus,
+          headers: new HttpHeaders(),
+          parsedBody: testCase.input.body
+        };
+
+        if (testCase.input.requestHeaders) {
+          Object.keys(testCase.input.requestHeaders).forEach((key) => {
+            const value = (testCase.input.requestHeaders as any)[key];
+            response.request.headers.set(key, value);
+          });
+        }
+        return response;
+      };
+      try {
+        await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        assert.equal(true, false, "Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.code,
+          testCase.output.errorCode,
+          `Expected error code to be "${testCase.output.errorCode}", but received "${err.code}"`
+        );
+
+        if (testCase.output.errorMessage) {
+          assert.equal(
+            err.message,
+            testCase.output.errorMessage,
+            `Expected error message to be "${testCase.output.errorMessage} "`
+          );
+        }
+      }
+    });
+  });
+});

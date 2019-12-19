@@ -122,26 +122,9 @@ export async function deserializeAtomXmlResponse(
   nameProperties: string[],
   response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
-  let errorBody: any;
-
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
-    errorBody = response.parsedBody;
-    if (errorBody == undefined) {
-      const HttpResponseCodes: any = Constants.HttpResponseCodes;
-      const statusCode = response.status;
-      throw new RestError(
-        "Service returned an error response.",
-        isKnownResponseCode(statusCode)
-          ? HttpResponseCodes[statusCode]
-          : `UnrecognizedHttpResponseStatus: ${statusCode}`,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    } else {
-      throw buildError(errorBody, response);
-    }
+    throw buildError(response);
   }
 
   parseAtomResult(response, nameProperties);
@@ -342,22 +325,101 @@ function setName(entry: any, nameProperties: any): any {
  * @param errorBody
  * @param response
  */
-export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
-  const errorProperties = errorBody.Error || errorBody.error || errorBody;
-  let errorMessage;
+export function buildError(response: HttpOperationResponse): RestError {
+  const errorBody = response.parsedBody;
 
+  if (errorBody == undefined) {
+    const HttpResponseCodes: any = Constants.HttpResponseCodes;
+    const statusCode = response.status;
+    throw new RestError(
+      "Service returned an error response.",
+      isKnownResponseCode(statusCode)
+        ? HttpResponseCodes[statusCode]
+        : `UnrecognizedHttpResponseStatus: ${statusCode}`,
+      response.status,
+      stripRequest(response.request),
+      stripResponse(response)
+    );
+  }
+
+  let errorMessage;
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    errorMessage = errorProperties.Detail || errorProperties.detail;
+    if (errorBody.Error == undefined || errorBody.Error.Detail == undefined) {
+      errorMessage =
+        "Detailed error message information not available. Look at the 'code' property on error for more information.";
+    } else {
+      errorMessage = errorBody.Error.Detail;
+    }
   }
+
+  const errorCode = getErrorCode(response);
 
   const error: RestError = new RestError(
     errorMessage,
-    errorProperties.Code || errorProperties.code,
+    errorCode,
     response.status,
     stripRequest(response.request),
     stripResponse(response)
   );
   return error;
+}
+
+/**
+ * @ignore
+ * Helper utility to construct user friendly error codes based on received
+ * error information and response.
+ *
+ * @param errorBody
+ * @param response
+ */
+export function getErrorCode(response: HttpOperationResponse): string | undefined {
+  const errorBody = response.parsedBody;
+  let errorMessage: string = "";
+  if (
+    errorBody &&
+    errorBody.Error &&
+    errorBody.Error.Detail &&
+    typeof errorBody.Error.Detail == "string"
+  ) {
+    errorMessage = errorBody.Error.Detail;
+  }
+
+  if (response.status == 401) {
+    return "UnauthorizedRequestError";
+  } else if (response.status == 404) {
+    return "MessageEntityNotFoundError";
+  } else if (response.status == 409) {
+    if (response.request.method == "DELETE") {
+      return "ServiceError";
+    }
+
+    if (response.request.method == "PUT" && response.request.headers.get("If-Match") == "*") {
+      return "ServiceError";
+    }
+
+    if (errorMessage.toLowerCase().includes("subcode=40901")) {
+      return "ServiceError";
+    }
+
+    return "MessageEntityAlreadyExistsError";
+  }
+
+  if (response.status == 403) {
+    if (errorMessage.toLowerCase().includes("subcode=40301")) {
+      return "InvalidOperationError";
+    }
+    return "QuotaExceededError";
+  }
+
+  if (response.status == 400) {
+    return "ServiceError";
+  }
+
+  if (response.status == 503) {
+    return "ServerBusyError";
+  }
+
+  return "ServiceError";
 }

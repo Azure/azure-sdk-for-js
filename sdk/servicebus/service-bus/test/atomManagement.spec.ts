@@ -195,7 +195,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
 
         should.equal(error.statusCode, 404, "Error must not be undefined");
-        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+        should.equal(
+          error.code,
+          "MessageEntityNotFoundError",
+          `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
+        );
         should.equal(
           error.message.startsWith("The messaging entity") ||
             error.message.startsWith("Entity") ||
@@ -221,6 +225,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       }
 
       should.equal(error.statusCode, 409, "Error must not be undefined");
+      should.equal(
+        error.code,
+        "MessageEntityAlreadyExistsError",
+        `Code expected to be "MessageEntityAlreadyExistsError" but received ${error.code}`
+      );
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
@@ -270,6 +279,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       should.equal(error.statusCode, 404, "Error must not be undefined");
       should.equal(
+        error.code,
+        "MessageEntityNotFoundError",
+        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
+      );
+      should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
@@ -308,6 +322,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       should.equal(error.statusCode, 404);
       should.equal(
+        error.code,
+        "MessageEntityNotFoundError",
+        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
+      );
+      should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
@@ -331,7 +350,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       }
 
       should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+      should.equal(
+        error.code,
+        "MessageEntityNotFoundError",
+        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
+      );
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
