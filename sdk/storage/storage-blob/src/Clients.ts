@@ -6,7 +6,8 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  DefaultHttpClient
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
@@ -924,6 +925,9 @@ export class BlobClient extends StorageClient {
     options?: StoragePipelineOptions
   ) {
     options = options || {};
+    if (!options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
@@ -5510,6 +5514,9 @@ export class ContainerClient extends StorageClient {
     let pipeline: Pipeline;
     let url: string;
     options = options || {};
+    if (!options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;

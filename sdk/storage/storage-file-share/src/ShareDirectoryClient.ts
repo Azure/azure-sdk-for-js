@@ -40,7 +40,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/types";
-import { HttpResponse } from "@azure/core-http";
+import { HttpResponse, DefaultHttpClient } from "@azure/core-http";
 
 /**
  * Options to configure {@link ShareDirectoryClient.create} operation.
@@ -433,6 +433,9 @@ export class ShareDirectoryClient extends StorageClient {
     credentialOrPipeline?: Credential | Pipeline,
     options: StoragePipelineOptions = {}
   ) {
+    if (options && !options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;

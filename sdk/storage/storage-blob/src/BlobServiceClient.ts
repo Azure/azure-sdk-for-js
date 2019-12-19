@@ -5,7 +5,8 @@ import {
   isTokenCredential,
   isNode,
   HttpResponse,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  DefaultHttpClient
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -381,6 +382,9 @@ export class BlobServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    if (options && !options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;

@@ -5,7 +5,8 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  DefaultHttpClient
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
@@ -274,6 +275,9 @@ export class QueueServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    if (options && !options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;

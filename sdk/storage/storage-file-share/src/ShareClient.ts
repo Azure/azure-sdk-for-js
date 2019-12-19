@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, isNode } from "@azure/core-http";
+import { HttpResponse, isNode, DefaultHttpClient } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -406,6 +406,9 @@ export class ShareClient extends StorageClient {
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     options?: StoragePipelineOptions
   ) {
+    if (options && !options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {

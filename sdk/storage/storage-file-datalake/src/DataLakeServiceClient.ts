@@ -3,7 +3,7 @@
 
 import "@azure/core-paging";
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential, DefaultHttpClient } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { BlobServiceClient } from "@azure/storage-blob";
 
@@ -81,6 +81,9 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    if (options && !options.httpClient) {
+      options.httpClient = new DefaultHttpClient();
+    }
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
