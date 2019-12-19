@@ -17,8 +17,7 @@ import {
   getString,
   getInteger,
   getBoolean,
-  EntityStatus,
-  getEntityStatusOrUndefined
+  EntityStatus
 } from "../util/utils";
 
 /**
@@ -43,7 +42,7 @@ export function buildSubscriptionOptions(
     ),
     MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    Status: getEntityStatusOrUndefined(subscriptionOptions.status),
+    Status: getStringOrUndefined(subscriptionOptions.status),
     ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
     UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
@@ -428,7 +427,7 @@ export interface SubscriptionDetails {
   /**
    * Status of the messaging entity.
    */
-  status?: string;
+  status?: EntityStatus;
 
   /**
    * Created at timestamp

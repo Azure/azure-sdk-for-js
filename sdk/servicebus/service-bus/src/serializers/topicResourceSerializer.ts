@@ -20,8 +20,7 @@ import {
   getInteger,
   getBoolean,
   getBooleanOrUndefined,
-  EntityStatus,
-  getEntityStatusOrUndefined
+  EntityStatus
 } from "../util/utils";
 
 /**
@@ -39,7 +38,7 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
     DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
-    Status: getEntityStatusOrUndefined(topicOptions.status),
+    Status: getStringOrUndefined(topicOptions.status),
     UserMetadata: getStringOrUndefined(topicOptions.userMetadata),
     SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
@@ -401,7 +400,7 @@ export interface TopicDetails {
   /**
    * Status of the messaging entity.
    */
-  status?: string;
+  status?: EntityStatus;
 
   /**
    * Created at timestamp

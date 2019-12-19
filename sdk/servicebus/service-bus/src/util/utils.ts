@@ -425,36 +425,13 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   return rawAuthorizationRule;
 }
 
-export enum EntityStatus {
-  Active = "Active",
-  ReceiveDisabled = "ReceiveDisabled",
-  SendDisabled = "SendDisabled",
-  Disabled = "Disabled",
-  Unknown = "Unknown"
-}
-
-/**
- *  @ignore
- * Helper utility to construct `EntityStatus` from given input,
- * or undefined if not passed in.
- * @param status
- */
-export function getEntityStatusOrUndefined(status: any): EntityStatus | undefined {
-  const stringValue = getStringOrUndefined(status);
-  if (stringValue == undefined) {
-    return undefined;
-  }
-
-  if ((<any>Object).values(EntityStatus).includes(status)) {
-    const entityStatus: EntityStatus = EntityStatus[status as keyof typeof EntityStatus];
-    return entityStatus;
-  } else {
-    throw new TypeError(
-      `status must be a valid EntityStatus value, but received ${JSON.stringify(
-        status,
-        undefined,
-        2
-      )}`
-    );
-  }
-}
+export type EntityStatus =
+  | "Active"
+  | "Creating"
+  | "Deleting"
+  | "ReceiveDisabled"
+  | "SendDisabled"
+  | "Disabled"
+  | "Renaming"
+  | "Restoring"
+  | "Unknown";
