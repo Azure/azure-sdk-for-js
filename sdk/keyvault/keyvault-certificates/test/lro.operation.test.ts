@@ -8,7 +8,7 @@ import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
-describe.only("Certificates client - LRO - certificate operation", () => {
+describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
