@@ -6,8 +6,7 @@ import {
   QueueOptions,
   TopicOptions,
   SubscriptionOptions,
-  RuleOptions,
-  EntityStatus
+  RuleOptions
 } from "../src";
 
 import chai from "chai";
@@ -409,7 +408,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresDuplicateDetection: false,
       requiresSession: false,
       sizeInBytes: 0,
-      status: EntityStatus.Active,
+      status: "Active",
       supportOrdering: true,
       forwardTo: undefined,
       userMetadata: undefined
@@ -452,7 +451,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-      status: EntityStatus.ReceiveDisabled,
+      status: "ReceiveDisabled",
       enablePartitioning: true
       // maxSizeInMegabytes: 2048,
       // For partitioned entities, above value is 16384
@@ -500,7 +499,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      status: EntityStatus.ReceiveDisabled,
+      status: "ReceiveDisabled",
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -563,7 +562,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       requiresDuplicateDetection: false,
       sizeInBytes: 0,
-      status: EntityStatus.Active,
+      status: "Active",
       subscriptionCount: undefined,
       supportOrdering: true,
       topicName: "alwaysBeExistingTopic1"
@@ -587,14 +586,14 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
-      status: EntityStatus.SendDisabled,
+      status: "SendDisabled",
       enablePartitioning: true,
       supportOrdering: false
     },
     output: {
       defaultMessageTtl: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
-      status: EntityStatus.SendDisabled,
+      status: "SendDisabled",
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
@@ -667,7 +666,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCount: 0,
       requiresSession: false,
       sizeInBytes: undefined,
-      status: EntityStatus.Active,
+      status: "Active",
       subscriptionName: "alwaysBeExistingSubscription1",
       topicName: "alwaysBeExistingTopic1"
     }
@@ -711,7 +710,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: EntityStatus.Active,
+      status: "Active",
 
       subscriptionName: "alwaysBeExistingSubscription2",
       topicName: "alwaysBeExistingTopic1"
@@ -891,7 +890,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
-      status: EntityStatus.ReceiveDisabled,
+      status: "ReceiveDisabled",
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -975,7 +974,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      status: EntityStatus.ReceiveDisabled,
+      status: "ReceiveDisabled",
 
       requiresDuplicateDetection: true,
       requiresSession: true,
@@ -1081,7 +1080,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
-      status: EntityStatus.Active,
+      status: "Active",
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
@@ -1133,7 +1132,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
-      status: EntityStatus.Active,
+      status: "Active",
       userMetadata: "test metadata",
 
       messageCountDetails: undefined,
@@ -1219,7 +1218,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: EntityStatus.Active,
+      status: "Active",
 
       subscriptionName: "alwaysbeExistingSubscription1",
       topicName: "alwaysBeExistingTopic1"
@@ -1418,7 +1417,7 @@ async function createEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        status: EntityStatus.Active
+        status: "Active"
       };
     }
 
@@ -1556,7 +1555,7 @@ async function updateEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        status: EntityStatus.Active
+        status: "Active"
       };
     }
 
