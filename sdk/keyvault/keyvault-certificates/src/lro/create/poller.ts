@@ -27,7 +27,10 @@ export interface CreateCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type CreateCertificatePollerLike = PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+export type CreateCertificatePollerLike = PollerLike<
+  PollOperationState<KeyVaultCertificateWithPolicy>,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted

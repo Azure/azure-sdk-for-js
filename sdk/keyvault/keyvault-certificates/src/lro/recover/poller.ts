@@ -23,7 +23,10 @@ export interface RecoverDeletedCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type RecoverDeletedCertificatePollerLike = PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+export type RecoverDeletedCertificatePollerLike = PollerLike<
+  PollOperationState<KeyVaultCertificateWithPolicy>,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted

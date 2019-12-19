@@ -8,7 +8,10 @@ import {
   CertificateOperationPollOperationPrivateState,
   makeCertificateOperationPollOperation
 } from "./operation";
-import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import {
+  CertificateClientInterface,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 export interface CertificateOperationPollerOptions {
@@ -22,7 +25,10 @@ export interface CertificateOperationPollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type CertificateOperationPollerLike = PollerLike<CertificateOperationPollOperationPublicState, KeyVaultCertificateWithPolicy>;
+export type CertificateOperationPollerLike = PollerLike<
+  CertificateOperationPollOperationPublicState,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted

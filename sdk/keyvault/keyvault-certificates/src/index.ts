@@ -134,7 +134,10 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 import { CreateCertificatePoller, CreateCertificatePollerLike } from "./lro/create/poller";
 import { CertificateOperationPoller, CertificateOperationPollerLike } from "./lro/operation/poller";
 import { DeleteCertificatePoller, DeleteCertificatePollerPollerLike } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller, RecoverDeletedCertificatePollerLike } from "./lro/recover/poller";
+import {
+  RecoverDeletedCertificatePoller,
+  RecoverDeletedCertificatePollerLike
+} from "./lro/recover/poller";
 
 export {
   ActionType,
@@ -1444,7 +1447,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -1458,10 +1465,10 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * 
+   *
    * const poller = await client.getCertificateOperation("MyCertificate");
    * const pendingCertificate = poller.getResult();
-   * 
+   *
    * const certificateOperation = poller.getState().certificateOperation;
    * console.log(certificateOperation);
    * ```
@@ -1523,7 +1530,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -2015,7 +2026,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   private getCertificateFromCertificateBundle(

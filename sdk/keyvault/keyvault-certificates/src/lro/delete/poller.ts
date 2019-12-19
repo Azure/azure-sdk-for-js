@@ -20,7 +20,10 @@ export interface DeleteCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type DeleteCertificatePollerPollerLike = PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>;
+export type DeleteCertificatePollerPollerLike = PollerLike<
+  PollOperationState<DeletedCertificate>,
+  DeletedCertificate
+>;
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
