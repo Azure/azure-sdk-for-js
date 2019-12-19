@@ -15,10 +15,10 @@
         "description": "The tenant ID to which the application and resources belong."
       }
     },
-    "testApplicationId": {
+    "testApplicationOid": {
       "type": "string",
       "metadata": {
-          "description": "The application client ID used to run tests."
+        "description": "The application client ID used to run tests."
       }
     }
   },
@@ -41,7 +41,7 @@
         "accessPolicies": [
           {
             "tenantId": "[parameters('tenantId')]",
-            "objectId": "[parameters('testApplicationId')]",
+            "objectId": "[parameters('testApplicationOid')]",
             "permissions": {
               "keys": [
                 "backup",
