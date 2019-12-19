@@ -30,7 +30,7 @@ import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
-import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
+import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
@@ -147,53 +147,53 @@ describe("Event Processor", function(): void {
         isEarliestEventPosition(eventPositionForPartitionOne).should.be.ok;
       });
 
-      function createEventProcessor(
-        checkpointStore: CheckpointStore,
-        fallbackPositions?: FullEventProcessorOptions["fallbackPositions"]
-      ) {
-        return new EventProcessor(
-          EventHubClient.defaultConsumerGroupName,
-          client,
-          {
-            processEvents: async () => {},
-            processError: async () => {}
-          },
-          checkpointStore,
-          {
-            fallbackPositions,
-            maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1
-          }
-        );
-      }
+function createEventProcessor(
+  checkpointStore: CheckpointStore,
+  fallbackPositions?: FullEventProcessorOptions["fallbackPositions"]
+) {
+  return new EventProcessor(
+    EventHubClient.defaultConsumerGroupName,
+    client,
+    {
+      processEvents: async () => {},
+      processError: async () => {}
+    },
+    checkpointStore,
+    {
+      fallbackPositions,
+      maxBatchSize: 1,
+      maxWaitTimeInSeconds: 1
+    }
+  );
+}
 
-      const emptyCheckpointStore = createCheckpointStore([]);
+const emptyCheckpointStore = createCheckpointStore([]);
 
-      function createCheckpointStore(
-        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
-      ): CheckpointStore {
+function createCheckpointStore(
+  checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+): CheckpointStore {
+  return {
+    claimOwnership: async () => {
+      return [];
+    },
+    listCheckpoints: async () => {
+      return checkpointsForTest.map((cp) => {
         return {
-          claimOwnership: async () => {
-            return [];
-          },
-          listCheckpoints: async () => {
-            return checkpointsForTest.map((cp) => {
-              return {
-                fullyQualifiedNamespace: "not-used-for-this-test",
-                consumerGroup: "not-used-for-this-test",
-                eventHubName: "not-used-for-this-test",
-                offset: cp.offset,
-                sequenceNumber: cp.sequenceNumber,
-                partitionId: cp.partitionId
-              };
-            });
-          },
-          listOwnership: async () => {
-            return [];
-          },
-          updateCheckpoint: async () => {}
+          fullyQualifiedNamespace: "not-used-for-this-test",
+          consumerGroup: "not-used-for-this-test",
+          eventHubName: "not-used-for-this-test",
+          offset: cp.offset,
+          sequenceNumber: cp.sequenceNumber,
+          partitionId: cp.partitionId
         };
-      }
+      });
+    },
+    listOwnership: async () => {
+      return [];
+    },
+    updateCheckpoint: async () => {}
+  };
+}    
     });
 
     describe("_handleSubscriptionError", () => {
@@ -369,7 +369,8 @@ describe("Event Processor", function(): void {
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
       const numTimesAbortedIsCheckedInLoop = 3;
-      await ep["_runLoop"](
+      await ep["_runLoopWithLoadBalancing"](
+        ep["_processingTarget"] as PartitionLoadBalancer,
         triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
       );
 
@@ -477,7 +478,7 @@ describe("Event Processor", function(): void {
       faultyCheckpointStore,
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -530,7 +531,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -613,7 +614,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(),
+        processingTarget: new GreedyPartitionLoadBalancer(),
         fallbackPositions: fallbackPositions
       }
     );
@@ -680,7 +681,7 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
-        partitionLoadBalancer,
+        processingTarget: partitionLoadBalancer,
         ...defaultOptions,
         fallbackPositions: fallbackPositions
       }
@@ -735,7 +736,7 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(),
+          processingTarget: new GreedyPartitionLoadBalancer(),
           fallbackPositions: fallbackPositions
         }
       );
@@ -1395,7 +1396,7 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           trackLastEnqueuedEventProperties: true,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer(),
+          processingTarget: new GreedyPartitionLoadBalancer(),
           fallbackPositions
         }
       );

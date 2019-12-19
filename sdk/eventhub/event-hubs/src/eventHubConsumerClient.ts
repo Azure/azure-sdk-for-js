@@ -402,7 +402,7 @@ export class EventHubConsumerClient {
         ...defaultConsumerClientOptions,
         ...(options as SubscribeOptions),
         ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
-        partitionLoadBalancer: this._userChoseCheckpointStore
+        processingTarget: this._userChoseCheckpointStore
           ? undefined
           : new GreedyPartitionLoadBalancer(),
         // make it so all the event processors process work with the same overarching owner ID
@@ -422,11 +422,11 @@ export class EventHubConsumerClient {
     this._partitionGate.add(partitionId);
 
     const subscribeOptions = options as SubscribeOptions | undefined;
-    
+
     if (this._userChoseCheckpointStore) {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), using a checkpoint store`
-      );      
+      );
     } else {
       log.consumerClient(
         `Subscribing to specific partition (${partitionId}), no checkpoint store.`
@@ -441,8 +441,7 @@ export class EventHubConsumerClient {
       {
         ...defaultConsumerClientOptions,
         ...options,
-        // this load balancer will just grab _all_ the partitions, not looking at ownership
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer([partitionId]),
+        processingTarget: partitionId,
         ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore)
       }
     );
