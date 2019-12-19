@@ -499,12 +499,145 @@
         "enableBatchedOperations": true,
         "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
       }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/partitioned-sessions-topic/partitioned-sessions-subscription/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'partitioned-sessions-topic', 'partitioned-sessions-subscription')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-sessions-topic')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/partitioned-topic-browser/partitioned-topic-subscription-browser/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'partitioned-topic-browser', 'partitioned-topic-subscription-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-topic-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/partitioned-topic-sessions-browser/partitioned-topic-sessions-subscription-browser/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'partitioned-topic-sessions-browser', 'partitioned-topic-sessions-subscription-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-topic-sessions-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/performance-test-topic/performance-test-2/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'performance-test-topic', 'performance-test-2')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'performance-test-topic')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/unpartitioned-topic/unpartitioned-subscription/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'unpartitioned-topic', 'unpartitioned-subscription')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/unpartitioned-topic-browser/unpartitioned-topic-subscription-browser/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'unpartitioned-topic-browser', 'unpartitioned-topic-subscription-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('busName'), '/unpartitioned-topic-sessions-browser/unpartitioned-topic-sessions-subscription-browser/$Default')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', variables('busName'), 'unpartitioned-topic-sessions-browser', 'unpartitioned-topic-sessions-subscription-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic-sessions-browser')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
     }
   ],
   "outputs": {
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces', variables('busName')), variables('apiVersion')).primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('busName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
     "AZURE_SUBSCRIPTION_ID": {
       "type": "string",
