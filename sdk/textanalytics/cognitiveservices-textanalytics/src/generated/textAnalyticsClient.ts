@@ -231,7 +231,7 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",
@@ -259,7 +259,7 @@ const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",
@@ -287,7 +287,7 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",
@@ -315,7 +315,7 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",
@@ -343,7 +343,7 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",
@@ -371,7 +371,7 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.modelVersion,
-    Parameters.showStats
+    Parameters.includeStatistics
   ],
   requestBody: {
     parameterPath: "input",

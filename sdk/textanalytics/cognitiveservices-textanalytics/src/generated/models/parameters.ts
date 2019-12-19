@@ -22,6 +22,18 @@ export const endpoint: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const includeStatistics: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeStatistics"
+  ],
+  mapper: {
+    serializedName: "showStats",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const modelVersion: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -31,18 +43,6 @@ export const modelVersion: coreHttp.OperationQueryParameter = {
     serializedName: "model-version",
     type: {
       name: "String"
-    }
-  }
-};
-export const showStats: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "showStats"
-  ],
-  mapper: {
-    serializedName: "showStats",
-    type: {
-      name: "Boolean"
     }
   }
 };

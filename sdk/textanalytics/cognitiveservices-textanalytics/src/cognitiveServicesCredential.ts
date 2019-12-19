@@ -6,7 +6,6 @@ import { ApiKeyCredentials } from "@azure/core-http";
 /**
  * Creates a new CognitiveServicesCredential object.
  *
- * @constructor
  * @param {string} subscriptionKey   The CognitiveServices subscription key
  */
 export class CognitiveServicesCredential extends ApiKeyCredentials {

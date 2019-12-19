@@ -9,24 +9,24 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 
-// @public (undocumented)
+// @public
 export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
 }
 
-// @public (undocumented)
+// @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
 
-// @public (undocumented)
+// @public
 export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
-// @public (undocumented)
+// @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     documentScores: SentimentConfidenceScorePerLabel;
     sentences: SentenceSentiment[];
@@ -45,28 +45,24 @@ export interface DetectedLanguage {
     score: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {
 }
 
-// @public (undocumented)
-export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public (undocumented)
+// @public
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
-// @public (undocumented)
+// @public
 export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
-// @public (undocumented)
+// @public
 export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
     readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage;
@@ -85,38 +81,44 @@ export interface Entity {
     type: string;
 }
 
-// @public (undocumented)
+// @public
+export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+
+// @public
 export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
 }
 
-// @public (undocumented)
+// @public
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
-// @public (undocumented)
+// @public
 export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
 }
 
 // @public
 export interface InnerError {
-    code: InnerErrorCode;
+    code: InnerErrorCodeValue;
+    details?: {
+        [propertyName: string]: string;
+    };
     innerError?: InnerError;
     message: string;
     target?: string;
 }
 
 // @public
-export type InnerErrorCode = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 // @public
 export interface LanguageInput {
@@ -152,51 +154,51 @@ export interface MultiLanguageInput {
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
 
-// @public (undocumented)
+// @public
 export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: Entity[];
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
 
-// @public (undocumented)
+// @public
 export interface RecognizeLinkedEntitiesResultCollection extends Array<RecognizeLinkedEntitiesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
 }
 
-// @public (undocumented)
+// @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
 }
 
@@ -225,32 +227,20 @@ export interface SentimentConfidenceScorePerLabel {
 // @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredential, options?: TextAnalyticsClientOptions);
-    // (undocumented)
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
-    // (undocumented)
     analyzeSentiment(inputs: MultiLanguageInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    // (undocumented)
     detectLanguages(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
-    // (undocumented)
     detectLanguages(inputs: LanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
-    // (undocumented)
     extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    // (undocumented)
     extractKeyPhrases(inputs: MultiLanguageInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    // (undocumented)
     recognizeEntities(inputs: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    // (undocumented)
     recognizeEntities(inputs: MultiLanguageInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    // (undocumented)
     recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    // (undocumented)
     recognizeLinkedEntities(inputs: MultiLanguageInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    // (undocumented)
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    // (undocumented)
     recognizePiiEntities(inputs: MultiLanguageInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
 }
 
@@ -262,7 +252,7 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
 
 // @public
 export interface TextAnalyticsError {
-    code: TextAnalyticsErrorCode;
+    code: ErrorCodeValue;
     details?: TextAnalyticsError[];
     innerError?: InnerError;
     message: string;
@@ -270,24 +260,21 @@ export interface TextAnalyticsError {
 }
 
 // @public
-export type TextAnalyticsErrorCode = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
-
-// @public (undocumented)
 export interface TextAnalyticsErrorResult {
     readonly error: TextAnalyticsError;
     readonly id: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TextAnalyticsOperationOptions extends OperationOptions {
+    includeStatistics?: boolean;
     modelVersion?: string;
-    showStats?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
-// @public (undocumented)
+// @public
 export interface TextAnalyticsSuccessResult {
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;

@@ -9,19 +9,29 @@ import {
 } from "./textAnalyticsResult";
 import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
+/**
+ * The result of the detect language operation on a single document.
+ */
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
+/**
+ * The result of the detect language operation on a single document,
+ * containing a prediction of what language the document is written in.
+ */
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * All detected languages.
+   * All detected languages in the document.
    */
   readonly detectedLanguages: DetectedLanguage[];
   /**
-   * The top language by confidence score.
+   * The top detected language by confidence score.
    */
   readonly primaryLanguage: DetectedLanguage;
 }
 
+/**
+ * An error result from the detect languge operation on a single document.
+ */
 export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {}
 
 export function makeDetectLanguageResult(
