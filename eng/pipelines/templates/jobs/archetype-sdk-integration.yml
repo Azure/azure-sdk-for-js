@@ -117,7 +117,7 @@ jobs:
       - pwsh: >-
           eng/Remove-TestResources.ps1
           -BaseName $(BaseName)
-          -ServiceDirectory ${{ parameters.ServiceDirectory }}
+          -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
           -TenantId $(aad-azure-sdk-test-tenant-id)
           -ProvisionerApplicationId $(provisioner-aad-id)
           -ProvisionerApplicationSecret $(provisioner-aad-secret)
