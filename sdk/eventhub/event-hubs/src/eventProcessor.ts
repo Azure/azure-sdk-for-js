@@ -323,7 +323,7 @@ export class EventProcessor {
   }
 
   private async _startPump(partitionId: string) {
-    log.partitionLoadBalancer(
+    logger.verbose(
       `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
     );
 
@@ -342,7 +342,7 @@ export class EventProcessor {
     const eventPosition = await this._getStartingPosition(partitionId);
     await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
 
-    log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
+    logger.verbose(`[${this._id}] PartitionPump created successfully.`);
   }
 
   private async _getStartingPosition(partitionIdToClaim: string) {
@@ -367,7 +367,8 @@ export class EventProcessor {
     try {
       return this._startPump(partitionId);
     } catch (err) {
-      log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+      logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+      logErrorStackTrace(err);
       await this._handleSubscriptionError(err);
     }
   }
@@ -550,7 +551,7 @@ export class EventProcessor {
     }
 
     if (targetWithoutOwnership(this._processingTarget)) {
-      log.eventProcessor(`[${this._id}] No partitions owned, skipping abandoning.`);
+      logger.verbose(`[${this._id}] No partitions owned, skipping abandoning.`);
     } else {
       await this.abandonPartitionOwnerships();
     }

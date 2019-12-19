@@ -229,11 +229,15 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "Subscribing to specific partition (0), no checkpoint store.",
+          "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
           "Single partition target: 0",
           "No partitions owned, skipping abandoning."
         ],
-        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
+        [
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger
+        ]
       );
 
       const tester = new ReceivedMessagesTester(["0"], false);
@@ -264,7 +268,11 @@ describe("EventHubConsumerClient", () => {
           "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
-        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
+        [
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger
+        ]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -292,12 +300,16 @@ describe("EventHubConsumerClient", () => {
         [
           ...partitionIds.map(
             (partitionId) =>
-              `Subscribing to specific partition (${partitionId}), no checkpoint store.`,
+              `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`,
             `Abandoning owned partitions`
           ),
           ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
         ],
-        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
+        [
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger
+        ]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -327,11 +339,15 @@ describe("EventHubConsumerClient", () => {
       // instead of the beginning of time.
       const logTester = new LogTester(
         [
-          "Subscribing to all partitions, using a checkpoint store.",
+          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
           /Starting event processor with ID /,
           "Abandoning owned partitions"
         ],
-        [log.consumerClient, log.eventProcessor, log.eventProcessor]
+        [
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger
+        ]
       );
 
       clients.push(
