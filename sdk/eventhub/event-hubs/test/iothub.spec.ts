@@ -14,13 +14,13 @@ const env = getEnvVars();
 
 describe("EventHub Client with iothub connection string #RunnableInBrowser", function(): void {
   const service = {
-    connectionString: (env[EnvVarKeys.IOTHUB_CONNECTION_STRING] as string) || ""
+    connectionString: (env[EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING] as string) || ""
   };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      env[EnvVarKeys.IOTHUB_CONNECTION_STRING],
-      "define IOTHUB_CONNECTION_STRING in your environment before running integration tests."
+      env[EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING],
+      "define IOTHUB_EH_COMPATIBLE_CONNECTION_STRING in your environment before running integration tests."
     );
   });
 

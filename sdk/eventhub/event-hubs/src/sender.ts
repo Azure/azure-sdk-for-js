@@ -253,7 +253,7 @@ export class EventHubProducer {
     });
     const tracer = getTracer();
     const span = tracer.startSpan("Azure.EventHubs.send", {
-      kind: SpanKind.PRODUCER,
+      kind: SpanKind.CLIENT,
       parent: parentSpan,
       links
     });

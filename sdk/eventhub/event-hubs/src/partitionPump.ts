@@ -9,6 +9,11 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
+import { getParentSpan, TracingOptions } from "./util/operationOptions";
+import { getTracer } from "@azure/core-tracing";
+import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
+import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
+import { ReceivedEventData } from "./eventData";
 
 const defaultEventPosition = EventPosition.earliest();
 
@@ -81,6 +86,7 @@ export class PartitionPump {
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
         );
+
         if (
           this._processorOptions.trackLastEnqueuedEventProperties &&
           this._receiver.lastEnqueuedEventProperties
@@ -92,7 +98,13 @@ export class PartitionPump {
           return;
         }
 
-        await this._partitionProcessor.processEvents(receivedEvents);
+        const span = createProcessingSpan(
+          receivedEvents,
+          this._eventHubClient,
+          this._processorOptions,
+        );
+
+        await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
       } catch (err) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
@@ -168,5 +180,62 @@ export function getStartingPosition(
     return positionFromInitialize;
   } else {
     return defaultEventPosition;
+  }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function createProcessingSpan(
+  receivedEvents: ReceivedEventData[],
+  eventHubProperties: { eventHubName: string; endpoint: string },
+  tracingOptions: TracingOptions
+): Span {
+  const links: Link[] = [];
+
+  for (const receivedEvent of receivedEvents) {
+    const spanContext = extractSpanContextFromEventData(receivedEvent);
+
+    if (spanContext == null) {
+      continue;
+    }
+
+    links.push({
+      spanContext
+    });
+  }
+
+  const span = getTracer().startSpan("Azure.EventHubs.process", {
+    kind: SpanKind.CONSUMER,
+    links,
+    parent: getParentSpan(tracingOptions)
+  });
+
+  span.setAttributes({
+    component: "eventhubs",
+    "message_bus.destination": eventHubProperties.eventHubName,
+    "peer.address": eventHubProperties.endpoint
+  });
+
+  return span;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
+  try {
+    await fn();
+    span.setStatus({ code: CanonicalCode.OK });
+  } catch (err) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: err.message
+    });
+    throw err;
+  } finally {
+    span.end();
   }
 }

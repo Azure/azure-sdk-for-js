@@ -30,10 +30,10 @@ import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
-import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
+import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
-import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
-import sinon from 'sinon';
+import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
+import sinon from "sinon";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -91,42 +91,47 @@ describe("Event Processor", function(): void {
         }
       ];
 
-        const checkpointStore: CheckpointStore = {
-          claimOwnership: async () => {
-            return [];
-          },
-          listCheckpoints: async () => {
-            return checkpoints;
-          },
-          listOwnership: async () => {
-            return [];
-          },
-          updateCheckpoint: async () => { }
-        };
+      const checkpointStore: CheckpointStore = {
+        claimOwnership: async () => {
+          return [];
+        },
+        listCheckpoints: async () => {
+          return checkpoints;
+        },
+        listOwnership: async () => {
+          return [];
+        },
+        updateCheckpoint: async () => {}
+      };
 
       // we're not actually going to start anything here so there's nothing
       // to stop
-      const processor = new EventProcessor(EventHubClient.defaultConsumerGroupName, client, {
-        processEvents: async () => { },
-        processError: async () => { },
-      }, checkpointStore, {
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        {
+          processEvents: async () => {},
+          processError: async () => {}
+        },
+        checkpointStore,
+        {
           maxBatchSize: 1,
           maxWaitTimeInSeconds: 1
         }
       );
 
       // checkpoint is available for partition 0
-      let eventPosition = await processor['_getStartingPosition']("0");
+      let eventPosition = await processor["_getStartingPosition"]("0");
       eventPosition!.offset!.should.equal(1009);
       should.not.exist(eventPosition!.sequenceNumber);
 
       //checkpoint is available for partition 1
-      eventPosition = await processor['_getStartingPosition']("1");
+      eventPosition = await processor["_getStartingPosition"]("1");
       eventPosition!.offset!.should.equal(0);
       should.not.exist(eventPosition!.sequenceNumber);
 
       // no checkpoint available for partition 2
-      eventPosition = await processor['_getStartingPosition']("2");
+      eventPosition = await processor["_getStartingPosition"]("2");
       should.not.exist(eventPosition);
     });
 
@@ -143,11 +148,11 @@ describe("Event Processor", function(): void {
 
         // note: we're not starting this event processor so there's nothing to stop()
         // it's only here so we can call a few private methods on it.
-        eventProcessor = new EventProcessor(        
+        eventProcessor = new EventProcessor(
           EventHubClient.defaultConsumerGroupName,
           client,
           {
-            processEvents: async () => { },
+            processEvents: async () => {},
             processError: async (err, context) => {
               // simulate the user messing up and accidentally throwing an error
               // we should just log it and not kill anything.
@@ -157,7 +162,7 @@ describe("Event Processor", function(): void {
               if (userCallback) {
                 userCallback();
               }
-            },
+            }
           },
           new InMemoryCheckpointStore(),
           defaultOptions
@@ -199,27 +204,31 @@ describe("Event Processor", function(): void {
         },
 
         // (these aren't used for this test)
-        async listOwnership(): Promise<PartitionOwnership[]> { return []; },
-        async updateCheckpoint(): Promise<void> { },
-        async listCheckpoints(): Promise<Checkpoint[]> { return []; }        
+        async listOwnership(): Promise<PartitionOwnership[]> {
+          return [];
+        },
+        async updateCheckpoint(): Promise<void> {},
+        async listCheckpoints(): Promise<Checkpoint[]> {
+          return [];
+        }
       };
 
       const pumpManager = {
         createPumpCalled: false,
-          
+
         async createPump() {
           pumpManager.createPumpCalled = true;
         },
 
-        async removeAllPumps() { }
-      }
+        async removeAllPumps() {}
+      };
 
       const eventProcessor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         {
-          processEvents: async () => { },
-          processError: async () => { },
+          processEvents: async () => {},
+          processError: async () => {}
         },
         checkpointStore,
         {
@@ -228,7 +237,7 @@ describe("Event Processor", function(): void {
         }
       );
 
-      await eventProcessor['_claimOwnership']({
+      await eventProcessor["_claimOwnership"]({
         consumerGroup: "cgname",
         eventHubName: "ehname",
         fullyQualifiedNamespace: "fqdn",
@@ -258,7 +267,7 @@ describe("Event Processor", function(): void {
         // abandoned claim
         { ...commonFields, partitionId: "1001", ownerId: "", etag: "abandoned etag" },
         // normally owned claim
-        { ...commonFields, partitionId: "1002", ownerId: "owned partition", etag: "owned etag" },
+        { ...commonFields, partitionId: "1002", ownerId: "owned partition", etag: "owned etag" }
         // 1003 - completely unowned
       ]);
 
@@ -268,61 +277,118 @@ describe("Event Processor", function(): void {
       const partitionIds = ["1001", "1002", "1003"];
 
       fakeEventHubClient.getPartitionIds.resolves(partitionIds);
-      sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
-      sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
+      sinon.replaceGetter(fakeEventHubClient, "eventHubName", () => commonFields.eventHubName);
+      sinon.replaceGetter(
+        fakeEventHubClient,
+        "fullyQualifiedNamespace",
+        () => commonFields.fullyQualifiedNamespace
+      );
 
-      const ep = new EventProcessor(commonFields.consumerGroup, fakeEventHubClient as any, handlers, checkpointStore, {
-        maxBatchSize: 1,
-        loopIntervalInMs: 1,
-        maxWaitTimeInSeconds: 1,
-        pumpManager: {
-          async createPump() { },
-          async removeAllPumps(): Promise<void> { }
+      const ep = new EventProcessor(
+        commonFields.consumerGroup,
+        fakeEventHubClient as any,
+        handlers,
+        checkpointStore,
+        {
+          maxBatchSize: 1,
+          loopIntervalInMs: 1,
+          maxWaitTimeInSeconds: 1,
+          pumpManager: {
+            async createPump() {},
+            async removeAllPumps(): Promise<void> {}
+          }
         }
-      });
+      );
 
-      // allow three iterations through the loop - one for each partition that 
+      // allow three iterations through the loop - one for each partition that
       // we expect to be claimed
       //
-      // we'll let one more go through just to make sure we're not going to 
+      // we'll let one more go through just to make sure we're not going to
       // pick up an extra surprise partition
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
       const numTimesAbortedIsCheckedInLoop = 3;
-      await ep['_runLoop'](triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop));
+      await ep["_runLoopWithLoadBalancing"](
+        ep["_processingTarget"] as PartitionLoadBalancer,
+        triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
+      );
 
       handlers.errors.should.be.empty;
 
-      const currentOwnerships = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      const currentOwnerships = await checkpointStore.listOwnership(
+        commonFields.fullyQualifiedNamespace,
+        commonFields.eventHubName,
+        commonFields.consumerGroup
+      );
       currentOwnerships.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
       currentOwnerships.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: ep.id,
+          etag: currentOwnerships[0].etag,
+          lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: ep.id,
+          etag: currentOwnerships[2].etag,
+          lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs
+        }
       ]);
 
       // now let's "unclaim" everything by stopping our event processor
       await ep.stop();
-      
+
       // sanity check - we were previously modifying the original instances
       // in place which...isn't right.
       currentOwnerships.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: ep.id,
+          etag: currentOwnerships[0].etag,
+          lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: ep.id,
+          etag: currentOwnerships[2].etag,
+          lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs
+        }
       ]);
 
-      const ownershipsAfterStop = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      const ownershipsAfterStop = await checkpointStore.listOwnership(
+        commonFields.fullyQualifiedNamespace,
+        commonFields.eventHubName,
+        commonFields.consumerGroup
+      );
       ownershipsAfterStop.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
       ownershipsAfterStop.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: "", etag: ownershipsAfterStop[0].etag, lastModifiedTimeInMs: ownershipsAfterStop[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: "",
+          etag: ownershipsAfterStop[0].etag,
+          lastModifiedTimeInMs: ownershipsAfterStop[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: "", etag: ownershipsAfterStop[2].etag,  lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: "",
+          etag: ownershipsAfterStop[2].etag,
+          lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs
+        }
       ]);
     });
   });
@@ -351,7 +417,7 @@ describe("Event Processor", function(): void {
       faultyCheckpointStore,
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -387,9 +453,15 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       {
-        processClose: async () => { throw new Error("processClose() error") },
-        processEvents: async () => { throw new Error("processEvents() error"); },
-        processInitialize: async () => { throw new Error("processInitialize() error") },
+        processClose: async () => {
+          throw new Error("processClose() error");
+        },
+        processEvents: async () => {
+          throw new Error("processEvents() error");
+        },
+        processInitialize: async () => {
+          throw new Error("processInitialize() error");
+        },
         processError: async (err, _) => {
           errors.add(err);
           throw new Error("These are logged but ignored");
@@ -398,7 +470,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -414,7 +486,7 @@ describe("Event Processor", function(): void {
         until: async () => errors.size >= 3
       });
 
-      const messages = [...errors].map(e => e.message);
+      const messages = [...errors].map((e) => e.message);
       messages.sort();
 
       messages.should.deep.equal([
@@ -434,7 +506,7 @@ describe("Event Processor", function(): void {
       {
         processEvents: async () => {},
         processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
-        processError: async () => { },
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
       defaultOptions
@@ -451,7 +523,7 @@ describe("Event Processor", function(): void {
       {
         processEvents: async () => {},
         processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
-        processError: async () => { },
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
       { ...defaultOptions, ownerId: "hello" }
@@ -475,7 +547,7 @@ describe("Event Processor", function(): void {
       client,
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, partitionLoadBalancer: new GreedyPartitionLoadBalancer() }
+      { ...defaultOptions, processingTarget: new GreedyPartitionLoadBalancer() }
     );
 
     processor.start();
@@ -507,8 +579,8 @@ describe("Event Processor", function(): void {
           didPartitionProcessorStart = true;
           context.setStartingPosition(EventPosition.latest());
         },
-        processEvents: async (event, context) => { },
-        processError: async () => { },
+        processEvents: async (event, context) => {},
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
       defaultOptions
@@ -535,7 +607,7 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
-        partitionLoadBalancer,
+        processingTarget: partitionLoadBalancer,
         ...defaultOptions
       }
     );
@@ -586,7 +658,7 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer()
         }
       );
 
@@ -820,7 +892,7 @@ describe("Event Processor", function(): void {
       const basicProperties = {
         consumerGroup: "initial consumer group",
         eventHubName: "initial event hub name",
-        fullyQualifiedNamespace: "initial fully qualified namespace",
+        fullyQualifiedNamespace: "initial fully qualified namespace"
       };
 
       const originalPartitionOwnership = {
@@ -832,13 +904,11 @@ describe("Event Processor", function(): void {
       const copyOfPartitionOwnership = {
         ...originalPartitionOwnership
       };
-      
+
       assertUnique(originalPartitionOwnership);
 
       for (let i = 0; i < 2; ++i) {
-        const ownerships = await checkpointStore.claimOwnership([
-          originalPartitionOwnership
-        ]);
+        const ownerships = await checkpointStore.claimOwnership([originalPartitionOwnership]);
 
         // second sanity check - we were also modifying the input parameter
         // (which was also bad)
@@ -848,11 +918,15 @@ describe("Event Processor", function(): void {
       }
 
       for (let i = 0; i < 2; ++i) {
-        const ownerships = await checkpointStore.listOwnership(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        const ownerships = await checkpointStore.listOwnership(
+          basicProperties.fullyQualifiedNamespace,
+          basicProperties.eventHubName,
+          basicProperties.consumerGroup
+        );
         assertUnique(...ownerships);
       }
 
-      const originalCheckpoint : Checkpoint = {
+      const originalCheckpoint: Checkpoint = {
         ...basicProperties,
         sequenceNumber: 1,
         partitionId: "1",
@@ -869,7 +943,11 @@ describe("Event Processor", function(): void {
       copyOfOriginalCheckpoint.should.deep.equal(originalCheckpoint);
 
       for (let i = 0; i < 2; ++i) {
-        const checkpoints = await checkpointStore.listCheckpoints(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        const checkpoints = await checkpointStore.listCheckpoints(
+          basicProperties.fullyQualifiedNamespace,
+          basicProperties.eventHubName,
+          basicProperties.consumerGroup
+        );
         assertUnique(...checkpoints);
       }
     });
@@ -917,7 +995,7 @@ describe("Event Processor", function(): void {
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
           const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
-          existingEvents.push(...events.map(event => event.body));
+          existingEvents.push(...events.map((event) => event.body));
         }
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
@@ -1106,8 +1184,8 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() { },
-        async processError() { },
+        async processEvents() {},
+        async processError() {},
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1213,7 +1291,7 @@ describe("Event Processor", function(): void {
   describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
-      > {
+    > {
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
@@ -1234,8 +1312,7 @@ describe("Event Processor", function(): void {
             context.lastEnqueuedEventProperties!
           );
         }
-        async processError(err: Error, context: PartitionContext) {          
-        }
+        async processError(err: Error, context: PartitionContext) {}
       }
 
       const processor = new EventProcessor(
@@ -1246,7 +1323,7 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           trackLastEnqueuedEventProperties: true,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer()
         }
       );
 
@@ -1292,9 +1369,9 @@ function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
 
       return false;
     },
-    addEventListener: () => { },
-    removeEventListener: () => { },
-    onabort: () => { },
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    onabort: () => {},
     dispatchEvent: () => true
   };
 

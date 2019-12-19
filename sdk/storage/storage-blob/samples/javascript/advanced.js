@@ -6,8 +6,12 @@
 */
 
 const fs = require("fs");
+
 const { AbortController } = require("@azure/abort-controller");
 const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.

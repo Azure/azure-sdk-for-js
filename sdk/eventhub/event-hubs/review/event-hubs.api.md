@@ -162,11 +162,8 @@ export const logger: import("@azure/logger").AzureLogger;
 export { MessagingError }
 
 // @public
-export interface OperationOptions {
+export interface OperationOptions extends TracingOptions {
     abortSignal?: AbortSignalLike;
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
 }
 
 // @public
@@ -235,7 +232,7 @@ export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface SubscribeOptions {
+export interface SubscribeOptions extends TracingOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
@@ -257,6 +254,13 @@ export interface SubscriptionEventHandlers {
 }
 
 export { TokenCredential }
+
+// @public
+export interface TracingOptions {
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
+}
 
 // @public
 export interface TryAddOptions {

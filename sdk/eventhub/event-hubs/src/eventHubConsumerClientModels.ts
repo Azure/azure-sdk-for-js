@@ -2,6 +2,7 @@ import { CloseReason } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
+import { TracingOptions } from "./util/operationOptions";
 
 /**
  * @internal
@@ -129,7 +130,7 @@ export interface SubscriptionEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscribeOptions {
+export interface SubscribeOptions extends TracingOptions {
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its

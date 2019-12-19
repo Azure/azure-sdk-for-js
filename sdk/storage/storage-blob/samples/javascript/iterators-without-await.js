@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
@@ -19,32 +19,47 @@ async function main() {
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
     sharedKeyCredential
   );
-
-  let i = 1;
-  for await (const container of blobServiceClient.listContainers()) {
-    console.log(`Container ${i++}: ${container.name}`);
-  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+  console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
-  // Delete container
-  await containerClient.delete();
+  const numberOfBlobs = 7;
+  for (let i = 0; i < numberOfBlobs; i++) {
+    // Create a blob
+    const content = "hello";
+    const blobName = "newblob" + new Date().getTime();
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  }
 
-  console.log("deleted container");
+  console.log("Listing all blobs without await");
+  let index = 1;
+  let asyncIter = containerClient.listBlobsFlat();
+
+  function printBlob(result) {
+    if (!result.done) {
+      console.log("Blob " + index++ + ": " + result.value.name);
+      asyncIter.next().then(printBlob);
+    } else {
+      containerClient.delete().then(() => console.log("deleted container"));
+    }
+  }
+
+  asyncIter.next().then(printBlob);
 }
 
 module.exports = { main };
 
 main().catch((err) => {
-  console.error("Error running sample:", err.message);
+  console.log(err.message);
 });

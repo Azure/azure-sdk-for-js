@@ -1,6 +1,7 @@
 {
     "include": [
-      "dist-test/index.node.js"
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js"
     ],
     "exclude": [
       "**/*.d.ts",

@@ -130,9 +130,7 @@ describe("EventHubConsumerClient", () => {
 
           // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
           // immediately so we bypass the FairPartitionLoadBalancer entirely
-          options.partitionLoadBalancer!.constructor.name.should.equal(
-            "GreedyPartitionLoadBalancer"
-          );
+          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
         };
 
         const subscription = client.subscribe(subscriptionHandlers);
@@ -153,7 +151,7 @@ describe("EventHubConsumerClient", () => {
 
           // We're falling back to the actual production load balancer
           // (which means we just don't override the partition load balancer field)
-          should.not.exist(options.partitionLoadBalancer);
+          should.not.exist(options.processingTarget);
         };
 
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
@@ -162,9 +160,7 @@ describe("EventHubConsumerClient", () => {
       it("subscribe to all partitions, no checkpoint store", () => {
         validateOptions = (options) => {
           should.not.exist(options.ownerLevel);
-          options.partitionLoadBalancer!.constructor.name.should.equal(
-            "GreedyPartitionLoadBalancer"
-          );
+          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
         };
 
         client.subscribe(subscriptionHandlers);
@@ -173,7 +169,7 @@ describe("EventHubConsumerClient", () => {
       it("subscribe to all partitions, WITH checkpoint store", () => {
         validateOptions = (options) => {
           options.ownerLevel!.should.equal(0);
-          should.not.exist(options.partitionLoadBalancer);
+          should.not.exist(options.processingTarget);
         };
 
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
@@ -233,10 +229,11 @@ describe("EventHubConsumerClient", () => {
     > {
       const logTester = new LogTester(
         [
-          "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
-          "GreedyPartitionLoadBalancer created. Watching (0)."
+          "Subscribing to specific partition (0), no checkpoint store.",
+          "Single partition target: 0",
+          "No partitions owned, skipping abandoning."
         ],
-        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
+        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
       );
 
       const tester = new ReceivedMessagesTester(["0"], false);
@@ -254,6 +251,8 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscription);
 
       await tester.runTestAndPoll(producerClient);
+      await subscription.close(); // or else we won't see the partition abandoning messages
+
       logTester.assert();
     });
 
@@ -265,7 +264,7 @@ describe("EventHubConsumerClient", () => {
           "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
-        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
+        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -293,13 +292,12 @@ describe("EventHubConsumerClient", () => {
         [
           ...partitionIds.map(
             (partitionId) =>
-              `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`
+              `Subscribing to specific partition (${partitionId}), no checkpoint store.`,
+            `Abandoning owned partitions`
           ),
-          ...partitionIds.map(
-            (partitionId) => `GreedyPartitionLoadBalancer created. Watching (${partitionId}).`
-          )
+          ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
         ],
-        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
+        [log.consumerClient, log.partitionLoadBalancer, log.eventProcessor]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -329,10 +327,11 @@ describe("EventHubConsumerClient", () => {
       // instead of the beginning of time.
       const logTester = new LogTester(
         [
-          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
-          /Starting event processor with ID /
+          "Subscribing to all partitions, using a checkpoint store.",
+          /Starting event processor with ID /,
+          "Abandoning owned partitions"
         ],
-        [logger.verbose as debug.Debugger, logger.verbose as debug.Debugger]
+        [log.consumerClient, log.eventProcessor, log.eventProcessor]
       );
 
       clients.push(
@@ -366,6 +365,11 @@ describe("EventHubConsumerClient", () => {
       subscriptions.push(subscriber2);
 
       await tester.runTestAndPoll(producerClient);
+
+      // or else we won't see the abandoning message
+      for (const subscription of subscriptions) {
+        await subscription.close();
+      }
       logTester.assert();
     });
   });
