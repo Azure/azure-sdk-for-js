@@ -9,10 +9,10 @@ import {
   makeCertificateOperationPollOperation
 } from "./operation";
 import {
+  CertificateOperation,
   CertificateClientInterface,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
 
 export interface CertificateOperationPollerOptions {
   client: CertificateClientInterface;

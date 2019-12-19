@@ -138,6 +138,8 @@ import {
   RecoverDeletedCertificatePoller,
   RecoverDeletedCertificatePollerLike
 } from "./lro/recover/poller";
+import { PollerLike } from './lro/core-lro-update';
+import { CertificateOperationPollOperationPublicState } from './lro/operation/operation';
 
 export {
   ActionType,
@@ -162,6 +164,12 @@ export {
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
+  PollerLike,
+  CertificateOperationPollOperationPublicState,
+  CreateCertificatePollerLike,
+  DeleteCertificatePollerPollerLike,
+  RecoverDeletedCertificatePollerLike,
+  CertificateOperationPollerLike,
   CoreSubjectAlternativeNames,
   RequireAtLeastOne,
   CertificateContactAll,

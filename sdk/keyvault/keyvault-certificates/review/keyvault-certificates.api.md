@@ -7,7 +7,7 @@
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { PollerLike } from '@azure/core-lro';
+import { PollerLike as PollerLike_2 } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
@@ -52,18 +52,14 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    // Warning: (ae-forgotten-export) The symbol "CreateCertificatePollerLike" needs to be exported by the entry point index.d.ts
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<CreateCertificatePollerLike>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteCertificatePollerPollerLike" needs to be exported by the entry point index.d.ts
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<DeleteCertificatePollerPollerLike>;
-    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedCertificatePollerLike" needs to be exported by the entry point index.d.ts
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<RecoverDeletedCertificatePollerLike>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPollerLike" needs to be exported by the entry point index.d.ts
     getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperationPollerLike>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
@@ -140,6 +136,15 @@ export interface CertificateOperationError {
 }
 
 // @public
+export type CertificateOperationPollerLike = PollerLike<CertificateOperationPollOperationPublicState, KeyVaultCertificateWithPolicy>;
+
+// @public
+export interface CertificateOperationPollOperationPublicState extends PollOperationState<KeyVaultCertificateWithPolicy> {
+    certificateName: string;
+    certificateOperation?: CertificateOperation;
+}
+
+// @public
 export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
 // @public
@@ -204,6 +209,9 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
+export type CreateCertificatePollerLike = PollerLike_2<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
+
+// @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
@@ -221,6 +229,9 @@ export const DefaultCertificatePolicy: {
 // @public
 export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
 }
+
+// @public
+export type DeleteCertificatePollerPollerLike = PollerLike_2<PollOperationState<DeletedCertificate>, DeletedCertificate>;
 
 // @public
 export interface DeleteContactsOptions extends coreHttp.OperationOptions {
@@ -373,8 +384,16 @@ export interface PolicySubjectProperties {
 }
 
 // @public
+export interface PollerLike<TState, TResult> extends PollerLike_2<TState, TResult> {
+    getState(): TState;
+}
+
+// @public
 export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
 }
+
+// @public
+export type RecoverDeletedCertificatePollerLike = PollerLike_2<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
 
 // @public
 export type RequireAtLeastOne<T> = {

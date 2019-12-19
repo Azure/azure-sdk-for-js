@@ -8,6 +8,9 @@ import { PollerLike as CorePollerLike, Poller as CorePoller } from "@azure/core-
  * and not only by the basic properties in PollOperationState<TResult>.
  */
 export interface PollerLike<TState, TResult> extends CorePollerLike<TState, TResult> {
+  /**
+   * Exposes the abstract TState to the user.
+   */
   getState(): TState;
 }
 
@@ -20,6 +23,9 @@ export interface PollerLike<TState, TResult> extends CorePollerLike<TState, TRes
  * and not only by the basic properties in PollOperationState<TResult>.
  */
 export abstract class Poller<TState, TResult> extends CorePoller<TState, TResult> {
+  /**
+   * Exposes the abstract TState to the user.
+   */
   public getState(): TState {
     return this.operation.state;
   }

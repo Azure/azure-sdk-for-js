@@ -5,10 +5,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
 import {
+  CertificateOperation,
   CertificateClientInterface,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
