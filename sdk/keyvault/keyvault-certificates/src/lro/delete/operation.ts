@@ -9,7 +9,7 @@ import { DeletedCertificate, CertificateClientInterface } from "../../certificat
 /**
  * An interface representing the state of a delete certificate's poll operation
  */
-export interface DeleteCertificatePollOperationState
+export interface DeleteCertificatePollState
   extends PollOperationState<DeletedCertificate> {
   /**
    * The name of the certificate.
@@ -29,7 +29,7 @@ export interface DeleteCertificatePollOperationState
  * An interface representing a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperation
-  extends PollOperation<DeleteCertificatePollOperationState, DeletedCertificate> {}
+  extends PollOperation<DeleteCertificatePollState, DeletedCertificate> {}
 
 /**
  * @summary Reaches to the service and updates the delete certificate's poll operation.
@@ -39,7 +39,7 @@ async function update(
   this: DeleteCertificatePollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteCertificatePollOperationState) => void;
+    fireProgress?: (state: DeleteCertificatePollState) => void;
   } = {}
 ): Promise<DeleteCertificatePollOperation> {
   const state = this.state;
@@ -102,7 +102,7 @@ function toString(this: DeleteCertificatePollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeDeleteCertificatePollOperation(
-  state: DeleteCertificatePollOperationState
+  state: DeleteCertificatePollState
 ): DeleteCertificatePollOperation {
   return {
     state: {

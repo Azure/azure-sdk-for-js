@@ -15,7 +15,7 @@ import { CertificateOperation } from "../../core/models";
 /**
  * An interface representing the state of a create certificate's poll operation
  */
-export interface CreateCertificatePollOperationState
+export interface CreateCertificatePollState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
@@ -47,7 +47,7 @@ export interface CreateCertificatePollOperationState
  * An interface representing a create certificate's poll operation
  */
 export interface CreateCertificatePollOperation
-  extends PollOperation<CreateCertificatePollOperationState, KeyVaultCertificateWithPolicy> {}
+  extends PollOperation<CreateCertificatePollState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -57,7 +57,7 @@ async function update(
   this: CreateCertificatePollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: CreateCertificatePollOperationState) => void;
+    fireProgress?: (state: CreateCertificatePollState) => void;
   } = {}
 ): Promise<CreateCertificatePollOperation> {
   const state = this.state;
@@ -139,7 +139,7 @@ function toString(this: CreateCertificatePollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeCreateCertificatePollOperation(
-  state: CreateCertificatePollOperationState
+  state: CreateCertificatePollState
 ): CreateCertificatePollOperation {
   return {
     state: {

@@ -4,8 +4,8 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollerLike } from "../core-lro-update";
 import {
-  CertificateOperationPollOperationPublicState,
-  CertificateOperationPollOperationPrivateState,
+  CertificateOperationPollPublicState,
+  CertificateOperationPollPrivateState,
   makeCertificateOperationPollOperation
 } from "./operation";
 import {
@@ -26,7 +26,7 @@ export interface CertificateOperationPollerOptions {
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
 export type CertificateOperationPollerLike = PollerLike<
-  CertificateOperationPollOperationPublicState,
+  CertificateOperationPollPublicState,
   KeyVaultCertificateWithPolicy
 >;
 
@@ -34,7 +34,7 @@ export type CertificateOperationPollerLike = PollerLike<
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class CertificateOperationPoller extends Poller<
-  CertificateOperationPollOperationPrivateState,
+  CertificateOperationPollPrivateState,
   KeyVaultCertificateWithPolicy
 > {
   /**
@@ -46,7 +46,7 @@ export class CertificateOperationPoller extends Poller<
   constructor(options: CertificateOperationPollerOptions) {
     const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: CertificateOperationPollOperationPrivateState | undefined;
+    let state: CertificateOperationPollPrivateState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
@@ -82,7 +82,7 @@ export class CertificateOperationPoller extends Poller<
   /**
    * 
    */
-  public getState(): CertificateOperationPollOperationPrivateState {
+  public getState(): CertificateOperationPollPrivateState {
     return {
       certificateName: this.operation.state.certificateName,
       certificateOperation: this.operation.state.certificateOperation

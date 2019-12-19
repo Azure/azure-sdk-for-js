@@ -13,7 +13,7 @@ import {
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
-export interface CertificateOperationPollOperationPublicState
+export interface CertificateOperationPollPublicState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
@@ -28,8 +28,8 @@ export interface CertificateOperationPollOperationPublicState
 /**
  * An interface representing the state of a create certificate's poll operation
  */
-export interface CertificateOperationPollOperationPrivateState
-  extends CertificateOperationPollOperationPublicState {
+export interface CertificateOperationPollPrivateState
+  extends CertificateOperationPollPublicState {
   /**
    * Options for the core-http requests.
    */
@@ -45,7 +45,7 @@ export interface CertificateOperationPollOperationPrivateState
  */
 export interface CertificateOperationPollOperation
   extends PollOperation<
-    CertificateOperationPollOperationPrivateState,
+    CertificateOperationPollPrivateState,
     KeyVaultCertificateWithPolicy
   > {}
 
@@ -57,7 +57,7 @@ async function update(
   this: CertificateOperationPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: CertificateOperationPollOperationPrivateState) => void;
+    fireProgress?: (state: CertificateOperationPollPrivateState) => void;
   } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
@@ -136,7 +136,7 @@ function toString(this: CertificateOperationPollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeCertificateOperationPollOperation(
-  state: CertificateOperationPollOperationPrivateState
+  state: CertificateOperationPollPrivateState
 ): CertificateOperationPollOperation {
   return {
     state: {

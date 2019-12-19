@@ -4,7 +4,7 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  CreateCertificatePollOperationState,
+  CreateCertificatePollState,
   makeCreateCertificatePollOperation
 } from "./operation";
 import {
@@ -36,7 +36,7 @@ export type CreateCertificatePollerLike = PollerLike<
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class CreateCertificatePoller extends Poller<
-  CreateCertificatePollOperationState,
+  CreateCertificatePollState,
   KeyVaultCertificateWithPolicy
 > {
   /**
@@ -56,7 +56,7 @@ export class CreateCertificatePoller extends Poller<
       resumeFrom
     } = options;
 
-    let state: CreateCertificatePollOperationState | undefined;
+    let state: CreateCertificatePollState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

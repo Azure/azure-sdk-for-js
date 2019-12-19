@@ -4,7 +4,7 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  DeleteCertificatePollOperationState,
+  DeleteCertificatePollState,
   makeDeleteCertificatePollOperation
 } from "./operation";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
@@ -29,7 +29,7 @@ export type DeleteCertificatePollerLike = PollerLike<
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class DeleteCertificatePoller extends Poller<
-  DeleteCertificatePollOperationState,
+  DeleteCertificatePollState,
   DeletedCertificate
 > {
   /**
@@ -41,7 +41,7 @@ export class DeleteCertificatePoller extends Poller<
   constructor(options: DeleteCertificatePollerOptions) {
     const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: DeleteCertificatePollOperationState | undefined;
+    let state: DeleteCertificatePollState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

@@ -136,10 +136,10 @@ export interface CertificateOperationError {
 }
 
 // @public
-export type CertificateOperationPollerLike = PollerLike<CertificateOperationPollOperationPublicState, KeyVaultCertificateWithPolicy>;
+export type CertificateOperationPollerLike = PollerLike<CertificateOperationPollPublicState, KeyVaultCertificateWithPolicy>;
 
 // @public
-export interface CertificateOperationPollOperationPublicState extends PollOperationState<KeyVaultCertificateWithPolicy> {
+export interface CertificateOperationPollPublicState extends PollOperationState<KeyVaultCertificateWithPolicy> {
     certificateName: string;
     certificateOperation?: CertificateOperation;
 }

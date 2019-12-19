@@ -139,7 +139,7 @@ import {
   RecoverDeletedCertificatePollerLike
 } from "./lro/recover/poller";
 import { PollerLike } from "./lro/core-lro-update";
-import { CertificateOperationPollOperationPublicState } from "./lro/operation/operation";
+import { CertificateOperationPollPublicState } from "./lro/operation/operation";
 
 export {
   ActionType,
@@ -165,7 +165,7 @@ export {
   CreateCertificateOptions,
   CertificatePollerOptions,
   PollerLike,
-  CertificateOperationPollOperationPublicState,
+  CertificateOperationPollPublicState,
   CreateCertificatePollerLike,
   DeleteCertificatePollerLike,
   RecoverDeletedCertificatePollerLike,
