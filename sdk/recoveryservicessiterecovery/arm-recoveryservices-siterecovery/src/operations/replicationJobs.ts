@@ -84,7 +84,7 @@ export class ReplicationJobs {
   /**
    * The operation to cancel an Azure Site Recovery job.
    * @summary Cancels the specified job.
-   * @param jobName Job indentifier.
+   * @param jobName Job identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationJobsCancelResponse>
    */
@@ -133,7 +133,7 @@ export class ReplicationJobs {
   /**
    * The operation to cancel an Azure Site Recovery job.
    * @summary Cancels the specified job.
-   * @param jobName Job indentifier.
+   * @param jobName Job identifier.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
