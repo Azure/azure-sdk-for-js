@@ -52,15 +52,19 @@ export interface BeginRecoverDeletedCertificateOptions extends CertificatePoller
 export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
-    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
-    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>>;
-    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>>;
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificatePollerLike" needs to be exported by the entry point index.d.ts
+    beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<CreateCertificatePollerLike>;
+    // Warning: (ae-forgotten-export) The symbol "DeleteCertificatePollerPollerLike" needs to be exported by the entry point index.d.ts
+    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<DeleteCertificatePollerPollerLike>;
+    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedCertificatePollerLike" needs to be exported by the entry point index.d.ts
+    beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<RecoverDeletedCertificatePollerLike>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
     deleteContacts(options?: DeleteContactsOptions): Promise<CertificateContact[] | undefined>;
     deleteIssuer(issuerName: string, options?: DeleteIssuerOptions): Promise<CertificateIssuer>;
     getCertificate(certificateName: string, options?: GetCertificateOptions): Promise<KeyVaultCertificateWithPolicy>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>>;
+    // Warning: (ae-forgotten-export) The symbol "CertificateOperationPollerLike" needs to be exported by the entry point index.d.ts
+    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptions): Promise<CertificateOperationPollerLike>;
     getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptions): Promise<CertificatePolicy>;
     getCertificateVersion(certificateName: string, version: string, options?: GetCertificateVersionOptions): Promise<KeyVaultCertificate>;
     getContacts(options?: GetContactsOptions): Promise<CertificateContact[] | undefined>;

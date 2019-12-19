@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
+import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CreateCertificatePollOperationState,
   makeCreateCertificatePollOperation
@@ -23,6 +23,11 @@ export interface CreateCertificatePollerOptions {
   intervalInMs?: number;
   resumeFrom?: string;
 }
+
+/**
+ * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
+ */
+export type CreateCertificatePollerLike = PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>;
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted

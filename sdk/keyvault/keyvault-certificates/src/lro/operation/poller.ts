@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
+import { Poller, PollerLike } from "../core-lro-update";
 import {
-  CertificateOperationPollOperationState,
+  CertificateOperationPollOperationPublicState,
+  CertificateOperationPollOperationPrivateState,
   makeCertificateOperationPollOperation
 } from "./operation";
-import { CertificateClientInterface } from "../../certificatesModels";
+import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import { CertificateOperation } from "../../core/models";
 
 export interface CertificateOperationPollerOptions {
@@ -19,11 +20,16 @@ export interface CertificateOperationPollerOptions {
 }
 
 /**
+ * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
+ */
+export type CertificateOperationPollerLike = PollerLike<CertificateOperationPollOperationPublicState, KeyVaultCertificateWithPolicy>;
+
+/**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class CertificateOperationPoller extends Poller<
-  CertificateOperationPollOperationState,
-  CertificateOperation
+  CertificateOperationPollOperationPrivateState,
+  KeyVaultCertificateWithPolicy
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -34,7 +40,7 @@ export class CertificateOperationPoller extends Poller<
   constructor(options: CertificateOperationPollerOptions) {
     const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: CertificateOperationPollOperationState | undefined;
+    let state: CertificateOperationPollOperationPrivateState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
@@ -58,5 +64,12 @@ export class CertificateOperationPoller extends Poller<
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  /**
+   * Method to get the certificate operation
+   */
+  public getCertificateOperation(): CertificateOperation {
+    return this.operation.state.certificateOperation!;
   }
 }

@@ -131,11 +131,10 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
-import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
-import { DeleteCertificatePoller } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { CreateCertificatePoller, CreateCertificatePollerLike } from "./lro/create/poller";
+import { CertificateOperationPoller, CertificateOperationPollerLike } from "./lro/operation/poller";
+import { DeleteCertificatePoller, DeleteCertificatePollerPollerLike } from "./lro/delete/poller";
+import { RecoverDeletedCertificatePoller, RecoverDeletedCertificatePollerLike } from "./lro/recover/poller";
 
 export {
   ActionType,
@@ -661,7 +660,7 @@ export class CertificateClient {
   public async beginDeleteCertificate(
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>> {
+  ): Promise<DeleteCertificatePollerPollerLike> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,
@@ -1144,9 +1143,7 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
-  > {
+  ): Promise<CreateCertificatePollerLike> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
@@ -1461,10 +1458,11 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * const pendingCertificate = createPoller.getResult();
-   * console.log(pendingCertificate);
+   * 
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const certificateOperation = poller.getResult();
+   * const pendingCertificate = poller.getResult();
+   * 
+   * const certificateOperation = poller.getState().certificateOperation;
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1474,7 +1472,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>> {
+  ): Promise<CertificateOperationPollerLike> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1539,7 +1537,7 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const { csr } = poller.getResult();
+   * const { csr } = poller.getState().certificateOperation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    *
@@ -1854,9 +1852,7 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
-  > {
+  ): Promise<RecoverDeletedCertificatePollerLike> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,

@@ -429,7 +429,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Read
     let operationPoller = await client.getCertificateOperation(certificateName);
-    certificateOperation = operationPoller.getResult();
+    certificateOperation = operationPoller.getState().certificateOperation!;
     assert.equal(certificateOperation.status, "inProgress");
     assert.equal(certificateOperation.cancellationRequested, false);
 

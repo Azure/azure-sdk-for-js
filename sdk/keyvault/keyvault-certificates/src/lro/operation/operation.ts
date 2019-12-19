@@ -4,17 +4,29 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { CertificateClientInterface, CertificateOperation } from "../../certificatesModels";
+import { CertificateClientInterface, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
+import { CertificateOperation } from "../../core/models";
 
 /**
- * An interface representing the state of a create certificate's poll operation
+ * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
-export interface CertificateOperationPollOperationState
-  extends PollOperationState<CertificateOperation> {
+export interface CertificateOperationPollOperationPublicState extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
    */
   certificateName: string;
+  /**
+   * The operation of the certificate
+   */
+  certificateOperation?: CertificateOperation;
+}
+
+
+/**
+ * An interface representing the state of a create certificate's poll operation
+ */
+export interface CertificateOperationPollOperationPrivateState
+  extends CertificateOperationPollOperationPublicState {
   /**
    * Options for the core-http requests.
    */
@@ -29,7 +41,7 @@ export interface CertificateOperationPollOperationState
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
-  extends PollOperation<CertificateOperationPollOperationState, CertificateOperation> {}
+  extends PollOperation<CertificateOperationPollOperationPrivateState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -39,7 +51,7 @@ async function update(
   this: CertificateOperationPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: CertificateOperationPollOperationState) => void;
+    fireProgress?: (state: CertificateOperationPollOperationPrivateState) => void;
   } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
@@ -52,14 +64,23 @@ async function update(
 
   if (!state.isStarted) {
     state.isStarted = true;
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    state.certificateOperation = await client.getPlainCertificateOperation(
+      certificateName,
+      requestOptions
+    );
+  } else if (!state.isCompleted) {
+    state.certificateOperation = await client.getPlainCertificateOperation(
+      certificateName,
+      requestOptions
+    );
   }
 
-  state.result = await client.getPlainCertificateOperation(certificateName, requestOptions);
-
-  if (state.result && state.result.status !== "inProgress") {
+  if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
     state.isCompleted = true;
-    if (state.result.error) {
-      state.error = new Error(state.result.error.message);
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    if (state.certificateOperation.error) {
+      state.error = new Error(state.certificateOperation.error.message);
     }
   }
 
@@ -82,7 +103,10 @@ async function cancel(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  state.result = await client.cancelCertificateOperation(certificateName, requestOptions);
+  state.certificateOperation = await client.cancelCertificateOperation(
+    certificateName,
+    requestOptions
+  );
 
   return makeCertificateOperationPollOperation({
     ...this.state,
@@ -104,7 +128,7 @@ function toString(this: CertificateOperationPollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeCertificateOperationPollOperation(
-  state: CertificateOperationPollOperationState
+  state: CertificateOperationPollOperationPrivateState
 ): CertificateOperationPollOperation {
   return {
     state: {

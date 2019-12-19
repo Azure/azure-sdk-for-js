@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation, DefaultCertificatePolicy } from "../src";
+import { CertificateClient, CertificateOperation, DefaultCertificatePolicy, KeyVaultCertificateWithPolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -42,14 +42,17 @@ describe("Certificates client - LRO - certificate operation", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending certificate operation can be obtained this way:
-    assert.equal(poller.getOperationState().result!.status, "inProgress");
+    assert.equal(poller.getState().certificateOperation!.status, "inProgress");
 
-    const operation: CertificateOperation = await poller.pollUntilDone();
+    const completeCertificate: KeyVaultCertificateWithPolicy = await poller.pollUntilDone();
+    assert.equal(completeCertificate.name, certificateName);
+
+    const operation: CertificateOperation = poller.getState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(poller.getOperationState().isCompleted);
 
     // The final certificate operation can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.status, "completed");
+    assert.equal(poller.getState().certificateOperation!.status, "completed");
 
     await testClient.flushCertificate(certificateName);
   });
