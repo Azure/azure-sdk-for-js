@@ -23,13 +23,14 @@
     }
   },
   "variables": {
-    "location": "[resourceGroup().location]"
+    "location": "[resourceGroup().location]",
+    "keyVaultName": "[parameters('baseName')]"
   },
   "resources": [
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2016-10-01",
-      "name": "[parameters('baseName')]",
+      "name": "[variables('keyVaultName')]",
       "location": "[variables('location')]",
       "properties": {
         "sku": {
@@ -97,5 +98,11 @@
         "enableSoftDelete": true
       }
     }
-  ]
+  ],
+  "outputs": {
+    "KEYVAULT_NAME": {
+      "type": "string",
+      "value": "[variables('keyVaultName')]"
+    }
+  }
 }
