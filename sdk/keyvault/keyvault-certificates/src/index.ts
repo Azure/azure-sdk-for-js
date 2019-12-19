@@ -133,7 +133,7 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { CreateCertificatePoller, CreateCertificatePollerLike } from "./lro/create/poller";
 import { CertificateOperationPoller, CertificateOperationPollerLike } from "./lro/operation/poller";
-import { DeleteCertificatePoller, DeleteCertificatePollerPollerLike } from "./lro/delete/poller";
+import { DeleteCertificatePoller, DeleteCertificatePollerLike } from "./lro/delete/poller";
 import {
   RecoverDeletedCertificatePoller,
   RecoverDeletedCertificatePollerLike
@@ -167,7 +167,7 @@ export {
   PollerLike,
   CertificateOperationPollOperationPublicState,
   CreateCertificatePollerLike,
-  DeleteCertificatePollerPollerLike,
+  DeleteCertificatePollerLike,
   RecoverDeletedCertificatePollerLike,
   CertificateOperationPollerLike,
   CoreSubjectAlternativeNames,
@@ -671,7 +671,7 @@ export class CertificateClient {
   public async beginDeleteCertificate(
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
-  ): Promise<DeleteCertificatePollerPollerLike> {
+  ): Promise<DeleteCertificatePollerLike> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,

@@ -53,7 +53,7 @@ export class CertificateClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<CreateCertificatePollerLike>;
-    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<DeleteCertificatePollerPollerLike>;
+    beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<DeleteCertificatePollerLike>;
     beginRecoverDeletedCertificate(certificateName: string, options?: BeginRecoverDeletedCertificateOptions): Promise<RecoverDeletedCertificatePollerLike>;
     createIssuer(issuerName: string, provider: string, options?: CreateIssuerOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptions): Promise<CertificateOperation>;
@@ -231,7 +231,7 @@ export interface DeleteCertificateOperationOptions extends coreHttp.OperationOpt
 }
 
 // @public
-export type DeleteCertificatePollerPollerLike = PollerLike_2<PollOperationState<DeletedCertificate>, DeletedCertificate>;
+export type DeleteCertificatePollerLike = PollerLike_2<PollOperationState<DeletedCertificate>, DeletedCertificate>;
 
 // @public
 export interface DeleteContactsOptions extends coreHttp.OperationOptions {

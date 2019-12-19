@@ -26,7 +26,5 @@ export abstract class Poller<TState, TResult> extends CorePoller<TState, TResult
   /**
    * Exposes the abstract TState to the user.
    */
-  public getState(): TState {
-    return this.operation.state;
-  }
+  public abstract getState(): TState;
 }

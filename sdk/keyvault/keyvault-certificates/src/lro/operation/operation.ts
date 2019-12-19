@@ -37,7 +37,7 @@ export interface CertificateOperationPollOperationPrivateState
   /**
    * An interface representing a CertificateClient. For internal use.
    */
-  client: CertificateClientInterface;
+  client?: CertificateClientInterface;
 }
 
 /**
@@ -61,7 +61,8 @@ async function update(
   } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
-  const { client, certificateName } = state;
+  const client = state.client!;
+  const certificateName = state.certificateName!;
 
   const requestOptions = state.requestOptions || {};
   if (options.abortSignal) {
@@ -102,7 +103,8 @@ async function cancel(
   options: { abortSignal?: AbortSignal } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
-  const { client, certificateName } = state;
+  const client = state.client!;
+  const certificateName = state.certificateName!;
 
   const requestOptions = state.requestOptions || {};
   if (options.abortSignal) {

@@ -20,7 +20,7 @@ export interface DeleteCertificatePollerOptions {
 /**
  * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
  */
-export type DeleteCertificatePollerPollerLike = PollerLike<
+export type DeleteCertificatePollerLike = PollerLike<
   PollOperationState<DeletedCertificate>,
   DeletedCertificate
 >;

@@ -78,4 +78,14 @@ export class CertificateOperationPoller extends Poller<
   public getCertificateOperation(): CertificateOperation {
     return this.operation.state.certificateOperation!;
   }
+
+  /**
+   * 
+   */
+  public getState(): CertificateOperationPollOperationPrivateState {
+    return {
+      certificateName: this.operation.state.certificateName,
+      certificateOperation: this.operation.state.certificateOperation
+    };
+  }
 }
