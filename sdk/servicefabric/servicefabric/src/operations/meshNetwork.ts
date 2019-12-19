@@ -156,7 +156,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.networkResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   requestBody: {
     parameterPath: "networkResourceDescription",
@@ -187,7 +187,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.networkResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {
@@ -207,7 +207,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.networkResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {},
@@ -224,7 +224,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Networks",
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {
