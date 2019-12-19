@@ -52,4 +52,11 @@ export class TestPoller extends Poller<TestOperationState, string> {
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+   * Used to get a publicly safe version of the poller state.
+   */
+  public getState(): TestOperationState {
+    return this.operation.state;
+  }
 }

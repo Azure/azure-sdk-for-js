@@ -9,7 +9,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public (undocumented)
 export type CancelOnProgress = () => void;
 
-// @public (undocumented)
+// @public
 export abstract class Poller<TState, TResult> implements PollerLike<TState, TResult> {
     constructor(operation: PollOperation<TState, TResult>);
     // (undocumented)
@@ -22,6 +22,7 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     getOperationState(): PollOperationState<TResult>;
     // (undocumented)
     getResult(): TResult | undefined;
+    abstract getState(): TState;
     // (undocumented)
     isDone(): boolean;
     // (undocumented)
@@ -47,7 +48,7 @@ export class PollerCancelledError extends Error {
     constructor(message: string);
 }
 
-// @public (undocumented)
+// @public
 export interface PollerLike<TState, TResult> {
     // (undocumented)
     cancelOperation(options?: {
@@ -57,6 +58,7 @@ export interface PollerLike<TState, TResult> {
     getOperationState(): PollOperationState<TResult>;
     // (undocumented)
     getResult(): TResult | undefined;
+    getState(): TState;
     // (undocumented)
     isDone(): boolean;
     // (undocumented)

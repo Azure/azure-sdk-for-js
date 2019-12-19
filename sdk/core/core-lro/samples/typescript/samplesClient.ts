@@ -146,6 +146,13 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+   * Used to get a publicly safe version of the poller state.
+   */
+  public getState(): SamplePollOperationState {
+    return this.operation.state;
+  }
 }
 
 /**

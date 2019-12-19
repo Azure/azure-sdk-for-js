@@ -24,6 +24,9 @@ export class PollerCancelledError extends Error {
   }
 }
 
+/**
+ * Abstract representation of a poller, intended to expose just the minimal that the user needs to work with.
+ */
 export interface PollerLike<TState, TResult> {
   poll(options?: { abortSignal?: AbortSignal }): Promise<void>;
   pollUntilDone(): Promise<TResult>;
@@ -33,10 +36,18 @@ export interface PollerLike<TState, TResult> {
   isStopped(): boolean;
   cancelOperation(options?: { abortSignal?: AbortSignal }): Promise<void>;
   getOperationState(): PollOperationState<TResult>;
+  /**
+   * Exposes the abstract TState to the user.
+   */
+  getState(): TState;
   getResult(): TResult | undefined;
   toString(): string;
 }
 
+/**
+ * A class that represents the definition of a program that polls through consecutive requests
+ * until it reaches a state of completion.
+ */
 export abstract class Poller<TState, TResult> implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
@@ -166,8 +177,20 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
   }
 
   public getOperationState(): PollOperationState<TResult> {
-    return this.operation.state;
+    const state: PollOperationState<TResult> = this.operation.state;
+    return {
+      isStarted: state.isStarted,
+      isCompleted: state.isCompleted,
+      isCancelled: state.isCancelled,
+      error: state.error,
+      result: state.result
+    };
   }
+
+  /**
+   * Exposes the abstract TState to the user.
+   */
+  public abstract getState(): TState;
 
   public getResult(): TResult | undefined {
     const state = this.getOperationState();
