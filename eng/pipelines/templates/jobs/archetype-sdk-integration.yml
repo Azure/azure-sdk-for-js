@@ -2,7 +2,7 @@ parameters:
   PackageName: ""
   PreIntegrationSteps: ""
   PostIntegrationSteps: ""
-  ResourceFileLocation: ""
+  ResourceServiceDirectory: "not-set"
   EnvVars: []
   MaxParallel: 0
   Matrix:
@@ -65,7 +65,7 @@ jobs:
       - pwsh: >-
           eng/New-TestResources.ps1
           -BaseName $(BaseName)
-          -ServiceDirectory ${{ parameters.ServiceDirectory }}
+          -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
           -TestApplicationId $(aad-azure-sdk-test-client-id)
           -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
           -TestApplicationOid $(aad-azure-sdk-test-client-oid)
@@ -137,7 +137,7 @@ jobs:
       # PublishTestResults.searchFolder only supports absolute paths, not relative.
       - task: PublishTestResults@2
         inputs:
-          searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+          searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.xml"
           testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
         condition: and(always(), eq(variables['TestType'], 'node'))
@@ -147,7 +147,7 @@ jobs:
       # PublishTestResults.searchFolder only supports absolute paths, not relative.
       - task: PublishTestResults@2
         inputs:
-          searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+          searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.browser.xml"
           testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
         condition: and(always(), eq(variables['TestType'], 'browser'))
