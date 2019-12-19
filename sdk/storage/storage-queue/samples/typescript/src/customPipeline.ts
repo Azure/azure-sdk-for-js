@@ -7,6 +7,10 @@
 
 import { QueueServiceClient, newPipeline, StorageSharedKeyCredential } from "@azure/storage-queue";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";

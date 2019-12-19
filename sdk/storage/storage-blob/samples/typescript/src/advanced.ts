@@ -9,6 +9,10 @@ import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`

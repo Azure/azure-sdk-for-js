@@ -23,6 +23,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [iterators-blobs.js][iterators-blobs]                     | different methods for iterating over blobs in a container, showing options for paging, resuming paging, etc.                                               |
 | [iterators-containers.js][iterators-containers]           | different methods for iterating over containers in an account, showing options for paging, resuming paging, etc.                                           |
 | [iterators-blobs-hierarchy.js][iterators-blobs-hierarchy] | iterating over blobs by hierarchy, using separators in the blob names, showing options for paging, resuming paging, etc.                                   |
+| [iterators-without-await.js][iterators-without-await]     | iterating over blobs in a container without using `for await` syntax                                                                                       |
 | [customPipeline.js][custompipeline]                       | use custom HTTP pipeline options when connecting to the service                                                                                            |
 | [customizedClientHeaders.js][customizedclientheaders]     | use a custom request policy to add metadata to requests, in this case through the custom x-ms-client-request-id header                                     |
 | [errorsAndResponses.js][errorsandresponses]               | demonstrate various errors and responses                                                                                                                   |
@@ -75,6 +76,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iterators-blobs-hierarchy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-blobs-hierarchy.js
 [iterators-blobs]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-blobs.js
 [iterators-containers]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-containers.js
+[iterators-without-await]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/iterators-without-await.js
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/proxyAuth.js
 [readingsnapshot]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/readingSnapshot.js
 [sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/javascript/sharedKeyCred.js
