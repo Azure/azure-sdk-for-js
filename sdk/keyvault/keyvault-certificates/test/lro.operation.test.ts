@@ -41,17 +41,17 @@ describe.only("Certificates client - LRO - certificate operation", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending certificate operation can be obtained this way:
-    assert.equal(poller.getState().certificateOperation!.status, "inProgress");
+    assert.equal(poller.getOperationState().certificateOperation!.status, "inProgress");
 
     const completeCertificate: KeyVaultCertificateWithPolicy = await poller.pollUntilDone();
     assert.equal(completeCertificate.name, certificateName);
 
-    const operation: CertificateOperation = poller.getState().certificateOperation!;
+    const operation: CertificateOperation = poller.getOperationState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(poller.getOperationState().isCompleted);
 
     // The final certificate operation can also be obtained this way:
-    assert.equal(poller.getState().certificateOperation!.status, "completed");
+    assert.equal(poller.getOperationState().certificateOperation!.status, "completed");
 
     await testClient.flushCertificate(certificateName);
   });
@@ -80,7 +80,7 @@ describe.only("Certificates client - LRO - certificate operation", () => {
     const completeCertificate: KeyVaultCertificateWithPolicy = await resumePoller.pollUntilDone();
     assert.equal(completeCertificate.name, certificateName);
 
-    const operation: CertificateOperation = resumePoller.getState().certificateOperation!;
+    const operation: CertificateOperation = resumePoller.getOperationState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
 

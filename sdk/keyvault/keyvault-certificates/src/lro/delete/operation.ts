@@ -7,9 +7,15 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
 
 /**
+ * The public representation of the DeleteCertificatePoller operation state.
+ */
+export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
+
+/**
  * An interface representing the state of a delete certificate's poll operation
  */
-export interface DeleteCertificatePollState extends PollOperationState<DeletedCertificate> {
+export interface DeleteCertificatePollOperationState
+  extends PollOperationState<DeletedCertificate> {
   /**
    * The name of the certificate.
    */
@@ -28,7 +34,7 @@ export interface DeleteCertificatePollState extends PollOperationState<DeletedCe
  * An interface representing a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperation
-  extends PollOperation<DeleteCertificatePollState, DeletedCertificate> {}
+  extends PollOperation<DeleteCertificatePollOperationState, DeletedCertificate> {}
 
 /**
  * @summary Reaches to the service and updates the delete certificate's poll operation.
@@ -38,7 +44,7 @@ async function update(
   this: DeleteCertificatePollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteCertificatePollState) => void;
+    fireProgress?: (state: DeleteCertificatePollOperationState) => void;
   } = {}
 ): Promise<DeleteCertificatePollOperation> {
   const state = this.state;
@@ -101,7 +107,7 @@ function toString(this: DeleteCertificatePollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeDeleteCertificatePollOperation(
-  state: DeleteCertificatePollState
+  state: DeleteCertificatePollOperationState
 ): DeleteCertificatePollOperation {
   return {
     state: {

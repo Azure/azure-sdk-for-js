@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollerLike as CorePollerLike, PollOperationState } from "@azure/core-lro";
-import { DeleteCertificatePollState, makeDeleteCertificatePollOperation } from "./operation";
+import { Poller } from "@azure/core-lro";
+import {
+  DeleteCertificatePollOperationState,
+  makeDeleteCertificatePollOperation
+} from "./operation";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
 
 export interface DeleteCertificatePollerOptions {
@@ -15,18 +18,10 @@ export interface DeleteCertificatePollerOptions {
 }
 
 /**
- * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
- */
-export type DeleteCertificatePollerLike = CorePollerLike<
-  PollOperationState<DeletedCertificate>,
-  DeletedCertificate
->;
-
-/**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class DeleteCertificatePoller extends Poller<
-  DeleteCertificatePollState,
+  DeleteCertificatePollOperationState,
   DeletedCertificate
 > {
   /**
@@ -38,7 +33,7 @@ export class DeleteCertificatePoller extends Poller<
   constructor(options: DeleteCertificatePollerOptions) {
     const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: DeleteCertificatePollState | undefined;
+    let state: DeleteCertificatePollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

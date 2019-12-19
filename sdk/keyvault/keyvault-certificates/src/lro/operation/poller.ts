@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollerLike } from "../core-lro-update";
+import { KVPoller } from "../core-lro-update";
 import {
-  CertificateOperationPollPublicState,
-  CertificateOperationPollPrivateState,
-  makeCertificateOperationPollOperation
+  CertificateOperationPollOperationState,
+  makeCertificateOperationPollOperation,
+  CertificateOperationState
 } from "./operation";
 import {
   CertificateOperation,
@@ -23,18 +23,10 @@ export interface CertificateOperationPollerOptions {
 }
 
 /**
- * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
- */
-export type CertificateOperationPollerLike = PollerLike<
-  CertificateOperationPollPublicState,
-  KeyVaultCertificateWithPolicy
->;
-
-/**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
-export class CertificateOperationPoller extends Poller<
-  CertificateOperationPollPrivateState,
+export class CertificateOperationPoller extends KVPoller<
+  CertificateOperationPollOperationState,
   KeyVaultCertificateWithPolicy
 > {
   /**
@@ -46,7 +38,7 @@ export class CertificateOperationPoller extends Poller<
   constructor(options: CertificateOperationPollerOptions) {
     const { client, certificateName, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: CertificateOperationPollPrivateState | undefined;
+    let state: CertificateOperationPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
@@ -80,12 +72,18 @@ export class CertificateOperationPoller extends Poller<
   }
 
   /**
-   *
+   * Gets the state of the polling operation
    */
-  public getState(): CertificateOperationPollPrivateState {
+  public getOperationState(): CertificateOperationState {
+    const state: CertificateOperationState = this.operation.state;
     return {
-      certificateName: this.operation.state.certificateName,
-      certificateOperation: this.operation.state.certificateOperation
+      isStarted: state.isStarted,
+      isCompleted: state.isCompleted,
+      isCancelled: state.isCancelled,
+      error: state.error,
+      result: state.result,
+      certificateName: state.certificateName,
+      certificateOperation: state.certificateOperation
     };
   }
 }

@@ -12,7 +12,7 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
-import { PollerLike as CorePollerLike } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -132,15 +132,15 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
-import { CreateCertificatePoller, CreateCertificatePollerLike } from "./lro/create/poller";
-import { CertificateOperationPoller, CertificateOperationPollerLike } from "./lro/operation/poller";
-import { DeleteCertificatePoller, DeleteCertificatePollerLike } from "./lro/delete/poller";
-import {
-  RecoverDeletedCertificatePoller,
-  RecoverDeletedCertificatePollerLike
-} from "./lro/recover/poller";
-import { PollerLike } from "./lro/core-lro-update";
-import { CertificateOperationPollPublicState } from "./lro/operation/operation";
+import { CreateCertificatePoller } from "./lro/create/poller";
+import { CertificateOperationPoller } from "./lro/operation/poller";
+import { DeleteCertificatePoller } from "./lro/delete/poller";
+import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
+import { KVPollerLike } from "./lro/core-lro-update";
+import { CertificateOperationState } from "./lro/operation/operation";
+import { DeleteCertificateState } from "./lro/delete/operation";
+import { CreateCertificateState } from "./lro/create/operation";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 
 export {
   ActionType,
@@ -166,12 +166,11 @@ export {
   CreateCertificateOptions,
   CertificatePollerOptions,
   PollerLike,
-  CorePollerLike,
-  CertificateOperationPollPublicState,
-  CreateCertificatePollerLike,
-  DeleteCertificatePollerLike,
-  RecoverDeletedCertificatePollerLike,
-  CertificateOperationPollerLike,
+  KVPollerLike,
+  CreateCertificateState,
+  DeleteCertificateState,
+  RecoverDeletedCertificateState,
+  CertificateOperationState,
   CoreSubjectAlternativeNames,
   RequireAtLeastOne,
   CertificateContactAll,
@@ -673,7 +672,7 @@ export class CertificateClient {
   public async beginDeleteCertificate(
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
-  ): Promise<DeleteCertificatePollerLike> {
+  ): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,
@@ -1156,7 +1155,7 @@ export class CertificateClient {
     certificateName: string,
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<CreateCertificatePollerLike> {
+  ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
@@ -1489,7 +1488,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<CertificateOperationPollerLike> {
+  ): Promise<KVPollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1873,7 +1872,7 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<RecoverDeletedCertificatePollerLike> {
+  ): Promise<PollerLike<RecoverDeletedCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,

@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollerLike as CorePollerLike, PollOperationState } from "@azure/core-lro";
-import { CreateCertificatePollState, makeCreateCertificatePollOperation } from "./operation";
+import { Poller } from "@azure/core-lro";
+import {
+  makeCreateCertificatePollOperation,
+  CreateCertificatePollOperationState
+} from "./operation";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
@@ -22,18 +25,10 @@ export interface CreateCertificatePollerOptions {
 }
 
 /**
- * Interface that represents a basic Poller with the specifications defined by CertificateOperationPoller.
- */
-export type CreateCertificatePollerLike = CorePollerLike<
-  PollOperationState<KeyVaultCertificateWithPolicy>,
-  KeyVaultCertificateWithPolicy
->;
-
-/**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class CreateCertificatePoller extends Poller<
-  CreateCertificatePollState,
+  CreateCertificatePollOperationState,
   KeyVaultCertificateWithPolicy
 > {
   /**
@@ -53,7 +48,7 @@ export class CreateCertificatePoller extends Poller<
       resumeFrom
     } = options;
 
-    let state: CreateCertificatePollState | undefined;
+    let state: CreateCertificatePollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

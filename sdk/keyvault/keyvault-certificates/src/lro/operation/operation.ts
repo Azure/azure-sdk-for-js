@@ -13,7 +13,7 @@ import {
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
-export interface CertificateOperationPollPublicState
+export interface CertificateOperationState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
@@ -28,7 +28,16 @@ export interface CertificateOperationPollPublicState
 /**
  * An interface representing the state of a create certificate's poll operation
  */
-export interface CertificateOperationPollPrivateState extends CertificateOperationPollPublicState {
+export interface CertificateOperationPollOperationState
+  extends PollOperationState<KeyVaultCertificateWithPolicy> {
+  /**
+   * The name of the certificate.
+   */
+  certificateName: string;
+  /**
+   * The operation of the certificate
+   */
+  certificateOperation?: CertificateOperation;
   /**
    * Options for the core-http requests.
    */
@@ -43,7 +52,7 @@ export interface CertificateOperationPollPrivateState extends CertificateOperati
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
-  extends PollOperation<CertificateOperationPollPrivateState, KeyVaultCertificateWithPolicy> {}
+  extends PollOperation<CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -53,7 +62,7 @@ async function update(
   this: CertificateOperationPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: CertificateOperationPollPrivateState) => void;
+    fireProgress?: (state: CertificateOperationPollOperationState) => void;
   } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
@@ -132,7 +141,7 @@ function toString(this: CertificateOperationPollOperation): string {
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeCertificateOperationPollOperation(
-  state: CertificateOperationPollPrivateState
+  state: CertificateOperationPollOperationState
 ): CertificateOperationPollOperation {
   return {
     state: {
