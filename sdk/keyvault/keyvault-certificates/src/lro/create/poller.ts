@@ -3,10 +3,7 @@
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
-import {
-  CreateCertificatePollState,
-  makeCreateCertificatePollOperation
-} from "./operation";
+import { CreateCertificatePollState, makeCreateCertificatePollOperation } from "./operation";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,

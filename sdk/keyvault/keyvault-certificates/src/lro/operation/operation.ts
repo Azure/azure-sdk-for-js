@@ -28,8 +28,7 @@ export interface CertificateOperationPollPublicState
 /**
  * An interface representing the state of a create certificate's poll operation
  */
-export interface CertificateOperationPollPrivateState
-  extends CertificateOperationPollPublicState {
+export interface CertificateOperationPollPrivateState extends CertificateOperationPollPublicState {
   /**
    * Options for the core-http requests.
    */
@@ -44,10 +43,7 @@ export interface CertificateOperationPollPrivateState
  * An interface representing a create certificate's poll operation
  */
 export interface CertificateOperationPollOperation
-  extends PollOperation<
-    CertificateOperationPollPrivateState,
-    KeyVaultCertificateWithPolicy
-  > {}
+  extends PollOperation<CertificateOperationPollPrivateState, KeyVaultCertificateWithPolicy> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.

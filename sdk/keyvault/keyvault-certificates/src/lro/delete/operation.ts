@@ -9,8 +9,7 @@ import { DeletedCertificate, CertificateClientInterface } from "../../certificat
 /**
  * An interface representing the state of a delete certificate's poll operation
  */
-export interface DeleteCertificatePollState
-  extends PollOperationState<DeletedCertificate> {
+export interface DeleteCertificatePollState extends PollOperationState<DeletedCertificate> {
   /**
    * The name of the certificate.
    */

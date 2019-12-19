@@ -3,10 +3,7 @@
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollerLike, PollOperationState } from "@azure/core-lro";
-import {
-  DeleteCertificatePollState,
-  makeDeleteCertificatePollOperation
-} from "./operation";
+import { DeleteCertificatePollState, makeDeleteCertificatePollOperation } from "./operation";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
 
 export interface DeleteCertificatePollerOptions {

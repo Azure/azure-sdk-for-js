@@ -80,7 +80,7 @@ export class CertificateOperationPoller extends Poller<
   }
 
   /**
-   * 
+   *
    */
   public getState(): CertificateOperationPollPrivateState {
     return {
