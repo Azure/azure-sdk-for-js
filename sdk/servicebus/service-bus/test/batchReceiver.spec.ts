@@ -98,7 +98,7 @@ async function beforeEachTest(
 async function afterEachTest(): Promise<void> {
   await sbClient.close();
 }
-describe.only("Batch Receiver - Settle message", function(): void {
+describe("Batch Receiver - Settle message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -612,7 +612,7 @@ describe.only("Batch Receiver - Settle message", function(): void {
   });
 });
 
-describe.only("Batch Receiver - Settle deadlettered message", function(): void {
+describe("Batch Receiver - Settle deadlettered message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -826,7 +826,7 @@ describe.only("Batch Receiver - Settle deadlettered message", function(): void {
   });
 });
 
-describe.only("Batch Receiver - Multiple Receiver Operations", function(): void {
+describe("Batch Receiver - Multiple Receiver Operations", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -1087,7 +1087,7 @@ describe.only("Batch Receiver - Multiple Receiver Operations", function(): void 
   });
 });
 
-describe.only("Batch Receiver - Others", function(): void {
+describe("Batch Receiver - Others", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
