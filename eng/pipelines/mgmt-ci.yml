@@ -77,7 +77,7 @@ jobs:
           command: custom
           customCommand: 'audit'
   
-  - job: Windows
+  - job: CredentialScan
     pool:
       vmImage: "windows-2019"
 

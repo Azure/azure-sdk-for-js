@@ -72,7 +72,7 @@ jobs:
           command: custom
           customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
 
-  - job: Windows
+  - job: CredentialScan
     pool:
       vmImage: "windows-2019"
 
