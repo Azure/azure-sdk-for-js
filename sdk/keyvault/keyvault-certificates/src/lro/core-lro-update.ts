@@ -15,7 +15,7 @@ import { AbortSignalLike } from "@azure/core-http";
  * which helps to expose any re-interpretation of the state of the operation being polled,
  * such as only publicly available properties.
  */
-export interface KVPollerLike<TState, TResult> {
+export interface KVPollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * A method that defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
@@ -71,7 +71,8 @@ export interface KVPollerLike<TState, TResult> {
  * which helps to expose any re-interpretation of the state of the operation being polled,
  * such as only publicly available properties.
  */
-export abstract class KVPoller<TState, TResult> implements KVPollerLike<TState, TResult> {
+export abstract class KVPoller<TState extends PollOperationState<TResult>, TResult>
+  implements KVPollerLike<TState, TResult> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;

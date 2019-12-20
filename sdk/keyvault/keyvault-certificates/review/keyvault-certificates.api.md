@@ -342,7 +342,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export interface KVPollerLike<TState, TResult> {
+export interface KVPollerLike<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
         abortSignal?: AbortSignal;
     }): Promise<void>;
