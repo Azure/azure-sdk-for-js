@@ -24,12 +24,15 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
+  const certificateName1 = "MyCertificateLIstCertificatesTS1";
+  const certificateName2 = "MyCertificateLIstCertificatesTS2";
+
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.beginCreateCertificate("MyCertificate1", {
+  await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
-  await client.beginCreateCertificate("MyCertificate2", {
+  await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
     subject: "cn=MyCert"
   });
@@ -50,7 +53,7 @@ export async function main(): Promise<void> {
   }
 
   // Updating one of the certificates to retrieve the certificate versions afterwards
-  const updatedCertificate = await client.updateCertificateProperties("MyCertificate1", "", {
+  const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
       customTag: "value"
     }
@@ -58,16 +61,16 @@ export async function main(): Promise<void> {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  for await (const item of client.listPropertiesOfCertificateVersions("MyCertificate1", {})) {
+  for await (const item of client.listPropertiesOfCertificateVersions(certificateName1, {})) {
     const version = item.version!;
-    const certificate = await client.getCertificateVersion("MyCertificate1", version);
+    const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
 
   // Deleting both certificates
-  let deletePoller = await client.beginDeleteCertificate("MyCertificate1");
+  let deletePoller = await client.beginDeleteCertificate(certificateName1);
   await deletePoller.pollUntilDone();
-  deletePoller = await client.beginDeleteCertificate("MyCertificate2");
+  deletePoller = await client.beginDeleteCertificate(certificateName2);
   await deletePoller.pollUntilDone();
 
   for await (const certificate of client.listDeletedCertificates({ includePending: true })) {

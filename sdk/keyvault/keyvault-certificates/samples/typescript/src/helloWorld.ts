@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
+  const certificateName = "MyCertificateHelloWorldTS";
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(

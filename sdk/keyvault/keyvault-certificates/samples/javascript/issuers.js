@@ -21,8 +21,8 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
-  const issuerName = "issuerName";
+  const certificateName = "MyCertificateIssuersJS";
+  const issuerName = "issuerNameIssuersJS";
 
   // Create
   await client.createIssuer(issuerName, "Test", {

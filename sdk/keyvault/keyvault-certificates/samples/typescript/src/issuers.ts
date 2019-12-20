@@ -22,8 +22,8 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
-  const issuerName = "issuerName";
+  const certificateName = "MyCertificateIssuersTS";
+  const issuerName = "issuerNameIssuersTS";
 
   // Create
   await client.createIssuer(issuerName, "Test", {

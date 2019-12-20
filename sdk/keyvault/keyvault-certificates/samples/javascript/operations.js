@@ -20,7 +20,7 @@ async function main() {
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
-  const certificateName = "MyCertificate986632";
+  const certificateName = "MyCertificateOperationJS";
 
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {

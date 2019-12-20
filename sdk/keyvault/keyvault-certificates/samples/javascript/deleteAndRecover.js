@@ -22,7 +22,7 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
+  const certificateName = "MyCertificateDeleteAndRecoverJS";
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
