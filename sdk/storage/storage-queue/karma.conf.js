@@ -67,7 +67,8 @@ module.exports = function(config) {
       src: "coverage-browser/coverage.json",
       reports: {
         lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report"
+        html: "coverage-browser/html/report",
+        "text-summary": null
       }
     },
 
