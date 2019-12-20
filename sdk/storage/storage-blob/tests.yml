@@ -12,3 +12,9 @@ jobs:
   - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-blob"
+      ResourceServiceDirectory: storage
+      EnvVars:
+        ACCOUNT_NAME: $(STORAGE_ACCOUNT_NAME)
+        ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
+        ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
+        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
