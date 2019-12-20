@@ -6,7 +6,8 @@ import {
   QueueOptions,
   TopicOptions,
   SubscriptionOptions,
-  RuleOptions
+  RuleOptions,
+  EntityStatus
 } from "../src";
 
 import chai from "chai";
@@ -451,7 +452,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-      status: "ReceiveDisabled",
+      status: "ReceiveDisabled" as EntityStatus,
       enablePartitioning: true
       // maxSizeInMegabytes: 2048,
       // For partitioned entities, above value is 16384
@@ -586,7 +587,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
-      status: "SendDisabled",
+      status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
       supportOrdering: false
     },
@@ -890,7 +891,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
-      status: "ReceiveDisabled",
+      status: "ReceiveDisabled" as EntityStatus,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1080,7 +1081,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
 
-      status: "Active",
+      status: "Active" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",

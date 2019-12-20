@@ -103,7 +103,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
       "entityAvailabilityStatus"
     ),
-    status: getString(rawSubscription[Constants.STATUS], "status"),
+    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
     createdOn: getString(rawSubscription[Constants.CREATED_AT], "createdOn"),
     updatedOn: getString(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
     accessedOn: rawSubscription[Constants.ACCESSED_AT]

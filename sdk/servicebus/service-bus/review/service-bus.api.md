@@ -100,6 +100,9 @@ export interface DeleteTopicResponse {
 export { Delivery }
 
 // @public
+export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
+
+// @public
 export interface GetQueueResponse extends QueueDetails {
     _response: HttpOperationResponse;
 }
@@ -209,14 +212,13 @@ export interface QueueDetails {
     lockDuration: string;
     maxDeliveryCount: number;
     maxSizeInMegabytes: number;
-    messageCount: number;
+    messageCount?: number;
     messageCountDetails?: MessageCountDetails;
-    path?: string;
     queueName: string;
     requiresDuplicateDetection: boolean;
     requiresSession: boolean;
-    sizeInBytes: number;
-    status?: string;
+    sizeInBytes?: number;
+    status?: EntityStatus;
     supportOrdering?: boolean;
     updatedOn?: string;
     userMetadata?: string;
@@ -236,10 +238,9 @@ export interface QueueOptions {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    messageCount?: number;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
-    sizeInBytes?: number;
+    status?: EntityStatus;
     userMetadata?: string;
 }
 
@@ -520,7 +521,7 @@ export interface SubscriptionDetails {
     messageCountDetails?: MessageCountDetails;
     requiresSession: boolean;
     sizeInBytes?: number;
-    status: string;
+    status?: EntityStatus;
     subscriptionName: string;
     topicName: string;
     updatedOn: string;
@@ -533,17 +534,13 @@ export interface SubscriptionOptions {
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTtl?: string;
-    defaultRuleDescription?: any;
     enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
-    messageCount?: number;
     requiresSession?: boolean;
-    sizeInBytes?: number;
+    status?: EntityStatus;
     userMetadata?: string;
 }
 
@@ -571,28 +568,25 @@ export class TopicClient implements Client {
 export interface TopicDetails {
     accessedOn?: string;
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle: string;
+    autoDeleteOnIdle?: string;
     createdOn?: string;
     defaultMessageTtl: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;
-    enableExpress: boolean;
+    enableExpress?: boolean;
     enablePartitioning: boolean;
-    enableSubscriptionPartitioning: boolean;
+    enableSubscriptionPartitioning?: boolean;
     entityAvailabilityStatus?: string;
-    filteringMessagesBeforePublishing: boolean;
+    filteringMessagesBeforePublishing?: boolean;
     isAnonymousAccessible?: boolean;
-    isExpress: boolean;
-    maxCorrelationFiltersPerTopic?: number;
+    isExpress?: boolean;
     maxDeliveryCount?: number;
     maxSizeInMegabytes: number;
-    maxSqlFiltersPerTopic?: number;
-    maxSubscriptionsPerTopic?: number;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     requiresDuplicateDetection: boolean;
-    sizeInBytes: number;
-    status?: string;
+    sizeInBytes?: number;
+    status?: EntityStatus;
     subscriptionCount?: number;
     supportOrdering: boolean;
     topicName: string;
@@ -607,20 +601,10 @@ export interface TopicOptions {
     defaultMessageTtl?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
-    enableExpress?: boolean;
     enablePartitioning?: boolean;
-    enableSubscriptionPartitioning?: boolean;
-    filteringMessagesBeforePublishing?: boolean;
-    isExpress?: boolean;
-    maxCorrelationFiltersPerTopic?: number;
-    maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    maxSqlFiltersPerTopic?: number;
-    maxSubscriptionsPerTopic?: number;
-    messageCount?: number;
     requiresDuplicateDetection?: boolean;
-    sizeInBytes?: number;
-    subscriptionCount?: number;
+    status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
 }
