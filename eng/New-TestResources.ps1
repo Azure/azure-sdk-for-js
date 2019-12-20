@@ -99,6 +99,7 @@ if (!$templateFiles) {
 }
 
 # Log in if requested; otherwise, the user is expected to already be authenticated via Connect-AzAccount.
+Write-Verbose "APPLICATION ID VALUE $($ProvisionerApplicationId)"
 if ($ProvisionerApplicationId) {
     $null = Disable-AzContextAutosave -Scope Process
 
