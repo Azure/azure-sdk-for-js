@@ -7,7 +7,7 @@ import {
   BasicPartitionProperties
 } from "./eventHubConsumerClientModels";
 import { EventPosition } from "./eventPosition";
-import * as log from "./log";
+import { logger } from "./log";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -180,7 +180,7 @@ export class PartitionProcessor implements InitializationContext {
       try {
         await this._eventHandlers.processError(error, this);
       } catch (err) {
-        log.partitionPump(`Error thrown from user's processError handler : ${err}`);
+        logger.verbose(`Error thrown from user's processError handler : ${err}`);
       }
     }
   }
