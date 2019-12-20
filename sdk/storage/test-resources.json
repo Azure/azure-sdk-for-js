@@ -17,24 +17,13 @@
     "datalakeAccountName": "[concat('datalake', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
-    "utcDateYYYY": "3000",
-    "endpointSuffix": {
-      "type": "string",
-      "defaultValue": "core.windows.net"
-    },
-    "sasTokenExpiry": {
-      "type": "string",
-      "defaultValue": "[concat(add(int(variables('utcDateYYYY')), 1), '-01-01T23:59:00Z')]"
-    },
+    "endpointSuffix": "core.windows.net",
     "accountSasProperties": {
-      "type": "object",
-      "defaultValue": {
-        "signedServices": "b",
-        "signedPermission": "rl",
-        "signedResourceTypes": "sco",
-        "keyToSign": "key2",
-        "signedExpiry": "[variables('sasTokenExpiry')]"
-      }
+      "signedServices": "b",
+      "signedPermission": "rl",
+      "signedResourceTypes": "sco",
+      "keyToSign": "key2",
+      "signedExpiry": "2022-01-01T23:59:00Z"
     }
   },
   "resources": [
@@ -201,7 +190,7 @@
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('endpointSuffix'))]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
     }
   }
 }
