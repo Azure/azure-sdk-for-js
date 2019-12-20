@@ -1,7 +1,7 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
 
+/*
   This sample demonstrates how to instantiate EventHubsClient using AAD token credentials
   obtained from using Service Principal Secrets.
 
@@ -22,9 +22,12 @@
   Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
-import { runSample } from './sampleHelpers';
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // Define Event Hubs Endpoint and related entity name here here
 const eventHubsFullyQualifiedName = process.env["EVENTHUB_FQDN"] || ""; // <your-eventhubs-namespace>.servicebus.windows.net
@@ -37,7 +40,12 @@ export async function main(): Promise<void> {
   console.log(`Running usingAadAuth sample`);
 
   const credential = new DefaultAzureCredential();
-  const client = new EventHubConsumerClient(consumerGroup, eventHubsFullyQualifiedName, eventHubName, credential);
+  const client = new EventHubConsumerClient(
+    consumerGroup,
+    eventHubsFullyQualifiedName,
+    eventHubName,
+    credential
+  );
   /*
    Refer to other samples, and place your code here
    to send/receive events
@@ -47,4 +55,6 @@ export async function main(): Promise<void> {
   console.log(`Exiting usingAadAuth sample`);
 }
 
-runSample(main);
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});

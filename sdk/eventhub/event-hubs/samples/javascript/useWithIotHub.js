@@ -1,11 +1,14 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
 
+/*
  This sample demonstrates how to use the EventHubClient with an IotHub instance
 */
-import { runSample } from './sampleHelpers';
-import { EventHubConsumerClient } from "@azure/event-hubs";
+
+const { EventHubConsumerClient } = require("@azure/event-hubs");
+
+// Load the .env file if it exists
+require("dotenv").config({ path: "../.env" });
 
 // Define IoT Hub Event Hubs-compatible connection string here.
 // To find the correct connection string to use, visit:
@@ -13,15 +16,20 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 const connectionString = process.env["IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log(`Running useWithIotHub sample`);
+
   const client = new EventHubConsumerClient(consumerGroup, connectionString);
+
   /*
-   Refer to other samples, and place your code here to receive events using the above client.
-   Please note that send operations are not supported when this client is used against an IotHub instance
-  */
+     Refer to other samples, and place your code here to receive events using the above client.
+     Please note that send operations are not supported when this client is used against an IotHub instance
+    */
+
   await client.close();
   console.log(`Exiting useWithIotHub sample`);
 }
 
-runSample(main);
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});
