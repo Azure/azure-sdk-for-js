@@ -12,4 +12,3 @@ jobs:
   - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-blob"
-      ResourceServiceDirectory: storage

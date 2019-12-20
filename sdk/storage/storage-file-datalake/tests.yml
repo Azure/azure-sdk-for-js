@@ -12,9 +12,3 @@ jobs:
   - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-file-datalake"
-      ResourceServiceDirectory: storage
-      EnvVars:
-        DFS_ACCOUNT_NAME: $(STORAGE_DATALAKE_ACCOUNT_NAME)
-        DFS_ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
-        DFS_ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
-        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)

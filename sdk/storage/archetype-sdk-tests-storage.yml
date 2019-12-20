@@ -1,5 +1,6 @@
 parameters:
   PackageName: ""
+  ResourceServiceDirectory: storage
   EnvVars:
     ACCOUNT_NAME: $(STORAGE_ACCOUNT_NAME)
     ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
@@ -65,4 +66,3 @@ jobs:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}
       Matrix: ${{ parameters.Matrix }}
-      ResourceServiceDirectory: ${{ parameters.ResourceServiceDirectory }}
