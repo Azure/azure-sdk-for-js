@@ -21,11 +21,14 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+import { getEndpointWithProtocolFromConnectionString } from "./utils/testUtils";
 const env = getEnvVars();
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
   env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
 );
+
+const endpointWithProtocol = getEndpointWithProtocolFromConnectionString();
 
 enum EntityType {
   QUEUE = "Queue",
@@ -520,9 +523,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn",
-        "forwardTo",
-        "forwardDeadLetteredMessagesTo"
+        "accessedOn"
       ]);
     });
   });
@@ -615,11 +616,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     subscriptionName: "alwaysBeExistingSubscription20",
     topicName: "alwaysBeExistingTopic1",
-    testCaseTitle: "pass in forwardDeadLetteredMessagesTo",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
       forwardTo: "alwaysBeExistingTopic2",
       defaultMessageTtl: "P2D",
       deadLetteringOnFilterEvaluationExceptions: false,
@@ -647,8 +648,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableBatchedOperations: false,
       requiresSession: false,
 
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
-      forwardTo: "alwaysBeExistingTopic2",
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
 
       defaultRuleDescription: undefined,
@@ -666,6 +667,61 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       subscriptionName: "alwaysBeExistingSubscription20",
       topicName: "alwaysBeExistingTopic1"
     }
+  },
+  {
+    subscriptionName: "alwaysBeExistingSubscription21",
+    topicName: "alwaysBeExistingTopic1",
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      lockDuration: "PT5M",
+      maxDeliveryCount: 20,
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnFilterEvaluationExceptions: false,
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      requiresSession: false,
+
+      // None of below work
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      defaultRuleDescription: {
+        Name: "test1",
+        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
+      },
+      messageCount: 5,
+      enablePartitioning: true,
+      maxSizeInMegabytes: 2048,
+      sizeInBytes: 500
+    },
+    output: {
+      lockDuration: "PT5M",
+      maxDeliveryCount: 20,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnFilterEvaluationExceptions: false,
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      userMetadata: undefined,
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "Active",
+
+      subscriptionName: "alwaysBeExistingSubscription21",
+      topicName: "alwaysBeExistingTopic1"
+    }
   }
 ].forEach((testCase) => {
   describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
@@ -681,26 +737,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         testCase.input
       );
 
-      if (response.forwardTo) {
-        assert.equal(
-          response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
-          true,
-          `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
-        );
-      }
-
-      if (response.forwardDeadLetteredMessagesTo) {
-        assert.equal(
-          response.forwardDeadLetteredMessagesTo.indexOf(
-            testCase.input!.forwardDeadLetteredMessagesTo
-          ) > 0,
-          true,
-          `Expected forwardDeadLetteredMessagesTo field in response to contain ${
-            testCase.input!.forwardDeadLetteredMessagesTo
-          }`
-        );
-      }
-
       should.equal(
         response.subscriptionName,
         testCase.subscriptionName,
@@ -710,9 +746,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn",
-        "forwardTo",
-        "forwardDeadLetteredMessagesTo"
+        "accessedOn"
       ]);
     });
   });
@@ -845,10 +879,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    testCaseTitle: "pass in forwardDeadLetteredMessagesTo",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
-      forwardDeadLetteredMessagesTo:
-        "alwaysBeExistingTopic1/Subscriptions/alwaysBeExistingSubscription1",
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
       forwardTo: "alwaysBeExistingTopic2",
       lockDuration: "PT45S",
       messageCount: 5,
@@ -926,9 +959,102 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxSizeInMegabytes: 16384,
       supportOrdering: false,
 
-      forwardDeadLetteredMessagesTo:
-        "alwaysBeExistingTopic1/Subscriptions/alwaysBeExistingSubscription1",
-      forwardTo: "alwaysBeExistingTopic2",
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      path: undefined,
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "Active",
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      lockDuration: "PT45S",
+      messageCount: 5,
+      sizeInBytes: 250,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      maxDeliveryCount: 8,
+      enableBatchedOperations: false,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+      enablePartitioning: true
+      // maxSizeInMegabytes: 2048,
+      // For partitioned entities, above value is 16384
+      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      messageCount: 5,
+      sizeInBytes: 250,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      maxDeliveryCount: 8,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      enablePartitioning: true,
+      maxSizeInMegabytes: 16384,
+      supportOrdering: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       path: undefined,
       userMetadata: undefined,
 
@@ -954,33 +1080,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
       should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
 
-      if (response.forwardTo) {
-        assert.equal(
-          response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
-          true,
-          `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
-        );
-      }
-
-      if (response.forwardDeadLetteredMessagesTo) {
-        assert.equal(
-          response.forwardDeadLetteredMessagesTo.indexOf(
-            testCase.input!.forwardDeadLetteredMessagesTo
-          ) > 0,
-          true,
-          `Expected forwardDeadLetteredMessagesTo field in response to contain ${
-            testCase.input!.forwardDeadLetteredMessagesTo
-          }`
-        );
-      }
-
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn",
-        "forwardTo",
-        "forwardDeadLetteredMessagesTo"
+        "accessedOn"
       ]);
     });
   });
@@ -1109,9 +1213,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "_response",
         "createdOn",
         "updatedOn",
-        "accessedOn",
-        "forwardTo",
-        "forwardDeadLetteredMessagesTo"
+        "accessedOn"
       ]);
     });
   });
@@ -1221,9 +1323,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    testCaseTitle: "pass in forwardDeadLetteredMessagesTo",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
       forwardTo: "alwaysBeExistingTopic1",
       lockDuration: "PT50S",
       messageCount: 6,
@@ -1295,8 +1397,103 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
 
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic1",
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 5,
+      maxSizeInMegabytes: 16384,
+
+      path: undefined,
+      userMetadata: "test metadata",
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
+      status: undefined,
+      enablePartitioning: true,
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      lockDuration: "PT50S",
+      messageCount: 6,
+      sizeInBytes: 500,
+
+      defaultMessageTtl: "P1D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT2M",
+      maxDeliveryCount: 5,
+      enableBatchedOperations: false,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Send"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+      enablePartitioning: true,
+      userMetadata: "test metadata"
+
+      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT2M",
+      lockDuration: "PT50S",
+      messageCount: 6,
+      sizeInBytes: 500,
+      defaultMessageTtl: "P1D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Send"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       autoDeleteOnIdle: "PT1H",
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
@@ -1371,33 +1568,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           testCase.input
         );
 
-        if (response.forwardTo) {
-          assert.equal(
-            response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
-            true,
-            `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
-          );
-        }
-
-        if (response.forwardDeadLetteredMessagesTo) {
-          assert.equal(
-            response.forwardDeadLetteredMessagesTo.indexOf(
-              testCase.input!.forwardDeadLetteredMessagesTo
-            ) > 0,
-            true,
-            `Expected forwardDeadLetteredMessagesTo field in response to contain ${
-              testCase.input!.forwardDeadLetteredMessagesTo
-            }`
-          );
-        }
-
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn",
-          "forwardTo",
-          "forwardDeadLetteredMessagesTo"
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1517,9 +1692,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn",
-          "forwardTo",
-          "forwardDeadLetteredMessagesTo"
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1596,12 +1769,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     topicName: "alwaysBeExistingTopic1",
     subscriptionName: "alwaysbeExistingSubscription1",
-    testCaseTitle: "pass in forwardDeadLetteredMessagesTo",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic1",
+      forwardTo: "alwaysBeExistingTopic2",
       defaultMessageTtl: "P1D",
       autoDeleteOnIdle: "PT2H",
       deadLetteringOnFilterEvaluationExceptions: true,
@@ -1629,8 +1802,64 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
 
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic1",
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      requiresSession: false,
+      enablePartitioning: undefined,
+
+      userMetadata: undefined,
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "Active",
+
+      subscriptionName: "alwaysbeExistingSubscription1",
+      topicName: "alwaysBeExistingTopic1"
+    }
+  },
+  {
+    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: "alwaysbeExistingSubscription1",
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "PT2H",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      defaultRuleDescription: {
+        Name: "test1",
+        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
+      },
+
+      messageCount: 5,
+      maxSizeInMegabytes: 2048,
+      sizeInBytes: 500,
+
+      requiresSession: false,
+      enablePartitioning: true
+    },
+    output: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       defaultRuleDescription: undefined,
 
       messageCount: 0,
@@ -1664,33 +1893,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           testCase.input
         );
 
-        if (response.forwardTo) {
-          assert.equal(
-            response.forwardTo.indexOf(testCase.input!.forwardTo) > 0,
-            true,
-            `Expected forwardTo field in response to contain ${testCase.input!.forwardTo}`
-          );
-        }
-
-        if (response.forwardDeadLetteredMessagesTo) {
-          assert.equal(
-            response.forwardDeadLetteredMessagesTo.indexOf(
-              testCase.input!.forwardDeadLetteredMessagesTo
-            ) > 0,
-            true,
-            `Expected forwardDeadLetteredMessagesTo field in response to contain ${
-              testCase.input!.forwardDeadLetteredMessagesTo
-            }`
-          );
-        }
-
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn",
-          "forwardTo",
-          "forwardDeadLetteredMessagesTo"
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1797,9 +2004,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           "_response",
           "createdOn",
           "updatedOn",
-          "accessedOn",
-          "forwardTo",
-          "forwardDeadLetteredMessagesTo"
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);

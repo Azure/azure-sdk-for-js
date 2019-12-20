@@ -335,6 +335,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
 
   /**
+   * Reference to the endpoint with protocol prefix as extracted from input connection string.
+   */
+  private endpointWithProtocol: string;
+
+  /**
    * Singleton instances of serializers used across the various operations.
    */
   private queueResourceSerializer: AtomXmlSerializer;
@@ -379,7 +384,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-    this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+    this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") ||
+      connectionString.match("Endpoint=http://(.*)/;") ||
+      connectionString.match("Endpoint=https://(.*)/;") ||
+      "")[1];
+    this.endpointWithProtocol = connectionStringObj.Endpoint;
 
     this.sasTokenProvider = new SasTokenProvider(
       connectionStringObj.Endpoint,
@@ -865,7 +874,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
       const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
-      const urlPrefix = `sb://${this.endpoint}/`;
+      const urlPrefix = `${this.endpointWithProtocol}`;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)) {
@@ -992,7 +1001,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
+      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
+        _response: response
+      });
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1009,7 +1020,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: QueueResponse = Object.assign(queue || {}, { _response: response });
+      const queueResponse: QueueResponse = Object.assign(queue || {}, {
+        _response: response
+      });
       return queueResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1036,7 +1049,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
+      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, {
+        _response: response
+      });
       return listTopicsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1053,7 +1068,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: TopicResponse = Object.assign(topic || {}, { _response: response });
+      const topicResponse: TopicResponse = Object.assign(topic || {}, {
+        _response: response
+      });
       return topicResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1130,7 +1147,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
+      const listRulesResponse: ListRulesResponse = Object.assign(rules, {
+        _response: response
+      });
       return listRulesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
