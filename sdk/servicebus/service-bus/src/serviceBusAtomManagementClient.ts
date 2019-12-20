@@ -874,11 +874,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
       const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
-      const urlPrefix = `${this.endpointWithProtocol}`;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)) {
-          queueOrSubscriptionFields.ForwardTo = urlPrefix.concat(
+          queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
             queueOrSubscriptionFields.ForwardTo
           );
         }
@@ -886,7 +885,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
         webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
         if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = urlPrefix.concat(
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
             queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
           );
         }
