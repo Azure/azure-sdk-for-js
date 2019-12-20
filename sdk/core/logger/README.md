@@ -1,4 +1,4 @@
-# Azure Logger library for JS
+# Azure Logger library for JavaScript
 
 The `@azure/logger` package can be used to enable logging in the Azure SDKs for JavaScript.
 
