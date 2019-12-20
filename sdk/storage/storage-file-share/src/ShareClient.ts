@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, isNode, DefaultHttpClient } from "@azure/core-http";
+import { HttpResponse, isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -45,6 +45,7 @@ import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -406,9 +407,12 @@ export class ShareClient extends StorageClient {
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     options?: StoragePipelineOptions
   ) {
-    if (options && !options.httpClient) {
-      options.httpClient = new DefaultHttpClient();
-    }
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
@@ -418,7 +422,7 @@ export class ShareClient extends StorageClient {
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
+      pipeline = newPipeline(credentialOrPipelineOrShareName, newOptions);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
@@ -426,7 +430,7 @@ export class ShareClient extends StorageClient {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
@@ -441,13 +445,13 @@ export class ShareClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, name);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         url = appendToURLPath(extractedCreds.url, name) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
