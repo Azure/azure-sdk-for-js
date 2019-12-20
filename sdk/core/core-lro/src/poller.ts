@@ -27,7 +27,7 @@ export class PollerCancelledError extends Error {
 /**
  * Abstract representation of a poller, intended to expose just the minimal that the user needs to work with.
  */
-export interface PollerLike<TState, TResult> {
+export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * A method that defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
@@ -60,7 +60,8 @@ export interface PollerLike<TState, TResult> {
   /**
    * A method that will return the state of the operation.
    * TState can be a different type than the underlying operation's TState.
-   */  
+   */
+
   getOperationState(): TState;
   /**
    * A method that will return the result value of the operation,
@@ -79,7 +80,8 @@ export interface PollerLike<TState, TResult> {
  * A class that represents the definition of a program that polls through consecutive requests
  * until it reaches a state of completion.
  */
-export abstract class Poller<TState, TResult> implements PollerLike<TState, TResult> {
+export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
+  implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
