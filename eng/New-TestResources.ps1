@@ -34,7 +34,7 @@ param (
     [string] $TenantId,
 
     [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
     [string] $ProvisionerApplicationId,
 
     [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
@@ -99,7 +99,6 @@ if (!$templateFiles) {
 }
 
 # Log in if requested; otherwise, the user is expected to already be authenticated via Connect-AzAccount.
-Write-Verbose "APPLICATION ID VALUE $($ProvisionerApplicationId)"
 if ($ProvisionerApplicationId) {
     $null = Disable-AzContextAutosave -Scope Process
 
