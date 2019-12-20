@@ -15,13 +15,13 @@
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running receiveEvents sample`);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
@@ -47,6 +47,8 @@ export async function main() {
     console.log(`Exiting receiveEvents sample`);
   }, 30 * 1000);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);

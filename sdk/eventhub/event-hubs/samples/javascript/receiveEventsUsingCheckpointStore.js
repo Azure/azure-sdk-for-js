@@ -21,7 +21,7 @@ const { ContainerClient } = require("@azure/storage-blob");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
@@ -29,7 +29,7 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 const storageConnectionString = process.env["STORAGE_CONNECTION_STRING"] || "";
 const containerName = process.env["STORAGE_CONTAINER_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running receiveEventsUsingCheckpointStore sample`);
 
   // this client will be used by our eventhubs-checkpointstore-blob, which
@@ -66,7 +66,9 @@ export async function main() {
       }
 
       console.log(
-        `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: '${context.partitionId}'`
+        `Successfully checkpointed event with sequence number: ${
+          events[events.length - 1].sequenceNumber
+        } from partition: '${context.partitionId}'`
       );
     },
     processError: async (err, context) => {
@@ -81,6 +83,8 @@ export async function main() {
     console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
   }, 30 * 1000);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);

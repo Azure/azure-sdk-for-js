@@ -27,7 +27,7 @@ const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 // Define Event Hubs Endpoint and related entity name here here
 const eventHubsFullyQualifiedName = process.env["EVENTHUB_FQDN"] || ""; // <your-eventhubs-namespace>.servicebus.windows.net
@@ -36,7 +36,7 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
 // Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
 
-export async function main() {
+async function main() {
   console.log(`Running usingAadAuth sample`);
 
   const credential = new DefaultAzureCredential();
@@ -56,6 +56,8 @@ export async function main() {
 
   console.log(`Exiting usingAadAuth sample`);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);

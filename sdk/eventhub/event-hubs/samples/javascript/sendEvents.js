@@ -12,13 +12,13 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running sendEvents sample`);
 
   const producer = new EventHubProducerClient(connectionString, eventHubName);
@@ -106,6 +106,8 @@ export async function main() {
 
   console.log(`Exiting sendEvents sample`);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);

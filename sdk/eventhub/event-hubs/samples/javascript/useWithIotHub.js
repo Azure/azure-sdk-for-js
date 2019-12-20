@@ -8,7 +8,7 @@
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 // Define IoT Hub Event Hubs-compatible connection string here.
 // To find the correct connection string to use, visit:
@@ -16,7 +16,7 @@ require("dotenv").config({ path: "../.env" });
 const connectionString = process.env["IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running useWithIotHub sample`);
 
   const client = new EventHubConsumerClient(consumerGroup, connectionString);
@@ -29,6 +29,8 @@ export async function main() {
   await client.close();
   console.log(`Exiting useWithIotHub sample`);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);

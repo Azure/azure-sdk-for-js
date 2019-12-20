@@ -21,7 +21,7 @@ const httpsProxyAgent = require("https-proxy-agent");
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -35,7 +35,7 @@ const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
 const proxyAgent = new httpsProxyAgent(urlParts);
 
-export async function main() {
+async function main() {
   console.log(`Running websockets sample`);
 
   const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
@@ -52,6 +52,8 @@ export async function main() {
   await client.close();
   console.log(`Exiting websockets sample`);
 }
+
+module.exports = { main };
 
 main().catch((error) => {
   console.error("Error running sample:", error);
