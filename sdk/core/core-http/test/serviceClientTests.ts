@@ -26,6 +26,7 @@ import {
   OperationSpec
 } from "../lib/coreHttp";
 import { ParameterPath } from "../lib/operationParameter";
+import { OperationOptions } from "../lib/operationOptions";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -1044,6 +1045,54 @@ describe("ServiceClient", function() {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
+  });
+
+  it("should support OperationOptions", async function() {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient
+    });
+
+    const spanOptions = {
+      parent: {
+        traceId: "123",
+        spanId: "456"
+      }
+    };
+
+    const operationOptions: OperationOptions = {
+      requestOptions: {
+        timeout: 42,
+        customHeaders: {
+          "X-Use": "TheForce"
+        }
+      },
+      tracingOptions: {
+        spanOptions
+      }
+    };
+
+    const response: RestResponse = await client1.sendOperationRequest(
+      {
+        options: operationOptions
+      },
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {}
+      }
+    );
+
+    const request = response._response.request;
+    assert.strictEqual(request.timeout, 42);
+    assert.strictEqual(request.headers.get("X-Use"), "TheForce");
+    assert.deepStrictEqual(request.spanOptions, spanOptions);
   });
 });
 

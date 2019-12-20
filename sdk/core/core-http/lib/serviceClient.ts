@@ -52,6 +52,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { isOperationOptions, OperationRequestOptions } from "./operationOptions";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -415,33 +416,31 @@ export class ServiceClient {
         }
       }
 
-      const options: RequestOptionsBase | undefined = operationArguments.options;
+      const options = operationArguments.options;
       if (options) {
-        if (options.customHeaders) {
-          for (const customHeaderName in options.customHeaders) {
-            httpRequest.headers.set(customHeaderName, options.customHeaders[customHeaderName]);
+        let requestOptions: RequestOptionsBase | OperationRequestOptions;
+        if (isOperationOptions(options)) {
+          requestOptions = options.requestOptions || {};
+          httpRequest.spanOptions = options.tracingOptions
+            ? options.tracingOptions.spanOptions
+            : undefined;
+        } else {
+          requestOptions = options;
+          httpRequest.spanOptions = options.spanOptions;
+        }
+        if (requestOptions.customHeaders) {
+          for (const customHeaderName in requestOptions.customHeaders) {
+            httpRequest.headers.set(
+              customHeaderName,
+              requestOptions.customHeaders[customHeaderName]
+            );
           }
         }
 
-        if (options.abortSignal) {
-          httpRequest.abortSignal = options.abortSignal;
-        }
-
-        if (options.timeout) {
-          httpRequest.timeout = options.timeout;
-        }
-
-        if (options.onUploadProgress) {
-          httpRequest.onUploadProgress = options.onUploadProgress;
-        }
-
-        if (options.onDownloadProgress) {
-          httpRequest.onDownloadProgress = options.onDownloadProgress;
-        }
-
-        if (options.spanOptions) {
-          httpRequest.spanOptions = options.spanOptions;
-        }
+        httpRequest.abortSignal = options.abortSignal;
+        httpRequest.timeout = requestOptions.timeout || 0;
+        httpRequest.onUploadProgress = requestOptions.onUploadProgress;
+        httpRequest.onDownloadProgress = requestOptions.onDownloadProgress;
       }
 
       httpRequest.withCredentials = this._withCredentials;

@@ -20,6 +20,22 @@ export interface OperationOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+const OperationOptionsValues: Set<string> = new Set<keyof OperationOptions>([
+  "abortSignal",
+  "requestOptions",
+  "tracingOptions"
+]);
+
+/**
+ * Returns true if `options` adheres to the `OperationOptions` interface.
+ * @param options  An options bag that is either an `OperationOptions` or a `RequestOptionsBase`
+ */
+export function isOperationOptions(
+  options: OperationOptions | RequestOptionsBase
+): options is OperationOptions {
+  return Object.keys(options).every((value) => OperationOptionsValues.has(value));
+}
+
 export interface OperationTracingOptions {
   /**
    * OpenTelemetry SpanOptions used to create a span when tracing is enabled.

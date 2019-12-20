@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestOptionsBase } from "./webResource";
+import { OperationOptions } from "./operationOptions";
 
 /**
  * A collection of properties that apply to a single invocation of an operation.
@@ -15,5 +16,5 @@ export interface OperationArguments {
   /**
    * The optional arugments that are provided to an operation.
    */
-  options?: RequestOptionsBase;
+  options?: RequestOptionsBase | OperationOptions;
 }

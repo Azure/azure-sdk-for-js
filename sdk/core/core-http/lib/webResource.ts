@@ -382,6 +382,10 @@ export class WebResource {
       result.operationResponseGetter = this.operationResponseGetter;
     }
 
+    if (this.spanOptions) {
+      result.spanOptions = this.spanOptions;
+    }
+
     return result;
   }
 }
