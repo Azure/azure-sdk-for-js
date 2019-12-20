@@ -34,3 +34,4 @@ export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export { CloseReason, CheckpointStore, PartitionOwnership } from "./eventProcessor";
 export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";
+export { logger } from "./log";

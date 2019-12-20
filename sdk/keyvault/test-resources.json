@@ -2,35 +2,46 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "unique_id": {
-      "type": "String"
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+          "description": "The base resource name."
+      }
     },
-    "tenant_id": {
-      "type": "String"
+    "tenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The tenant ID to which the application and resources belong."
+      }
     },
-    "test_app_id": {
-      "type": "String"
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client ID used to run tests."
+      }
     }
   },
   "variables": {
-    "location": "[resourceGroup().location]"
+    "location": "[resourceGroup().location]",
+    "keyVaultName": "[parameters('baseName')]"
   },
   "resources": [
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2016-10-01",
-      "name": "[parameters('unique_id')]",
+      "name": "[variables('keyVaultName')]",
       "location": "[variables('location')]",
       "properties": {
         "sku": {
           "family": "A",
           "name": "standard"
         },
-        "tenantId": "[parameters('tenant_id')]",
+        "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
           {
-            "tenantId": "[parameters('tenant_id')]",
-            "objectId": "[parameters('test_app_id')]",
+            "tenantId": "[parameters('tenantId')]",
+            "objectId": "[parameters('testApplicationOid')]",
             "permissions": {
               "keys": [
                 "backup",
@@ -50,7 +61,16 @@
                 "verify",
                 "wrapKey"
               ],
-              "secrets": ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"],
+              "secrets": [
+                "backup",
+                "delete",
+                "get",
+                "list",
+                "purge",
+                "recover",
+                "restore",
+                "set"
+              ],
               "certificates": [
                 "backup",
                 "create",
@@ -68,7 +88,7 @@
                 "restore",
                 "setissuers",
                 "update"
-              ]
+              ]  
             }
           }
         ],
@@ -78,5 +98,11 @@
         "enableSoftDelete": true
       }
     }
-  ]
+  ],
+  "outputs": {
+    "KEYVAULT_NAME": {
+      "type": "string",
+      "value": "[variables('keyVaultName')]"
+    }
+  }
 }

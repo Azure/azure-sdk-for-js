@@ -31,7 +31,6 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "cross-env": "^6.0.3",
     "rimraf": "^3.0.0"
   }
 }

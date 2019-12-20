@@ -5,7 +5,10 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -16,14 +19,12 @@ async function main() {
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+  const containerClient = new ContainerClient(
+    `https://${account}.blob.core.windows.net/${containerName}`,
+    sharedKeyCredential
+  );
 
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);

@@ -1,19 +1,16 @@
 {
     "include": [
-      "dist-esm/test/*.spec.js",
-      "dist-esm/test/node/*.spec.js"
+      "dist-esm/src/**/*.js"
     ],
     "exclude": [
       "**/*.d.ts",
-      "src/credentials/SharedKeyCredential.browser.ts",
-      "src/models.ts",
-      "src/generated/lib/storageClient.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
+      "dist-esm/src/StorageBrowserPolicyFactory.js",
+      "dist-esm/src/policies/StorageBrowserPolicy.js",
+      "dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
+      "dist-esm/src/models.js",
+      "dist-esm/src/index.browser.js",
+      "dist-esm/src/utils/utils.browser.js",
+      "dist-esm/src/generated/src/storageClient.js"
     ],
     "reporter": [
       "text-summary",

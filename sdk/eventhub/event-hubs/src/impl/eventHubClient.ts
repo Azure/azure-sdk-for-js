@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "../log";
+import { logger, logErrorStackTrace } from "../log";
 import { WebSocketImpl } from "rhea-promise";
 import {
   TokenCredential,
@@ -449,13 +449,14 @@ export class EventHubClient {
         await this._context.managementSession!.close();
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;
-        log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
+        logger.info("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(
+      logger.warning(
         `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -575,7 +576,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the hub runtime information: %O", err);
+      logger.warning("An error occurred while getting the hub runtime information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -608,7 +610,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition ids: %O", err);
+      logger.warning("An error occurred while getting the partition ids: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -648,7 +651,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition information: %O", err);
+      logger.warning("An error occurred while getting the partition information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();

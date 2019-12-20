@@ -151,6 +151,9 @@ export interface LastEnqueuedEventProperties {
     sequenceNumber?: number;
 }
 
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
 export { MessagingError }
 
 // @public
