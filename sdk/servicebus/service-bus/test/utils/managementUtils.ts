@@ -105,19 +105,12 @@ export async function recreateQueue(queueName: string, parameters: QueueOptions)
   };
 
   const checkIfQueueExistsOperation = async () => {
-    let queueDetails;
     try {
-      queueDetails = await client.getQueueDetails(queueName);
+      await client.getQueueDetails(queueName);
     } catch (err) {
-      // Ignore error if get() fails
+      return false;
     }
-    if (
-      queueDetails != undefined &&
-      queueDetails.queueName.toLowerCase() == queueName.toLowerCase()
-    ) {
-      return true;
-    }
-    return false;
+    return true;
   };
 
   await retryDeleteManagementEntityOperation(deleteQueueOperation, checkIfQueueExistsOperation);
@@ -136,19 +129,12 @@ export async function recreateTopic(topicName: string, parameters: TopicOptions)
   };
 
   const checkIfTopicExistsOperation = async () => {
-    let topicDetails;
     try {
-      topicDetails = await client.getTopicDetails(topicName);
+      await client.getTopicDetails(topicName);
     } catch (err) {
-      // Ignore error if get() fails
+      return false;
     }
-    if (
-      topicDetails != undefined &&
-      topicDetails.topicName.toLowerCase() == topicName.toLowerCase()
-    ) {
-      return true;
-    }
-    return false;
+    return true;
   };
 
   await retryDeleteManagementEntityOperation(deleteTopicOperation, checkIfTopicExistsOperation);
