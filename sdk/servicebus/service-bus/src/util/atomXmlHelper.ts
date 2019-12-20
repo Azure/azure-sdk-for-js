@@ -319,10 +319,8 @@ function setName(entry: any, nameProperties: any): any {
 }
 
 /**
- * Utility to help construct the normalized `RestError` object based on given `errorBody`
- * data and other data present in the received `response` object.
- *
- * @param errorBody
+ * Utility to help construct the normalized `RestError` object based on given error
+ * information and other data present in the received `response` object.
  * @param response
  */
 export function buildError(response: HttpOperationResponse): RestError {
@@ -367,10 +365,8 @@ export function buildError(response: HttpOperationResponse): RestError {
 
 /**
  * @ignore
- * Helper utility to construct user friendly error codes based on received
- * error information and response.
- *
- * @param errorBody
+ * Helper utility to construct user friendly error codes based on based on given error
+ * information and other data present in the received `response` object.
  * @param response
  */
 export function getErrorCode(response: HttpOperationResponse): string {
