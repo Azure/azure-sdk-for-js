@@ -64,13 +64,15 @@ jobs:
             displayName: Generate $(BaseName)
 
           - pwsh: |
-              $ProvisionerAadId = $env:PROVISIONER_AAD_ID
-              $ProvisionerAadSecret = $env:PROVISIONER_AAD_SECRET
+              $provisionerAadId = $env:PROVISIONER_AAD_ID
+              $provisionerAadSecret = $env:PROVISIONER_AAD_SECRET
+              Write-Host "##vso[task.setvariable variable=ProvisionerAadId;]$provisionerAadId"
+              Write-Host "##vso[task.setvariable variable=ProvisionerAadSecret;]$provisionerAadSecret"
             displayName: Other variables
 
           - pwsh: >-
               eng/New-TestResources.ps1
-              -BaseName $(baseName)
+              -BaseName $(BaseName)
               -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
               -TestApplicationId $(aad-azure-sdk-test-client-id)
               -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
