@@ -34,7 +34,7 @@ import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/parti
 import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
-import { isEarliestEventPosition } from "../src/eventPosition";
+import { isLatestPosition } from "../src/eventPosition";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -78,7 +78,7 @@ describe("Event Processor", function(): void {
         const processor = createEventProcessor(emptyCheckpointStore);
 
         let eventPosition = await processor["_getStartingPosition"]("0");
-        isEarliestEventPosition(eventPosition).should.be.ok;
+        isLatestPosition(eventPosition).should.be.ok;
       });
 
       it("has a checkpoint", async () => {
@@ -144,7 +144,7 @@ describe("Event Processor", function(): void {
         should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
 
         let eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
-        isEarliestEventPosition(eventPositionForPartitionOne).should.be.ok;
+        isLatestPosition(eventPositionForPartitionOne).should.be.ok;
       });
 
       function createEventProcessor(
