@@ -63,28 +63,16 @@ jobs:
               Write-Host "##vso[task.setvariable variable=BaseName;]$baseName"
             displayName: Generate $(BaseName)
 
-          - pwsh: |
-              # $uniqueIdentifier generates a pseudorandom value that represents a unique name that can be used with all resources
-              $uniqueIdentifier =  "t" + [guid]::NewGuid().ToString().Replace("-", "").Substring(0,16)
-              $jobName = "$(Agent.JobName)".Replace(" ", "_")
-              $resourceGroupName = "Tests-$(Build.BuildId)-" + $jobName + "-" + $uniqueIdentifier
-              echo "##vso[task.setvariable variable=ResourceGroupName]$resourceGroupName"
-              echo "##vso[task.setvariable variable=ScopedIdentifier]$uniqueIdentifier"
-              $resourceGroupExpiration = (Get-Date).ToUniversalTime().AddHours(24).ToString("o")
-              az login --service-principal -u $env:PROVISIONER_AAD_ID -p $env:PROVISIONER_AAD_SECRET --tenant $env:PROVISIONER_AAD_TENANT
-              az account set --subscription $env:PROVISIONER_SUBSCRIPTION
-            displayName: Authenticating
-
           - pwsh: >-
               eng/New-TestResources.ps1
-              -BaseName $(baseName)
+              -BaseName $(BaseName)
               -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
               -TestApplicationId $(aad-azure-sdk-test-client-id)
               -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
               -TestApplicationOid $(aad-azure-sdk-test-client-oid)
               -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $(provisioner-aad-id)
-              -ProvisionerApplicationSecret $(provisioner-aad-secret)
+              -ProvisionerApplicationId $env:PROVISIONER_AAD_ID
+              -ProvisionerApplicationSecret $env:PROVISIONER_AAD_SECRET
               -DeleteAfterHours 24
               -Location westus2
               -Force
