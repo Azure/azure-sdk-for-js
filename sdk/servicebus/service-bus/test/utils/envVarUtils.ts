@@ -79,7 +79,7 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
       defaultValue = "unpartitioned-queue-sessions";
       break;
     case EnvVarKeys.TOPIC_NAME:
-      defaultValue = "partitioned-topic";
+      defaultValue = "new-partitioned-topic";
       break;
     case EnvVarKeys.TOPIC_NAME_NO_PARTITION:
       defaultValue = "unpartitioned-topic";
