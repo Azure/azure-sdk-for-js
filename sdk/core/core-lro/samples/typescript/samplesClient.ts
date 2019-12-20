@@ -148,9 +148,9 @@ class SamplePoller extends Poller<SamplePollOperationState, ReturnValue> {
   }
 
   /**
-   * Used to get a publicly safe version of the poller state.
+   * Could be used to get a publicly safe version of the poller state.
    */
-  public getState(): SamplePollOperationState {
+  public getOperationState(): SamplePollOperationState {
     return this.operation.state;
   }
 }

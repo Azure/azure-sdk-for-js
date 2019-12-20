@@ -55,9 +55,9 @@ export class TestNonCancellablePoller extends Poller<TestOperationState, string>
   }
 
   /**
-   * Used to get a publicly safe version of the poller state.
+   * Can be used to get a publicly safe version of the poller state.
    */
-  public getState(): TestOperationState {
+  public getOperationState(): TestOperationState {
     return this.operation.state;
   }
 }
