@@ -28,7 +28,7 @@ describe("QueueClient message methods", () => {
     recorder.stop();
   });
 
-  it.only("enqueue, peek, dequeue and clear message with default parameters", async () => {
+  it("enqueue, peek, dequeue and clear message with default parameters", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
