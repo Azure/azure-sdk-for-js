@@ -12,3 +12,4 @@ jobs:
   - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-file-share"
+      ResourceServiceDirectory: storage

@@ -65,4 +65,4 @@ jobs:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}
       Matrix: ${{ parameters.Matrix }}
-      ResourceServiceDirectory: storage
+      ResourceServiceDirectory: ${{ parameters.ResourceServiceDirectory }}

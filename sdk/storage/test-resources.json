@@ -6,12 +6,13 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-          "description": "The base resource name."
+        "description": "The base resource name."
       }
     }
   },
   "variables": {
     "storageApiVersion": "2019-04-01",
+    "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('datalake', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
@@ -34,14 +35,14 @@
         "keyToSign": "key2",
         "signedExpiry": "[variables('sasTokenExpiry')]"
       }
-    }    
+    }
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "[variables('storageApiVersion')]",
       "name": "[variables('accountName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[variables('location')]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
@@ -112,7 +113,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "[variables('storageApiVersion')]",
       "name": "[variables('datalakeAccountName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[variables('location')]",
       "sku": {
         "name": "Standard_RAGRS",
         "tier": "Standard"
