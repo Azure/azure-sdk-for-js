@@ -147,53 +147,53 @@ describe("Event Processor", function(): void {
         isEarliestEventPosition(eventPositionForPartitionOne).should.be.ok;
       });
 
-function createEventProcessor(
-  checkpointStore: CheckpointStore,
-  fallbackPositions?: FullEventProcessorOptions["fallbackPositions"]
-) {
-  return new EventProcessor(
-    EventHubClient.defaultConsumerGroupName,
-    client,
-    {
-      processEvents: async () => {},
-      processError: async () => {}
-    },
-    checkpointStore,
-    {
-      fallbackPositions,
-      maxBatchSize: 1,
-      maxWaitTimeInSeconds: 1
-    }
-  );
-}
+      function createEventProcessor(
+        checkpointStore: CheckpointStore,
+        startPosition?: FullEventProcessorOptions["startPosition"]
+      ) {
+        return new EventProcessor(
+          EventHubClient.defaultConsumerGroupName,
+          client,
+          {
+            processEvents: async () => {},
+            processError: async () => {}
+          },
+          checkpointStore,
+          {
+            startPosition,
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          }
+        );
+      }
 
-const emptyCheckpointStore = createCheckpointStore([]);
+      const emptyCheckpointStore = createCheckpointStore([]);
 
-function createCheckpointStore(
-  checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
-): CheckpointStore {
-  return {
-    claimOwnership: async () => {
-      return [];
-    },
-    listCheckpoints: async () => {
-      return checkpointsForTest.map((cp) => {
+      function createCheckpointStore(
+        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+      ): CheckpointStore {
         return {
-          fullyQualifiedNamespace: "not-used-for-this-test",
-          consumerGroup: "not-used-for-this-test",
-          eventHubName: "not-used-for-this-test",
-          offset: cp.offset,
-          sequenceNumber: cp.sequenceNumber,
-          partitionId: cp.partitionId
+          claimOwnership: async () => {
+            return [];
+          },
+          listCheckpoints: async () => {
+            return checkpointsForTest.map((cp) => {
+              return {
+                fullyQualifiedNamespace: "not-used-for-this-test",
+                consumerGroup: "not-used-for-this-test",
+                eventHubName: "not-used-for-this-test",
+                offset: cp.offset,
+                sequenceNumber: cp.sequenceNumber,
+                partitionId: cp.partitionId
+              };
+            });
+          },
+          listOwnership: async () => {
+            return [];
+          },
+          updateCheckpoint: async () => {}
         };
-      });
-    },
-    listOwnership: async () => {
-      return [];
-    },
-    updateCheckpoint: async () => {}
-  };
-}    
+      }
     });
 
     describe("_handleSubscriptionError", () => {
@@ -571,7 +571,7 @@ function createCheckpointStore(
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       }
     );
 
@@ -588,7 +588,7 @@ function createCheckpointStore(
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, ownerId: "hello", fallbackPositions: EventPosition.latest() }
+      { ...defaultOptions, ownerId: "hello", startPosition: EventPosition.latest() }
     );
 
     processor.id.should.equal("hello");
@@ -604,7 +604,7 @@ function createCheckpointStore(
 
     const {
       subscriptionEventHandler,
-      fallbackPositions
+      startPosition
     } = await SubscriptionHandlerForTests.startingFromHere(client);
 
     const processor = new EventProcessor(
@@ -615,7 +615,7 @@ function createCheckpointStore(
       {
         ...defaultOptions,
         processingTarget: new GreedyPartitionLoadBalancer(),
-        fallbackPositions: fallbackPositions
+        startPosition: startPosition
       }
     );
 
@@ -653,7 +653,7 @@ function createCheckpointStore(
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       }
     );
 
@@ -671,7 +671,7 @@ function createCheckpointStore(
 
     let {
       subscriptionEventHandler,
-      fallbackPositions
+      startPosition
     } = await SubscriptionHandlerForTests.startingFromHere(client);
     const partitionLoadBalancer = new GreedyPartitionLoadBalancer();
 
@@ -683,7 +683,7 @@ function createCheckpointStore(
       {
         processingTarget: partitionLoadBalancer,
         ...defaultOptions,
-        fallbackPositions: fallbackPositions
+        startPosition: startPosition
       }
     );
 
@@ -726,7 +726,7 @@ function createCheckpointStore(
       const partitionIds = await client.getPartitionIds({});
       const {
         subscriptionEventHandler,
-        fallbackPositions
+        startPosition
       } = await SubscriptionHandlerForTests.startingFromHere(client);
 
       const processor = new EventProcessor(
@@ -737,7 +737,7 @@ function createCheckpointStore(
         {
           ...defaultOptions,
           processingTarget: new GreedyPartitionLoadBalancer(),
-          fallbackPositions: fallbackPositions
+          startPosition: startPosition
         }
       );
 
@@ -860,7 +860,7 @@ function createCheckpointStore(
         inMemoryCheckpointStore,
         {
           ...defaultOptions,
-          fallbackPositions: EventPosition.earliest()
+          startPosition: EventPosition.earliest()
         }
       );
 
@@ -906,7 +906,7 @@ function createCheckpointStore(
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        { ...defaultOptions, fallbackPositions: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: EventPosition.earliest() }
       );
 
       const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
@@ -1094,7 +1094,7 @@ function createCheckpointStore(
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, fallbackPositions: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: EventPosition.earliest() }
       );
 
       processorByName[`processor-1`].start();
@@ -1109,7 +1109,7 @@ function createCheckpointStore(
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, fallbackPositions: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: EventPosition.earliest() }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1190,7 +1190,7 @@ function createCheckpointStore(
           client,
           new FooPartitionProcessor(),
           checkpointStore,
-          { ...defaultOptions, fallbackPositions: EventPosition.earliest() }
+          { ...defaultOptions, startPosition: EventPosition.earliest() }
         );
         processorByName[processorName].start();
         await delay(12000);
@@ -1285,7 +1285,7 @@ function createCheckpointStore(
         inactiveTimeLimitInMs: 3000,
         ownerLevel: 0,
         // For this test we don't want to actually checkpoint, just test ownership.
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       };
 
       const processor1 = new EventProcessor(
@@ -1367,7 +1367,7 @@ function createCheckpointStore(
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
     > {
-      const { fallbackPositions } = await SubscriptionHandlerForTests.startingFromHere(client);
+      const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(client);
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
@@ -1397,7 +1397,7 @@ function createCheckpointStore(
           ...defaultOptions,
           trackLastEnqueuedEventProperties: true,
           processingTarget: new GreedyPartitionLoadBalancer(),
-          fallbackPositions
+          startPosition
         }
       );
 

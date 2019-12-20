@@ -13,8 +13,8 @@ import chai from "chai";
 const should = chai.should();
 
 export interface HandlerAndPositions {
-  fallbackPositions: Map<string, EventPosition>;
-  subscriptionEventHandler: SubscriptionHandlerForTests
+  startPosition: Map<string, EventPosition>;
+  subscriptionEventHandler: SubscriptionHandlerForTests;
 }
 
 export class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
@@ -25,15 +25,18 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
-    const fallbackPositions = new Map<string, EventPosition>();
+    const startPosition = new Map<string, EventPosition>();
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
-      fallbackPositions.set(props.partitionId, EventPosition.fromSequenceNumber(props.lastEnqueuedSequenceNumber));
+      startPosition.set(
+        props.partitionId,
+        EventPosition.fromSequenceNumber(props.lastEnqueuedSequenceNumber)
+      );
     }
 
     return {
-      fallbackPositions: fallbackPositions,
+      startPosition: startPosition,
       subscriptionEventHandler: new SubscriptionHandlerForTests()
     };
   }
@@ -61,12 +64,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
 
-    this.events.push(...events.map(event => {
-      return {
-        event,
-        partitionId: context.partitionId
-      }
-    }));
+    this.events.push(
+      ...events.map((event) => {
+        return {
+          event,
+          partitionId: context.partitionId
+        };
+      })
+    );
   }
 
   async processError(err: Error, context: PartitionContext) {
@@ -95,7 +100,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   async waitForFullEvents(
     partitionIds: string[],
     countOfExpectedEvents?: number
-  ): Promise<{ partitionId: string, event: ReceivedEventData }[]> {
+  ): Promise<{ partitionId: string; event: ReceivedEventData }[]> {
     const startTime = Date.now();
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
@@ -108,9 +113,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
         if (Date.now() - startTime > this._maxTimeToWaitSeconds * 1000) {
           throw new Error(
-            `Waiting _way_ too long for messages to arrive (got ${
-              this.events.length
-            } out of ${countOfExpectedEvents})`
+            `Waiting _way_ too long for messages to arrive (got ${this.events.length} out of ${countOfExpectedEvents})`
           );
         }
       } else {
@@ -130,12 +133,13 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     countOfExpectedEvents?: number
   ): Promise<{ partitionId: string; body: string }[]> {
     const events = await this.waitForFullEvents(partitionIds, countOfExpectedEvents);
-    
-    return events.map(eventAndPartitionId => {
+
+    return events.map((eventAndPartitionId) => {
       return {
         body: eventAndPartitionId.event.body,
         partitionId: eventAndPartitionId.partitionId
-      }});
+      };
+    });
   }
 
   clear() {

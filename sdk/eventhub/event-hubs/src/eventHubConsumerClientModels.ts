@@ -144,9 +144,9 @@ export interface SubscribeOptions extends TracingOptions {
    */
   maxWaitTimeInSeconds?: number;
   /**
-   * A fallback partition position used if no checkpoint is found.
+   * The starting partition position used if no checkpoint is found.
    */
-  fallbackPositions?: EventPosition | Map<string, EventPosition>;
+  startPosition?: EventPosition | Map<string, EventPosition>;
 }
 
 /**

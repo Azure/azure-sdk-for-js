@@ -343,7 +343,7 @@ export class EventProcessor {
     logger.verbose(`[${this._id}] PartitionPump created successfully.`);
   }
 
-  private async _getStartingPosition(partitionIdToClaim: string) : Promise<EventPosition> {
+  private async _getStartingPosition(partitionIdToClaim: string): Promise<EventPosition> {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
@@ -358,8 +358,10 @@ export class EventProcessor {
       return EventPosition.fromOffset(validCheckpoints[0].offset);
     }
 
-    log.eventProcessor(`No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`);
-    return getFallbackPosition(partitionIdToClaim, this._processorOptions.fallbackPositions);
+    logger.verbose(
+      `No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`
+    );
+    return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
   private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
@@ -576,22 +578,25 @@ function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
 }
 
-function getFallbackPosition(partitionIdToClaim: string, fallbackPositions?: EventPosition | Map<string, EventPosition>) : EventPosition {
-  if (fallbackPositions == null) {
-    return EventPosition.earliest();
+function getStartPosition(
+  partitionIdToClaim: string,
+  startPositions?: EventPosition | Map<string, EventPosition>
+): EventPosition {
+  if (startPositions == null) {
+    return EventPosition.latest();
   }
 
-  if (fallbackPositions instanceof EventPosition) {
-    return fallbackPositions;
+  if (startPositions instanceof EventPosition) {
+    return startPositions;
   }
 
-  const fallbackPosition = fallbackPositions.get(partitionIdToClaim);
-  
-  if (fallbackPosition == null) {
-    return EventPosition.earliest();
+  const startPosition = startPositions.get(partitionIdToClaim);
+
+  if (startPosition == null) {
+    return EventPosition.latest();
   }
 
-  return fallbackPosition;
+  return startPosition;
 }
 
 function targetWithoutOwnership(target: PartitionLoadBalancer | string): target is string {

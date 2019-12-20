@@ -252,7 +252,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscription = clients[0].subscribe("0", tester, {
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       });
 
       subscriptions.push(subscription);
@@ -289,7 +289,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscription = clients[0].subscribe(tester, {
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       });
 
       await tester.runTestAndPoll(producerClient);
@@ -329,7 +329,7 @@ describe("EventHubConsumerClient", () => {
 
       for (const partitionId of await partitionIds) {
         const subscription = clients[0].subscribe(partitionId, tester, {
-          fallbackPositions: EventPosition.latest()
+          startPosition: EventPosition.latest()
         });
         subscriptions.push(subscription);
       }
@@ -371,7 +371,7 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = clients[0].subscribe(tester, {
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       });
       subscriptions.push(subscriber1);
 
@@ -387,7 +387,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscriber2 = clients[1].subscribe(tester, {
-        fallbackPositions: EventPosition.latest()
+        startPosition: EventPosition.latest()
       });
       subscriptions.push(subscriber2);
 
