@@ -326,27 +326,26 @@ function setName(entry: any, nameProperties: any): any {
  * @param response
  */
 export function buildError(response: HttpOperationResponse): RestError {
-  const errorBody = response.parsedBody;
-
-  if (errorBody == undefined) {
-    const HttpResponseCodes: any = Constants.HttpResponseCodes;
-    const statusCode = response.status;
+  if (!isKnownResponseCode(response.status)) {
     throw new RestError(
-      "Service returned an error response.",
-      isKnownResponseCode(statusCode)
-        ? HttpResponseCodes[statusCode]
-        : `UnrecognizedHttpResponseStatus: ${statusCode}`,
+      `Service returned an error response with an unrecognized HTTP status code - ${response.status}`,
+      "ServiceError",
       response.status,
       stripRequest(response.request),
       stripResponse(response)
     );
   }
 
+  const errorBody = response.parsedBody;
   let errorMessage;
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    if (errorBody.Error == undefined || errorBody.Error.Detail == undefined) {
+    if (
+      errorBody == undefined ||
+      errorBody.Error == undefined ||
+      errorBody.Error.Detail == undefined
+    ) {
       errorMessage =
         "Detailed error message information not available. Look at the 'code' property on error for more information.";
     } else {
@@ -374,7 +373,7 @@ export function buildError(response: HttpOperationResponse): RestError {
  * @param errorBody
  * @param response
  */
-export function getErrorCode(response: HttpOperationResponse): string | undefined {
+export function getErrorCode(response: HttpOperationResponse): string {
   const errorBody = response.parsedBody;
   let errorMessage: string = "";
   if (
@@ -419,6 +418,10 @@ export function getErrorCode(response: HttpOperationResponse): string | undefine
 
   if (response.status == 503) {
     return "ServerBusyError";
+  }
+
+  if (isKnownResponseCode(response.status)) {
+    return (Constants.HttpResponseCodes as { [statusCode: number]: string })[response.status];
   }
 
   return "ServiceError";

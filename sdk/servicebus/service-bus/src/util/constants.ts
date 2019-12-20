@@ -297,17 +297,49 @@ export const XML_VALUE_MARKER = "_";
  */
 export const ATOM_METADATA_MARKER = "_";
 
+/**
+ * Known HTTP status codes as documented and referenced in ATOM based management API feature
+ * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+ */
 export const HttpResponseCodes = {
+  100: "Continue",
+  101: "SwitchingProtocols",
   200: "Ok",
   201: "Created",
   202: "Accepted",
+  203: "NonAuthoritativeInformation",
   204: "NoContent",
+  205: "ResetContent",
   206: "PartialContent",
+  300: "MultipleChoices",
+  301: "Moved",
+  302: "Redirect",
+  303: "RedirectMethod",
+  304: "NotModified",
+  305: "UseProxy",
+  306: "Unused",
   400: "BadRequest",
   401: "Unauthorized",
+  402: "PaymentRequired",
   403: "Forbidden",
   404: "NotFound",
+  405: "MethodNotAllowed",
+  406: "NotAcceptable",
+  407: "ProxyAuthenticationRequired",
   409: "Conflict",
+  410: "Gone",
   411: "LengthRequired",
-  412: "PreconditionFailed"
+  412: "PreconditionFailed",
+  413: "RequestEntityTooLarge",
+  414: "RequestUriTooLong",
+  415: "UnsupportedMediaType",
+  416: "RequestRangeNotSatisfiable",
+  417: "ExpectationFailed",
+  426: "UpgradeRequired",
+  500: "InternalServerError",
+  501: "NotImplemented",
+  502: "BadGateway",
+  503: "ServiceUnavailable",
+  504: "GatewayTimeout",
+  505: "HttpVersionNotSupported"
 };

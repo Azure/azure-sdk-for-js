@@ -188,13 +188,13 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
     } catch (err) {
       assert.equal(
         err.message,
-        "Service returned an error response.",
-        `Message expected to be "Service returned an error response." but received ${err.message}`
+        "Service returned an error response with an unrecognized HTTP status code - 666",
+        `Message expected to be "Service returned an error response with an unrecognized HTTP status code - 666" but received ${err.message}`
       );
       assert.equal(
         err.code,
-        "UnrecognizedHttpResponseStatus: 666",
-        `Code expected to be "UnrecognizedHttpResponseStatus: 666" but received ${err.code}`
+        "ServiceError",
+        `Code expected to be "ServiceError" but received ${err.code}`
       );
     }
   });
@@ -735,7 +735,7 @@ class MockSerializer implements AtomXmlSerializer {
   {
     testCaseTitle: `Receives useful error message when service returned information doesn't have the 'Detail' property defined`,
     input: {
-      responseStatus: 500,
+      responseStatus: 400,
       body: { Error: { NoDetails: "no Detail property available" } }
     },
     output: {
@@ -780,6 +780,140 @@ class MockSerializer implements AtomXmlSerializer {
             `Expected error message to be "${testCase.output.errorMessage} "`
           );
         }
+      }
+    });
+  });
+});
+
+[
+  {
+    responseStatus: 100,
+    errorCode: "Continue"
+  },
+  {
+    responseStatus: 101,
+    errorCode: "SwitchingProtocols"
+  },
+  {
+    responseStatus: 300,
+    errorCode: "MultipleChoices"
+  },
+  {
+    responseStatus: 301,
+    errorCode: "Moved"
+  },
+  {
+    responseStatus: 302,
+    errorCode: "Redirect"
+  },
+  {
+    responseStatus: 303,
+    errorCode: "RedirectMethod"
+  },
+  {
+    responseStatus: 304,
+    errorCode: "NotModified"
+  },
+  {
+    responseStatus: 305,
+    errorCode: "UseProxy"
+  },
+  {
+    responseStatus: 306,
+    errorCode: "Unused"
+  },
+  {
+    responseStatus: 402,
+    errorCode: "PaymentRequired"
+  },
+  {
+    responseStatus: 405,
+    errorCode: "MethodNotAllowed"
+  },
+  {
+    responseStatus: 406,
+    errorCode: "NotAcceptable"
+  },
+  {
+    responseStatus: 407,
+    errorCode: "ProxyAuthenticationRequired"
+  },
+  {
+    responseStatus: 410,
+    errorCode: "Gone"
+  },
+  {
+    responseStatus: 411,
+    errorCode: "LengthRequired"
+  },
+  {
+    responseStatus: 412,
+    errorCode: "PreconditionFailed"
+  },
+  {
+    responseStatus: 413,
+    errorCode: "RequestEntityTooLarge"
+  },
+  {
+    responseStatus: 414,
+    errorCode: "RequestUriTooLong"
+  },
+  {
+    responseStatus: 415,
+    errorCode: "UnsupportedMediaType"
+  },
+  {
+    responseStatus: 416,
+    errorCode: "RequestRangeNotSatisfiable"
+  },
+  {
+    responseStatus: 417,
+    errorCode: "ExpectationFailed"
+  },
+  {
+    responseStatus: 426,
+    errorCode: "UpgradeRequired"
+  },
+  {
+    responseStatus: 500,
+    errorCode: "InternalServerError"
+  },
+  {
+    responseStatus: 501,
+    errorCode: "NotImplemented"
+  },
+  {
+    responseStatus: 502,
+    errorCode: "BadGateway"
+  },
+  {
+    responseStatus: 504,
+    errorCode: "GatewayTimeout"
+  },
+  {
+    responseStatus: 505,
+    errorCode: "HttpVersionNotSupported"
+  }
+].forEach((testCase) => {
+  describe(`Verify error code mapping for non-specialized failed HTTP status codes #RunInBrowser`, function(): void {
+    it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
+      mockServiceBusAtomManagementClient.sendRequest = async () => {
+        return {
+          request: new WebResource(),
+          status: testCase.responseStatus,
+          headers: new HttpHeaders()
+        };
+      };
+
+      try {
+        await mockServiceBusAtomManagementClient.createQueue("test", testCase as any);
+        assert.equal(true, false, "Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.code,
+          testCase.errorCode,
+          `Expected error code to be "${testCase.errorCode}", but received "${err.code}"`
+        );
       }
     });
   });

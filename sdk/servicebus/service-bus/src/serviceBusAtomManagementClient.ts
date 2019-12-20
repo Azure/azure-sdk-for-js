@@ -327,6 +327,18 @@ export interface ListRulesResponse extends Array<Rule> {
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
+ *
+ * @throws RestError for all of the operations with code as -
+ * `UnauthorizedRequestError` when given request fails due to authorization problems,
+ * `MessageEntityNotFoundError` when requested messaging entity does not exist,
+ * `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+ * `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+ * `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+ * `ServerBusyError` when the request fails due to server being busy,
+ * `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+ * bad requests or requests resulting in conflict operations,
+ * or the code can be a value from the standard set of HTTP status codes as documented at
+ * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
