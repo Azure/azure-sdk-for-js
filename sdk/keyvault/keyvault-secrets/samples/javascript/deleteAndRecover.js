@@ -22,8 +22,8 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword1112923";
-  const storageAccountSecretName = "StorageAccountPassword1112923";
+  const bankAccountSecretName = "secretDeleteAndRecoverJS1";
+  const storageAccountSecretName = "secretDeleteAndRecoverJS2";
 
   // Create our secrets
   console.log("Creating our secrets");

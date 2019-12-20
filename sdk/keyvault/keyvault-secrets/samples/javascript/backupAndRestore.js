@@ -42,7 +42,7 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const secretName = "StorageAccountPassword19312312";
+  const secretName = "secretBackupAndRestoreJS";
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

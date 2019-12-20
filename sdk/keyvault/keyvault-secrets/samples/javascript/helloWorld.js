@@ -20,7 +20,7 @@ async function main() {
   const client = new SecretClient(url, credential);
 
   // Create a secret
-  const secretName = "MySecretName91231";
+  const secretName = "secretHelloWorldJS";
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 

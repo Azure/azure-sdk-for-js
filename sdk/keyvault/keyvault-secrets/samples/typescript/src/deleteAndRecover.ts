@@ -23,8 +23,8 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword11";
-  const storageAccountSecretName = "StorageAccountPassword11";
+  const bankAccountSecretName = "secretDeleteAndRecoverTS1";
+  const storageAccountSecretName = "secretDeleteAndRecoverTS2";
 
   // Create our secrets
   console.log("Creating our secrets");
