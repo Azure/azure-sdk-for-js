@@ -8,18 +8,22 @@
       "metadata": {
           "description": "The base resource name."
       }
-    },
-    "utcDateYYYY": {
-      "type": "string",
-      "defaultValue": "[utcNow('yyyy')]"
-    },    
+    }
+  },
+  "variables": {
+    "storageApiVersion": "2019-04-01",
+    "accountName": "[parameters('baseName')]",
+    "datalakeAccountName": "[concat('datalake', parameters('baseName'))]",
+    "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
+    "utcDateYYYY": "3000",
     "endpointSuffix": {
       "type": "string",
       "defaultValue": "core.windows.net"
     },
     "sasTokenExpiry": {
       "type": "string",
-      "defaultValue": "[concat(add(int(parameters('utcDateYYYY')), 1), '-01-01T23:59:00Z')]"
+      "defaultValue": "[concat(add(int(variables('utcDateYYYY')), 1), '-01-01T23:59:00Z')]"
     },
     "accountSasProperties": {
       "type": "object",
@@ -28,16 +32,9 @@
         "signedPermission": "rl",
         "signedResourceTypes": "sco",
         "keyToSign": "key2",
-        "signedExpiry": "[parameters('sasTokenExpiry')]"
+        "signedExpiry": "[variables('sasTokenExpiry')]"
       }
     }    
-  },
-  "variables": {
-    "storageApiVersion": "2019-04-01",
-    "accountName": "[parameters('baseName')]",
-    "datalakeAccountName": "[concat('datalake', parameters('baseName'))]",
-    "accountNameTidy": "[toLower(trim(variables('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]"
   },
   "resources": [
     {
@@ -199,7 +196,7 @@
     },
     "STORAGE_ACCOUNT_SAS": {
       "type": "string",
-      "value": "[concat('BlobEndpoint=',variables('blobEndPoint'),';SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), parameters('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('BlobEndpoint=',variables('blobEndPoint'),';SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
