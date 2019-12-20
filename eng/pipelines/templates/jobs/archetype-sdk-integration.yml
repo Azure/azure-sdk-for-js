@@ -63,6 +63,11 @@ jobs:
               Write-Host "##vso[task.setvariable variable=BaseName;]$baseName"
             displayName: Generate $(BaseName)
 
+          - pwsh: |
+              Write-Host "##vso[task.setvariable variable=ProvisionerAadId;]$env:PROVISIONER_AAD_ID"
+              Write-Host "##vso[task.setvariable variable=ProvisionerAadSecret;]$env:PROVISIONER_AAD_SECRET"
+            displayName: Other variables
+
           - pwsh: >-
               eng/New-TestResources.ps1
               -BaseName $(BaseName)
@@ -71,8 +76,8 @@ jobs:
               -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
               -TestApplicationOid $(aad-azure-sdk-test-client-oid)
               -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $env:PROVISIONER_AAD_ID
-              -ProvisionerApplicationSecret $env:PROVISIONER_AAD_SECRET
+              -ProvisionerApplicationId $(ProvisionerAadId)
+              -ProvisionerApplicationSecret $(ProvisionerAadSecret)
               -DeleteAfterHours 24
               -Location westus2
               -Force
