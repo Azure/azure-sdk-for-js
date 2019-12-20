@@ -65,8 +65,10 @@ async function main() {
       break;
     }
 
-    const secret = await client.getSecret(value.name);
-    console.log("version: ", secret);
+    if (value.enabled) {
+      const secret = await client.getSecret(value.name);
+      console.log("version: ", secret);
+    }
   }
 
   await client.beginDeleteSecret(bankAccountSecretName);

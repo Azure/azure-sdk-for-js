@@ -49,8 +49,10 @@ export async function main(): Promise<void> {
   for await (const secretProperties of client.listPropertiesOfSecretVersions(
     bankAccountSecretName
   )) {
-    const secret = await client.getSecret(secretProperties.name);
-    console.log("secret version: ", secret);
+    if (secretProperties.enabled) {
+      const secret = await client.getSecret(secretProperties.name);
+      console.log("secret version: ", secret);
+    }
   }
 
   await client.beginDeleteSecret(bankAccountSecretName);
