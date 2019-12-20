@@ -34,7 +34,7 @@ param (
     [string] $TenantId,
 
     [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
-    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+    [ValidateNotNullOrEmpty()]
     [string] $ProvisionerApplicationId,
 
     [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
