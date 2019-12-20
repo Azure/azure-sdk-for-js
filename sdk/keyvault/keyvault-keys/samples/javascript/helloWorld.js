@@ -18,9 +18,9 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeyClient(url, credential);
 
-  const keyName = "MyKeyName53";
-  const ecKeyName = "MyECKeyName53";
-  const rsaKeyName = "MyRSAKeyName53";
+  const keyName = "MyKeyNameCertificates";
+  const ecKeyName = "MyECKeyNameCertificates";
+  const rsaKeyName = "MyRSAKeyNameCertificates";
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
