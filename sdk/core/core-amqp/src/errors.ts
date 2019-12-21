@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
+import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError, AmqpError } from "rhea-promise";
 import { isNode } from "../src/util/utils";
 
 /**
@@ -442,9 +442,13 @@ export enum ErrorNameConditionMapper {
  */
 export class MessagingError extends Error {
   /**
-   * @property {string} [condition] The error condition.
+   * A string label that identifies the error.
    */
-  condition?: string;
+  code?: string;
+  /**
+   * The amqp error condition.
+   */
+  amqpCondition?: string;
   /**
    * @property {string} name The error name. Default value: "MessagingError".
    */
@@ -464,9 +468,23 @@ export class MessagingError extends Error {
   info?: any;
   /**
    * @param {string} message The error message that provides more information about the error.
+   * @param originalError An error whose properties will be copied to the MessagingError if the
+   * propert doesn't already exist.
    */
-  constructor(message: string) {
+  constructor(message: string, originalError?: Error) {
     super(message);
+
+    // copy properties from the original error.
+    if (!originalError) {
+      return;
+    }
+
+    // can consider using a mixin instead but not sure this gives us much value over casting to any
+    for (const propName of Object.keys(originalError)) {
+      if (!Object.prototype.hasOwnProperty.call(this, propName)) {
+        (this as any)[propName] = (originalError as any)[propName];
+      }
+    }
   }
 }
 
@@ -519,8 +537,10 @@ export function isSystemError(err: any): boolean {
   if (
     err.code &&
     typeof err.code === "string" &&
-    (err.syscall && typeof err.syscall === "string") &&
-    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))
+    err.syscall &&
+    typeof err.syscall === "string" &&
+    err.errno &&
+    (typeof err.errno === "string" || typeof err.errno === "number")
   ) {
     result = true;
   }
@@ -548,46 +568,43 @@ function isBrowserWebsocketError(err: any): boolean {
 }
 
 /**
- * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
+ * Translates the AQMP error received at the protocol layer or a SystemError into a MessagingError.
+ * All other errors are returned unaltered.
  *
  * @param {AmqpError} err The amqp error that was received.
  * @returns {MessagingError} MessagingError object.
  */
-export function translate(err: AmqpError | Error): MessagingError {
+export function translate(err: AmqpError | Error): MessagingError | Error {
   if ((err as MessagingError).translated) {
     // already translated
     return err as MessagingError;
   }
 
-  let error: MessagingError = err as MessagingError;
-
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
   if (err instanceof TypeError || err instanceof RangeError) {
-    error.retryable = false;
-    return error;
+    return err;
   }
 
   if (isAmqpError(err)) {
     // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
-    error = new MessagingError(description);
+    const error = new MessagingError(description);
     if ((err as any).stack) error.stack = (err as any).stack;
     error.info = (err as AmqpError).info;
-    error.condition = condition;
+    error.amqpCondition = condition;
     if (condition) {
-      error.name = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
+      error.code = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
-    if (!error.name) error.name = "MessagingError";
     if (
       description &&
       (description.includes("status-code: 404") ||
         description.match(/The messaging entity .* could not be found.*/i) !== null)
     ) {
-      error.name = "MessagingEntityNotFoundError";
+      error.code = "MessagingEntityNotFoundError";
     }
-    if (retryableErrors.indexOf(error.name) === -1) {
+    if (error.code && retryableErrors.indexOf(error.code) === -1) {
       // not found
       error.retryable = false;
     }
@@ -598,14 +615,16 @@ export function translate(err: AmqpError | Error): MessagingError {
     // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
-    error = new MessagingError(description);
+    const error = new MessagingError(description, err);
     if ((err as any).stack) error.stack = (err as any).stack;
+    let errorType = "SystemError";
     if (condition) {
-      const amqpErrorCondition = SystemErrorConditionMapper[condition as keyof typeof SystemErrorConditionMapper];
-      error.name = ConditionErrorNameMapper[amqpErrorCondition as keyof typeof ConditionErrorNameMapper];
+      const amqpErrorCondition =
+        SystemErrorConditionMapper[condition as keyof typeof SystemErrorConditionMapper];
+      errorType =
+        ConditionErrorNameMapper[amqpErrorCondition as keyof typeof ConditionErrorNameMapper];
     }
-    if (!error.name) error.name = "SystemError";
-    if (retryableErrors.indexOf(error.name) === -1) {
+    if (retryableErrors.indexOf(errorType) === -1) {
       // not found
       error.retryable = false;
     }
@@ -614,7 +633,7 @@ export function translate(err: AmqpError | Error): MessagingError {
 
   if (isBrowserWebsocketError(err)) {
     // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
-    error = new MessagingError("Websocket connection failed.");
+    const error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
     return error;
@@ -623,18 +642,15 @@ export function translate(err: AmqpError | Error): MessagingError {
   // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
   // Must do a name check until the custom error is updated, and that doesn't break compatibility
   // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-  const errorName = (err as Error).name;
+  const errorName = err.name;
   if (retryableErrors.indexOf(errorName) > -1) {
-    error.retryable = true;
-    return error;
-  }
-  if (errorName === "AbortError") {
-    error.retryable = false;
-    return error;
+    (err as any).retryable = true;
+    return err;
   }
 
-  // Translate a generic error into MessagingError.
-  error = new MessagingError((err as Error).message);
-  error.stack = (err as Error).stack;
-  return error;
+  return err;
+}
+
+function isAmqpError(error: any): error is AmqpError {
+  return rheaIsAmqpError(error);
 }
