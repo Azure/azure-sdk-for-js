@@ -425,15 +425,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic2",
     testCaseTitle: "all properties",
     input: {
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
       requiresDuplicateDetection: true,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
@@ -579,18 +570,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: false,
-
-      // None of below work
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-      messageCount: 5,
-      enablePartitioning: true,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500
+      requiresSession: false
     },
     output: {
       lockDuration: "PT5M",
@@ -634,18 +614,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: false,
-
-      // None of below work
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-      messageCount: 5,
-      enablePartitioning: true,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500
+      requiresSession: false
     },
     output: {
       lockDuration: "PT5M",
@@ -775,9 +744,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
       enablePartitioning: true
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, above value is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -869,9 +835,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
       enablePartitioning: true
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, above value is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -963,9 +926,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
       enablePartitioning: true
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, above value is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -1541,20 +1501,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "all properties",
     input: {
-      // Property gets set but is not exposed to user in .NET SDK
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // maxDeliveryCount: 10,
-      // subscriptionCount: 8,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
       status: "Active" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
@@ -1566,52 +1512,28 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxSizeInMegabytes: 3072
     },
     output: {
-      // Property gets set but is not exposed to user in .NET SDK
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       maxDeliveryCount: undefined,
       subscriptionCount: undefined,
-      // Used to return as 0, but now returns as undefined
       sizeInBytes: undefined,
-
       messageCount: undefined,
-
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
-
       supportOrdering: true,
-
       maxSizeInMegabytes: 3072,
-
       enableBatchedOperations: true,
       enablePartitioning: false,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-
       authorizationRules: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // Properties used to return as false, but based on newer .NET SDK based changes now returns as undefined
       isExpress: undefined,
       enableSubscriptionPartitioning: undefined,
       filteringMessagesBeforePublishing: undefined,
       enableExpress: undefined,
-
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       status: "Active",
       userMetadata: "test metadata",
-
       messageCountDetails: undefined,
-
       topicName: "alwaysbeexistingtopic1"
     }
   }
