@@ -18,7 +18,9 @@ import {
   getInteger,
   getBoolean,
   getString,
-  getBooleanOrUndefined
+  getBooleanOrUndefined,
+  getIntegerOrUndefined,
+  EntityStatus
 } from "../util/utils";
 
 /**
@@ -41,13 +43,12 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
-    SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
-    MessageCount: getStringOrUndefined(queueOptions.messageCount),
     AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
+    Status: getStringOrUndefined(queueOptions.status),
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
-    ForwardTo: queueOptions.forwardTo,
+    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
 }
@@ -63,14 +64,13 @@ export function buildQueue(rawQueue: any): QueueDetails {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
     forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
-    path: rawQueue[Constants.PATH],
     userMetadata: rawQueue[Constants.USER_METADATA],
 
     lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
-    sizeInBytes: getInteger(rawQueue[Constants.SIZE_IN_BYTES], "sizeInBytes"),
+    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     maxSizeInMegabytes: getInteger(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
-    messageCount: getInteger(rawQueue[Constants.MESSAGE_COUNT], "messageCount"),
+    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     maxDeliveryCount: getInteger(rawQueue[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     enablePartitioning: getBoolean(rawQueue[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
@@ -132,21 +132,24 @@ export interface QueueOptions {
   lockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  sizeInBytes?: number;
-
-  /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that
    * will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes?: number;
 
   /**
-   * The entity's message count.
+   * If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at queue creation time.
    */
-  messageCount?: number;
+  requiresDuplicateDetection?: boolean;
+
+  /**
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
+   */
+  requiresSession?: boolean;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically
@@ -161,26 +164,19 @@ export interface QueueOptions {
   defaultMessageTtl?: string;
 
   /**
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
+
+  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   duplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  autoDeleteOnIdle?: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -189,31 +185,19 @@ export interface QueueOptions {
   maxDeliveryCount?: number;
 
   /**
-   * If set to true, the queue will be session-aware and only SessionReceiver
-   * will be supported. Session-aware queues are not supported through REST.
-   * Settable only at queue creation time.
-   */
-  requiresSession?: boolean;
-
-  /**
    * Specifies if batched operations should be allowed.
    */
   enableBatchedOperations?: boolean;
 
   /**
-   * If enabled, the topic will detect duplicate messages within the time
-   * span specified by the DuplicateDetectionHistoryTimeWindow property.
-   * Settable only at queue creation time.
+   * Authorization rules on the queue
    */
-  requiresDuplicateDetection?: boolean;
+  authorizationRules?: AuthorizationRule[];
 
   /**
-   * If it is enabled and a message expires, the Service Bus moves the message
-   * from the queue into the queue’s dead-letter sub-queue. If disabled,
-   * message will be permanently deleted from the queue.
-   * Settable only at queue creation time.
+   * Status of the messaging entity.
    */
-  deadLetteringOnMessageExpiration?: boolean;
+  status?: EntityStatus;
 
   /**
    * Absolute URI or the name of the queue or topic the
@@ -231,14 +215,24 @@ export interface QueueOptions {
   userMetadata?: string;
 
   /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   */
+  autoDeleteOnIdle?: string;
+
+  /**
    * Specifies whether the queue should be partitioned.
    */
   enablePartitioning?: boolean;
 
   /**
-   * Authorization rules on the queue
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
-  authorizationRules?: AuthorizationRule[];
+  forwardDeadLetteredMessagesTo?: string;
 }
 
 /**
@@ -257,22 +251,24 @@ export interface InternalQueueOptions {
   LockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  SizeInBytes?: string;
-
-  /**
    * The max size in MegaBytes
    *
    */
   MaxSizeInMegabytes?: string;
 
   /**
-   * The entity's message count.
-   *
+   *  If enabled, the topic will detect duplicate messages within the time
+   * span specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at queue creation time.
    */
-  MessageCount?: string;
+  RequiresDuplicateDetection?: string;
+
+  /**
+   * If set to true, the queue will be session-aware and only SessionReceiver
+   * will be supported. Session-aware queues are not supported through REST.
+   * Settable only at queue creation time.
+   */
+  RequiresSession?: string;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to
@@ -286,26 +282,19 @@ export interface InternalQueueOptions {
   DefaultMessageTimeToLive?: string;
 
   /**
+   * If it is enabled and a message expires, the Service Bus moves the message
+   * from the queue into the queue’s dead-letter sub-queue. If disabled,
+   * message will be permanently deleted from the queue.
+   * Settable only at queue creation time.
+   */
+  DeadLetteringOnMessageExpiration?: string;
+
+  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  ForwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  AutoDeleteOnIdle?: string;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -315,48 +304,19 @@ export interface InternalQueueOptions {
   MaxDeliveryCount?: string;
 
   /**
-   * Specifies whether the queue should be partitioned.
-   */
-  EnablePartitioning?: string;
-
-  /**
-   * If set to true, the queue will be session-aware and only SessionReceiver
-   * will be supported. Session-aware queues are not supported through REST.
-   * Settable only at queue creation time.
-   */
-  RequiresSession?: string;
-
-  /**
    * Specifies if batched operations should be allowed.
    */
   EnableBatchedOperations?: string;
 
   /**
-   *  If enabled, the topic will detect duplicate messages within the time
-   * span specified by the DuplicateDetectionHistoryTimeWindow property.
-   * Settable only at queue creation time.
-   */
-  RequiresDuplicateDetection?: string;
-
-  /**
-   * If it is enabled and a message expires, the Service Bus moves the message
-   * from the queue into the queue’s dead-letter sub-queue. If disabled,
-   * message will be permanently deleted from the queue.
-   * Settable only at queue creation time.
-   */
-  DeadLetteringOnMessageExpiration?: string;
-
-  /**
-   * The user provided metadata information associated with the queue description.
-   * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
-   */
-  UserMetadata?: string;
-
-  /**
    * Authorization rules on the queue
    */
   AuthorizationRules?: any;
+
+  /**
+   * Status of the messaging entity.
+   */
+  Status?: string;
 
   /**
    * Absolute URI or the name of the queue or topic the
@@ -367,14 +327,31 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * Entity path
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * It can take a maximum of 1024 characters only.
    */
-  Path?: string;
+  UserMetadata?: string;
 
   /**
-   * Entity status
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  Status?: string;
+  AutoDeleteOnIdle?: string;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  EnablePartitioning?: string;
+
+  /**
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  ForwardDeadLetteredMessagesTo?: string;
 }
 
 /**
@@ -400,7 +377,7 @@ export interface QueueDetails {
    * The entity's size in bytes.
    *
    */
-  sizeInBytes: number;
+  sizeInBytes?: number;
 
   /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue
@@ -412,7 +389,7 @@ export interface QueueDetails {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  messageCount?: number;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically
@@ -507,11 +484,6 @@ export interface QueueDetails {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Entity path
-   */
-  path?: string;
-
-  /**
    * Message count details
    */
   messageCountDetails?: MessageCountDetails;
@@ -537,9 +509,9 @@ export interface QueueDetails {
   entityAvailabilityStatus?: string;
 
   /**
-   * Queue entity status
+   * Status of the messaging entity.
    */
-  status?: string;
+  status?: EntityStatus;
 
   /**
    * Created at timestamp

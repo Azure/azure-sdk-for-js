@@ -129,12 +129,6 @@ export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 export const STATUS = "Status";
 
 /**
- * The entity path
- *
- */
-export const PATH = "Path";
-
-/**
  * The URL of Service Bus entity to forward messages to.
  *
  */
@@ -197,24 +191,6 @@ export const DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS =
  * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DUPLICATE_DETECTION_HISTORY_TIME_WINDOW = "DuplicateDetectionHistoryTimeWindow";
-
-/**
- * The maximum number of subscriptions per topic.
- *
- */
-export const MAX_SUBSCRIPTIONS_PER_TOPIC = "MaxSubscriptionsPerTopic";
-
-/**
- * The maximum amount of sql filters per topic.
- *
- */
-export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
-
-/**
- * The maximum amount of correlation filters per topic.
- *
- */
-export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
 /**
  * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.

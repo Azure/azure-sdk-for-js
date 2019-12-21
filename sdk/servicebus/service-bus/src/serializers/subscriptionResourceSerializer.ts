@@ -16,7 +16,8 @@ import {
   MessageCountDetails,
   getString,
   getInteger,
-  getBoolean
+  getBoolean,
+  EntityStatus
 } from "../util/utils";
 
 /**
@@ -39,14 +40,11 @@ export function buildSubscriptionOptions(
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
     ),
-    DefaultRuleDescription: subscriptionOptions.defaultRuleDescription,
     MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    ForwardTo: subscriptionOptions.forwardTo,
-    SizeInBytes: getStringOrUndefined(subscriptionOptions.sizeInBytes),
-    MaxSizeInMegabytes: getStringOrUndefined(subscriptionOptions.maxSizeInMegabytes),
-    MessageCount: getStringOrUndefined(subscriptionOptions.messageCount),
-    EnablePartitioning: getStringOrUndefined(subscriptionOptions.enablePartitioning),
+    Status: getStringOrUndefined(subscriptionOptions.status),
+    ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
+    UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
       subscriptionOptions.forwardDeadLetteredMessagesTo
     ),
@@ -107,7 +105,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
       "entityAvailabilityStatus"
     ),
-    status: getString(rawSubscription[Constants.STATUS], "status"),
+    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
     createdOn: getString(rawSubscription[Constants.CREATED_AT], "createdOn"),
     updatedOn: getString(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
     accessedOn: rawSubscription[Constants.ACCESSED_AT]
@@ -127,33 +125,6 @@ export interface SubscriptionOptions {
   lockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  sizeInBytes?: number;
-
-  /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
-   * that will cause the topic to exceed this value will fail. All messages that
-   * are stored in the topic or any of its subscriptions count towards this value.
-   * Multiple copies of a message that reside in one or multiple subscriptions count
-   * as a single messages. For example, if message m exists once in subscription s1
-   * and twice in subscription s2, m is counted as a single message.
-   */
-  maxSizeInMegabytes?: number;
-
-  /**
-   * The entity's message count.
-   *
-   */
-  messageCount?: number;
-
-  /**
-   * Specifies whether the topic should be partitioned
-   */
-  enablePartitioning?: boolean;
-
-  /**
    * If set to true, the subscription will be session-aware and only SessionReceiver
    * will be supported. Session-aware subscription are not supported through REST.
    * Settable only at subscription creation time.
@@ -161,31 +132,13 @@ export interface SubscriptionOptions {
   requiresSession?: boolean;
 
   /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations?: boolean;
-
-  /**
    * Determines how long a message lives in the subscription. Based on whether
    * dead-lettering is enabled, a message whose TTL has expired will either be moved
-   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
+   * to the subscription’s associated DeadLtterQueue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   defaultMessageTtl?: string;
-
-  /**
-   * Indicates the default rule description.
-   *
-   */
-  defaultRuleDescription?: any;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  autoDeleteOnIdle?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -207,19 +160,21 @@ export interface SubscriptionOptions {
   deadLetteringOnFilterEvaluationExceptions?: boolean;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardDeadLetteredMessagesTo?: string;
-
-  /**
    * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
    */
   maxDeliveryCount?: number;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations?: boolean;
+
+  /**
+   * Status of the messaging entity.
+   */
+  status?: EntityStatus;
 
   /**
    * Absolute URI or the name of the queue or topic the
@@ -235,6 +190,21 @@ export interface SubscriptionOptions {
    * It can take a maximum of 1024 characters only.
    */
   userMetadata?: string;
+
+  /**
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   */
+  autoDeleteOnIdle?: string;
 }
 
 /**
@@ -251,33 +221,6 @@ export interface InternalSubscriptionOptions {
   LockDuration?: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  SizeInBytes?: string;
-
-  /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
-   * that will cause the topic to exceed this value will fail. All messages that are
-   * stored in the topic or any of its subscriptions count towards this value.
-   * Multiple copies of a message that reside in one or multiple subscriptions count
-   * as a single messages. For example, if message m exists once in subscription s1
-   * and twice in subscription s2, m is counted as a single message.
-   */
-  MaxSizeInMegabytes?: string;
-
-  /**
-   * The entity's message count.
-   *
-   */
-  MessageCount?: string;
-
-  /**
-   * Specifies whether the topic should be partitioned
-   */
-  EnablePartitioning?: string;
-
-  /**
    * If set to true, the subscription will be session-aware and only SessionReceiver
    * will be supported. Session-aware subscription are not supported through REST.
    * Settable only at subscription creation time.
@@ -285,31 +228,13 @@ export interface InternalSubscriptionOptions {
   RequiresSession?: string;
 
   /**
-   * Specifies if batched operations should be allowed.
-   */
-  EnableBatchedOperations?: string;
-
-  /**
    * Determines how long a message lives in the subscription. Based on whether
    * dead-lettering is enabled, a message whose TTL has expired will either be moved
-   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
+   * to the subscription’s associated DeadLtterQueue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   DefaultMessageTimeToLive?: string;
-
-  /**
-   * Indicates the default rule description.
-   *
-   */
-  DefaultRuleDescription?: any;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  AutoDeleteOnIdle?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -331,19 +256,21 @@ export interface InternalSubscriptionOptions {
   DeadLetteringOnFilterEvaluationExceptions?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  ForwardDeadLetteredMessagesTo?: string;
-
-  /**
    * The maximum delivery count of messages after which if it is still not settled,
    * gets moved to the dead-letter sub-queue.
    *
    */
   MaxDeliveryCount?: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  EnableBatchedOperations?: string;
+
+  /**
+   * Status of the messaging entity.
+   */
+  Status?: string;
 
   /**
    * Absolute URI or the name of the queue or topic the
@@ -359,6 +286,21 @@ export interface InternalSubscriptionOptions {
    * It can take a maximum of 1024 characters only.
    */
   UserMetadata?: string;
+
+  /**
+   * Absolute URI or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For e.g., an absolute URI input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   */
+  AutoDeleteOnIdle?: string;
 }
 
 /**
@@ -506,9 +448,9 @@ export interface SubscriptionDetails {
   entityAvailabilityStatus: string;
 
   /**
-   * Queue entity status
+   * Status of the messaging entity.
    */
-  status: string;
+  status?: EntityStatus;
 
   /**
    * Created at timestamp
