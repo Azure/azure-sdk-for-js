@@ -144,7 +144,9 @@ export interface SubscribeOptions extends TracingOptions {
    */
   maxWaitTimeInSeconds?: number;
   /**
-   * The starting partition position used if no checkpoint is found.
+   * The event position in a partition to start receiving events from if no checkpoint is found.
+   * Pass a map of partition id to position if you would like to use different starting
+   * position for each partition.
    */
   startPosition?: EventPosition | Map<string, EventPosition>;
 }
