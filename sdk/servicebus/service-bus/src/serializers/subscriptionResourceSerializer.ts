@@ -187,7 +187,7 @@ export interface SubscriptionOptions {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 
@@ -283,7 +283,7 @@ export interface InternalSubscriptionOptions {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   UserMetadata?: string;
 
@@ -433,7 +433,7 @@ export interface SubscriptionDetails {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 

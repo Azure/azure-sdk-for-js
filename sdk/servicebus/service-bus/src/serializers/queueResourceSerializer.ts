@@ -47,7 +47,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     Status: getStringOrUndefined(queueOptions.status),
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queueOptions.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
@@ -210,7 +210,7 @@ export interface QueueOptions {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 
@@ -329,7 +329,7 @@ export interface InternalQueueOptions {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   UserMetadata?: string;
 
@@ -469,7 +469,7 @@ export interface QueueDetails {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 

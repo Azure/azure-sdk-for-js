@@ -99,7 +99,7 @@ export interface DeleteTopicResponse {
 
 export { Delivery }
 
-// @public (undocumented)
+// @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public

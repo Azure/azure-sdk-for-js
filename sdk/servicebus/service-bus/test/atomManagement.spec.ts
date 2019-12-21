@@ -703,7 +703,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       status: "Active",
       supportOrdering: true,
       forwardTo: undefined,
-      path: undefined,
       userMetadata: undefined
     }
   },
@@ -711,8 +710,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
       defaultMessageTtl: "P2D",
@@ -748,8 +745,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
+      messageCount: 0,
+      sizeInBytes: 0,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -786,7 +783,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      path: undefined,
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -803,8 +799,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
       forwardTo: "alwaysBeExistingTopic2",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
       defaultMessageTtl: "P2D",
@@ -839,8 +833,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
+      messageCount: 0,
+      sizeInBytes: 0,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -877,7 +871,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      path: undefined,
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -894,8 +887,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
       requiresDuplicateDetection: true,
       requiresSession: true,
       defaultMessageTtl: "P2D",
@@ -930,8 +921,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
+      messageCount: 0,
+      sizeInBytes: 0,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -968,7 +959,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
       forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      path: undefined,
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -1145,9 +1135,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
-
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1178,14 +1165,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       ],
       enablePartitioning: true,
       userMetadata: "test metadata"
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
+      messageCount: undefined,
+      sizeInBytes: undefined,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -1221,7 +1206,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       autoDeleteOnIdle: "PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      path: undefined,
       userMetadata: "test metadata",
 
       messageCountDetails: undefined,
@@ -1230,7 +1214,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      status: undefined,
+      status: "Active",
       enablePartitioning: true,
       queueName: alwaysBeExistingQueue
     }
@@ -1241,9 +1225,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
       forwardTo: "alwaysBeExistingTopic1",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
-
+      status: "ReceiveDisabled" as EntityStatus,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1279,8 +1261,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -1316,7 +1296,10 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
 
-      path: undefined,
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "ReceiveDisabled",
+
       userMetadata: "test metadata",
 
       messageCountDetails: undefined,
@@ -1325,7 +1308,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      status: undefined,
       enablePartitioning: true,
       queueName: alwaysBeExistingQueue
     }
@@ -1409,6 +1391,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       userMetadata: "test metadata",
 
       messageCountDetails: undefined,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
 
       enableExpress: undefined,
       entityAvailabilityStatus: undefined,
@@ -1587,18 +1572,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-
-      messageCount: 5,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500,
-
-      requiresSession: false,
-      enablePartitioning: true
+      requiresSession: false
     },
     output: {
       lockDuration: "PT3M",

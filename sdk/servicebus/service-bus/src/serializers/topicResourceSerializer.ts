@@ -163,7 +163,7 @@ export interface TopicOptions {
   /**
    * The user provided metadata information associated with the topic description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 
@@ -244,7 +244,7 @@ export interface InternalTopicOptions {
   /**
    * The user provided metadata information associated with the topic description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   UserMetadata?: string;
 
@@ -374,7 +374,7 @@ export interface TopicDetails {
   /**
    * The user provided metadata information associated with the topic description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 characters only.
+   * It can take a maximum of 1024 bytes of string in utf-8 format.
    */
   userMetadata?: string;
 
