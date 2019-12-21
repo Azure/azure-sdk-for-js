@@ -531,7 +531,8 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        processingTarget: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"]),
+        startPosition: EventPosition.earliest()
       }
     );
 
