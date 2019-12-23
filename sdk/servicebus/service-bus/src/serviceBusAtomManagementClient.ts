@@ -18,7 +18,7 @@ import {
 
 import { parseConnectionString } from "@azure/amqp-common";
 
-import { AtomXmlSerializer, executeAtomXmlOperation, getErrorCode } from "./util/atomXmlHelper";
+import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
 import * as log from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
@@ -872,10 +872,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       response.parsedBody == undefined ||
       (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
     ) {
-      response.status = 404;
       const err = new RestError(
         `The messaging entity "${name}" being requested cannot be found.`,
-        getErrorCode(response),
+        "MessageEntityNotFoundError",
         404,
         stripRequest(webResource),
         stripResponse(response)
