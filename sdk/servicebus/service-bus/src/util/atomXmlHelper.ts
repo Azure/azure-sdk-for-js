@@ -351,7 +351,7 @@ export function buildError(response: HttpOperationResponse): RestError {
     }
   }
 
-  const errorCode = getErrorCode(response);
+  const errorCode = getErrorCode(response, errorMessage);
 
   const error: RestError = new RestError(
     errorMessage,
@@ -368,24 +368,16 @@ export function buildError(response: HttpOperationResponse): RestError {
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
  * @param response
+ * @param errorMessage
  */
-export function getErrorCode(response: HttpOperationResponse): string {
-  const errorBody = response.parsedBody;
-  let errorMessage: string = "";
-  if (
-    errorBody &&
-    errorBody.Error &&
-    errorBody.Error.Detail &&
-    typeof errorBody.Error.Detail == "string"
-  ) {
-    errorMessage = errorBody.Error.Detail;
-  }
-
+function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
   if (response.status == 401) {
     return "UnauthorizedRequestError";
-  } else if (response.status == 404) {
+  }
+  if (response.status == 404) {
     return "MessageEntityNotFoundError";
-  } else if (response.status == 409) {
+  }
+  if (response.status == 409) {
     if (response.request.method == "DELETE") {
       return "ServiceError";
     }
@@ -394,7 +386,7 @@ export function getErrorCode(response: HttpOperationResponse): string {
       return "ServiceError";
     }
 
-    if (errorMessage.toLowerCase().includes("subcode=40901")) {
+    if (errorMessage && errorMessage.toLowerCase().includes("subcode=40901")) {
       return "ServiceError";
     }
 
@@ -402,7 +394,7 @@ export function getErrorCode(response: HttpOperationResponse): string {
   }
 
   if (response.status == 403) {
-    if (errorMessage.toLowerCase().includes("subcode=40301")) {
+    if (errorMessage && errorMessage.toLowerCase().includes("subcode=40301")) {
       return "InvalidOperationError";
     }
     return "QuotaExceededError";
