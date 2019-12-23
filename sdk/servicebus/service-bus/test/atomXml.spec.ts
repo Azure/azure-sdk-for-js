@@ -29,13 +29,13 @@ const queueProperties = [
   Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
   Constants.MAX_DELIVERY_COUNT,
   Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.MESSAGE_COUNT,
   Constants.AUTHORIZATION_RULES,
+  Constants.STATUS,
+  Constants.FORWARD_TO,
+  Constants.USER_METADATA,
   Constants.AUTO_DELETE_ON_IDLE,
   Constants.ENABLE_PARTITIONING,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
-  Constants.USER_METADATA
+  Constants.FORWARD_DEADLETTERED_MESSAGES_TO
 ];
 
 const topicProperties = [
@@ -44,21 +44,10 @@ const topicProperties = [
   Constants.REQUIRES_DUPLICATE_DETECTION,
   Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
   Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.AUTO_DELETE_ON_IDLE,
   Constants.AUTHORIZATION_RULES,
+  Constants.STATUS,
   Constants.SUPPORT_ORDERING,
-  Constants.MAX_SUBSCRIPTIONS_PER_TOPIC,
-  Constants.MAX_SQL_FILTERS_PER_TOPIC,
-  Constants.MAX_CORRELATION_FILTERS_PER_TOPIC,
-  Constants.ENABLE_EXPRESS,
-  Constants.IS_EXPRESS,
-  Constants.ENABLE_SUBSCRIPTION_PARTITIONING,
-  Constants.FILTER_MESSAGES_BEFORE_PUBLISHING,
-  Constants.ENABLE_PARTITIONING,
-  Constants.MESSAGE_COUNT,
-  Constants.SUBSCRIPTION_COUNT,
-  Constants.MAX_DELIVERY_COUNT
+  Constants.ENABLE_PARTITIONING
 ];
 
 const subscriptionProperties = [
@@ -67,7 +56,6 @@ const subscriptionProperties = [
   Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
   Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
   Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS,
-  Constants.DEFAULT_RULE_DESCRIPTION,
   Constants.MAX_DELIVERY_COUNT,
   Constants.ENABLE_BATCHED_OPERATIONS,
   Constants.SIZE_IN_BYTES,
@@ -916,5 +904,75 @@ class MockSerializer implements AtomXmlSerializer {
         );
       }
     });
+  });
+});
+
+describe(`Parse empty response for list() requests to return as empty array #RunInBrowser`, function(): void {
+  function assertEmptyArray(result: any) {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    assert.equal(Array.isArray(result), true, "Result must be an array");
+    assert.equal(result.length, 0, "Result must be an empty array");
+  }
+
+  it(`List on empty list of queues gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listQueues();
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of topics gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listTopics();
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of subscriptions gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listSubscriptions("testTopic");
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of rules gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listRules(
+      "testTopic",
+      "testSubscription"
+    );
+    assertEmptyArray(result);
   });
 });
