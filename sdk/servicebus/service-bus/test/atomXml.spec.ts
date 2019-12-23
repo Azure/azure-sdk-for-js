@@ -155,7 +155,7 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
       assert.equal(
         err.message,
         "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-        `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements." `
+        `Unexpected error message found.`
       );
       assert.equal(err.code, "PARSE_ERROR");
     }
@@ -177,13 +177,9 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
       assert.equal(
         err.message,
         "Service returned an error response with an unrecognized HTTP status code - 666",
-        `Message expected to be "Service returned an error response with an unrecognized HTTP status code - 666" but received ${err.message}`
+        `Unexpected error message found.`
       );
-      assert.equal(
-        err.code,
-        "ServiceError",
-        `Code expected to be "ServiceError" but received ${err.code}`
-      );
+      assert.equal(err.code, "ServiceError", `Unexpected error code found.`);
     }
   });
 });
@@ -547,11 +543,7 @@ class MockSerializer implements AtomXmlSerializer {
         );
         assert.equal(true, false, "Error must be thrown");
       } catch (err) {
-        assert.equal(
-          err.message,
-          testCase.output.testErrorMessage,
-          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
-        );
+        assert.equal(err.message, testCase.output.testErrorMessage, `Unexpected error message found.`);
 
         assert.equal(
           err instanceof testCase.output.testErrorType,
@@ -599,11 +591,7 @@ class MockSerializer implements AtomXmlSerializer {
         await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
         assert.equal(true, false, "Error must be thrown");
       } catch (err) {
-        assert.equal(
-          err.message,
-          testCase.output.testErrorMessage,
-          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
-        );
+        assert.equal(err.message, testCase.output.testErrorMessage, `Unexpected error message found.`);
 
         assert.equal(
           err instanceof testCase.output.testErrorType,
@@ -755,18 +743,10 @@ class MockSerializer implements AtomXmlSerializer {
         await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
         assert.equal(true, false, "Error must be thrown");
       } catch (err) {
-        assert.equal(
-          err.code,
-          testCase.output.errorCode,
-          `Expected error code to be "${testCase.output.errorCode}", but received "${err.code}"`
-        );
+        assert.equal(err.code, testCase.output.errorCode, `Unexpected error code found.`);
 
         if (testCase.output.errorMessage) {
-          assert.equal(
-            err.message,
-            testCase.output.errorMessage,
-            `Expected error message to be "${testCase.output.errorMessage} "`
-          );
+          assert.equal(err.message, testCase.output.errorMessage, `Unexpected error message found.`);
         }
       }
     });
@@ -897,11 +877,7 @@ class MockSerializer implements AtomXmlSerializer {
         await mockServiceBusAtomManagementClient.createQueue("test", testCase as any);
         assert.equal(true, false, "Error must be thrown");
       } catch (err) {
-        assert.equal(
-          err.code,
-          testCase.errorCode,
-          `Expected error code to be "${testCase.errorCode}", but received "${err.code}"`
-        );
+        assert.equal(err.code, testCase.errorCode, `Unexpected error code found.`);
       }
     });
   });

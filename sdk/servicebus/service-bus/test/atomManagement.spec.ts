@@ -194,19 +194,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Error must not be undefined");
-        should.equal(
-          error.code,
-          "MessageEntityNotFoundError",
-          `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
-        );
+        should.equal(error.statusCode, 404, "Unexpected status code found.");
+        should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
             error.message.startsWith("Entity") ||
             error.message.startsWith("SubCode") ||
             error.message.startsWith("No service"),
           true,
-          `Expected error message to be a textual content but got "${error.message}"`
+          `Unexpected error message found.`
         );
       });
     });
@@ -224,19 +220,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 409, "Error must not be undefined");
-      should.equal(
-        error.code,
-        "MessageEntityAlreadyExistsError",
-        `Code expected to be "MessageEntityAlreadyExistsError" but received ${error.code}`
-      );
+      should.equal(error.statusCode, 409, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -277,19 +269,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(
-        error.code,
-        "MessageEntityNotFoundError",
-        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
-      );
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -321,18 +309,14 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       }
 
       should.equal(error.statusCode, 404);
-      should.equal(
-        error.code,
-        "MessageEntityNotFoundError",
-        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
-      );
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -349,19 +333,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(
-        error.code,
-        "MessageEntityNotFoundError",
-        `Code expected to be "MessageEntityNotFoundError" but received ${error.code}`
-      );
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error code message.`
       );
     });
 
@@ -1391,7 +1371,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
       true,
-      `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err.message}"`
+      `Unexpected error message prefix found.`
     );
   }
 
@@ -1400,7 +1380,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.code && err.code.startsWith(expectedtestOutput.testErrorCode),
       true,
-      `Expected error code to start with "${expectedtestOutput.testErrorCode}" but received "${err.code}"`
+      `Unexpected error code found.`
     );
   }
 
