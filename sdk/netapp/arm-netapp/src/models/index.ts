@@ -420,26 +420,30 @@ export interface VolumePropertiesExportPolicy {
  */
 export interface ReplicationObject {
   /**
-   * replicationId. Id
+   * Id
    */
   replicationId?: string;
   /**
-   * endpointType. Indicates whether the local volume is the source or destination for the Volume
-   * Replication
+   * Indicates whether the local volume is the source or destination for the Volume Replication.
+   * Possible values include: 'src', 'dst'
    */
-  endpointType: string;
+  endpointType?: EndpointType;
   /**
-   * replicationSchedule. Schedule
+   * Schedule. Possible values include: '_10minutely', 'hourly', 'daily', 'weekly', 'monthly'
    */
-  replicationSchedule: string;
+  replicationSchedule: ReplicationSchedule;
   /**
-   * remoteVolumeResourceId. The resource ID of the remote volume.
+   * The resource ID of the remote volume.
    */
   remoteVolumeResourceId: string;
+  /**
+   * The remote region for the other end of the Volume Replication.
+   */
+  remoteVolumeRegion?: string;
 }
 
 /**
- * DataProtection volume, can have a replication object
+ * DataProtection type volumes include an object containing details of the replication
  * @summary DataProtection
  */
 export interface VolumePropertiesDataProtection {
@@ -533,9 +537,40 @@ export interface Volume extends BaseResource {
    */
   volumeType?: string;
   /**
-   * DataProtection. DataProtection volume, can have a replication object
+   * DataProtection. DataProtection type volumes include an object containing details of the
+   * replication
    */
   dataProtection?: VolumePropertiesDataProtection;
+  /**
+   * Restoring
+   */
+  isRestoring?: boolean;
+}
+
+/**
+ * Replication status
+ */
+export interface ReplicationStatus {
+  /**
+   * Replication health check
+   */
+  healthy?: boolean;
+  /**
+   * Status of the mirror relationship. Possible values include: 'Idle', 'Transferring'
+   */
+  relationshipStatus?: RelationshipStatus;
+  /**
+   * The status of the replication. Possible values include: 'Uninitialized', 'Mirrored', 'Broken'
+   */
+  mirrorState?: MirrorState;
+  /**
+   * The progress of the replication
+   */
+  totalProgress?: string;
+  /**
+   * Displays error message if the replication is in an error state
+   */
+  errorMessage?: string;
 }
 
 /**
@@ -724,6 +759,26 @@ export interface SnapshotPatch extends BaseResource {
 }
 
 /**
+ * Authorize request
+ */
+export interface AuthorizeRequest {
+  /**
+   * Resource id
+   */
+  remoteVolumeResourceId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VolumesAuthorizeReplicationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Resource id
+   */
+  remoteVolumeResourceId?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface SnapshotsUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -815,6 +870,38 @@ export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Micros
  * @enum {string}
  */
 export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
+
+/**
+ * Defines values for EndpointType.
+ * Possible values include: 'src', 'dst'
+ * @readonly
+ * @enum {string}
+ */
+export type EndpointType = 'src' | 'dst';
+
+/**
+ * Defines values for ReplicationSchedule.
+ * Possible values include: '_10minutely', 'hourly', 'daily', 'weekly', 'monthly'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily' | 'weekly' | 'monthly';
+
+/**
+ * Defines values for RelationshipStatus.
+ * Possible values include: 'Idle', 'Transferring'
+ * @readonly
+ * @enum {string}
+ */
+export type RelationshipStatus = 'Idle' | 'Transferring';
+
+/**
+ * Defines values for MirrorState.
+ * Possible values include: 'Uninitialized', 'Mirrored', 'Broken'
+ * @readonly
+ * @enum {string}
+ */
+export type MirrorState = 'Uninitialized' | 'Mirrored' | 'Broken';
 
 /**
  * Contains response data for the list operation.
@@ -1153,6 +1240,26 @@ export type VolumesUpdateResponse = Volume & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Volume;
+    };
+};
+
+/**
+ * Contains response data for the replicationStatusMethod operation.
+ */
+export type VolumesReplicationStatusMethodResponse = ReplicationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationStatus;
     };
 };
 
