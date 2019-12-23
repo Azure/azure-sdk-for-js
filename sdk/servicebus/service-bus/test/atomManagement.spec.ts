@@ -605,8 +605,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase(),
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase()
     },
     output: {
       lockDuration: "PT1M",
@@ -617,8 +617,8 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableBatchedOperations: true,
       requiresSession: false,
 
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
+      forwardTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
 
       defaultRuleDescription: undefined,
