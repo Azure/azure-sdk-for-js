@@ -284,7 +284,7 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 }
 
 /**
- * Represents type of message count details in ATOM based management operations
+ * Represents type of message count details in ATOM based management operations.
  */
 export type MessageCountDetails = {
   activeMessageCount: number;
@@ -295,7 +295,7 @@ export type MessageCountDetails = {
 };
 
 /**
- * Represents type of `AuthorizationRule` in ATOM based management operations
+ * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
 export type AuthorizationRule = {
   claimType: string;
@@ -336,7 +336,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
 }
 
 /**
- * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input,
+ * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input.
  * @param value
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
@@ -394,7 +394,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 }
 
 /**
- * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input,
+ * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input.
  * @param authorizationRule parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
@@ -424,3 +424,17 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   };
   return rawAuthorizationRule;
 }
+
+/**
+ * Possible values for `status` of the Service Bus messaging entities.
+ */
+export type EntityStatus =
+  | "Active"
+  | "Creating"
+  | "Deleting"
+  | "ReceiveDisabled"
+  | "SendDisabled"
+  | "Disabled"
+  | "Renaming"
+  | "Restoring"
+  | "Unknown";
