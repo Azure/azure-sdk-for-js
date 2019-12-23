@@ -427,11 +427,12 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
 /**
  * @ignore
- * Helper utility to check if given string is an absolute URI
+ * Helper utility to check if given string is an absolute URL
  * @param url
  */
-export function isAbsoluteUri(url: string) {
-  return url.startsWith("sb://") || url.startsWith("http://") || url.startsWith("https://");
+export function isAbsoluteUrl(url: string) {
+  const _url = url.toLowerCase();
+  return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }
 
 /*

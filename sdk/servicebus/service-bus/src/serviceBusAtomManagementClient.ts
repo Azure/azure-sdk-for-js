@@ -56,7 +56,7 @@ import {
   Rule,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUri } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
  * Options to use with ServiceBusAtomManagementClient creation
@@ -873,7 +873,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
-        if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardTo)) {
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
           queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
             queueOrSubscriptionFields.ForwardTo
           );
@@ -881,7 +881,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       }
       if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
         webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-        if (!isAbsoluteUri(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
           queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
             queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
           );
