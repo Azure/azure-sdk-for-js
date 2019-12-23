@@ -2013,7 +2013,7 @@ export const DirectoryForceCloseHandlesHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      numberOfHandlesFailedToClosed: {
+      numberOfHandlesFailedToClose: {
         serializedName: "x-ms-number-of-handles-failed",
         type: {
           name: "Number"
@@ -3335,7 +3335,7 @@ export const FileForceCloseHandlesHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      numberOfHandlesFailedToClosed: {
+      numberOfHandlesFailedToClose: {
         serializedName: "x-ms-number-of-handles-failed",
         type: {
           name: "Number"

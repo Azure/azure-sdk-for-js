@@ -997,7 +997,7 @@ export interface FileAcquireLeaseOptionalParams extends coreHttp.RequestOptionsB
    */
   duration?: number;
   /**
-   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
    * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
    * of valid GUID string formats.
    */
@@ -1037,7 +1037,7 @@ export interface FileChangeLeaseOptionalParams extends coreHttp.RequestOptionsBa
    */
   timeoutInSeconds?: number;
   /**
-   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
    * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
    * of valid GUID string formats.
    */
@@ -1976,9 +1976,9 @@ export interface DirectoryForceCloseHandlesHeaders {
    */
   numberOfHandlesClosed?: number;
   /**
-   * Contains count of number of handles that failed to closed.
+   * Contains count of number of handles that failed to close.
    */
-  numberOfHandlesFailedToClosed?: number;
+  numberOfHandlesFailedToClose?: number;
   errorCode?: string;
 }
 
@@ -2480,13 +2480,13 @@ export interface FileAcquireLeaseHeaders {
    */
   etag?: string;
   /**
-   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
-   * including an update of the blob's metadata or properties, changes the last-modified time of
-   * the blob.
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
    */
   lastModified?: Date;
   /**
-   * Uniquely identifies a blobs's lease
+   * Uniquely identifies a file's lease
    */
   leaseId?: string;
   /**
@@ -2500,8 +2500,7 @@ export interface FileAcquireLeaseHeaders {
    */
   requestId?: string;
   /**
-   * Indicates the version of the Blob service used to execute the request. This header is returned
-   * for requests made against version 2009-09-19 and above.
+   * Indicates the version of the File service used to execute the request.
    */
   version?: string;
   /**
@@ -2522,9 +2521,9 @@ export interface FileReleaseLeaseHeaders {
    */
   etag?: string;
   /**
-   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
-   * including an update of the blob's metadata or properties, changes the last-modified time of
-   * the blob.
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
    */
   lastModified?: Date;
   /**
@@ -2538,8 +2537,7 @@ export interface FileReleaseLeaseHeaders {
    */
   requestId?: string;
   /**
-   * Indicates the version of the Blob service used to execute the request. This header is returned
-   * for requests made against version 2009-09-19 and above.
+   * Indicates the version of the File service used to execute the request.
    */
   version?: string;
   /**
@@ -2560,13 +2558,13 @@ export interface FileChangeLeaseHeaders {
    */
   etag?: string;
   /**
-   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
-   * including an update of the blob's metadata or properties, changes the last-modified time of
-   * the blob.
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
    */
   lastModified?: Date;
   /**
-   * Uniquely identifies a blobs's lease
+   * Uniquely identifies a file's lease
    */
   leaseId?: string;
   /**
@@ -2580,8 +2578,7 @@ export interface FileChangeLeaseHeaders {
    */
   requestId?: string;
   /**
-   * Indicates the version of the Blob service used to execute the request. This header is returned
-   * for requests made against version 2009-09-19 and above.
+   * Indicates the version of the File service used to execute the request.
    */
   version?: string;
   /**
@@ -2602,13 +2599,13 @@ export interface FileBreakLeaseHeaders {
    */
   etag?: string;
   /**
-   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
-   * including an update of the blob's metadata or properties, changes the last-modified time of
-   * the blob.
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
    */
   lastModified?: Date;
   /**
-   * Uniquely identifies a blobs's lease
+   * Uniquely identifies a file's lease
    */
   leaseId?: string;
   /**
@@ -2622,8 +2619,7 @@ export interface FileBreakLeaseHeaders {
    */
   requestId?: string;
   /**
-   * Indicates the version of the Blob service used to execute the request. This header is returned
-   * for requests made against version 2009-09-19 and above.
+   * Indicates the version of the File service used to execute the request.
    */
   version?: string;
   /**
@@ -2867,9 +2863,9 @@ export interface FileForceCloseHandlesHeaders {
    */
   numberOfHandlesClosed?: number;
   /**
-   * Contains count of number of handles that failed to closed.
+   * Contains count of number of handles that failed to close.
    */
-  numberOfHandlesFailedToClosed?: number;
+  numberOfHandlesFailedToClose?: number;
   errorCode?: string;
 }
 
