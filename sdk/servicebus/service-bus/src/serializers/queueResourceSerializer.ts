@@ -200,9 +200,9 @@ export interface QueueOptions {
   status?: EntityStatus;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
@@ -210,7 +210,7 @@ export interface QueueOptions {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
@@ -227,9 +227,9 @@ export interface QueueOptions {
   enablePartitioning?: boolean;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -243,7 +243,7 @@ export interface InternalQueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver.
+   * can be consumed by the next receiver.
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -319,9 +319,9 @@ export interface InternalQueueOptions {
   Status?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
@@ -329,7 +329,7 @@ export interface InternalQueueOptions {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   UserMetadata?: string;
 
@@ -346,9 +346,9 @@ export interface InternalQueueOptions {
   EnablePartitioning?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
@@ -366,7 +366,7 @@ export interface QueueDetails {
   /**
    * Determines the amount of time in seconds in which a message should be locked
    * for processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver.
+   * can be consumed by the next receiver.
    * Settable only at queue creation time.
    * This is specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -411,9 +411,9 @@ export interface QueueDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -459,9 +459,9 @@ export interface QueueDetails {
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
@@ -469,7 +469,7 @@ export interface QueueDetails {
   /**
    * The user provided metadata information associated with the queue description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 

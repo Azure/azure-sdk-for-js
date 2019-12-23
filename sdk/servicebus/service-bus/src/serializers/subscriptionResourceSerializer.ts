@@ -177,9 +177,9 @@ export interface SubscriptionOptions {
   status?: EntityStatus;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
@@ -187,14 +187,14 @@ export interface SubscriptionOptions {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -273,9 +273,9 @@ export interface InternalSubscriptionOptions {
   Status?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
@@ -283,14 +283,14 @@ export interface InternalSubscriptionOptions {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   UserMetadata?: string;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
@@ -408,9 +408,9 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * Absolute URI or the name of the queue or topic the dead-lettered
+   * Absolute URL or the name of the queue or topic the dead-lettered
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
@@ -423,9 +423,9 @@ export interface SubscriptionDetails {
   maxDeliveryCount: number;
 
   /**
-   * Absolute URI or the name of the queue or topic the
+   * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
-   * For e.g., an absolute URI input would be of the form
+   * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
@@ -433,7 +433,7 @@ export interface SubscriptionDetails {
   /**
    * The user provided metadata information associated with the subscription description.
    * Used to specify textual content such as tags, labels, etc.
-   * It can take a maximum of 1024 bytes of string in utf-8 format.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
