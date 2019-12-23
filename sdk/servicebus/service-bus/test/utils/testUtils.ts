@@ -15,8 +15,6 @@ import {
 import { EnvVarKeys, getEnvVars, isNode } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./aadUtils";
 
-import { parseConnectionString } from "@azure/amqp-common";
-
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -504,12 +502,4 @@ export function getNamespace(serviceBusConnectionString: string): string {
 export function getServiceBusClient(): ServiceBusClient {
   const env = getEnvVars();
   return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
-}
-
-export function getEndpointWithProtocolFromConnectionString(): string {
-  const env = getEnvVars();
-  const connectionStringObj: any = parseConnectionString(
-    env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
-  );
-  return connectionStringObj.Endpoint;
 }
