@@ -226,7 +226,7 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -252,7 +252,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -289,7 +289,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [

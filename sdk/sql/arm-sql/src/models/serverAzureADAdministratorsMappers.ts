@@ -7,6 +7,7 @@
  */
 
 export {
+  AdministratorListResult,
   AutomaticTuningOptions,
   AutomaticTuningServerOptions,
   BackupLongTermRetentionPolicy,
@@ -89,7 +90,6 @@ export {
   RestorePoint,
   SensitivityLabel,
   Server,
-  ServerAdministratorListResult,
   ServerAutomaticTuning,
   ServerAzureADAdministrator,
   ServerBlobAuditingPolicy,
@@ -119,5 +119,7 @@ export {
   VirtualNetworkRule,
   VulnerabilityAssessmentRecurringScansProperties,
   VulnerabilityAssessmentScanError,
-  VulnerabilityAssessmentScanRecord
+  VulnerabilityAssessmentScanRecord,
+  WorkloadClassifier,
+  WorkloadGroup
 } from "../models/mappers";

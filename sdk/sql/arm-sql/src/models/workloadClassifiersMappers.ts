@@ -60,7 +60,6 @@ export {
   ManagedDatabase,
   ManagedDatabaseRestoreDetailsResult,
   ManagedDatabaseSecurityAlertPolicy,
-  ManagedDatabaseSecurityAlertPolicyListResult,
   ManagedInstance,
   ManagedInstanceAdministrator,
   ManagedInstanceEncryptionProtector,
@@ -121,5 +120,6 @@ export {
   VulnerabilityAssessmentScanError,
   VulnerabilityAssessmentScanRecord,
   WorkloadClassifier,
+  WorkloadClassifierListResult,
   WorkloadGroup
 } from "../models/mappers";
