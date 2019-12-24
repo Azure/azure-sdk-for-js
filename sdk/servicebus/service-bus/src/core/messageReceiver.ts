@@ -400,7 +400,7 @@ export class MessageReceiver extends LinkEntity {
                   try {
                     // Attempt to renew lock only if it is not already settled.
                     // This is because a race condition may be possible where the request
-                    // to renew message lock may coincide with message settlement
+                    // to renew message lock may coincide with message settlement retries.
                     if (!bMessage.isSettled) {
                       log.receiver(
                         "[%s] Attempting to renew the lock for message with id '%s'.",
