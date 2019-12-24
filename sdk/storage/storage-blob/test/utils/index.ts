@@ -46,7 +46,7 @@ export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): BlobServiceClient {
-  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+  if (env.STORAGE_CONNECTION_STRING && env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
@@ -157,7 +157,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -165,7 +165,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }

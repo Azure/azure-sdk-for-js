@@ -47,7 +47,8 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
   DevelopmentConnectionString,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  SNAPSHOT_URL_SCHEME
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -179,7 +180,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * @export
  * @interface BlobBeginCopyFromURLResponse
  */
-export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse { }
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -3447,7 +3448,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -3703,7 +3704,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -4504,10 +4505,22 @@ export class PageBlobClient extends BlobClient {
    * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
+  public async getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
+  /**
+   * Gets the collection of page ranges that differ between a specified snapshot and this page blob.
+   * Allows for specifying the URL of the previous snapshot rather than just its timestamp.
+   * @param {number} offset Starting byte position of the page blob
+   * @param {number} count Number of bytes to get ranges diff.
+   * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
+   * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
+   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @memberof PageBlobClient
+   */
+  public async getPageRangesDiff(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
   public async getPageRangesDiff(
     offset: number,
     count: number,
-    prevSnapshot: string,
+    prevSnapshotTimestampOrUrl: string,
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<PageBlobGetPageRangesDiffResponse> {
     options.conditions = options.conditions || {};
@@ -4515,13 +4528,23 @@ export class PageBlobClient extends BlobClient {
       "PageBlobClient-getPageRangesDiff",
       options.tracingOptions
     );
+
+    let prevSnapshotUrl = undefined;
+    let prevsnapshot = undefined;
+    if (prevSnapshotTimestampOrUrl.startsWith(SNAPSHOT_URL_SCHEME)) {
+      prevSnapshotUrl = prevSnapshotTimestampOrUrl;
+    } else {
+      prevsnapshot = prevSnapshotTimestampOrUrl;
+    }
+
     try {
       return await this.pageBlobContext
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          prevsnapshot: prevSnapshot,
+          prevsnapshot,
+          prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
         })
@@ -5162,24 +5185,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: ContainerGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.

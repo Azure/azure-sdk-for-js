@@ -21,7 +21,7 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -31,7 +31,7 @@ describe("PageBlobClient", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -114,10 +114,10 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
     await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
 
     const page1 = await pageBlobClient.download(0, 512);
@@ -172,6 +172,30 @@ describe("PageBlobClient", () => {
     await pageBlobClient.clearPages(512, 512);
 
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
+    assert.equal(rangesDiff.pageRange![0].offset, 0);
+    assert.equal(rangesDiff.pageRange![0].count, 511);
+    assert.equal(rangesDiff.clearRange![0].offset, 512);
+    assert.equal(rangesDiff.clearRange![0].count, 511);
+  });
+
+  it("getPageRangesDiff with URL", async () => {
+    // TODO: record test in production environment
+    recorder.skip(undefined, "Waiting for service to light up.");
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
+
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
+    await pageBlobClient.clearPages(512, 512);
+
+    let snapShotUrl = pageBlobClient.url + '?snapshot=' + snapshotResult.snapshot;
+    const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapShotUrl);
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
     assert.equal(rangesDiff.pageRange![0].count, 511);

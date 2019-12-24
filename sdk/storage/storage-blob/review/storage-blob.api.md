@@ -105,6 +105,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -140,6 +141,7 @@ export interface AppendBlobAppendBlockHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -184,6 +186,7 @@ export interface AppendBlobCreateHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -344,7 +347,7 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
@@ -377,6 +380,7 @@ export class BlobClient extends StorageClient {
 // @public
 export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
+    contentMD5?: Uint8Array;
     copyId?: string;
     copyStatus?: SyncCopyStatusType;
     date?: Date;
@@ -386,6 +390,7 @@ export interface BlobCopyFromURLHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
@@ -474,6 +479,7 @@ export interface BlobDownloadHeaders {
     copyStatusDescription?: string;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -574,6 +580,7 @@ export interface BlobGetPropertiesHeaders {
     date?: Date;
     destinationSnapshot?: string;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -700,6 +707,7 @@ export interface BlobProperties {
     deletedOn?: Date;
     // (undocumented)
     destinationSnapshot?: string;
+    encryptionScope?: string;
     // (undocumented)
     etag: string;
     // (undocumented)
@@ -835,6 +843,7 @@ export interface BlobSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -979,6 +988,7 @@ export interface BlockBlobCommitBlockListHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1055,6 +1065,7 @@ export interface BlockBlobStageBlockFromURLHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     isServerEncrypted?: boolean;
@@ -1086,6 +1097,7 @@ export interface BlockBlobStageBlockHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     isServerEncrypted?: boolean;
@@ -1124,6 +1136,7 @@ export interface BlockBlobUploadHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1325,6 +1338,8 @@ export interface ContainerGetPropertiesHeaders {
     blobPublicAccess?: PublicAccessType;
     clientRequestId?: string;
     date?: Date;
+    defaultEncryptionScope?: string;
+    denyEncryptionScopeOverride?: boolean;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1420,6 +1435,10 @@ export interface ContainerListBlobsOptions extends CommonOptions {
 
 // @public
 export interface ContainerProperties {
+    // (undocumented)
+    defaultEncryptionScope?: string;
+    // (undocumented)
+    denyEncryptionScopeOverride?: boolean;
     // (undocumented)
     etag: string;
     // (undocumented)
@@ -1755,6 +1774,7 @@ export class PageBlobClient extends BlobClient {
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
     getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
+    getPageRangesDiff(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
     resize(size: number, options?: PageBlobResizeOptions): Promise<PageBlobResizeResponse>;
     startCopyIncremental(copySource: string, options?: PageBlobStartCopyIncrementalOptions): Promise<PageBlobCopyIncrementalResponse>;
     updateSequenceNumber(sequenceNumberAction: SequenceNumberActionType, sequenceNumber?: number, options?: PageBlobUpdateSequenceNumberOptions): Promise<PageBlobUpdateSequenceNumberResponse>;
@@ -1790,6 +1810,7 @@ export interface PageBlobCreateHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1942,6 +1963,7 @@ export interface PageBlobUploadPagesFromURLHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1976,6 +1998,7 @@ export interface PageBlobUploadPagesHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
