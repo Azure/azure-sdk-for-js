@@ -60,6 +60,33 @@ export interface RedisLinkedServer {
 }
 
 /**
+ * Details of single instance of redis.
+ */
+export interface RedisInstanceDetails {
+  /**
+   * Redis instance SSL port.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sslPort?: number;
+  /**
+   * If enableNonSslPort is true, provides Redis instance Non-SSL port.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nonSslPort?: number;
+  /**
+   * If the Cache uses availability zones, specifies availability zone where this instance is
+   * located.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zone?: string;
+  /**
+   * If clustering is enabled, the Shard ID of Redis Instance
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shardId?: number;
+}
+
+/**
  * The Resource definition.
  */
 export interface Resource extends BaseResource {
@@ -116,6 +143,10 @@ export interface RedisCreateParameters {
    */
   enableNonSslPort?: boolean;
   /**
+   * The number of replicas to be created per master.
+   */
+  replicasPerMaster?: number;
+  /**
    * A dictionary of tenant settings
    */
   tenantSettings?: { [propertyName: string]: string };
@@ -171,6 +202,10 @@ export interface RedisUpdateParameters {
    * Specifies whether the non-ssl Redis server port (6379) is enabled.
    */
   enableNonSslPort?: boolean;
+  /**
+   * The number of replicas to be created per master.
+   */
+  replicasPerMaster?: number;
   /**
    * A dictionary of tenant settings
    */
@@ -252,6 +287,10 @@ export interface RedisResource extends TrackedResource {
    */
   enableNonSslPort?: boolean;
   /**
+   * The number of replicas to be created per master.
+   */
+  replicasPerMaster?: number;
+  /**
    * A dictionary of tenant settings
    */
   tenantSettings?: { [propertyName: string]: string };
@@ -317,6 +356,11 @@ export interface RedisResource extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly linkedServers?: RedisLinkedServer[];
+  /**
+   * List of the Redis instances associated with the cache
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instances?: RedisInstanceDetails[];
   /**
    * A list of availability zones denoting where the resource needs to come from.
    */
