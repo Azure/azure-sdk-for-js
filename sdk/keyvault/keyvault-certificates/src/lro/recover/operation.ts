@@ -10,6 +10,11 @@ import {
 } from "../../certificatesModels";
 
 /**
+ * The public representation of the RecoverDeletedCertificatePoller operation state.
+ */
+export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+
+/**
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface RecoverDeletedCertificatePollOperationState

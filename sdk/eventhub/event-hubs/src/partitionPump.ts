@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
@@ -60,7 +60,9 @@ export class PartitionPump {
     // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
     this._receiveEvents(startingPosition, this._partitionProcessor.partitionId);
-    log.partitionPump("Successfully started the receiver.");
+    logger.info(
+      `Successfully started the receiver for partition "${this._partitionProcessor.partitionId}".`
+    );
   }
 
   private async _receiveEvents(
@@ -111,11 +113,16 @@ export class PartitionPump {
           return;
         }
 
+        logger.warning(
+          `An error was thrown while receiving or processing events on partition "${this._partitionProcessor.partitionId}"`
+        );
+        logErrorStackTrace(err);
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
         } catch (err) {
-          log.error("An error was thrown by user's processError method: ", err);
+          // Using verbose over warning because this error is swallowed.
+          logger.verbose("An error was thrown by user's processError method: ", err);
         }
 
         // close the partition processor if a non-retryable error was encountered
@@ -129,7 +136,8 @@ export class PartitionPump {
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
           } catch (err) {
-            log.error(
+            // Using verbose over warning because this error is swallowed.
+            logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
               err
             );
@@ -152,7 +160,8 @@ export class PartitionPump {
       this._abortController.abort();
       await this._partitionProcessor.close(reason);
     } catch (err) {
-      log.error("An error occurred while closing the receiver.", err);
+      logger.warning("An error occurred while closing the receiver.", err);
+      logErrorStackTrace(err);
       this._partitionProcessor.processError(err);
       throw err;
     }

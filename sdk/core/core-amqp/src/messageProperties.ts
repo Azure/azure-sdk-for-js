@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { MessageProperties as AmqpMessageProperties } from "rhea-promise";
-import * as log from "./log";
+import { logger } from "./log";
 
 /**
  * Describes the defined set of standard properties of the message.
@@ -118,7 +118,7 @@ export namespace MessageProperties {
       amqpProperties.user_id = props.userId;
     }
 
-    log.msgProperties("To AmqpMessageProperties: %O", amqpProperties);
+    logger.verbose("To AmqpMessageProperties: %O", amqpProperties);
     return amqpProperties;
   }
 
@@ -169,7 +169,7 @@ export namespace MessageProperties {
       msgProperties.userId = props.user_id;
     }
 
-    log.msgProperties("From AmqpMessageProperties: %O", msgProperties);
+    logger.verbose("From AmqpMessageProperties: %O", msgProperties);
     return msgProperties;
   }
 }
