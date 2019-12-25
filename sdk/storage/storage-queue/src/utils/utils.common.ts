@@ -365,15 +365,6 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
-export function hostResemblesIP(host: string): boolean {
-  return (
-    // IPv6 addresses
-    /^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$/g.test(host) ||
-    // IPv4 addresses
-    /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(host)
-  );
-}
-
 /**
  * Extracts account name from the url
  * @param {string} url url to extract the account name from
