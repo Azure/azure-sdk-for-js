@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { HttpHeaders, QueueClient } from "../src";
+import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
