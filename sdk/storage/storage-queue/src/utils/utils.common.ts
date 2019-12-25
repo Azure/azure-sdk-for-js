@@ -365,29 +365,48 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+export function hostResemblesIP(host: string): boolean {
+  return (
+    // IPv6 addresses
+    /^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$/g.test(host) ||
+    // IPv4 addresses
+    /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(host)
+  );
+}
+
 /**
  * Extracts account name from the url
  * @param {string} url url to extract the account name from
  * @returns {string} with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  if (url.startsWith("http://127.0.0.1:10000")) {
-    // Dev Conn String
-    return getValueInConnString(DevelopmentConnectionString, "AccountName");
-  } else {
-    try {
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
+  try {
+    if (parsedUrl.getHost()!.split(".")[1] === "queue") {
       // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
       // Slicing off '/' at the end if exists
       url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-      const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
-      if (!accountName) {
-        throw new Error("Provided accountName is invalid.");
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else {
+      if (url.startsWith("http://127.0.0.1:10000")) {
+        // Dev Conn String
+        accountName = getValueInConnString(DevelopmentConnectionString, "AccountName");
+      } else {
+        // IP style Endpoints - Both IPv4 and IPv6... Example - http://192.0.0.10:10001/devstoreaccount1/
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+        // .getPath() -> /devstoreaccount1/
+        accountName = parsedUrl.getPath()!.split("/")[1];
       }
-      return accountName;
-    } catch (error) {
-      throw new Error("Unable to extract accountName with provided information.");
     }
+
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with the provided information.");
   }
 }
 

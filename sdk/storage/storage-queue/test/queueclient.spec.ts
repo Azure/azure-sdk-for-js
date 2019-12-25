@@ -8,6 +8,16 @@ import { setupEnvironment } from "./utils/testutils.common";
 import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
+function verifyNameProperties(url: string, accountName: string, queueName: string) {
+  const newClient = new QueueClient(url);
+  assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+  assert.equal(
+    newClient.accountName,
+    accountName,
+    "Account name is not the same as the one provided."
+  );
+}
+
 describe("QueueClient", () => {
   setupEnvironment();
   const queueServiceClient = getQSU();
@@ -161,14 +171,39 @@ describe("QueueClient", () => {
     }
   });
 
-  it("verify accountName and queueName passed to the client", async () => {
+  it.only("verify accountName and queueName passed to the client - Endpoint from the portal", async () => {
     const accountName = "myaccount";
-    const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
-    assert.equal(
-      newClient.accountName,
+    verifyNameProperties(
+      `https://${accountName}.queue.core.windows.net/` + queueName,
       accountName,
-      "Account name is not the same as the one provided."
+      queueName
+    );
+  });
+
+  it.only("verify accountName and queueName passed to the client - IPv4 style Endpoint", async () => {
+    const accountName = "myaccount";
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it.only("verify accountName and queueName passed to the client - IPv6 style Endpoint", async () => {
+    const accountName = "myaccount";
+    verifyNameProperties(
+      `https://192.0.0.10:1000/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it.only("verify accountName and queueName passed to the client - Endpoint without dots", async () => {
+    const accountName = "myaccount";
+    verifyNameProperties(
+      `https://localhost:80/${accountName}/${queueName}`,
+      accountName,
+      queueName
     );
   });
 
