@@ -111,7 +111,7 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   fileHttpHeaders?: FileHttpHeaders;
 }
 
-export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
+export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse { }
 
 /**
  * Options to configure the {@link ShareFileClient.delete} operation.
@@ -394,7 +394,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  */
 export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -430,7 +430,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  */
 export interface FileResizeOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -2017,8 +2017,8 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
-              `\t ${error.message}`
+            'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+            `\t ${error.message}`
           );
         }
       }
@@ -2130,7 +2130,7 @@ export class ShareFileClient extends StorageClient {
           if (transferProgress + buffer.length > size) {
             throw new RangeError(
               `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-                `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
             );
           }
 
@@ -2408,6 +2408,7 @@ export class ShareFileClient extends StorageClient {
     );
     try {
       let handlesClosed = 0;
+      let numberOfHandlesFailedToClose = 0;
       let marker: string | undefined = "";
 
       do {
@@ -2417,10 +2418,12 @@ export class ShareFileClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
+        response.numberOfHandlesFailedToClose && (numberOfHandlesFailedToClose += response.numberOfHandlesFailedToClose);
       } while (marker);
 
       return {
-        closedHandlesCount: handlesClosed
+        closedHandlesCount: handlesClosed,
+        numberOfHandlesFailedToClose,
       };
     } catch (e) {
       span.setStatus({

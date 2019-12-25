@@ -69,7 +69,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 
 export interface DirectoryProperties
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1337,6 +1337,7 @@ export class ShareDirectoryClient extends StorageClient {
     );
     try {
       let handlesClosed = 0;
+      let numberOfHandlesFailedToClose = 0;
       let marker: string | undefined = "";
 
       do {
@@ -1346,9 +1347,10 @@ export class ShareDirectoryClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
+        response.numberOfHandlesFailedToClose && (numberOfHandlesFailedToClose += response.numberOfHandlesFailedToClose);
       } while (marker);
 
-      return { closedHandlesCount: handlesClosed };
+      return { closedHandlesCount: handlesClosed, numberOfHandlesFailedToClose };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
