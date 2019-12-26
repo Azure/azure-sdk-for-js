@@ -38,12 +38,12 @@ async function retryCreateManagementEntityOperation(
   let count = 0;
   while (count < retryAttempts) {
     try {
-      await createEntityOperation();
       const entityExists = await checkIfEntityExistsOperation();
       if (entityExists) {
         succeeded = true;
         break;
       }
+      await createEntityOperation();
     } catch (err) {
       // Ignore error and wait before retrying
       await delay(retryDelayInMs);
