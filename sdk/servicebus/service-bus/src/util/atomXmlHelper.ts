@@ -408,9 +408,5 @@ function getErrorCode(response: HttpOperationResponse, errorMessage: string): st
     return "ServerBusyError";
   }
 
-  if (isKnownResponseCode(response.status)) {
-    return (Constants.HttpResponseCodes as { [statusCode: number]: string })[response.status];
-  }
-
-  return "ServiceError";
+  return (Constants.HttpResponseCodes as { [statusCode: number]: string })[response.status];
 }
