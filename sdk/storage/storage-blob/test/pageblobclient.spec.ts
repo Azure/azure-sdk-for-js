@@ -8,6 +8,7 @@ import {
 } from "./utils";
 import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { isNode } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
@@ -179,8 +180,6 @@ describe("PageBlobClient", () => {
   });
 
   it("getPageRangesDiff with URL", async () => {
-    // TODO: record test in production environment
-    recorder.skip(undefined, "Waiting for service to light up.");
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -194,7 +193,12 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await pageBlobClient.clearPages(512, 512);
 
-    let snapShotUrl = pageBlobClient.url + '?snapshot=' + snapshotResult.snapshot;
+    let snapShotUrl;
+    if (!isNode) {
+      snapShotUrl = pageBlobClient.url + '&snapshot=' + snapshotResult.snapshot;
+    } else {
+      snapShotUrl = pageBlobClient.url + '?snapshot=' + snapshotResult.snapshot;
+    }
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapShotUrl);
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
