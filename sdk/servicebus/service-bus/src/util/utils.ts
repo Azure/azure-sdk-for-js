@@ -265,7 +265,7 @@ export function isJSONLikeObject(value: any): boolean {
 }
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to retrieve message count details from given input,
  * or undefined if not passed in.
  * @param value
@@ -307,7 +307,7 @@ export type AuthorizationRule = {
 };
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  * @param value
@@ -366,7 +366,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
 }
 
 /**
- *  @ignore
+ * @ignore
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
  * @param value
@@ -426,6 +426,16 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 }
 
 /**
+ * @ignore
+ * Helper utility to check if given string is an absolute URL
+ * @param url
+ */
+export function isAbsoluteUrl(url: string) {
+  const _url = url.toLowerCase();
+  return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
+}
+
+/*
  * Possible values for `status` of the Service Bus messaging entities.
  */
 export type EntityStatus =
