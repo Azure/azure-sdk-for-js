@@ -44,30 +44,6 @@ export interface CheckNameAvailabilityResponse {
 }
 
 /**
- * Response on Error
- */
-export interface ErrorResponse {
-  /**
-   * Describes the error in detail and provides debugging information
-   */
-  message: string;
-  /**
-   * String that can be used to programmatically identify the error.
-   */
-  code: string;
-  /**
-   * The target of the particular error
-   */
-  target?: string;
-  /**
-   * An array of JSON objects that MUST contain name/value pairs for code and message, and MAY
-   * contain a name/value pair for target, as described above.The contents of this section are
-   * service-defined but must adhere to the aforementioned schema.
-   */
-  details?: string;
-}
-
-/**
  * The object that represents the operation.
  */
 export interface OperationDisplay {
@@ -101,6 +77,30 @@ export interface Operation {
    * The object that represents the operation.
    */
   display?: OperationDisplay;
+}
+
+/**
+ * Response on Error
+ */
+export interface ErrorResponse {
+  /**
+   * Describes the error in detail and provides debugging information
+   */
+  message: string;
+  /**
+   * String that can be used to programmatically identify the error.
+   */
+  code: string;
+  /**
+   * The target of the particular error
+   */
+  target?: string;
+  /**
+   * An array of JSON objects that MUST contain name/value pairs for code and message, and MAY
+   * contain a name/value pair for target, as described above.The contents of this section are
+   * service-defined but must adhere to the aforementioned schema.
+   */
+  details?: string;
 }
 
 /**
@@ -141,11 +141,11 @@ export interface TrackedResource extends Resource {
 }
 
 /**
- * SpatialAnchorsAccount Response.
+ * RemoteRenderingAccount Response.
  */
-export interface SpatialAnchorsAccount extends TrackedResource {
+export interface RemoteRenderingAccount extends TrackedResource {
   /**
-   * unique id of certain Spatial Anchors Account data contract.
+   * unique id of certain account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly accountId?: string;
@@ -154,32 +154,6 @@ export interface SpatialAnchorsAccount extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly accountDomain?: string;
-}
-
-/**
- * Spatial Anchors Account Keys
- */
-export interface SpatialAnchorsAccountKeys {
-  /**
-   * value of primary key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly primaryKey?: string;
-  /**
-   * value of secondary key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly secondaryKey?: string;
-}
-
-/**
- * Spatial Anchors Account Regenerate Key
- */
-export interface SpatialAnchorsAccountKeyRegenerateRequest {
-  /**
-   * serial of key to be regenerated. Default value: 1.
-   */
-  serial?: number;
 }
 
 /**
@@ -201,6 +175,48 @@ export interface AzureEntityResource extends Resource {
 }
 
 /**
+ * Developer Keys of account
+ */
+export interface AccountKeys {
+  /**
+   * value of primary key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly primaryKey?: string;
+  /**
+   * value of secondary key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly secondaryKey?: string;
+}
+
+/**
+ * Request for account key regeneration
+ */
+export interface AccountKeyRegenerateRequest {
+  /**
+   * serial of key to be regenerated. Default value: 1.
+   */
+  serial?: number;
+}
+
+/**
+ * SpatialAnchorsAccount Response.
+ */
+export interface SpatialAnchorsAccount extends TrackedResource {
+  /**
+   * unique id of certain account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Correspond domain name of certain Spatial Anchors Account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountDomain?: string;
+}
+
+/**
  * An interface representing MixedRealityClientOptions.
  */
 export interface MixedRealityClientOptions extends AzureServiceClientOptions {
@@ -213,7 +229,7 @@ export interface MixedRealityClientOptions extends AzureServiceClientOptions {
  * a URL link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationList extends Array<Operation> {
+export interface OperationPage extends Array<Operation> {
   /**
    * URL to get the next set of operation list results if there are any.
    */
@@ -224,9 +240,22 @@ export interface OperationList extends Array<Operation> {
  * @interface
  * Result of the request to get resource collection. It contains a list of resources and a URL link
  * to get the next set of results.
+ * @extends Array<RemoteRenderingAccount>
+ */
+export interface RemoteRenderingAccountPage extends Array<RemoteRenderingAccount> {
+  /**
+   * URL to get the next set of resource list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to get resource collection. It contains a list of resources and a URL link
+ * to get the next set of results.
  * @extends Array<SpatialAnchorsAccount>
  */
-export interface SpatialAnchorsAccountList extends Array<SpatialAnchorsAccount> {
+export interface SpatialAnchorsAccountPage extends Array<SpatialAnchorsAccount> {
   /**
    * URL to get the next set of resource list results if there are any.
    */
@@ -252,7 +281,7 @@ export type NameUnavailableReason = 'Invalid' | 'AlreadyExists';
 /**
  * Contains response data for the list operation.
  */
-export type OperationsListResponse = OperationList & {
+export type OperationsListResponse = OperationPage & {
   /**
    * The underlying HTTP response.
    */
@@ -265,14 +294,14 @@ export type OperationsListResponse = OperationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationList;
+      parsedBody: OperationPage;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type OperationsListNextResponse = OperationList & {
+export type OperationsListNextResponse = OperationPage & {
   /**
    * The underlying HTTP response.
    */
@@ -285,7 +314,7 @@ export type OperationsListNextResponse = OperationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationList;
+      parsedBody: OperationPage;
     };
 };
 
@@ -312,7 +341,7 @@ export type CheckNameAvailabilityLocalResponse = CheckNameAvailabilityResponse &
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAccountList & {
+export type RemoteRenderingAccountsListBySubscriptionResponse = RemoteRenderingAccountPage & {
   /**
    * The underlying HTTP response.
    */
@@ -325,14 +354,14 @@ export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAcc
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountList;
+      parsedBody: RemoteRenderingAccountPage;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAccountList & {
+export type RemoteRenderingAccountsListByResourceGroupResponse = RemoteRenderingAccountPage & {
   /**
    * The underlying HTTP response.
    */
@@ -345,7 +374,187 @@ export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAc
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountList;
+      parsedBody: RemoteRenderingAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RemoteRenderingAccountsGetResponse = RemoteRenderingAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemoteRenderingAccount;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type RemoteRenderingAccountsUpdateResponse = RemoteRenderingAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemoteRenderingAccount;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type RemoteRenderingAccountsCreateResponse = RemoteRenderingAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemoteRenderingAccount;
+    };
+};
+
+/**
+ * Contains response data for the getKeys operation.
+ */
+export type RemoteRenderingAccountsGetKeysResponse = AccountKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountKeys;
+    };
+};
+
+/**
+ * Contains response data for the regenerateKeys operation.
+ */
+export type RemoteRenderingAccountsRegenerateKeysResponse = AccountKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountKeys;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type RemoteRenderingAccountsListBySubscriptionNextResponse = RemoteRenderingAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemoteRenderingAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type RemoteRenderingAccountsListByResourceGroupNextResponse = RemoteRenderingAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemoteRenderingAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SpatialAnchorsAccountPage;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAccountPage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SpatialAnchorsAccountPage;
     };
 };
 
@@ -412,7 +621,7 @@ export type SpatialAnchorsAccountsCreateResponse = SpatialAnchorsAccount & {
 /**
  * Contains response data for the getKeys operation.
  */
-export type SpatialAnchorsAccountsGetKeysResponse = SpatialAnchorsAccountKeys & {
+export type SpatialAnchorsAccountsGetKeysResponse = AccountKeys & {
   /**
    * The underlying HTTP response.
    */
@@ -425,14 +634,14 @@ export type SpatialAnchorsAccountsGetKeysResponse = SpatialAnchorsAccountKeys & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountKeys;
+      parsedBody: AccountKeys;
     };
 };
 
 /**
  * Contains response data for the regenerateKeys operation.
  */
-export type SpatialAnchorsAccountsRegenerateKeysResponse = SpatialAnchorsAccountKeys & {
+export type SpatialAnchorsAccountsRegenerateKeysResponse = AccountKeys & {
   /**
    * The underlying HTTP response.
    */
@@ -445,14 +654,14 @@ export type SpatialAnchorsAccountsRegenerateKeysResponse = SpatialAnchorsAccount
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountKeys;
+      parsedBody: AccountKeys;
     };
 };
 
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchorsAccountList & {
+export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchorsAccountPage & {
   /**
    * The underlying HTTP response.
    */
@@ -465,14 +674,14 @@ export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchor
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountList;
+      parsedBody: SpatialAnchorsAccountPage;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAnchorsAccountList & {
+export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAnchorsAccountPage & {
   /**
    * The underlying HTTP response.
    */
@@ -485,6 +694,6 @@ export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAncho
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SpatialAnchorsAccountList;
+      parsedBody: SpatialAnchorsAccountPage;
     };
 };
