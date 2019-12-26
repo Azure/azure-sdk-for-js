@@ -778,16 +778,6 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     );
     await testMultipleReceiveCalls();
   });
-
-  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
-    );
-    await testMultipleReceiveCalls();
-  });
 });
 
 describe("Sessions Streaming - Settle an already Settled message throws error", () => {
@@ -966,16 +956,6 @@ describe("Sessions Streaming - User Error", function(): void {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
-    );
-    await testUserError();
-  });
-
-  it("UnPartitioned Subscription: onError handler is called for user error(with sessions)", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testUserError();
   });

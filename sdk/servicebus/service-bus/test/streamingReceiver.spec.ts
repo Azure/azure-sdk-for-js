@@ -703,16 +703,6 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testMultipleReceiveCalls();
   });
-
-  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
-    await testMultipleReceiveCalls();
-  });
 });
 
 describe("Streaming - Settle an already Settled message throws error", () => {
@@ -868,16 +858,6 @@ describe("Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testUserError();
-  });
-
-  it("UnPartitioned Subscription: onError handler is called for user error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
     await testUserError();
   });
 });
