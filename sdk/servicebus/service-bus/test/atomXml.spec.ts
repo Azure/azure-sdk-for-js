@@ -616,36 +616,67 @@ class MockSerializer implements AtomXmlSerializer {
 });
 
 describe(`Parse empty response for list() requests to return as empty array #RunInBrowser`, function(): void {
-  mockServiceBusAtomManagementClient.sendRequest = async () => {
-    return {
-      request: new WebResource(),
-      bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
-      status: 200,
-      headers: new HttpHeaders({})
-    };
-  };
-
   function assertEmptyArray(result: any) {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     assert.equal(Array.isArray(result), true, "Result must be an array");
     assert.equal(result.length, 0, "Result must be an empty array");
   }
 
   it(`List on empty list of queues gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     const result = await mockServiceBusAtomManagementClient.listQueues();
     assertEmptyArray(result);
   });
 
   it(`List on empty list of topics gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     const result = await mockServiceBusAtomManagementClient.listTopics();
     assertEmptyArray(result);
   });
 
   it(`List on empty list of subscriptions gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     const result = await mockServiceBusAtomManagementClient.listSubscriptions("testTopic");
     assertEmptyArray(result);
   });
 
   it(`List on empty list of rules gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
     const result = await mockServiceBusAtomManagementClient.listRules(
       "testTopic",
       "testSubscription"

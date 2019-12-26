@@ -45,11 +45,11 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
     Status: getStringOrUndefined(queueOptions.status),
-    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
     AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queueOptions.forwardDeadLetteredMessagesTo),
+    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
+    UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
 }
 
@@ -63,7 +63,7 @@ export function buildQueue(rawQueue: any): QueueDetails {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
-    forwardTo: rawQueue[Constants.FORWARD_TO],
+    forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
     userMetadata: rawQueue[Constants.USER_METADATA],
 
     lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
@@ -98,7 +98,9 @@ export function buildQueue(rawQueue: any): QueueDetails {
       rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
       "deadLetteringOnMessageExpiration"
     ),
-    forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+    forwardDeadLetteredMessagesTo: getStringOrUndefined(
+      rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
+    ),
 
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
     supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
@@ -198,12 +200,17 @@ export interface QueueOptions {
   status?: EntityStatus;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
@@ -220,8 +227,10 @@ export interface QueueOptions {
   enablePartitioning?: boolean;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 }
@@ -234,7 +243,7 @@ export interface InternalQueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver.
+   * can be consumed by the next receiver.
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -310,12 +319,17 @@ export interface InternalQueueOptions {
   Status?: string;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   UserMetadata?: string;
 
@@ -332,8 +346,10 @@ export interface InternalQueueOptions {
   EnablePartitioning?: string;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
 }
@@ -350,7 +366,7 @@ export interface QueueDetails {
   /**
    * Determines the amount of time in seconds in which a message should be locked
    * for processing by a receiver. After this period, the message is unlocked and
-   * available for consumption by the next receiver.
+   * can be consumed by the next receiver.
    * Settable only at queue creation time.
    * This is specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -395,8 +411,10 @@ export interface QueueDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * The URL of Service Bus queue to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -441,12 +459,17 @@ export interface QueueDetails {
   deadLetteringOnMessageExpiration: boolean;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the queue description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 

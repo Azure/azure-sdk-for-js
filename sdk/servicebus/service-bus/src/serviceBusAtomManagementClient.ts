@@ -16,7 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { SasTokenProvider, parseConnectionString } from "@azure/amqp-common";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -56,7 +56,7 @@ import {
   Rule,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
  * Options to use with ServiceBusAtomManagementClient creation
@@ -329,12 +329,28 @@ export interface ListRulesResponse extends Array<Rule> {
  * access the direct response from the service.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
+  /**
+   * Reference to the endpoint as extracted from input connection string.
+   */
   private endpoint: string;
 
+  /**
+   * Reference to the endpoint with protocol prefix as extracted from input connection string.
+   */
+  private endpointWithProtocol: string;
+
+  /**
+   * Singleton instances of serializers used across the various operations.
+   */
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
   private ruleResourceSerializer: AtomXmlSerializer;
+
+  /**
+   * SAS token provider used to generate tokens as required for the various operations.
+   */
+  private sasTokenProvider: SasTokenProvider;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -369,6 +385,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
     this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+    this.endpointWithProtocol = connectionStringObj.Endpoint;
+
+    this.sasTokenProvider = new SasTokenProvider(
+      connectionStringObj.Endpoint,
+      connectionStringObj.SharedAccessKeyName,
+      connectionStringObj.SharedAccessKey
+    );
   }
 
   /**
@@ -839,6 +862,33 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }
+
+    const queueOrSubscriptionFields = entityFields as
+      | InternalQueueOptions
+      | InternalSubscriptionOptions;
+    if (
+      queueOrSubscriptionFields.ForwardTo ||
+      queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+    ) {
+      const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
+      if (queueOrSubscriptionFields.ForwardTo) {
+        webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
+          queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
+            queueOrSubscriptionFields.ForwardTo
+          );
+        }
+      }
+      if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+        webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+          );
+        }
+      }
+    }
+
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
     return executeAtomXmlOperation(this, webResource, serializer);
@@ -947,7 +997,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
+      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
+        _response: response
+      });
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -964,7 +1016,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: QueueResponse = Object.assign(queue || {}, { _response: response });
+      const queueResponse: QueueResponse = Object.assign(queue || {}, {
+        _response: response
+      });
       return queueResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -991,7 +1045,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
+      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, {
+        _response: response
+      });
       return listTopicsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1008,7 +1064,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: TopicResponse = Object.assign(topic || {}, { _response: response });
+      const topicResponse: TopicResponse = Object.assign(topic || {}, {
+        _response: response
+      });
       return topicResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1085,7 +1143,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
+      const listRulesResponse: ListRulesResponse = Object.assign(rules, {
+        _response: response
+      });
       return listRulesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);

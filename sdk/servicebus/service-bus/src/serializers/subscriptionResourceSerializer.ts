@@ -91,12 +91,14 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
       rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS],
       "deadLetteringOnFilterEvaluationExceptions"
     ),
-    forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+    forwardDeadLetteredMessagesTo: getStringOrUndefined(
+      rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
+    ),
     defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
 
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
 
-    forwardTo: rawSubscription[Constants.FORWARD_TO],
+    forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
     entityAvailabilityStatus: getString(
@@ -175,18 +177,25 @@ export interface SubscriptionOptions {
   status?: EntityStatus;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the subscription description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -264,18 +273,25 @@ export interface InternalSubscriptionOptions {
   Status?: string;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the subscription description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   UserMetadata?: string;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
 
@@ -352,7 +368,7 @@ export interface SubscriptionDetails {
   /**
    * Determines how long a message lives in the subscription. Based on whether
    * dead-lettering is enabled, a message whose TTL has expired will either be moved
-   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
@@ -392,8 +408,10 @@ export interface SubscriptionDetails {
   deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
-   * The URL of Service Bus subscription to forward deadlettered messages to.
-   *
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
 
@@ -405,12 +423,17 @@ export interface SubscriptionDetails {
   maxDeliveryCount: number;
 
   /**
-   * ForwardTo header
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardTo?: string;
 
   /**
-   * The user metadata information
+   * The user provided metadata information associated with the subscription description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
