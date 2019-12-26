@@ -400,7 +400,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueOptions Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -429,7 +429,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Queue with the given name along with all its properties
    * @param queueName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -453,7 +453,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Lists existing queues.
    * @param listRequestOptions
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
@@ -481,7 +481,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueOptions Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -520,7 +520,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Deletes a queue.
    * @param queueName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -546,7 +546,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicOptions Options to configure the Topic being created.
    * For example, you can configure a topic to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -575,7 +575,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Topic with the given name along with all its properties
    * @param topicName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -599,7 +599,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Lists existing topics.
    * @param listRequestOptions
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
@@ -627,7 +627,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicOptions Options to configure the Topic being updated.
    * For example, you can configure a topic to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -666,7 +666,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Deletes a topic.
    * @param topicName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -693,7 +693,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionOptions Options to configure the Subscription being created.
    * For example, you can configure a Subscription to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -728,7 +728,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -759,7 +759,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param listRequestOptions
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
@@ -791,7 +791,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionOptions Options to configure the Subscription being updated.
    * For example, you can configure a Subscription to support partitions or sessions.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -837,7 +837,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -870,7 +870,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param ruleName
    * @param ruleOptions
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -906,7 +906,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptioName
    * @param ruleName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -937,7 +937,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionName
    * @param listRequestOptions
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
@@ -972,7 +972,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param ruleOptions Options to configure the Rule being updated.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
@@ -1015,7 +1015,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionName
    * @param ruleName
    *
-   * Following are common errors that can be expected from this operation
+   * following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
    * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
    * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
