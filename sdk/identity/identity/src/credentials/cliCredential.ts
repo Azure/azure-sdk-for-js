@@ -20,7 +20,7 @@ export class CliCredential implements TokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: TokenCredentialOptions, cliCredentialClient: CliCredentialClient = new CliCredentialClient()) {
+  constructor(cliCredentialClient: CliCredentialClient = new CliCredentialClient()) {
     this.client = cliCredentialClient;
   }
 
