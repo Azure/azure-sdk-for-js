@@ -900,22 +900,6 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on senderClient #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueueWithSessions,
-        TestClientType.UnpartitionedQueueWithSessions,
-        entityToClose,
-        true
-      );
-
-      await testSender(
-        getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, true)
-      );
-      await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
-    });
-
     it("Unpartitioned Topic: errors after close() on senderClient", async function(): Promise<
       void
     > {
@@ -923,22 +907,6 @@ describe("Errors after close()", function(): void {
         TestClientType.UnpartitionedTopic,
         TestClientType.UnpartitionedSubscription,
         entityToClose
-      );
-
-      await testSender(
-        getSenderClosedErrorMsg(senderClient.entityPath, ClientType.TopicClient, true)
-      );
-      await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
-    });
-
-    it("Unpartitioned Topic with sessions: errors after close() on senderClient", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopicWithSessions,
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        entityToClose,
-        true
       );
 
       await testSender(
