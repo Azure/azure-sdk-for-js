@@ -14,22 +14,29 @@ import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 const env = getEnvVars();
 let client: ServiceBusAtomManagementClient;
 
+/**
+ * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
+ * a new instance constructed based on the connection string configured in environmet.
+ */
 async function getManagementClient() {
   if (client == undefined) {
-    client = await new ServiceBusAtomManagementClient(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAtomManagementClient(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }
 
 /**
- * Utility to apply retries to `create` management operations.
- * Will ignore if given entity is already existing.
- * @param createEntityOperation
- * @param checkIfEntityExistsOperation
+ * Utility to apply retries to a given `operationCallBack`.
+ * Default policy is performing linear retries of upto `5` attempts that are `1000 milliseconds` apart.
+ * The retries will be preempted if given `breakConditionCallback` evaluates to `true` early on.
+ * @param operationCallback
+ * @param breakConditionCallback
+ * @param operationDescription Text describing the operation. Used for logging purposes.
  */
-async function retryCreateManagementEntityOperation(
-  createEntityOperation: any,
-  checkIfEntityExistsOperation: any
+async function retry(
+  operationCallback: () => void,
+  breakConditionCallback: () => Promise<boolean>,
+  operationDescription: string
 ) {
   const retryAttempts = 5;
   const retryDelayInMs = 1000;
@@ -38,12 +45,12 @@ async function retryCreateManagementEntityOperation(
   let count = 0;
   while (count < retryAttempts) {
     try {
-      const entityExists = await checkIfEntityExistsOperation();
-      if (entityExists) {
+      const breakConditionValue = await breakConditionCallback();
+      if (breakConditionValue) {
         succeeded = true;
         break;
       }
-      await createEntityOperation();
+      await operationCallback();
     } catch (err) {
       // Ignore error and wait before retrying
       await delay(retryDelayInMs);
@@ -53,46 +60,15 @@ async function retryCreateManagementEntityOperation(
   }
 
   if (!succeeded) {
-    throw new Error("Error occurred while attempting to create a Service Bus entity");
+    throw new Error(`Error occurred while attempting to execute "${operationDescription}"`);
   }
 }
 
 /**
- * Utility to apply retries to `delete` management operations.
- * Will exit if given entity is already deleted.
- * @param createEntityOperation
- * @param checkIfEntityExistsOperation
+ * Utility that deletes and creates a queue using given parameters.
+ * @param queueName
+ * @param parameters
  */
-async function retryDeleteManagementEntityOperation(
-  deleteEntityOperation: any,
-  checkIfEntityExistsOperation: any
-) {
-  const retryAttempts = 5;
-  const retryDelayInMs = 1000;
-
-  let succeeded: boolean = false;
-  let count = 0;
-  while (count < retryAttempts) {
-    try {
-      const entityExists = await checkIfEntityExistsOperation();
-      if (!entityExists) {
-        succeeded = true;
-        break;
-      }
-      await deleteEntityOperation();
-    } catch (err) {
-      // Ignore error and wait before retrying
-      await delay(retryDelayInMs);
-    } finally {
-      count++;
-    }
-  }
-
-  if (!succeeded) {
-    throw new Error("Error occurred while attempting to delete a Service Bus entity");
-  }
-}
-
 export async function recreateQueue(queueName: string, parameters: QueueOptions): Promise<void> {
   await getManagementClient();
 
@@ -113,10 +89,21 @@ export async function recreateQueue(queueName: string, parameters: QueueOptions)
     return true;
   };
 
-  await retryDeleteManagementEntityOperation(deleteQueueOperation, checkIfQueueExistsOperation);
-  await retryCreateManagementEntityOperation(createQueueOperation, checkIfQueueExistsOperation);
+  await retry(
+    deleteQueueOperation,
+    async () => {
+      return !(await checkIfQueueExistsOperation());
+    },
+    `Delete queue "${queueName}"`
+  );
+  await retry(createQueueOperation, checkIfQueueExistsOperation, `Create queue "${queueName}"`);
 }
 
+/**
+ * Utility that deletes and creates a topic using given parameters.
+ * @param topicName
+ * @param parameters
+ */
 export async function recreateTopic(topicName: string, parameters: TopicOptions): Promise<void> {
   await getManagementClient();
 
@@ -137,10 +124,22 @@ export async function recreateTopic(topicName: string, parameters: TopicOptions)
     return true;
   };
 
-  await retryDeleteManagementEntityOperation(deleteTopicOperation, checkIfTopicExistsOperation);
-  await retryCreateManagementEntityOperation(createTopicOperation, checkIfTopicExistsOperation);
+  await retry(
+    deleteTopicOperation,
+    async () => {
+      return !(await checkIfTopicExistsOperation());
+    },
+    `Delete topic "${topicName}"`
+  );
+  await retry(createTopicOperation, checkIfTopicExistsOperation, `Create topic "${topicName}"`);
 }
 
+/**
+ * Utility that creates a subscription using given parameters.
+ * @param topicName
+ * @param subscriptionName
+ * @param parameters
+ */
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
@@ -158,19 +157,18 @@ export async function recreateSubscription(
   };
 
   const checkIfSubscriptionExistsOperation = async () => {
-    const subscriptionDetails = await client.getSubscriptionDetails(topicName, subscriptionName);
-    if (
-      subscriptionDetails != undefined &&
-      subscriptionDetails.subscriptionName.toLowerCase() == subscriptionName.toLowerCase()
-    ) {
-      return true;
+    try {
+      await client.getSubscriptionDetails(topicName, subscriptionName);
+    } catch (err) {
+      return false;
     }
-    return false;
+    return true;
   };
 
-  await retryCreateManagementEntityOperation(
+  await retry(
     createSubscriptionOperation,
-    checkIfSubscriptionExistsOperation
+    checkIfSubscriptionExistsOperation,
+    `Create subscription "${subscriptionName}"`
   );
 }
 
