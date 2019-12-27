@@ -55,6 +55,34 @@ function throwMissingEnvironmentVariablesError(envVars: EnvVarKeys[]): void {
   });
 }
 
+const defaultValueMap: any = {
+  QUEUE_NAME: "partitioned-queue",
+  QUEUE_NAME_NO_PARTITION: "unpartitioned-queue",
+  QUEUE_NAME_SESSION: "partitioned-queue-sessions",
+  QUEUE_NAME_NO_PARTITION_SESSION: "unpartitioned-queue-sessions",
+  TOPIC_NAME: "partitioned-topic",
+  TOPIC_NAME_NO_PARTITION: "unpartitioned-topic",
+  TOPIC_NAME_SESSION: "partitioned-topic-sessions",
+  TOPIC_NAME_NO_PARTITION_SESSION: "unpartitioned-topic-sessions",
+  SUBSCRIPTION_NAME: "partitioned-topic-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION: "unpartitioned-topic-subscription",
+  SUBSCRIPTION_NAME_SESSION: "partitioned-topic-sessions-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION_SESSION: "unpartitioned-topic-sessions-subscription",
+  TOPIC_FILTER_NAME: "topic-filter",
+  TOPIC_FILTER_SUBSCRIPTION_NAME: "topic-filter-subscription",
+  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME: "topic-filter-default-subscription",
+  MANAGEMENT_QUEUE_1: "management-queue-1",
+  MANAGEMENT_TOPIC_1: "management-topic-1",
+  MANAGEMENT_SUBSCRIPTION_1: "management-subscription-1",
+  MANAGEMENT_RULE_1: "management-rule-1",
+  MANAGEMENT_TOPIC_2: "management-topic-2",
+  MANAGEMENT_SUBSCRIPTION_2: "management-subscription-2",
+  MANAGEMENT_TOPIC_3: "management-topic-3",
+  MANAGEMENT_SUBSCRIPTION_3: "management-subscription-3",
+  MANAGEMENT_NEW_ENTITY_1: "management-new-entity-1",
+  MANAGEMENT_NEW_ENTITY_2: "management-new-entity-2"
+};
+
 function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined {
   let result;
   if (isNode) {
@@ -70,90 +98,12 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
   }
 
   // If no values are supplied for entity related env variables,
-  // the default values to use are computed and returned as follows
-  let defaultValue;
-  switch (name) {
-    case EnvVarKeys.QUEUE_NAME:
-      defaultValue = "partitioned-queue";
-      break;
-    case EnvVarKeys.QUEUE_NAME_NO_PARTITION:
-      defaultValue = "unpartitioned-queue";
-      break;
-    case EnvVarKeys.QUEUE_NAME_SESSION:
-      defaultValue = "partitioned-queue-sessions";
-      break;
-    case EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION:
-      defaultValue = "unpartitioned-queue-sessions";
-      break;
-    case EnvVarKeys.TOPIC_NAME:
-      defaultValue = "partitioned-topic";
-      break;
-    case EnvVarKeys.TOPIC_NAME_NO_PARTITION:
-      defaultValue = "unpartitioned-topic";
-      break;
-    case EnvVarKeys.TOPIC_NAME_SESSION:
-      defaultValue = "partitioned-topic-sessions";
-      break;
-    case EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION:
-      defaultValue = "unpartitioned-topic-sessions";
-      break;
-    case EnvVarKeys.SUBSCRIPTION_NAME:
-      defaultValue = "partitioned-topic-subscription";
-      break;
-    case EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION:
-      defaultValue = "unpartitioned-topic-subscription";
-      break;
-    case EnvVarKeys.SUBSCRIPTION_NAME_SESSION:
-      defaultValue = "partitioned-topic-sessions-subscription";
-      break;
-    case EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION:
-      defaultValue = "unpartitioned-topic-sessions-subscription";
-      break;
-    case EnvVarKeys.TOPIC_FILTER_NAME:
-      defaultValue = "topic-filter";
-      break;
-    case EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME:
-      defaultValue = "topic-filter-subscription";
-      break;
-    case EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME:
-      defaultValue = "topic-filter-default-subscription";
-      break;
-    case EnvVarKeys.MANAGEMENT_QUEUE_1:
-      defaultValue = "management-queue-1";
-      break;
-    case EnvVarKeys.MANAGEMENT_TOPIC_1:
-      defaultValue = "management-topic-1";
-      break;
-    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1:
-      defaultValue = "management-subscription-1";
-      break;
-    case EnvVarKeys.MANAGEMENT_RULE_1:
-      defaultValue = "management-rule-1";
-      break;
-    case EnvVarKeys.MANAGEMENT_TOPIC_2:
-      defaultValue = "management-topic-2";
-      break;
-    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2:
-      defaultValue = "management-subscription-2";
-      break;
-    case EnvVarKeys.MANAGEMENT_TOPIC_3:
-      defaultValue = "management-topic-3";
-      break;
-    case EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3:
-      defaultValue = "management-subscription-3";
-      break;
-    case EnvVarKeys.MANAGEMENT_NEW_ENTITY_1:
-      defaultValue = "management-new-entity-1";
-      break;
-    case EnvVarKeys.MANAGEMENT_NEW_ENTITY_2:
-      defaultValue = "management-new-entity-2";
-      break;
-  }
+  // the default values are retrieved using the `defaultValueMap`.
+  let defaultValue = defaultValueMap[name];
 
   if (defaultValue && forBrowser) {
     defaultValue += "-browser";
   }
-
   return defaultValue;
 }
 
