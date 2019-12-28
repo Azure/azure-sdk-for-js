@@ -381,15 +381,10 @@ export function getAccountNameFromUrl(url: string): string {
 
       accountName = parsedUrl.getHost()!.split(".")[0];
     } else {
-      if (url.startsWith("http://127.0.0.1:10000")) {
-        // Dev Conn String
-        accountName = getValueInConnString(DevelopmentConnectionString, "AccountName");
-      } else {
-        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
-        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
-        // .getPath() -> /devstoreaccount1/
-        accountName = parsedUrl.getPath()!.split("/")[1];
-      }
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
     }
 
     if (!accountName) {
