@@ -220,7 +220,7 @@ describe("QueueClient - Verify Name Properties", () => {
     );
   });
 
-  it("verify accountName and queueName passed to the client - IPv4 style Endpoint", async () => {
+  it("verify accountName and queueName passed to the client - IPv4 host address as Endpoint", async () => {
     verifyNameProperties(
       `https://192.0.0.10:1900/${accountName}/${queueName}`,
       accountName,
@@ -228,9 +228,9 @@ describe("QueueClient - Verify Name Properties", () => {
     );
   });
 
-  it("verify accountName and queueName passed to the client - IPv6 style Endpoint", async () => {
+  it("verify accountName and queueName passed to the client - IPv6 host address as Endpoint", async () => {
     verifyNameProperties(
-      `https://192.0.0.10:1000/${accountName}/${queueName}`,
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${queueName}`,
       accountName,
       queueName
     );
