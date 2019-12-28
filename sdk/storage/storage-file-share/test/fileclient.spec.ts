@@ -4,7 +4,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
+import { ShareClient, ShareDirectoryClient, ShareFileClient, FileStartCopyOptions } from "../src";
 import { getBSU, bodyToString, recorderEnvSetup } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -34,7 +34,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -50,7 +50,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     recorder.stop();
   });
@@ -294,6 +294,34 @@ describe("FileClient", () => {
     assert.deepStrictEqual(properties2.copySource, fileClient.url);
   });
 
+  it("startCopyFromURL with smb options", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+
+    const fileAttributes = "Hidden | System";
+    const fileCreationTime = "2018-05-10T17:52:33.9551861Z";
+    const options: FileStartCopyOptions = {
+      filePermission: "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513" +
+        "D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)",
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: false,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: false
+      }
+    }
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const properties1 = await fileClient.getProperties();
+    const properties2 = await newFileClient.getProperties();
+
+    assert.deepStrictEqual(properties2.fileAttributes, fileAttributes);
+    assert.deepStrictEqual(properties2.fileLastWriteOn, properties1.fileLastWriteOn);
+  });
+
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
@@ -432,7 +460,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -469,7 +497,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => { });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {

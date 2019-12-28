@@ -23,7 +23,8 @@ import {
   FileUploadRangeResponse,
   HandleItem,
   RangeModel,
-  FileForceCloseHandlesHeaders
+  FileForceCloseHandlesHeaders,
+  CopyFileSmbInfo,
 } from "./generatedModels";
 import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
@@ -111,7 +112,7 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   fileHttpHeaders?: FileHttpHeaders;
 }
 
-export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
+export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse { }
 
 /**
  * Options to configure the {@link ShareFileClient.delete} operation.
@@ -364,9 +365,35 @@ export interface FileStartCopyOptions extends CommonOptions {
    * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
-   * @memberof FileCreateOptions
+   * @memberof FileStartCopyOptions
    */
   metadata?: Metadata;
+  /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   * 
+   * @type {string}
+   * @memberof FileStartCopyOptions
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * 
+   * @type {string}
+   * @memberof FileStartCopyOptions
+   */
+  filePermissionKey?: string;
+  /**
+   * SMB Info
+   * 
+   * @type {CopyFileSmbInfo}
+   * @memberof FileStartCopyOptions
+   */
+  copyFileSmbInfo?: CopyFileSmbInfo;
 }
 
 /**
@@ -394,7 +421,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  */
 export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -430,7 +457,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  */
 export interface FileResizeOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1521,6 +1548,9 @@ export class ShareFileClient extends StorageClient {
       return await this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey,
+        copyFileSmbInfo: options.copyFileSmbInfo,
         spanOptions
       });
     } catch (e) {
@@ -2017,8 +2047,8 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
-              `\t ${error.message}`
+            'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+            `\t ${error.message}`
           );
         }
       }
@@ -2130,7 +2160,7 @@ export class ShareFileClient extends StorageClient {
           if (transferProgress + buffer.length > size) {
             throw new RangeError(
               `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-                `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
             );
           }
 
