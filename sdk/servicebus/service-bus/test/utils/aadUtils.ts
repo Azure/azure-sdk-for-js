@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
