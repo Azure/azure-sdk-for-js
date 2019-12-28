@@ -385,7 +385,7 @@ export function getAccountNameFromUrl(url: string): string {
         // Dev Conn String
         accountName = getValueInConnString(DevelopmentConnectionString, "AccountName");
       } else {
-        // IP style Endpoints - Both IPv4 and IPv6... Example - http://192.0.0.10:10001/devstoreaccount1/
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
         // .getPath() -> /devstoreaccount1/
         accountName = parsedUrl.getPath()!.split("/")[1];
