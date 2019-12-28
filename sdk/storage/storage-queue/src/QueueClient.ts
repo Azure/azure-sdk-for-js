@@ -1102,7 +1102,7 @@ export class QueueClient extends StorageClient {
       //  URL may look like the following
       // "https://myaccount.queue.core.windows.net/myqueue?sasString".
       // "https://myaccount.queue.core.windows.net/myqueue".
-      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
       // http://localhost:10001/devstoreaccount1/queuename
 
       const parsedUrl = URLBuilder.parse(this.url);
