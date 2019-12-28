@@ -397,7 +397,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error) {
-    throw new Error("Unable to extract accountName with the provided information.");
+    throw new Error("Unable to extract accountName with provided information.");
   }
 }
 
