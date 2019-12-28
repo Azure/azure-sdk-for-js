@@ -4,8 +4,8 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
-  CreateCertificatePollOperationState,
-  makeCreateCertificatePollOperation
+  makeCreateCertificatePollOperation,
+  CreateCertificatePollOperationState
 } from "./operation";
 import {
   KeyVaultCertificateWithPolicy,
