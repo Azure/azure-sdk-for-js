@@ -909,6 +909,17 @@ describe(`Parse empty response for list() requests to return as empty array #Run
     assert.equal(result.length, 0, "Result must be an empty array");
   }
 
+  beforeEach(async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+  });
+
   it(`List on empty list of queues gives an empty array`, async () => {
     mockServiceBusAtomManagementClient.sendRequest = async () => {
       return {
