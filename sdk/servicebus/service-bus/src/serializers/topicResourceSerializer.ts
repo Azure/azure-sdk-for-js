@@ -161,7 +161,9 @@ export interface TopicOptions {
   status?: EntityStatus;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the topic description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 
@@ -240,7 +242,9 @@ export interface InternalTopicOptions {
   Status?: string;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the topic description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   UserMetadata?: string;
 
@@ -353,7 +357,7 @@ export interface TopicDetails {
    * Determines how long a message lives in the associated subscriptions.
    * Subscriptions inherit the TTL from the topic unless they are created explicitly with
    * a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has
-   * expired will either be moved to the subscription’s associated DeadLtterQueue or
+   * expired will either be moved to the subscription’s associated dead-letter sub-queue or
    * will be permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
@@ -368,7 +372,9 @@ export interface TopicDetails {
   duplicateDetectionHistoryTimeWindow: string;
 
   /**
-   * User metadata
+   * The user provided metadata information associated with the topic description.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
    */
   userMetadata?: string;
 

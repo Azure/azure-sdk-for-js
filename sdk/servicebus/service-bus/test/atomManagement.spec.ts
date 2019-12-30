@@ -24,9 +24,15 @@ dotenv.config();
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
+import { parseConnectionString } from "@azure/amqp-common";
+
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
   env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
 );
+
+const endpointWithProtocol = (parseConnectionString(
+  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+) as any).Endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -42,7 +48,6 @@ const managementRule1 = env[EnvVarKeys.MANAGEMENT_RULE_1];
 const managementTopic2 = env[EnvVarKeys.MANAGEMENT_TOPIC_2];
 const managementTopic3 = env[EnvVarKeys.MANAGEMENT_TOPIC_3];
 const managementSubscription2 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2];
-const managementSubscription3 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_3];
 const newManagementEntity1 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_1];
 const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
 
@@ -131,63 +136,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       );
     });
 
-    it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      switch (testCase.entityType) {
-        case EntityType.QUEUE:
-          try {
-            await getEntity(testCase.entityType, "notexisting");
-          } catch (err) {
-            error = err;
-          }
-          break;
-
-        case EntityType.TOPIC:
-          try {
-            error = await getEntity(testCase.entityType, "notexisting");
-          } catch (err) {
-            error = err;
-          }
-
-          break;
-
-        case EntityType.SUBSCRIPTION:
-          try {
-            error = await getEntity(testCase.entityType, "notexisting", managementTopic1);
-          } catch (err) {
-            error = err;
-          }
-          break;
-
-        case EntityType.RULE:
-          try {
-            error = await getEntity(
-              testCase.entityType,
-              "notexisting",
-              managementTopic1,
-              managementSubscription1
-            );
-          } catch (err) {
-            error = err;
-          }
-          break;
-
-        default:
-          throw new Error("TestError: Unrecognized EntityType");
-      }
-
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Expected error message to be a textual content but got "${error.message}"`
-      );
-    });
-
     it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
       let error;
       try {
@@ -201,14 +149,15 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         error = err;
       }
 
-      should.equal(error.statusCode, 409, "Error must not be undefined");
+      should.equal(error.statusCode, 409, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -249,14 +198,15 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -288,13 +238,14 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       }
 
       should.equal(error.statusCode, 404);
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -311,15 +262,15 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error code message.`
       );
     });
 
@@ -364,156 +315,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
   });
 });
 
-// Queue tests
-[
-  {
-    testCaseTitle: "Undefined queue options",
-    input: undefined,
-    output: {
-      authorizationRules: undefined,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
-      deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT10M",
-      enableBatchedOperations: true,
-      enableExpress: false,
-      enablePartitioning: false,
-      entityAvailabilityStatus: "Available",
-      forwardDeadLetteredMessagesTo: undefined,
-      isAnonymousAccessible: false,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      maxSizeInMegabytes: 1024,
-      messageCount: 0,
-      queueName: managementQueue1,
-      requiresDuplicateDetection: false,
-      requiresSession: false,
-      sizeInBytes: 0,
-      status: "Active",
-      supportOrdering: true,
-      forwardTo: undefined,
-      userMetadata: undefined
-    }
-  },
-  {
-    testCaseTitle: "all properties",
-    input: {
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
-      lockDuration: "PT45S",
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      maxDeliveryCount: 8,
-      enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT1H",
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-      status: "ReceiveDisabled" as EntityStatus,
-      enablePartitioning: true
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, above value is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      maxDeliveryCount: 8,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      autoDeleteOnIdle: "PT1H",
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-
-      sizeInBytes: 0,
-      messageCount: 0,
-
-      enablePartitioning: true,
-      maxSizeInMegabytes: 16384,
-      supportOrdering: false,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      status: "ReceiveDisabled",
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-      enableExpress: false,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
-      queueName: managementQueue1
-    }
-  }
-].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
-    it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
-        EntityType.QUEUE,
-        managementQueue1,
-        undefined,
-        undefined,
-        true,
-        testCase.input
-      );
-      await deleteEntity(EntityType.QUEUE, managementQueue1);
-      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
-      ]);
-    });
-  });
-});
-
 // Topic tests
 // Create different topic each testcase as updates to same topic/subscription does not scale on service side and gives us error -
 // "Resource Conflict Occurred. Another conflicting operation may be in progress.
@@ -553,15 +354,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     topicName: managementTopic3,
     testCaseTitle: "all properties",
     input: {
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
       requiresDuplicateDetection: true,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
@@ -569,7 +361,8 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
-      supportOrdering: false
+      supportOrdering: false,
+      userMetadata: "test metadata"
     },
     output: {
       defaultMessageTtl: "P2D",
@@ -587,7 +380,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       enableExpress: false,
       authorizationRules: undefined,
-      userMetadata: undefined,
+      userMetadata: "test metadata",
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
@@ -624,7 +417,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
 // Subscription tests
 [
   {
-    subscriptionName: managementSubscription2,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     testCaseTitle: "Undefined subscription options",
     input: undefined,
@@ -648,26 +441,25 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       requiresSession: false,
       sizeInBytes: undefined,
       status: "Active",
-      subscriptionName: managementSubscription2,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   },
   {
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription2,
     topicName: managementTopic2,
-    testCaseTitle: "all properties",
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      requiresSession: true
+      requiresSession: true,
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       lockDuration: "PT5M",
@@ -688,13 +480,86 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       sizeInBytes: undefined,
 
       forwardTo: undefined,
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
+
+      subscriptionName: managementSubscription2,
+      topicName: managementTopic2
+    }
+  },
+  {
+    subscriptionName: managementSubscription1,
+    topicName: managementTopic3,
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic2,
+      forwardTo: managementTopic2
+    },
+    output: {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       status: "Active",
 
-      subscriptionName: managementSubscription3,
-      topicName: managementTopic2
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic3
+    }
+  },
+  {
+    subscriptionName: managementSubscription2,
+    topicName: managementTopic3,
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`.toUpperCase(),
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`.toUpperCase()
+    },
+    output: {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2.toUpperCase()}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2.toUpperCase()}`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      userMetadata: undefined,
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "Active",
+      subscriptionName: managementSubscription2,
+      topicName: managementTopic3
     }
   }
 ].forEach((testCase) => {
@@ -726,12 +591,229 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
   });
 });
 
+// Queue tests
+[
+  {
+    testCaseTitle: "Undefined queue options",
+    input: undefined,
+    output: {
+      authorizationRules: undefined,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      messageCountDetails: undefined,
+      deadLetteringOnMessageExpiration: false,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      entityAvailabilityStatus: "Available",
+      forwardDeadLetteredMessagesTo: undefined,
+      isAnonymousAccessible: false,
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      maxSizeInMegabytes: 1024,
+      messageCount: 0,
+      queueName: managementQueue1,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      sizeInBytes: 0,
+      status: "Active",
+      supportOrdering: true,
+      forwardTo: undefined,
+      userMetadata: undefined
+    }
+  },
+  {
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+    input: {
+      lockDuration: "PT45S",
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      maxDeliveryCount: 8,
+      enableBatchedOperations: false,
+      autoDeleteOnIdle: "PT1H",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+      enablePartitioning: true,
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      maxDeliveryCount: 8,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      autoDeleteOnIdle: "PT1H",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      enablePartitioning: true,
+      maxSizeInMegabytes: 16384,
+      supportOrdering: false,
+
+      forwardDeadLetteredMessagesTo: undefined,
+      forwardTo: undefined,
+      userMetadata: "test metadata",
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "ReceiveDisabled",
+      queueName: managementQueue1
+    }
+  },
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic2,
+      forwardTo: managementTopic2
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      lockDuration: "PT1M",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      maxDeliveryCount: 10,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: undefined,
+
+      enablePartitioning: false,
+      maxSizeInMegabytes: 1024,
+      supportOrdering: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`,
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "Active",
+      queueName: managementQueue1
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      lockDuration: "PT1M",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      maxDeliveryCount: 10,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: undefined,
+
+      enablePartitioning: false,
+      maxSizeInMegabytes: 1024,
+      supportOrdering: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`,
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "Active",
+      queueName: managementQueue1
+    }
+  }
+].forEach((testCase) => {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      const response = await createEntity(
+        EntityType.QUEUE,
+        managementQueue1,
+        undefined,
+        undefined,
+        true,
+        testCase.input
+      );
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
+
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
+      ]);
+    });
+  });
+});
+
 // Rule tests
 [
   {
     testCaseTitle: "Undefined rule options",
     ruleName: "temp_rule_1",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: undefined,
     output: {
@@ -749,14 +831,14 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       },
 
       ruleName: "temp_rule_1",
-      subscriptionName: managementSubscription3,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Sql Filter rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: {
       filter: {
@@ -786,14 +868,14 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       },
 
       ruleName: "temp_rule_2",
-      subscriptionName: managementSubscription3,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
     ruleName: "temp_rule_3",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: {
       filter: {
@@ -821,7 +903,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       },
 
       ruleName: "temp_rule_3",
-      subscriptionName: managementSubscription3,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   }
@@ -865,13 +947,9 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     }
   },
   {
-    testCaseTitle: "all properties",
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
-      status: "ReceiveDisabled" as EntityStatus,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -900,26 +978,21 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-
-      maxSizeInMegabytes: 3072
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, this is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
+      messageCount: undefined,
+      sizeInBytes: undefined,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      maxDeliveryCount: 5,
-      messageCount: undefined,
-      sizeInBytes: undefined,
-      autoDeleteOnIdle: "PT2H",
+
+      requiresDuplicateDetection: true,
+      requiresSession: true,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -943,11 +1016,13 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
         }
       ],
 
-      maxSizeInMegabytes: 49152,
+      maxDeliveryCount: 5,
+      maxSizeInMegabytes: 16384,
 
+      autoDeleteOnIdle: "PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      userMetadata: undefined,
+      userMetadata: "test metadata",
 
       messageCountDetails: undefined,
 
@@ -956,9 +1031,126 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       status: "ReceiveDisabled",
+      enablePartitioning: true,
+      queueName: managementQueue1
+    }
+  },
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic2,
+      forwardTo: managementTopic2
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
 
       requiresDuplicateDetection: true,
       requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 8,
+      maxSizeInMegabytes: 16384,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "Active",
+
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
+      enablePartitioning: true,
+      queueName: managementQueue1
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic3}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic3}`
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic3}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic3}`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 8,
+      maxSizeInMegabytes: 16384,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "Active",
+
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
       enablePartitioning: true,
       queueName: managementQueue1
     }
@@ -967,9 +1159,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
   describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, managementQueue1, undefined, undefined, true, {
-        // This should be a proper URL else the service returns an error
-        // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-        // forwardDeadLetteredMessagesTo: "",
         lockDuration: "PT45S",
         requiresDuplicateDetection: true,
         requiresSession: true,
@@ -1002,7 +1191,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
           }
         ],
         enablePartitioning: true
-        // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
       });
     });
     afterEach(async () => {
@@ -1047,77 +1235,38 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     topicName: managementTopic2,
     testCaseTitle: "all properties",
     input: {
-      // Property gets set but is not exposed to user in .NET SDK
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // maxDeliveryCount: 10,
-      // subscriptionCount: 8,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
-      status: "Active" as EntityStatus,
+      status: "SendDisabled" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
-
       maxSizeInMegabytes: 3072
     },
     output: {
-      // Property gets set but is not exposed to user in .NET SDK
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
       maxDeliveryCount: undefined,
       subscriptionCount: undefined,
-      // Used to return as 0, but now returns as undefined
       sizeInBytes: undefined,
-
       messageCount: undefined,
-
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
-
       supportOrdering: true,
-
       maxSizeInMegabytes: 3072,
-
       enableBatchedOperations: true,
       enablePartitioning: false,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // enableExpress: true,
-
       authorizationRules: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      // Properties used to return as false, but based on newer .NET SDK based changes now returns as undefined
       isExpress: undefined,
       enableSubscriptionPartitioning: undefined,
       filteringMessagesBeforePublishing: undefined,
       enableExpress: undefined,
-
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
-      status: "Active",
+      status: "SendDisabled",
       userMetadata: "test metadata",
-
       messageCountDetails: undefined,
-
       topicName: managementTopic2
     }
   }
@@ -1151,8 +1300,8 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
 // Subscription tests
 [
   {
-    topicName: managementTopic1,
     subscriptionName: managementSubscription2,
+    topicName: managementTopic2,
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -1160,32 +1309,32 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     }
   },
   {
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
-    subscriptionName: managementSubscription2,
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-      requiresSession: false
+      requiresSession: false,
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
       defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
 
       forwardDeadLetteredMessagesTo: undefined,
+      forwardTo: undefined,
       defaultRuleDescription: undefined,
 
       messageCount: 0,
@@ -1195,13 +1344,86 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       requiresSession: false,
       enablePartitioning: undefined,
 
-      forwardTo: undefined,
-      userMetadata: undefined,
+      userMetadata: "test metadata",
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: "Active",
+      status: "ReceiveDisabled",
 
-      subscriptionName: managementSubscription2,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic2
+    }
+  },
+  {
+    subscriptionName: managementSubscription1,
+    topicName: managementTopic2,
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic3,
+      forwardTo: managementTopic3
+    },
+    output: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic3}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic3}`,
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      requiresSession: false,
+      enablePartitioning: undefined,
+
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
+
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic2
+    }
+  },
+  {
+    subscriptionName: managementSubscription1,
+    topicName: managementTopic2,
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`
+    },
+    output: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic2}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic2}`,
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      requiresSession: false,
+      enablePartitioning: undefined,
+
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
+
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   }
@@ -1238,7 +1460,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
   {
     testCaseTitle: "Undefined rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: undefined,
     output: {
@@ -1248,7 +1470,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
   {
     testCaseTitle: "Sql Filter rule options",
     ruleName: "temp_rule_2",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: {
       filter: {
@@ -1272,14 +1494,14 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       },
 
       ruleName: "temp_rule_2",
-      subscriptionName: managementSubscription3,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
     ruleName: "temp_rule_3",
-    subscriptionName: managementSubscription3,
+    subscriptionName: managementSubscription1,
     topicName: managementTopic2,
     input: {
       filter: {
@@ -1307,7 +1529,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       },
 
       ruleName: "temp_rule_3",
-      subscriptionName: managementSubscription3,
+      subscriptionName: managementSubscription1,
       topicName: managementTopic2
     }
   }
@@ -1348,7 +1570,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
       true,
-      `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err.message}"`
+      `Unexpected error message prefix found.`
     );
   }
 
