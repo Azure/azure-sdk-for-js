@@ -39,9 +39,10 @@ export enum EnvVarKeys {
   MANAGEMENT_TOPIC_1 = "MANAGEMENT_TOPIC_1",
   MANAGEMENT_SUBSCRIPTION_1 = "MANAGEMENT_SUBSCRIPTION_1",
   MANAGEMENT_RULE_1 = "MANAGEMENT_RULE_1",
+  MANAGEMENT_QUEUE_2 = "MANAGEMENT_QUEUE_2",
   MANAGEMENT_TOPIC_2 = "MANAGEMENT_TOPIC_2",
   MANAGEMENT_SUBSCRIPTION_2 = "MANAGEMENT_SUBSCRIPTION_2",
-  MANAGEMENT_TOPIC_3 = "MANAGEMENT_TOPIC_3",
+  MANAGEMENT_RULE_2 = "MANAGEMENT_RULE_2",
   MANAGEMENT_NEW_ENTITY_1 = "MANAGEMENT_NEW_ENTITY_1",
   MANAGEMENT_NEW_ENTITY_2 = "MANAGEMENT_NEW_ENTITY_2"
 }
@@ -108,9 +109,10 @@ const defaultValueMap: any = {
   [EnvVarKeys.MANAGEMENT_TOPIC_1]: "management-topic-1",
   [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1]: "management-subscription-1",
   [EnvVarKeys.MANAGEMENT_RULE_1]: "management-rule-1",
+  [EnvVarKeys.MANAGEMENT_QUEUE_2]: "management-queue-2",
   [EnvVarKeys.MANAGEMENT_TOPIC_2]: "management-topic-2",
   [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2]: "management-subscription-2",
-  [EnvVarKeys.MANAGEMENT_TOPIC_3]: "management-topic-3",
+  [EnvVarKeys.MANAGEMENT_RULE_2]: "management-rule-2",
   [EnvVarKeys.MANAGEMENT_NEW_ENTITY_1]: "management-new-entity-1",
   [EnvVarKeys.MANAGEMENT_NEW_ENTITY_2]: "management-new-entity-2"
 };
@@ -292,12 +294,13 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
       forBrowser
     ),
     [EnvVarKeys.MANAGEMENT_RULE_1]: getEnvVarValue(EnvVarKeys.MANAGEMENT_RULE_1, forBrowser),
+    [EnvVarKeys.MANAGEMENT_QUEUE_2]: getEnvVarValue(EnvVarKeys.MANAGEMENT_QUEUE_2, forBrowser),
     [EnvVarKeys.MANAGEMENT_TOPIC_2]: getEnvVarValue(EnvVarKeys.MANAGEMENT_TOPIC_2, forBrowser),
     [EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2]: getEnvVarValue(
       EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2,
       forBrowser
     ),
-    [EnvVarKeys.MANAGEMENT_TOPIC_3]: getEnvVarValue(EnvVarKeys.MANAGEMENT_TOPIC_3, forBrowser),
+    [EnvVarKeys.MANAGEMENT_RULE_2]: getEnvVarValue(EnvVarKeys.MANAGEMENT_RULE_2, forBrowser),
     [EnvVarKeys.MANAGEMENT_NEW_ENTITY_1]: getEnvVarValue(
       EnvVarKeys.MANAGEMENT_NEW_ENTITY_1,
       forBrowser

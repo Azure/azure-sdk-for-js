@@ -9,6 +9,9 @@ import {
   delay
 } from "../../src";
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 
 const env = getEnvVars();
@@ -76,7 +79,7 @@ async function retry(
  * @param queueName
  * @param parameters
  */
-export async function recreateQueue(queueName: string, parameters: QueueOptions): Promise<void> {
+export async function recreateQueue(queueName: string, parameters?: QueueOptions): Promise<void> {
   await getManagementClient();
 
   const deleteQueueOperation = async () => {
@@ -111,7 +114,7 @@ export async function recreateQueue(queueName: string, parameters: QueueOptions)
  * @param topicName
  * @param parameters
  */
-export async function recreateTopic(topicName: string, parameters: TopicOptions): Promise<void> {
+export async function recreateTopic(topicName: string, parameters?: TopicOptions): Promise<void> {
   await getManagementClient();
 
   const deleteTopicOperation = async () => {
@@ -150,7 +153,7 @@ export async function recreateTopic(topicName: string, parameters: TopicOptions)
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters: SubscriptionOptions
+  parameters?: SubscriptionOptions
 ): Promise<void> {
   await getManagementClient();
   /*
