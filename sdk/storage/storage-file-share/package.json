@@ -101,7 +101,7 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "events": "^3.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/test-utils-recorder": "^1.0.0",

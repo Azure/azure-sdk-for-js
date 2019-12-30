@@ -109,6 +109,14 @@
     ],
     "all": true
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "lib/util/constants.ts",
+        "prefix": "coreHttpVersion"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.0.0",
@@ -121,7 +129,7 @@
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
     "tough-cookie": "^3.0.1",
-    "tslib": "^1.9.3",
+    "tslib": "^1.10.0",
     "tunnel": "^0.0.6",
     "uuid": "^3.3.2",
     "xml2js": "^0.4.19"
@@ -190,13 +198,5 @@
     "webpack-dev-middleware": "^3.1.2",
     "xhr-mock": "^2.4.1",
     "yarn": "^1.6.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "lib/util/constants.ts",
-        "prefix": "coreHttpVersion"
-      }
-    ]
   }
 }
