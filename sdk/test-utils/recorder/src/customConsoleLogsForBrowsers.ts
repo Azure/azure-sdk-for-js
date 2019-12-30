@@ -25,10 +25,14 @@
 // - Example - console.log("hello"); -> console.log({ log: "hello" });
 
 /**
+ * Overrides the default console.log behaviour in browser mode by updating the native `window.console.log`
+ * with a customized logic inorder to save the recordings for browser tests.
+ *
  * Converts content corresponding to all the console statements into (JSON.stringify)-ed content in record mode for browser tests.
  * This allows filtering certain console.logs to generate the recordings for browser tests.
+ * [karma-config of the respective SDK has to be updated appropriately in order for this to work as expected.]
  */
-export function customConsoleLog() {
+export function customConsoleLogsForBrowsers() {
   const consoleLog = window.console.log;
   for (const method in window.console) {
     if (

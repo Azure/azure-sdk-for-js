@@ -13,7 +13,7 @@ import {
   isRecordMode,
   parseUrl
 } from "./utils";
-import { customConsoleLog } from "./customConsoleLog";
+import { customConsoleLogsForBrowsers } from "./customConsoleLogsForBrowsers";
 
 let nock: any;
 
@@ -54,7 +54,7 @@ export function configureSetup() {
   }
 
   if (isBrowser() && isRecordMode()) {
-    customConsoleLog();
+    customConsoleLogsForBrowsers();
   }
 }
 
