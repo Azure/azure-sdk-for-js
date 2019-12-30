@@ -18,7 +18,6 @@ export enum EnvVarKeys {
   AAD_TENANT_ID = "AAD_TENANT_ID",
   RESOURCE_GROUP = "RESOURCE_GROUP",
   AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID",
-  CLEAN_NAMESPACE = "CLEAN_NAMESPACE",
 
   QUEUE_NAME = "QUEUE_NAME",
   QUEUE_NAME_NO_PARTITION = "QUEUE_NAME_NO_PARTITION",
@@ -48,28 +47,17 @@ export enum EnvVarKeys {
 }
 
 /**
- * Environment variables that are mandatory.
+ * Environment variables that are treated as common between Node and browser.
+ * These are also mandatory variables that need to be setup for running the tests.
  */
-const mandatoryEnvVars = [EnvVarKeys.SERVICEBUS_CONNECTION_STRING];
-
-/**
- * Environment variables that are related to AAD. If `CLEAN_NAMESPACE`
- * is set to `true`, then these are treated as mandatory as well.
- */
-const aadRelatedEnvVars = [
+const commonEnvVars = [
+  EnvVarKeys.SERVICEBUS_CONNECTION_STRING,
   EnvVarKeys.AAD_CLIENT_ID,
   EnvVarKeys.AAD_CLIENT_SECRET,
   EnvVarKeys.AAD_TENANT_ID,
   EnvVarKeys.AZURE_SUBSCRIPTION_ID,
   EnvVarKeys.RESOURCE_GROUP
 ];
-
-/**
- * Environment variables that are common for Node and Browser platforms.
- */
-const commonEnvVars = [EnvVarKeys.SERVICEBUS_CONNECTION_STRING, EnvVarKeys.CLEAN_NAMESPACE].concat(
-  aadRelatedEnvVars
-);
 
 /**
  * Utility to help throw an error if any of environment variables from
@@ -184,13 +172,8 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
 
   const forBrowser = !isNode;
 
-  // Throw error only if mandatory env variable is missing
-  // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
-  throwMissingEnvironmentVariablesError(mandatoryEnvVars);
-
-  if (getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) === "true") {
-    throwMissingEnvironmentVariablesError(aadRelatedEnvVars);
-  }
+  // Throw error if mandatory env variable is missing
+  throwMissingEnvironmentVariablesError(commonEnvVars);
 
   envVars = {
     [EnvVarKeys.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
@@ -201,7 +184,6 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
     [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
     [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
-    [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false,
 
     [EnvVarKeys.QUEUE_NAME]: getEnvVarValue(EnvVarKeys.QUEUE_NAME, forBrowser),
     [EnvVarKeys.QUEUE_NAME_NO_PARTITION]: getEnvVarValue(

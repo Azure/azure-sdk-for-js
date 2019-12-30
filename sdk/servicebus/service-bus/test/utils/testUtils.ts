@@ -165,28 +165,26 @@ export async function getTopicClientWithTwoSubscriptionClients(
   const env = getEnvVars();
   const subscriptionClients: SubscriptionClient[] = [];
 
-  if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-    await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+  await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+    enableBatchedOperations: true
+  });
+  await recreateSubscription(
+    env[EnvVarKeys.TOPIC_FILTER_NAME],
+    env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+    {
+      lockDuration: defaultLockDuration,
       enableBatchedOperations: true
-    });
-    await recreateSubscription(
-      env[EnvVarKeys.TOPIC_FILTER_NAME],
-      env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
-      {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      }
-    );
+    }
+  );
 
-    await recreateSubscription(
-      env[EnvVarKeys.TOPIC_FILTER_NAME],
-      env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
-      {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      }
-    );
-  }
+  await recreateSubscription(
+    env[EnvVarKeys.TOPIC_FILTER_NAME],
+    env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+    {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    }
+  );
 
   subscriptionClients.push(
     namespace.createSubscriptionClient(
@@ -219,13 +217,11 @@ export async function getSenderReceiverClients(
 
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[EnvVarKeys.QUEUE_NAME], {
-          lockDuration: defaultLockDuration,
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
-      }
+      await recreateQueue(env[EnvVarKeys.QUEUE_NAME], {
+        lockDuration: defaultLockDuration,
+        enablePartitioning: true,
+        enableBatchedOperations: true
+      });
 
       const queueClient = sbClient.createQueueClient(env[EnvVarKeys.QUEUE_NAME]);
       return {
@@ -234,16 +230,15 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.PartitionedSubscription: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_NAME], {
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(env[EnvVarKeys.TOPIC_NAME], env[EnvVarKeys.SUBSCRIPTION_NAME], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true
-        });
-      }
+      await recreateTopic(env[EnvVarKeys.TOPIC_NAME], {
+        enablePartitioning: true,
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(env[EnvVarKeys.TOPIC_NAME], env[EnvVarKeys.SUBSCRIPTION_NAME], {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true
+      });
+
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_NAME]),
         receiverClient: sbClient.createSubscriptionClient(
@@ -253,12 +248,10 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.UnpartitionedQueue: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true
-        });
-      }
+      await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION], {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true
+      });
 
       const queueClient = sbClient.createQueueClient(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION]);
       return {
@@ -266,20 +259,20 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
+
     case TestClientType.UnpartitionedSubscription: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION], {
+      await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION], {
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_NAME_NO_PARTITION],
+        env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION],
+        {
+          lockDuration: defaultLockDuration,
           enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[EnvVarKeys.TOPIC_NAME_NO_PARTITION],
-          env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true
-          }
-        );
-      }
+        }
+      );
+
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION]),
         receiverClient: sbClient.createSubscriptionClient(
@@ -289,14 +282,12 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.PartitionedQueueWithSessions: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[EnvVarKeys.QUEUE_NAME_SESSION], {
-          lockDuration: defaultLockDuration,
-          enablePartitioning: true,
-          enableBatchedOperations: true,
-          requiresSession: true
-        });
-      }
+      await recreateQueue(env[EnvVarKeys.QUEUE_NAME_SESSION], {
+        lockDuration: defaultLockDuration,
+        enablePartitioning: true,
+        enableBatchedOperations: true,
+        requiresSession: true
+      });
 
       const queueClient = sbClient.createQueueClient(env[EnvVarKeys.QUEUE_NAME_SESSION]);
       return {
@@ -305,21 +296,20 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.PartitionedSubscriptionWithSessions: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_NAME_SESSION], {
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[EnvVarKeys.TOPIC_NAME_SESSION],
-          env[EnvVarKeys.SUBSCRIPTION_NAME_SESSION],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true,
-            requiresSession: true
-          }
-        );
-      }
+      await recreateTopic(env[EnvVarKeys.TOPIC_NAME_SESSION], {
+        enablePartitioning: true,
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_NAME_SESSION],
+        env[EnvVarKeys.SUBSCRIPTION_NAME_SESSION],
+        {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        }
+      );
+
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_NAME_SESSION]),
         receiverClient: sbClient.createSubscriptionClient(
@@ -328,8 +318,8 @@ export async function getSenderReceiverClients(
         )
       };
     }
-    case TestClientType.UnpartitionedQueueWithSessions: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+    case TestClientType.UnpartitionedQueueWithSessions:
+      {
         await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION], {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true,
@@ -344,22 +334,20 @@ export async function getSenderReceiverClients(
         senderClient: queueClient,
         receiverClient: queueClient
       };
-    }
+
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION], {
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION],
-          env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true,
-            requiresSession: true
-          }
-        );
-      }
+      await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION], {
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION],
+        env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION],
+        {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        }
+      );
 
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION]),
@@ -370,19 +358,18 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.TopicFilterTestDefaultSubscription: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+      await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_FILTER_NAME],
+        env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+        {
+          lockDuration: defaultLockDuration,
           enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[EnvVarKeys.TOPIC_FILTER_NAME],
-          env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true
-          }
-        );
-      }
+        }
+      );
+
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_FILTER_NAME]),
         receiverClient: sbClient.createSubscriptionClient(
@@ -392,19 +379,18 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.TopicFilterTestSubscription: {
-      if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+      await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_FILTER_NAME],
+        env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+        {
+          lockDuration: defaultLockDuration,
           enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[EnvVarKeys.TOPIC_FILTER_NAME],
-          env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true
-          }
-        );
-      }
+        }
+      );
+
       return {
         senderClient: sbClient.createTopicClient(env[EnvVarKeys.TOPIC_FILTER_NAME]),
         receiverClient: sbClient.createSubscriptionClient(
