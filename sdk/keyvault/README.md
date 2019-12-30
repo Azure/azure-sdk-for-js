@@ -1,4 +1,4 @@
-# Azure Key Vault client library for JS
+# Azure Key Vault client library for JavaScript
 
 Azure Key Vault is a Microsoft-managed service providing cloud keys, secrets, and certificate storage and utility that is highly available, secure, durable, scalable, and redundant.
 
