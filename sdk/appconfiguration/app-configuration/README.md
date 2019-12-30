@@ -1,4 +1,4 @@
-# App Configuration client library for TypeScript/JavaScript
+# App Configuration client library for JavaScript
 
 [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 

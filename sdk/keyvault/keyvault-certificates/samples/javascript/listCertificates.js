@@ -76,9 +76,9 @@ async function main() {
   }
 
   // Deleting both certificates
-  let deletePoller = await client.beginDeleteCertificate("MyCertificate1");
+  let deletePoller = await client.beginDeleteCertificate(certificateName1);
   await deletePoller.pollUntilDone();
-  deletePoller = await client.beginDeleteCertificate("MyCertificate2");
+  deletePoller = await client.beginDeleteCertificate(certificateName2);
   await deletePoller.pollUntilDone();
 
   let listDeletedCertificates = client.listDeletedCertificates({ includePending: true });
