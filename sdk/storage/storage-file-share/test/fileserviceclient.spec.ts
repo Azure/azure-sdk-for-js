@@ -87,7 +87,7 @@ describe("FileServiceClient", () => {
       .next()).value;
 
     assert.ok(result1.continuationToken);
-    assert.equal(result1.shareItems!.length, 1);
+    assert.equal(result1.shareItems!.length, 1, `Expecting shareItems but got ${result1.shareItems}`);
     assert.ok(result1.shareItems![0].name.startsWith(shareNamePrefix));
     assert.ok(result1.shareItems![0].properties.etag.length > 0);
     assert.ok(result1.shareItems![0].properties.lastModified);
