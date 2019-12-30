@@ -6,7 +6,8 @@ import {
   QueueOptions,
   TopicOptions,
   SubscriptionOptions,
-  RuleOptions
+  RuleOptions,
+  EntityStatus
 } from "../src";
 
 import chai from "chai";
@@ -23,9 +24,15 @@ dotenv.config();
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
+import { parseConnectionString } from "@azure/amqp-common";
+
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
   env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
 );
+
+const endpointWithProtocol = (parseConnectionString(
+  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+) as any).Endpoint;
 
 enum EntityType {
   QUEUE = "Queue",
@@ -63,7 +70,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
     before(async () => {
       await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
-
       try {
         await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
       } catch (err) {
@@ -194,15 +200,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Error must not be undefined");
-        should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+        should.equal(error.statusCode, 404, "Unexpected status code found.");
+        should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
             error.message.startsWith("Entity") ||
             error.message.startsWith("SubCode") ||
             error.message.startsWith("No service"),
           true,
-          `Expected error message to be a textual content but got "${error.message}"`
+          `Unexpected error message found.`
         );
       });
     });
@@ -220,14 +226,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 409, "Error must not be undefined");
+      should.equal(error.statusCode, 409, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -268,14 +275,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -307,13 +315,14 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       }
 
       should.equal(error.statusCode, 404);
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error message found.`
       );
     });
 
@@ -330,15 +339,15 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         error = err;
       }
 
-      should.equal(error.statusCode, 404, "Error must not be undefined");
-      should.equal(error.code, "404", `Code expected to be "404" but received ${error.code}`);
+      should.equal(error.statusCode, 404, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
           error.message.startsWith("Entity") ||
           error.message.startsWith("SubCode") ||
           error.message.startsWith("No service"),
         true,
-        `Expected error message to be a textual content but got "${error.message}"`
+        `Unexpected error code message.`
       );
     });
 
@@ -383,158 +392,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   });
 });
 
-// Queue tests
-[
-  {
-    testCaseTitle: "Undefined queue options",
-    input: undefined,
-    output: {
-      authorizationRules: undefined,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
-      deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT10M",
-      enableBatchedOperations: true,
-      enableExpress: false,
-      enablePartitioning: false,
-      entityAvailabilityStatus: "Available",
-      forwardDeadLetteredMessagesTo: undefined,
-      isAnonymousAccessible: false,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      maxSizeInMegabytes: 1024,
-      messageCount: 0,
-      queueName: alwaysBeExistingQueue,
-      requiresDuplicateDetection: false,
-      requiresSession: false,
-      sizeInBytes: 0,
-      status: "Active",
-      supportOrdering: true,
-      forwardTo: undefined,
-      path: undefined,
-      userMetadata: undefined
-    }
-  },
-  {
-    testCaseTitle: "all properties",
-    input: {
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
-      lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      maxDeliveryCount: 8,
-      enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT1H",
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-      enablePartitioning: true
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, above value is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      messageCount: 5,
-      sizeInBytes: 250,
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      maxDeliveryCount: 8,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      autoDeleteOnIdle: "PT1H",
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-
-      enablePartitioning: true,
-      maxSizeInMegabytes: 16384,
-      supportOrdering: false,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      path: undefined,
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-      enableExpress: false,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
-      status: "Active",
-      queueName: alwaysBeExistingQueue
-    }
-  }
-].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
-    it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
-        EntityType.QUEUE,
-        alwaysBeExistingQueue,
-        undefined,
-        undefined,
-        true,
-        testCase.input
-      );
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
-      ]);
-    });
-  });
-});
-
 // Topic tests
 // Create different topic each testcase as updates to same topic/subscription does not scale on service side and gives us error -
 // "Resource Conflict Occurred. Another conflicting operation may be in progress.
@@ -554,9 +411,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       enableExpress: false,
       enablePartitioning: false,
       enableSubscriptionPartitioning: false,
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
       entityAvailabilityStatus: "Available",
       filteringMessagesBeforePublishing: false,
       isAnonymousAccessible: false,
@@ -577,80 +431,39 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic2",
     testCaseTitle: "all properties",
     input: {
-      sizeInBytes: 100,
-      messageCount: 7,
-      subscriptionCount: 6,
-      maxDeliveryCount: 20,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // enableExpress: true,
-
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
       requiresDuplicateDetection: true,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT1H",
+      status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
-      supportOrdering: false
+      supportOrdering: false,
+      userMetadata: "test metadata"
     },
     output: {
-      sizeInBytes: 100,
-      messageCount: 7,
-      subscriptionCount: 6,
-      maxDeliveryCount: 20,
       defaultMessageTtl: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
-      autoDeleteOnIdle: "PT1H",
+      status: "SendDisabled",
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
-
+      sizeInBytes: 0,
+      messageCount: undefined,
+      subscriptionCount: undefined,
+      maxDeliveryCount: undefined,
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
-
-      // enableExpress: true,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       enableExpress: false,
       authorizationRules: undefined,
-      userMetadata: undefined,
-
+      userMetadata: "test metadata",
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      status: "Active",
       topicName: "alwaysBeExistingTopic2"
     }
   }
@@ -712,30 +525,18 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     subscriptionName: "alwaysBeExistingSubscription2",
     topicName: "alwaysBeExistingTopic1",
-    testCaseTitle: "all properties",
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       defaultMessageTtl: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       requiresSession: true,
-
-      // None of below work
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-      messageCount: 5,
-      enablePartitioning: true,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       lockDuration: "PT5M",
@@ -756,12 +557,86 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       sizeInBytes: undefined,
 
       forwardTo: undefined,
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
+
+      subscriptionName: "alwaysBeExistingSubscription2",
+      topicName: "alwaysBeExistingTopic1"
+    }
+  },
+  {
+    subscriptionName: "alwaysBeExistingSubscription20",
+    topicName: "alwaysBeExistingTopic1",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
+      forwardTo: "alwaysBeExistingTopic2"
+    },
+    output: {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
       userMetadata: undefined,
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       status: "Active",
 
-      subscriptionName: "alwaysBeExistingSubscription2",
+      subscriptionName: "alwaysBeExistingSubscription20",
+      topicName: "alwaysBeExistingTopic1"
+    }
+  },
+  {
+    subscriptionName: "alwaysBeExistingSubscription21",
+    topicName: "alwaysBeExistingTopic1",
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase(),
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase()
+    },
+    output: {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
+      forwardTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      userMetadata: undefined,
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "Active",
+
+      subscriptionName: "alwaysBeExistingSubscription21",
       topicName: "alwaysBeExistingTopic1"
     }
   }
@@ -784,6 +659,223 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         testCase.subscriptionName,
         "Subscription name mismatch"
       );
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
+      ]);
+    });
+  });
+});
+
+// Queue tests
+[
+  {
+    testCaseTitle: "Undefined queue options",
+    input: undefined,
+    output: {
+      authorizationRules: undefined,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      messageCountDetails: undefined,
+      deadLetteringOnMessageExpiration: false,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      entityAvailabilityStatus: "Available",
+      forwardDeadLetteredMessagesTo: undefined,
+      isAnonymousAccessible: false,
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      maxSizeInMegabytes: 1024,
+      messageCount: 0,
+      queueName: alwaysBeExistingQueue,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      sizeInBytes: 0,
+      status: "Active",
+      supportOrdering: true,
+      forwardTo: undefined,
+      userMetadata: undefined
+    }
+  },
+  {
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+    input: {
+      lockDuration: "PT45S",
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      maxDeliveryCount: 8,
+      enableBatchedOperations: false,
+      autoDeleteOnIdle: "PT1H",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+      enablePartitioning: true,
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      maxDeliveryCount: 8,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      autoDeleteOnIdle: "PT1H",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      enablePartitioning: true,
+      maxSizeInMegabytes: 16384,
+      supportOrdering: false,
+
+      forwardDeadLetteredMessagesTo: undefined,
+      forwardTo: undefined,
+      userMetadata: "test metadata",
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "ReceiveDisabled",
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
+      forwardTo: "alwaysBeExistingTopic2"
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      lockDuration: "PT1M",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      maxDeliveryCount: 10,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: undefined,
+
+      enablePartitioning: false,
+      maxSizeInMegabytes: 1024,
+      supportOrdering: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "Active",
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      lockDuration: "PT1M",
+      messageCount: 0,
+      sizeInBytes: 0,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      maxDeliveryCount: 10,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: undefined,
+
+      enablePartitioning: false,
+      maxSizeInMegabytes: 1024,
+      supportOrdering: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+      enableExpress: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      status: "Active",
+      queueName: alwaysBeExistingQueue
+    }
+  }
+].forEach((testCase) => {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      const response = await createEntity(
+        EntityType.QUEUE,
+        alwaysBeExistingQueue,
+        undefined,
+        undefined,
+        true,
+        testCase.input
+      );
+      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -933,15 +1025,9 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    testCaseTitle: "all properties",
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
-
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -970,27 +1056,21 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-
-      maxSizeInMegabytes: 3072
-      // maxSizeInMegabytes: 2048,
-      // For partitioned entities, this is 16384
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      messageCount: 6,
-      sizeInBytes: 500,
+      messageCount: undefined,
+      sizeInBytes: undefined,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-      maxDeliveryCount: 5,
 
-      autoDeleteOnIdle: "PT2H",
+      requiresDuplicateDetection: true,
+      requiresSession: true,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1014,11 +1094,73 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         }
       ],
 
-      maxSizeInMegabytes: 49152,
+      maxDeliveryCount: 5,
+      maxSizeInMegabytes: 16384,
 
+      autoDeleteOnIdle: "PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      path: undefined,
+      userMetadata: "test metadata",
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
+      status: "ReceiveDisabled",
+      enablePartitioning: true,
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
+      forwardTo: "alwaysBeExistingTopic1"
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 8,
+      maxSizeInMegabytes: 16384,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "Active",
+
       userMetadata: undefined,
 
       messageCountDetails: undefined,
@@ -1027,10 +1169,66 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
-      status: undefined,
+      enablePartitioning: true,
+      queueName: alwaysBeExistingQueue
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
 
       requiresDuplicateDetection: true,
       requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 8,
+      maxSizeInMegabytes: 16384,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "Active",
+
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
       enablePartitioning: true,
       queueName: alwaysBeExistingQueue
     }
@@ -1039,12 +1237,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
-        // This should be a proper URL else the service returns an error
-        // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-        // forwardDeadLetteredMessagesTo: "",
         lockDuration: "PT45S",
-        messageCount: 5,
-        sizeInBytes: 250,
         requiresDuplicateDetection: true,
         requiresSession: true,
         defaultMessageTtl: "P2D",
@@ -1121,82 +1314,38 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "all properties",
     input: {
-      sizeInBytes: 200,
-      messageCount: 5,
-      subscriptionCount: 8,
-      maxDeliveryCount: 10,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // enableExpress: true,
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
-
+      status: "SendDisabled" as EntityStatus,
+      userMetadata: "test metadata",
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
-
-      maxSizeInMegabytes: 3072,
-
-      enablePartitioning: true
+      maxSizeInMegabytes: 3072
     },
     output: {
-      sizeInBytes: 200,
-      messageCount: 5,
-      subscriptionCount: 8,
-      maxDeliveryCount: 10,
+      maxDeliveryCount: undefined,
+      subscriptionCount: undefined,
+      sizeInBytes: undefined,
+      messageCount: undefined,
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
-
       supportOrdering: true,
-
       maxSizeInMegabytes: 3072,
-
       enableBatchedOperations: true,
-      enablePartitioning: true,
-
-      maxSubscriptionsPerTopic: undefined,
-      maxSqlFiltersPerTopic: undefined,
-      maxCorrelationFiltersPerTopic: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-
-      // maxSubscriptionsPerTopic: 3,
-      // maxSqlFiltersPerTopic: 4,
-      // maxCorrelationFiltersPerTopic: 5,
-
-      // enableExpress: true,
-      enableExpress: false,
+      enablePartitioning: false,
       authorizationRules: undefined,
-
-      // Following properties don't get set as expected
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/5354
-      isExpress: false,
-      enableSubscriptionPartitioning: false,
-      filteringMessagesBeforePublishing: false,
-      // isExpress: true,
-      // enableSubscriptionPartitioning: true,
-      // filteringMessagesBeforePublishing: true,
-
-      userMetadata: undefined,
+      isExpress: undefined,
+      enableSubscriptionPartitioning: undefined,
+      filteringMessagesBeforePublishing: undefined,
+      enableExpress: undefined,
       entityAvailabilityStatus: undefined,
       isAnonymousAccessible: undefined,
-      status: undefined,
-
+      status: "SendDisabled",
+      userMetadata: "test metadata",
       messageCountDetails: undefined,
-
       topicName: "alwaysbeexistingtopic1"
     }
   }
@@ -1241,41 +1390,30 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   {
     topicName: "alwaysBeExistingTopic1",
     subscriptionName: "alwaysbeExistingSubscription1",
-    testCaseTitle: "all properties",
+    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      // This should be a proper URL else the service returns an error
-      // To be investigated further as part of https://github.com/azure/azure-sdk-for-js/issues/6146
-      // forwardDeadLetteredMessagesTo: "",
       defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
-      defaultRuleDescription: {
-        Name: "test1",
-        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
-      },
-
-      messageCount: 5,
-      maxSizeInMegabytes: 2048,
-      sizeInBytes: 500,
-
       requiresSession: false,
-      enablePartitioning: true
+      userMetadata: "test metadata",
+      status: "ReceiveDisabled" as EntityStatus
     },
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
       defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
 
       forwardDeadLetteredMessagesTo: undefined,
+      forwardTo: undefined,
       defaultRuleDescription: undefined,
 
       messageCount: 0,
@@ -1285,11 +1423,84 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresSession: false,
       enablePartitioning: undefined,
 
-      forwardTo: undefined,
-      userMetadata: undefined,
+      userMetadata: "test metadata",
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
-      status: "Active",
+      status: "ReceiveDisabled",
+
+      subscriptionName: "alwaysbeExistingSubscription1",
+      topicName: "alwaysBeExistingTopic1"
+    }
+  },
+  {
+    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: "alwaysbeExistingSubscription1",
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
+      forwardTo: "alwaysBeExistingTopic2"
+    },
+    output: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      requiresSession: false,
+      enablePartitioning: undefined,
+
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
+
+      subscriptionName: "alwaysbeExistingSubscription1",
+      topicName: "alwaysBeExistingTopic1"
+    }
+  },
+  {
+    topicName: "alwaysBeExistingTopic1",
+    subscriptionName: "alwaysbeExistingSubscription1",
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
+    },
+    output: {
+      lockDuration: "PT3M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P1D",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      requiresSession: false,
+      enablePartitioning: undefined,
+
+      userMetadata: "test metadata",
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "ReceiveDisabled",
 
       subscriptionName: "alwaysbeExistingSubscription1",
       topicName: "alwaysBeExistingTopic1"
@@ -1438,7 +1649,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
       true,
-      `Expected error message to start with "${expectedtestOutput.testErrorMessage}" but received "${err.message}"`
+      `Unexpected error message prefix found.`
     );
   }
 
@@ -1447,7 +1658,7 @@ function checkForValidErrorScenario(err: any, expectedtestOutput: any) {
     should.equal(
       err.code && err.code.startsWith(expectedtestOutput.testErrorCode),
       true,
-      `Expected error code to start with "${expectedtestOutput.testErrorCode}" but received "${err.code}"`
+      `Unexpected error code found.`
     );
   }
 
@@ -1488,14 +1699,13 @@ async function createEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        maxDeliveryCount: 10
+        status: "Active"
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
-        maxDeliveryCount: 10
+        lockDuration: "PT1M"
       };
     }
 
@@ -1627,14 +1837,13 @@ async function updateEntity(
 
     if (topicOptions == undefined) {
       topicOptions = {
-        maxDeliveryCount: 10
+        status: "Active"
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
-        maxDeliveryCount: 10
+        lockDuration: "PT1M"
       };
     }
 
