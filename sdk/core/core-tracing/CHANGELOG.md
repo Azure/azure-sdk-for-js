@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-preview.8 (Unreleased)
+
+- Fix tracingPolicy() to set standard span attributes [PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565).  Now the following are set correctly for the spans
+  - `http.method`
+  - `http.url`
+  - `http.user_agent`
+  - `http.status_code`
+  - `requestId`
+  - `serviceRequestId`
+  - `kind` = Client
+  - span name: URI path,
+
 ## 1.0.0-preview.7 (2019-12-03)
 
 - Updated the behavior of how incompatible versions of OpenTelemetry Tracer are handled. Now, errors will be thrown only if the user has manually set a Tracer. This means that incompatible versions will be silently ignored when tracing is not enabled.
