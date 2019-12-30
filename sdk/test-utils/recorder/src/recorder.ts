@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
-import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
+import { NiseRecorder, NockRecorder, BaseRecorder, configureSetup } from "./baseRecorder";
 
 /**
  * @export
@@ -72,7 +72,7 @@ export function record(testContext: Mocha.Context): Recorder {
     testTitle = testContext.test!.title;
   }
 
-  setEnvironmentOnLoad();
+  configureSetup();
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);

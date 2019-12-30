@@ -43,7 +43,12 @@ export function skipQueryParams(params: string[]): void {
   queryParameters = params;
 }
 
-export function setEnvironmentOnLoad() {
+/**
+ * 1. Imports `nock` library for node tests in record/playback modes.
+ * 2. Overrides console.logs in the browser with our customized console logs
+ *    to be able to save the recordings in the browser.
+ */
+export function configureSetup() {
   if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
     nock = require("nock");
   }

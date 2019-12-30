@@ -3,9 +3,4 @@
 
 export { record, Recorder } from "./recorder";
 export { env, delay, isPlaybackMode, isRecordMode } from "./utils";
-export {
-  setReplaceableVariables,
-  setReplacements,
-  setEnvironmentOnLoad,
-  skipQueryParams
-} from "./baseRecorder";
+export { setReplaceableVariables, setReplacements, skipQueryParams } from "./baseRecorder";
