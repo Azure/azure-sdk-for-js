@@ -34,7 +34,7 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "audit": "node ../../../common/scripts/rush-audit.js && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",

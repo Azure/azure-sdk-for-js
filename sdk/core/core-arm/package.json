@@ -66,7 +66,7 @@
     "all": true
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "audit": "node ../../../common/scripts/rush-audit.js && npm i --package-lock-only 2>&1 && npm audit",
     "build": "run-p build:lib",
     "build:lib": "run-s build:tsc build:rollup build:minify",
     "build:tsc": "tsc -p tsconfig.es.json",

@@ -10,7 +10,7 @@
     "testhub": "./dist/cli.js"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "audit": "node ../../../common/scripts/rush-audit.js && npm i --package-lock-only 2>&1 && npm audit",
     "build:test": "npm run build",
     "build": "tsc",
     "check-format": "echo skipped",

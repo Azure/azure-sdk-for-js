@@ -39,7 +39,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "audit": "node ../../../common/scripts/rush-audit.js && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc -b src test --verbose",
