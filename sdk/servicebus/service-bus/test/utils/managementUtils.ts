@@ -41,6 +41,7 @@ async function retry(
   const retryAttempts = 5;
   const retryDelayInMs = 1000;
 
+  let lastKnownError: Error | undefined = undefined;
   let succeeded: boolean = false;
   let count = 0;
   while (count < retryAttempts) {
@@ -52,6 +53,7 @@ async function retry(
       }
       await operationCallback();
     } catch (err) {
+      lastKnownError = err;
       // Ignore error and wait before retrying
       await delay(retryDelayInMs);
     } finally {
@@ -60,7 +62,12 @@ async function retry(
   }
 
   if (!succeeded) {
-    throw new Error(`Error occurred while attempting to execute "${operationDescription}"`);
+    if (lastKnownError != undefined) {
+      lastKnownError.message = operationDescription + " : " + lastKnownError.message;
+      throw lastKnownError;
+    } else {
+      throw new Error(`${operationDescription} failed without errors.`);
+    }
   }
 }
 
