@@ -6,6 +6,13 @@ export interface TestInfo {
   newDate: { [x: string]: string };
 }
 
+/**
+ * @returns {boolean}
+ */
+export function isBrowser(): boolean {
+  return typeof window !== "undefined";
+}
+
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function isRecordMode() {
@@ -80,13 +87,6 @@ export function getUniqueName(prefix: string): string {
 }
 
 /**
- * @returns {boolean}
- */
-export function isBrowser(): boolean {
-  return typeof window !== "undefined";
-}
-
-/**
  * Usage - `await delay(<milliseconds>)`
  * This `delay` has no effect if the `TEST_MODE` is `"playback"`.
  * If the `TEST_MODE` is not `"playback"`, `delay` is a wrapper for setTimeout that resolves a promise after t milliseconds.
@@ -106,13 +106,13 @@ export function delay(milliseconds: number): Promise<void> | null {
  */
 export function parseUrl(url: string): any {
   const [cleanUrl, ...queryParts] = url.split(/[?&]/);
-  const query = queryParts.reduce((query: { [key:string]: any }, part) => {	
+  const query = queryParts.reduce((query: { [key: string]: any }, part) => {
     const [name, value] = part.split(/=/);
-    query[name] = decodeURIComponent(value.replace(/\+/g, ' '));
+    query[name] = decodeURIComponent(value.replace(/\+/g, " "));
     return query;
   }, {});
   return {
     url: cleanUrl,
     query
-  }
+  };
 }
