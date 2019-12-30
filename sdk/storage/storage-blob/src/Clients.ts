@@ -6,8 +6,7 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  getDefaultProxySettings
-} from "@azure/core-http";
+  getDefaultProxySettings} from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
   BlobDownloadResponseModel,
@@ -137,6 +136,7 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -923,7 +923,13 @@ export class BlobClient extends StorageClient {
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
@@ -937,8 +943,13 @@ export class BlobClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+      // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+      // avoid each client creating its own http client.
+      const newOptions: StoragePipelineOptions = {
+        httpClient: getCachedDefaultHttpClient(),
+        ...(blobNameOrOptions as StoragePipelineOptions)
+      };
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -946,7 +957,7 @@ export class BlobClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
@@ -969,8 +980,8 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -982,7 +993,7 @@ export class BlobClient extends StorageClient {
           ) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -5509,7 +5520,13 @@ export class ContainerClient extends StorageClient {
   ) {
     let pipeline: Pipeline;
     let url: string;
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
@@ -5521,7 +5538,7 @@ export class ContainerClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -5529,7 +5546,7 @@ export class ContainerClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
@@ -5545,8 +5562,8 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -5555,7 +5572,7 @@ export class ContainerClient extends StorageClient {
           appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -6260,7 +6277,7 @@ export class ContainerClient extends StorageClient {
    *
    * // Gets next marker
    * let marker = response.continuationToken;
-   * 
+   *
    * // Passing next marker as continuationToken
    *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });

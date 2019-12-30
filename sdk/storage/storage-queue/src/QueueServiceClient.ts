@@ -5,8 +5,7 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  getDefaultProxySettings
-} from "@azure/core-http";
+  getDefaultProxySettings} from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
   ListQueuesIncludeType,
@@ -30,6 +29,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -176,7 +176,12 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: StoragePipelineOptions
   ): QueueServiceClient {
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
@@ -184,14 +189,14 @@ export class QueueServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        const pipeline = newPipeline(sharedKeyCredential, options);
+        newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        const pipeline = newPipeline(sharedKeyCredential, newOptions);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), options);
+      const pipeline = newPipeline(new AnonymousCredential(), newOptions);
       return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
@@ -274,6 +279,13 @@ export class QueueServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
@@ -282,10 +294,10 @@ export class QueueServiceClient extends StorageClient {
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
@@ -459,7 +471,7 @@ export class QueueServiceClient extends StorageClient {
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
    * let item = (await iterator.next()).value;
-   * 
+   *
    * // Prints 2 queue names
    * if (item.queueItems) {
    *   for (const queueItem of item.queueItems) {
@@ -469,7 +481,7 @@ export class QueueServiceClient extends StorageClient {
    * }
    * // Gets next marker
    * let marker = item.continuationToken;
-   * 
+   *
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
    * item = (await iterator.next()).value;

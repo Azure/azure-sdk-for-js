@@ -35,6 +35,7 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -381,6 +382,13 @@ export class BlobServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
@@ -389,10 +397,10 @@ export class BlobServiceClient extends StorageClient {
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second parameter is undefined. Use anonymous credential
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
