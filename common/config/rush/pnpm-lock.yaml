@@ -2672,11 +2672,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
-  /core-js/3.6.0:
+  /core-js/3.6.1:
     dev: false
     requiresBuild: true
     resolution:
-      integrity: sha512-AHPTNKzyB+YwgDWoSOCaid9PUSEF6781vsfiK8qUz62zRR448/XgK2NtCbpiUGizbep8Lrpt0Du19PpGGZvw3Q==
+      integrity: sha512-186WjSik2iTGfDjfdCZAxv2ormxtKgemjC3SI6PL31qOA0j5LhTDVjHChccoc7brwLvpvLPiMyRlcO88C4l1QQ==
   /core-util-is/1.0.2:
     dev: false
     resolution:
@@ -3713,10 +3713,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-i1vL2ewyfFBBv5qwI/1nUPEXfmU=
-  /fetch-mock/8.1.0_node-fetch@2.6.0:
+  /fetch-mock/8.2.1_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
-      core-js: 3.6.0
+      core-js: 3.6.1
       glob-to-regexp: 0.4.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
@@ -3733,7 +3733,7 @@ packages:
         optional: true
     requiresBuild: true
     resolution:
-      integrity: sha512-Xp4yYTwMvKiHAdbZNm3ZOYzhmyLuI3ziSJcW0L781TMe+mXydiGmpHSfwaM8xIyShyz9DMJMPail41Az+8+2zA==
+      integrity: sha512-v4YRwlAYZQmj+z1geAMn1RRbrnLXA61JtYfj2HdVDFOguzc/wTBYkH1vi78HOUA3DY2GgCLkcD1aq9vLAO/OKA==
   /figgy-pudding/3.5.1:
     dev: false
     resolution:
@@ -10098,7 +10098,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
-      fetch-mock: 8.1.0_node-fetch@2.6.0
+      fetch-mock: 8.2.1_node-fetch@2.6.0
       form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
