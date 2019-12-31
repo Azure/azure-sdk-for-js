@@ -218,7 +218,7 @@ function pack(): void {
       const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
       const packageName: string = packageJson.name;
 
-      if (packagesToIgnore.indexOf(packageName) !== -1 || packageJson.sdk-type == "client") {
+      if (packagesToIgnore.indexOf(packageName) !== -1) {
         _logger.log(`INFO: Skipping package ${packageName}`);
         ++skippedPackages;
       } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {

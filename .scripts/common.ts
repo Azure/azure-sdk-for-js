@@ -112,15 +112,35 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
 }
 
 export const packagesToIgnore: string[] = [
+  "@azure/appconfiguration",
+  "@azure/abort-controller",
+  "@azure/core-amqp",
+  "@azure/core-arm",
+  "@azure/core-asynciterator-polyfill",
+  "@azure/core-auth",
+  "@azure/core-http",
+  "@azure/core-lro",
+  "@azure/core-paging",
+  "@azure/core-tracing",
+  "@azure/identity",
+  "@azure/logger",
+  "@azure/eventhubs-checkpointstore-blob",
+  "@azure/keyvault-certificates",
+  "azure/keyvault-secrets",
+  "@azure/storage-blob",
+  "@azure/storage-file-share",
+  "@azure/storage-queue",
+  "@azure/storage-file-datalake",
   "@azure/cosmos",
   "@azure/storage-blob",
   "@azure/storage-file-share",
   "@azure/storage-queue",
   "@azure/event-hubs",
   "@azure/event-processor-host",
-  "@azure/keyvault",
+  "@azure/keyvault-keys",
   "@azure/service-bus",
   "@azure/template",
+  "@azure/cognitiveservices-textanalytics",
   "testhub"
 ];
 export const folderNamesToIgnore: string[] = ["node_modules"];
