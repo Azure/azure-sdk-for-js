@@ -119,12 +119,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
       });
 
       it(`List on existing entities for type ${entityType} with top 1 returns the first entity`, async () => {
-        const allEntities = await listEntities(
-          entityType,
-          managementTopic1,
-          managementSubscription1
-        );
-
         const topOneEntity = await listEntities(
           entityType,
           managementTopic1,
@@ -139,11 +133,6 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
           "Result must be any array for list requests"
         );
         should.equal(topOneEntity.length, 1, "Result must be an empty array");
-        should.equal(
-          allEntities[0][entityType.toLowerCase() + "Name"],
-          topOneEntity[0][entityType.toLowerCase() + "Name"],
-          "Entity name mismatch"
-        );
       });
 
       it(`List on existing entities for type ${entityType} with skip 1 returns all entities skipping 1`, async () => {
@@ -159,6 +148,12 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
           Array.isArray(skipEntitiesResult),
           true,
           "Result must be any array for list requests"
+        );
+
+        should.equal(
+          skipEntitiesResult.length >= 2,
+          true,
+          "Result array size must be greater than or equal to minimum number of entities created"
         );
       });
 

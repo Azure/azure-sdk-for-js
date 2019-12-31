@@ -16,8 +16,6 @@ export enum EnvVarKeys {
   AAD_CLIENT_ID = "AAD_CLIENT_ID",
   AAD_CLIENT_SECRET = "AAD_CLIENT_SECRET",
   AAD_TENANT_ID = "AAD_TENANT_ID",
-  RESOURCE_GROUP = "RESOURCE_GROUP",
-  AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID",
 
   QUEUE_NAME = "QUEUE_NAME",
   QUEUE_NAME_NO_PARTITION = "QUEUE_NAME_NO_PARTITION",
@@ -54,9 +52,7 @@ const commonEnvVars = [
   EnvVarKeys.SERVICEBUS_CONNECTION_STRING,
   EnvVarKeys.AAD_CLIENT_ID,
   EnvVarKeys.AAD_CLIENT_SECRET,
-  EnvVarKeys.AAD_TENANT_ID,
-  EnvVarKeys.AZURE_SUBSCRIPTION_ID,
-  EnvVarKeys.RESOURCE_GROUP
+  EnvVarKeys.AAD_TENANT_ID
 ];
 
 /**
@@ -182,8 +178,6 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AAD_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_ID),
     [EnvVarKeys.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_SECRET),
     [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
-    [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
-    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
 
     [EnvVarKeys.QUEUE_NAME]: getEnvVarValue(EnvVarKeys.QUEUE_NAME, forBrowser),
     [EnvVarKeys.QUEUE_NAME_NO_PARTITION]: getEnvVarValue(

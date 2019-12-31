@@ -52,8 +52,6 @@ module.exports = function(config) {
       "AAD_CLIENT_ID",
       "AAD_CLIENT_SECRET",
       "AAD_TENANT_ID",
-      "RESOURCE_GROUP",
-      "AZURE_SUBSCRIPTION_ID",
       "QUEUE_NAME_BROWSER",
       "QUEUE_NAME_NO_PARTITION_BROWSER",
       "QUEUE_NAME_SESSION_BROWSER",

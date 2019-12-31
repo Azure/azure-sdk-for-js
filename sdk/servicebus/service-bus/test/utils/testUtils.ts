@@ -229,6 +229,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
+
     case TestClientType.PartitionedSubscription: {
       await recreateTopic(env[EnvVarKeys.TOPIC_NAME], {
         enablePartitioning: true,
@@ -247,6 +248,7 @@ export async function getSenderReceiverClients(
         )
       };
     }
+
     case TestClientType.UnpartitionedQueue: {
       await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION], {
         lockDuration: defaultLockDuration,
@@ -281,6 +283,7 @@ export async function getSenderReceiverClients(
         )
       };
     }
+
     case TestClientType.PartitionedQueueWithSessions: {
       await recreateQueue(env[EnvVarKeys.QUEUE_NAME_SESSION], {
         lockDuration: defaultLockDuration,
@@ -295,6 +298,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
+
     case TestClientType.PartitionedSubscriptionWithSessions: {
       await recreateTopic(env[EnvVarKeys.TOPIC_NAME_SESSION], {
         enablePartitioning: true,
@@ -318,14 +322,13 @@ export async function getSenderReceiverClients(
         )
       };
     }
-    case TestClientType.UnpartitionedQueueWithSessions:
-      {
-        await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true,
-          requiresSession: true
-        });
-      }
+
+    case TestClientType.UnpartitionedQueueWithSessions: {
+      await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION], {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true,
+        requiresSession: true
+      });
 
       const queueClient = sbClient.createQueueClient(
         env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION]
@@ -334,6 +337,7 @@ export async function getSenderReceiverClients(
         senderClient: queueClient,
         receiverClient: queueClient
       };
+    }
 
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
       await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION], {
@@ -357,6 +361,7 @@ export async function getSenderReceiverClients(
         )
       };
     }
+
     case TestClientType.TopicFilterTestDefaultSubscription: {
       await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
         enableBatchedOperations: true
@@ -378,6 +383,7 @@ export async function getSenderReceiverClients(
         )
       };
     }
+
     case TestClientType.TopicFilterTestSubscription: {
       await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
         enableBatchedOperations: true
@@ -399,6 +405,7 @@ export async function getSenderReceiverClients(
         )
       };
     }
+
     default:
       break;
   }
