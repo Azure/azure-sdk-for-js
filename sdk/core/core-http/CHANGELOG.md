@@ -1,18 +1,8 @@
 # Release History
 
 ## 1.0.3 (Unreleased)
-- Added `x-ms-useragent` to the list of allowed headers in request logs.
-- Fix issue of data being pushed twice when reporting progress ([PR #6427](https://github.com/Azure/azure-sdk-for-js/issues/6427))
 - Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
-- Fix tracingPolicy() to set standard span attributes ([PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565)).  Now the following are set correctly for the spans
-  - `http.method`
-  - `http.url`
-  - `http.user_agent`
-  - `http.status_code`
-  - `requestId`
-  - `serviceRequestId`
-  - `kind` = Client
-  - span name: URI path
+- Added `x-ms-useragent` to the list of allowed headers in request logs.
 
 ## 1.0.2 (2019-12-02)
 
