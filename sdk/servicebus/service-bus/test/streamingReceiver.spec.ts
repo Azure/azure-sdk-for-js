@@ -26,7 +26,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-import { getEnvVars, EnvVarKeys } from "./utils/envVarUtils";
+import { getEnvVarMap, EnvVarKeys } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 const should = chai.should();
@@ -982,7 +982,7 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
   it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
     void
   > {
-    const env = getEnvVars();
+    const env = getEnvVarMap();
 
     // Send a message using service bus client created with connection string
     sbClient = getServiceBusClient();
