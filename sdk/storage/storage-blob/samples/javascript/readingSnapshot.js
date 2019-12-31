@@ -50,7 +50,7 @@ async function main() {
   const blobName = "newblob" + new Date().getTime();
   const blobClient = containerClient.getBlobClient(blobName);
   const blockBlobClient = blobClient.getBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // Downloading blob from the snapshot
