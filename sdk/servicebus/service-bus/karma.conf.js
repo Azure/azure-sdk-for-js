@@ -49,6 +49,9 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING",
+      "AAD_CLIENT_ID",
+      "AAD_CLIENT_SECRET",
+      "AAD_TENANT_ID",
       "QUEUE_NAME_BROWSER",
       "QUEUE_NAME_NO_PARTITION_BROWSER",
       "QUEUE_NAME_SESSION_BROWSER",
@@ -64,12 +67,16 @@ module.exports = function(config) {
       "TOPIC_FILTER_NAME_BROWSER",
       "TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER",
       "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER",
-      "AAD_CLIENT_ID",
-      "AAD_CLIENT_SECRET",
-      "AAD_TENANT_ID",
-      "RESOURCE_GROUP",
-      "AZURE_SUBSCRIPTION_ID",
-      "CLEAN_NAMESPACE"
+      "MANAGEMENT_QUEUE_1_BROWSER",
+      "MANAGEMENT_TOPIC_1_BROWSER",
+      "MANAGEMENT_SUBSCRIPTION_1_BROWSER",
+      "MANAGEMENT_RULE_1_BROWSER",
+      "MANAGEMENT_QUEUE_2_BROWSER",
+      "MANAGEMENT_TOPIC_2_BROWSER",
+      "MANAGEMENT_SUBSCRIPTION_2_BROWSER",
+      "MANAGEMENT_RULE_2_BROWSER",
+      "MANAGEMENT_NEW_ENTITY_1_BROWSER",
+      "MANAGEMENT_NEW_ENTITY_2_BROWSER"
     ],
 
     // test results reporter to use

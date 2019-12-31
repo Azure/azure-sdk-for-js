@@ -120,14 +120,12 @@ AAD_CLIENT_SECRET=""
 AAD_TENANT_ID=""
 RESOURCE_GROUP=""
 AZURE_SUBSCRIPTION_ID=""
-CLEAN_NAMESPACE="true"
 ```
 
 **Note:**
 * `RESOURCE_GROUP` and `AZURE_SUBSCRIPTION_ID` can be found at your servicebus-namespace in the azure-portal.
-* `CLEAN_NAMESPACE` env variable is used it in testUtils.ts.
 
-_If `CLEAN_NAMESPACE` is `undefined`, then the deletion/creation of the required servicebus-entities(for each test) will not happen._
+_By default the deletion/creation of the required servicebus-entities(for each test) will take place in order to not reuse resources across testcases._
 
 ## Run all tests
 

@@ -25,6 +25,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
 import { parseConnectionString } from "@azure/amqp-common";
+import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
   env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
@@ -41,126 +42,553 @@ enum EntityType {
   RULE = "Rule"
 }
 
-const alwaysBeExistingQueue = "alwaysbeexistingqueue";
-const alwaysBeExistingTopic = "alwaysbeexistingtopic";
-const alwaysBeExistingSubscription = "alwaysbeexistingsubscription";
-const alwaysBeExistingRule = "alwaysbeexistingrule";
+const managementQueue1 = env[EnvVarKeys.MANAGEMENT_QUEUE_1];
+const managementTopic1 = env[EnvVarKeys.MANAGEMENT_TOPIC_1];
+const managementSubscription1 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_1];
+const managementRule1 = env[EnvVarKeys.MANAGEMENT_RULE_1];
+
+const managementQueue2 = env[EnvVarKeys.MANAGEMENT_QUEUE_2];
+const managementTopic2 = env[EnvVarKeys.MANAGEMENT_TOPIC_2];
+const managementSubscription2 = env[EnvVarKeys.MANAGEMENT_SUBSCRIPTION_2];
+const managementRule2 = env[EnvVarKeys.MANAGEMENT_RULE_2];
+
+const newManagementEntity1 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_1];
+const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
+
+[EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
+  (entityType) => {
+    describe(`Atom management - List on "${entityType}" entities #RunInBrowser`, function(): void {
+      beforeEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+            await recreateQueue(managementQueue1);
+            await recreateQueue(managementQueue2);
+            break;
+
+          case EntityType.TOPIC:
+            await recreateTopic(managementTopic1);
+            await recreateTopic(managementTopic2);
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            await recreateTopic(managementTopic1);
+            await recreateSubscription(managementTopic1, managementSubscription1);
+            await recreateSubscription(managementTopic1, managementSubscription2);
+            break;
+
+          case EntityType.RULE:
+            await recreateTopic(managementTopic1);
+            await recreateSubscription(managementTopic1, managementSubscription1);
+            await createEntity(
+              EntityType.RULE,
+              managementRule1,
+              managementTopic1,
+              managementSubscription1
+            );
+            await createEntity(
+              EntityType.RULE,
+              managementRule2,
+              managementTopic1,
+              managementSubscription1
+            );
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      afterEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+            await deleteEntity(EntityType.QUEUE, managementQueue1);
+            await deleteEntity(EntityType.QUEUE, managementQueue2);
+            break;
+
+          case EntityType.TOPIC:
+            await deleteEntity(EntityType.TOPIC, managementTopic1);
+            await deleteEntity(EntityType.TOPIC, managementTopic2);
+            break;
+          case EntityType.SUBSCRIPTION:
+          case EntityType.RULE:
+            await deleteEntity(EntityType.TOPIC, managementTopic1);
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      it(`List on existing entities for type ${entityType} with top 1 returns the first entity`, async () => {
+        const topOneEntity = await listEntities(
+          entityType,
+          managementTopic1,
+          managementSubscription1,
+          undefined,
+          1
+        );
+
+        should.equal(
+          Array.isArray(topOneEntity),
+          true,
+          "Result must be any array for list requests"
+        );
+        should.equal(topOneEntity.length, 1, "Result must be an empty array");
+      });
+
+      it(`List on existing entities for type ${entityType} with skip 1 returns all entities skipping 1`, async () => {
+        const skipEntitiesResult = await listEntities(
+          entityType,
+          managementTopic1,
+          managementSubscription1,
+          1,
+          undefined
+        );
+
+        should.equal(
+          Array.isArray(skipEntitiesResult),
+          true,
+          "Result must be any array for list requests"
+        );
+
+        should.equal(
+          skipEntitiesResult.length >= 2,
+          true,
+          "Result array size must be greater than or equal to minimum number of entities created"
+        );
+      });
+
+      it(`Lists available ${entityType} entities successfully`, async () => {
+        const response = await listEntities(entityType, managementTopic1, managementSubscription1);
+
+        should.equal(Array.isArray(response), true, "Result must be any array for list requests");
+      });
+    });
+  }
+);
 
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: alwaysBeExistingQueue
+    alwaysBeExistingEntity: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: alwaysBeExistingTopic
+    alwaysBeExistingEntity: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: alwaysBeExistingSubscription,
-    parentTopicName: alwaysBeExistingTopic
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: alwaysBeExistingRule,
-    parentTopicName: alwaysBeExistingTopic,
-    parentSubscriptionName: alwaysBeExistingSubscription
+    alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Basic CRUD on "${testCase.entityType}" entities`, function(): void {
-    before(async () => {
-      await createEntity(EntityType.TOPIC, alwaysBeExistingTopic);
-      try {
-        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic1");
-      } catch (err) {
-        // Ignoring as creating topic test with input variations may fail
-        // and handling this clean along with test case results in resource conflict error
-        // Further investigation of issue and simplification of tests setup
-        // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
-      }
-      try {
-        await deleteEntity(EntityType.TOPIC, "alwaysBeExistingTopic2");
-      } catch (err) {
-        // Ignoring as creating topic test with input variations may fail
-        // and handling this clean along with test case results in resource conflict error
-        // Further investigation of issue and simplification of tests setup
-        // will be looked into as part of https://github.com/azure/azure-sdk-for-js/issues/6276
-      }
+  describe(`Atom management - Get on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
 
-      await createEntity(
-        EntityType.SUBSCRIPTION,
-        alwaysBeExistingSubscription,
-        alwaysBeExistingTopic
-      );
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      await createEntity(
-        EntityType.RULE,
-        alwaysBeExistingRule,
-        alwaysBeExistingTopic,
-        alwaysBeExistingSubscription
-      );
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await createEntity(
+            EntityType.RULE,
+            managementRule1,
+            managementTopic1,
+            managementSubscription1
+          );
+          break;
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
     });
 
-    after(async () => {
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      await deleteEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
     });
 
-    it(`List on existing entities for type ${testCase.entityType} with top 1 returns the first entity`, async () => {
-      const allEntities = await listEntities(
+    it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
+      const response = await getEntity(
         testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
+        testCase.alwaysBeExistingEntity,
+        managementTopic1,
+        managementSubscription1
       );
-
-      const topOneEntity = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName,
-        undefined,
-        1
-      );
-
-      should.equal(Array.isArray(topOneEntity), true, "Result must be any array for list requests");
-      should.equal(topOneEntity.length, 1, "Result must be an empty array");
       should.equal(
-        allEntities[0][testCase.entityType.toLowerCase() + "Name"],
-        topOneEntity[0][testCase.entityType.toLowerCase() + "Name"],
+        response[testCase.entityType.toLowerCase() + "Name"],
+        testCase.alwaysBeExistingEntity,
         "Entity name mismatch"
       );
     });
+  });
+});
 
-    it(`List on existing entities for type ${testCase.entityType} with skip 1 returns all entities skipping 1`, async () => {
-      const allEntities = await listEntities(
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: managementRule1
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Update on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await createEntity(
+            EntityType.RULE,
+            managementRule1,
+            managementTopic1,
+            managementSubscription1
+          );
+          break;
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
+      const response = await updateEntity(
         testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
+        testCase.alwaysBeExistingEntity,
+        managementTopic1,
+        managementSubscription1
       );
-
-      const skipEntitiesResult = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName,
-        1,
-        undefined
-      );
-
       should.equal(
-        Array.isArray(skipEntitiesResult),
+        response[testCase.entityType.toLowerCase() + "Name"],
+        testCase.alwaysBeExistingEntity,
+        "Entity name mismatch"
+      );
+    });
+  });
+});
+
+[EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
+  (entityType) => {
+    describe(`Atom management - Delete on "${entityType}" entities #RunInBrowser`, function(): void {
+      beforeEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+            break;
+
+          case EntityType.TOPIC:
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            await recreateTopic(managementTopic1);
+            break;
+
+          case EntityType.RULE:
+            await recreateTopic(managementTopic1);
+            await recreateSubscription(managementTopic1, managementSubscription1);
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      afterEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            break;
+          case EntityType.SUBSCRIPTION:
+          case EntityType.RULE:
+            await deleteEntity(EntityType.TOPIC, managementTopic1);
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      it(`Deletes an existent ${entityType} entity successfully`, async () => {
+        await createEntity(
+          entityType,
+          newManagementEntity1,
+          managementTopic1,
+          managementSubscription1
+        );
+
+        const response = await deleteEntity(
+          entityType,
+          newManagementEntity1,
+          managementTopic1,
+          managementSubscription1
+        );
+
+        should.equal(response._response.status, 200);
+      });
+    });
+  }
+);
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: managementRule1
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Create on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await createEntity(
+            EntityType.RULE,
+            managementRule1,
+            managementTopic1,
+            managementSubscription1
+          );
+          break;
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
+      let error;
+      try {
+        await createEntity(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          managementTopic1,
+          managementSubscription1
+        );
+      } catch (err) {
+        error = err;
+      }
+
+      should.equal(error.statusCode, 409, "Unexpected status code found.");
+      should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
+      should.equal(
+        error.message.startsWith("The messaging entity") ||
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
-        "Result must be any array for list requests"
+        `Unexpected error message found.`
       );
-      should.equal(
-        skipEntitiesResult.length,
-        allEntities.length - 1,
-        "Result must be an empty array"
-      );
-      it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
+    });
+  });
+});
+
+[EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
+  (entityType) => {
+    describe(`Atom management - CRUD on non-existent entities for type "${entityType}" #RunInBrowser`, function(): void {
+      beforeEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            break;
+
+          case EntityType.SUBSCRIPTION:
+            await recreateTopic(managementTopic1);
+            break;
+
+          case EntityType.RULE:
+            await recreateTopic(managementTopic1);
+            await recreateSubscription(managementTopic1, managementSubscription1);
+            break;
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      afterEach(async () => {
+        switch (entityType) {
+          case EntityType.QUEUE:
+          case EntityType.TOPIC:
+            break;
+
+          case EntityType.SUBSCRIPTION:
+          case EntityType.RULE:
+            await deleteEntity(EntityType.TOPIC, managementTopic1);
+            break;
+
+          default:
+            throw new Error("TestError: Unrecognized EntityType");
+        }
+      });
+
+      it(`Creates a non-existent ${entityType} entity successfully`, async () => {
+        const response = await createEntity(
+          entityType,
+          newManagementEntity2,
+          managementTopic1,
+          managementSubscription1
+        );
+
+        await deleteEntity(
+          entityType,
+          newManagementEntity2,
+          managementTopic1,
+          managementSubscription1
+        );
+
+        should.equal(
+          response[entityType.toLowerCase() + "Name"],
+          newManagementEntity2,
+          "Entity name mismatch"
+        );
+      });
+
+      it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
         let error;
-        switch (testCase.entityType) {
+        try {
+          await deleteEntity(entityType, "notexisting", managementTopic1, managementSubscription1);
+        } catch (err) {
+          error = err;
+        }
+
+        should.equal(error.statusCode, 404);
+        should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
+        should.equal(
+          error.message.startsWith("The messaging entity") ||
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
+          true,
+          `Unexpected error message found.`
+        );
+      });
+
+      it(`Update on non-existent ${entityType} entity throws an error`, async () => {
+        let error;
+        try {
+          await updateEntity(entityType, "nonexisting", managementTopic1, managementSubscription1);
+        } catch (err) {
+          error = err;
+        }
+
+        should.equal(error.statusCode, 404, "Unexpected status code found.");
+        should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
+        should.equal(
+          error.message.startsWith("The messaging entity") ||
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
+          true,
+          `Unexpected error message found.`
+        );
+      });
+
+      it(`Get on non-existent ${entityType} entity throws an error`, async () => {
+        let error;
+        switch (entityType) {
           case EntityType.QUEUE:
             try {
-              await getEntity(testCase.entityType, "notexisting");
+              await getEntity(entityType, "notexisting");
             } catch (err) {
               error = err;
             }
@@ -168,7 +596,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
           case EntityType.TOPIC:
             try {
-              error = await getEntity(testCase.entityType, "notexisting");
+              error = await getEntity(entityType, "notexisting");
             } catch (err) {
               error = err;
             }
@@ -177,7 +605,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
           case EntityType.SUBSCRIPTION:
             try {
-              error = await getEntity(testCase.entityType, "notexisting", alwaysBeExistingTopic);
+              error = await getEntity(entityType, "notexisting", managementTopic1);
             } catch (err) {
               error = err;
             }
@@ -186,10 +614,10 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           case EntityType.RULE:
             try {
               error = await getEntity(
-                testCase.entityType,
+                entityType,
                 "notexisting",
-                alwaysBeExistingTopic,
-                alwaysBeExistingSubscription
+                managementTopic1,
+                managementSubscription1
               );
             } catch (err) {
               error = err;
@@ -212,193 +640,12 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         );
       });
     });
-
-    it(`Creating an existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      try {
-        await createEntity(
-          testCase.entityType,
-          testCase.alwaysBeExistingEntity,
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 409, "Unexpected status code found.");
-      should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Unexpected error message found.`
-      );
-    });
-
-    it(`Lists available ${testCase.entityType} entities successfully`, async () => {
-      const response = await listEntities(
-        testCase.entityType,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(Array.isArray(response), true, "Result must be any array for list requests");
-    });
-
-    it(`Updates an existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await updateEntity(
-        testCase.entityType,
-        testCase.alwaysBeExistingEntity,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.alwaysBeExistingEntity,
-        "Entity name mismatch"
-      );
-    });
-
-    it(`Update on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      try {
-        await updateEntity(
-          testCase.entityType,
-          "nonexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 404, "Unexpected status code found.");
-      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Unexpected error message found.`
-      );
-    });
-
-    it(`Gets an existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await getEntity(
-        testCase.entityType,
-        testCase.alwaysBeExistingEntity,
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        testCase.alwaysBeExistingEntity,
-        "Entity name mismatch"
-      );
-    });
-
-    it(`Deletes a non-existent ${testCase.entityType} entity returns an error`, async () => {
-      let error;
-      try {
-        await deleteEntity(
-          testCase.entityType,
-          "notexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 404);
-      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Unexpected error message found.`
-      );
-    });
-
-    it(`Get on non-existent ${testCase.entityType} entity throws an error`, async () => {
-      let error;
-      try {
-        error = await getEntity(
-          testCase.entityType,
-          "nonexisting",
-          testCase.parentTopicName,
-          testCase.parentSubscriptionName
-        );
-      } catch (err) {
-        error = err;
-      }
-
-      should.equal(error.statusCode, 404, "Unexpected status code found.");
-      should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
-      should.equal(
-        error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
-        true,
-        `Unexpected error code message.`
-      );
-    });
-
-    it(`Deletes an existent ${testCase.entityType} entity successfully`, async () => {
-      await createEntity(
-        testCase.entityType,
-        "entity1",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-      const response = await deleteEntity(
-        testCase.entityType,
-        "entity1",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(response._response.status, 200);
-    });
-
-    it(`Creates a non-existent ${testCase.entityType} entity successfully`, async () => {
-      const response = await createEntity(
-        testCase.entityType,
-        "entity2",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      await deleteEntity(
-        testCase.entityType,
-        "entity2",
-        testCase.parentTopicName,
-        testCase.parentSubscriptionName
-      );
-
-      should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
-        "entity2",
-        "Entity name mismatch"
-      );
-    });
-  });
-});
+  }
+);
 
 // Topic tests
-// Create different topic each testcase as updates to same topic/subscription does not scale on service side and gives us error -
-// "Resource Conflict Occurred. Another conflicting operation may be in progress.
-// If this is a retry for failed operation, background clean up is still pending. Try again later."
 [
   {
-    topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
@@ -424,11 +671,10 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       status: "Active",
       subscriptionCount: undefined,
       supportOrdering: true,
-      topicName: "alwaysBeExistingTopic1"
+      topicName: managementTopic1
     }
   },
   {
-    topicName: "alwaysBeExistingTopic2",
     testCaseTitle: "all properties",
     input: {
       requiresDuplicateDetection: true,
@@ -464,15 +710,18 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      topicName: "alwaysBeExistingTopic2"
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.TOPIC,
-        testCase.topicName,
+        managementTopic1,
         undefined,
         undefined,
         true,
@@ -480,7 +729,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         testCase.input
       );
 
-      should.equal(response.topicName, testCase.topicName, "Topic name mismatch");
+      should.equal(response.topicName, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -494,8 +743,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // Subscription tests
 [
   {
-    subscriptionName: "alwaysBeExistingSubscription1",
-    topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -518,13 +765,11 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       requiresSession: false,
       sizeInBytes: undefined,
       status: "Active",
-      subscriptionName: "alwaysBeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   },
   {
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT5M",
@@ -562,91 +807,25 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
-    }
-  },
-  {
-    subscriptionName: "alwaysBeExistingSubscription20",
-    topicName: "alwaysBeExistingTopic1",
-    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic2"
-    },
-    output: {
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnFilterEvaluationExceptions: true,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-      requiresSession: false,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-
-      defaultRuleDescription: undefined,
-
-      messageCount: 0,
-      enablePartitioning: undefined,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
-
-      userMetadata: undefined,
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
-      status: "Active",
-
-      subscriptionName: "alwaysBeExistingSubscription20",
-      topicName: "alwaysBeExistingTopic1"
-    }
-  },
-  {
-    subscriptionName: "alwaysBeExistingSubscription21",
-    topicName: "alwaysBeExistingTopic1",
-    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase(),
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`.toUpperCase()
-    },
-    output: {
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnFilterEvaluationExceptions: true,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-      requiresSession: false,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
-      forwardTo: `${endpointWithProtocol}ALWAYSBEEXISTINGTOPIC2`,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-
-      defaultRuleDescription: undefined,
-
-      messageCount: 0,
-      enablePartitioning: undefined,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
-
-      userMetadata: undefined,
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
-      status: "Active",
-
-      subscriptionName: "alwaysBeExistingSubscription21",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await createEntity(EntityType.TOPIC, managementTopic1);
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
-        testCase.subscriptionName,
-        testCase.topicName,
+        managementSubscription1,
+        managementTopic1,
         undefined,
         true,
         undefined,
@@ -656,7 +835,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 
       should.equal(
         response.subscriptionName,
-        testCase.subscriptionName,
+        managementSubscription1,
         "Subscription name mismatch"
       );
       assert.deepEqualExcluding(response, testCase.output, [
@@ -665,6 +844,92 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         "updatedOn",
         "accessedOn"
       ]);
+    });
+  });
+});
+
+[
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementQueue1,
+      forwardTo: managementQueue1
+    },
+    output: {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      requiresSession: false,
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+
+      defaultRuleDescription: undefined,
+
+      messageCount: 0,
+      enablePartitioning: undefined,
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+
+      userMetadata: undefined,
+      messageCountDetails: undefined,
+      entityAvailabilityStatus: "Available",
+      status: "Active",
+
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase(),
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase()
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1.toUpperCase()}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1.toUpperCase()}`
+    }
+  }
+].forEach((testCase) => {
+  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateQueue(managementQueue1);
+      await recreateTopic(managementTopic1);
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+    });
+
+    it(`${testCase.testCaseTitle}`, async () => {
+      const response = await createEntity(
+        EntityType.SUBSCRIPTION,
+        managementSubscription1,
+        managementTopic1,
+        undefined,
+        true,
+        undefined,
+        undefined,
+        testCase.input
+      );
+
+      should.equal(
+        response.subscriptionName,
+        managementSubscription1,
+        "Subscription name mismatch"
+      );
+      should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
+      should.equal(
+        response.forwardDeadLetteredMessagesTo,
+        testCase.output.forwardDeadLetteredMessagesTo,
+        "forwardDeadLetteredMessagesTo value mismatch"
+      );
     });
   });
 });
@@ -691,7 +956,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
       messageCount: 0,
-      queueName: alwaysBeExistingQueue,
+      queueName: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
       sizeInBytes: 0,
@@ -787,94 +1052,26 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       status: "ReceiveDisabled",
-      queueName: alwaysBeExistingQueue
-    }
-  },
-  {
-    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic2"
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT10M",
-      lockDuration: "PT1M",
-      messageCount: 0,
-      sizeInBytes: 0,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-      maxDeliveryCount: 10,
-      requiresDuplicateDetection: false,
-      requiresSession: false,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      authorizationRules: undefined,
-
-      enablePartitioning: false,
-      maxSizeInMegabytes: 1024,
-      supportOrdering: true,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-      enableExpress: false,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
-      status: "Active",
-      queueName: alwaysBeExistingQueue
-    }
-  },
-  {
-    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT10M",
-      lockDuration: "PT1M",
-      messageCount: 0,
-      sizeInBytes: 0,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-      maxDeliveryCount: 10,
-      requiresDuplicateDetection: false,
-      requiresSession: false,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      authorizationRules: undefined,
-
-      enablePartitioning: false,
-      maxSizeInMegabytes: 1024,
-      supportOrdering: true,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-      enableExpress: false,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
-      status: "Active",
-      queueName: alwaysBeExistingQueue
+      queueName: managementQueue1
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+    afterEach(async () => {
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.QUEUE,
-        alwaysBeExistingQueue,
+        managementQueue1,
         undefined,
         undefined,
         true,
         testCase.input
       );
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
-      should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+
+      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
@@ -886,13 +1083,64 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   });
 });
 
+[
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic1,
+      forwardTo: managementTopic1
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
+  }
+].forEach((testCase) => {
+  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await createEntity(EntityType.TOPIC, managementTopic1);
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
+
+    it(`${testCase.testCaseTitle}`, async () => {
+      const response = await createEntity(
+        EntityType.QUEUE,
+        managementQueue1,
+        undefined,
+        undefined,
+        true,
+        testCase.input
+      );
+
+      should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
+      should.equal(
+        response.forwardDeadLetteredMessagesTo,
+        testCase.output.forwardDeadLetteredMessagesTo,
+        "forwardDeadLetteredMessagesTo value mismatch"
+      );
+    });
+  });
+});
+
 // Rule tests
 [
   {
     testCaseTitle: "Undefined rule options",
-    ruleName: "temp_rule_1",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: undefined,
     output: {
       filter: {
@@ -908,16 +1156,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         compatibilityLevel: undefined
       },
 
-      ruleName: "temp_rule_1",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      ruleName: managementRule1,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   },
   {
     testCaseTitle: "Sql Filter rule options",
-    ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
@@ -945,16 +1190,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         compatibilityLevel: 20
       },
 
-      ruleName: "temp_rule_2",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      ruleName: managementRule1,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
-    ruleName: "temp_rule_3",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: {
       filter: {
         correlationId: "abcd"
@@ -980,19 +1222,27 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         compatibilityLevel: 20
       },
 
-      ruleName: "temp_rule_3",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      ruleName: managementRule1,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateTopic(managementTopic1);
+      await recreateSubscription(managementTopic1, managementSubscription1);
+    });
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
-        testCase.ruleName,
-        testCase.topicName,
-        testCase.subscriptionName,
+        managementRule1,
+        managementTopic1,
+        managementSubscription1,
         true,
         undefined,
         undefined,
@@ -1000,11 +1250,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         testCase.input
       );
 
-      should.equal(
-        response.subscriptionName,
-        testCase.subscriptionName,
-        "Subscription name mismatch"
-      );
+      should.equal(response.ruleName, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -1110,133 +1356,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       supportOrdering: undefined,
       status: "ReceiveDisabled",
       enablePartitioning: true,
-      queueName: alwaysBeExistingQueue
-    }
-  },
-  {
-    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic1",
-      forwardTo: "alwaysBeExistingTopic1"
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic1`,
-      autoDeleteOnIdle: "PT1H",
-      maxDeliveryCount: 8,
-      maxSizeInMegabytes: 16384,
-
-      messageCount: undefined,
-      sizeInBytes: undefined,
-      status: "Active",
-
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-
-      enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
-      isAnonymousAccessible: undefined,
-      supportOrdering: undefined,
-      enablePartitioning: true,
-      queueName: alwaysBeExistingQueue
-    }
-  },
-  {
-    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
-    },
-    output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-
-      requiresDuplicateDetection: true,
-      requiresSession: true,
-      authorizationRules: [
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v2",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        },
-        {
-          claimType: "SharedAccessKey",
-          claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
-          keyName: "allClaims_v3",
-          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
-        }
-      ],
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      autoDeleteOnIdle: "PT1H",
-      maxDeliveryCount: 8,
-      maxSizeInMegabytes: 16384,
-
-      messageCount: undefined,
-      sizeInBytes: undefined,
-      status: "Active",
-
-      userMetadata: undefined,
-
-      messageCountDetails: undefined,
-
-      enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
-      isAnonymousAccessible: undefined,
-      supportOrdering: undefined,
-      enablePartitioning: true,
-      queueName: alwaysBeExistingQueue
+      queueName: managementQueue1
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
     beforeEach(async () => {
-      await createEntity(EntityType.QUEUE, alwaysBeExistingQueue, undefined, undefined, true, {
+      await recreateQueue(managementQueue1, {
         lockDuration: "PT45S",
         requiresDuplicateDetection: true,
         requiresSession: true,
@@ -1269,18 +1395,18 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
           }
         ],
         enablePartitioning: true
-        // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
       });
     });
+
     afterEach(async () => {
-      await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
 
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
           EntityType.QUEUE,
-          alwaysBeExistingQueue,
+          managementQueue1,
           undefined,
           undefined,
           true,
@@ -1300,10 +1426,116 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   });
 });
 
+[
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementTopic1,
+      forwardTo: managementTopic1
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
+      defaultMessageTtl: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
+
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
+      autoDeleteOnIdle: "PT1H",
+      maxDeliveryCount: 8,
+      maxSizeInMegabytes: 16384,
+
+      messageCount: undefined,
+      sizeInBytes: undefined,
+      status: "Active",
+
+      userMetadata: undefined,
+
+      messageCountDetails: undefined,
+
+      enableExpress: undefined,
+      entityAvailabilityStatus: undefined,
+      isAnonymousAccessible: undefined,
+      supportOrdering: undefined,
+      enablePartitioning: true,
+      queueName: managementQueue1
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
+  }
+].forEach((testCase) => {
+  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateTopic(managementTopic1);
+      await recreateQueue(managementQueue1);
+    });
+    afterEach(async () => {
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+      await deleteEntity(EntityType.QUEUE, managementTopic1);
+    });
+
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        const response = await updateEntity(
+          EntityType.QUEUE,
+          managementQueue1,
+          undefined,
+          undefined,
+          true,
+          testCase.input
+        );
+
+        should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
+        should.equal(
+          response.forwardDeadLetteredMessagesTo,
+          testCase.output.forwardDeadLetteredMessagesTo,
+          "forwardDeadLetteredMessagesTo value mismatch"
+        );
+      } catch (err) {
+        checkForValidErrorScenario(err, testCase.output);
+      }
+    });
+  });
+});
+
 // Topic tests
 [
   {
-    topicName: "alwaysBeExistingTopic1",
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
@@ -1311,7 +1543,7 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    topicName: "alwaysBeExistingTopic1",
+    topicName: managementTopic1,
     testCaseTitle: "all properties",
     input: {
       status: "SendDisabled" as EntityStatus,
@@ -1346,16 +1578,23 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       status: "SendDisabled",
       userMetadata: "test metadata",
       messageCountDetails: undefined,
-      topicName: "alwaysbeexistingtopic1"
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateTopic(managementTopic1);
+    });
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
           EntityType.TOPIC,
-          testCase.topicName,
+          managementTopic1,
           undefined,
           undefined,
           true,
@@ -1379,8 +1618,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
 // Subscription tests
 [
   {
-    topicName: alwaysBeExistingTopic,
-    subscriptionName: "alwaysBeExistingSubscription1",
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
@@ -1388,8 +1625,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
     }
   },
   {
-    topicName: "alwaysBeExistingTopic1",
-    subscriptionName: "alwaysbeExistingSubscription1",
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT3M",
@@ -1428,92 +1663,29 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
       entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
-      subscriptionName: "alwaysbeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
-    }
-  },
-  {
-    topicName: "alwaysBeExistingTopic1",
-    subscriptionName: "alwaysbeExistingSubscription1",
-    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: "alwaysBeExistingTopic2",
-      forwardTo: "alwaysBeExistingTopic2"
-    },
-    output: {
-      lockDuration: "PT3M",
-      maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnFilterEvaluationExceptions: true,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      defaultRuleDescription: undefined,
-
-      messageCount: 0,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
-
-      requiresSession: false,
-      enablePartitioning: undefined,
-
-      userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
-      status: "ReceiveDisabled",
-
-      subscriptionName: "alwaysbeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
-    }
-  },
-  {
-    topicName: "alwaysBeExistingTopic1",
-    subscriptionName: "alwaysbeExistingSubscription1",
-    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
-    input: {
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`
-    },
-    output: {
-      lockDuration: "PT3M",
-      maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnFilterEvaluationExceptions: true,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-
-      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      forwardTo: `${endpointWithProtocol}alwaysBeExistingTopic2`,
-      defaultRuleDescription: undefined,
-
-      messageCount: 0,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
-
-      requiresSession: false,
-      enablePartitioning: undefined,
-
-      userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
-      status: "ReceiveDisabled",
-
-      subscriptionName: "alwaysbeExistingSubscription1",
-      topicName: "alwaysBeExistingTopic1"
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateQueue(managementQueue1);
+      await recreateTopic(managementTopic1);
+      await recreateSubscription(managementTopic1, managementSubscription1);
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
           EntityType.SUBSCRIPTION,
-          testCase.subscriptionName,
-          testCase.topicName,
+          managementSubscription1,
+          managementTopic1,
           undefined,
           true,
           undefined,
@@ -1534,13 +1706,72 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   });
 });
 
+[
+  {
+    testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: managementQueue1,
+      forwardTo: managementQueue1
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
+    }
+  },
+  {
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    input: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
+    },
+    output: {
+      forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
+    }
+  }
+].forEach((testCase) => {
+  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateQueue(managementQueue1);
+      await recreateTopic(managementTopic1);
+      await recreateSubscription(managementTopic1, managementSubscription1);
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+      await deleteEntity(EntityType.QUEUE, managementQueue1);
+    });
+
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        const response = await updateEntity(
+          EntityType.SUBSCRIPTION,
+          managementSubscription1,
+          managementTopic1,
+          undefined,
+          true,
+          undefined,
+          undefined,
+          testCase.input
+        );
+
+        should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
+        should.equal(
+          response.forwardDeadLetteredMessagesTo,
+          testCase.output.forwardDeadLetteredMessagesTo,
+          "forwardDeadLetteredMessagesTo value mismatch"
+        );
+      } catch (err) {
+        checkForValidErrorScenario(err, testCase.output);
+      }
+    });
+  });
+});
+
 // Rule tests
 [
   {
     testCaseTitle: "Undefined rule options",
-    ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: undefined,
     output: {
       testErrorMessage: `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
@@ -1548,9 +1779,6 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
   },
   {
     testCaseTitle: "Sql Filter rule options",
-    ruleName: "temp_rule_2",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
@@ -1572,16 +1800,13 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         compatibilityLevel: 20
       },
 
-      ruleName: "temp_rule_2",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      ruleName: managementRule1,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   },
   {
     testCaseTitle: "Correlation Filter rule options",
-    ruleName: "temp_rule_3",
-    subscriptionName: "alwaysBeExistingSubscription2",
-    topicName: "alwaysBeExistingTopic1",
     input: {
       filter: {
         correlationId: "defg"
@@ -1607,20 +1832,35 @@ const alwaysBeExistingRule = "alwaysbeexistingrule";
         compatibilityLevel: 20
       },
 
-      ruleName: "temp_rule_3",
-      subscriptionName: "alwaysBeExistingSubscription2",
-      topicName: "alwaysBeExistingTopic1"
+      ruleName: managementRule1,
+      subscriptionName: managementSubscription1,
+      topicName: managementTopic1
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+    beforeEach(async () => {
+      await recreateTopic(managementTopic1);
+      await recreateSubscription(managementTopic1, managementSubscription1);
+      await createEntity(
+        EntityType.RULE,
+        managementRule1,
+        managementTopic1,
+        managementSubscription1
+      );
+    });
+
+    afterEach(async () => {
+      await deleteEntity(EntityType.TOPIC, managementTopic1);
+    });
+
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
           EntityType.RULE,
-          testCase.ruleName,
-          testCase.topicName,
-          testCase.subscriptionName,
+          managementRule1,
+          managementTopic1,
+          managementSubscription1,
           true,
           undefined,
           undefined,
