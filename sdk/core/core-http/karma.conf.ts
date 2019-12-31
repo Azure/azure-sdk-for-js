@@ -9,6 +9,7 @@ module.exports = function (config: any) {
     plugins: [
       "karma-mocha",
       "karma-chrome-launcher",
+      "karma-edge-launcher",
       "karma-firefox-launcher"
     ],
 
@@ -40,7 +41,8 @@ module.exports = function (config: any) {
     autoWatch: false,
 
     // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher, for examples,
+    // browsers: ["Chrome", "Firefox", "Edge"],
     browsers: ["ChromeHeadless"],
 
     // Continuous Integration mode
