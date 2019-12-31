@@ -113,7 +113,7 @@ export function validateEventPosition(position: EventPosition) {
   const sequenceNumberPresent = position.sequenceNumber != undefined;
   const enqueuedOnPresent = position.enqueuedOn != undefined;
 
-  if ((offsetPresent && sequenceNumberPresent) || offsetPresent && enqueuedOnPresent || enqueuedOnPresent && sequenceNumberPresent) {
+  if ((offsetPresent && sequenceNumberPresent) || (offsetPresent && enqueuedOnPresent) || (enqueuedOnPresent && sequenceNumberPresent)) {
     throw new TypeError(`${position} is an invalid value for EventPosition. Set only one of offset, sequenceNumber or enqueuedOn properties.`);
   }
 
