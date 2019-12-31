@@ -885,7 +885,7 @@ const newManagementEntity2 = env[EnvVarKeys.MANAGEMENT_NEW_ENTITY_2];
     }
   },
   {
-    testCaseTitle: "pa-ss in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
+    testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase(),
       forwardTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase()
