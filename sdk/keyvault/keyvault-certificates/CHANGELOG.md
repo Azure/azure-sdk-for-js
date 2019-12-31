@@ -1,5 +1,7 @@
 # Release History
 
+## 4.0.0-preview.13 (Unreleased)
+
 ## 4.0.0-preview.12 (2019-12-26)
 
 - Updated the long-running operation poller so that it's easier to get information for intermediate states
