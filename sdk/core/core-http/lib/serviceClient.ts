@@ -76,6 +76,12 @@ export interface ProxySettings {
    * The password to authenticate with the proxy, if required.
    */
   password?: string;
+  key?: Buffer; // key for proxy server
+  ca?: Buffer[]; // ca for proxy server
+  cert?: Buffer; // cert for proxy server
+  headers?: { [key: string]: any }; // headers specific to proxy options
+  servername?: string;
+  localAddress?: string;
 }
 
 export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.

@@ -15,11 +15,22 @@ export function createProxyAgent(
   proxySettings: ProxySettings,
   headers?: HttpHeaders
 ): ProxyAgent {
+  let combinedHeaders: any;
+
+  if (headers) {
+    combinedHeaders = Object.assign({}, headers.rawHeaders());
+  }
+
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
     proxy: {
       host: URLBuilder.parse(proxySettings.host).getHost() as string,
       port: proxySettings.port,
-      headers: (headers && headers.rawHeaders()) || {}
+      headers: Object.assign(combinedHeaders, proxySettings.headers),
+      ca: proxySettings.ca,
+      cert: proxySettings.cert,
+      key: proxySettings.key,
+      servername: proxySettings.servername,
+      localAddress: proxySettings.localAddress
     }
   };
 
