@@ -1,5 +1,7 @@
 # Release History
 
+## 1.0.3 (Unreleased)
+
 ## 1.0.2 (2019-12-03)
 
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
