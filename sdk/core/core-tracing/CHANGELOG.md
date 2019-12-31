@@ -2,15 +2,7 @@
 
 ## 1.0.0-preview.8 (Unreleased)
 
-- Fix tracingPolicy() to set standard span attributes [PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565).  Now the following are set correctly for the spans
-  - `http.method`
-  - `http.url`
-  - `http.user_agent`
-  - `http.status_code`
-  - `requestId`
-  - `serviceRequestId`
-  - `kind` = Client
-  - span name: URI path,
+- Update `TestSpan` to allow setting span attributes [PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565).
 
 ## 1.0.0-preview.7 (2019-12-03)
 
