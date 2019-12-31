@@ -19,6 +19,7 @@ import { MixedRealityClientContext } from "./mixedRealityClientContext";
 class MixedRealityClient extends MixedRealityClientContext {
   // Operation groups
   operations: operations.Operations;
+  remoteRenderingAccounts: operations.RemoteRenderingAccounts;
   spatialAnchorsAccounts: operations.SpatialAnchorsAccounts;
 
   /**
@@ -30,11 +31,12 @@ class MixedRealityClient extends MixedRealityClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MixedRealityClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
+    this.remoteRenderingAccounts = new operations.RemoteRenderingAccounts(this);
     this.spatialAnchorsAccounts = new operations.SpatialAnchorsAccounts(this);
   }
 
   /**
-   * Check Name Availability for global uniqueness
+   * Check Name Availability for local uniqueness
    * @param location The location in which uniqueness will be verified.
    * @param checkNameAvailability Check Name Availability Request.
    * @param [options] The optional parameters
