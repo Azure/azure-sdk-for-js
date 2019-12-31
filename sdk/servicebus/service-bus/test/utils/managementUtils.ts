@@ -9,12 +9,8 @@ import {
   delay
 } from "../../src";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
 import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 
-const env = getEnvVars();
 let client: ServiceBusAtomManagementClient;
 
 /**
@@ -23,6 +19,7 @@ let client: ServiceBusAtomManagementClient;
  */
 async function getManagementClient() {
   if (client == undefined) {
+    const env = getEnvVars();
     client = new ServiceBusAtomManagementClient(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
