@@ -6,7 +6,7 @@ import {
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
 import { EventHubProducerClient } from "../../src/eventHubProducerClient";
 import { EventHubClient } from "../../src/impl/eventHubClient";
-import { CloseReason, EventPosition, ReceivedEventData } from "../../src";
+import { CloseReason, latestEventPosition, ReceivedEventData } from "../../src";
 import { loggerForTest } from "./logHelpers";
 import { loopUntil } from "./testUtils";
 import { delay } from "@azure/core-amqp";
@@ -49,14 +49,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   async processInitialize(context: InitializationContext) {
     this.data.set(context.partitionId, {});
 
-    let startingPosition = EventPosition.latest();
+    let startingPosition = latestEventPosition;
 
     if (this._initialSequenceNumbers && this._initialSequenceNumbers.get(context.partitionId)) {
       const sequenceNumber = this._initialSequenceNumbers.get(context.partitionId)!;
       loggerForTest(
         `Overriding initial event position for partition ${context.partitionId} with ${sequenceNumber}`
       );
-      startingPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
+      startingPosition ={ sequenceNumber: sequenceNumber, isInclusive: false };
     }
 
     context.setStartingPosition(startingPosition);

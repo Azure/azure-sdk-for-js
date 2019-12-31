@@ -4,7 +4,7 @@
 import { logger, logErrorStackTrace } from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition } from "./eventPosition";
+import { EventPosition, earliestEventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
@@ -15,7 +15,7 @@ import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 
-const defaultEventPosition = EventPosition.earliest();
+const defaultEventPosition = earliestEventPosition;
 
 export class PartitionPump {
   private _eventHubClient: EventHubClient;

@@ -3,7 +3,6 @@
 
 import uuid from "uuid/v4";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition } from "./eventPosition";
 import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
@@ -357,7 +356,7 @@ export class EventProcessor {
     );
 
     if (validCheckpoints.length > 0) {
-      return EventPosition.fromOffset(validCheckpoints[0].offset);
+      return { offset: validCheckpoints[0].offset };
     }
 
     return undefined;

@@ -14,7 +14,8 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition,
+  earliestEventPosition,
+  latestEventPosition,
   CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
@@ -123,12 +124,12 @@ describe("Event Processor", function(): void {
       // checkpoint is available for partition 0
       let eventPosition = await processor["_getStartingPosition"]("0");
       eventPosition!.offset!.should.equal(1009);
-      should.not.exist(eventPosition!.sequenceNumber);
+      should.not.equal(eventPosition!.hasOwnProperty("sequenceNumber"), true);
 
       //checkpoint is available for partition 1
       eventPosition = await processor["_getStartingPosition"]("1");
       eventPosition!.offset!.should.equal(0);
-      should.not.exist(eventPosition!.sequenceNumber);
+      should.not.equal(eventPosition!.hasOwnProperty("sequenceNumber"), true);
 
       // no checkpoint available for partition 2
       eventPosition = await processor["_getStartingPosition"]("2");
@@ -505,7 +506,7 @@ describe("Event Processor", function(): void {
       client,
       {
         processEvents: async () => {},
-        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
+        processInitialize: async (context) => context.setStartingPosition(latestEventPosition),
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
@@ -522,7 +523,7 @@ describe("Event Processor", function(): void {
       client,
       {
         processEvents: async () => {},
-        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
+        processInitialize: async (context) => context.setStartingPosition(latestEventPosition),
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
@@ -577,7 +578,7 @@ describe("Event Processor", function(): void {
       {
         processInitialize: async (context) => {
           didPartitionProcessorStart = true;
-          context.setStartingPosition(EventPosition.latest());
+          context.setStartingPosition(latestEventPosition);
         },
         processEvents: async (event, context) => {},
         processError: async () => {}
@@ -750,7 +751,7 @@ describe("Event Processor", function(): void {
 
       class FooPartitionProcessor {
         async processInitialize(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.earliest());
+          context.setStartingPosition(earliestEventPosition);
         }
 
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
@@ -986,7 +987,7 @@ describe("Event Processor", function(): void {
         async processInitialize(context: InitializationContext) {
           loggerForTest(`processInitialize(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.initialized = true;
-          context.setStartingPosition(EventPosition.earliest());
+          context.setStartingPosition(earliestEventPosition);
         }
         async processClose(reason: CloseReason, context: PartitionContext) {
           loggerForTest(`processClose(${context.partitionId})`);
@@ -1091,7 +1092,7 @@ describe("Event Processor", function(): void {
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
         async processInitialization(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.earliest());
+          context.setStartingPosition(earliestEventPosition);
         }
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
@@ -1174,7 +1175,7 @@ describe("Event Processor", function(): void {
           const partitionId = context.partitionId;
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
           // For this test we don't want to actually checkpoint, just test ownership.
-          context.setStartingPosition(EventPosition.latest());
+          context.setStartingPosition(latestEventPosition);
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
             return;
@@ -1303,7 +1304,7 @@ describe("Event Processor", function(): void {
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
         async processInitialization(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.latest());
+          context.setStartingPosition(latestEventPosition);
         }
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionIdsSet.add(context.partitionId);

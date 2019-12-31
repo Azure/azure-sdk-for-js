@@ -29,7 +29,7 @@ export {
   ProcessCloseHandler,
   ProcessEventsHandler
 } from "./eventHubConsumerClientModels";
-export { EventPosition } from "./eventPosition";
+export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";

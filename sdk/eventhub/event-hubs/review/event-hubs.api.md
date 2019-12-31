@@ -45,6 +45,9 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export const earliestEventPosition: EventPosition;
+
+// @public
 export interface EventData {
     body: any;
     properties?: {
@@ -115,21 +118,12 @@ export interface EventHubProperties {
 }
 
 // @public
-export class EventPosition {
-    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
-    //
-    // @internal
-    constructor(options?: EventPositionOptions);
-    static earliest(): EventPosition;
+export interface EventPosition {
     enqueuedOn?: Date | number;
-    static fromEnqueuedTime(enqueuedOn: Date | number): EventPosition;
-    static fromOffset(offset: number): EventPosition;
-    static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
-    isInclusive: boolean;
-    static latest(): EventPosition;
+    isInclusive?: boolean;
     offset?: number | "@latest";
     sequenceNumber?: number;
-    }
+}
 
 // @public
 export interface GetEventHubPropertiesOptions extends OperationOptions {
@@ -155,6 +149,9 @@ export interface LastEnqueuedEventProperties {
     retrievedOn?: Date;
     sequenceNumber?: number;
 }
+
+// @public
+export const latestEventPosition: EventPosition;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;

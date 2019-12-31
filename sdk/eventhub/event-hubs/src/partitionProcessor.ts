@@ -6,7 +6,7 @@ import {
   InitializationContext,
   BasicPartitionProperties
 } from "./eventHubConsumerClientModels";
-import { EventPosition } from "./eventPosition";
+import { EventPosition, validateEventPosition } from "./eventPosition";
 import { logger } from "./log";
 
 /**
@@ -186,6 +186,9 @@ export class PartitionProcessor implements InitializationContext {
   }
 
   setStartingPosition(eventPosition: EventPosition) {
+    // TODO: In https://github.com/Azure/azure-sdk-for-js/pull/6632 move this validation to the
+    // subscribe() method.
+    validateEventPosition(eventPosition);
     this._defaultPosition = eventPosition;
   }
 

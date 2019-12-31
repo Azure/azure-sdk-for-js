@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { getStartingPosition, createProcessingSpan, trace } from "../src/partitionPump";
-import { EventPosition } from "../src/eventPosition";
+import { earliestEventPosition, latestEventPosition } from "../src/eventPosition";
 import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
 import {
   CanonicalCode,
@@ -18,13 +18,13 @@ const should = chai.should();
 describe("PartitionPump", () => {
   it("getStartingPosition", () => {
     // if they explicitly passed in an EventPosition then it trumps any user specified option
-    getStartingPosition(EventPosition.earliest(), undefined).offset!.should.equal(-1);
-    getStartingPosition(EventPosition.latest(), undefined).offset!.should.equal("@latest");
+    getStartingPosition(earliestEventPosition, undefined).offset!.should.equal(-1);
+    getStartingPosition(latestEventPosition, undefined).offset!.should.equal("@latest");
 
     // if no initial position was given when we started then we'll allow the user to override....
-    getStartingPosition(undefined, EventPosition.fromOffset(100)).offset!.should.equal(100);
+    getStartingPosition(undefined,{ offset: 100 }).offset!.should.equal(100);
 
-    // ...and if they don't override then we give them the default (currently it's EventPosition.earliest())
+    // ...and if they don't override then we give them the default (currently it's earliestEventPosition)
     getStartingPosition(undefined, undefined).offset!.should.equal(-1);
   });
 
