@@ -67,7 +67,7 @@
     "@azure/storage-blob": "^12.0.0",
     "debug": "^4.1.1",
     "events": "^3.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.5.4",
