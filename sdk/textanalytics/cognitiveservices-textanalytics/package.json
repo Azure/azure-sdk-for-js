@@ -62,7 +62,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-http": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.7",
+    "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/identity": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
