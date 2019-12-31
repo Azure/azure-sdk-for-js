@@ -42,8 +42,8 @@ export function escapeRegExp(str: string): string {
 export async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();
   return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
+    fileReader.onloadend = (ev: ProgressEvent<FileReader>) => {
+      resolve(ev.target!.result as string);
     };
     fileReader.onerror = reject;
     fileReader.readAsText(blob);
