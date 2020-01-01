@@ -41,7 +41,7 @@ module.exports = function (config: any) {
     autoWatch: false,
 
     // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher, for examples,
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher, for example:
     // browsers: ["Chrome", "Firefox", "Edge"],
     browsers: ["ChromeHeadless"],
 
