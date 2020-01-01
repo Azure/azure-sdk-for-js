@@ -430,7 +430,7 @@ export class EventHubClient {
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -476,7 +476,7 @@ export class EventHubClient {
    * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
    * @returns EventHubProducer
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
@@ -516,8 +516,8 @@ export class EventHubClient {
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws TypeError if a required parameter is missing.
    */
   createConsumer(
     consumerGroup: string,
@@ -558,8 +558,8 @@ export class EventHubClient {
    * Provides the Event Hub runtime information.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal3.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal3.
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
@@ -588,8 +588,8 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
@@ -623,8 +623,8 @@ export class EventHubClient {
    * @param partitionId Partition ID for which partition information is required.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resoloves with PartitionProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(
     partitionId: string,
