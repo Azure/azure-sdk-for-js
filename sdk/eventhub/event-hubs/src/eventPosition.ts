@@ -108,28 +108,16 @@ export const latestEventPosition: EventPosition = {
  * @internal
  */
 export function validateEventPosition(position: EventPosition) {
-  
-  const offsetPresent = position.offset != undefined;
-  const sequenceNumberPresent = position.sequenceNumber != undefined;
-  const enqueuedOnPresent = position.enqueuedOn != undefined;
+
+  const offsetPresent = position && position.offset != undefined;
+  const sequenceNumberPresent = position && position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position && position.enqueuedOn != undefined;
 
   if ((offsetPresent && sequenceNumberPresent) || (offsetPresent && enqueuedOnPresent) || (enqueuedOnPresent && sequenceNumberPresent)) {
-    throw new TypeError(`${position} is an invalid value for EventPosition. Set only one of offset, sequenceNumber or enqueuedOn properties.`);
+    throw new TypeError("Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
   }
 
-  const validOffset = (typeof position.offset === "number" && position.offset >= -1) || position.offset === latestEventPosition.offset;
-  if (offsetPresent && !validOffset) {
-    throw new TypeError(`${position.offset} is an invalid value for the offset property in EventPosition. Valid values are numbers >= -1 or the string "@latest".`);
+  if (!offsetPresent && !enqueuedOnPresent && !sequenceNumberPresent) {
+    throw new TypeError("Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
   }
-
-  const validSequenceNumber = typeof position.sequenceNumber === "number" && position.sequenceNumber >= -1;
-  if (sequenceNumberPresent && !validSequenceNumber) {
-    throw new TypeError(`${position.sequenceNumber} is an invalid value for the sequenceNumber property in EventPosition. Valid values are numbers >= -1.`);
-  }
-
-  const validEnqueuedOn = typeof position.enqueuedOn === "number" || position.enqueuedOn instanceof Date;
-  if (enqueuedOnPresent && !validEnqueuedOn) {
-    throw new TypeError(`${position.enqueuedOn} is an invalid value for the enqueuedOn property in EventPosition. Valid values are of type number or instances of Date.`);
-  }
-
 }

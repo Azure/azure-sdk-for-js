@@ -5,7 +5,7 @@ import chai from "chai";
 chai.should();
 
 import { latestEventPosition, earliestEventPosition } from "../src";
-import { getEventPositionFilter } from "../src/eventPosition";
+import { getEventPositionFilter, validateEventPosition } from "../src/eventPosition";
 
 describe("EventPosition #RunnableInBrowser", function(): void {
   describe("happy", function(): void {
@@ -67,4 +67,37 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       done();
     });
   });
+
+  describe("sad", function(): void {
+    it("throws error when event position is passed with nothing set", () => {
+      const test = function(): void {
+        validateEventPosition(null as any)
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
+    });
+    it("throws error when empty object is passed for event position", () => {
+      const test = function(): void {
+        validateEventPosition({})
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
+    });
+    it("throws error when event position is passed with both offset and sequence number set", () => {
+      const test = function(): void {
+        validateEventPosition({ offset: 123, sequenceNumber: 456 });
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+    it("throws error when event position is passed with both offset and enqueuedOn set", () => {
+      const test = function(): void {
+        validateEventPosition({ offset: 123, enqueuedOn: 456 });
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+    it("throws error when event position is passed with both sequence number and enqueuedOn set", () => {
+      const test = function(): void {
+        validateEventPosition({ sequenceNumber: 123, enqueuedOn: 456 });
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+  })
 });
