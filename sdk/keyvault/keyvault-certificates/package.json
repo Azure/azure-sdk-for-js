@@ -52,7 +52,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"samples/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 2000000 --full-trace dist-test/index.node.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-esm/test/*.test.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o keyvault-certificates-lintReport.html || exit 0",
@@ -63,10 +63,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "coverage-integration-test:node": "nyc npm run integration-test:node",
-    "coverage-unit-test:node": "cross-env TEST_MODE=playback npm run coverage-integration-test:node"
+    "unit-test:node": "cross-env TEST_MODE=playback mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-test/index.node.js",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "//metadata": {
@@ -115,6 +113,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
