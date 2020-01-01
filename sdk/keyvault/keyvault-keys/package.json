@@ -62,7 +62,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:node": "cross-env TEST_MODE=playback mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:node:record": "cross-env TEST_MODE=record npm run integration-test:node"
   },
