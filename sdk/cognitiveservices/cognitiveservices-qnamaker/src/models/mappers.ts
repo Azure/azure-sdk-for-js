@@ -9,380 +9,6 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
-export const CreateKbInputDTO: msRest.CompositeMapper = {
-  serializedName: "CreateKbInputDTO",
-  type: {
-    name: "Composite",
-    className: "CreateKbInputDTO",
-    modelProperties: {
-      qnaList: {
-        serializedName: "qnaList",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QnADTO"
-            }
-          }
-        }
-      },
-      urls: {
-        serializedName: "urls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      files: {
-        serializedName: "files",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FileDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateKbOperationDTOAdd: msRest.CompositeMapper = {
-  serializedName: "UpdateKbOperationDTO_add",
-  type: {
-    name: "Composite",
-    className: "UpdateKbOperationDTOAdd",
-    modelProperties: {
-      ...CreateKbInputDTO.type.modelProperties
-    }
-  }
-};
-
-export const DeleteKbContentsDTO: msRest.CompositeMapper = {
-  serializedName: "DeleteKbContentsDTO",
-  type: {
-    name: "Composite",
-    className: "DeleteKbContentsDTO",
-    modelProperties: {
-      ids: {
-        serializedName: "ids",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      sources: {
-        serializedName: "sources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateKbOperationDTODelete: msRest.CompositeMapper = {
-  serializedName: "UpdateKbOperationDTO_delete",
-  type: {
-    name: "Composite",
-    className: "UpdateKbOperationDTODelete",
-    modelProperties: {
-      ...DeleteKbContentsDTO.type.modelProperties
-    }
-  }
-};
-
-export const UpdateKbContentsDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateKbContentsDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateKbContentsDTO",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      qnaList: {
-        serializedName: "qnaList",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UpdateQnaDTO"
-            }
-          }
-        }
-      },
-      urls: {
-        serializedName: "urls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateKbOperationDTOUpdate: msRest.CompositeMapper = {
-  serializedName: "UpdateKbOperationDTO_update",
-  type: {
-    name: "Composite",
-    className: "UpdateKbOperationDTOUpdate",
-    modelProperties: {
-      ...UpdateKbContentsDTO.type.modelProperties
-    }
-  }
-};
-
-export const UpdateKbOperationDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateKbOperationDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateKbOperationDTO",
-    modelProperties: {
-      add: {
-        serializedName: "add",
-        type: {
-          name: "Composite",
-          className: "UpdateKbOperationDTOAdd"
-        }
-      },
-      deleteProperty: {
-        serializedName: "delete",
-        type: {
-          name: "Composite",
-          className: "UpdateKbOperationDTODelete"
-        }
-      },
-      update: {
-        serializedName: "update",
-        type: {
-          name: "Composite",
-          className: "UpdateKbOperationDTOUpdate"
-        }
-      }
-    }
-  }
-};
-
-export const UpdateQuestionsDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateQuestionsDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateQuestionsDTO",
-    modelProperties: {
-      add: {
-        serializedName: "add",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      deleteProperty: {
-        serializedName: "delete",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateQnaDTOQuestions: msRest.CompositeMapper = {
-  serializedName: "UpdateQnaDTO_questions",
-  type: {
-    name: "Composite",
-    className: "UpdateQnaDTOQuestions",
-    modelProperties: {
-      ...UpdateQuestionsDTO.type.modelProperties
-    }
-  }
-};
-
-export const UpdateMetadataDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateMetadataDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateMetadataDTO",
-    modelProperties: {
-      deleteProperty: {
-        serializedName: "delete",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetadataDTO"
-            }
-          }
-        }
-      },
-      add: {
-        serializedName: "add",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetadataDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateQnaDTOMetadata: msRest.CompositeMapper = {
-  serializedName: "UpdateQnaDTO_metadata",
-  type: {
-    name: "Composite",
-    className: "UpdateQnaDTOMetadata",
-    modelProperties: {
-      ...UpdateMetadataDTO.type.modelProperties
-    }
-  }
-};
-
-export const UpdateContextDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateContextDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateContextDTO",
-    modelProperties: {
-      promptsToDelete: {
-        serializedName: "promptsToDelete",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      promptsToAdd: {
-        serializedName: "promptsToAdd",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PromptDTO"
-            }
-          }
-        }
-      },
-      isContextOnly: {
-        serializedName: "isContextOnly",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const UpdateQnaDTOContext: msRest.CompositeMapper = {
-  serializedName: "UpdateQnaDTO_context",
-  type: {
-    name: "Composite",
-    className: "UpdateQnaDTOContext",
-    modelProperties: {
-      ...UpdateContextDTO.type.modelProperties
-    }
-  }
-};
-
-export const UpdateQnaDTO: msRest.CompositeMapper = {
-  serializedName: "UpdateQnaDTO",
-  type: {
-    name: "Composite",
-    className: "UpdateQnaDTO",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      answer: {
-        serializedName: "answer",
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        serializedName: "source",
-        constraints: {
-          MaxLength: 300
-        },
-        type: {
-          name: "String"
-        }
-      },
-      questions: {
-        serializedName: "questions",
-        type: {
-          name: "Composite",
-          className: "UpdateQnaDTOQuestions"
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
-        type: {
-          name: "Composite",
-          className: "UpdateQnaDTOMetadata"
-        }
-      },
-      context: {
-        serializedName: "context",
-        type: {
-          name: "Composite",
-          className: "UpdateQnaDTOContext"
-        }
-      }
-    }
-  }
-};
-
 export const MetadataDTO: msRest.CompositeMapper = {
   serializedName: "MetadataDTO",
   type: {
@@ -411,6 +37,48 @@ export const MetadataDTO: msRest.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const ContextDTO: msRest.CompositeMapper = {
+  serializedName: "ContextDTO",
+  type: {
+    name: "Composite",
+    className: "ContextDTO",
+    modelProperties: {
+      isContextOnly: {
+        serializedName: "isContextOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      prompts: {
+        serializedName: "prompts",
+        constraints: {
+          MaxItems: 20
+        },
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PromptDTO"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const QnADTOContext: msRest.CompositeMapper = {
+  serializedName: "QnADTO_context",
+  type: {
+    name: "Composite",
+    className: "QnADTOContext",
+    modelProperties: {
+      ...ContextDTO.type.modelProperties
     }
   }
 };
@@ -531,177 +199,6 @@ export const PromptDTO: msRest.CompositeMapper = {
   }
 };
 
-export const ContextDTO: msRest.CompositeMapper = {
-  serializedName: "ContextDTO",
-  type: {
-    name: "Composite",
-    className: "ContextDTO",
-    modelProperties: {
-      isContextOnly: {
-        serializedName: "isContextOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      prompts: {
-        serializedName: "prompts",
-        constraints: {
-          MaxItems: 20
-        },
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PromptDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const QnADTOContext: msRest.CompositeMapper = {
-  serializedName: "QnADTO_context",
-  type: {
-    name: "Composite",
-    className: "QnADTOContext",
-    modelProperties: {
-      ...ContextDTO.type.modelProperties
-    }
-  }
-};
-
-export const FileDTO: msRest.CompositeMapper = {
-  serializedName: "FileDTO",
-  type: {
-    name: "Composite",
-    className: "FileDTO",
-    modelProperties: {
-      fileName: {
-        required: true,
-        serializedName: "fileName",
-        constraints: {
-          MaxLength: 200,
-          MinLength: 1
-        },
-        type: {
-          name: "String"
-        }
-      },
-      fileUri: {
-        required: true,
-        serializedName: "fileUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const QnADocumentsDTO: msRest.CompositeMapper = {
-  serializedName: "QnADocumentsDTO",
-  type: {
-    name: "Composite",
-    className: "QnADocumentsDTO",
-    modelProperties: {
-      qnaDocuments: {
-        serializedName: "qnaDocuments",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QnADTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CreateKbDTO: msRest.CompositeMapper = {
-  serializedName: "CreateKbDTO",
-  type: {
-    name: "Composite",
-    className: "CreateKbDTO",
-    modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        constraints: {
-          MaxLength: 100,
-          MinLength: 1
-        },
-        type: {
-          name: "String"
-        }
-      },
-      qnaList: {
-        serializedName: "qnaList",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QnADTO"
-            }
-          }
-        }
-      },
-      urls: {
-        serializedName: "urls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      files: {
-        serializedName: "files",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FileDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ReplaceKbDTO: msRest.CompositeMapper = {
-  serializedName: "ReplaceKbDTO",
-  type: {
-    name: "Composite",
-    className: "ReplaceKbDTO",
-    modelProperties: {
-      qnAList: {
-        required: true,
-        serializedName: "qnAList",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QnADTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ErrorModel: msRest.CompositeMapper = {
   serializedName: "Error",
   type: {
@@ -801,34 +298,61 @@ export const InnerErrorModel: msRest.CompositeMapper = {
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
-  serializedName: "Operation",
+export const QueryContextDTO: msRest.CompositeMapper = {
+  serializedName: "QueryContextDTO",
   type: {
     name: "Composite",
-    className: "Operation",
+    className: "QueryContextDTO",
     modelProperties: {
-      operationState: {
-        serializedName: "operationState",
+      previousQnaId: {
+        serializedName: "previousQnaId",
         type: {
           name: "String"
         }
       },
-      createdTimestamp: {
-        serializedName: "createdTimestamp",
+      previousUserQuery: {
+        serializedName: "previousUserQuery",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QueryDTOContext: msRest.CompositeMapper = {
+  serializedName: "QueryDTO_context",
+  type: {
+    name: "Composite",
+    className: "QueryDTOContext",
+    modelProperties: {
+      ...QueryContextDTO.type.modelProperties
+    }
+  }
+};
+
+export const QueryDTO: msRest.CompositeMapper = {
+  serializedName: "QueryDTO",
+  type: {
+    name: "Composite",
+    className: "QueryDTO",
+    modelProperties: {
+      qnaId: {
+        serializedName: "qnaId",
         type: {
           name: "String"
         }
       },
-      lastActionTimestamp: {
-        serializedName: "lastActionTimestamp",
+      question: {
+        serializedName: "question",
         type: {
           name: "String"
         }
       },
-      resourceLocation: {
-        serializedName: "resourceLocation",
+      top: {
+        serializedName: "top",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       userId: {
@@ -837,206 +361,167 @@ export const Operation: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      operationId: {
-        serializedName: "operationId",
+      isTest: {
+        serializedName: "isTest",
+        type: {
+          name: "Boolean"
+        }
+      },
+      scoreThreshold: {
+        serializedName: "scoreThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "Composite",
+          className: "QueryDTOContext"
+        }
+      },
+      rankerType: {
+        serializedName: "rankerType",
         type: {
           name: "String"
         }
       },
-      errorResponse: {
-        serializedName: "errorResponse",
+      strictFilters: {
+        serializedName: "strictFilters",
         type: {
-          name: "Composite",
-          className: "ErrorResponse"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataDTO"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const KnowledgebaseDTO: msRest.CompositeMapper = {
-  serializedName: "KnowledgebaseDTO",
+export const QnASearchResultContext: msRest.CompositeMapper = {
+  serializedName: "QnASearchResult_context",
   type: {
     name: "Composite",
-    className: "KnowledgebaseDTO",
+    className: "QnASearchResultContext",
     modelProperties: {
+      ...ContextDTO.type.modelProperties
+    }
+  }
+};
+
+export const QnASearchResult: msRest.CompositeMapper = {
+  serializedName: "QnASearchResult",
+  type: {
+    name: "Composite",
+    className: "QnASearchResult",
+    modelProperties: {
+      questions: {
+        serializedName: "questions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      answer: {
+        serializedName: "answer",
+        type: {
+          name: "String"
+        }
+      },
+      score: {
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      hostName: {
-        serializedName: "hostName",
+      source: {
+        serializedName: "source",
         type: {
           name: "String"
         }
       },
-      lastAccessedTimestamp: {
-        serializedName: "lastAccessedTimestamp",
+      metadata: {
+        serializedName: "metadata",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataDTO"
+            }
+          }
         }
       },
-      lastChangedTimestamp: {
-        serializedName: "lastChangedTimestamp",
+      context: {
+        serializedName: "context",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "QnASearchResultContext"
         }
-      },
-      lastPublishedTimestamp: {
-        serializedName: "lastPublishedTimestamp",
+      }
+    }
+  }
+};
+
+export const QnASearchResultList: msRest.CompositeMapper = {
+  serializedName: "QnASearchResultList",
+  type: {
+    name: "Composite",
+    className: "QnASearchResultList",
+    modelProperties: {
+      answers: {
+        serializedName: "answers",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QnASearchResult"
+            }
+          }
         }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
+      }
+    }
+  }
+};
+
+export const FeedbackRecordDTO: msRest.CompositeMapper = {
+  serializedName: "FeedbackRecordDTO",
+  type: {
+    name: "Composite",
+    className: "FeedbackRecordDTO",
+    modelProperties: {
       userId: {
         serializedName: "userId",
         type: {
           name: "String"
         }
       },
-      urls: {
-        serializedName: "urls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      sources: {
-        serializedName: "sources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KnowledgebasesDTO: msRest.CompositeMapper = {
-  serializedName: "KnowledgebasesDTO",
-  type: {
-    name: "Composite",
-    className: "KnowledgebasesDTO",
-    modelProperties: {
-      knowledgebases: {
-        serializedName: "knowledgebases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KnowledgebaseDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AlterationsDTO: msRest.CompositeMapper = {
-  serializedName: "AlterationsDTO",
-  type: {
-    name: "Composite",
-    className: "AlterationsDTO",
-    modelProperties: {
-      alterations: {
-        required: true,
-        serializedName: "alterations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const WordAlterationsDTO: msRest.CompositeMapper = {
-  serializedName: "WordAlterationsDTO",
-  type: {
-    name: "Composite",
-    className: "WordAlterationsDTO",
-    modelProperties: {
-      wordAlterations: {
-        required: true,
-        serializedName: "wordAlterations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AlterationsDTO"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EndpointKeysDTO: msRest.CompositeMapper = {
-  serializedName: "EndpointKeysDTO",
-  type: {
-    name: "Composite",
-    className: "EndpointKeysDTO",
-    modelProperties: {
-      primaryEndpointKey: {
-        serializedName: "primaryEndpointKey",
+      userQuestion: {
+        serializedName: "userQuestion",
+        constraints: {
+          MaxLength: 1000
+        },
         type: {
           name: "String"
         }
       },
-      secondaryEndpointKey: {
-        serializedName: "secondaryEndpointKey",
-        type: {
-          name: "String"
-        }
-      },
-      installedVersion: {
-        serializedName: "installedVersion",
-        type: {
-          name: "String"
-        }
-      },
-      lastStableVersion: {
-        serializedName: "lastStableVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationsGetDetailsHeaders: msRest.CompositeMapper = {
-  serializedName: "operations-getdetails-headers",
-  type: {
-    name: "Composite",
-    className: "OperationsGetDetailsHeaders",
-    modelProperties: {
-      retryAfter: {
-        serializedName: "retryafter",
+      qnaId: {
+        serializedName: "qnaId",
         type: {
           name: "Number"
         }
@@ -1045,16 +530,22 @@ export const OperationsGetDetailsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const KnowledgebaseUpdateHeaders: msRest.CompositeMapper = {
-  serializedName: "knowledgebase-update-headers",
+export const FeedbackRecordsDTO: msRest.CompositeMapper = {
+  serializedName: "FeedbackRecordsDTO",
   type: {
     name: "Composite",
-    className: "KnowledgebaseUpdateHeaders",
+    className: "FeedbackRecordsDTO",
     modelProperties: {
-      location: {
-        serializedName: "location",
+      feedbackRecords: {
+        serializedName: "feedbackRecords",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FeedbackRecordDTO"
+            }
+          }
         }
       }
     }
