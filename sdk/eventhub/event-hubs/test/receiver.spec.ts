@@ -1000,8 +1000,8 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const rcvrs: any[] = [];
 
       // This test does not require recieving any messages.  Just attempting to connect the 6th receiver causes
-      // onerr2() to be called with QuotaExceededError.  So it's fastest to use EventPosition.fromEnd().
-      // Using EventPosition.fromStart() can cause timeouts or ServiceUnavailableException if the EventHub has
+      // onerr2() to be called with QuotaExceededError.  So it's fastest to use latestEventPosition.
+      // Using EventPosition.earliestEventPosition() can cause timeouts or ServiceUnavailableException if the EventHub has
       // a large number of messages.
       const eventPosition = latestEventPosition;
 
