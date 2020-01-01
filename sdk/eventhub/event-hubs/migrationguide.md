@@ -45,9 +45,9 @@ point of entry for receiving of any type (from single partition, all partitions,
 |------------------------------------------------|-----------------------------|
 | `EventPosition.fromStart()`                    | `earliestEventPosition`  |
 | `EventPosition.fromEnd()`                      | `latestEventPosition`    |
-| `EventPosition.fromOffset()`                   | `{ offset: value }`      |
-| `EventPosition.fromSequenceNumber()`           | `{ sequenceNumber: value }`|
-| `EventPosition.fromEnqueuedTime()`             | `{ enqueuedOn: value }`  |
+| `EventPosition.fromOffset(value)`              | `{ offset: value }`      |
+| `EventPosition.fromSequenceNumber(value)`      | `{ sequenceNumber: value }`|
+| `EventPosition.fromEnqueuedTime(value)`        | `{ enqueuedOn: value }`  |
 
 ## Migration samples
 
