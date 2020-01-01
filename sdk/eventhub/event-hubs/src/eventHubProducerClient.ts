@@ -27,7 +27,6 @@ import { EventHubProducer } from "./sender";
  * and a credentials object.
  * 
  * Optionally, you can also pass an options bag to configure the retry policy or proxy settings.
- * Use this to configure the retry policy or proxy settings.
  *
  */
 export class EventHubProducerClient {
