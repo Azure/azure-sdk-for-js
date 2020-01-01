@@ -24,7 +24,12 @@ export function setupEnvironment() {
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    ACCOUNT_TOKEN: "aaaaa"
+    ACCOUNT_TOKEN: "aaaaa",
+
+    MD_ACCOUNT_NAME: "md-fakestorageaccount",
+    MD_ACCOUNT_KEY: "aaaaa",
+    MD_ACCOUNT_SAS: "aaaaa",
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${env.MD_ACCOUNT_NAME};AccountKey=${env.MD_ACCOUNT_KEY};EndpointSuffix=core.windows.net`,
   });
 
   // Array of callback functions can be passed to `setReplacements` to customize the generated recordings

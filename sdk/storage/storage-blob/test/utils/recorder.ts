@@ -41,7 +41,7 @@ if (!isBrowser()) {
       window.console.hasOwnProperty(method) &&
       typeof (window.console as any)[method] === "function"
     ) {
-      (window.console as any)[method] = function(obj: any) {
+      (window.console as any)[method] = function (obj: any) {
         try {
           if (!JSON.parse(obj).writeFile) {
             // If the JSON string doesn't contain `.writeFile` property,
@@ -81,6 +81,11 @@ if (isPlayingBack) {
   // Comment following line to skip user delegation key/SAS related cases in record and play
   // which depends on this environment variable
   env.ACCOUNT_TOKEN = "aaaaa";
+
+  env.MD_ACCOUNT_NAME = "md-fakestorageaccount";
+  env.MD_ACCOUNT_KEY = "aaaaa";
+  env.MD_ACCOUNT_SAS = "aaaaa";
+  env.MD_STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${env.MD_ACCOUNT_NAME};AccountKey=${env.MD_ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
@@ -230,6 +235,18 @@ abstract class Recorder {
     if (env.ACCOUNT_SAS) {
       updatedRecording = updatedRecording.replace(
         new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+        "aaaaa"
+      );
+    }
+    if (env.MD_ACCOUNT_NAME) {
+      updatedRecording = updatedRecording.replace(new RegExp(env.MD_ACCOUNT_NAME, "g"), "md-fakestorageaccount");
+    }
+    if (env.MD_ACCOUNT_KEY) {
+      updatedRecording = updatedRecording.replace(new RegExp(env.MD_ACCOUNT_KEY, "g"), "aaaaa");
+    }
+    if (env.MD_ACCOUNT_SAS) {
+      updatedRecording = updatedRecording.replace(
+        new RegExp(env.MD_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
         "aaaaa"
       );
     }
@@ -397,21 +414,21 @@ class NiseRecorder extends Recorder {
     // Our intent is to override the request's 'onreadystatechange' function so we can create a recording once the response is ready
     // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overriden by the client
     // But we can only override 'send' AFTER the 'open' function is called because the filter we set above makes Nise override it in 'open' body
-    xhr.onCreate = function(req: any) {
+    xhr.onCreate = function (req: any) {
       // We'll override the 'open' function, so we need to store a handle to its original implementation
       const reqOpen = req.open;
-      req.open = function() {
+      req.open = function () {
         // Here we are calling the original 'open' function to make sure everything is set up correctly (HTTP method, url, filters)
         reqOpen.apply(req, arguments);
 
         // We'll override the 'send' function, so we need to store a handle to its original implementation
         // We can already override it because we know 'open' has already been called
         const reqSend = req.send;
-        req.send = function(data: any) {
+        req.send = function (data: any) {
           // We'll override the 'onreadystatechange' function, so we need to store a handle to its original implementation
           // Now we can finally override 'onreadystatechange' because 'send' has already been called
           const reqStateChange = req.onreadystatechange;
-          req.onreadystatechange = function() {
+          req.onreadystatechange = function () {
             // Record the request once the response is obtained
             if (req.readyState === 4) {
               self.recordRequest(req, data);
@@ -440,10 +457,10 @@ class NiseRecorder extends Recorder {
     this.uniqueTestInfo = (window as any).__json__["recordings/" + this.filepath].uniqueTestInfo;
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
-    xhr.onCreate = function(req: any) {
+    xhr.onCreate = function (req: any) {
       // We'll override the 'send' function, so we need to store a handle to its original implementation
       const reqSend = req.send;
-      req.send = async function(data: any) {
+      req.send = async function (data: any) {
         // Here we're calling the original send method. Nise will make the request wait for a mock response that we'll send later
         reqSend.call(req, data);
 
@@ -535,12 +552,12 @@ export function record(testContext: any) {
   }
 
   return {
-    stop: function() {
+    stop: function () {
       if (isRecording) {
         recorder.stop();
       }
     },
-    getUniqueName: function(prefix: string, recorderId?: string): string {
+    getUniqueName: function (prefix: string, recorderId?: string): string {
       let name: string;
       if (!recorderId) {
         recorderId = prefix;
@@ -555,7 +572,7 @@ export function record(testContext: any) {
       }
       return name;
     },
-    newDate: function(recorderId: string): Date {
+    newDate: function (recorderId: string): Date {
       let date: Date;
       if (isRecording) {
         date = new Date();
