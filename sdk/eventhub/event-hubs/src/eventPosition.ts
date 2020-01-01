@@ -129,7 +129,7 @@ export function validateEventPosition(position: EventPosition) {
 
   const validEnqueuedOn = typeof position.enqueuedOn === "number" || position.enqueuedOn instanceof Date;
   if (enqueuedOnPresent && !validEnqueuedOn) {
-    throw new TypeError(`${position.enqueuedOn} is an invalid value for the enqueuedOn property in EventPosition. Valid values are of type number or instance of Date class.`);
+    throw new TypeError(`${position.enqueuedOn} is an invalid value for the enqueuedOn property in EventPosition. Valid values are of type number or instances of Date.`);
   }
 
 }
