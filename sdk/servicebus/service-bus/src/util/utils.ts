@@ -435,7 +435,7 @@ export function isAbsoluteUrl(url: string) {
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }
 
-/*
+/**
  * Possible values for `status` of the Service Bus messaging entities.
  */
 export type EntityStatus =
