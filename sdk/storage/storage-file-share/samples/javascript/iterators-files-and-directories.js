@@ -47,7 +47,7 @@ async function main() {
     console.log(`Create sub directory ${directoryName + "-sub-" + i} successfully`);
 
     const fileClient = directoryClient.getFileClient(fileName + "-sub-" + i);
-    await fileClient.create(content.length);
+    await fileClient.create(Buffer.byteLength(content));
     console.log(`Create file ${fileName + "-sub-" + i} successfully`);
   }
 

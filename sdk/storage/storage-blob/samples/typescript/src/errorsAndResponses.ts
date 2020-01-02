@@ -57,7 +57,7 @@ export async function main() {
 
     // Create a new block blob
     console.log("// Create a new block blob...");
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully,`);
     console.log(
       `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`
