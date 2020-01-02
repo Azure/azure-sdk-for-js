@@ -126,7 +126,7 @@ export function validateEventPositions(
 
   const positions = position as { [partitionId: string]: EventPosition };
   for (let i = 0; i < keys.length; i++) {
-    if (positions.hasOwnProperty(keys[i])) {
+    if (Object.prototype.hasOwnProperty.call(positions, keys[i])) {
       validateEventPosition(positions[keys[i]]);
     }
   }
