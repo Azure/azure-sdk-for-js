@@ -634,7 +634,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
   if (isBrowserWebsocketError(err)) {
     // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
     const error = new MessagingError("Websocket connection failed.");
-    error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
+    error.code = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
     return error;
   }
