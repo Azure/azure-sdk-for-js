@@ -8,7 +8,6 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   Constants,
-  delay,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
@@ -149,15 +148,6 @@ export namespace ConnectionContext {
           contextError
         );
       }
-      const state: Readonly<{
-        wasConnectionCloseCalled: boolean;
-        numSenders: number;
-        numReceivers: number;
-      }> = {
-        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numSenders: Object.keys(connectionContext.senders).length,
-        numReceivers: Object.keys(connectionContext.receivers).length
-      };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
       // connection is back up.
@@ -167,47 +157,6 @@ export namespace ConnectionContext {
       await connectionContext.cbsSession.close();
       // Close the management session to ensure all the event handlers are released.
       await connectionContext.managementSession!.close();
-
-      // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was atleast one sender/receiver link on the connection before it went down.
-      logger.verbose("[%s] state: %O", connectionContext.connection.id, state);
-      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "sender or receiver links or both. We should reconnect.",
-          connectionContext.connection.id
-        );
-        await delay(Constants.connectionReconnectDelay);
-        // reconnect senders if any
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          if (!sender.isConnecting) {
-            logger.verbose(
-              "[%s] calling detached on sender '%s' with address '%s'.",
-              connectionContext.connection.id,
-              sender.name,
-              sender.address
-            );
-            sender.onDetached(connectionError || contextError).catch((err) => {
-              logger.verbose(
-                "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
-                connectionContext.connection.id,
-                sender.name,
-                sender.address,
-                err
-              );
-            });
-          } else {
-            logger.verbose(
-              "[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
-                "calling detached on the sender.",
-              connectionContext.connection.id,
-              sender.name,
-              sender.address
-            );
-          }
-        }
-      }
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {

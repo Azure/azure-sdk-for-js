@@ -249,12 +249,10 @@ export class EventHubReceiver extends LinkEntity {
     const amqpError = rheaReceiver && rheaReceiver.error;
     logger.verbose(
       "[%s] 'receiver_error' event occurred on the receiver '%s' with address '%s'. " +
-        "Value for isItselfClosed on the receiver is: '%s'. " +
         "The associated error is: %O",
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isItselfClosed().toString(): undefined,
       amqpError
     );
 
@@ -266,16 +264,13 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   private _onAmqpSessionError(context: EventContext): void {
-    const rheaReceiver = this._receiver || context.receiver;
     const sessionError = context.session && context.session.error;
     logger.verbose(
       "[%s] 'session_error' event occurred on the session of receiver '%s' with address '%s'. " +
-        "Value for isSessionItselfClosed on the receiver is: '%s'. " +
         "The associated error is: %O",
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString(): undefined,
       sessionError
     );
 
