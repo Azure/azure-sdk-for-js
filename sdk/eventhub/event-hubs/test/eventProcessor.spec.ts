@@ -132,9 +132,7 @@ describe("Event Processor", function(): void {
       });
 
       it("using a fallback map", async () => {
-        const fallbackPositions = new Map<string, EventPosition>();
-
-        fallbackPositions.set("0", EventPosition.fromOffset(2001));
+        const fallbackPositions = { "0": EventPosition.fromOffset(2001) };
         // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
 
         const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);

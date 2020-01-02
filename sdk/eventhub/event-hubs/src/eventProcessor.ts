@@ -580,7 +580,7 @@ function isAbandoned(ownership: PartitionOwnership): boolean {
 
 function getStartPosition(
   partitionIdToClaim: string,
-  startPositions?: EventPosition | Map<string, EventPosition>
+  startPositions?: EventPosition | { [partitionId: string]: EventPosition }
 ): EventPosition {
   if (startPositions == null) {
     return EventPosition.latest();
@@ -590,7 +590,7 @@ function getStartPosition(
     return startPositions;
   }
 
-  const startPosition = startPositions.get(partitionIdToClaim);
+  const startPosition = startPositions[partitionIdToClaim];
 
   if (startPosition == null) {
     return EventPosition.latest();

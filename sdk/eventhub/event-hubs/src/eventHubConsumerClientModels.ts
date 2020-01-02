@@ -148,7 +148,7 @@ export interface SubscribeOptions extends TracingOptions {
    * Pass a map of partition id to position if you would like to use different starting
    * position for each partition.
    */
-  startPosition?: EventPosition | Map<string, EventPosition>;
+  startPosition?: EventPosition | { [partitionId: string]: EventPosition };
 }
 
 /**

@@ -231,7 +231,9 @@ export interface SubscribeOptions extends TracingOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
-    startPosition?: EventPosition | Map<string, EventPosition>;
+    startPosition?: EventPosition | {
+        [partitionId: string]: EventPosition;
+    };
     trackLastEnqueuedEventProperties?: boolean;
 }
 

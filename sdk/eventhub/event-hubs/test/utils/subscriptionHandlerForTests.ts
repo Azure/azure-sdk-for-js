@@ -13,7 +13,7 @@ import chai from "chai";
 const should = chai.should();
 
 export interface HandlerAndPositions {
-  startPosition: Map<string, EventPosition>;
+  startPosition: { [partitionId: string]: EventPosition };
   subscriptionEventHandler: SubscriptionHandlerForTests;
 }
 
@@ -25,13 +25,12 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
-    const startPosition = new Map<string, EventPosition>();
+    const startPosition: { [partitionId: string]: EventPosition } = {};
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
-      startPosition.set(
-        props.partitionId,
-        EventPosition.fromSequenceNumber(props.lastEnqueuedSequenceNumber)
+      startPosition[props.partitionId] = EventPosition.fromSequenceNumber(
+        props.lastEnqueuedSequenceNumber
       );
     }
 
