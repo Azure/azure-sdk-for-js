@@ -436,23 +436,66 @@ export enum ErrorNameConditionMapper {
 }
 
 /**
+ * Describes the fields on a Node.js SystemError.
+ * Omits fields that are not related to network calls (e.g. file system calls).
+ * See https://nodejs.org/dist/latest-v12.x/docs/api/errors.html#errors_class_systemerror
+ */
+interface NetworkSystemError {
+  address?: string;
+  code: string;
+  errno: string | number;
+  info?: any;
+  message: string;
+  name: string;
+  port?: number;
+  stack: string;
+  syscall: string;
+}
+
+const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message">)[] = [
+  "address",
+  "code",
+  "errno",
+  "info",
+  "port",
+  "stack",
+  "syscall"
+];
+
+/**
  * Describes the base class for Messaging Error.
  * @class {MessagingError}
  * @extends Error
  */
 export class MessagingError extends Error {
   /**
+   * Address to which the network connection failed.
+   * Only available in Node.js.
+   */
+  address?: string;
+  /**
    * A string label that identifies the error.
    */
   code?: string;
   /**
-   * The amqp error condition.
+   * System-provided error number.
+   * Only available in Node.js.
    */
-  amqpCondition?: string;
+  errno?: number | string;
   /**
    * @property {string} name The error name. Default value: "MessagingError".
    */
   name: string = "MessagingError";
+  /**
+   * The unavailable network connection port.
+   * Only available in Node.js.
+   */
+  port?: number;
+  /**
+   * Name of the system call that triggered the error.
+   * Only available in Node.js.
+   */
+  syscall?: string;
   /**
    * @property {boolean} translated Has the error been translated. Default: true.
    */
@@ -463,7 +506,7 @@ export class MessagingError extends Error {
    */
   retryable: boolean = true;
   /**
-   * @property {any} [info] Any additional error information given by the service.
+   * @property {any} [info] Extra details about the error.
    */
   info?: any;
   /**
@@ -479,10 +522,10 @@ export class MessagingError extends Error {
       return;
     }
 
-    // can consider using a mixin instead but not sure this gives us much value over casting to any
-    for (const propName of Object.keys(originalError)) {
-      if (!Object.prototype.hasOwnProperty.call(this, propName)) {
-        (this as any)[propName] = (originalError as any)[propName];
+    // copy properties from system error
+    for (const propName of systemErrorFieldsToCopy) {
+      if ((originalError as NetworkSystemError)[propName] != undefined) {
+        this[propName] = (originalError as NetworkSystemError)[propName];
       }
     }
   }
@@ -598,7 +641,6 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     const error = new MessagingError(description);
     if ((err as any).stack) error.stack = (err as any).stack;
     error.info = (err as AmqpError).info;
-    error.amqpCondition = condition;
     if (condition) {
       error.code = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
