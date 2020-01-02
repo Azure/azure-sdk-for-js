@@ -4531,7 +4531,7 @@ export class PageBlobClient extends BlobClient {
 
     let prevSnapshotUrl = undefined;
     let prevsnapshot = undefined;
-    if (prevSnapshotTimestampOrUrl.startsWith(SNAPSHOT_URL_SCHEME)) {
+    if (0 === prevSnapshotTimestampOrUrl.slice(0, SNAPSHOT_URL_SCHEME.length).localeCompare(SNAPSHOT_URL_SCHEME, undefined, { sensitivity: 'accent' })) {
       prevSnapshotUrl = prevSnapshotTimestampOrUrl;
     } else {
       prevsnapshot = prevSnapshotTimestampOrUrl;
