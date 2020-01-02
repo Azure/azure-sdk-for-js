@@ -23,6 +23,7 @@ import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import uuid from "uuid/v4";
+import { validateEventPositions } from './eventPosition';
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -350,6 +351,10 @@ export class EventHubConsumerClient {
 
     if (isSubscriptionEventHandlers(handlersOrPartitionId1)) {
       // #1: subscribe overload - read from all partitions
+      const options = optionsOrHandlers2 as SubscribeOptions | undefined;
+      if (options && options.startPosition) {
+        validateEventPositions(options.startPosition);
+      }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForAllPartitions(
         handlersOrPartitionId1,
         optionsOrHandlers2 as SubscribeOptions | undefined
@@ -359,6 +364,10 @@ export class EventHubConsumerClient {
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
+      const options = possibleOptions3 as SubscribeOptions | undefined;
+      if (options && options.startPosition) {
+        validateEventPositions(options.startPosition);
+      }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
         handlersOrPartitionId1,
         optionsOrHandlers2,

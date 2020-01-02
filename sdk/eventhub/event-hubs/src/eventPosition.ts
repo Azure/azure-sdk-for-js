@@ -9,7 +9,7 @@ import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp
  *
  * To get an EventPosition representing the start or end of the stream, use the constants
  * `earliestEventPosition` and `latestEventPosition` respectively.
- * 
+ *
  */
 export interface EventPosition {
   /**
@@ -30,7 +30,7 @@ export interface EventPosition {
   isInclusive?: boolean;
   /**
    * @property The enqueued time in UTC of the event identified by this position.
-   * 
+   *
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
   enqueuedOn?: Date | number;
@@ -91,8 +91,7 @@ export function isLatestPosition(eventPosition: EventPosition): boolean {
  */
 export const earliestEventPosition: EventPosition = {
   offset: -1
-}
-
+};
 
 /**
  * Gets the `EventPosition` corresponding to the end of the partition.
@@ -102,23 +101,58 @@ export const earliestEventPosition: EventPosition = {
  */
 export const latestEventPosition: EventPosition = {
   offset: "@latest"
-}
+};
 
 /**
  * @ignore
  * @internal
  */
-export function validateEventPosition(position: EventPosition) {
+export function validateEventPositions(
+  position: EventPosition | { [partitionId: string]: EventPosition }
+) {
+  if (position == undefined) {
+    return;
+  }
 
-  const offsetPresent = position && position.offset != undefined;
-  const sequenceNumberPresent = position && position.sequenceNumber != undefined;
-  const enqueuedOnPresent = position && position.enqueuedOn != undefined;
+  const offsetPresent = position.offset != undefined;
+  const sequenceNumberPresent = position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position.enqueuedOn != undefined;
+  const keys = Object.keys(position);
 
-  if ((offsetPresent && sequenceNumberPresent) || (offsetPresent && enqueuedOnPresent) || (enqueuedOnPresent && sequenceNumberPresent)) {
-    throw new TypeError("Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+  if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
+    validateEventPosition(position);
+    return;
+  }
+
+  const positions = position as { [partitionId: string]: EventPosition };
+  for (let i = 0; i < keys.length; i++) {
+    if (positions.hasOwnProperty(keys[i])) {
+      validateEventPosition(positions[keys[i]]);
+    }
+  }
+}
+
+function validateEventPosition(position: EventPosition) {
+  if (position == undefined) {
+    return;
+  }
+  const offsetPresent = position.offset != undefined;
+  const sequenceNumberPresent = position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position.enqueuedOn != undefined;
+
+  if (
+    (offsetPresent && sequenceNumberPresent) ||
+    (offsetPresent && enqueuedOnPresent) ||
+    (enqueuedOnPresent && sequenceNumberPresent)
+  ) {
+    throw new TypeError(
+      "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+    );
   }
 
   if (!offsetPresent && !enqueuedOnPresent && !sequenceNumberPresent) {
-    throw new TypeError("Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
+    throw new TypeError(
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+    );
   }
 }

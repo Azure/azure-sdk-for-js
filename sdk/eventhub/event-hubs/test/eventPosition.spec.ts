@@ -5,7 +5,7 @@ import chai from "chai";
 chai.should();
 
 import { latestEventPosition, earliestEventPosition } from "../src";
-import { getEventPositionFilter, validateEventPosition } from "../src/eventPosition";
+import { getEventPositionFilter, validateEventPositions } from "../src/eventPosition";
 
 describe("EventPosition #RunnableInBrowser", function(): void {
   describe("happy", function(): void {
@@ -69,33 +69,51 @@ describe("EventPosition #RunnableInBrowser", function(): void {
   });
 
   describe("sad", function(): void {
-    it("throws error when event position is passed with nothing set", () => {
-      const test = function(): void {
-        validateEventPosition(null as any)
-      };
-      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
-    });
     it("throws error when empty object is passed for event position", () => {
       const test = function(): void {
-        validateEventPosition({})
+        validateEventPositions({})
       };
       test.should.throw(TypeError, "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
     });
     it("throws error when event position is passed with both offset and sequence number set", () => {
       const test = function(): void {
-        validateEventPosition({ offset: 123, sequenceNumber: 456 });
+        validateEventPositions({ offset: 123, sequenceNumber: 456 });
       };
       test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
     });
     it("throws error when event position is passed with both offset and enqueuedOn set", () => {
       const test = function(): void {
-        validateEventPosition({ offset: 123, enqueuedOn: 456 });
+        validateEventPositions({ offset: 123, enqueuedOn: 456 });
       };
       test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
     });
     it("throws error when event position is passed with both sequence number and enqueuedOn set", () => {
       const test = function(): void {
-        validateEventPosition({ sequenceNumber: 123, enqueuedOn: 456 });
+        validateEventPositions({ sequenceNumber: 123, enqueuedOn: 456 });
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+    it("throws error when empty object is passed in event position map", () => {
+      const test = function(): void {
+        validateEventPositions({ "1": {}, "2": { offset: 123 }});
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
+    });
+    it("throws error when event position map is passed with both offset and sequence number set", () => {
+      const test = function(): void {
+        validateEventPositions({"1": { offset: 123, sequenceNumber: 456 }, "2": { offset: 123 }});
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+    it("throws error when event position map is passed with both offset and enqueuedOn set", () => {
+      const test = function(): void {
+        validateEventPositions({"1": { offset: 123, enqueuedOn: 456 }, "2": { offset: 123 }});
+      };
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
+    });
+    it("throws error when event position map is passed with both sequence number and enqueuedOn set", () => {
+      const test = function(): void {
+        validateEventPositions({"1": { sequenceNumber: 123, enqueuedOn: 456 }, "2": { offset: 123 }});
       };
       test.should.throw(TypeError, "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.");
     });
