@@ -29,7 +29,8 @@ export interface EventPosition {
    */
   isInclusive?: boolean;
   /**
-   * @property The enqueued time of the event identified by this position.
+   * @property The enqueued time in UTC of the event identified by this position.
+   * 
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
   enqueuedOn?: Date | number;
@@ -85,8 +86,8 @@ export function isLatestPosition(eventPosition: EventPosition): boolean {
 
 /**
  * Gets the `EventPosition` corresponding to the location of the the first event present in the partition.
- * Use this position to begin receiving from the first event that was enqueued in the partition
- * which has not expired due to the retention policy.
+ * Pass this position to the `EventHubConsumerClient.subscribe()` method to begin receiving events from the
+ * first event in the partition which has not expired due to the retention policy.
  */
 export const earliestEventPosition: EventPosition = {
   offset: -1
@@ -94,9 +95,9 @@ export const earliestEventPosition: EventPosition = {
 
 
 /**
- * Gets the `EventPosition` corresponding to the end of the partition, where no more events are currently enqueued.
- * Use this position to begin receiving from the next event to be enqueued in the partion after an ``EventHubConsumer``
- * is created with this position.
+ * Gets the `EventPosition` corresponding to the end of the partition.
+ * Pass this position to the `EventHubConsumerClient.subscribe()` method to begin receiving events from the
+ * event that is enqueued right after the method call.
  * @returns EventPosition
  */
 export const latestEventPosition: EventPosition = {
@@ -118,6 +119,6 @@ export function validateEventPosition(position: EventPosition) {
   }
 
   if (!offsetPresent && !enqueuedOnPresent && !sequenceNumberPresent) {
-    throw new TypeError("Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
+    throw new TypeError("Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
   }
 }

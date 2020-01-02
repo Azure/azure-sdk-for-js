@@ -73,13 +73,13 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       const test = function(): void {
         validateEventPosition(null as any)
       };
-      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
     });
     it("throws error when empty object is passed for event position", () => {
       const test = function(): void {
         validateEventPosition({})
       };
-      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass a json object with either of offset, sequenceNumber or enqueuedOn properties set.");
+      test.should.throw(TypeError, "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.");
     });
     it("throws error when event position is passed with both offset and sequence number set", () => {
       const test = function(): void {
