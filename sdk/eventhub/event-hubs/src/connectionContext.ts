@@ -207,35 +207,6 @@ export namespace ConnectionContext {
             );
           }
         }
-        // reconnect receivers if any
-        for (const receiverName of Object.keys(connectionContext.receivers)) {
-          const receiver = connectionContext.receivers[receiverName];
-          if (!receiver.isConnecting) {
-            logger.verbose(
-              "[%s] calling detached on receiver '%s' with address '%s'.",
-              connectionContext.connection.id,
-              receiver.name,
-              receiver.address
-            );
-            receiver.onDetached(connectionError || contextError).catch((err) => {
-              logger.verbose(
-                "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
-                connectionContext.connection.id,
-                receiver.name,
-                receiver.address,
-                err
-              );
-            });
-          } else {
-            logger.verbose(
-              "[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
-                "calling detached on the receiver.",
-              connectionContext.connection.id,
-              receiver.name,
-              receiver.address
-            );
-          }
-        }
       }
     };
 
