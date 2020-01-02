@@ -357,7 +357,7 @@ export class EventHubConsumerClient {
       }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForAllPartitions(
         handlersOrPartitionId1,
-        optionsOrHandlers2 as SubscribeOptions | undefined
+        options
       ));
     } else if (
       typeof handlersOrPartitionId1 === "string" &&
