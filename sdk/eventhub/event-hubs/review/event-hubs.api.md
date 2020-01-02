@@ -45,6 +45,9 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export const earliestEventPosition: EventPosition;
+
+// @public
 export interface EventData {
     body: any;
     properties?: {
@@ -115,21 +118,12 @@ export interface EventHubProperties {
 }
 
 // @public
-export class EventPosition {
-    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
-    //
-    // @internal
-    constructor(options?: EventPositionOptions);
-    static earliest(): EventPosition;
+export interface EventPosition {
     enqueuedOn?: Date | number;
-    static fromEnqueuedTime(enqueuedOn: Date | number): EventPosition;
-    static fromOffset(offset: number): EventPosition;
-    static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
-    isInclusive: boolean;
-    static latest(): EventPosition;
+    isInclusive?: boolean;
     offset?: number | "@latest";
     sequenceNumber?: number;
-    }
+}
 
 // @public
 export interface GetEventHubPropertiesOptions extends OperationOptions {
@@ -144,17 +138,15 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface InitializationContext extends PartitionContext {
-    setStartingPosition(startingPosition: EventPosition): void;
-}
-
-// @public
 export interface LastEnqueuedEventProperties {
     enqueuedOn?: Date;
     offset?: string;
     retrievedOn?: Date;
     sequenceNumber?: number;
 }
+
+// @public
+export const latestEventPosition: EventPosition;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -208,7 +200,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -236,6 +228,9 @@ export interface SubscribeOptions extends TracingOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    startPosition?: EventPosition | {
+        [partitionId: string]: EventPosition;
+    };
     trackLastEnqueuedEventProperties?: boolean;
 }
 

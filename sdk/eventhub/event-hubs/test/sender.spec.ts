@@ -7,14 +7,14 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient, EventPosition } from "../src";
+import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
 import { SendOptions, EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
-import { SubscriptionHandlerForTests } from './utils/subscriptionHandlerForTests';
+import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -255,7 +255,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("Create batch", function (): void {
+  describe("Create batch", function(): void {
     let consumerClient: EventHubConsumerClient;
 
     beforeEach(() => {
@@ -263,14 +263,14 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
-      );    
-    })
+      );
+    });
 
     afterEach(() => {
       consumerClient.close();
     });
-    
-    it("should be sent successfully", async function (): Promise<void> {
+
+    it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
       const batch = await producerClient.createBatch({
@@ -285,15 +285,20 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
-      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
-      
-      const subscriber = consumerClient.subscribe("0", tester);      
-      await producerClient.sendBatch(batch);           
+      const {
+        subscriptionEventHandler,
+        startPosition
+      } = await SubscriptionHandlerForTests.startingFromHere(client);
+
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
+        startPosition
+      });
+      await producerClient.sendBatch(batch);
 
       let receivedEvents;
 
       try {
-        receivedEvents = await tester.waitForEvents(["0"], 2);
+        receivedEvents = await subscriptionEventHandler.waitForEvents(["0"], 2);
       } finally {
         await subscriber.close();
       }
@@ -301,7 +306,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       // Mike didn't make it - the message was too big for the batch
       // and was rejected above.
       [list[0], list[2]].should.be.deep.eq(
-        receivedEvents.map(event => event.body),
+        receivedEvents.map((event) => event.body),
         "Received messages should be equal to our sent messages"
       );
     });
@@ -467,7 +472,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const consumer = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
+       { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber }
       );
       const eventDataBatch = await producerClient.createBatch({
         maxSizeInBytes: 5000,
@@ -537,7 +542,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("multiple producers", function (): void {
+  describe("multiple producers", function(): void {
     let consumerClient: EventHubConsumerClient;
 
     beforeEach(() => {
@@ -545,8 +550,8 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
-      );    
-    })
+      );
+    });
 
     afterEach(() => {
       consumerClient.close();
@@ -576,7 +581,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("Multiple messages", function (): void {
+  describe("Multiple messages", function(): void {
     let consumerClient: EventHubConsumerClient;
 
     beforeEach(() => {
@@ -584,15 +589,18 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
-      );    
-    })
+      );
+    });
 
     afterEach(() => {
       consumerClient.close();
     });
 
-    it("should be sent successfully in parallel", async function (): Promise<void> {
-      const tester = await SubscriptionHandlerForTests.startingFromHere(client);
+    it("should be sent successfully in parallel", async function(): Promise<void> {
+      const {
+        subscriptionEventHandler,
+        startPosition
+      } = await SubscriptionHandlerForTests.startingFromHere(client);
 
       const promises = [];
       for (let i = 0; i < 5; i++) {
@@ -600,14 +608,19 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
       await Promise.all(promises);
 
-      const subscription = await consumerClient.subscribe(tester);
+      const subscription = await consumerClient.subscribe(subscriptionEventHandler, {
+        startPosition
+      });
 
       try {
-        const events = await tester.waitForEvents(await client.getPartitionIds({}), 5);
+        const events = await subscriptionEventHandler.waitForEvents(
+          await client.getPartitionIds({}),
+          5
+        );
 
         // we've allowed the server to choose which partition the messages are distributed to
         // so our expectation here is just that all the bodies have arrived
-        const bodiesOnly = events.map(evt => evt.body);
+        const bodiesOnly = events.map((evt) => evt.body);
         bodiesOnly.sort();
 
         bodiesOnly.should.deep.equal([

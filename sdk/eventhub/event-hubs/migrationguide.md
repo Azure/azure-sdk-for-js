@@ -39,12 +39,15 @@ point of entry for receiving of any type (from single partition, all partitions,
 |------------------------------------------------|------------------------------------------------------------------|--------|
 | `EventHubClient.send()`                          | `EventHubProducerClient.sendBatch()`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
 
-### Minor renames
+### Creating EventPosition
 
 | In v2                                          | Equivalent in v5            |
 |------------------------------------------------|-----------------------------|
-| `EventPosition.fromStart()`                    | `EventPosition.earliest()`  |
-| `EventPosition.fromEnd()`                      | `EventPosition.latest()`    |
+| `EventPosition.fromStart()`                    | `earliestEventPosition`  |
+| `EventPosition.fromEnd()`                      | `latestEventPosition`    |
+| `EventPosition.fromOffset(value)`              | `{ offset: value }`      |
+| `EventPosition.fromSequenceNumber(value)`      | `{ sequenceNumber: value }`|
+| `EventPosition.fromEnqueuedTime(value)`        | `{ enqueuedOn: value }`  |
 
 ## Migration samples
 
@@ -77,7 +80,7 @@ const eventHubConsumerClient = new EventHubConsumerClient(consumerGroupName, con
 const subscription = eventHubConsumerClient.subscribe(
   partitionId, {
     processInitialize: (initContext) => {
-      initContext.setStartingPosition(EventPosition.fromStart());
+      initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
     processError: onErrorHandler
