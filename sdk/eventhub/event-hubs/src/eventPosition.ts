@@ -30,7 +30,7 @@ export interface EventPosition {
   isInclusive?: boolean;
   /**
    * @property The enqueued time in UTC of the event identified by this position.
-   *
+   * When provided as a number this value is the number of milliseconds since the Unix Epoch.
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
   enqueuedOn?: Date | number;
@@ -119,6 +119,12 @@ export function validateEventPositions(
   const enqueuedOnPresent = position.enqueuedOn != undefined;
   const keys = Object.keys(position);
 
+  if (!keys.length) {
+    throw new TypeError(
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+    );
+  }
+  
   if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
     validateEventPosition(position);
     return;
