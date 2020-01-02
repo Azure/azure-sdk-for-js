@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError, AmqpError } from "rhea-promise";
-import { isNode } from "../src/util/utils";
+import { isNode, isString, isNumber } from "../src/util/utils";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -532,19 +532,24 @@ export enum SystemErrorConditionMapper {
   ENONET = "com.microsoft:timeout"
 }
 
+/**
+ * Checks whether the provided error is a node.js SystemError.
+ * @param err An object that may contain error information.
+ */
 export function isSystemError(err: any): boolean {
-  let result: boolean = false;
-  if (
-    err.code &&
-    typeof err.code === "string" &&
-    err.syscall &&
-    typeof err.syscall === "string" &&
-    err.errno &&
-    (typeof err.errno === "string" || typeof err.errno === "number")
-  ) {
-    result = true;
+  if (!err) {
+    return false;
   }
-  return result;
+
+  if (!isString(err.code) || !isString(err.syscall)) {
+    return false;
+  }
+
+  if (!isString(err.errno) && !isNumber(err.errno)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
