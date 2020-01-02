@@ -949,9 +949,11 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
-          connectionHost: this._context.namespace.config.host,
-          delayInSeconds: 15
+          retryOptions: {
+            maxRetries: Constants.defaultMaxRetriesForConnection,
+            retryDelayInMs: 15000
+          },
+          connectionHost: this._context.namespace.config.host
         };
         if (!this.wasCloseInitiated) {
           await retry<void>(config);
@@ -1015,7 +1017,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds * 1000
+          Constants.defaultOperationTimeoutInMs
         );
 
         const e: AmqpError = {
@@ -1025,7 +1027,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds * 1000);
+      }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

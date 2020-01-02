@@ -486,8 +486,9 @@ describe("Errors after close()", function(): void {
       caughtError = error;
     }
 
-    const expectedErrorMsg = `Failed to ${operation} the message as the AMQP link with which the message was ` +
-    `received is no longer alive.`
+    const expectedErrorMsg =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
     should.equal(caughtError && caughtError.message, expectedErrorMsg);
   }
 

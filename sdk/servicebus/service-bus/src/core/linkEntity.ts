@@ -157,6 +157,9 @@ export class LinkEntity {
       this.name,
       this.address
     );
+    if (!tokenObject) {
+      throw new Error("Token cannot be null");
+    }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
       return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
@@ -185,7 +188,6 @@ export class LinkEntity {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
         log.error(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.namespace.connectionId,
