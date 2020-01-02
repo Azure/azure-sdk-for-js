@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { getStartingPosition, createProcessingSpan, trace } from "../src/partitionPump";
-import { EventPosition } from "../src/eventPosition";
+import { createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
-import {
-  CanonicalCode,
-  SpanOptions,
-  SpanKind
-} from "@opentelemetry/types";
+import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/types";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
@@ -16,18 +11,6 @@ import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
 const should = chai.should();
 
 describe("PartitionPump", () => {
-  it("getStartingPosition", () => {
-    // if they explicitly passed in an EventPosition then it trumps any user specified option
-    getStartingPosition(EventPosition.earliest(), undefined).offset!.should.equal(-1);
-    getStartingPosition(EventPosition.latest(), undefined).offset!.should.equal("@latest");
-
-    // if no initial position was given when we started then we'll allow the user to override....
-    getStartingPosition(undefined, EventPosition.fromOffset(100)).offset!.should.equal(100);
-
-    // ...and if they don't override then we give them the default (currently it's EventPosition.earliest())
-    getStartingPosition(undefined, undefined).offset!.should.equal(-1);
-  });
-
   describe("telemetry", () => {
     const eventHubProperties = {
       endpoint: "theendpoint",
@@ -54,17 +37,13 @@ describe("PartitionPump", () => {
       const tracer = new TestTracer2();
       setTracer(tracer);
 
-      await createProcessingSpan(
-        [],
-        eventHubProperties,
-        {
-          tracingOptions: {
-            spanOptions: {
-              parent: fakeParentSpan
-            }
+      await createProcessingSpan([], eventHubProperties, {
+        tracingOptions: {
+          spanOptions: {
+            parent: fakeParentSpan
           }
         }
-      );
+      });
 
       should.equal(tracer.spanName, "Azure.EventHubs.process");
 
@@ -99,22 +78,12 @@ describe("PartitionPump", () => {
       const thirdEvent = tracer.startSpan("c");
 
       const receivedEvents: ReceivedEventData[] = [
-        instrumentEventData(
-          { ...requiredEventProperties },
-          firstEvent,
-        ) as ReceivedEventData,
+        instrumentEventData({ ...requiredEventProperties }, firstEvent) as ReceivedEventData,
         { properties: {}, ...requiredEventProperties }, // no diagnostic ID means it gets skipped
-        instrumentEventData(
-          { ...requiredEventProperties },
-          thirdEvent
-        ) as ReceivedEventData
+        instrumentEventData({ ...requiredEventProperties }, thirdEvent) as ReceivedEventData
       ];
 
-      await createProcessingSpan(
-        receivedEvents,
-        eventHubProperties,
-        {}
-      );
+      await createProcessingSpan(receivedEvents, eventHubProperties, {});
 
       // middle event, since it has no trace information, doesn't get included
       // in the telemetry
