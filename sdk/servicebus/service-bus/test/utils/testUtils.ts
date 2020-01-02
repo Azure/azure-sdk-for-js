@@ -12,7 +12,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
-import { EnvVarKeys, getEnvVars, isNode } from "./envVarUtils";
+import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 
 import * as dotenv from "dotenv";
@@ -521,19 +521,11 @@ export enum EntityNameKeys {
   MANAGEMENT_NEW_ENTITY_2 = "MANAGEMENT_NEW_ENTITY_2"
 }
 
-// Reference to cached entityNames that is unique per test run.
-let entityNames: any;
-
 /**
- * Utility to return cached map of entity names,
- * or create and return one from configured values if not existing.
+ * Utility to return map of entity names.
  */
 export function getEntityNames(): { [key in EntityNameKeys]: any } {
-  if (entityNames != undefined) {
-    return entityNames;
-  }
-
-  entityNames = {
+  return {
     [EntityNameKeys.QUEUE_NAME]: "partitioned-queue",
     [EntityNameKeys.QUEUE_NAME_NO_PARTITION]: "unpartitioned-queue",
     [EntityNameKeys.QUEUE_NAME_SESSION]: "partitioned-queue-sessions",
@@ -561,12 +553,4 @@ export function getEntityNames(): { [key in EntityNameKeys]: any } {
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_1]: "management-new-entity-1",
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]: "management-new-entity-2"
   };
-
-  if (!isNode) {
-    Object.keys(entityNames).forEach((key) => {
-      entityNames[key] = entityNames[key] + "-browser";
-    });
-  }
-
-  return entityNames;
 }
