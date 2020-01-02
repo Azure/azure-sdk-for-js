@@ -1,4 +1,4 @@
-# Azure Core tracing library for JS
+# Azure Core tracing library for JavaScript
 
 This is the core tracing library that provides low-level interfaces and helper methods for tracing in Azure SDK JavaScript libraries which work in the browser and Node.js.
 

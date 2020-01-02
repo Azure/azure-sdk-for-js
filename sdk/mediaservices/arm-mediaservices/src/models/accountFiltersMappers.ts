@@ -32,6 +32,7 @@ export {
   ContentKeyPolicyClearKeyConfiguration,
   ContentKeyPolicyConfiguration,
   ContentKeyPolicyFairPlayConfiguration,
+  ContentKeyPolicyFairPlayOfflineRentalConfiguration,
   ContentKeyPolicyOpenRestriction,
   ContentKeyPolicyOption,
   ContentKeyPolicyPlayReadyConfiguration,
