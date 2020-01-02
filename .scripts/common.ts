@@ -9,6 +9,7 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { getChildFolderPaths, fileExistsSync, joinPath, readPackageJsonFileSync, PackageJson, getName } from '@ts-common/azure-js-dev-tools';
+import { listDataplanePackages, dataplaneListFilename } from "dataplane-list";
 
 export function arrayContains<T>(array: T[], el: T): boolean {
   return array.indexOf(el) != -1
@@ -111,38 +112,40 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-export const packagesToIgnore: string[] = [
-  "@azure/appconfiguration",
-  "@azure/abort-controller",
-  "@azure/core-amqp",
-  "@azure/core-arm",
-  "@azure/core-asynciterator-polyfill",
-  "@azure/core-auth",
-  "@azure/core-http",
-  "@azure/core-lro",
-  "@azure/core-paging",
-  "@azure/core-tracing",
-  "@azure/identity",
-  "@azure/logger",
-  "@azure/eventhubs-checkpointstore-blob",
-  "@azure/keyvault-certificates",
-  "azure/keyvault-secrets",
-  "@azure/storage-blob",
-  "@azure/storage-file-share",
-  "@azure/storage-queue",
-  "@azure/storage-file-datalake",
-  "@azure/cosmos",
-  "@azure/storage-blob",
-  "@azure/storage-file-share",
-  "@azure/storage-queue",
-  "@azure/event-hubs",
-  "@azure/event-processor-host",
-  "@azure/keyvault-keys",
-  "@azure/service-bus",
-  "@azure/template",
-  "@azure/cognitiveservices-textanalytics",
-  "testhub"
-];
+// export const packagesToIgnore: string[] = [
+//   "@azure/appconfiguration",
+//   "@azure/abort-controller",
+//   "@azure/core-amqp",
+//   "@azure/core-arm",
+//   "@azure/core-asynciterator-polyfill",
+//   "@azure/core-auth",
+//   "@azure/core-http",
+//   "@azure/core-lro",
+//   "@azure/core-paging",
+//   "@azure/core-tracing",
+//   "@azure/identity",
+//   "@azure/logger",
+//   "@azure/eventhubs-checkpointstore-blob",
+//   "@azure/keyvault-certificates",
+//   "azure/keyvault-secrets",
+//   "@azure/storage-blob",
+//   "@azure/storage-file-share",
+//   "@azure/storage-queue",
+//   "@azure/storage-file-datalake",
+//   "@azure/cosmos",
+//   "@azure/storage-blob",
+//   "@azure/storage-file-share",
+//   "@azure/storage-queue",
+//   "@azure/event-hubs",
+//   "@azure/event-processor-host",
+//   "@azure/keyvault-keys",
+//   "@azure/service-bus",
+//   "@azure/template",
+//   "@azure/cognitiveservices-textanalytics",
+//   "testhub"
+// ];
+
+export const packagesToIgnore = listDataplanePackages(dataplaneListFilename);
 export const folderNamesToIgnore: string[] = ["node_modules"];
 
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {

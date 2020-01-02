@@ -1,9 +1,10 @@
 const versionUtils = require("../eng/tools/versioning/VersionUtils");
 const process = require("process");
+const dataplaneListFilename = "list-dataplane.json";
 
 const parseArgs = () => {
   if (
-    process.argv.length < 4 ||
+    process.argv.length < 3 ||
     process.argv.some(a => ["-h", "--help"].includes(a.toLowerCase()))
   ) {
     console.error("Usage: dataplane-list.js <pathToRepo> <pathToFileListName>");
@@ -11,8 +12,8 @@ const parseArgs = () => {
     process.exit(1);
   }
   var pathToRepo = process.argv[2];
-  var pathToFileListName = process.argv[3];
-  return [pathToRepo, pathToFileListName];
+  //var pathToFileListName = process.argv[3];
+  return [pathToRepo];
 };
 
 const listDataplanePackages = async pathToFileListName => {
@@ -22,8 +23,8 @@ const listDataplanePackages = async pathToFileListName => {
 };
 
 async function main() {
-  const [pathToRepo, pathToFileListName] = parseArgs();
-  //const pathToFileListName = "list-dataplane.json";
+  const [pathToRepo] = parseArgs();
+  const pathToFileListName = dataplaneListFilename;
   var rushPackages = await versionUtils.getRushPackageJsons(pathToRepo);
 
   await versionUtils.writeFile(
