@@ -20,7 +20,7 @@ class AMQPError {
 
 describe("Errors", function() {
   describe("translate", function() {
-    it("Does not touch errors that are neither AmqpError or SystemError", function() {
+    it("Does not touch errors that are neither AmqpError nor SystemError", function() {
       const testError = new Error("Test error");
       const translatedError = Errors.translate(testError);
       translatedError.name.should.equal(testError.name);
