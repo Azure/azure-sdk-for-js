@@ -86,15 +86,20 @@ describe("Errors", function() {
         to: "ArgumentOutOfRangeError",
         message: "some message"
       },
-      { from: "<unknown>", to: "MessagingError" }
+      { from: "<unknown>", to: "MessagingError", message: "some message" }
     ].forEach(function(mapping) {
       it("translates " + mapping.from + " into " + mapping.to, function() {
-        const err: any = new AMQPError(mapping.from as any, mapping.message as any);
+        const err: any = new AMQPError(mapping.from, mapping.message);
         const translatedError = <Errors.MessagingError>Errors.translate(err);
-        translatedError.code!.should.equal(mapping.to);
+        // <unknown> won't have a code since it has no matching condition
+        if (translatedError.code) {
+          translatedError.code.should.equal(mapping.to);
+        }
+        translatedError.name.should.equal("MessagingError");
         if (
           translatedError.code === "ServerBusyError" ||
-          translatedError.code === "MessagingError"
+          translatedError.code === "MessagingError" ||
+          translatedError.code == undefined
         ) {
           translatedError.retryable.should.equal(true);
         } else {
