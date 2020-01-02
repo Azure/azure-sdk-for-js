@@ -214,7 +214,6 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
  */
 export class EventProcessor {
   private _consumerGroup: string;
-  private _eventHubClient: EventHubClient;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string;
@@ -239,7 +238,7 @@ export class EventProcessor {
    */
   constructor(
     consumerGroup: string,
-    eventHubClient: EventHubClient,
+    private _eventHubClient: EventHubClient,
     private _subscriptionEventHandlers: SubscriptionEventHandlers,
     private _checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
@@ -253,7 +252,6 @@ export class EventProcessor {
     }
 
     this._consumerGroup = consumerGroup;
-    this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager =
       options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
@@ -339,12 +337,12 @@ export class EventProcessor {
     );
 
     const eventPosition = await this._getStartingPosition(partitionId);
-    await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
+    await this._pumpManager.createPump(eventPosition, this._eventHubClient, partitionProcessor);
 
     logger.verbose(`[${this._id}] PartitionPump created successfully.`);
   }
 
-  private async _getStartingPosition(partitionIdToClaim: string) {
+  private async _getStartingPosition(partitionIdToClaim: string): Promise<EventPosition> {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
@@ -359,7 +357,10 @@ export class EventProcessor {
       return { offset: validCheckpoints[0].offset };
     }
 
-    return undefined;
+    logger.verbose(
+      `No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`
+    );
+    return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
   private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
@@ -574,6 +575,27 @@ export class EventProcessor {
 
 function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
+}
+
+function getStartPosition(
+  partitionIdToClaim: string,
+  startPositions?: EventPosition | { [partitionId: string]: EventPosition }
+): EventPosition {
+  if (startPositions == null) {
+    return EventPosition.latest();
+  }
+
+  if (startPositions instanceof EventPosition) {
+    return startPositions;
+  }
+
+  const startPosition = startPositions[partitionIdToClaim];
+
+  if (startPosition == null) {
+    return EventPosition.latest();
+  }
+
+  return startPosition;
 }
 
 function targetWithoutOwnership(target: PartitionLoadBalancer | string): target is string {

@@ -4,7 +4,7 @@
 import { logger, logErrorStackTrace } from "./log";
 import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition, earliestEventPosition } from "./eventPosition";
+import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
@@ -14,8 +14,6 @@ import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
-
-const defaultEventPosition = earliestEventPosition;
 
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
@@ -29,7 +27,7 @@ export class PartitionPump {
   constructor(
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
-    private readonly _originalInitialEventPosition: EventPosition | undefined,
+    private readonly _startPosition: EventPosition,
     options: FullEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
@@ -44,35 +42,26 @@ export class PartitionPump {
 
   async start(): Promise<void> {
     this._isReceiving = true;
-    let userRequestedDefaultPosition: EventPosition | undefined;
     try {
-      userRequestedDefaultPosition = await this._partitionProcessor.initialize();
+      await this._partitionProcessor.initialize();
     } catch (err) {
       // swallow the error from the user-defined code
       this._partitionProcessor.processError(err);
     }
 
-    const startingPosition = getStartingPosition(
-      this._originalInitialEventPosition,
-      userRequestedDefaultPosition
-    );
-
     // this is intentionally not await'd - the _receiveEvents loop will continue to
     // execute and can be stopped by calling .stop()
-    this._receiveEvents(startingPosition, this._partitionProcessor.partitionId);
+    this._receiveEvents(this._partitionProcessor.partitionId);
     logger.info(
       `Successfully started the receiver for partition "${this._partitionProcessor.partitionId}".`
     );
   }
 
-  private async _receiveEvents(
-    startingPosition: EventPosition,
-    partitionId: string
-  ): Promise<void> {
+  private async _receiveEvents(partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionProcessor.consumerGroup,
       partitionId,
-      startingPosition,
+      this._startPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
@@ -101,7 +90,7 @@ export class PartitionPump {
         const span = createProcessingSpan(
           receivedEvents,
           this._eventHubClient,
-          this._processorOptions,
+          this._processorOptions
         );
 
         await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
@@ -165,21 +154,6 @@ export class PartitionPump {
       this._partitionProcessor.processError(err);
       throw err;
     }
-  }
-}
-
-export function getStartingPosition(
-  currentPosition: EventPosition | undefined,
-  positionFromInitialize: EventPosition | undefined
-): EventPosition {
-  if (currentPosition != null) {
-    return currentPosition;
-  }
-
-  if (positionFromInitialize) {
-    return positionFromInitialize;
-  } else {
-    return defaultEventPosition;
   }
 }
 

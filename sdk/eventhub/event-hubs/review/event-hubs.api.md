@@ -138,11 +138,6 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface InitializationContext extends PartitionContext {
-    setStartingPosition(startingPosition: EventPosition): void;
-}
-
-// @public
 export interface LastEnqueuedEventProperties {
     enqueuedOn?: Date;
     offset?: string;
@@ -205,7 +200,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -233,6 +228,9 @@ export interface SubscribeOptions extends TracingOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    startPosition?: EventPosition | {
+        [partitionId: string]: EventPosition;
+    };
     trackLastEnqueuedEventProperties?: boolean;
 }
 

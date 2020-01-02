@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.0.0-preview.6",
+  "version": "12.0.0-preview.7",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -88,11 +88,11 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.0.0",
     "events": "^3.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.0.0",

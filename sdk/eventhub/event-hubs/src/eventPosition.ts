@@ -75,8 +75,8 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
   return result;
 }
 
-export function isEarliestEventPosition(eventPosition: EventPosition): boolean {
-  if (eventPosition.offset === -1) {
+export function isLatestPosition(eventPosition: EventPosition): boolean {
+  if (eventPosition.offset === "@latest") {
     return true;
   }
 
