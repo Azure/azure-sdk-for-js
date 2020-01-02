@@ -66,6 +66,25 @@ export class EventHubConsumerClient {
   private _checkpointStore: CheckpointStore;
   private _userChoseCheckpointStore: boolean;
 
+    /**
+   * @property
+   * @readonly
+   * The name of the Event Hub instance for which this client is created.
+   */
+  get eventHubName(): string {
+    return this._eventHubClient.eventHubName;
+  }
+
+  /**
+   * @property
+   * @readonly
+   * The fully qualified namespace of the Event Hub instance for which this client is created.
+   * This is likely to be similar to <yournamespace>.servicebus.windows.net.
+   */
+  get fullyQualifiedNamespace(): string {
+    return this._eventHubClient.fullyQualifiedNamespace;
+  }
+
   /**
    * @constructor
    * The `EventHubConsumerClient` is the main point of interaction for consuming events from an

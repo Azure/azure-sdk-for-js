@@ -85,6 +85,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
