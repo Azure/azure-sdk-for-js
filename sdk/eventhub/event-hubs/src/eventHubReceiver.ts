@@ -743,7 +743,7 @@ export class EventHubReceiver extends LinkEntity {
             onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
           };
           if (this.checkpoint > -1) {
-            receiverOptions.eventPosition ={ sequenceNumber: this.checkpoint};
+            receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
           }
           options = this._createReceiverOptions(receiverOptions);
         }
