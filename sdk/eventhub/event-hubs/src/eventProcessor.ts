@@ -3,7 +3,6 @@
 
 import uuid from "uuid/v4";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition } from "./eventPosition";
 import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
@@ -12,6 +11,7 @@ import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import { EventPosition, latestEventPosition } from "./eventPosition";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -355,7 +355,7 @@ export class EventProcessor {
     );
 
     if (validCheckpoints.length > 0) {
-      return EventPosition.fromOffset(validCheckpoints[0].offset);
+      return { offset: validCheckpoints[0].offset };
     }
 
     logger.verbose(
@@ -583,17 +583,21 @@ function getStartPosition(
   startPositions?: EventPosition | { [partitionId: string]: EventPosition }
 ): EventPosition {
   if (startPositions == null) {
-    return EventPosition.latest();
+    return latestEventPosition;
   }
 
-  if (startPositions instanceof EventPosition) {
+  if (
+    startPositions.offset != undefined ||
+    startPositions.sequenceNumber != undefined ||
+    startPositions.enqueuedOn != undefined
+  ) {
     return startPositions;
   }
 
-  const startPosition = startPositions[partitionIdToClaim];
+  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[partitionIdToClaim];
 
   if (startPosition == null) {
-    return EventPosition.latest();
+    return latestEventPosition;
   }
 
   return startPosition;

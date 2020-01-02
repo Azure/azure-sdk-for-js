@@ -14,7 +14,8 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition,
+  earliestEventPosition,
+  latestEventPosition,
   CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
@@ -93,7 +94,7 @@ describe("Event Processor", function(): void {
         const processor = createEventProcessor(
           checkpointStore,
           // checkpoints always win over the user's specified position
-          EventPosition.latest()
+          latestEventPosition
         );
 
         let eventPosition = await processor["_getStartingPosition"]("0");
@@ -123,7 +124,7 @@ describe("Event Processor", function(): void {
       it("using a single default event position for any partition", async () => {
         const processor = createEventProcessor(
           emptyCheckpointStore,
-          EventPosition.fromOffset(1009)
+          { offset: 1009 }
         );
 
         let eventPosition = await processor["_getStartingPosition"]("0");
@@ -132,7 +133,7 @@ describe("Event Processor", function(): void {
       });
 
       it("using a fallback map", async () => {
-        const fallbackPositions = { "0": EventPosition.fromOffset(2001) };
+        const fallbackPositions = { "0": { offset: 2001 } };
         // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
 
         const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
@@ -530,7 +531,7 @@ describe("Event Processor", function(): void {
       {
         ...defaultOptions,
         processingTarget: new GreedyPartitionLoadBalancer(["0"]),
-        startPosition: EventPosition.earliest()
+        startPosition: earliestEventPosition
       }
     );
 
@@ -570,7 +571,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        startPosition: EventPosition.latest()
+        startPosition: latestEventPosition
       }
     );
 
@@ -587,7 +588,7 @@ describe("Event Processor", function(): void {
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, ownerId: "hello", startPosition: EventPosition.latest() }
+      { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition }
     );
 
     processor.id.should.equal("hello");
@@ -652,7 +653,7 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        startPosition: EventPosition.latest()
+        startPosition: latestEventPosition
       }
     );
 
@@ -859,7 +860,7 @@ describe("Event Processor", function(): void {
         inMemoryCheckpointStore,
         {
           ...defaultOptions,
-          startPosition: EventPosition.earliest()
+          startPosition: earliestEventPosition
         }
       );
 
@@ -905,7 +906,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        { ...defaultOptions, startPosition: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: earliestEventPosition }
       );
 
       const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
@@ -1093,7 +1094,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: earliestEventPosition }
       );
 
       processorByName[`processor-1`].start();
@@ -1108,7 +1109,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: EventPosition.earliest() }
+        { ...defaultOptions, startPosition: earliestEventPosition }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1189,7 +1190,7 @@ describe("Event Processor", function(): void {
           client,
           new FooPartitionProcessor(),
           checkpointStore,
-          { ...defaultOptions, startPosition: EventPosition.earliest() }
+          { ...defaultOptions, startPosition: earliestEventPosition }
         );
         processorByName[processorName].start();
         await delay(12000);
@@ -1246,7 +1247,6 @@ describe("Event Processor", function(): void {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
-
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
             return;
@@ -1284,7 +1284,7 @@ describe("Event Processor", function(): void {
         inactiveTimeLimitInMs: 3000,
         ownerLevel: 0,
         // For this test we don't want to actually checkpoint, just test ownership.
-        startPosition: EventPosition.latest()
+        startPosition: latestEventPosition
       };
 
       const processor1 = new EventProcessor(

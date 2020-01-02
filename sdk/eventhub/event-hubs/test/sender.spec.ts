@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient, EventPosition } from "../src";
+import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
 import { SendOptions, EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
@@ -472,7 +472,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const consumer = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
+       { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber }
       );
       const eventDataBatch = await producerClient.createBatch({
         maxSizeInBytes: 5000,
