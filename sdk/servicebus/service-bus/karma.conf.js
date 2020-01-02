@@ -48,7 +48,7 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "SERVICEBUS_CONNECTION_STRING",
+      "SERVICEBUS_CONNECTION_STRING_BROWSER",
       "AAD_CLIENT_ID",
       "AAD_CLIENT_SECRET",
       "AAD_TENANT_ID"
