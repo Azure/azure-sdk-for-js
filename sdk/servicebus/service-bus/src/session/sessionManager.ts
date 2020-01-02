@@ -178,7 +178,7 @@ export class SessionManager {
         // the Promise is rejected. The "microsoft.timeout" error occurs when timeout happens on
         // the server side and ServiceBus sends a detach frame due to which the Promise is rejected.
         if (
-          err.name === ConditionErrorNameMapper["amqp:operation-timeout"] ||
+          err.name === "OperationTimeoutError" ||
           err.name === ConditionErrorNameMapper["com.microsoft:timeout"] ||
           err.name === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
         ) {
@@ -236,7 +236,7 @@ export class SessionManager {
     // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
     // by the user) when no new messages are received.
     if (!options.newMessageWaitTimeoutInSeconds) {
-      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
     this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
     this._maxPendingAcceptSessionsSemaphore = new Semaphore(

@@ -281,9 +281,7 @@ export class MessageSession extends LinkEntity {
             this.sessionId!,
             this.name,
             {
-              delayInSeconds: 0,
-              timeoutInSeconds: 10,
-              times: 4
+              timeoutInMs: 10000
             }
           );
           log.receiver(
@@ -555,9 +553,7 @@ export class MessageSession extends LinkEntity {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
-          sbError.message = `The session lock has expired on the session with id ${
-            this.sessionId
-          }.`;
+          sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
@@ -780,9 +776,7 @@ export class MessageSession extends LinkEntity {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-            `any messages in the last ${
-              this.newMessageWaitTimeoutInSeconds
-            } seconds. Hence closing it.`;
+            `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           if (this.callee === SessionCallee.sessionManager) {
@@ -935,14 +929,14 @@ export class MessageSession extends LinkEntity {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let totalWaitTimer: NodeJS.Timer | undefined;;
+      let totalWaitTimer: NodeJS.Timer | undefined;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
@@ -1083,9 +1077,7 @@ export class MessageSession extends LinkEntity {
           this._newMessageReceivedTimer = setTimeout(async () => {
             const msg =
               `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-              `any messages in the last ${
-                this.newMessageWaitTimeoutInSeconds
-              } seconds. Hence closing it.`;
+              `any messages in the last ${this.newMessageWaitTimeoutInSeconds} seconds. Hence closing it.`;
             log.error("[%s] %s", this._context.namespace.connectionId, msg);
             finalAction();
             if (this.callee === SessionCallee.sessionManager) {
@@ -1154,7 +1146,7 @@ export class MessageSession extends LinkEntity {
             "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds * 1000
+          Constants.defaultOperationTimeoutInMs
         );
 
         const e: AmqpError = {
@@ -1164,7 +1156,7 @@ export class MessageSession extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds * 1000);
+      }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

@@ -71,7 +71,7 @@ export class BatchingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];

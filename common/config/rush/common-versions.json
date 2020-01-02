@@ -16,11 +16,6 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
-
-    // This is required to allow for backward compatibility with Service Bus Track 1
-    // Workaround for microsoft/web-build-tools#1415
-    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
-    "rhea-promise": "^0.1.15"
   },
   /**
    * The "rush check" command can be used to enforce that every project in the repo must specify

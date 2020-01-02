@@ -239,12 +239,12 @@ export class ManagementClient extends LinkEntity {
           sropt,
           rxopt
         );
-        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
+        this._mgmtReqResLink!.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
           log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
         });
-        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+        this._mgmtReqResLink!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
@@ -252,8 +252,8 @@ export class ManagementClient extends LinkEntity {
         log.mgmt(
           "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
           this._context.namespace.connectionId,
-          this._mgmtReqResLink.sender.name,
-          this._mgmtReqResLink.receiver.name
+          this._mgmtReqResLink!.sender.name,
+          this._mgmtReqResLink!.receiver.name
         );
         await this._ensureTokenRenewal();
       }
@@ -465,9 +465,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
-    if (options.delayInSeconds == null) options.delayInSeconds = 1;
-    if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
-    if (options.times == null) options.times = 5;
+    if (options.timeoutInMs == null) options.timeoutInMs = 5000;
 
     try {
       const messageBody: any = {};
@@ -876,9 +874,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
-    if (options.delayInSeconds == null) options.delayInSeconds = 1;
-    if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
-    if (options.times == null) options.times = 5;
+    if (options.timeoutInMs == null) options.timeoutInMs = 5000;
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
