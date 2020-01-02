@@ -21,11 +21,11 @@ const assert = chai.assert;
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarKeys, getEnvVarMap } from "./utils/envVarUtils";
-const env = getEnvVarMap();
+import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+const env = getEnvVars();
 
-import { EntityNameKeys, getEntityNameMap } from "./utils/testUtils";
-const entityNames = getEntityNameMap();
+import { EntityNameKeys, getEntityNames } from "./utils/testUtils";
+const entityNames = getEntityNames();
 
 import { parseConnectionString } from "@azure/amqp-common";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";

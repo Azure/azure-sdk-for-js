@@ -12,7 +12,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
-import { EnvVarKeys, getEnvVarMap, isNode } from "./envVarUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 
 import * as dotenv from "dotenv";
@@ -162,7 +162,7 @@ export async function getTopicClientWithTwoSubscriptionClients(
   topicClient: TopicClient;
   subscriptionClients: SubscriptionClient[];
 }> {
-  const entityNames = getEntityNameMap();
+  const entityNames = getEntityNames();
   const subscriptionClients: SubscriptionClient[] = [];
 
   await recreateTopic(entityNames[EntityNameKeys.TOPIC_FILTER_NAME], {
@@ -213,7 +213,7 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
-  const entityNames = getEntityNameMap();
+  const entityNames = getEntityNames();
 
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
@@ -486,7 +486,7 @@ export function getNamespace(serviceBusConnectionString: string): string {
 }
 
 export function getServiceBusClient(): ServiceBusClient {
-  const env = getEnvVarMap();
+  const env = getEnvVars();
   return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }
 
@@ -528,8 +528,7 @@ let entityNames: any;
  * Utility to return cached map of entity names,
  * or create and return one from configured values if not existing.
  */
-export function getEntityNameMap() {
-  console.log("THIS --> ", entityNames);
+export function getEntityNames(): { [key in EntityNameKeys]: any } {
   if (entityNames != undefined) {
     return entityNames;
   }

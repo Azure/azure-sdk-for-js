@@ -37,7 +37,7 @@ let envVars: any;
  * Utility to return cached map of environment variables,
  * or create and return one from configured values if not existing.
  */
-export function getEnvVarMap(): { [key in EnvVarKeys]: any } {
+export function getEnvVars(): { [key in EnvVarKeys]: any } {
   if (envVars != undefined) {
     return envVars;
   }

@@ -32,7 +32,7 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
-import { getEnvVarMap, isNode } from "./utils/envVarUtils";
+import { getEnvVars, isNode } from "./utils/envVarUtils";
 import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
@@ -315,7 +315,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
-  const env = getEnvVarMap();
+  const env = getEnvVars();
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
