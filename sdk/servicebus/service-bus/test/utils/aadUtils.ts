@@ -10,13 +10,12 @@ const aadServiceBusAudience = "https://servicebus.azure.net/";
 export async function getTokenCredentialsFromAAD() {
   const env = getEnvVars();
   const tokenCreds = await loginWithServicePrincipalSecret(
-    env[EnvVarKeys.AAD_CLIENT_ID],
-    env[EnEnvVarNamesAD_CLIENT_SECRET],
-    env[EnEnvVarNamesAD_TENANT_ID],
-    {EnvVarNames
+    env[EnvVarNames.AAD_CLIENT_ID],
+    env[EnvVarNames.AAD_CLIENT_SECRET],
+    env[EnvVarNames.AAD_TENANT_ID],
+    {
       tokenAudience: aadServiceBusAudience
     }
   );
   return tokenCreds;
-};EnvVarNames
-EnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNames
+}

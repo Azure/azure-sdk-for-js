@@ -48,8 +48,7 @@ export function getEnvVars(): { [key in EnvVarNames]: any } {
   let serviceBusConnectionStringEnvVarKey: string = EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf();
 
   if (!isNode) {
-    serviceBusConnectionStringEnvVarKey =
-      EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf() + "_BROWSER";
+    serviceBusConnectionStringEnvVarKey += "_BROWSER";
   }
 
   // Throw error if required environment variables are missing.
