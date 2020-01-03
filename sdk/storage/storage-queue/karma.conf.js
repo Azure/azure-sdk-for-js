@@ -1,6 +1,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
+const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
 
 module.exports = function(config) {
   config.set({
@@ -83,33 +84,7 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
-      filter: function(obj) {
-        // - jsonToFileReporter filters the JSON strings in console.logs.
-        // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
-        // - The other console statements are captured and printed normally.
-        // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
-        // - Example - console.log("hello"); -> console.log({ log: "hello" });
-        if (process.env.TEST_MODE === "record") {
-          if (obj.writeFile) {
-            const fs = require("fs-extra");
-            // Create the directories recursively incase they don't exist
-            try {
-              // Stripping away the filename from the file path and retaining the directory structure
-              fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-            } catch (err) {
-              if (err.code !== "EEXIST") throw err;
-            }
-            fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-              if (err) {
-                throw err;
-              }
-            });
-          } else {
-            console.log(obj);
-          }
-          return false;
-        }
-      },
+      filter: jsonRecordingFilter,
       outputPath: "."
     },
 
