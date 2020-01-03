@@ -16,7 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { parseConnectionString } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 

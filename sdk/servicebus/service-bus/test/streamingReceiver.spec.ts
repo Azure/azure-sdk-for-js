@@ -25,8 +25,6 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
-import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-import { getEnvVars, EnvVarKeys } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 const should = chai.should();
@@ -862,96 +860,96 @@ describe("Streaming - User Error", function(): void {
   });
 });
 
-describe("Streaming - Failed init should not cache recevier", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
+// describe("Streaming - Failed init should not cache recevier", function(): void {
+//   afterEach(async () => {
+//     await afterEachTest();
+//   });
 
-  class TestTokenProvider extends SasTokenProvider {
-    private firstCall = true;
-    static errorMessage = "This is a faulty token provider.";
-    constructor(connectionObject: {
-      Endpoint: string;
-      SharedAccessKeyName: string;
-      SharedAccessKey: string;
-    }) {
-      super(
-        connectionObject.Endpoint,
-        connectionObject.SharedAccessKeyName,
-        connectionObject.SharedAccessKey
-      );
-    }
+//   class TestTokenProvider extends SasTokenProvider {
+//     private firstCall = true;
+//     static errorMessage = "This is a faulty token provider.";
+//     constructor(connectionObject: {
+//       Endpoint: string;
+//       SharedAccessKeyName: string;
+//       SharedAccessKey: string;
+//     }) {
+//       super(
+//         connectionObject.Endpoint,
+//         connectionObject.SharedAccessKeyName,
+//         connectionObject.SharedAccessKey
+//       );
+//     }
 
-    async getToken(audience: string): Promise<TokenInfo> {
-      if (this.firstCall) {
-        this.firstCall = false;
-        throw new Error(TestTokenProvider.errorMessage);
-      }
-      return super.getToken(audience);
-    }
-  }
+//     async getToken(audience: string): Promise<TokenInfo> {
+//       if (this.firstCall) {
+//         this.firstCall = false;
+//         throw new Error(TestTokenProvider.errorMessage);
+//       }
+//       return super.getToken(audience);
+//     }
+//   }
 
-  it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
-    void
-  > {
-    const env = getEnvVars();
+//   it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     const env = getEnvVars();
 
-    // Send a message using service bus client created with connection string
-    sbClient = getServiceBusClient();
-    let clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
-    );
-    sender = clients.senderClient.createSender();
-    await sender.send(TestMessage.getSample());
-    await sbClient.close();
+//     // Send a message using service bus client created with connection string
+//     sbClient = getServiceBusClient();
+//     let clients = await getSenderReceiverClients(
+//       sbClient,
+//       TestClientType.UnpartitionedQueue,
+//       TestClientType.UnpartitionedQueue
+//     );
+//     sender = clients.senderClient.createSender();
+//     await sender.send(TestMessage.getSample());
+//     await sbClient.close();
 
-    // Receive using service bus client created with faulty token provider
-    const connectionObject: {
-      Endpoint: string;
-      SharedAccessKeyName: string;
-      SharedAccessKey: string;
-    } = parseConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
-    const tokenProvider = new TestTokenProvider(connectionObject);
-    sbClient = ServiceBusClient.createFromTokenProvider(
-      connectionObject.Endpoint.substr(5),
-      tokenProvider
-    );
-    clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
-    );
-    receiver = clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+//     // Receive using service bus client created with faulty token provider
+//     const connectionObject: {
+//       Endpoint: string;
+//       SharedAccessKeyName: string;
+//       SharedAccessKey: string;
+//     } = parseConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+//     const tokenProvider = new TestTokenProvider(connectionObject);
+//     sbClient = ServiceBusClient.createFromTokenProvider(
+//       connectionObject.Endpoint.substr(5),
+//       tokenProvider
+//     );
+//     clients = await getSenderReceiverClients(
+//       sbClient,
+//       TestClientType.UnpartitionedQueue,
+//       TestClientType.UnpartitionedQueue
+//     );
+//     receiver = clients.receiverClient.createReceiver(ReceiveMode.peekLock);
 
-    let actualError: Error;
-    receiver.registerMessageHandler(
-      async (msg: ServiceBusMessage) => {
-        throw new Error("No messages should have been received with faulty token provider");
-      },
-      (err) => {
-        actualError = err;
-      }
-    );
+//     let actualError: Error;
+//     receiver.registerMessageHandler(
+//       async (msg: ServiceBusMessage) => {
+//         throw new Error("No messages should have been received with faulty token provider");
+//       },
+//       (err) => {
+//         actualError = err;
+//       }
+//     );
 
-    // Check for expected error and that receiver was not cached
-    const errCheck = await checkWithTimeout(() => !!actualError === true);
-    should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
-    should.equal(
-      actualError!.message,
-      TestTokenProvider.errorMessage,
-      "Expected error from token provider, but unexpected error found."
-    );
-    should.equal(
-      !!(clients.receiverClient as any)._context.streamingReceiver,
-      false,
-      "Expected Streaming receiver to not be cached"
-    );
+//     // Check for expected error and that receiver was not cached
+//     const errCheck = await checkWithTimeout(() => !!actualError === true);
+//     should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
+//     should.equal(
+//       actualError!.message,
+//       TestTokenProvider.errorMessage,
+//       "Expected error from token provider, but unexpected error found."
+//     );
+//     should.equal(
+//       !!(clients.receiverClient as any)._context.streamingReceiver,
+//       false,
+//       "Expected Streaming receiver to not be cached"
+//     );
 
-    await receiver.close();
-  });
-});
+//     await receiver.close();
+//   });
+// });
 
 describe("Streaming - maxConcurrentCalls", function(): void {
   afterEach(async () => {

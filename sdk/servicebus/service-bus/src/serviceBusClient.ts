@@ -14,7 +14,6 @@ import {
   SharedKeyCredential
 } from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
-import { isNode } from "./util/utils";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
