@@ -79,6 +79,7 @@ describe("FileServiceClient", () => {
     const resp2 = await shareClient2.create({ metadata: { key: "val" } });
     console.log(resp2);
 
+    console.log(`Listing shares with prefix "${shareNamePrefix}"`);
     const result1 = (await serviceClient
       .listShares({
         includeMetadata: true,
