@@ -512,7 +512,7 @@ export class MessagingError extends Error {
   /**
    * @param {string} message The error message that provides more information about the error.
    * @param originalError An error whose properties will be copied to the MessagingError if the
-   * propert doesn't already exist.
+   * property doesn't already exist.
    */
   constructor(message: string, originalError?: Error) {
     super(message);
