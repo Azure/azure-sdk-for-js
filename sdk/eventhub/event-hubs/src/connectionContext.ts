@@ -131,21 +131,23 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError =
-        context.connection && context.connection.error ? context.connection.error : undefined;
-      if (connectionError) {
+      logger.verbose(
+        "[%s] 'disconnected' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
+      if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
-          connectionError
+          context.connection && context.connection.error
         );
       }
-      const contextError = context.error;
-      if (contextError) {
+      if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
-          contextError
+          context.error
         );
       }
 
@@ -160,16 +162,21 @@ export namespace ConnectionContext {
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
+      logger.verbose(
+        "[%s] 'protocol_error' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
       if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
           context.error
         );
@@ -177,16 +184,21 @@ export namespace ConnectionContext {
     };
 
     const error: OnAmqpEvent = async (context: EventContext) => {
+      logger.verbose(
+        "[%s] 'error' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
       if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
           context.error
         );
