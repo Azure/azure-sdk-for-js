@@ -424,13 +424,28 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+/**
+ * Extracts account name from the url
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
+ */
 export function getAccountNameFromUrl(url: string): string {
-  // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-  // Slicing off '/' at the end if exists
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
   try {
-    url = url.endsWith("/") ? url.slice(0, -1) : url;
+    if (parsedUrl.getHost()!.split(".")[1] === "file") {
+      // `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`;
+      // Slicing off '/' at the end if exists
+      url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
+    }
+
     if (!accountName) {
       throw new Error("Provided accountName is invalid.");
     }
@@ -450,21 +465,38 @@ export function getShareNameAndPathFromUrl(
   // "https://myaccount.file.core.windows.net/myshare/mydirectory";
   // "https://myaccount.file.core.windows.net/myshare?sasString";
   // "https://myaccount.file.core.windows.net/myshare";
+  // IPv4/IPv6 address hosts, Endpoints - `http://187.24.0.1:1000/devstoreaccount1/mydirectory/file`
+  // http://localhost:1000/devstoreaccount1/mydirectory/file
   // mydirectory can consist of multiple directories - dir1/dir2/dir3
 
-  try {
-    let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+  let shareName;
+  let path;
+  let baseName;
 
-    let shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+  try {
+    const parsedUrl = URLBuilder.parse(url);
+    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+      // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
+      // .getPath() -> /myshare/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+      shareName = pathComponents![1];
+      path = pathComponents![3];
+    } else {
+      // IPv4/IPv6 address hosts... Example - http://187.24.0.1:1000/devstoreaccount1/mydirectory/file
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:1000/devstoreaccount1/mydirectory/file
+      // .getPath() -> /devstoreaccount1/mydirectory/file
+      const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+      shareName = pathComponents![2];
+      path = pathComponents![4];
+    }
 
     // decode the encoded shareName and filePath - to get all the special characters that might be present in it
-    const shareName = decodeURIComponent(shareNameAndFilePath![3]);
-    const path = decodeURIComponent(shareNameAndFilePath![5]);
+    shareName = decodeURIComponent(shareName);
+    path = decodeURIComponent(path);
 
     // Cast to string is required as TypeScript cannot infer that split() always returns
     // an array with length >= 1
-    const baseName = path.split("/").pop() as string;
+    baseName = path.split("/").pop() as string;
 
     if (!shareName) {
       throw new Error("Provided shareName is invalid.");
