@@ -16,8 +16,7 @@ import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 
 /**
- * The `EventHubProducerClient` is the main point of interaction for sending events to an
- * Event Hub instance.
+ * The `EventHubProducerClient` class is used to send events to an Event Hub.
  *
  * There are multiple ways to create an `EventHubProducerClient`
  * - Use the connection string from the SAS policy created for your Event Hub instance.
@@ -61,9 +60,9 @@ export class EventHubProducerClient {
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
-   * - `retryOptions`   : A set of options to configure the retry policy for all the operations on the client.
-   * A simple usage can be `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
-   * - `webSocketOptions`: A set of options to configure the channelling of the AMQP connection over Web Sockets.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
@@ -76,9 +75,9 @@ export class EventHubProducerClient {
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param options - A set of options to apply when configuring the client.
-   * - `retryOptions`   : A set of options to configure the retry policy for all the operations on the client.
-   * A simple usage can be `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
-   * - `webSocketOptions`: A set of options to configure the channelling of the AMQP connection over Web Sockets.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
@@ -92,9 +91,9 @@ export class EventHubProducerClient {
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
    * @param options - A set of options to apply when configuring the client.
-   * - `retryOptions`   : A set of options to configure the retry policy for all the operations on the client.
-   * A simple usage can be `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
-   * - `webSocketOptions`: A set of options to configure the channelling of the AMQP connection over Web Sockets.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
@@ -135,7 +134,7 @@ export class EventHubProducerClient {
   /**
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
-   * @param options  A set of options to configure the behavior of the batch. 
+   * @param options  Configures the behavior of the batch. 
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
    * - `partitionId`   : Id of the partition to which the batch of events need to be sent.
