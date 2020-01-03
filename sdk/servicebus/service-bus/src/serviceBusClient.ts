@@ -74,8 +74,7 @@ export class ServiceBusClient {
    * @constructor
    * @param host - The host name for the Service Bus namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
-   * @param credential - SharedKeyCredential object or your
-   * credential that implements the TokenCredential interface.
+   * @param credential - credential that implements the TokenCredential interface.
    * @param options - Options to control ways to interact with the Service Bus
    * Namespace.
    */
@@ -110,6 +109,7 @@ export class ServiceBusClient {
 
       ConnectionConfig.validate(config);
     } else {
+      // host, credential and options based constructor was invoked
       if (credentialOrServiceBusClientOptions == undefined) {
         throw new Error("Input parameter token credential must be defined.");
       }
