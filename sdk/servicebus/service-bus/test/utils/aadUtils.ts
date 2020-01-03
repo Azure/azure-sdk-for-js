@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EnvVarKeys, getEnvVars } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 
 import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 
@@ -11,11 +11,12 @@ export async function getTokenCredentialsFromAAD() {
   const env = getEnvVars();
   const tokenCreds = await loginWithServicePrincipalSecret(
     env[EnvVarKeys.AAD_CLIENT_ID],
-    env[EnvVarKeys.AAD_CLIENT_SECRET],
-    env[EnvVarKeys.AAD_TENANT_ID],
-    {
+    env[EnEnvVarNamesAD_CLIENT_SECRET],
+    env[EnEnvVarNamesAD_TENANT_ID],
+    {EnvVarNames
       tokenAudience: aadServiceBusAudience
     }
   );
   return tokenCreds;
-};
+};EnvVarNames
+EnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNamesEnvVarNames

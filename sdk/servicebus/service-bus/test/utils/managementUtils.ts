@@ -9,7 +9,7 @@ import {
   delay
 } from "../../src";
 
-import { EnvVarKeys, getEnvVars } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 
 let client: ServiceBusAtomManagementClient;
 
@@ -20,7 +20,7 @@ let client: ServiceBusAtomManagementClient;
 async function getManagementClient() {
   if (client == undefined) {
     const env = getEnvVars();
-    client = new ServiceBusAtomManagementClient(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAtomManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }

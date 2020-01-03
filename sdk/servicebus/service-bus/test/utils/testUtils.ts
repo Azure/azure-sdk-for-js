@@ -12,7 +12,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 
 import * as dotenv from "dotenv";
@@ -487,11 +487,11 @@ export function getNamespace(serviceBusConnectionString: string): string {
 
 export function getServiceBusClient(): ServiceBusClient {
   const env = getEnvVars();
-  return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+  return ServiceBusClient.createFromConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
 }
 
 /**
- * Enum to abstract away string values used for the Service Bus entity key names.
+ * Enum to abstract away string values used for referencing the Service Bus entity names.
  */
 export enum EntityNameKeys {
   QUEUE_NAME = "QUEUE_NAME",
@@ -522,7 +522,7 @@ export enum EntityNameKeys {
 }
 
 /**
- * Utility to return map of entity names.
+ * Utility to return map of entity name values.
  */
 export function getEntityNames(): { [key in EntityNameKeys]: any } {
   return {

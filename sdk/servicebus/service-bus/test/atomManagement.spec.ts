@@ -21,7 +21,7 @@ const assert = chai.assert;
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
 import { EntityNameKeys, getEntityNames } from "./utils/testUtils";
@@ -31,11 +31,11 @@ import { parseConnectionString } from "@azure/amqp-common";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
 const endpointWithProtocol = (parseConnectionString(
-  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 ) as any).Endpoint;
 
 enum EntityType {
