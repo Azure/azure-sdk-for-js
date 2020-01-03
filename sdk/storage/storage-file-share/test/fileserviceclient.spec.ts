@@ -74,8 +74,10 @@ describe("FileServiceClient", () => {
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.getShareClient(shareName1);
     const shareClient2 = serviceClient.getShareClient(shareName2);
-    await shareClient1.create({ metadata: { key: "val" } });
-    await shareClient2.create({ metadata: { key: "val" } });
+    const resp1 = await shareClient1.create({ metadata: { key: "val" } });
+    console.log(resp1);
+    const resp2 = await shareClient2.create({ metadata: { key: "val" } });
+    console.log(resp2);
 
     const result1 = (await serviceClient
       .listShares({
@@ -87,7 +89,7 @@ describe("FileServiceClient", () => {
       .next()).value;
 
     assert.ok(result1.continuationToken);
-    assert.equal(result1.shareItems!.length, 1, `Expecting shareItems but got ${result1.shareItems}`);
+    assert.equal(result1.shareItems!.length, 1, `Expecting shareItems but got ${result1.shareItems || "<empty or undefined>"}`);
     assert.ok(result1.shareItems![0].name.startsWith(shareNamePrefix));
     assert.ok(result1.shareItems![0].properties.etag.length > 0);
     assert.ok(result1.shareItems![0].properties.lastModified);
