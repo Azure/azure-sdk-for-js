@@ -9,7 +9,7 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { getChildFolderPaths, fileExistsSync, joinPath, readPackageJsonFileSync, PackageJson, getName } from '@ts-common/azure-js-dev-tools';
-
+import { filename } from "dataplane-list.js";
 
 export function arrayContains<T>(array: T[], el: T): boolean {
   return array.indexOf(el) != -1
@@ -112,7 +112,7 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-export const dataplaneListFilename = "list-dataplane.json";
+export const dataplaneListFilename = filename;
 
 const listDataplanePackages = (dataplaneListFilename: string) => {
   const dataplane: string = fssync.readFileSync(dataplaneListFilename).toString();

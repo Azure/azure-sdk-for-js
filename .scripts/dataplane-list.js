@@ -1,7 +1,7 @@
 const versionUtils = require("../eng/tools/versioning/VersionUtils");
 const process = require("process");
 const dataplaneListFilename = "list-dataplane.json";
-
+module.exports.filename = dataplaneListFilename;
 const parseArgs = () => {
   if (
     process.argv.length < 3 ||
