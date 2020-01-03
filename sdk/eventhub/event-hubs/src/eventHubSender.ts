@@ -535,21 +535,10 @@ export class EventHubSender extends LinkEntity {
    */
   private async _init(options: AwaitableSenderOptions): Promise<void> {
     try {
-      // isOpen isConnecting  Should establish
-      // true     false          No
-      // true     true           No
-      // false    true           No
-      // false    false          Yes
       if (!this.isOpen() && !this.isConnecting) {
-        logger.verbose(
-          "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
         this.isConnecting = true;
         await this._negotiateClaim();
+       
         logger.verbose(
           "[%s] Trying to create sender '%s'...",
           this._context.connectionId,
@@ -559,23 +548,13 @@ export class EventHubSender extends LinkEntity {
         this._sender = await this._context.connection.createAwaitableSender(options);
         this.isConnecting = false;
         logger.verbose(
-          "[%s] Sender '%s' with address '%s' has established itself.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-        this._sender.setMaxListeners(1000);
-        logger.verbose(
-          "[%s] Promise to create the sender resolved. Created sender with name: %s",
-          this._context.connectionId,
-          this.name
-        );
-        logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.connectionId,
           this.name,
           options
         );
+        this._sender.setMaxListeners(1000);
+       
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;

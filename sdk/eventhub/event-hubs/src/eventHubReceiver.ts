@@ -491,32 +491,23 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    * @returns
    */
-  async initialize(options?: RheaReceiverOptions): Promise<void> {
+  async initialize(): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
-        logger.verbose(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-        // attempt creating a connection
         this.isConnecting = true;
         await this._negotiateClaim();
-        if (!options) {
-          const receiverOptions: CreateReceiverOptions = {
-            onClose: (context: EventContext) => this._onAmqpClose(context),
-            onError: (context: EventContext) => this._onAmqpError(context),
-            onMessage: (context: EventContext) => this._onAmqpMessage(context),
-            onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
-            onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
-          };
-          if (this.checkpoint > -1) {
-            receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
-          }
-          options = this._createReceiverOptions(receiverOptions);
+        
+        const receiverOptions: CreateReceiverOptions = {
+          onClose: (context: EventContext) => this._onAmqpClose(context),
+          onError: (context: EventContext) => this._onAmqpError(context),
+          onMessage: (context: EventContext) => this._onAmqpMessage(context),
+          onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
+          onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
+        };
+        if (this.checkpoint > -1) {
+          receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
         }
+        const options = this._createReceiverOptions(receiverOptions);
 
         logger.verbose(
           "[%s] Trying to create receiver '%s' with options %O",
@@ -526,16 +517,6 @@ export class EventHubReceiver extends LinkEntity {
         );
         this._receiver = await this._context.connection.createReceiver(options);
         this.isConnecting = false;
-        logger.info(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-        logger.verbose(
-          "Promise to create the receiver resolved. Created receiver with name: ",
-          this.name
-        );
         logger.verbose(
           "[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId,
