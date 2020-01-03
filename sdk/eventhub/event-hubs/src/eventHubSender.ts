@@ -128,6 +128,10 @@ export class EventHubSender extends LinkEntity {
         this.address,
         sender ? sender.isItselfClosed().toString(): undefined
       );
+      if (sender) {
+        // Call close to clean up timers & other resources
+        await sender.close();
+      }
     };
 
     this._onSessionClose = async (context: EventContext) => {
@@ -140,6 +144,10 @@ export class EventHubSender extends LinkEntity {
         this.address,
         sender ? sender.isSessionItselfClosed().toString(): undefined
       );
+      if (sender) {
+        // Call close to clean up timers & other resources
+        await sender.close();
+      }
     };
   }
 

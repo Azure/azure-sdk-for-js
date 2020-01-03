@@ -285,12 +285,16 @@ export class EventHubReceiver extends LinkEntity {
     const rheaReceiver = this._receiver || context.receiver;
     logger.verbose(
       "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s'. " +
-        "Value for isItselfClosed on the receiver is: '%s'",
+        "Value for isItselfClosed on the receiver is: '%s'.",
       this._context.connectionId,
       this.name,
       this.address,
       rheaReceiver ? rheaReceiver.isItselfClosed().toString(): undefined
     );
+    if (rheaReceiver) {
+      // Call close to clean up timers & other resources
+      await rheaReceiver.close();
+    }
   }
 
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
@@ -303,6 +307,10 @@ export class EventHubReceiver extends LinkEntity {
       this.address,
       rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString(): undefined
     );
+    if (rheaReceiver) {
+      // Call close to clean up timers & other resources
+      await rheaReceiver.close();
+    }
   }
 
   async abort(): Promise<void> {
