@@ -99,6 +99,8 @@ export class ServiceBusClient {
       // connectionString and options based constructor was invoked
       connectionString = hostOrConnectionString;
       config = ConnectionConfig.create(connectionString);
+
+      options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
       config.webSocket = options && options.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
       config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
