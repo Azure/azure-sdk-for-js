@@ -41,8 +41,19 @@
     "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
     "lint": "eslint src tests --ext .ts && markdownlint README.md docs",
     "prebuild": "npm run clean",
-    "test:build": "npm run clean && tsc -p tsconfig.json",
-    "test": "npm run test:build && mocha --timeout 10000 --recursive dist/tests"
+    "build:test": "npm run clean && tsc -p tsconfig.json",
+    "test": "npm run build:test && mocha --timeout 10000 --recursive dist/tests"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "prettier": "./prettier.json",
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": ">=6.0.0",
+    "eslint-plugin-no-only-tests": "^2.0.0",
+    "eslint-plugin-promise": "^4.0.0"
   },
   "dependencies": {
     "eslint-config-prettier": "^6.0.0",
@@ -66,17 +77,7 @@
     "eslint": "^6.1.0",
     "markdownlint-cli": "^0.17.0",
     "mocha": "^6.2.2",
-    "prettier": "^1.16.4"
-  },
-  "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "eslint": ">=6.0.0",
-    "eslint-plugin-no-only-tests": "^2.0.0",
-    "eslint-plugin-promise": "^4.0.0"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "prettier": "./prettier.json"
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0"
+  }
 }
