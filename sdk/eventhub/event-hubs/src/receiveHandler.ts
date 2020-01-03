@@ -54,7 +54,7 @@ export class ReceiveHandler {
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
     if (this._receiver) {

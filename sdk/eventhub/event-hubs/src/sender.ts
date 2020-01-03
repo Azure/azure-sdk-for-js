@@ -151,12 +151,12 @@ export class EventHubProducer {
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
    * @returns Promise<void>
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   * @throws {MessagingError} Thrown if an error is encountered while sending a message.
-   * @throws {TypeError} Thrown if a required parameter is missing.
-   * @throws {Error} Thrown if the underlying connection or sender has been closed.
-   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
-   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws TypeError if a required parameter is missing.
+   * @throws Error if the underlying connection or sender has been closed.
+   * @throws Error if a partitionKey is provided when the producer was created with a partitionId.
+   * @throws Error if batch was created with partitionKey different than the one provided in the options.
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(
@@ -221,7 +221,7 @@ export class EventHubProducer {
    * Use the `createProducer` function on the EventHubClient to instantiate a new EventHubProducer.
    *
    * @returns
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
