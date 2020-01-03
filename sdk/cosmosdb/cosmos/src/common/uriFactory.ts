@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "./constants";
 import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
 
@@ -32,7 +34,9 @@ export function createDocumentCollectionUri(databaseId: string, collectionId: st
   collectionId = trimSlashFromLeftAndRight(collectionId);
   validateResourceId(collectionId);
 
-  return createDatabaseUri(databaseId) + "/" + Constants.Path.CollectionsPathSegment + "/" + collectionId;
+  return (
+    createDatabaseUri(databaseId) + "/" + Constants.Path.CollectionsPathSegment + "/" + collectionId
+  );
 }
 
 /**
@@ -69,7 +73,11 @@ export function createDocumentUri(databaseId: string, collectionId: string, docu
   validateResourceId(documentId);
 
   return (
-    createDocumentCollectionUri(databaseId, collectionId) + "/" + Constants.Path.DocumentsPathSegment + "/" + documentId
+    createDocumentCollectionUri(databaseId, collectionId) +
+    "/" +
+    Constants.Path.DocumentsPathSegment +
+    "/" +
+    documentId
   );
 }
 
@@ -87,7 +95,13 @@ export function createPermissionUri(databaseId: string, userId: string, permissi
   permissionId = trimSlashFromLeftAndRight(permissionId);
   validateResourceId(permissionId);
 
-  return createUserUri(databaseId, userId) + "/" + Constants.Path.PermissionsPathSegment + "/" + permissionId;
+  return (
+    createUserUri(databaseId, userId) +
+    "/" +
+    Constants.Path.PermissionsPathSegment +
+    "/" +
+    permissionId
+  );
 }
 
 /**
@@ -102,7 +116,11 @@ export function createPermissionUri(databaseId: string, userId: string, permissi
  * Azure Cosmos DB database service.
  * @ignore
  */
-export function createStoredProcedureUri(databaseId: string, collectionId: string, storedProcedureId: string) {
+export function createStoredProcedureUri(
+  databaseId: string,
+  collectionId: string,
+  storedProcedureId: string
+) {
   storedProcedureId = trimSlashFromLeftAndRight(storedProcedureId);
   validateResourceId(storedProcedureId);
 
@@ -131,7 +149,11 @@ export function createTriggerUri(databaseId: string, collectionId: string, trigg
   validateResourceId(triggerId);
 
   return (
-    createDocumentCollectionUri(databaseId, collectionId) + "/" + Constants.Path.TriggersPathSegment + "/" + triggerId
+    createDocumentCollectionUri(databaseId, collectionId) +
+    "/" +
+    Constants.Path.TriggersPathSegment +
+    "/" +
+    triggerId
   );
 }
 
@@ -146,7 +168,11 @@ export function createTriggerUri(databaseId: string, collectionId: string, trigg
  * Azure Cosmos DB database service
  * @ignore
  */
-export function createUserDefinedFunctionUri(databaseId: string, collectionId: string, udfId: string) {
+export function createUserDefinedFunctionUri(
+  databaseId: string,
+  collectionId: string,
+  udfId: string
+) {
   udfId = trimSlashFromLeftAndRight(udfId);
   validateResourceId(udfId);
 
@@ -174,7 +200,11 @@ export function createConflictUri(databaseId: string, collectionId: string, conf
   validateResourceId(conflictId);
 
   return (
-    createDocumentCollectionUri(databaseId, collectionId) + "/" + Constants.Path.ConflictsPathSegment + "/" + conflictId
+    createDocumentCollectionUri(databaseId, collectionId) +
+    "/" +
+    Constants.Path.ConflictsPathSegment +
+    "/" +
+    conflictId
   );
 }
 
@@ -217,5 +247,9 @@ export function createAttachmentUri(
  * @ignore
  */
 export function createPartitionKeyRangesUri(databaseId: string, collectionId: string) {
-  return createDocumentCollectionUri(databaseId, collectionId) + "/" + Constants.Path.PartitionKeyRangesPathSegment;
+  return (
+    createDocumentCollectionUri(databaseId, collectionId) +
+    "/" +
+    Constants.Path.PartitionKeyRangesPathSegment
+  );
 }

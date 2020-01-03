@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
@@ -37,12 +39,12 @@ export class Users {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.user,
         resourceId: id,
-        resultFn: result => result.Users,
+        resultFn: (result) => result.Users,
         query,
         options: innerOptions
       });

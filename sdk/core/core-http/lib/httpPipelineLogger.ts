@@ -29,8 +29,7 @@ export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
    * Create a new ConsoleHttpPipelineLogger.
    * @param minimumLogLevel The log level threshold for what logs will be logged.
    */
-  constructor(public minimumLogLevel: HttpPipelineLogLevel) {
-  }
+  constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
 
   /**
    * Log the provided message.
@@ -40,17 +39,17 @@ export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
   log(logLevel: HttpPipelineLogLevel, message: string): void {
     const logMessage = `${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
-    case HttpPipelineLogLevel.ERROR:
-      console.error(logMessage);
-      break;
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
 
-    case HttpPipelineLogLevel.WARNING:
-      console.warn(logMessage);
-      break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
 
-    case HttpPipelineLogLevel.INFO:
-      console.log(logMessage);
-      break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
     }
   }
 }

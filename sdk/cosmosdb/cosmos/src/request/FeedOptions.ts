@@ -1,11 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { SharedOptions } from "./SharedOptions";
 
 /**
  * The feed options and query methods.
  */
 export interface FeedOptions extends SharedOptions {
-  /** Opaque token for continuing the enumeration. Default: undefined */
+  /** Opaque token for continuing the enumeration. Default: undefined
+   * @deprecated Use continuationToken instead.
+   */
   continuation?: string;
+  /** Opaque token for continuing the enumeration. Default: undefined */
+  continuationToken?: string;
   /**
    * Limits the size of the continuation token in the response. Default: undefined
    *
@@ -37,7 +43,7 @@ export interface FeedOptions extends SharedOptions {
    */
   maxItemCount?: number;
   /**
-   * Note: consider using readChangeFeed instead.
+   * Note: consider using changeFeed instead.
    *
    * Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. Default: false
    */

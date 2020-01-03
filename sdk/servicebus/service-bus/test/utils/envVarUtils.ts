@@ -76,7 +76,9 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
       defaultValue = "unpartitioned-queue-sessions";
       break;
     case EnvVarKeys.TOPIC_NAME:
-      defaultValue = "partitioned-topic";
+      // The name has been updated to use a different one
+      // For more details see https://github.com/Azure/azure-sdk-for-js/issues/6682
+      defaultValue = "new-partitioned-topic";
       break;
     case EnvVarKeys.TOPIC_NAME_NO_PARTITION:
       defaultValue = "unpartitioned-topic";

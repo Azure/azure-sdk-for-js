@@ -1,5 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "../common";
+import {
+  Constants,
+  getIdFromLink,
+  getPathFromLink,
+  ResourceType,
+  StatusCodes,
+  SubStatusCodes
+} from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
@@ -122,12 +131,12 @@ export class DocumentProducer {
     if (allFetched) {
       this.allFetched = true;
     }
-    if (this.internalExecutionContext.continuation === this.continuationToken) {
+    if (this.internalExecutionContext.continuationToken === this.continuationToken) {
       // nothing changed
       return;
     }
     this.previousContinuationToken = this.continuationToken;
-    this.continuationToken = this.internalExecutionContext.continuation;
+    this.continuationToken = this.internalExecutionContext.continuationToken;
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any) {
@@ -150,7 +159,10 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse } = await this.internalExecutionContext.fetchMore();
+      const {
+        result: resources,
+        headers: headerResponse
+      } = await this.internalExecutionContext.fetchMore();
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -168,7 +180,9 @@ export class DocumentProducer {
 
         // Wraping query metrics in a object where the keys are the partition key range.
         headerResponse[Constants.HttpHeaders.QueryMetrics] = {};
-        headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] = queryMetrics;
+        headerResponse[Constants.HttpHeaders.QueryMetrics][
+          this.targetPartitionKeyRange.id
+        ] = queryMetrics;
       }
 
       return { result: resources, headers: headerResponse };
@@ -271,16 +285,11 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    try {
-      const { result, headers } = await this.bufferMore();
-      if (result === undefined) {
-        return { result: undefined, headers };
-      }
-      mergeHeaders(this.respHeaders, headers);
-
-      return this.current();
-    } catch (err) {
-      throw err;
+    const { result, headers } = await this.bufferMore();
+    mergeHeaders(this.respHeaders, headers);
+    if (result === undefined) {
+      return { result: undefined, headers: this.respHeaders };
     }
+    return this.current();
   }
 }

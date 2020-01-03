@@ -8,6 +8,10 @@ import {
   BrowserLoginStyle,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
+import { createSpan } from "../util/tracing";
+import { CanonicalCode } from "@opentelemetry/types";
+import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
+import { logger } from "../util/logging";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -28,8 +32,16 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions) {
-    options = { ...IdentityClient.getDefaultOptions(), ...options };
+  constructor(options?: InteractiveBrowserCredentialOptions) {
+    options = {
+      ...IdentityClient.getDefaultOptions(),
+      ...options,
+      tenantId: (options && options.tenantId) || DefaultTenantId,
+      // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
+      // Developer Sign On application is available
+      // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
+      clientId: (options && options.clientId) || DeveloperSignOnClientId
+    };
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
@@ -38,8 +50,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.msalConfig = {
       auth: {
-        clientId: clientId,
-        authority: `${options.authorityHost}/${tenantId}`,
+        clientId: options.clientId!, // we just initialized it above
+        authority: `${options.authorityHost}/${options.tenantId}`,
         ...(options.redirectUri && { redirectUri: options.redirectUri }),
         ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
       },
@@ -71,6 +83,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<msal.AuthResponse | undefined> {
     let authResponse: msal.AuthResponse | undefined;
     try {
+      logger.info("InteractiveBrowserCredential: attempting to acquire token silently");
       authResponse = await this.msalObject.acquireTokenSilent(authParams);
     } catch (err) {
       if (err instanceof msal.AuthError) {
@@ -78,8 +91,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
           case "consent_required":
           case "interaction_required":
           case "login_required":
+            logger.warning(
+              `InteractiveBrowserCredential: authentication returned errorCode ${err.errorCode}`
+            );
             break;
           default:
+            logger.warning(`InteractiveBrowserCredential: failed to acquire token: ${err}`);
             throw err;
         }
       }
@@ -87,6 +104,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
+      logger.warning(
+        `InteractiveBrowserCredential: silent authentication failed, falling back to interactive method ${this.loginStyle}`
+      );
       switch (this.loginStyle) {
         case "redirect":
           authPromise = new Promise((resolve, reject) => {
@@ -106,6 +126,10 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   /**
+   * Authenticates with Azure Active Directory and returns an access token if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
    *
    * @param scopes The list of scopes for which the token will have access.
    * @param options The options used to configure any requests this
@@ -113,23 +137,34 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions // eslint-disable-line @typescript-eslint/no-unused-vars
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    if (!this.msalObject.getAccount()) {
-      await this.login();
-    }
+    const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
+    try {
+      if (!this.msalObject.getAccount()) {
+        await this.login();
+      }
 
-    const authResponse = await this.acquireToken({
-      scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
-    });
+      const authResponse = await this.acquireToken({
+        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
+      });
 
-    if (authResponse) {
-      return {
-        token: authResponse.accessToken,
-        expiresOnTimestamp: authResponse.expiresOn.getTime()
-      };
-    } else {
-      return null;
+      if (authResponse) {
+        return {
+          token: authResponse.accessToken,
+          expiresOnTimestamp: authResponse.expiresOn.getTime()
+        };
+      } else {
+        return null;
+      }
+    } catch (err) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
     }
   }
 }

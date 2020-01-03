@@ -278,11 +278,12 @@ export class PathOperations {
   }
 
   /**
-   * Get the properties for a file or directory, and optionally include the access control list.
-   * This operation supports conditional HTTP requests.  For more information, see [Specifying
-   * Conditional Headers for Blob Service
+   * Get Properties returns all system and user defined properties for a path. Get Status returns all
+   * system defined properties for a path. Get Access Control List returns the access control list
+   * for a path. This operation supports conditional HTTP requests.  For more information, see
+   * [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
-   * @summary Get Properties | Get Access Control List
+   * @summary Get Properties | Get Status | Get Access Control List
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
    * @param [options] The optional parameters
@@ -357,13 +358,14 @@ const listOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem0
+    Parameters.filesystem
   ],
   queryParameters: [
     Parameters.directory,
     Parameters.recursive0,
     Parameters.continuation,
     Parameters.maxResults,
+    Parameters.upn,
     Parameters.resource1,
     Parameters.timeout
   ],
@@ -391,7 +393,7 @@ const createOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [
@@ -412,10 +414,10 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.xMsContentDisposition,
     Parameters.xMsRenameSource,
     Parameters.xMsLeaseId,
-    Parameters.xMsProposedLeaseId,
     Parameters.xMsSourceLeaseId,
     Parameters.xMsProperties,
     Parameters.xMsPermissions,
+    Parameters.xMsUmask,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.ifModifiedSince,
@@ -446,24 +448,26 @@ const updateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [
     Parameters.action0,
     Parameters.position,
     Parameters.retainUncommittedData,
+    Parameters.close,
     Parameters.timeout
   ],
   headerParameters: [
     Parameters.contentLength,
-    Parameters.xMsLeaseAction0,
+    Parameters.contentMD5,
     Parameters.xMsLeaseId,
     Parameters.xMsCacheControl,
     Parameters.xMsContentType,
     Parameters.xMsContentDisposition,
     Parameters.xMsContentEncoding,
     Parameters.xMsContentLanguage,
+    Parameters.xMsContentMd5,
     Parameters.xMsProperties,
     Parameters.xMsOwner,
     Parameters.xMsGroup,
@@ -511,14 +515,14 @@ const leaseOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [
     Parameters.timeout
   ],
   headerParameters: [
-    Parameters.xMsLeaseAction1,
+    Parameters.xMsLeaseAction,
     Parameters.xMsLeaseDuration,
     Parameters.xMsLeaseBreakPeriod,
     Parameters.xMsLeaseId,
@@ -555,7 +559,7 @@ const readOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [
@@ -563,6 +567,8 @@ const readOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.range,
+    Parameters.xMsLeaseId,
+    Parameters.xMsRangeGetContentMd5,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.ifModifiedSince,
@@ -604,14 +610,16 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [
     Parameters.action1,
+    Parameters.upn,
     Parameters.timeout
   ],
   headerParameters: [
+    Parameters.xMsLeaseId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.ifModifiedSince,
@@ -638,7 +646,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.accountName,
     Parameters.dnsSuffix,
-    Parameters.filesystem1,
+    Parameters.filesystem,
     Parameters.path
   ],
   queryParameters: [

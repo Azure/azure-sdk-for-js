@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/appendBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -37,14 +37,14 @@ export class AppendBlob {
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  create(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
+  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -63,21 +63,21 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobAppendBlockResponse>
    */
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
+  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -104,15 +104,15 @@ export class AppendBlob {
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
     return this.client.sendOperationRequest(
       {
         sourceUrl,
@@ -125,15 +125,15 @@ export class AppendBlob {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -161,21 +161,22 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AppendBlobCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobCreateHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const appendBlockOperationSpec: msRest.OperationSpec = {
+const appendBlockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp15
   ],
   headerParameters: [
@@ -211,21 +212,22 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AppendBlobAppendBlockHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobAppendBlockHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
+const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp15
   ],
   headerParameters: [
@@ -257,7 +259,8 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
     }
   },
   isXML: true,

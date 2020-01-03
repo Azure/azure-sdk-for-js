@@ -29,7 +29,7 @@ declare global {
    * Stub declaration of the browser-only Blob type.
    * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
    */
-  interface Blob { }
+  interface Blob {}
 }
 
 /**

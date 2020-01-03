@@ -30,3 +30,4 @@ jobs:
         CLEAN_NAMESPACE: "true"
         RESOURCE_GROUP: $(service-bus-test-resource-group)
         SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+        SERVICEBUS_CONNECTION_STRING_BROWSER: $(service-bus-test-connection-string-browser)

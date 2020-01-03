@@ -1,8 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../dist-esm";
 import { Container } from "../../dist-esm/client";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
@@ -86,11 +93,19 @@ describe("Queries", function() {
         maxItemCount: 2
       });
       const firstResponse = await queryIterator.fetchNext();
-
+      assert(firstResponse.continuationToken);
       assert(firstResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(firstResponse.resources.length, 2, "first batch size should be 2");
-      assert.equal(firstResponse.resources[0].id, resources.doc1.id, "first batch first document should be doc1");
-      assert.equal(firstResponse.resources[1].id, resources.doc2.id, "batch first second document should be doc2");
+      assert.equal(
+        firstResponse.resources[0].id,
+        resources.doc1.id,
+        "first batch first document should be doc1"
+      );
+      assert.equal(
+        firstResponse.resources[1].id,
+        resources.doc2.id,
+        "batch first second document should be doc2"
+      );
       const { resources: docs2 } = await queryIterator.fetchNext();
       assert.equal(docs2.length, 1, "second batch size is unexpected");
       assert.equal(docs2[0].id, resources.doc3.id, "second batch element should be doc3");
@@ -98,12 +113,21 @@ describe("Queries", function() {
       // validate Iterator.executeNext with continuation token
       queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
-        continuation: firstResponse.continuation
+        continuationToken: firstResponse.continuationToken
       });
       const secondResponse = await queryIterator.fetchNext();
+      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
-      assert.equal(secondResponse.resources.length, 1, "second batch size with continuation token is unexpected");
-      assert.equal(secondResponse.resources[0].id, resources.doc3.id, "second batch element should be doc3");
+      assert.equal(
+        secondResponse.resources.length,
+        1,
+        "second batch size with continuation token is unexpected"
+      );
+      assert.equal(
+        secondResponse.resources[0].id,
+        resources.doc3.id,
+        "second batch element should be doc3"
+      );
     });
   });
 });

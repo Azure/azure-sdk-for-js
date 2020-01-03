@@ -18,6 +18,19 @@
     // "some-library": "1.2.3"
   },
   /**
+   * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
+   * except in cases where different projects specify different version ranges for a given dependency.  For older
+   * package managers, this tended to reduce duplication of indirect dependencies.  However, it can sometimes cause
+   * trouble for indirect dependencies with incompatible peerDependencies ranges.
+   *
+   * The default value is true.  If you're encountering installation errors related to peer dependencies,
+   * it's recommended to set this to false.
+   *
+   * After modifying this field, it's recommended to run "rush update --full" so that the package manager
+   * will recalculate all version selections.
+   */
+  "implicitlyPreferredVersions": false,
+  /**
    * The "rush check" command can be used to enforce that every project in the repo must specify
    * the same SemVer range for a given dependency.  However, sometimes exceptions are needed.
    * The allowedAlternativeVersions table allows you to list other SemVer ranges that will be
@@ -28,6 +41,7 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
+    "@azure/ms-rest-js": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
@@ -35,13 +49,10 @@
     // "typescript": [
     //   "~2.4.0"
     // ]
-    // service-bus is not ready to update to @azure/core-amqp@1.0.0-preview.2
-    "@azure/core-amqp": ["1.0.0-preview.1"],
-    "@azure/ms-rest-js": ["^2.0.0"],
     // Following is required to allow for backward compatibility with Service Bus Track 1
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
     "rhea-promise": ["^0.1.15"],
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
-    "@azure/event-hubs": ["^2.1.1"]
+    "@azure/event-hubs": ["^2.1.4"]
   }
 }

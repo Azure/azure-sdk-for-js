@@ -4,7 +4,7 @@
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessage } from "../serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import {
   MessageReceiver,
   ReceiveOptions,
@@ -61,17 +61,18 @@ export class BatchingReceiver extends MessageReceiver {
 
   /**
    * Receives a batch of messages from a ServiceBus Queue/Topic.
-   * @param maxMessageCount      The maximum number of messages to receive.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxMessageCount The maximum number of messages to receive.
+   * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
+   * - **Default**: `60` seconds.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
+  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
-    if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
+    if (maxWaitTimeInSeconds == null) {
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -89,7 +90,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
+        let error = new MessagingError("An error occurred while receiving messages.");
         if (sessionError) {
           error = translate(sessionError);
           log.error(
@@ -260,7 +261,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
+        let error = new MessagingError("An error occurred while receiving messages.");
         if (receiverError) {
           error = translate(receiverError);
           log.error(
@@ -279,24 +280,27 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
-      /**
-       * Resets the timer when a new message is received. If no messages were received for
-       * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-       * receiver link stays open for the next receive call, but doesnt receive messages until then
-       */
-      this.resetTimerOnNewMessageReceived = () => {
-        if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-        if (this.newMessageWaitTimeoutInSeconds) {
-          this._newMessageReceivedTimer = setTimeout(async () => {
-            const msg =
-              `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
-              `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
-              `Hence ending this batch receive operation.`;
-            log.error("[%s] %s", this._context.namespace.connectionId, msg);
-            finalAction();
-          }, this.newMessageWaitTimeoutInSeconds * 1000);
-        }
-      };
+      // Use new message wait timer only in peekLock mode
+      if (this.receiveMode === ReceiveMode.peekLock) {
+        /**
+         * Resets the timer when a new message is received. If no messages were received for
+         * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
+         * receiver link stays open for the next receive call, but doesnt receive messages until then.
+         */
+        this.resetTimerOnNewMessageReceived = () => {
+          if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+          if (this.newMessageWaitTimeoutInSeconds) {
+            this._newMessageReceivedTimer = setTimeout(async () => {
+              const msg =
+                `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
+                `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+                `Hence ending this batch receive operation.`;
+              log.error("[%s] %s", this._context.namespace.connectionId, msg);
+              finalAction();
+            }, this.newMessageWaitTimeoutInSeconds * 1000);
+          }
+        };
+      }
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {
@@ -304,7 +308,7 @@ export class BatchingReceiver extends MessageReceiver {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          idleTimeoutInSeconds
+          maxWaitTimeInSeconds
         );
         return finalAction();
       };
@@ -359,14 +363,14 @@ export class BatchingReceiver extends MessageReceiver {
         // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
         // number of messages concurrently. We will return the user an array of messages that can
         // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-        // (complete,/abandon/defer/deadletter) the messages from the array.
+        // (complete/abandon/defer/deadletter) the messages from the array.
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
-          (idleTimeoutInSeconds as number) * 1000
+          (maxWaitTimeInSeconds as number) * 1000
         );
         // TODO: Disabling this for now. We would want to give the user a decent chance to receive
         // the first message and only timeout faster if successive messages from there onwards are

@@ -154,8 +154,9 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
     data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
     data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
     data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
-    data.retrievalTime = new Date(msg.delivery_annotations
-      .runtime_info_retrieval_time_utc as number);
+    data.retrievalTime = new Date(
+      msg.delivery_annotations.runtime_info_retrieval_time_utc as number
+    );
   }
 
   return data;

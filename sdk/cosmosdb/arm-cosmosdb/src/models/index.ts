@@ -118,14 +118,14 @@ export interface VirtualNetworkRule {
 /**
  * The core properties of ARM resources.
  */
-export interface Resource extends BaseResource {
+export interface ARMResourceProperties extends BaseResource {
   /**
-   * The unique resource identifier of the database account.
+   * The unique resource identifier of the ARM resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * The name of the database account.
+   * The name of the ARM resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
@@ -144,7 +144,7 @@ export interface Resource extends BaseResource {
 /**
  * An Azure Cosmos DB database account.
  */
-export interface DatabaseAccount extends Resource {
+export interface DatabaseAccountGetResults extends ARMResourceProperties {
   /**
    * Indicates the type of database account. This can only be set at database account creation.
    * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'. Default value:
@@ -198,6 +198,11 @@ export interface DatabaseAccount extends Resource {
    */
   readonly readLocations?: Location[];
   /**
+   * An array that contains all of the locations enabled for the Cosmos DB account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: Location[];
+  /**
    * An array that contains the regions ordered by their failover priorities.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -219,29 +224,37 @@ export interface DatabaseAccount extends Resource {
    * include: 'Small'
    */
   connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
 }
 
 /**
- * An Azure Cosmos DB SQL database.
+ * An interface representing SqlDatabaseGetPropertiesResource.
  */
-export interface SqlDatabase extends Resource {
+export interface SqlDatabaseGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL database
    */
-  sqlDatabaseId: string;
+  id: string;
   /**
    * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _rid?: string;
+  readonly _rid?: string;
   /**
    * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _ts?: any;
+  readonly _ts?: any;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _etag?: string;
+  readonly _etag?: string;
   /**
    * A system generated property that specified the addressable path of the collections resource.
    */
@@ -250,6 +263,13 @@ export interface SqlDatabase extends Resource {
    * A system generated property that specifies the addressable path of the users resource.
    */
   _users?: string;
+}
+
+/**
+ * An Azure Cosmos DB SQL database.
+ */
+export interface SqlDatabaseGetResults extends ARMResourceProperties {
+  resource?: SqlDatabaseGetPropertiesResource;
 }
 
 /**
@@ -299,6 +319,36 @@ export interface ExcludedPath {
 }
 
 /**
+ * An interface representing CompositePath.
+ */
+export interface CompositePath {
+  /**
+   * The path for which the indexing behavior applies to. Index paths typically start with root and
+   * end with wildcard (/path/*)
+   */
+  path?: string;
+  /**
+   * Sort order for composite paths. Possible values include: 'Ascending', 'Descending'
+   */
+  order?: CompositePathSortOrder;
+}
+
+/**
+ * An interface representing SpatialSpec.
+ */
+export interface SpatialSpec {
+  /**
+   * The path for which the indexing behavior applies to. Index paths typically start with root and
+   * end with wildcard (/path/*)
+   */
+  path?: string;
+  /**
+   * List of path's spatial type
+   */
+  types?: SpatialType[];
+}
+
+/**
  * Cosmos DB indexing policy
  */
 export interface IndexingPolicy {
@@ -319,6 +369,14 @@ export interface IndexingPolicy {
    * List of paths to exclude from indexing
    */
   excludedPaths?: ExcludedPath[];
+  /**
+   * List of composite path list
+   */
+  compositeIndexes?: CompositePath[][];
+  /**
+   * List of spatial specifics
+   */
+  spatialIndexes?: SpatialSpec[];
 }
 
 /**
@@ -334,6 +392,10 @@ export interface ContainerPartitionKey {
    * 'Range'. Default value: 'Hash'.
    */
   kind?: PartitionKind;
+  /**
+   * Indicates the version of the partition key definition
+   */
+  version?: number;
 }
 
 /**
@@ -379,13 +441,13 @@ export interface ConflictResolutionPolicy {
 }
 
 /**
- * An Azure Cosmos DB container.
+ * An interface representing SqlContainerGetPropertiesResource.
  */
-export interface SqlContainer extends Resource {
+export interface SqlContainerGetPropertiesResource {
   /**
    * Name of the Cosmos DB SQL container
    */
-  sqlContainerId: string;
+  id: string;
   /**
    * The configuration of the indexing policy. By default, the indexing is automatic for all
    * document paths within the container
@@ -411,37 +473,228 @@ export interface SqlContainer extends Resource {
   conflictResolutionPolicy?: ConflictResolutionPolicy;
   /**
    * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _rid?: string;
+  readonly _rid?: string;
   /**
    * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _ts?: any;
+  readonly _ts?: any;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _etag?: string;
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB container.
+ */
+export interface SqlContainerGetResults extends ARMResourceProperties {
+  resource?: SqlContainerGetPropertiesResource;
+}
+
+/**
+ * An interface representing SqlStoredProcedureGetPropertiesResource.
+ */
+export interface SqlStoredProcedureGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB SQL storedProcedure
+   */
+  id: string;
+  /**
+   * Body of the Stored Procedure
+   */
+  body?: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB storedProcedure.
+ */
+export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
+  resource?: SqlStoredProcedureGetPropertiesResource;
+}
+
+/**
+ * An interface representing SqlUserDefinedFunctionGetPropertiesResource.
+ */
+export interface SqlUserDefinedFunctionGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB SQL userDefinedFunction
+   */
+  id: string;
+  /**
+   * Body of the User Defined Function
+   */
+  body?: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB userDefinedFunction.
+ */
+export interface SqlUserDefinedFunctionGetResults extends ARMResourceProperties {
+  resource?: SqlUserDefinedFunctionGetPropertiesResource;
+}
+
+/**
+ * An interface representing SqlTriggerGetPropertiesResource.
+ */
+export interface SqlTriggerGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB SQL trigger
+   */
+  id: string;
+  /**
+   * Body of the Trigger
+   */
+  body?: string;
+  /**
+   * Type of the Trigger. Possible values include: 'Pre', 'Post'
+   */
+  triggerType?: TriggerType;
+  /**
+   * The operation the trigger is associated with. Possible values include: 'All', 'Create',
+   * 'Update', 'Delete', 'Replace'
+   */
+  triggerOperation?: TriggerOperation;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB trigger.
+ */
+export interface SqlTriggerGetResults extends ARMResourceProperties {
+  resource?: SqlTriggerGetPropertiesResource;
+}
+
+/**
+ * An interface representing MongoDBDatabaseGetPropertiesResource.
+ */
+export interface MongoDBDatabaseGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB MongoDB database
+   */
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
 }
 
 /**
  * An Azure Cosmos DB MongoDB database.
  */
-export interface MongoDBDatabase extends Resource {
-  /**
-   * Name of the Cosmos DB MongoDB database
-   */
-  mongoDBDatabaseId: string;
+export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
+  resource?: MongoDBDatabaseGetPropertiesResource;
 }
 
 /**
- * An Azure Cosmos DB MongoDB collection.
+ * Cosmos DB MongoDB collection resource object
  */
-export interface MongoDBCollection extends Resource {
+export interface MongoIndexKeys {
+  /**
+   * List of keys for each MongoDB collection in the Azure Cosmos DB service
+   */
+  keys?: string[];
+}
+
+/**
+ * Cosmos DB MongoDB collection index options
+ */
+export interface MongoIndexOptions {
+  /**
+   * Expire after seconds
+   */
+  expireAfterSeconds?: number;
+  /**
+   * Is unique or not
+   */
+  unique?: boolean;
+}
+
+/**
+ * Cosmos DB MongoDB collection index key
+ */
+export interface MongoIndex {
+  /**
+   * Cosmos DB MongoDB collection index keys
+   */
+  key?: MongoIndexKeys;
+  /**
+   * Cosmos DB MongoDB collection index key options
+   */
+  options?: MongoIndexOptions;
+}
+
+/**
+ * An interface representing MongoDBCollectionGetPropertiesResource.
+ */
+export interface MongoDBCollectionGetPropertiesResource {
   /**
    * Name of the Cosmos DB MongoDB collection
    */
-  mongoDBCollectionId: string;
+  id: string;
   /**
    * A key-value pair of shard keys to be applied for the request.
    */
@@ -450,36 +703,161 @@ export interface MongoDBCollection extends Resource {
    * List of index keys
    */
   indexes?: MongoIndex[];
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB MongoDB collection.
+ */
+export interface MongoDBCollectionGetResults extends ARMResourceProperties {
+  resource?: MongoDBCollectionGetPropertiesResource;
+}
+
+/**
+ * An interface representing TableGetPropertiesResource.
+ */
+export interface TableGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB table
+   */
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
 }
 
 /**
  * An Azure Cosmos DB Table.
  */
-export interface Table extends Resource {
+export interface TableGetResults extends ARMResourceProperties {
+  resource?: TableGetPropertiesResource;
+}
+
+/**
+ * An interface representing CassandraKeyspaceGetPropertiesResource.
+ */
+export interface CassandraKeyspaceGetPropertiesResource {
   /**
-   * Name of the Cosmos DB table
+   * Name of the Cosmos DB Cassandra keyspace
    */
-  tableId: string;
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
 }
 
 /**
  * An Azure Cosmos DB Cassandra keyspace.
  */
-export interface CassandraKeyspace extends Resource {
-  /**
-   * Name of the Cosmos DB Cassandra keyspace
-   */
-  cassandraKeyspaceId: string;
+export interface CassandraKeyspaceGetResults extends ARMResourceProperties {
+  resource?: CassandraKeyspaceGetPropertiesResource;
 }
 
 /**
- * An Azure Cosmos DB Cassandra table.
+ * Cosmos DB Cassandra table column
  */
-export interface CassandraTable extends Resource {
+export interface Column {
+  /**
+   * Name of the Cosmos DB Cassandra table column
+   */
+  name?: string;
+  /**
+   * Type of the Cosmos DB Cassandra table column
+   */
+  type?: string;
+}
+
+/**
+ * Cosmos DB Cassandra table partition key
+ */
+export interface CassandraPartitionKey {
+  /**
+   * Name of the Cosmos DB Cassandra table partition key
+   */
+  name?: string;
+}
+
+/**
+ * Cosmos DB Cassandra table cluster key
+ */
+export interface ClusterKey {
+  /**
+   * Name of the Cosmos DB Cassandra table cluster key
+   */
+  name?: string;
+  /**
+   * Order of the Cosmos DB Cassandra table cluster key, only support "Asc" and "Desc"
+   */
+  orderBy?: string;
+}
+
+/**
+ * Cosmos DB Cassandra table schema
+ */
+export interface CassandraSchema {
+  /**
+   * List of Cassandra table columns.
+   */
+  columns?: Column[];
+  /**
+   * List of partition key.
+   */
+  partitionKeys?: CassandraPartitionKey[];
+  /**
+   * List of cluster key.
+   */
+  clusterKeys?: ClusterKey[];
+}
+
+/**
+ * An interface representing CassandraTableGetPropertiesResource.
+ */
+export interface CassandraTableGetPropertiesResource {
   /**
    * Name of the Cosmos DB Cassandra table
    */
-  cassandraTableId: string;
+  id: string;
   /**
    * Time to live of the Cosmos DB Cassandra table
    */
@@ -488,39 +866,72 @@ export interface CassandraTable extends Resource {
    * Schema of the Cosmos DB Cassandra table
    */
   schema?: CassandraSchema;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB Cassandra table.
+ */
+export interface CassandraTableGetResults extends ARMResourceProperties {
+  resource?: CassandraTableGetPropertiesResource;
+}
+
+/**
+ * An interface representing GremlinDatabaseGetPropertiesResource.
+ */
+export interface GremlinDatabaseGetPropertiesResource {
+  /**
+   * Name of the Cosmos DB Gremlin database
+   */
+  id: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
 }
 
 /**
  * An Azure Cosmos DB Gremlin database.
  */
-export interface GremlinDatabase extends Resource {
-  /**
-   * Name of the Cosmos DB Gremlin database
-   */
-  gremlinDatabaseId: string;
-  /**
-   * A system generated property. A unique identifier.
-   */
-  _rid?: string;
-  /**
-   * A system generated property that denotes the last updated timestamp of the resource.
-   */
-  _ts?: any;
-  /**
-   * A system generated property representing the resource etag required for optimistic concurrency
-   * control.
-   */
-  _etag?: string;
+export interface GremlinDatabaseGetResults extends ARMResourceProperties {
+  resource?: GremlinDatabaseGetPropertiesResource;
 }
 
 /**
- * An Azure Cosmos DB Gremlin graph.
+ * An interface representing GremlinGraphGetPropertiesResource.
  */
-export interface GremlinGraph extends Resource {
+export interface GremlinGraphGetPropertiesResource {
   /**
    * Name of the Cosmos DB Gremlin graph
    */
-  gremlinGraphId: string;
+  id: string;
   /**
    * The configuration of the indexing policy. By default, the indexing is automatic for all
    * document paths within the graph
@@ -546,17 +957,27 @@ export interface GremlinGraph extends Resource {
   conflictResolutionPolicy?: ConflictResolutionPolicy;
   /**
    * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _rid?: string;
+  readonly _rid?: string;
   /**
    * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _ts?: any;
+  readonly _ts?: any;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _etag?: string;
+  readonly _etag?: string;
+}
+
+/**
+ * An Azure Cosmos DB Gremlin graph.
+ */
+export interface GremlinGraphGetResults extends ARMResourceProperties {
+  resource?: GremlinGraphGetPropertiesResource;
 }
 
 /**
@@ -594,38 +1015,97 @@ export interface RegionForOnlineOffline {
 }
 
 /**
- * The system generated resource properties associated with SQL databases and SQL containers.
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ARMProxyResource extends BaseResource {
+  /**
+   * The unique resource identifier of the database account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the database account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The system generated resource properties associated with SQL databases, SQL containers, Gremlin
+ * databases and Gremlin graphs.
  */
 export interface ExtendedResourceProperties {
   /**
    * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _rid?: string;
+  readonly _rid?: string;
   /**
    * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _ts?: any;
+  readonly _ts?: any;
   /**
    * A system generated property representing the resource etag required for optimistic concurrency
    * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  _etag?: string;
+  readonly _etag?: string;
+}
+
+/**
+ * An interface representing ThroughputSettingsGetPropertiesResource.
+ */
+export interface ThroughputSettingsGetPropertiesResource {
+  /**
+   * Value of the Cosmos DB resource throughput
+   */
+  throughput: number;
+  /**
+   * The minimum throughput of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minimumThroughput?: string;
+  /**
+   * The throughput replace is pending
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly offerReplacePending?: string;
+  /**
+   * A system generated property. A unique identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _rid?: string;
+  /**
+   * A system generated property that denotes the last updated timestamp of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _ts?: any;
+  /**
+   * A system generated property representing the resource etag required for optimistic concurrency
+   * control.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly _etag?: string;
 }
 
 /**
  * An Azure Cosmos DB resource throughput.
  */
-export interface Throughput extends Resource {
-  /**
-   * Value of the Cosmos DB resource throughput
-   */
-  throughput: number;
+export interface ThroughputSettingsGetResults extends ARMResourceProperties {
+  resource?: ThroughputSettingsGetPropertiesResource;
 }
 
 /**
  * Parameters to create and update Cosmos DB database accounts.
  */
-export interface DatabaseAccountCreateUpdateParameters extends Resource {
+export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
   /**
    * Indicates the type of database account. This can only be set at database account creation.
    * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'. Default value:
@@ -677,17 +1157,72 @@ export interface DatabaseAccountCreateUpdateParameters extends Resource {
    * include: 'Small'
    */
   connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
 }
 
 /**
  * Parameters for patching Azure Cosmos DB database account properties.
  */
-export interface DatabaseAccountPatchParameters {
+export interface DatabaseAccountUpdateParameters {
   tags?: { [propertyName: string]: string };
+  /**
+   * The location of the resource group to which the resource belongs.
+   */
+  location?: string;
+  /**
+   * The consistency policy for the Cosmos DB account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * An array that contains the georeplication locations enabled for the Cosmos DB account.
+   */
+  locations?: Location[];
+  /**
+   * Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges
+   * in CIDR form to be included as the allowed list of client IPs for a given database account. IP
+   * addresses/ranges must be comma separated and must not contain any spaces.
+   */
+  ipRangeFilter?: string;
+  /**
+   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * Enables automatic failover of the write region in the rare event that the region is
+   * unavailable due to an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the account.
+   */
+  enableAutomaticFailover?: boolean;
   /**
    * List of Cosmos DB capabilities for the account
    */
   capabilities?: Capability[];
+  /**
+   * List of Virtual Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * Enables the account to write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
 }
 
 /**
@@ -762,25 +1297,35 @@ export interface DatabaseAccountRegenerateKeyParameters {
 /**
  * Cosmos DB resource throughput object
  */
-export interface ThroughputResource {
+export interface ThroughputSettingsResource {
   /**
    * Value of the Cosmos DB resource throughput
    */
   throughput: number;
+  /**
+   * The minimum throughput of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minimumThroughput?: string;
+  /**
+   * The throughput replace is pending
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly offerReplacePending?: string;
 }
 
 /**
  * Parameters to update Cosmos DB resource throughput.
  */
-export interface ThroughputUpdateParameters {
+export interface ThroughputSettingsUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a resource throughput
    */
-  resource: ThroughputResource;
+  resource: ThroughputSettingsResource;
 }
 
 /**
- * Cosmos DB SQL database id object
+ * Cosmos DB SQL database resource object
  */
 export interface SqlDatabaseResource {
   /**
@@ -792,7 +1337,7 @@ export interface SqlDatabaseResource {
 /**
  * Parameters to create and update Cosmos DB SQL database.
  */
-export interface SqlDatabaseCreateUpdateParameters {
+export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a SQL database
    */
@@ -840,7 +1385,7 @@ export interface SqlContainerResource {
 /**
  * Parameters to create and update Cosmos DB container.
  */
-export interface SqlContainerCreateUpdateParameters {
+export interface SqlContainerCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a container
    */
@@ -853,7 +1398,103 @@ export interface SqlContainerCreateUpdateParameters {
 }
 
 /**
- * Cosmos DB MongoDB database id object
+ * Cosmos DB SQL storedProcedure resource object
+ */
+export interface SqlStoredProcedureResource {
+  /**
+   * Name of the Cosmos DB SQL storedProcedure
+   */
+  id: string;
+  /**
+   * Body of the Stored Procedure
+   */
+  body?: string;
+}
+
+/**
+ * Parameters to create and update Cosmos DB storedProcedure.
+ */
+export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourceProperties {
+  /**
+   * The standard JSON format of a storedProcedure
+   */
+  resource: SqlStoredProcedureResource;
+  /**
+   * A key-value pair of options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * Cosmos DB SQL userDefinedFunction resource object
+ */
+export interface SqlUserDefinedFunctionResource {
+  /**
+   * Name of the Cosmos DB SQL userDefinedFunction
+   */
+  id: string;
+  /**
+   * Body of the User Defined Function
+   */
+  body?: string;
+}
+
+/**
+ * Parameters to create and update Cosmos DB userDefinedFunction.
+ */
+export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourceProperties {
+  /**
+   * The standard JSON format of a userDefinedFunction
+   */
+  resource: SqlUserDefinedFunctionResource;
+  /**
+   * A key-value pair of options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * Cosmos DB SQL trigger resource object
+ */
+export interface SqlTriggerResource {
+  /**
+   * Name of the Cosmos DB SQL trigger
+   */
+  id: string;
+  /**
+   * Body of the Trigger
+   */
+  body?: string;
+  /**
+   * Type of the Trigger. Possible values include: 'Pre', 'Post'
+   */
+  triggerType?: TriggerType;
+  /**
+   * The operation the trigger is associated with. Possible values include: 'All', 'Create',
+   * 'Update', 'Delete', 'Replace'
+   */
+  triggerOperation?: TriggerOperation;
+}
+
+/**
+ * Parameters to create and update Cosmos DB trigger.
+ */
+export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties {
+  /**
+   * The standard JSON format of a trigger
+   */
+  resource: SqlTriggerResource;
+  /**
+   * A key-value pair of options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * Cosmos DB MongoDB database resource object
  */
 export interface MongoDBDatabaseResource {
   /**
@@ -865,7 +1506,7 @@ export interface MongoDBDatabaseResource {
 /**
  * Parameters to create and update Cosmos DB MongoDB database.
  */
-export interface MongoDBDatabaseCreateUpdateParameters {
+export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a MongoDB database
    */
@@ -875,44 +1516,6 @@ export interface MongoDBDatabaseCreateUpdateParameters {
    * sent with the request.
    */
   options: { [propertyName: string]: string };
-}
-
-/**
- * Cosmos DB MongoDB collection resource object
- */
-export interface MongoIndexKeys {
-  /**
-   * List of keys for each MongoDB collection in the Azure Cosmos DB service
-   */
-  keys?: string[];
-}
-
-/**
- * Cosmos DB MongoDB collection index options
- */
-export interface MongoIndexOptions {
-  /**
-   * Expire after seconds
-   */
-  expireAfterSeconds?: number;
-  /**
-   * Is unique or not
-   */
-  unique?: boolean;
-}
-
-/**
- * Cosmos DB MongoDB collection index key
- */
-export interface MongoIndex {
-  /**
-   * Cosmos DB MongoDB collection index keys
-   */
-  key?: MongoIndexKeys;
-  /**
-   * Cosmos DB MongoDB collection index key options
-   */
-  options?: MongoIndexOptions;
 }
 
 /**
@@ -936,7 +1539,7 @@ export interface MongoDBCollectionResource {
 /**
  * Parameters to create and update Cosmos DB MongoDB collection.
  */
-export interface MongoDBCollectionCreateUpdateParameters {
+export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a MongoDB collection
    */
@@ -949,7 +1552,7 @@ export interface MongoDBCollectionCreateUpdateParameters {
 }
 
 /**
- * Cosmos DB table id object
+ * Cosmos DB table resource object
  */
 export interface TableResource {
   /**
@@ -961,7 +1564,7 @@ export interface TableResource {
 /**
  * Parameters to create and update Cosmos DB Table.
  */
-export interface TableCreateUpdateParameters {
+export interface TableCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a Table
    */
@@ -974,7 +1577,7 @@ export interface TableCreateUpdateParameters {
 }
 
 /**
- * Cosmos DB Cassandra keyspace id object
+ * Cosmos DB Cassandra keyspace resource object
  */
 export interface CassandraKeyspaceResource {
   /**
@@ -986,7 +1589,7 @@ export interface CassandraKeyspaceResource {
 /**
  * Parameters to create and update Cosmos DB Cassandra keyspace.
  */
-export interface CassandraKeyspaceCreateUpdateParameters {
+export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a Cassandra keyspace
    */
@@ -999,63 +1602,7 @@ export interface CassandraKeyspaceCreateUpdateParameters {
 }
 
 /**
- * Cosmos DB Cassandra table column
- */
-export interface Column {
-  /**
-   * Name of the Cosmos DB Cassandra table column
-   */
-  name?: string;
-  /**
-   * Type of the Cosmos DB Cassandra table column
-   */
-  type?: string;
-}
-
-/**
- * Cosmos DB Cassandra table partition key
- */
-export interface CassandraPartitionKey {
-  /**
-   * Name of the Cosmos DB Cassandra table partition key
-   */
-  name?: string;
-}
-
-/**
- * Cosmos DB Cassandra table cluster key
- */
-export interface ClusterKey {
-  /**
-   * Name of the Cosmos DB Cassandra table cluster key
-   */
-  name?: string;
-  /**
-   * Order of the Cosmos DB Cassandra table cluster key, only support "Asc" and "Desc"
-   */
-  orderBy?: string;
-}
-
-/**
- * Cosmos DB Cassandra table schema
- */
-export interface CassandraSchema {
-  /**
-   * List of Cassandra table columns.
-   */
-  columns?: Column[];
-  /**
-   * List of partition key.
-   */
-  partitionKeys?: CassandraPartitionKey[];
-  /**
-   * List of cluster key.
-   */
-  clusterKeys?: ClusterKey[];
-}
-
-/**
- * Cosmos DB Cassandra table id object
+ * Cosmos DB Cassandra table resource object
  */
 export interface CassandraTableResource {
   /**
@@ -1075,7 +1622,7 @@ export interface CassandraTableResource {
 /**
  * Parameters to create and update Cosmos DB Cassandra table.
  */
-export interface CassandraTableCreateUpdateParameters {
+export interface CassandraTableCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a Cassandra table
    */
@@ -1088,7 +1635,7 @@ export interface CassandraTableCreateUpdateParameters {
 }
 
 /**
- * Cosmos DB Gremlin database id object
+ * Cosmos DB Gremlin database resource object
  */
 export interface GremlinDatabaseResource {
   /**
@@ -1100,7 +1647,7 @@ export interface GremlinDatabaseResource {
 /**
  * Parameters to create and update Cosmos DB Gremlin database.
  */
-export interface GremlinDatabaseCreateUpdateParameters {
+export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a Gremlin database
    */
@@ -1148,7 +1695,7 @@ export interface GremlinGraphResource {
 /**
  * Parameters to create and update Cosmos DB Gremlin graph.
  */
-export interface GremlinGraphCreateUpdateParameters {
+export interface GremlinGraphCreateUpdateParameters extends ARMResourceProperties {
   /**
    * The standard JSON format of a Gremlin graph
    */
@@ -1286,7 +1833,7 @@ export interface MetricDefinition {
   readonly metricAvailabilities?: MetricAvailability[];
   /**
    * The primary aggregation type of the metric. Possible values include: 'None', 'Average',
-   * 'Total', 'Minimimum', 'Maximum', 'Last'
+   * 'Total', 'Minimum', 'Maximum', 'Last'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly primaryAggregationType?: PrimaryAggregationType;
@@ -1473,6 +2020,120 @@ export interface PartitionMetric extends Metric {
 }
 
 /**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends ARMProxyResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+}
+
+/**
+ * Private endpoint which the connection belongs to.
+ */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * Connection State of the Private Endpoint Connection.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status.
+   */
+  status?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection State of the Private Endpoint Connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+}
+
+/**
+ * The resource model definition for a ARM tracked top level resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DatabaseAccountsListUsagesOptionalParams extends msRest.RequestOptionsBase {
@@ -1526,9 +2187,9 @@ export interface CosmosDBManagementClientOptions extends AzureServiceClientOptio
 /**
  * @interface
  * The List operation response, that contains the database accounts and their properties.
- * @extends Array<DatabaseAccount>
+ * @extends Array<DatabaseAccountGetResults>
  */
-export interface DatabaseAccountsListResult extends Array<DatabaseAccount> {
+export interface DatabaseAccountsListResult extends Array<DatabaseAccountGetResults> {
 }
 
 /**
@@ -1553,78 +2214,6 @@ export interface UsagesResult extends Array<Usage> {
  * @extends Array<MetricDefinition>
  */
 export interface MetricDefinitionsListResult extends Array<MetricDefinition> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the SQL databases and their properties.
- * @extends Array<SqlDatabase>
- */
-export interface SqlDatabaseListResult extends Array<SqlDatabase> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the containers and their properties.
- * @extends Array<SqlContainer>
- */
-export interface SqlContainerListResult extends Array<SqlContainer> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the MongoDB databases and their properties.
- * @extends Array<MongoDBDatabase>
- */
-export interface MongoDBDatabaseListResult extends Array<MongoDBDatabase> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the MongoDB collections and their properties.
- * @extends Array<MongoDBCollection>
- */
-export interface MongoDBCollectionListResult extends Array<MongoDBCollection> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the Table and their properties.
- * @extends Array<Table>
- */
-export interface TableListResult extends Array<Table> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the Cassandra keyspaces and their properties.
- * @extends Array<CassandraKeyspace>
- */
-export interface CassandraKeyspaceListResult extends Array<CassandraKeyspace> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the Cassandra tables and their properties.
- * @extends Array<CassandraTable>
- */
-export interface CassandraTableListResult extends Array<CassandraTable> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the Gremlin databases and their properties.
- * @extends Array<GremlinDatabase>
- */
-export interface GremlinDatabaseListResult extends Array<GremlinDatabase> {
-}
-
-/**
- * @interface
- * The List operation response, that contains the graphs and their properties.
- * @extends Array<GremlinGraph>
- */
-export interface GremlinGraphListResult extends Array<GremlinGraph> {
 }
 
 /**
@@ -1662,6 +2251,118 @@ export interface PartitionMetricListResult extends Array<PartitionMetric> {
  * @extends Array<PartitionUsage>
  */
 export interface PartitionUsagesResult extends Array<PartitionUsage> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the SQL databases and their properties.
+ * @extends Array<SqlDatabaseGetResults>
+ */
+export interface SqlDatabaseListResult extends Array<SqlDatabaseGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the containers and their properties.
+ * @extends Array<SqlContainerGetResults>
+ */
+export interface SqlContainerListResult extends Array<SqlContainerGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the storedProcedures and their properties.
+ * @extends Array<SqlStoredProcedureGetResults>
+ */
+export interface SqlStoredProcedureListResult extends Array<SqlStoredProcedureGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the userDefinedFunctions and their properties.
+ * @extends Array<SqlUserDefinedFunctionGetResults>
+ */
+export interface SqlUserDefinedFunctionListResult extends Array<SqlUserDefinedFunctionGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the triggers and their properties.
+ * @extends Array<SqlTriggerGetResults>
+ */
+export interface SqlTriggerListResult extends Array<SqlTriggerGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the MongoDB databases and their properties.
+ * @extends Array<MongoDBDatabaseGetResults>
+ */
+export interface MongoDBDatabaseListResult extends Array<MongoDBDatabaseGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the MongoDB collections and their properties.
+ * @extends Array<MongoDBCollectionGetResults>
+ */
+export interface MongoDBCollectionListResult extends Array<MongoDBCollectionGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the Table and their properties.
+ * @extends Array<TableGetResults>
+ */
+export interface TableListResult extends Array<TableGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the Cassandra keyspaces and their properties.
+ * @extends Array<CassandraKeyspaceGetResults>
+ */
+export interface CassandraKeyspaceListResult extends Array<CassandraKeyspaceGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the Cassandra tables and their properties.
+ * @extends Array<CassandraTableGetResults>
+ */
+export interface CassandraTableListResult extends Array<CassandraTableGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the Gremlin databases and their properties.
+ * @extends Array<GremlinDatabaseGetResults>
+ */
+export interface GremlinDatabaseListResult extends Array<GremlinDatabaseGetResults> {
+}
+
+/**
+ * @interface
+ * The List operation response, that contains the graphs and their properties.
+ * @extends Array<GremlinGraphGetResults>
+ */
+export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
+}
+
+/**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+}
+
+/**
+ * @interface
+ * A list of private endpoint connections
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
 }
 
 /**
@@ -1721,6 +2422,22 @@ export type DataType = 'String' | 'Number' | 'Point' | 'Polygon' | 'LineString' 
 export type IndexKind = 'Hash' | 'Range' | 'Spatial';
 
 /**
+ * Defines values for CompositePathSortOrder.
+ * Possible values include: 'Ascending', 'Descending'
+ * @readonly
+ * @enum {string}
+ */
+export type CompositePathSortOrder = 'Ascending' | 'Descending';
+
+/**
+ * Defines values for SpatialType.
+ * Possible values include: 'Point', 'LineString', 'Polygon', 'MultiPolygon'
+ * @readonly
+ * @enum {string}
+ */
+export type SpatialType = 'Point' | 'LineString' | 'Polygon' | 'MultiPolygon';
+
+/**
  * Defines values for PartitionKind.
  * Possible values include: 'Hash', 'Range'
  * @readonly
@@ -1735,6 +2452,22 @@ export type PartitionKind = 'Hash' | 'Range';
  * @enum {string}
  */
 export type ConflictResolutionMode = 'LastWriterWins' | 'Custom';
+
+/**
+ * Defines values for TriggerType.
+ * Possible values include: 'Pre', 'Post'
+ * @readonly
+ * @enum {string}
+ */
+export type TriggerType = 'Pre' | 'Post';
+
+/**
+ * Defines values for TriggerOperation.
+ * Possible values include: 'All', 'Create', 'Update', 'Delete', 'Replace'
+ * @readonly
+ * @enum {string}
+ */
+export type TriggerOperation = 'All' | 'Create' | 'Update' | 'Delete' | 'Replace';
 
 /**
  * Defines values for KeyKind.
@@ -1755,16 +2488,16 @@ export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSeco
 
 /**
  * Defines values for PrimaryAggregationType.
- * Possible values include: 'None', 'Average', 'Total', 'Minimimum', 'Maximum', 'Last'
+ * Possible values include: 'None', 'Average', 'Total', 'Minimum', 'Maximum', 'Last'
  * @readonly
  * @enum {string}
  */
-export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimimum' | 'Maximum' | 'Last';
+export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimum' | 'Maximum' | 'Last';
 
 /**
  * Contains response data for the get operation.
  */
-export type DatabaseAccountsGetResponse = DatabaseAccount & {
+export type DatabaseAccountsGetResponse = DatabaseAccountGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -1777,14 +2510,14 @@ export type DatabaseAccountsGetResponse = DatabaseAccount & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DatabaseAccount;
+      parsedBody: DatabaseAccountGetResults;
     };
 };
 
 /**
- * Contains response data for the patch operation.
+ * Contains response data for the update operation.
  */
-export type DatabaseAccountsPatchResponse = DatabaseAccount & {
+export type DatabaseAccountsUpdateResponse = DatabaseAccountGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -1797,14 +2530,14 @@ export type DatabaseAccountsPatchResponse = DatabaseAccount & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DatabaseAccount;
+      parsedBody: DatabaseAccountGetResults;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type DatabaseAccountsCreateOrUpdateResponse = DatabaseAccount & {
+export type DatabaseAccountsCreateOrUpdateResponse = DatabaseAccountGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -1817,7 +2550,7 @@ export type DatabaseAccountsCreateOrUpdateResponse = DatabaseAccount & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DatabaseAccount;
+      parsedBody: DatabaseAccountGetResults;
     };
 };
 
@@ -2027,9 +2760,9 @@ export type DatabaseAccountsListMetricDefinitionsResponse = MetricDefinitionsLis
 };
 
 /**
- * Contains response data for the listSqlDatabases operation.
+ * Contains response data for the beginUpdate operation.
  */
-export type DatabaseAccountsListSqlDatabasesResponse = SqlDatabaseListResult & {
+export type DatabaseAccountsBeginUpdateResponse = DatabaseAccountGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2042,914 +2775,14 @@ export type DatabaseAccountsListSqlDatabasesResponse = SqlDatabaseListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the getSqlDatabase operation.
- */
-export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlDatabase;
-    };
-};
-
-/**
- * Contains response data for the createUpdateSqlDatabase operation.
- */
-export type DatabaseAccountsCreateUpdateSqlDatabaseResponse = SqlDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlDatabase;
-    };
-};
-
-/**
- * Contains response data for the getSqlDatabaseThroughput operation.
- */
-export type DatabaseAccountsGetSqlDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateSqlDatabaseThroughput operation.
- */
-export type DatabaseAccountsUpdateSqlDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listSqlContainers operation.
- */
-export type DatabaseAccountsListSqlContainersResponse = SqlContainerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlContainerListResult;
-    };
-};
-
-/**
- * Contains response data for the getSqlContainer operation.
- */
-export type DatabaseAccountsGetSqlContainerResponse = SqlContainer & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlContainer;
-    };
-};
-
-/**
- * Contains response data for the createUpdateSqlContainer operation.
- */
-export type DatabaseAccountsCreateUpdateSqlContainerResponse = SqlContainer & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlContainer;
-    };
-};
-
-/**
- * Contains response data for the getSqlContainerThroughput operation.
- */
-export type DatabaseAccountsGetSqlContainerThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateSqlContainerThroughput operation.
- */
-export type DatabaseAccountsUpdateSqlContainerThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listMongoDBDatabases operation.
- */
-export type DatabaseAccountsListMongoDBDatabasesResponse = MongoDBDatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the getMongoDBDatabase operation.
- */
-export type DatabaseAccountsGetMongoDBDatabaseResponse = MongoDBDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBDatabase;
-    };
-};
-
-/**
- * Contains response data for the createUpdateMongoDBDatabase operation.
- */
-export type DatabaseAccountsCreateUpdateMongoDBDatabaseResponse = MongoDBDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBDatabase;
-    };
-};
-
-/**
- * Contains response data for the getMongoDBDatabaseThroughput operation.
- */
-export type DatabaseAccountsGetMongoDBDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateMongoDBDatabaseThroughput operation.
- */
-export type DatabaseAccountsUpdateMongoDBDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listMongoDBCollections operation.
- */
-export type DatabaseAccountsListMongoDBCollectionsResponse = MongoDBCollectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBCollectionListResult;
-    };
-};
-
-/**
- * Contains response data for the getMongoDBCollection operation.
- */
-export type DatabaseAccountsGetMongoDBCollectionResponse = MongoDBCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBCollection;
-    };
-};
-
-/**
- * Contains response data for the createUpdateMongoDBCollection operation.
- */
-export type DatabaseAccountsCreateUpdateMongoDBCollectionResponse = MongoDBCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBCollection;
-    };
-};
-
-/**
- * Contains response data for the getMongoDBCollectionThroughput operation.
- */
-export type DatabaseAccountsGetMongoDBCollectionThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateMongoDBCollectionThroughput operation.
- */
-export type DatabaseAccountsUpdateMongoDBCollectionThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listTables operation.
- */
-export type DatabaseAccountsListTablesResponse = TableListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TableListResult;
-    };
-};
-
-/**
- * Contains response data for the getTable operation.
- */
-export type DatabaseAccountsGetTableResponse = Table & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Table;
-    };
-};
-
-/**
- * Contains response data for the createUpdateTable operation.
- */
-export type DatabaseAccountsCreateUpdateTableResponse = Table & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Table;
-    };
-};
-
-/**
- * Contains response data for the getTableThroughput operation.
- */
-export type DatabaseAccountsGetTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateTableThroughput operation.
- */
-export type DatabaseAccountsUpdateTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listCassandraKeyspaces operation.
- */
-export type DatabaseAccountsListCassandraKeyspacesResponse = CassandraKeyspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraKeyspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the getCassandraKeyspace operation.
- */
-export type DatabaseAccountsGetCassandraKeyspaceResponse = CassandraKeyspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraKeyspace;
-    };
-};
-
-/**
- * Contains response data for the createUpdateCassandraKeyspace operation.
- */
-export type DatabaseAccountsCreateUpdateCassandraKeyspaceResponse = CassandraKeyspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraKeyspace;
-    };
-};
-
-/**
- * Contains response data for the getCassandraKeyspaceThroughput operation.
- */
-export type DatabaseAccountsGetCassandraKeyspaceThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateCassandraKeyspaceThroughput operation.
- */
-export type DatabaseAccountsUpdateCassandraKeyspaceThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listCassandraTables operation.
- */
-export type DatabaseAccountsListCassandraTablesResponse = CassandraTableListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraTableListResult;
-    };
-};
-
-/**
- * Contains response data for the getCassandraTable operation.
- */
-export type DatabaseAccountsGetCassandraTableResponse = CassandraTable & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraTable;
-    };
-};
-
-/**
- * Contains response data for the createUpdateCassandraTable operation.
- */
-export type DatabaseAccountsCreateUpdateCassandraTableResponse = CassandraTable & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraTable;
-    };
-};
-
-/**
- * Contains response data for the getCassandraTableThroughput operation.
- */
-export type DatabaseAccountsGetCassandraTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateCassandraTableThroughput operation.
- */
-export type DatabaseAccountsUpdateCassandraTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listGremlinDatabases operation.
- */
-export type DatabaseAccountsListGremlinDatabasesResponse = GremlinDatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the getGremlinDatabase operation.
- */
-export type DatabaseAccountsGetGremlinDatabaseResponse = GremlinDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinDatabase;
-    };
-};
-
-/**
- * Contains response data for the createUpdateGremlinDatabase operation.
- */
-export type DatabaseAccountsCreateUpdateGremlinDatabaseResponse = GremlinDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinDatabase;
-    };
-};
-
-/**
- * Contains response data for the getGremlinDatabaseThroughput operation.
- */
-export type DatabaseAccountsGetGremlinDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateGremlinDatabaseThroughput operation.
- */
-export type DatabaseAccountsUpdateGremlinDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the listGremlinGraphs operation.
- */
-export type DatabaseAccountsListGremlinGraphsResponse = GremlinGraphListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinGraphListResult;
-    };
-};
-
-/**
- * Contains response data for the getGremlinGraph operation.
- */
-export type DatabaseAccountsGetGremlinGraphResponse = GremlinGraph & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinGraph;
-    };
-};
-
-/**
- * Contains response data for the createUpdateGremlinGraph operation.
- */
-export type DatabaseAccountsCreateUpdateGremlinGraphResponse = GremlinGraph & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinGraph;
-    };
-};
-
-/**
- * Contains response data for the getGremlinGraphThroughput operation.
- */
-export type DatabaseAccountsGetGremlinGraphThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the updateGremlinGraphThroughput operation.
- */
-export type DatabaseAccountsUpdateGremlinGraphThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginPatch operation.
- */
-export type DatabaseAccountsBeginPatchResponse = DatabaseAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseAccount;
+      parsedBody: DatabaseAccountGetResults;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccount & {
+export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccountGetResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2962,367 +2795,7 @@ export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccount & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DatabaseAccount;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateSqlDatabase operation.
- */
-export type DatabaseAccountsBeginCreateUpdateSqlDatabaseResponse = SqlDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlDatabase;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateSqlDatabaseThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateSqlDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateSqlContainer operation.
- */
-export type DatabaseAccountsBeginCreateUpdateSqlContainerResponse = SqlContainer & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlContainer;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateSqlContainerThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateSqlContainerThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateMongoDBDatabase operation.
- */
-export type DatabaseAccountsBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBDatabase;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateMongoDBDatabaseThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateMongoDBDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateMongoDBCollection operation.
- */
-export type DatabaseAccountsBeginCreateUpdateMongoDBCollectionResponse = MongoDBCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MongoDBCollection;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateMongoDBCollectionThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateMongoDBCollectionThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateTable operation.
- */
-export type DatabaseAccountsBeginCreateUpdateTableResponse = Table & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Table;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTableThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateCassandraKeyspace operation.
- */
-export type DatabaseAccountsBeginCreateUpdateCassandraKeyspaceResponse = CassandraKeyspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraKeyspace;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateCassandraKeyspaceThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateCassandraKeyspaceThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateCassandraTable operation.
- */
-export type DatabaseAccountsBeginCreateUpdateCassandraTableResponse = CassandraTable & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CassandraTable;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateCassandraTableThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateCassandraTableThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateGremlinDatabase operation.
- */
-export type DatabaseAccountsBeginCreateUpdateGremlinDatabaseResponse = GremlinDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinDatabase;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateGremlinDatabaseThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateGremlinDatabaseThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
-    };
-};
-
-/**
- * Contains response data for the beginCreateUpdateGremlinGraph operation.
- */
-export type DatabaseAccountsBeginCreateUpdateGremlinGraphResponse = GremlinGraph & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GremlinGraph;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateGremlinGraphThroughput operation.
- */
-export type DatabaseAccountsBeginUpdateGremlinGraphThroughputResponse = Throughput & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Throughput;
+      parsedBody: DatabaseAccountGetResults;
     };
 };
 
@@ -3683,5 +3156,1625 @@ export type PartitionKeyRangeIdRegionListMetricsResponse = PartitionMetricListRe
        * The response body as parsed JSON or XML
        */
       parsedBody: PartitionMetricListResult;
+    };
+};
+
+/**
+ * Contains response data for the listSqlDatabases operation.
+ */
+export type SqlResourcesListSqlDatabasesResponse = SqlDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the getSqlDatabase operation.
+ */
+export type SqlResourcesGetSqlDatabaseResponse = SqlDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateSqlDatabase operation.
+ */
+export type SqlResourcesCreateUpdateSqlDatabaseResponse = SqlDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getSqlDatabaseThroughput operation.
+ */
+export type SqlResourcesGetSqlDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlDatabaseThroughput operation.
+ */
+export type SqlResourcesUpdateSqlDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listSqlContainers operation.
+ */
+export type SqlResourcesListSqlContainersResponse = SqlContainerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerListResult;
+    };
+};
+
+/**
+ * Contains response data for the getSqlContainer operation.
+ */
+export type SqlResourcesGetSqlContainerResponse = SqlContainerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateSqlContainer operation.
+ */
+export type SqlResourcesCreateUpdateSqlContainerResponse = SqlContainerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getSqlContainerThroughput operation.
+ */
+export type SqlResourcesGetSqlContainerThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlContainerThroughput operation.
+ */
+export type SqlResourcesUpdateSqlContainerThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listSqlStoredProcedures operation.
+ */
+export type SqlResourcesListSqlStoredProceduresResponse = SqlStoredProcedureListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureListResult;
+    };
+};
+
+/**
+ * Contains response data for the getSqlStoredProcedure operation.
+ */
+export type SqlResourcesGetSqlStoredProcedureResponse = SqlStoredProcedureGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateSqlStoredProcedure operation.
+ */
+export type SqlResourcesCreateUpdateSqlStoredProcedureResponse = SqlStoredProcedureGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listSqlUserDefinedFunctions operation.
+ */
+export type SqlResourcesListSqlUserDefinedFunctionsResponse = SqlUserDefinedFunctionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionListResult;
+    };
+};
+
+/**
+ * Contains response data for the getSqlUserDefinedFunction operation.
+ */
+export type SqlResourcesGetSqlUserDefinedFunctionResponse = SqlUserDefinedFunctionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateSqlUserDefinedFunction operation.
+ */
+export type SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse = SqlUserDefinedFunctionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listSqlTriggers operation.
+ */
+export type SqlResourcesListSqlTriggersResponse = SqlTriggerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerListResult;
+    };
+};
+
+/**
+ * Contains response data for the getSqlTrigger operation.
+ */
+export type SqlResourcesGetSqlTriggerResponse = SqlTriggerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateSqlTrigger operation.
+ */
+export type SqlResourcesCreateUpdateSqlTriggerResponse = SqlTriggerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateSqlDatabase operation.
+ */
+export type SqlResourcesBeginCreateUpdateSqlDatabaseResponse = SqlDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlDatabaseThroughput operation.
+ */
+export type SqlResourcesBeginUpdateSqlDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateSqlContainer operation.
+ */
+export type SqlResourcesBeginCreateUpdateSqlContainerResponse = SqlContainerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlContainerThroughput operation.
+ */
+export type SqlResourcesBeginUpdateSqlContainerThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateSqlStoredProcedure operation.
+ */
+export type SqlResourcesBeginCreateUpdateSqlStoredProcedureResponse = SqlStoredProcedureGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlStoredProcedureGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateSqlUserDefinedFunction operation.
+ */
+export type SqlResourcesBeginCreateUpdateSqlUserDefinedFunctionResponse = SqlUserDefinedFunctionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlUserDefinedFunctionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateSqlTrigger operation.
+ */
+export type SqlResourcesBeginCreateUpdateSqlTriggerResponse = SqlTriggerGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlTriggerGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listMongoDBDatabases operation.
+ */
+export type MongoDBResourcesListMongoDBDatabasesResponse = MongoDBDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDBDatabase operation.
+ */
+export type MongoDBResourcesGetMongoDBDatabaseResponse = MongoDBDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateMongoDBDatabase operation.
+ */
+export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDBDatabaseThroughput operation.
+ */
+export type MongoDBResourcesGetMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoDBDatabaseThroughput operation.
+ */
+export type MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listMongoDBCollections operation.
+ */
+export type MongoDBResourcesListMongoDBCollectionsResponse = MongoDBCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDBCollection operation.
+ */
+export type MongoDBResourcesGetMongoDBCollectionResponse = MongoDBCollectionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateMongoDBCollection operation.
+ */
+export type MongoDBResourcesCreateUpdateMongoDBCollectionResponse = MongoDBCollectionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDBCollectionThroughput operation.
+ */
+export type MongoDBResourcesGetMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoDBCollectionThroughput operation.
+ */
+export type MongoDBResourcesUpdateMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateMongoDBDatabase operation.
+ */
+export type MongoDBResourcesBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateMongoDBDatabaseThroughput operation.
+ */
+export type MongoDBResourcesBeginUpdateMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateMongoDBCollection operation.
+ */
+export type MongoDBResourcesBeginCreateUpdateMongoDBCollectionResponse = MongoDBCollectionGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDBCollectionGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateMongoDBCollectionThroughput operation.
+ */
+export type MongoDBResourcesBeginUpdateMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listTables operation.
+ */
+export type TableResourcesListTablesResponse = TableListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableListResult;
+    };
+};
+
+/**
+ * Contains response data for the getTable operation.
+ */
+export type TableResourcesGetTableResponse = TableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateTable operation.
+ */
+export type TableResourcesCreateUpdateTableResponse = TableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getTableThroughput operation.
+ */
+export type TableResourcesGetTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateTableThroughput operation.
+ */
+export type TableResourcesUpdateTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateTable operation.
+ */
+export type TableResourcesBeginCreateUpdateTableResponse = TableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTableThroughput operation.
+ */
+export type TableResourcesBeginUpdateTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listCassandraKeyspaces operation.
+ */
+export type CassandraResourcesListCassandraKeyspacesResponse = CassandraKeyspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraKeyspace operation.
+ */
+export type CassandraResourcesGetCassandraKeyspaceResponse = CassandraKeyspaceGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateCassandraKeyspace operation.
+ */
+export type CassandraResourcesCreateUpdateCassandraKeyspaceResponse = CassandraKeyspaceGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraKeyspaceThroughput operation.
+ */
+export type CassandraResourcesGetCassandraKeyspaceThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraKeyspaceThroughput operation.
+ */
+export type CassandraResourcesUpdateCassandraKeyspaceThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listCassandraTables operation.
+ */
+export type CassandraResourcesListCassandraTablesResponse = CassandraTableListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableListResult;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraTable operation.
+ */
+export type CassandraResourcesGetCassandraTableResponse = CassandraTableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateCassandraTable operation.
+ */
+export type CassandraResourcesCreateUpdateCassandraTableResponse = CassandraTableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraTableThroughput operation.
+ */
+export type CassandraResourcesGetCassandraTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraTableThroughput operation.
+ */
+export type CassandraResourcesUpdateCassandraTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateCassandraKeyspace operation.
+ */
+export type CassandraResourcesBeginCreateUpdateCassandraKeyspaceResponse = CassandraKeyspaceGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateCassandraKeyspaceThroughput operation.
+ */
+export type CassandraResourcesBeginUpdateCassandraKeyspaceThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateCassandraTable operation.
+ */
+export type CassandraResourcesBeginCreateUpdateCassandraTableResponse = CassandraTableGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateCassandraTableThroughput operation.
+ */
+export type CassandraResourcesBeginUpdateCassandraTableThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listGremlinDatabases operation.
+ */
+export type GremlinResourcesListGremlinDatabasesResponse = GremlinDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the getGremlinDatabase operation.
+ */
+export type GremlinResourcesGetGremlinDatabaseResponse = GremlinDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateGremlinDatabase operation.
+ */
+export type GremlinResourcesCreateUpdateGremlinDatabaseResponse = GremlinDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getGremlinDatabaseThroughput operation.
+ */
+export type GremlinResourcesGetGremlinDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateGremlinDatabaseThroughput operation.
+ */
+export type GremlinResourcesUpdateGremlinDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listGremlinGraphs operation.
+ */
+export type GremlinResourcesListGremlinGraphsResponse = GremlinGraphListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphListResult;
+    };
+};
+
+/**
+ * Contains response data for the getGremlinGraph operation.
+ */
+export type GremlinResourcesGetGremlinGraphResponse = GremlinGraphGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
+};
+
+/**
+ * Contains response data for the createUpdateGremlinGraph operation.
+ */
+export type GremlinResourcesCreateUpdateGremlinGraphResponse = GremlinGraphGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
+};
+
+/**
+ * Contains response data for the getGremlinGraphThroughput operation.
+ */
+export type GremlinResourcesGetGremlinGraphThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the updateGremlinGraphThroughput operation.
+ */
+export type GremlinResourcesUpdateGremlinGraphThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateGremlinDatabase operation.
+ */
+export type GremlinResourcesBeginCreateUpdateGremlinDatabaseResponse = GremlinDatabaseGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinDatabaseGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateGremlinDatabaseThroughput operation.
+ */
+export type GremlinResourcesBeginUpdateGremlinDatabaseThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdateGremlinGraph operation.
+ */
+export type GremlinResourcesBeginCreateUpdateGremlinGraphResponse = GremlinGraphGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GremlinGraphGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateGremlinGraphThroughput operation.
+ */
+export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = ThroughputSettingsGetResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
     };
 };

@@ -7,6 +7,8 @@ import { RestError } from "../restError";
 import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 
+const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/gi;
+
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
@@ -81,37 +83,7 @@ export function stripRequest(request: WebResource): WebResource {
  * @return {boolean} True if the uuid is valid; false otherwise.
  */
 export function isValidUuid(uuid: string): boolean {
-  const validUuidRegex = new RegExp(
-    "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-    "ig"
-  );
   return validUuidRegex.test(uuid);
-}
-
-/**
- * Provides an array of values of an object. For example
- * for a given object { "a": "foo", "b": "bar" }, the method returns ["foo", "bar"].
- *
- * @param {object} obj An object whose properties need to be enumerated so that it"s values can be provided as an array
- *
- * @return {any[]} An array of values of the given object.
- */
-export function objectValues(obj: { [key: string]: any }): any[] {
-  const result: any[] = [];
-  if (obj && obj instanceof Object) {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        result.push((<any>obj)[key]);
-      }
-    }
-  } else {
-    const stringifiedObj = JSON.stringify(obj, undefined, 2);
-    throw new Error(
-      `The provided object ${stringifiedObj} is not a valid object that can be ` +
-        `enumerated to provide its values as an array.`
-    );
-  }
-  return result;
 }
 
 /**
@@ -140,21 +112,6 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
     result = result.then(promiseFactory);
   });
   return result;
-}
-
-/**
- * Merges source object into the target object
- * @param {object} source The object that needs to be merged
- *
- * @param {object} target The object to be merged into
- *
- * @returns {object} Returns the merged target object.
- */
-export function mergeObjects(source: { [key: string]: any }, target: { [key: string]: any }) {
-  Object.keys(source).forEach((key) => {
-    target[key] = source[key];
-  });
-  return target;
 }
 
 /**
@@ -276,10 +233,10 @@ export function replaceAll(
 }
 
 /**
- * Determines whether the given enity is a basic/primitive type
+ * Determines whether the given entity is a basic/primitive type
  * (string, number, boolean, null, undefined).
- * @param value Any entity
- * @return boolean - true is it is primitive type, false otherwise.
+ * @param {any} value Any entity
+ * @return {boolean} - true is it is primitive type, false otherwise.
  */
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;

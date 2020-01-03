@@ -9,6 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { SpanOptions } from "@opentelemetry/types";
 
 export type HttpMethods =
   | "GET"
@@ -74,6 +75,7 @@ export class WebResource {
   timeout: number;
   proxySettings?: ProxySettings;
   keepAlive?: boolean;
+  requestId: string;
 
   abortSignal?: AbortSignalLike;
 
@@ -86,7 +88,7 @@ export class WebResource {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   constructor(
     url?: string,
@@ -117,6 +119,7 @@ export class WebResource {
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
     this.keepAlive = keepAlive;
+    this.requestId = this.headers.get("x-ms-client-request-id") || generateUuid();
   }
 
   /**
@@ -298,7 +301,7 @@ export class WebResource {
     }
     // ensure the request-id is set correctly
     if (!this.headers.get("x-ms-client-request-id") && !options.disableClientRequestId) {
-      this.headers.set("x-ms-client-request-id", generateUuid());
+      this.headers.set("x-ms-client-request-id", this.requestId);
     }
 
     // default
@@ -329,6 +332,10 @@ export class WebResource {
           this.body = JSON.stringify(options.body);
         }
       }
+    }
+
+    if (options.spanOptions) {
+      this.spanOptions = options.spanOptions;
     }
 
     this.abortSignal = options.abortSignal;
@@ -467,6 +474,7 @@ export interface RequestPrepareOptions {
   abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  spanOptions?: SpanOptions;
 }
 
 /**
@@ -511,7 +519,7 @@ export interface RequestOptionsBase {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   [key: string]: any;
 }

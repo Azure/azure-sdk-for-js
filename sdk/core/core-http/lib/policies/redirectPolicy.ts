@@ -4,7 +4,33 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
+
+/**
+ * Options for how redirect responses are handled.
+ */
+export interface RedirectOptions {
+  /*
+   * When true, redirect responses are followed.  Defaults to true.
+   */
+  handleRedirects: boolean;
+
+  /*
+   * The maximum number of times the redirect URL will be tried before
+   * failing.  Defaults to 20.
+   */
+  maxRetries?: number;
+}
+
+export const DefaultRedirectOptions: RedirectOptions = {
+  handleRedirects: true,
+  maxRetries: 20
+}
 
 export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
   return {
@@ -20,17 +46,24 @@ export class RedirectPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then(response => handleRedirect(this, response, 0));
+    return this._nextPolicy
+      .sendRequest(request)
+      .then((response) => handleRedirect(this, response, 0));
   }
 }
 
-function handleRedirect(policy: RedirectPolicy, response: HttpOperationResponse, currentRetries: number): Promise<HttpOperationResponse> {
+function handleRedirect(
+  policy: RedirectPolicy,
+  response: HttpOperationResponse,
+  currentRetries: number
+): Promise<HttpOperationResponse> {
   const { request, status } = response;
   const locationHeader = response.headers.get("location");
-  if (locationHeader &&
+  if (
+    locationHeader &&
     (status === 300 || status === 307 || (status === 303 && request.method === "POST")) &&
-    (!policy.maxRetries || currentRetries < policy.maxRetries)) {
-
+    (!policy.maxRetries || currentRetries < policy.maxRetries)
+  ) {
     const builder = URLBuilder.parse(request.url);
     builder.setPath(locationHeader);
     request.url = builder.toString();
@@ -41,8 +74,9 @@ function handleRedirect(policy: RedirectPolicy, response: HttpOperationResponse,
       request.method = "GET";
     }
 
-    return policy._nextPolicy.sendRequest(request)
-      .then(res => handleRedirect(policy, res, currentRetries + 1));
+    return policy._nextPolicy
+      .sendRequest(request)
+      .then((res) => handleRedirect(policy, res, currentRetries + 1));
   }
 
   return Promise.resolve(response);

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
@@ -38,12 +40,12 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.permission,
         resourceId: id,
-        resultFn: result => result.Permissions,
+        resultFn: (result) => result.Permissions,
         query,
         options: innerOptions
       });
@@ -69,7 +71,10 @@ export class Permissions {
    * e.g. Item or Container.
    * @param body Represents the body of the permission.
    */
-  public async create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
+  public async create(
+    body: PermissionDefinition,
+    options?: RequestOptions
+  ): Promise<PermissionResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -95,7 +100,10 @@ export class Permissions {
    * A permission represents a per-User Permission to access a
    * specific resource e.g. Item or Container.
    */
-  public async upsert(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
+  public async upsert(
+    body: PermissionDefinition,
+    options?: RequestOptions
+  ): Promise<PermissionResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;

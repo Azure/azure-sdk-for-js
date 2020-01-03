@@ -1,9 +1,9 @@
-import { retry } from "./recorderUtils";
-import { SecretsClient } from "../../src";
+import { retry, testPollerProperties } from "./recorderUtils";
+import { SecretClient } from "../../src";
 
 export default class TestClient {
-  public readonly client: SecretsClient;
-  constructor(client: SecretsClient) {
+  public readonly client: SecretClient;
+  constructor(client: SecretClient) {
     this.client = client;
   }
   public formatName(name: string): string {
@@ -22,7 +22,8 @@ export default class TestClient {
   }
   public async flushSecret(secretName: string): Promise<void> {
     const that = this;
-    await that.client.deleteSecret(secretName);
+    const deletePoller = await that.client.beginDeleteSecret(secretName, testPollerProperties);
+    await deletePoller.pollUntilDone();
     await this.purgeSecret(secretName);
   }
 }

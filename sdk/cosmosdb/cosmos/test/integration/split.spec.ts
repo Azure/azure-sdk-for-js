@@ -1,6 +1,14 @@
-﻿import { Container } from "../../dist-esm/client";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { Container } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
+import {
+  Constants,
+  CosmosClient,
+  PluginOn,
+  CosmosClientOptions,
+  PluginConfig
+} from "../../dist-esm";
 import { masterKey, endpoint } from "../common/_testConfig";
 import { SubStatusCodes } from "../../dist-esm/common";
 import assert from "assert";
@@ -46,6 +54,7 @@ describe("Partition Splits", () => {
       {
         on: PluginOn.request,
         plugin: async (context, next) => {
+          // This plugin throws a single 410 on the *second* time we see the same partition key range ID
           const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
             hasSplit = true;
@@ -75,5 +84,69 @@ describe("Partition Splits", () => {
     // I suspect injecting a random 410 with out actually splitting the documents
     // results in duplicates by trying to read from two partitions
     assert(resources.length >= documentDefinitions.length);
+  });
+
+  it("split errors surface as 503", async () => {
+    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, next) => {
+          // This plugin throws a single 410 for partition key range ID 0 on every single request
+          const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          if (partitionKeyRangeId === "0") {
+            const error = new Error("Fake Partition Split") as any;
+            error.code = 410;
+            error.substatus = SubStatusCodes.PartitionKeyRangeGone;
+            throw error;
+          }
+          return next(context);
+        }
+      }
+    ];
+    const client = new CosmosClient({
+      ...options,
+      plugins
+    } as any);
+
+    // fetchAll()
+    try {
+      await client
+        .database(container.database.id)
+        .container(container.id)
+        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .fetchAll();
+      assert.fail("Expected query to fail");
+    } catch (e) {
+      assert.strictEqual(e.code, 503);
+    }
+
+    // fetchNext()
+    try {
+      await client
+        .database(container.database.id)
+        .container(container.id)
+        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .fetchNext();
+      assert.fail("Expected query to fail");
+    } catch (e) {
+      assert.strictEqual(e.code, 503);
+    }
+
+    // asyncIterator
+    try {
+      const iterator = client
+        .database(container.database.id)
+        .container(container.id)
+        .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
+        .getAsyncIterator();
+      const results = [];
+      for await (const result of iterator) {
+        results.push(result);
+      }
+      assert.fail("Expected query to fail");
+    } catch (e) {
+      assert.strictEqual(e.code, 503);
+    }
   });
 });

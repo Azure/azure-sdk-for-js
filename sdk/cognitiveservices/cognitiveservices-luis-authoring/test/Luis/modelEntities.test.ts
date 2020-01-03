@@ -45,17 +45,6 @@ describe("Model Entities Tests", () => {
     })
   });
 
-  it("should update entity", async () => {
-    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "Rename Entity Test" })
-      await client.model.updateEntity(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "Entity Test Renamed" });
-      const result = await client.model.getEntity(BaseTest.GlobalAppId, "0.1", entityId.body);
-      await client.model.deleteEntity(BaseTest.GlobalAppId, "0.1", entityId.body);
-      chai.expect(result).not.to.be.null;
-      chai.expect(result.name).to.eql("Entity Test Renamed");
-    });
-  });
-
   it("should delete entity", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "Delete Entity Test" })

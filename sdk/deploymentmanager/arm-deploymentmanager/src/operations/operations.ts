@@ -27,38 +27,35 @@ export class Operations {
   }
 
   /**
-   * @summary Gets an operation resource.
+   * @summary Lists the supported operations.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsGetResponse>
+   * @returns Promise<Models.OperationsListResponse>
    */
-  get(options?: msRest.RequestOptionsBase): Promise<Models.OperationsGetResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
   /**
    * @param callback The callback
    */
-  get(callback: msRest.ServiceCallback<Models.Operation[]>): void;
+  list(callback: msRest.ServiceCallback<Models.OperationsList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Operation[]>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation[]>, callback?: msRest.ServiceCallback<Models.Operation[]>): Promise<Models.OperationsGetResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsList>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsList>, callback?: msRest.ServiceCallback<Models.OperationsList>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.OperationsGetResponse>;
+      listOperationSpec,
+      callback) as Promise<Models.OperationsListResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DeploymentManager/operations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  path: "providers/Microsoft.DeploymentManager/operations",
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -67,18 +64,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.OperationsList
     },
     default: {
       bodyMapper: Mappers.CloudError

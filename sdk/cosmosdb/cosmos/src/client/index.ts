@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export * from "./Conflict";
 export * from "./Container";
 export * from "./Database";

@@ -9,7 +9,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -18,14 +17,16 @@ import { KeyVaultClientContext } from "./keyVaultClientContext";
 class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param apiVersion Client API version.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential,
-    options?: coreArm.AzureServiceClientOptions
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    options?: coreHttp.ServiceClientOptions
   ) {
-    super(credentials, options);
+    super(credentials, apiVersion, options);
   }
 
   /**
@@ -4611,652 +4612,6 @@ class KeyVaultClient extends KeyVaultClientContext {
       callback
     ) as Promise<Models.UpdateSasDefinitionResponse>;
   }
-
-  /**
-   * The full key identifier, attributes, and tags are provided in the response. This operation
-   * requires the keys/list permission.
-   * @summary Retrieves a list of individual key versions with the same key name.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetKeyVersionsNextResponse>
-   */
-  getKeyVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetKeyVersionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getKeyVersionsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getKeyVersionsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
-  getKeyVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): Promise<Models.GetKeyVersionsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getKeyVersionsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetKeyVersionsNextResponse>;
-  }
-
-  /**
-   * Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public
-   * part of a stored key. The LIST operation is applicable to all key types, however only the base
-   * key identifier, attributes, and tags are provided in the response. Individual versions of a key
-   * are not listed in the response. This operation requires the keys/list permission.
-   * @summary List keys in the specified vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetKeysNextResponse>
-   */
-  getKeysNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetKeysNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getKeysNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.KeyListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getKeysNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
-  getKeysNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): Promise<Models.GetKeysNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getKeysNextOperationSpec,
-      callback
-    ) as Promise<Models.GetKeysNextResponse>;
-  }
-
-  /**
-   * Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public
-   * part of a deleted key. This operation includes deletion-specific information. The Get Deleted
-   * Keys operation is applicable for vaults enabled for soft-delete. While the operation can be
-   * invoked on any vault, it will return an error if invoked on a non soft-delete enabled vault.
-   * This operation requires the keys/list permission.
-   * @summary Lists the deleted keys in the specified vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetDeletedKeysNextResponse>
-   */
-  getDeletedKeysNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedKeysNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getDeletedKeysNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getDeletedKeysNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): void;
-  getDeletedKeysNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedKeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): Promise<Models.GetDeletedKeysNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getDeletedKeysNextOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedKeysNextResponse>;
-  }
-
-  /**
-   * The Get Secrets operation is applicable to the entire vault. However, only the base secret
-   * identifier and its attributes are provided in the response. Individual secret versions are not
-   * listed in the response. This operation requires the secrets/list permission.
-   * @summary List secrets in a specified key vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetSecretsNextResponse>
-   */
-  getSecretsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetSecretsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getSecretsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSecretsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): void;
-  getSecretsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretListResult>,
-    callback?: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): Promise<Models.GetSecretsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getSecretsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetSecretsNextResponse>;
-  }
-
-  /**
-   * The full secret identifier and attributes are provided in the response. No values are returned
-   * for the secrets. This operations requires the secrets/list permission.
-   * @summary List all versions of the specified secret.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetSecretVersionsNextResponse>
-   */
-  getSecretVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetSecretVersionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getSecretVersionsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSecretVersionsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): void;
-  getSecretVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretListResult>,
-    callback?: coreHttp.ServiceCallback<Models.SecretListResult>
-  ): Promise<Models.GetSecretVersionsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getSecretVersionsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetSecretVersionsNextResponse>;
-  }
-
-  /**
-   * The Get Deleted Secrets operation returns the secrets that have been deleted for a vault enabled
-   * for soft-delete. This operation requires the secrets/list permission.
-   * @summary Lists deleted secrets for the specified vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetDeletedSecretsNextResponse>
-   */
-  getDeletedSecretsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedSecretsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getDeletedSecretsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getDeletedSecretsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
-  ): void;
-  getDeletedSecretsNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedSecretListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
-  ): Promise<Models.GetDeletedSecretsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getDeletedSecretsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedSecretsNextResponse>;
-  }
-
-  /**
-   * The GetCertificates operation returns the set of certificates resources in the specified key
-   * vault. This operation requires the certificates/list permission.
-   * @summary List certificates in a specified key vault
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetCertificatesNextResponse>
-   */
-  getCertificatesNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificatesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getCertificatesNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getCertificatesNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  getCertificatesNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): Promise<Models.GetCertificatesNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getCertificatesNextOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificatesNextResponse>;
-  }
-
-  /**
-   * The GetCertificateIssuers operation returns the set of certificate issuer resources in the
-   * specified key vault. This operation requires the certificates/manageissuers/getissuers
-   * permission.
-   * @summary List certificate issuers for a specified key vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetCertificateIssuersNextResponse>
-   */
-  getCertificateIssuersNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateIssuersNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getCertificateIssuersNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getCertificateIssuersNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): void;
-  getCertificateIssuersNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.CertificateIssuerListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): Promise<Models.GetCertificateIssuersNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getCertificateIssuersNextOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateIssuersNextResponse>;
-  }
-
-  /**
-   * The GetCertificateVersions operation returns the versions of a certificate in the specified key
-   * vault. This operation requires the certificates/list permission.
-   * @summary List the versions of a certificate.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetCertificateVersionsNextResponse>
-   */
-  getCertificateVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateVersionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getCertificateVersionsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getCertificateVersionsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  getCertificateVersionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): Promise<Models.GetCertificateVersionsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getCertificateVersionsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateVersionsNextResponse>;
-  }
-
-  /**
-   * The GetDeletedCertificates operation retrieves the certificates in the current vault which are
-   * in a deleted state and ready for recovery or purging. This operation includes deletion-specific
-   * information. This operation requires the certificates/get/list permission. This operation can
-   * only be enabled on soft-delete enabled vaults.
-   * @summary Lists the deleted certificates in the specified vault currently available for recovery.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetDeletedCertificatesNextResponse>
-   */
-  getDeletedCertificatesNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedCertificatesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getDeletedCertificatesNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getDeletedCertificatesNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): void;
-  getDeletedCertificatesNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedCertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): Promise<Models.GetDeletedCertificatesNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getDeletedCertificatesNextOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedCertificatesNextResponse>;
-  }
-
-  /**
-   * List storage accounts managed by the specified key vault. This operation requires the
-   * storage/list permission.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetStorageAccountsNextResponse>
-   */
-  getStorageAccountsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetStorageAccountsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getStorageAccountsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.StorageListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getStorageAccountsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.StorageListResult>
-  ): void;
-  getStorageAccountsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.StorageListResult>,
-    callback?: coreHttp.ServiceCallback<Models.StorageListResult>
-  ): Promise<Models.GetStorageAccountsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getStorageAccountsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetStorageAccountsNextResponse>;
-  }
-
-  /**
-   * The Get Deleted Storage Accounts operation returns the storage accounts that have been deleted
-   * for a vault enabled for soft-delete. This operation requires the storage/list permission.
-   * @summary Lists deleted storage accounts for the specified vault.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetDeletedStorageAccountsNextResponse>
-   */
-  getDeletedStorageAccountsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedStorageAccountsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getDeletedStorageAccountsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedStorageListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getDeletedStorageAccountsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedStorageListResult>
-  ): void;
-  getDeletedStorageAccountsNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedStorageListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedStorageListResult>
-  ): Promise<Models.GetDeletedStorageAccountsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getDeletedStorageAccountsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedStorageAccountsNextResponse>;
-  }
-
-  /**
-   * List storage SAS definitions for the given storage account. This operation requires the
-   * storage/listsas permission.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetSasDefinitionsNextResponse>
-   */
-  getSasDefinitionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetSasDefinitionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getSasDefinitionsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.SasDefinitionListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSasDefinitionsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.SasDefinitionListResult>
-  ): void;
-  getSasDefinitionsNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.SasDefinitionListResult>,
-    callback?: coreHttp.ServiceCallback<Models.SasDefinitionListResult>
-  ): Promise<Models.GetSasDefinitionsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getSasDefinitionsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetSasDefinitionsNextResponse>;
-  }
-
-  /**
-   * The Get Deleted Sas Definitions operation returns the SAS definitions that have been deleted for
-   * a vault enabled for soft-delete. This operation requires the storage/listsas permission.
-   * @summary Lists deleted SAS definitions for the specified vault and storage account.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetDeletedSasDefinitionsNextResponse>
-   */
-  getDeletedSasDefinitionsNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedSasDefinitionsNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getDeletedSasDefinitionsNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedSasDefinitionListResult>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getDeletedSasDefinitionsNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedSasDefinitionListResult>
-  ): void;
-  getDeletedSasDefinitionsNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedSasDefinitionListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedSasDefinitionListResult>
-  ): Promise<Models.GetDeletedSasDefinitionsNextResponse> {
-    return this.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getDeletedSasDefinitionsNextOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedSasDefinitionsNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -5266,7 +4621,6 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/create",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       kty: "kty",
@@ -5297,7 +4651,6 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       hsm: ["options", "hsm"],
@@ -5326,7 +4679,6 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -5343,7 +4695,6 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyOps: ["options", "keyOps"],
@@ -5371,7 +4722,6 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -5388,7 +4738,6 @@ const getKeyVersionsOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/versions",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5405,7 +4754,6 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   path: "keys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5422,7 +4770,6 @@ const backupKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/backup",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupKeyResult
@@ -5439,7 +4786,6 @@ const restoreKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/restore",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyBundleBackup: "keyBundleBackup"
@@ -5465,7 +4811,6 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/encrypt",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5492,7 +4837,6 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/decrypt",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5519,7 +4863,6 @@ const signOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/sign",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5546,7 +4889,6 @@ const verifyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/verify",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5574,7 +4916,6 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/wrapkey",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5601,7 +4942,6 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}/unwrapkey",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -5628,7 +4968,6 @@ const getDeletedKeysOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -5645,7 +4984,6 @@ const getDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -5662,7 +5000,6 @@ const purgeDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -5677,7 +5014,6 @@ const recoverDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}/recover",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -5694,7 +5030,6 @@ const setSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       value: "value",
@@ -5723,7 +5058,6 @@ const deleteSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -5740,7 +5074,6 @@ const updateSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}/{secret-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       contentType: ["options", "contentType"],
@@ -5768,7 +5101,6 @@ const getSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}/{secret-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -5785,7 +5117,6 @@ const getSecretsOperationSpec: coreHttp.OperationSpec = {
   path: "secrets",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -5802,7 +5133,6 @@ const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}/versions",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -5819,7 +5149,6 @@ const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
   path: "deletedsecrets",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretListResult
@@ -5836,7 +5165,6 @@ const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   path: "deletedsecrets/{secret-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -5853,7 +5181,6 @@ const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   path: "deletedsecrets/{secret-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -5868,7 +5195,6 @@ const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   path: "deletedsecrets/{secret-name}/recover",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -5885,7 +5211,6 @@ const backupSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/{secret-name}/backup",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupSecretResult
@@ -5902,7 +5227,6 @@ const restoreSecretOperationSpec: coreHttp.OperationSpec = {
   path: "secrets/restore",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       secretBundleBackup: "secretBundleBackup"
@@ -5928,7 +5252,6 @@ const getCertificatesOperationSpec: coreHttp.OperationSpec = {
   path: "certificates",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -5945,7 +5268,6 @@ const deleteCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -5962,7 +5284,6 @@ const setCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/contacts",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "contacts",
     mapper: {
@@ -5986,7 +5307,6 @@ const getCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/contacts",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -6003,7 +5323,6 @@ const deleteCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/contacts",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -6020,7 +5339,6 @@ const getCertificateIssuersOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/issuers",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateIssuerListResult
@@ -6037,7 +5355,6 @@ const setCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/issuers/{issuer-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       provider: "provider",
@@ -6066,7 +5383,6 @@ const updateCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/issuers/{issuer-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       provider: ["options", "provider"],
@@ -6095,7 +5411,6 @@ const getCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/issuers/{issuer-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -6112,7 +5427,6 @@ const deleteCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/issuers/{issuer-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -6129,7 +5443,6 @@ const createCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/create",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       certificatePolicy: ["options", "certificatePolicy"],
@@ -6157,7 +5470,6 @@ const importCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/import",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       base64EncodedCertificate: "base64EncodedCertificate",
@@ -6187,7 +5499,6 @@ const getCertificateVersionsOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/versions",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -6204,7 +5515,6 @@ const getCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/policy",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificatePolicy
@@ -6221,7 +5531,6 @@ const updateCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/policy",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificatePolicy",
     mapper: {
@@ -6249,7 +5558,6 @@ const updateCertificateOperationSpec: coreHttp.OperationSpec = {
     Parameters.certificateVersion
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       certificatePolicy: ["options", "certificatePolicy"],
@@ -6281,7 +5589,6 @@ const getCertificateOperationSpec: coreHttp.OperationSpec = {
     Parameters.certificateVersion
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -6298,7 +5605,6 @@ const updateCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/pending",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       cancellationRequested: "cancellationRequested"
@@ -6324,7 +5630,6 @@ const getCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/pending",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -6341,7 +5646,6 @@ const deleteCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/pending",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -6358,7 +5662,6 @@ const mergeCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/pending/merge",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       x509Certificates: "x509Certificates",
@@ -6386,7 +5689,6 @@ const backupCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/{certificate-name}/backup",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupCertificateResult
@@ -6403,7 +5705,6 @@ const restoreCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "certificates/restore",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       certificateBundleBackup: "certificateBundleBackup"
@@ -6429,7 +5730,6 @@ const getDeletedCertificatesOperationSpec: coreHttp.OperationSpec = {
   path: "deletedcertificates",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateListResult
@@ -6446,7 +5746,6 @@ const getDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "deletedcertificates/{certificate-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -6463,7 +5762,6 @@ const purgeDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "deletedcertificates/{certificate-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -6478,7 +5776,6 @@ const recoverDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   path: "deletedcertificates/{certificate-name}/recover",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -6495,7 +5792,6 @@ const getStorageAccountsOperationSpec: coreHttp.OperationSpec = {
   path: "storage",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageListResult
@@ -6512,7 +5808,6 @@ const getDeletedStorageAccountsOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageListResult
@@ -6529,7 +5824,6 @@ const getDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -6546,7 +5840,6 @@ const purgeDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -6561,7 +5854,6 @@ const recoverDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage/{storage-account-name}/recover",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageBundle
@@ -6578,7 +5870,6 @@ const backupStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}/backup",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupStorageResult
@@ -6595,7 +5886,6 @@ const restoreStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/restore",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       storageBundleBackup: "storageBundleBackup"
@@ -6621,7 +5911,6 @@ const deleteStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -6638,7 +5927,6 @@ const getStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageBundle
@@ -6655,7 +5943,6 @@ const setStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       resourceId: "resourceId",
@@ -6686,7 +5973,6 @@ const updateStorageAccountOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       activeKeyName: ["options", "activeKeyName"],
@@ -6716,7 +6002,6 @@ const regenerateStorageAccountKeyOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}/regeneratekey",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyName: "keyName"
@@ -6742,7 +6027,6 @@ const getSasDefinitionsOperationSpec: coreHttp.OperationSpec = {
   path: "storage/{storage-account-name}/sas",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionListResult
@@ -6759,7 +6043,6 @@ const getDeletedSasDefinitionsOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage/{storage-account-name}/sas",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionListResult
@@ -6780,7 +6063,6 @@ const getDeletedSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -6801,7 +6083,6 @@ const recoverDeletedSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
@@ -6822,7 +6103,6 @@ const deleteSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -6843,7 +6123,6 @@ const getSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
@@ -6864,7 +6143,6 @@ const setSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       templateUri: "templateUri",
@@ -6898,7 +6176,6 @@ const updateSasDefinitionOperationSpec: coreHttp.OperationSpec = {
     Parameters.sasDefinitionName
   ],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       templateUri: ["options", "templateUri"],
@@ -6915,244 +6192,6 @@ const updateSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getKeyVersionsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getKeysNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getDeletedKeysNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedKeyListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getSecretsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecretListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getSecretVersionsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecretListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getDeletedSecretsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedSecretListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getCertificatesNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.CertificateListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getCertificateIssuersNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.CertificateIssuerListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getCertificateVersionsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.CertificateListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getDeletedCertificatesNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedCertificateListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getStorageAccountsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getDeletedStorageAccountsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedStorageListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getSasDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SasDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  serializer
-};
-
-const getDeletedSasDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{vaultBaseUrl}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedSasDefinitionListResult
     },
     default: {
       bodyMapper: Mappers.KeyVaultError

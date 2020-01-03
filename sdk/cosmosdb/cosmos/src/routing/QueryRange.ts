@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common";
 
 /** @hidden */
@@ -16,7 +18,12 @@ export class QueryRange {
    * @param {boolean} isMaxInclusive         - isMaxInclusive
    * @ignore
    */
-  constructor(rangeMin: string, rangeMax: string, isMinInclusive: boolean, isMaxInclusive: boolean) {
+  constructor(
+    rangeMin: string,
+    rangeMax: string,
+    isMinInclusive: boolean,
+    isMaxInclusive: boolean
+  ) {
     this.min = rangeMin;
     this.max = rangeMax;
     this.isMinInclusive = isMinInclusive;
@@ -43,6 +50,15 @@ export class QueryRange {
       return true;
     }
     return false;
+  }
+
+  public isFullRange() {
+    return (
+      this.min === Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
+      this.max === Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
+      this.isMinInclusive === true &&
+      this.isMaxInclusive === false
+    );
   }
 
   public isEmpty() {

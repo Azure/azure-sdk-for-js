@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 import { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
@@ -10,7 +12,7 @@ import { Response } from "./request";
 /**
  * Provides iterator for change feed.
  *
- * Use `Items.readChangeFeed()` to get an instance of the iterator.
+ * Use `Items.changeFeed()` to get an instance of the iterator.
  */
 export class ChangeFeedIterator<T> {
   private static readonly IfNoneMatchAllHeaderValue = "*";
@@ -94,7 +96,9 @@ export class ChangeFeedIterator<T> {
 
   private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     if (!this.isPartitionSpecified) {
-      throw new Error("Container is partitioned, but no partition key or partition key range id was specified.");
+      throw new Error(
+        "Container is partitioned, but no partition key or partition key range id was specified."
+      );
     }
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
@@ -121,7 +125,7 @@ export class ChangeFeedIterator<T> {
       path: this.resourceLink,
       resourceType: ResourceType.item,
       resourceId: this.resourceId,
-      resultFn: result => (result ? result.Documents : []),
+      resultFn: (result) => (result ? result.Documents : []),
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey

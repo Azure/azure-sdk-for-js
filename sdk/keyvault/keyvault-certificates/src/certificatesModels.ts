@@ -1,49 +1,209 @@
 import * as coreHttp from "@azure/core-http";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy, KeyVaultClientCreateCertificateOptionalParams } from "./core/models";
+import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
- * Defines values for contentType.
- * Possible values include: 'application/pem', 'application/x-pkcs12'
+ * Defines values for CertificateKeyType.
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
  * @readonly
  * @enum {string}
  */
-export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 /**
- * @interface
- * An interface representing a certificate without the certificate's policy
+ * Defines values for CertificateKeyCurveName.
+ * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+ * @readonly
+ * @enum {string}
  */
-export interface Certificate extends CertificateAttributes {
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+/**
+ * @internal
+ * @ignore
+ * An interface representing the CertificateClient. For internal use.
+ */
+export interface CertificateClientInterface {
   /**
-   * @member {string} [kid] The key id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * Creates a new certificate. If this is the first version, the certificate resource is created.
+   * Requires the certificates/create permission.
    */
-  readonly kid?: string;
+  createCertificate(
+    certificateName: string,
+    certificatePolicy: CertificatePolicy,
+    options: CreateCertificateOptions
+  ): Promise<KeyVaultCertificate>;
   /**
-   * @member {string} [sid] The secret id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * Gets the certificate operation.
    */
-  readonly sid?: string;
+  getPlainCertificateOperation(
+    certificateName: string,
+    options?: GetPlainCertificateOperationOptions
+  ): Promise<CertificateOperation>;
   /**
-   * @member {Uint8Array} [cer] CER contents of x509 certificate.
+   * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault.
+   * Requires the certificate/recover permission.
    */
-  cer?: Uint8Array;
+  recoverDeletedCertificate(
+    certificateName: string,
+    options?: RecoverDeletedCertificateOptions
+  ): Promise<KeyVaultCertificateWithPolicy>;
   /**
-   * @member {CertificateContentType} [contentType] The content type of the secret.
+   * Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    */
-  contentType?: CertificateContentType;
+  cancelCertificateOperation(
+    certificateName: string,
+    options?: CancelCertificateOperationOptions
+  ): Promise<CertificateOperation>;
+  /**
+   * The get method gets a specified certificate and is applicable to any certificate stored in Azure Certificate Vault.
+   * This operation requires the certificates/get permission.
+   */
+  getCertificate(name: string, options?: GetCertificateOptions): Promise<KeyVaultCertificate>;
+  /**
+   * The delete operation applies to any certificate stored in Azure Certificate Vault. Individual versions
+   * of a certificate can not be deleted, only all versions of a given certificate at once.
+   */
+  deleteCertificate(name: string, options?: DeleteCertificateOptions): Promise<DeletedCertificate>;
+  /**
+   * The getDeletedCertificate method returns the specified deleted certificate along with its properties.
+   * This operation requires the certificates/get permission.
+   */
+  getDeletedCertificate(
+    name: string,
+    options?: GetDeletedCertificateOptions
+  ): Promise<DeletedCertificate>;
 }
 
 /**
- * @interface
- * An interface representing a full certificate
+ * The key vault server error.
  */
-export interface CertificateWithPolicy extends Certificate {
+export interface CertificateOperationError {
   /**
-   * @member {CertificatePolicy} [policy] The management policy.
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly innerError?: CertificateOperationError;
+}
+
+/**
+ * A certificate operation is returned in case of asynchronous requests.
+ */
+export interface CertificateOperation {
+  /**
+   * The certificate id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of certificate.
+   */
+  readonly name?: string;
+  /**
+   * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+   */
+  issuerName?: string;
+  /**
+   * Type of certificate to be requested from the issuer provider.
+   */
+  certificateType?: string;
+  /**
+   * Indicates if the certificates generated under this policy should be published to certificate
+   * transparency logs.
+   */
+  certificateTransparency?: boolean;
+  /**
+   * The certificate signing request (CSR) that is being used in the certificate operation.
+   */
+  csr?: Uint8Array;
+  /**
+   * Indicates if cancellation was requested on the certificate operation.
+   */
+  cancellationRequested?: boolean;
+  /**
+   * Status of the certificate operation.
+   */
+  status?: string;
+  /**
+   * The status details of the certificate operation.
+   */
+  statusDetails?: string;
+  /**
+   * Error encountered, if any, during the certificate operation.
+   */
+  error?: CertificateOperationError;
+  /**
+   * Location which contains the result of the certificate operation.
+   */
+  target?: string;
+  /**
+   * Identifier for the certificate operation.
+   */
+  requestId?: string;
+  /**
+   * The vault URI.
+   */
+  readonly vaultUrl?: string;
+}
+
+/**
+ * Defines values for contentType.
+ * Possible values include: 'application/x-pem-file', 'application/x-pkcs12'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
+
+/**
+ * An interface representing a certificate without the certificate's policy
+ */
+export interface KeyVaultCertificate {
+  /**
+   * CER contents of x509 certificate.
+   */
+  cer?: Uint8Array;
+  /**
+   * Certificate identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  id?: string;
+  /**
+   * The key id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyId?: string;
+  /**
+   * The secret id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretId?: string;
+  /**
+   * The name of certificate.
+   */
+  readonly name: string;
+  /**
+   * The properties of the certificate
+   */
+  properties: CertificateProperties;
+}
+
+/**
+ * An interface representing a certificate with its policy
+ */
+export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
+  /**
+   * The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -51,157 +211,668 @@ export interface CertificateWithPolicy extends Certificate {
 }
 
 /**
- * @interface
- * An interface representing the attributes of a certificate
+ * Well known issuers for choosing a default
  */
-export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
+export enum WellKnownIssuerNames {
   /**
-   * @member {string} [id] The certificate id.
+   * For self signed certificates
    */
-  readonly id?: string;
+  Self = "Self",
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * For certificates whose issuer will be defined later
+   */
+  Unknown = "Unknown"
+}
+
+/**
+ * An array with one property at minimum.
+ */
+export type ArrayOneOrMore<T> = {
+  0: T;
+} & Array<T>;
+
+/**
+ * An interface representing the alternative names of the subject of a certificate policy.
+ */
+export interface SubjectAlternativeNamesAll {
+  /**
+   * Email addresses.
+   */
+  emails: ArrayOneOrMore<string>;
+  /**
+   * Domain names.
+   */
+  dnsNames: ArrayOneOrMore<string>;
+  /**
+   * User principal names.
+   */
+  userPrincipalNames: ArrayOneOrMore<string>;
+}
+
+/**
+ * Alternatives to the subject property.
+ * If present, it should at least have one of the properties of SubjectAlternativeNamesAll.
+ */
+export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
+
+/**
+ * Details of the organization of the certificate issuer.
+ */
+export interface OrganizationDetails {
+  /**
+   * Id of the organization.
+   */
+  id?: string;
+  /**
+   * Details of the organization administrator.
+   */
+  adminDetails?: AdministratorContact[];
+}
+
+/**
+ * Details of the organization administrator of the certificate issuer.
+ */
+export interface AdministratorContact {
+  /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
+   * Email address.
+   */
+  email?: string;
+  /**
+   * Phone number.
+   */
+  phone?: string;
+}
+
+/**
+ * Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
+ */
+export interface LifetimeAction {
+  /**
+   * Percentage of lifetime at which to trigger. Value should be between 1 and 99.
+   */
+  lifetimePercentage?: number;
+  /**
+   * Days before expiry to attempt renewal. Value should be between 1 and validity_in_months
+   * multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 *
+   * 27).
+   */
+  daysBeforeExpiry?: number;
+  /**
+   * The action that will be executed.
+   */
+  action?: CertificatePolicyAction;
+}
+
+/**
+ * The action that will be executed.
+ */
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
+/**
+ * An interface representing a certificate's policy (without the subject properties).
+ */
+export interface CertificatePolicyProperties {
+  /**
+   * Indicates if the certificates generated under this policy should be published to certificate
+   * transparency logs.
+   */
+  certificateTransparency?: boolean;
+  /**
+   * The media type (MIME type).
+   */
+  contentType?: CertificateContentType;
+  /**
+   * Type of certificate to be requested from the issuer provider.
+   */
+  certificateType?: string;
+  /**
+   * When the certificate was created.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * Whether or not the certificate can be exported
    */
-  readonly notBefore?: Date;
+  exportable?: boolean;
   /**
-   * @member {Date} [created] When the certificate was created.
+   * The enhanced key usage.
    */
-  readonly created?: Date;
+  enhancedKeyUsage?: string[];
   /**
-   * @member {Date} [updated] When the object was updated.
+   * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
-  readonly updated?: Date;
+  issuerName?: WellKnownIssuerNames | string;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * Elliptic curve name. Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  readonly expires?: Date;
+  keyCurveName?: CertificateKeyCurveName;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
+   */
+  keySize?: number;
+  /**
+   * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
+   * 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: CertificateKeyType;
+  /**
+   * List of key usages.
+   */
+  keyUsage?: KeyUsageType[];
+  /**
+   * Actions that will be performed by Key Vault over the lifetime of a certificate.
+   */
+  lifetimeActions?: LifetimeAction[];
+  /**
+   * Indicates if the same key pair will be used on certificate renewal.
+   */
+  reuseKey?: boolean;
+  /**
+   * When the object was updated.
+   */
+  readonly updatedOn?: Date;
+  /**
+   * The duration that the certificate is valid in months.
+   */
+  validityInMonths?: number;
+}
+
+/**
+ * An interface representing the possible subject properties of a certificate's policy.
+ * The final type requires at least one of these properties to exist.
+ */
+export interface PolicySubjectProperties {
+  /**
+   * The subject name. Should be a valid X509 distinguished Name.
+   */
+  subject: string;
+  /**
+   * The subject alternative names.
+   */
+  subjectAlternativeNames: SubjectAlternativeNames;
+}
+
+/**
+ * An type representing a certificate's policy with at least one of the subject properties.
+ */
+export type CertificatePolicy = CertificatePolicyProperties &
+  RequireAtLeastOne<PolicySubjectProperties>;
+
+/**
+ * The DefaultCertificatePolicy exports values that
+ * are useful as default parameters to methods that
+ * modify the certificate's policy.
+ */
+export const DefaultCertificatePolicy = {
+  issuerName: "Self",
+  subject: "cn=MyCert"
+};
+
+/**
+ * An interface representing the properties of a certificate
+ */
+export interface CertificateProperties {
+  /**
+   * When the certificate was created.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * Expiry date in UTC.
+   */
+  readonly expiresOn?: Date;
+  /**
+   * Certificate identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of certificate.
+   */
+  readonly name?: string;
+  /**
+   * Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * Reflects the deletion recovery level currently in effect for certificates in the current
+   * vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged
+   * user; otherwise, only the system can purge the certificate, at the end of the retention
+   * interval. Possible values include: 'Purgeable', 'Recoverable+Purgeable', 'Recoverable',
+   * 'Recoverable+ProtectedSubscription'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
   /**
-   * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
+   * When the issuer was updated.
+   */
+  readonly updatedOn?: Date;
+  /**
+   * The vault URI.
+   */
+  readonly vaultUrl?: string;
+  /**
+   * The version of certificate. May be undefined.
+   */
+  readonly version?: string;
+  /**
+   * Thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
 }
 
 /**
- * @interface
  * An interface representing a deleted certificate
  */
-export interface DeletedCertificate extends Certificate {
+export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
   /**
-   * @member {string} [recoveryId] The url of the recovery object, used to
+   * The time when the certificate was deleted, in UTC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletedOn?: Date;
+  /**
+   * The url of the recovery object, used to
    * identify and recover the deleted certificate.
    */
-  recoveryId?: string;
+  readonly recoveryId?: string;
   /**
-   * @member {Date} [scheduledPurgeDate] The time when the certificate is scheduled
+   * The time when the certificate is scheduled
    * to be purged, in UTC
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly scheduledPurgeDate?: Date;
-  /**
-   * @member {Date} [deletedDate] The time when the certificate was deleted, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly deletedDate?: Date;
 }
 
 /**
- * @interface
- * An interface representing options for creating a certificate.
- * Optional Parameters.
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginCreateCertificate}, {@link beginDeleteCertificate} and {@link beginRecoverDeletedCertificate}
  */
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
-
-export type CertificateTags = { [propertyName: string]: string };
+export interface CertificatePollerOptions extends coreHttp.OperationOptions {
+  /**
+   * Time between each polling
+   */
+  intervalInMs?: number;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
 
 /**
- * @interface
- * An interface representing KeyVaultClientUpdateCertificateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginCreateCertificate}
  */
-export interface UpdateCertificateOptions {
+export interface BeginCreateCertificateOptions
+  extends CreateCertificateOptions,
+    CertificatePollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginDeleteCertificate}
+ */
+export interface BeginDeleteCertificateOptions extends CertificatePollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link beginRecoverDeletedCertificate}
+ */
+export interface BeginRecoverDeletedCertificateOptions extends CertificatePollerOptions {}
+
+/**
+ * Options for {@link getCertificateOperation}.
+ */
+export interface GetCertificateOperationOptions extends CertificatePollerOptions {}
+
+/**
+ * Options for {@link createCertificate}.
+ */
+export interface CreateCertificateOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link cancelCertificateOperation}.
+ */
+export interface CancelCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link backupCertificate}.
+ */
+export interface BackupCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link deleteCertificateOperation}.
+ */
+export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link deleteCertificate}.
+ */
+export interface DeleteCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link deleteContacts}.
+ */
+export interface DeleteContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link importCertificate}.
+ */
+export interface ImportCertificateOptions extends coreHttp.OperationOptions {
   /**
-   * @member {CertificateContentType} [contentType] Type of the certificate value such as a
-   * password.
-   */
-  contentType?: CertificateContentType;
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [notBefore] Not before date in UTC.
+   * If the private key in base64EncodedCertificate is encrypted, the password used for encryption.
    */
-  notBefore?: Date;
+  password?: string;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * The management policy.
    */
-  expires?: Date;
+  policy?: CertificatePolicy;
   /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
- * @interface
- * An interface representing the issuer of a certificate
+ * Options for {@link deleteIssuer}.
  */
-export interface CertificateIssuer {
+export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link setContacts}.
+ */
+export interface SetContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Details of the organization administrator of the certificate issuer.
+ */
+export interface AdministratorDetails {
   /**
-   * @member {string} [id] Certificate Identifier.
+   * First name.
    */
-  id?: string;
+  firstName?: string;
   /**
-   * @member {string} [provider] The issuer provider.
+   * Last name.
+   */
+  lastName?: string;
+  /**
+   * Email address.
+   */
+  email?: string;
+  /**
+   * Phone number.
+   */
+  phone?: string;
+}
+
+/**
+ * Options for {@link createIssuer}.
+ */
+export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+  /**
+   * The user name/account name/account id.
+   */
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization's administrator contacts, as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
+  /**
+   * Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * Options for {@link purgeDeletedCertificate}.
+ */
+export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link updateIssuer}.
+ */
+export interface UpdateIssuerOptions extends CreateIssuerOptions {
+  /**
+   * The issuer provider.
    */
   provider?: string;
 }
 
 /**
- * @interface
- * An interface representing the attributes of an issuer
+ * Options for {@link getContacts}.
  */
-export interface IssuerAttributes {
+export interface GetContactsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getIssuer}.
+ */
+export interface GetIssuerOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getPlainCertificateOperation}.
+ */
+export interface GetPlainCertificateOperationOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getCertificateVersion}.
+ */
+export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getCertificatePolicy}.
+ */
+export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getDeletedCertificate}.
+ */
+export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link getCertificate}.
+ */
+export interface GetCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
+ */
+export type CertificateTags = { [propertyName: string]: string };
+
+/**
+ * Options for {@link updateCertificate}.
+ */
+export interface UpdateCertificatePropertiesOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
+
+/**
+ * Options for {@link updateCertificatePolicy}.
+ */
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing the properties of a certificate issuer
+ */
+export interface IssuerProperties {
   /**
-   * @member {string} [id] Certificate Identifier.
+   * Certificate Identifier.
    */
   id?: string;
   /**
-   * @member {string} [provider] The issuer provider.
+   * Name of the issuer.
+   */
+  readonly name?: string;
+  /**
+   * The issuer provider.
    */
   provider?: string;
+}
+
+/**
+ * An interface representing the properties of an issuer
+ */
+export interface CertificateIssuer extends IssuerProperties {
   /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
+   * Determines whether the object is enabled.
    */
   enabled?: boolean;
   /**
-   * @member {Date} [created] When the issuer was created.
+   * When the issuer was created.
    */
-  created?: Date;
+  readonly createdOn?: Date;
   /**
-   * @member {Date} [updated] When the issuer was updated.
+   * When the issuer was updated.
    */
-  updated?: Date;
+  readonly updatedOn?: Date;
   /**
-   * @member {string} [name] Name of the issuer
+   * The user name/account name/account id.
    */
-  name?: string;
+  accountId?: string;
+  /**
+   * The password/secret/account key.
+   */
+  password?: string;
+  /**
+   * Id of the organization.
+   */
+  organizationId?: string;
+  /**
+   * Details of the organization's administrator contacts, as provided to the issuer.
+   */
+  administratorContacts?: AdministratorContact[];
+}
+
+/**
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
+ */
+export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
+  /**
+   * Specifies whether to include certificates which are not completely provisioned.
+   */
+  includePending?: boolean;
+}
+
+/**
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
+ */
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
+ */
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
+ */
+export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
+  /**
+   * Specifies whether to include certificates which are not completely provisioned.
+   */
+  includePending?: boolean;
+}
+
+/**
+ * An interface representing optional parameters for {@link mergeCertificate}.
+ */
+export interface MergeCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters for {@link recoverDeletedCertificate}.
+ */
+export interface RecoverDeletedCertificateOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters for {@link restoreCertificateBackup}.
+ */
+export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {}
+
+/**
+ * The shape of the contact information for the vault certificates.
+ */
+export interface CertificateContactAll {
+  /**
+   * Email address of the contact
+   */
+  email: string;
+  /**
+   * Name of the contact
+   */
+  name: string;
+  /**
+   * Phone number of the contact
+   */
+  phone: string;
+}
+
+/**
+ * RequireAtLeastOne helps create a type where at least one of the properties of an interface (can be any property) is required to exist.
+ *
+ * This works because of TypeScript's utility types: https://www.typescriptlang.org/docs/handbook/utility-types.html
+ * Let's examine it:
+ * - `[K in keyof T]-?` this property (K) is valid only if it has the same name as any property of T.
+ * - `Required<Pick<T, K>>` makes a new type from T with just the current property in the iteration, and marks it as required
+ * - `Partial<Pick<T, Exclude<keyof T, K>>>` makes a new type with all the properties of T, except from the property K.
+ * - `&` is what unites the type with only one required property from `Required<...>` with all the optional properties from `Partial<...>`.
+ * - `[keyof T]` ensures that only properties of T are allowed.
+ */
+export type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+
+/**
+ * The contact information for the vault certificates.
+ * Each contact will have at least just one of the properties of CertificateContactAll,
+ * which are: emailAddress, name or phone.
+ */
+export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
+
+/**
+ * The contacts for the vault certificates.
+ */
+export interface CertificateContacts {
+  /**
+   * Identifier for the contacts collection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The contact list for the vault certificates.
+   */
+  contactList?: CertificateContact[];
 }

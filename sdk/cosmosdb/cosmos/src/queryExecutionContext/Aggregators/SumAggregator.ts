@@ -1,7 +1,9 @@
-import { IAggregator } from "./IAggregator";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { Aggregator } from "./Aggregator";
 
 /** @hidden */
-export class SumAggregator implements IAggregator<number> {
+export class SumAggregator implements Aggregator {
   public sum: number;
   /**
    * Add the provided item to aggregation result.

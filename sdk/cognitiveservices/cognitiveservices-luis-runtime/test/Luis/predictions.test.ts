@@ -25,12 +25,13 @@ describe("Predections Tests", () => {
           query: utterance,
           options: {
             datetimeReference: new Date("2019-01-01"),
-            overridePredictions: true
+            preferExternalEntities: true
           },
           externalEntities: [{
             entityName: "simple",
             startIndex: 26,
             entityLength: 4,
+            score : 0.86,
             resolution: externalResolution
           }],
           dynamicLists: [{
@@ -47,7 +48,6 @@ describe("Predections Tests", () => {
       );
       var prediction = result.prediction;
       chai.expect(utterance).to.eql(result.query);
-      chai.expect(utterance).to.eql(prediction.normalizedQuery);
       chai.expect(prediction.topIntent).to.eql("intent");
       chai.expect(Object.keys(prediction.intents).length).to.eql(2);
       chai.expect(Object.keys(prediction.entities).length).to.eql(4);
@@ -65,7 +65,6 @@ describe("Predections Tests", () => {
       chai.expect(prediction.sentiment.score).to.be.above(0.5);
 
       var child = topIntent.childApp;
-      chai.expect(utterance).to.eql(child.normalizedQuery);
       chai.expect(child.topIntent).to.eql("None");
       chai.expect(Object.keys(child.intents).length).to.eql(1);
       chai.expect(Object.keys(child.entities).length).to.eql(2);
@@ -88,7 +87,7 @@ describe("Predections Tests", () => {
           query: utterance,
           options: {
             datetimeReference: new Date("2019-01-01"),
-            overridePredictions: true
+            preferExternalEntities: true
           },
           externalEntities: [{
             entityName: "simple",
@@ -111,7 +110,6 @@ describe("Predections Tests", () => {
       )
       let prediction = result.prediction;
       chai.expect(utterance).to.eql(result.query);
-      chai.expect(utterance).to.eql(prediction.normalizedQuery);
       chai.expect(prediction.topIntent).to.eql("intent");
       chai.expect(Object.keys(prediction.intents).length).to.eql(2);
       chai.expect(Object.keys(prediction.entities).length).to.eql(4);
@@ -129,7 +127,6 @@ describe("Predections Tests", () => {
       chai.expect(prediction.sentiment.score).to.be.above(0.5);
 
       var child = topIntent.childApp;
-      chai.expect(utterance).to.eql(child.normalizedQuery);
       chai.expect(child.topIntent).to.eql("None");
       chai.expect(Object.keys(child.intents).length).to.eql(1);
       chai.expect(Object.keys(child.entities).length).to.eql(2);

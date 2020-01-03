@@ -4,7 +4,7 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
@@ -23,7 +23,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "os"];
+  const externalNodeBuiltins = ["@azure/core-http", "crypto", "fs", "os"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -45,7 +45,13 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {
@@ -72,7 +78,7 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
@@ -108,10 +114,17 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
-    ]
+    ],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   };
 
   if (test) {
@@ -127,20 +140,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/azure-storage-queue.min.js";
-    baseConfig.plugins.push(
-      terser({
-        output: {
-          preamble: banner
-        }
-      })
-      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
-      // visualizer({
-      //   filename: "./statistics.html",
-      //   sourcemap: true
-      // })
-    );
   }
 
   return baseConfig;

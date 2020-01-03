@@ -21,6 +21,8 @@ trigger:
   paths:
     include:
       - sdk/core/
+      - eng/
+      - common/config/rush/
 
 pr:
   branches:
@@ -32,11 +34,13 @@ pr:
   paths:
     include:
       - sdk/core/
+      - eng/
+      - common/config/rush/
 
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: "*"
+      ServiceDirectory: "core"
       Artifacts:
         - name: azure-abort-controller
           safeName: azureabortcontroller
@@ -50,7 +54,11 @@ stages:
           safeName: azurecoreauth
         - name: azure-core-http
           safeName: azurecorehttp
+        - name: azure-core-lro
+          safeName: azurecorelro
         - name: azure-core-paging
           safeName: azurecorepaging
         - name: azure-core-tracing
           safeName: azurecoretracing
+        - name: azure-logger
+          safeName: azurelogger

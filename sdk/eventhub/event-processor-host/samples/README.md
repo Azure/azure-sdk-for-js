@@ -42,4 +42,4 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ts-node sample.ts
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/event-processor-host/samples/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-processor-host%2Fsamples%2FREADME.png)

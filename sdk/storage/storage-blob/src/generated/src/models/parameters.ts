@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const access: msRest.OperationParameter = {
+export const access: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "access"
@@ -22,7 +22,7 @@ export const access: msRest.OperationParameter = {
     }
   }
 };
-export const action0: msRest.OperationParameter = {
+export const action0: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -34,7 +34,7 @@ export const action0: msRest.OperationParameter = {
     }
   }
 };
-export const action1: msRest.OperationParameter = {
+export const action1: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -46,7 +46,7 @@ export const action1: msRest.OperationParameter = {
     }
   }
 };
-export const action2: msRest.OperationParameter = {
+export const action2: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -58,7 +58,7 @@ export const action2: msRest.OperationParameter = {
     }
   }
 };
-export const action3: msRest.OperationParameter = {
+export const action3: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -70,7 +70,7 @@ export const action3: msRest.OperationParameter = {
     }
   }
 };
-export const action4: msRest.OperationParameter = {
+export const action4: coreHttp.OperationParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -82,7 +82,7 @@ export const action4: msRest.OperationParameter = {
     }
   }
 };
-export const action5: msRest.OperationQueryParameter = {
+export const action5: coreHttp.OperationQueryParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -94,7 +94,7 @@ export const action5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const action6: msRest.OperationQueryParameter = {
+export const action6: coreHttp.OperationQueryParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -106,7 +106,7 @@ export const action6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const appendPosition: msRest.OperationParameter = {
+export const appendPosition: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "appendPositionAccessConditions",
@@ -119,7 +119,7 @@ export const appendPosition: msRest.OperationParameter = {
     }
   }
 };
-export const blobCacheControl: msRest.OperationParameter = {
+export const blobCacheControl: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -132,7 +132,7 @@ export const blobCacheControl: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentDisposition: msRest.OperationParameter = {
+export const blobContentDisposition: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -145,7 +145,7 @@ export const blobContentDisposition: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentEncoding: msRest.OperationParameter = {
+export const blobContentEncoding: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -158,7 +158,7 @@ export const blobContentEncoding: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentLanguage: msRest.OperationParameter = {
+export const blobContentLanguage: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -171,7 +171,7 @@ export const blobContentLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentLength: msRest.OperationParameter = {
+export const blobContentLength: coreHttp.OperationParameter = {
   parameterPath: "blobContentLength",
   mapper: {
     required: true,
@@ -181,7 +181,7 @@ export const blobContentLength: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentMD5: msRest.OperationParameter = {
+export const blobContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -194,7 +194,7 @@ export const blobContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const blobContentType: msRest.OperationParameter = {
+export const blobContentType: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobHTTPHeaders",
@@ -207,7 +207,7 @@ export const blobContentType: msRest.OperationParameter = {
     }
   }
 };
-export const blobSequenceNumber: msRest.OperationParameter = {
+export const blobSequenceNumber: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "blobSequenceNumber"
@@ -220,7 +220,7 @@ export const blobSequenceNumber: msRest.OperationParameter = {
     }
   }
 };
-export const blobType0: msRest.OperationParameter = {
+export const blobType0: coreHttp.OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -232,7 +232,7 @@ export const blobType0: msRest.OperationParameter = {
     }
   }
 };
-export const blobType1: msRest.OperationParameter = {
+export const blobType1: coreHttp.OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -244,7 +244,7 @@ export const blobType1: msRest.OperationParameter = {
     }
   }
 };
-export const blobType2: msRest.OperationParameter = {
+export const blobType2: coreHttp.OperationParameter = {
   parameterPath: "blobType",
   mapper: {
     required: true,
@@ -256,7 +256,7 @@ export const blobType2: msRest.OperationParameter = {
     }
   }
 };
-export const blockId: msRest.OperationQueryParameter = {
+export const blockId: coreHttp.OperationQueryParameter = {
   parameterPath: "blockId",
   mapper: {
     required: true,
@@ -266,7 +266,7 @@ export const blockId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const breakPeriod: msRest.OperationParameter = {
+export const breakPeriod: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "breakPeriod"
@@ -278,7 +278,7 @@ export const breakPeriod: msRest.OperationParameter = {
     }
   }
 };
-export const cacheControl: msRest.OperationParameter = {
+export const cacheControl: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -291,7 +291,7 @@ export const cacheControl: msRest.OperationParameter = {
     }
   }
 };
-export const comp0: msRest.OperationQueryParameter = {
+export const comp0: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -303,7 +303,7 @@ export const comp0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp1: msRest.OperationQueryParameter = {
+export const comp1: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -315,7 +315,7 @@ export const comp1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp10: msRest.OperationQueryParameter = {
+export const comp10: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -327,7 +327,7 @@ export const comp10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp11: msRest.OperationQueryParameter = {
+export const comp11: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -339,7 +339,7 @@ export const comp11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp12: msRest.OperationQueryParameter = {
+export const comp12: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -351,7 +351,7 @@ export const comp12: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp13: msRest.OperationQueryParameter = {
+export const comp13: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -363,7 +363,7 @@ export const comp13: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp14: msRest.OperationQueryParameter = {
+export const comp14: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -375,7 +375,7 @@ export const comp14: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp15: msRest.OperationQueryParameter = {
+export const comp15: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -387,7 +387,7 @@ export const comp15: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp16: msRest.OperationQueryParameter = {
+export const comp16: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -399,7 +399,7 @@ export const comp16: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp17: msRest.OperationQueryParameter = {
+export const comp17: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -411,7 +411,7 @@ export const comp17: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp2: msRest.OperationQueryParameter = {
+export const comp2: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -423,7 +423,7 @@ export const comp2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp3: msRest.OperationQueryParameter = {
+export const comp3: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -435,7 +435,7 @@ export const comp3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp4: msRest.OperationQueryParameter = {
+export const comp4: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -447,7 +447,7 @@ export const comp4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp5: msRest.OperationQueryParameter = {
+export const comp5: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -459,7 +459,7 @@ export const comp5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp6: msRest.OperationQueryParameter = {
+export const comp6: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -471,7 +471,7 @@ export const comp6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp7: msRest.OperationQueryParameter = {
+export const comp7: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -483,7 +483,7 @@ export const comp7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp8: msRest.OperationQueryParameter = {
+export const comp8: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -495,7 +495,7 @@ export const comp8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp9: msRest.OperationQueryParameter = {
+export const comp9: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -507,7 +507,7 @@ export const comp9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const contentDisposition: msRest.OperationParameter = {
+export const contentDisposition: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -520,7 +520,7 @@ export const contentDisposition: msRest.OperationParameter = {
     }
   }
 };
-export const contentEncoding: msRest.OperationParameter = {
+export const contentEncoding: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -533,7 +533,7 @@ export const contentEncoding: msRest.OperationParameter = {
     }
   }
 };
-export const contentLanguage: msRest.OperationParameter = {
+export const contentLanguage: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -546,7 +546,7 @@ export const contentLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const contentLength: msRest.OperationParameter = {
+export const contentLength: coreHttp.OperationParameter = {
   parameterPath: "contentLength",
   mapper: {
     required: true,
@@ -556,7 +556,7 @@ export const contentLength: msRest.OperationParameter = {
     }
   }
 };
-export const contentType: msRest.OperationParameter = {
+export const contentType: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryHttpHeaders",
@@ -569,7 +569,7 @@ export const contentType: msRest.OperationParameter = {
     }
   }
 };
-export const copyActionAbortConstant: msRest.OperationParameter = {
+export const copyActionAbortConstant: coreHttp.OperationParameter = {
   parameterPath: "copyActionAbortConstant",
   mapper: {
     required: true,
@@ -581,7 +581,7 @@ export const copyActionAbortConstant: msRest.OperationParameter = {
     }
   }
 };
-export const copyId: msRest.OperationQueryParameter = {
+export const copyId: coreHttp.OperationQueryParameter = {
   parameterPath: "copyId",
   mapper: {
     required: true,
@@ -591,7 +591,7 @@ export const copyId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const copySource: msRest.OperationParameter = {
+export const copySource: coreHttp.OperationParameter = {
   parameterPath: "copySource",
   mapper: {
     required: true,
@@ -601,7 +601,7 @@ export const copySource: msRest.OperationParameter = {
     }
   }
 };
-export const deleteSnapshots: msRest.OperationParameter = {
+export const deleteSnapshots: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "deleteSnapshots"
@@ -617,7 +617,7 @@ export const deleteSnapshots: msRest.OperationParameter = {
     }
   }
 };
-export const delimiter: msRest.OperationQueryParameter = {
+export const delimiter: coreHttp.OperationQueryParameter = {
   parameterPath: "delimiter",
   mapper: {
     required: true,
@@ -627,7 +627,7 @@ export const delimiter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const directoryProperties: msRest.OperationParameter = {
+export const directoryProperties: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "directoryProperties"
@@ -639,7 +639,7 @@ export const directoryProperties: msRest.OperationParameter = {
     }
   }
 };
-export const duration: msRest.OperationParameter = {
+export const duration: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "duration"
@@ -651,7 +651,7 @@ export const duration: msRest.OperationParameter = {
     }
   }
 };
-export const encryptionAlgorithm: msRest.OperationParameter = {
+export const encryptionAlgorithm: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -667,7 +667,7 @@ export const encryptionAlgorithm: msRest.OperationParameter = {
     }
   }
 };
-export const encryptionKey: msRest.OperationParameter = {
+export const encryptionKey: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -680,7 +680,7 @@ export const encryptionKey: msRest.OperationParameter = {
     }
   }
 };
-export const encryptionKeySha256: msRest.OperationParameter = {
+export const encryptionKeySha256: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -693,7 +693,7 @@ export const encryptionKeySha256: msRest.OperationParameter = {
     }
   }
 };
-export const group: msRest.OperationParameter = {
+export const group: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "group"
@@ -705,7 +705,7 @@ export const group: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch: msRest.OperationParameter = {
+export const ifMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -718,7 +718,7 @@ export const ifMatch: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince: msRest.OperationParameter = {
+export const ifModifiedSince: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -731,7 +731,7 @@ export const ifModifiedSince: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch: msRest.OperationParameter = {
+export const ifNoneMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -744,7 +744,7 @@ export const ifNoneMatch: msRest.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberEqualTo: msRest.OperationParameter = {
+export const ifSequenceNumberEqualTo: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -757,7 +757,7 @@ export const ifSequenceNumberEqualTo: msRest.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberLessThan: msRest.OperationParameter = {
+export const ifSequenceNumberLessThan: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -770,7 +770,7 @@ export const ifSequenceNumberLessThan: msRest.OperationParameter = {
     }
   }
 };
-export const ifSequenceNumberLessThanOrEqualTo: msRest.OperationParameter = {
+export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sequenceNumberAccessConditions",
@@ -783,7 +783,7 @@ export const ifSequenceNumberLessThanOrEqualTo: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince: msRest.OperationParameter = {
+export const ifUnmodifiedSince: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "modifiedAccessConditions",
@@ -796,7 +796,7 @@ export const ifUnmodifiedSince: msRest.OperationParameter = {
     }
   }
 };
-export const include0: msRest.OperationQueryParameter = {
+export const include0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -811,7 +811,7 @@ export const include0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const include1: msRest.OperationQueryParameter = {
+export const include1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -834,9 +834,9 @@ export const include1: msRest.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
+  collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
-export const leaseId0: msRest.OperationParameter = {
+export const leaseId0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "leaseAccessConditions",
@@ -849,7 +849,7 @@ export const leaseId0: msRest.OperationParameter = {
     }
   }
 };
-export const leaseId1: msRest.OperationParameter = {
+export const leaseId1: coreHttp.OperationParameter = {
   parameterPath: "leaseId",
   mapper: {
     required: true,
@@ -859,7 +859,7 @@ export const leaseId1: msRest.OperationParameter = {
     }
   }
 };
-export const listType: msRest.OperationQueryParameter = {
+export const listType: coreHttp.OperationQueryParameter = {
   parameterPath: "listType",
   mapper: {
     required: true,
@@ -875,7 +875,7 @@ export const listType: msRest.OperationQueryParameter = {
     }
   }
 };
-export const marker0: msRest.OperationQueryParameter = {
+export const marker0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -887,7 +887,7 @@ export const marker0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const marker1: msRest.OperationQueryParameter = {
+export const marker1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -899,10 +899,10 @@ export const marker1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: msRest.OperationQueryParameter = {
+export const maxPageSize: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxPageSize"
   ],
   mapper: {
     serializedName: "maxresults",
@@ -914,7 +914,7 @@ export const maxresults: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxSize: msRest.OperationParameter = {
+export const maxSize: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "appendPositionAccessConditions",
@@ -927,7 +927,7 @@ export const maxSize: msRest.OperationParameter = {
     }
   }
 };
-export const metadata: msRest.OperationParameter = {
+export const metadata: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "metadata"
@@ -945,7 +945,7 @@ export const metadata: msRest.OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-"
   }
 };
-export const multipartContentType: msRest.OperationParameter = {
+export const multipartContentType: coreHttp.OperationParameter = {
   parameterPath: "multipartContentType",
   mapper: {
     required: true,
@@ -955,7 +955,7 @@ export const multipartContentType: msRest.OperationParameter = {
     }
   }
 };
-export const owner: msRest.OperationParameter = {
+export const owner: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "owner"
@@ -967,7 +967,7 @@ export const owner: msRest.OperationParameter = {
     }
   }
 };
-export const pageWrite0: msRest.OperationParameter = {
+export const pageWrite0: coreHttp.OperationParameter = {
   parameterPath: "pageWrite",
   mapper: {
     required: true,
@@ -979,7 +979,7 @@ export const pageWrite0: msRest.OperationParameter = {
     }
   }
 };
-export const pageWrite1: msRest.OperationParameter = {
+export const pageWrite1: coreHttp.OperationParameter = {
   parameterPath: "pageWrite",
   mapper: {
     required: true,
@@ -991,8 +991,11 @@ export const pageWrite1: msRest.OperationParameter = {
     }
   }
 };
-export const pathRenameMode: msRest.OperationQueryParameter = {
-  parameterPath: "pathRenameMode",
+export const pathRenameMode: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "pathRenameMode"
+  ],
   mapper: {
     serializedName: "mode",
     type: {
@@ -1004,7 +1007,7 @@ export const pathRenameMode: msRest.OperationQueryParameter = {
     }
   }
 };
-export const posixAcl: msRest.OperationParameter = {
+export const posixAcl: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "posixAcl"
@@ -1016,7 +1019,7 @@ export const posixAcl: msRest.OperationParameter = {
     }
   }
 };
-export const posixPermissions: msRest.OperationParameter = {
+export const posixPermissions: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "posixPermissions"
@@ -1028,7 +1031,7 @@ export const posixPermissions: msRest.OperationParameter = {
     }
   }
 };
-export const posixUmask: msRest.OperationParameter = {
+export const posixUmask: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "posixUmask"
@@ -1040,7 +1043,7 @@ export const posixUmask: msRest.OperationParameter = {
     }
   }
 };
-export const prefix: msRest.OperationQueryParameter = {
+export const prefix: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "prefix"
@@ -1052,7 +1055,7 @@ export const prefix: msRest.OperationQueryParameter = {
     }
   }
 };
-export const prevsnapshot: msRest.OperationQueryParameter = {
+export const prevsnapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "prevsnapshot"
@@ -1064,7 +1067,7 @@ export const prevsnapshot: msRest.OperationQueryParameter = {
     }
   }
 };
-export const proposedLeaseId0: msRest.OperationParameter = {
+export const proposedLeaseId0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "proposedLeaseId"
@@ -1076,7 +1079,7 @@ export const proposedLeaseId0: msRest.OperationParameter = {
     }
   }
 };
-export const proposedLeaseId1: msRest.OperationParameter = {
+export const proposedLeaseId1: coreHttp.OperationParameter = {
   parameterPath: "proposedLeaseId",
   mapper: {
     required: true,
@@ -1086,7 +1089,7 @@ export const proposedLeaseId1: msRest.OperationParameter = {
     }
   }
 };
-export const range0: msRest.OperationParameter = {
+export const range0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "range"
@@ -1098,7 +1101,7 @@ export const range0: msRest.OperationParameter = {
     }
   }
 };
-export const range1: msRest.OperationParameter = {
+export const range1: coreHttp.OperationParameter = {
   parameterPath: "range",
   mapper: {
     required: true,
@@ -1108,7 +1111,7 @@ export const range1: msRest.OperationParameter = {
     }
   }
 };
-export const rangeGetContentCRC64: msRest.OperationParameter = {
+export const rangeGetContentCRC64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "rangeGetContentCRC64"
@@ -1120,7 +1123,7 @@ export const rangeGetContentCRC64: msRest.OperationParameter = {
     }
   }
 };
-export const rangeGetContentMD5: msRest.OperationParameter = {
+export const rangeGetContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "rangeGetContentMD5"
@@ -1132,7 +1135,7 @@ export const rangeGetContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const recursiveDirectoryDelete: msRest.OperationQueryParameter = {
+export const recursiveDirectoryDelete: coreHttp.OperationQueryParameter = {
   parameterPath: "recursiveDirectoryDelete",
   mapper: {
     required: true,
@@ -1142,7 +1145,7 @@ export const recursiveDirectoryDelete: msRest.OperationQueryParameter = {
     }
   }
 };
-export const rehydratePriority: msRest.OperationParameter = {
+export const rehydratePriority: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "rehydratePriority"
@@ -1154,7 +1157,7 @@ export const rehydratePriority: msRest.OperationParameter = {
     }
   }
 };
-export const renameSource: msRest.OperationParameter = {
+export const renameSource: coreHttp.OperationParameter = {
   parameterPath: "renameSource",
   mapper: {
     required: true,
@@ -1164,7 +1167,7 @@ export const renameSource: msRest.OperationParameter = {
     }
   }
 };
-export const requestId: msRest.OperationParameter = {
+export const requestId: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "requestId"
@@ -1176,7 +1179,7 @@ export const requestId: msRest.OperationParameter = {
     }
   }
 };
-export const resource: msRest.OperationQueryParameter = {
+export const resource: coreHttp.OperationQueryParameter = {
   parameterPath: "resource",
   mapper: {
     required: true,
@@ -1188,7 +1191,7 @@ export const resource: msRest.OperationQueryParameter = {
     }
   }
 };
-export const restype0: msRest.OperationQueryParameter = {
+export const restype0: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1200,7 +1203,7 @@ export const restype0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const restype1: msRest.OperationQueryParameter = {
+export const restype1: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1212,7 +1215,7 @@ export const restype1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const restype2: msRest.OperationQueryParameter = {
+export const restype2: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -1224,7 +1227,7 @@ export const restype2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const sequenceNumberAction: msRest.OperationParameter = {
+export const sequenceNumberAction: coreHttp.OperationParameter = {
   parameterPath: "sequenceNumberAction",
   mapper: {
     required: true,
@@ -1239,7 +1242,7 @@ export const sequenceNumberAction: msRest.OperationParameter = {
     }
   }
 };
-export const snapshot: msRest.OperationQueryParameter = {
+export const snapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "snapshot"
@@ -1251,7 +1254,7 @@ export const snapshot: msRest.OperationQueryParameter = {
     }
   }
 };
-export const sourceContentCrc64: msRest.OperationParameter = {
+export const sourceContentCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceContentCrc64"
@@ -1263,7 +1266,7 @@ export const sourceContentCrc64: msRest.OperationParameter = {
     }
   }
 };
-export const sourceContentMD5: msRest.OperationParameter = {
+export const sourceContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceContentMD5"
@@ -1275,7 +1278,7 @@ export const sourceContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfMatch: msRest.OperationParameter = {
+export const sourceIfMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1288,7 +1291,7 @@ export const sourceIfMatch: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfModifiedSince: msRest.OperationParameter = {
+export const sourceIfModifiedSince: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1301,7 +1304,7 @@ export const sourceIfModifiedSince: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfNoneMatch: msRest.OperationParameter = {
+export const sourceIfNoneMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1314,7 +1317,7 @@ export const sourceIfNoneMatch: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfUnmodifiedSince: msRest.OperationParameter = {
+export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -1327,7 +1330,7 @@ export const sourceIfUnmodifiedSince: msRest.OperationParameter = {
     }
   }
 };
-export const sourceLeaseId: msRest.OperationParameter = {
+export const sourceLeaseId: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceLeaseId"
@@ -1339,7 +1342,7 @@ export const sourceLeaseId: msRest.OperationParameter = {
     }
   }
 };
-export const sourceRange0: msRest.OperationParameter = {
+export const sourceRange0: coreHttp.OperationParameter = {
   parameterPath: "sourceRange",
   mapper: {
     required: true,
@@ -1349,7 +1352,7 @@ export const sourceRange0: msRest.OperationParameter = {
     }
   }
 };
-export const sourceRange1: msRest.OperationParameter = {
+export const sourceRange1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceRange"
@@ -1361,7 +1364,7 @@ export const sourceRange1: msRest.OperationParameter = {
     }
   }
 };
-export const sourceUrl: msRest.OperationParameter = {
+export const sourceUrl: coreHttp.OperationParameter = {
   parameterPath: "sourceUrl",
   mapper: {
     required: true,
@@ -1371,7 +1374,7 @@ export const sourceUrl: msRest.OperationParameter = {
     }
   }
 };
-export const tier0: msRest.OperationParameter = {
+export const tier0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "tier"
@@ -1383,7 +1386,7 @@ export const tier0: msRest.OperationParameter = {
     }
   }
 };
-export const tier1: msRest.OperationParameter = {
+export const tier1: coreHttp.OperationParameter = {
   parameterPath: "tier",
   mapper: {
     required: true,
@@ -1393,10 +1396,10 @@ export const tier1: msRest.OperationParameter = {
     }
   }
 };
-export const timeout: msRest.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",
@@ -1408,7 +1411,7 @@ export const timeout: msRest.OperationQueryParameter = {
     }
   }
 };
-export const transactionalContentCrc64: msRest.OperationParameter = {
+export const transactionalContentCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "transactionalContentCrc64"
@@ -1420,7 +1423,7 @@ export const transactionalContentCrc64: msRest.OperationParameter = {
     }
   }
 };
-export const transactionalContentMD5: msRest.OperationParameter = {
+export const transactionalContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "transactionalContentMD5"
@@ -1432,7 +1435,7 @@ export const transactionalContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const upn: msRest.OperationQueryParameter = {
+export const upn: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "upn"
@@ -1444,7 +1447,7 @@ export const upn: msRest.OperationQueryParameter = {
     }
   }
 };
-export const url: msRest.OperationURLParameter = {
+export const url: coreHttp.OperationURLParameter = {
   parameterPath: "url",
   mapper: {
     required: true,
@@ -1456,7 +1459,7 @@ export const url: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const version: msRest.OperationParameter = {
+export const version: coreHttp.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
@@ -1468,7 +1471,7 @@ export const version: msRest.OperationParameter = {
     }
   }
 };
-export const xMsRequiresSync: msRest.OperationParameter = {
+export const xMsRequiresSync: coreHttp.OperationParameter = {
   parameterPath: "xMsRequiresSync",
   mapper: {
     required: true,

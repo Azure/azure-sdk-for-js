@@ -60,6 +60,148 @@ describe("RequestResponseLink", function() {
     assert.equal(response.correlation_id, req.message_id);
   });
 
+  it("should send parellel requests and receive responses correctly", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    let reqs: AmqpMessage[] = [];
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: AmqpMessage) => {
+            reqs.push(request);
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const request1: AmqpMessage = {
+      body: "Hello World!!",
+      message_id: 1
+    };
+    const request2: AmqpMessage = {
+      body: "Hello again my old friend.",
+      message_id: 2
+    };
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: reqs[0].message_id,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
+            "com.microsoft:tracking-id": null
+          },
+          body: "Hello World!!"
+        }
+      });
+    }, 2000);
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: reqs[1].message_id,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
+            "com.microsoft:tracking-id": null
+          },
+          body: "Hello hello!"
+        }
+      });
+    }, 2100);
+
+    const responses = await Promise.all([link.sendRequest(request1), link.sendRequest(request2)]);
+
+    assert.equal(responses[0].correlation_id, reqs[0].message_id);
+    assert.equal(responses[1].correlation_id, reqs[1].message_id);
+  });
+
+  it("should send parellel requests and receive responses correctly (one failure)", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    let reqs: AmqpMessage[] = [];
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: AmqpMessage) => {
+            reqs.push(request);
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const request1: AmqpMessage = {
+      body: "Hello World!!",
+      message_id: 1
+    };
+    const request2: AmqpMessage = {
+      body: "Hello again my old friend.",
+      message_id: 2
+    };
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: reqs[0].message_id,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
+            "com.microsoft:tracking-id": null
+          },
+          body: "Hello World!!"
+        }
+      });
+    }, 2000);
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: reqs[1].message_id,
+          application_properties: {
+            statusCode: 500,
+            errorCondition: ErrorNameConditionMapper.InternalServerError,
+            statusDescription: "Please try again later.",
+            "com.microsoft:tracking-id": 1
+          },
+          body: "Hello hello!"
+        }
+      });
+    }, 1500);
+
+    const successfulRequest = link.sendRequest(request1);
+    const failedRequest = link.sendRequest(request2);
+
+    // ensure that one request fails
+    try {
+      await failedRequest;
+      throw new Error("Test failure");
+    } catch (err) {
+      err.message.should.not.equal("Test failure");
+    }
+
+    // ensure the other request succeeds
+    const response = await successfulRequest;
+    assert.equal(response.correlation_id, request1.message_id);
+  });
+
   it("should surface error up through retry", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();

@@ -1,4 +1,6 @@
-﻿import * as http from "http";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import * as http from "http";
 import * as net from "net";
 import { URL } from "url";
 import ProxyAgent from "proxy-agent";
@@ -16,20 +18,18 @@ if (!isBrowser()) {
 
     proxy.on("connect", (req, clientSocket, head) => {
       const serverUrl = new URL(`http://${req.url}`);
-      const serverSocket = net.connect(
-        parseInt(serverUrl.port, 10),
-        serverUrl.hostname,
-        () => {
-          clientSocket.write("HTTP/1.1 200 Connection Established\r\n" + "Proxy-agent: Node.js-Proxy\r\n" + "\r\n");
-          serverSocket.write(head);
-          serverSocket.pipe(clientSocket);
-          clientSocket.pipe(serverSocket);
-        }
-      );
+      const serverSocket = net.connect(parseInt(serverUrl.port, 10), serverUrl.hostname, () => {
+        clientSocket.write(
+          "HTTP/1.1 200 Connection Established\r\n" + "Proxy-agent: Node.js-Proxy\r\n" + "\r\n"
+        );
+        serverSocket.write(head);
+        serverSocket.pipe(clientSocket);
+        clientSocket.pipe(serverSocket);
+      });
     });
 
     const proxyPort = 8989;
-    const agent = new ProxyAgent(`http://127.0.0.1:${8989}`);
+    const agent = new ProxyAgent(`http://127.0.0.1:${8989}`) as any;
 
     it("nativeApi Client Should successfully execute request", async function() {
       return new Promise((resolve, reject) => {
@@ -68,7 +68,9 @@ if (!isBrowser()) {
             await client.databases.create({
               id: addEntropy("ProxyTest")
             });
-            reject(new Error("Should create database in error while the proxy setting is not correct"));
+            reject(
+              new Error("Should create database in error while the proxy setting is not correct")
+            );
           } catch (err) {
             resolve();
           } finally {

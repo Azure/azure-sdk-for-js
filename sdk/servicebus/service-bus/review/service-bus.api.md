@@ -5,12 +5,14 @@
 ```ts
 
 import { AmqpMessage } from '@azure/core-amqp';
+import { ConnectionConfig } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
+import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -60,12 +62,12 @@ export interface OnMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;
@@ -101,7 +103,7 @@ export class Receiver {
     isReceivingMessages(): boolean;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMessages(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]>;
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
     readonly receiveMode: ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
@@ -150,6 +152,7 @@ export class Sender {
 
 // @public
 export class ServiceBusClient {
+    constructor(config: ConnectionConfig, credential: SharedKeyCredential | TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<any>;
     static createFromConnectionString(connectionString: string, options?: ServiceBusClientOptions): ServiceBusClient;
     createQueueClient(queueName: string): QueueClient;
@@ -166,7 +169,7 @@ export interface ServiceBusClientOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {

@@ -2,10 +2,15 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { HttpHeaders, } from "../httpHeaders";
+import { HttpHeaders } from "../httpHeaders";
 import { WebResource } from "../webResource";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
 
@@ -15,11 +20,20 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/acces
  * @param credential The TokenCredential implementation that can supply the bearer token.
  * @param scopes The scopes for which the bearer token applies.
  */
-export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
+export function bearerTokenAuthenticationPolicy(
+  credential: TokenCredential,
+  scopes: string | string[]
+): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes, tokenCache);
+      return new BearerTokenAuthenticationPolicy(
+        nextPolicy,
+        options,
+        credential,
+        scopes,
+        tokenCache
+      );
     }
   };
 }
@@ -55,24 +69,22 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    * Applies the Bearer token to the request through the Authorization header.
    * @param webResource
    */
-  public async sendRequest(
-    webResource: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
     const token = await this.getToken({
-      abortSignal: webResource.abortSignal
+      abortSignal: webResource.abortSignal,
+      tracingOptions: {
+        spanOptions: webResource.spanOptions
+      }
     });
-    webResource.headers.set(
-      Constants.HeaderConstants.AUTHORIZATION,
-      `Bearer ${token}`
-    );
+    webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
     return this._nextPolicy.sendRequest(webResource);
   }
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = await this.credential.getToken(this.scopes, options) || undefined;
+      accessToken = (await this.credential.getToken(this.scopes, options)) || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
 

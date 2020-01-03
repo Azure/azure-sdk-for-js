@@ -1,10 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
 import { UserDefinedFunction } from "./UserDefinedFunction";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 
-export class UserDefinedFunctionResponse extends ResourceResponse<UserDefinedFunctionDefinition & Resource> {
+export class UserDefinedFunctionResponse extends ResourceResponse<
+  UserDefinedFunctionDefinition & Resource
+> {
   constructor(
     resource: UserDefinedFunctionDefinition & Resource,
     headers: CosmosHeaders,

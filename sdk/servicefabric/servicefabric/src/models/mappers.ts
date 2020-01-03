@@ -1653,6 +1653,12 @@ export const ApplicationUpgradeDescription: msRest.CompositeMapper = {
           name: "Composite",
           className: "ApplicationHealthPolicy"
         }
+      },
+      instanceCloseDelayDurationInSeconds: {
+        serializedName: "InstanceCloseDelayDurationInSeconds",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2583,6 +2589,49 @@ export const ContainerInstanceEvent: msRest.CompositeMapper = {
   }
 };
 
+export const ConfigParameterOverride: msRest.CompositeMapper = {
+  serializedName: "ConfigParameterOverride",
+  type: {
+    name: "Composite",
+    className: "ConfigParameterOverride",
+    modelProperties: {
+      sectionName: {
+        required: true,
+        serializedName: "SectionName",
+        type: {
+          name: "String"
+        }
+      },
+      parameterName: {
+        required: true,
+        serializedName: "ParameterName",
+        type: {
+          name: "String"
+        }
+      },
+      parameterValue: {
+        required: true,
+        serializedName: "ParameterValue",
+        type: {
+          name: "String"
+        }
+      },
+      timeout: {
+        serializedName: "Timeout",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      persistAcrossUpgrade: {
+        serializedName: "PersistAcrossUpgrade",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const DeactivationIntentDescription: msRest.CompositeMapper = {
   serializedName: "DeactivationIntentDescription",
   type: {
@@ -3163,6 +3212,12 @@ export const HealthInformation: msRest.CompositeMapper = {
         serializedName: "RemoveWhenExpired",
         type: {
           name: "Boolean"
+        }
+      },
+      healthReportId: {
+        serializedName: "HealthReportId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4278,7 +4333,7 @@ export const ReplicaHealthState: msRest.CompositeMapper = {
       serializedName: "ServiceKind",
       clientName: "serviceKind"
     },
-    uberParent: "ReplicaHealthState",
+    uberParent: "EntityHealthState",
     className: "ReplicaHealthState",
     modelProperties: {
       ...EntityHealthState.type.modelProperties,
@@ -4640,6 +4695,12 @@ export const StartClusterUpgradeDescription: msRest.CompositeMapper = {
           name: "Composite",
           className: "ApplicationHealthPolicies"
         }
+      },
+      instanceCloseDelayDurationInSeconds: {
+        serializedName: "InstanceCloseDelayDurationInSeconds",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -4705,6 +4766,12 @@ export const RollingUpgradeUpdateDescription: msRest.CompositeMapper = {
         serializedName: "UpgradeDomainTimeoutInMilliseconds",
         type: {
           name: "String"
+        }
+      },
+      instanceCloseDelayDurationInSeconds: {
+        serializedName: "InstanceCloseDelayDurationInSeconds",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -4892,7 +4959,7 @@ export const ReplicaHealth: msRest.CompositeMapper = {
       serializedName: "ServiceKind",
       clientName: "serviceKind"
     },
-    uberParent: "ReplicaHealth",
+    uberParent: "EntityHealth",
     className: "ReplicaHealth",
     modelProperties: {
       ...EntityHealth.type.modelProperties,
@@ -5693,6 +5760,18 @@ export const StatelessServicePartitionInfo: msRest.CompositeMapper = {
       ...ServicePartitionInfo.type.modelProperties,
       instanceCount: {
         serializedName: "InstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minInstanceCount: {
+        serializedName: "MinInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minInstancePercentage: {
+        serializedName: "MinInstancePercentage",
         type: {
           name: "Number"
         }
@@ -8170,6 +8249,16 @@ export const StatefulServiceDescription: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      servicePlacementTimeLimitSeconds: {
+        serializedName: "ServicePlacementTimeLimitSeconds",
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -8189,6 +8278,34 @@ export const StatelessServiceDescription: msRest.CompositeMapper = {
         serializedName: "InstanceCount",
         constraints: {
           InclusiveMinimum: -1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      minInstanceCount: {
+        serializedName: "MinInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minInstancePercentage: {
+        serializedName: "MinInstancePercentage",
+        type: {
+          name: "Number"
+        }
+      },
+      flags: {
+        serializedName: "Flags",
+        type: {
+          name: "Number"
+        }
+      },
+      instanceCloseDelayDurationSeconds: {
+        serializedName: "InstanceCloseDelayDurationSeconds",
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
@@ -8865,6 +8982,12 @@ export const StatefulServiceUpdateDescription: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      servicePlacementTimeLimitSeconds: {
+        serializedName: "ServicePlacementTimeLimitSeconds",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -8886,6 +9009,24 @@ export const StatelessServiceUpdateDescription: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
+        }
+      },
+      minInstanceCount: {
+        serializedName: "MinInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minInstancePercentage: {
+        serializedName: "MinInstancePercentage",
+        type: {
+          name: "Number"
+        }
+      },
+      instanceCloseDelayDurationSeconds: {
+        serializedName: "InstanceCloseDelayDurationSeconds",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8912,6 +9053,28 @@ export const FileVersion: msRest.CompositeMapper = {
       },
       epochConfigurationNumber: {
         serializedName: "EpochConfigurationNumber",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskInfo: msRest.CompositeMapper = {
+  serializedName: "DiskInfo",
+  type: {
+    name: "Composite",
+    className: "DiskInfo",
+    modelProperties: {
+      capacity: {
+        serializedName: "Capacity",
+        type: {
+          name: "String"
+        }
+      },
+      availableSpace: {
+        serializedName: "AvailableSpace",
         type: {
           name: "String"
         }
@@ -8999,6 +9162,28 @@ export const FolderSizeInfo: msRest.CompositeMapper = {
   }
 };
 
+export const UsageInfo: msRest.CompositeMapper = {
+  serializedName: "UsageInfo",
+  type: {
+    name: "Composite",
+    className: "UsageInfo",
+    modelProperties: {
+      usedSpace: {
+        serializedName: "UsedSpace",
+        type: {
+          name: "String"
+        }
+      },
+      fileCount: {
+        serializedName: "FileCount",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ImageStoreContent: msRest.CompositeMapper = {
   serializedName: "ImageStoreContent",
   type: {
@@ -9068,6 +9253,51 @@ export const ImageStoreCopyDescription: msRest.CompositeMapper = {
         serializedName: "CheckMarkFile",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ImageStoreInfo: msRest.CompositeMapper = {
+  serializedName: "ImageStoreInfo",
+  type: {
+    name: "Composite",
+    className: "ImageStoreInfo",
+    modelProperties: {
+      diskInfo: {
+        serializedName: "DiskInfo",
+        type: {
+          name: "Composite",
+          className: "DiskInfo"
+        }
+      },
+      usedByMetadata: {
+        serializedName: "UsedByMetadata",
+        type: {
+          name: "Composite",
+          className: "UsageInfo"
+        }
+      },
+      usedByStaging: {
+        serializedName: "UsedByStaging",
+        type: {
+          name: "Composite",
+          className: "UsageInfo"
+        }
+      },
+      usedByCopy: {
+        serializedName: "UsedByCopy",
+        type: {
+          name: "Composite",
+          className: "UsageInfo"
+        }
+      },
+      usedByRegister: {
+        serializedName: "UsedByRegister",
+        type: {
+          name: "Composite",
+          className: "UsageInfo"
         }
       }
     }
@@ -15447,6 +15677,50 @@ export const PagedVolumeResourceDescriptionList: msRest.CompositeMapper = {
   }
 };
 
+export const EndpointRef: msRest.CompositeMapper = {
+  serializedName: "EndpointRef",
+  type: {
+    name: "Composite",
+    className: "EndpointRef",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkRef: msRest.CompositeMapper = {
+  serializedName: "NetworkRef",
+  type: {
+    name: "Composite",
+    className: "NetworkRef",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      endpointRefs: {
+        serializedName: "endpointRefs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointRef"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NetworkResourcePropertiesBase: msRest.CompositeMapper = {
   serializedName: "NetworkResourcePropertiesBase",
   type: {
@@ -15515,50 +15789,6 @@ export const LocalNetworkResourceProperties: msRest.CompositeMapper = {
         serializedName: "networkAddressPrefix",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointRef: msRest.CompositeMapper = {
-  serializedName: "EndpointRef",
-  type: {
-    name: "Composite",
-    className: "EndpointRef",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkRef: msRest.CompositeMapper = {
-  serializedName: "NetworkRef",
-  type: {
-    name: "Composite",
-    className: "NetworkRef",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      endpointRefs: {
-        serializedName: "endpointRefs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EndpointRef"
-            }
-          }
         }
       }
     }
@@ -16006,6 +16236,13 @@ export const ImageRegistryCredential: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      passwordType: {
+        serializedName: "passwordType",
+        defaultValue: 'ClearText',
+        type: {
+          name: "String"
+        }
+      },
       password: {
         serializedName: "password",
         type: {
@@ -16022,6 +16259,13 @@ export const EnvironmentVariable: msRest.CompositeMapper = {
     name: "Composite",
     className: "EnvironmentVariable",
     modelProperties: {
+      type: {
+        serializedName: "type",
+        defaultValue: 'ClearText',
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -16044,6 +16288,13 @@ export const Setting: msRest.CompositeMapper = {
     name: "Composite",
     className: "Setting",
     modelProperties: {
+      type: {
+        serializedName: "type",
+        defaultValue: 'ClearText',
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -16356,6 +16607,172 @@ export const ContainerInstanceView: msRest.CompositeMapper = {
   }
 };
 
+export const ProbeExec: msRest.CompositeMapper = {
+  serializedName: "ProbeExec",
+  type: {
+    name: "Composite",
+    className: "ProbeExec",
+    modelProperties: {
+      command: {
+        required: true,
+        serializedName: "command",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProbeHttpGetHeaders: msRest.CompositeMapper = {
+  serializedName: "ProbeHttpGetHeaders",
+  type: {
+    name: "Composite",
+    className: "ProbeHttpGetHeaders",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProbeHttpGet: msRest.CompositeMapper = {
+  serializedName: "ProbeHttpGet",
+  type: {
+    name: "Composite",
+    className: "ProbeHttpGet",
+    modelProperties: {
+      port: {
+        required: true,
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      host: {
+        serializedName: "host",
+        type: {
+          name: "String"
+        }
+      },
+      httpHeaders: {
+        serializedName: "httpHeaders",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProbeHttpGetHeaders"
+            }
+          }
+        }
+      },
+      scheme: {
+        serializedName: "scheme",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProbeTcpSocket: msRest.CompositeMapper = {
+  serializedName: "ProbeTcpSocket",
+  type: {
+    name: "Composite",
+    className: "ProbeTcpSocket",
+    modelProperties: {
+      port: {
+        required: true,
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Probe: msRest.CompositeMapper = {
+  serializedName: "Probe",
+  type: {
+    name: "Composite",
+    className: "Probe",
+    modelProperties: {
+      initialDelaySeconds: {
+        serializedName: "initialDelaySeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      periodSeconds: {
+        serializedName: "periodSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      timeoutSeconds: {
+        serializedName: "timeoutSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      successThreshold: {
+        serializedName: "successThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      failureThreshold: {
+        serializedName: "failureThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      exec: {
+        serializedName: "exec",
+        type: {
+          name: "Composite",
+          className: "ProbeExec"
+        }
+      },
+      httpGet: {
+        serializedName: "httpGet",
+        type: {
+          name: "Composite",
+          className: "ProbeHttpGet"
+        }
+      },
+      tcpSocket: {
+        serializedName: "tcpSocket",
+        type: {
+          name: "Composite",
+          className: "ProbeTcpSocket"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerCodePackageProperties: msRest.CompositeMapper = {
   serializedName: "ContainerCodePackageProperties",
   type: {
@@ -16505,6 +16922,52 @@ export const ContainerCodePackageProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerInstanceView"
+        }
+      },
+      livenessProbe: {
+        serializedName: "livenessProbe",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Probe"
+            }
+          }
+        }
+      },
+      readinessProbe: {
+        serializedName: "readinessProbe",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Probe"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ExecutionPolicy: msRest.CompositeMapper = {
+  serializedName: "ExecutionPolicy",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "ExecutionPolicy",
+    className: "ExecutionPolicy",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -16674,6 +17137,13 @@ export const ServiceResourceDescription: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      executionPolicy: {
+        serializedName: "properties.executionPolicy",
+        type: {
+          name: "Composite",
+          className: "ExecutionPolicy"
+        }
+      },
       autoScalingPolicies: {
         serializedName: "properties.autoScalingPolicies",
         type: {
@@ -16724,6 +17194,12 @@ export const ServiceResourceDescription: msRest.CompositeMapper = {
               className: "ServiceIdentity"
             }
           }
+        }
+      },
+      dnsName: {
+        serializedName: "properties.dnsName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -16797,6 +17273,119 @@ export const DiagnosticsDescription: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ServiceUpgradeProgress: msRest.CompositeMapper = {
+  serializedName: "ServiceUpgradeProgress",
+  type: {
+    name: "Composite",
+    className: "ServiceUpgradeProgress",
+    modelProperties: {
+      serviceName: {
+        serializedName: "ServiceName",
+        type: {
+          name: "String"
+        }
+      },
+      completedReplicaCount: {
+        serializedName: "CompletedReplicaCount",
+        type: {
+          name: "String"
+        }
+      },
+      pendingReplicaCount: {
+        serializedName: "PendingReplicaCount",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationResourceUpgradeProgressInfo: msRest.CompositeMapper = {
+  serializedName: "ApplicationResourceUpgradeProgressInfo",
+  type: {
+    name: "Composite",
+    className: "ApplicationResourceUpgradeProgressInfo",
+    modelProperties: {
+      name: {
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      targetApplicationTypeVersion: {
+        serializedName: "TargetApplicationTypeVersion",
+        type: {
+          name: "String"
+        }
+      },
+      startTimestampUtc: {
+        serializedName: "StartTimestampUtc",
+        type: {
+          name: "String"
+        }
+      },
+      upgradeState: {
+        serializedName: "UpgradeState",
+        type: {
+          name: "String"
+        }
+      },
+      percentCompleted: {
+        serializedName: "PercentCompleted",
+        type: {
+          name: "String"
+        }
+      },
+      serviceUpgradeProgress: {
+        serializedName: "ServiceUpgradeProgress",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceUpgradeProgress"
+            }
+          }
+        }
+      },
+      rollingUpgradeMode: {
+        serializedName: "RollingUpgradeMode",
+        defaultValue: 'Monitored',
+        type: {
+          name: "String"
+        }
+      },
+      upgradeDuration: {
+        serializedName: "UpgradeDuration",
+        defaultValue: 'PT0H2M0S',
+        type: {
+          name: "String"
+        }
+      },
+      applicationUpgradeStatusDetails: {
+        serializedName: "ApplicationUpgradeStatusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      upgradeReplicaSetCheckTimeoutInSeconds: {
+        serializedName: "UpgradeReplicaSetCheckTimeoutInSeconds",
+        defaultValue: 42949672925,
+        type: {
+          name: "Number"
+        }
+      },
+      failureTimestampUtc: {
+        serializedName: "FailureTimestampUtc",
+        type: {
+          name: "String"
         }
       }
     }
@@ -16991,6 +17580,26 @@ export const AutoScalingResourceMetric: msRest.CompositeMapper = {
   }
 };
 
+export const RunToCompletionExecutionPolicy: msRest.CompositeMapper = {
+  serializedName: "runToCompletion",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ExecutionPolicy.type.polymorphicDiscriminator,
+    uberParent: "ExecutionPolicy",
+    className: "RunToCompletionExecutionPolicy",
+    modelProperties: {
+      ...ExecutionPolicy.type.modelProperties,
+      restart: {
+        required: true,
+        serializedName: "restart",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceProperties: msRest.CompositeMapper = {
   serializedName: "ServiceProperties",
   type: {
@@ -17007,6 +17616,13 @@ export const ServiceProperties: msRest.CompositeMapper = {
         serializedName: "replicaCount",
         type: {
           name: "Number"
+        }
+      },
+      executionPolicy: {
+        serializedName: "executionPolicy",
+        type: {
+          name: "Composite",
+          className: "ExecutionPolicy"
         }
       },
       autoScalingPolicies: {
@@ -17059,6 +17675,12 @@ export const ServiceProperties: msRest.CompositeMapper = {
               className: "ServiceIdentity"
             }
           }
+        }
+      },
+      dnsName: {
+        serializedName: "dnsName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -17561,6 +18183,7 @@ export const discriminators = {
   'NetworkResourcePropertiesBase.NetworkResourceProperties' : NetworkResourceProperties,
   'NetworkResourcePropertiesBase.Local' : LocalNetworkResourceProperties,
   'NetworkResourcePropertiesBase' : NetworkResourcePropertiesBase,
+  'ExecutionPolicy' : ExecutionPolicy,
   'AutoScalingTrigger' : AutoScalingTrigger,
   'AutoScalingMechanism' : AutoScalingMechanism,
   'DiagnosticsSinkProperties' : DiagnosticsSinkProperties,
@@ -17568,6 +18191,7 @@ export const discriminators = {
   'AutoScalingMechanism.AddRemoveReplica' : AddRemoveReplicaScalingMechanism,
   'AutoScalingMetric' : AutoScalingMetric,
   'AutoScalingMetric.Resource' : AutoScalingResourceMetric,
+  'ExecutionPolicy.runToCompletion' : RunToCompletionExecutionPolicy,
   'AutoScalingTrigger.AverageLoad' : AverageLoadScalingTrigger
 
 };

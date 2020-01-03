@@ -1,10 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
 import { StoredProcedure } from "./StoredProcedure";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 
-export class StoredProcedureResponse extends ResourceResponse<StoredProcedureDefinition & Resource> {
+export class StoredProcedureResponse extends ResourceResponse<
+  StoredProcedureDefinition & Resource
+> {
   constructor(
     resource: StoredProcedureDefinition & Resource,
     headers: CosmosHeaders,

@@ -19,6 +19,11 @@ export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
 export { OperationArguments } from "./operationArguments";
 export {
+  OperationOptions,
+  OperationRequestOptions,
+  operationOptionsToRequestOptionsBase
+} from "./operationOptions";
+export {
   OperationParameter,
   OperationQueryParameter,
   OperationURLParameter
@@ -29,15 +34,18 @@ export {
   ServiceClient,
   ServiceClientOptions,
   flattenResponse,
-  ProxySettings
+  createPipelineFromOptions,
+  ProxySettings,
+  ProxyOptions
 } from "./serviceClient";
+export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
   BearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicy
 } from "./policies/bearerTokenAuthenticationPolicy";
-export { logPolicy } from "./policies/logPolicy";
+export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 export {
   BaseRequestPolicy,
   RequestPolicy,
@@ -45,13 +53,18 @@ export {
   RequestPolicyOptions
 } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-export { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
-export { redirectPolicy } from "./policies/redirectPolicy";
+export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
+export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { signingPolicy } from "./policies/signingPolicy";
-export { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
+export {
+  userAgentPolicy,
+  getDefaultUserAgentValue,
+  UserAgentOptions
+} from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
 export { tracingPolicy } from "./policies/tracingPolicy";
 export {
@@ -92,17 +105,12 @@ export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
 
 // Credentials
-export {
-  TokenCredential,
-  GetTokenOptions,
-  AccessToken,
-  isTokenCredential,
-  SimpleTokenCredential
-} from "@azure/core-auth";
+export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
-export * from "@azure/core-tracing";
+
+export { parseXML, stringifyXML } from "./util/xml";

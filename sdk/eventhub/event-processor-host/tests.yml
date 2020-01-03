@@ -26,7 +26,7 @@ jobs:
       EnvVars:
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
         EVENTHUB_NAME: $(js-event-hubs-test-name)
-        IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+        IOTHUB_CONNECTION_STRING: $(js-event-processor-host-test-iothub-connection-string)
         STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
       # Event Hubs tests do not support concurrent execution
       MaxParallel: 1

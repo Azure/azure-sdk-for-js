@@ -101,6 +101,8 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
   - In playback mode, the date in the recordings associated to the `label` is returned.
 
+  - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
+
 - `getUniqueName: (prefix: string, label?: string) => string`
 
   - In live test mode, random string is generated, appended to `prefix` and returned.
@@ -110,6 +112,8 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - In playback mode, the string in the recordings associated to the `label` is returned.
 
   - If the `label`(optional param) is not provided, `prefix` is used as the label.
+
+  - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
 
 - Any unique information of the test run that is important for playing back the http request must be saved along with the recordings in the record mode.
 
@@ -247,9 +251,9 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor"],
   ```
 
-- Import recordings for playback mode
+- Import recordings in playback mode
   ```javascript
-  files: ["recordings/browsers/**/*.json"],
+  files: [<your-existing-files-list>].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
   ```
 - Preprocessor for converting JSON files into JS variables
   ```javascript

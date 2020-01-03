@@ -62,13 +62,6 @@ export const Prediction: msRest.CompositeMapper = {
     name: "Composite",
     className: "Prediction",
     modelProperties: {
-      normalizedQuery: {
-        required: true,
-        serializedName: "normalizedQuery",
-        type: {
-          name: "String"
-        }
-      },
       alteredQuery: {
         serializedName: "alteredQuery",
         type: {
@@ -197,8 +190,8 @@ export const PredictionRequestOptions: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
-      overridePredictions: {
-        serializedName: "overridePredictions",
+      preferExternalEntities: {
+        serializedName: "preferExternalEntities",
         type: {
           name: "Boolean"
         }
@@ -238,6 +231,12 @@ export const ExternalEntity: msRest.CompositeMapper = {
         serializedName: "resolution",
         type: {
           name: "Object"
+        }
+      },
+      score: {
+        serializedName: "score",
+        type: {
+          name: "Number"
         }
       }
     }
