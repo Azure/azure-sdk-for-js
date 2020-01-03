@@ -5,7 +5,7 @@ export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
- * Enum to abstract away string values used for the Environment Variable key names.
+ * Enum to abstract away string values used for referencing the Environment Variable names.
  */
 export enum EnvVarNames {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
