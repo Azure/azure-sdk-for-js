@@ -1,0 +1,82 @@
+{
+  "name": "@azure/eslint-plugin-azure-sdk",
+  "version": "3.0.0",
+  "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "azure",
+    "azure-sdk",
+    "sdk",
+    "eslint-plugin-azure",
+    "eslint-plugin-azure-sdk"
+  ],
+  "author": "Microsoft Corporation",
+  "contributors": [
+    {
+      "name": "Arpan Laha",
+      "email": "arpanlaha99@gmail.com",
+      "url": "https://github.com/arpanlaha"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-tools/tree/master/tools/eslint-plugin-azure-sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-tools.git",
+    "directory": "tools/eslint-plugin-azure-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-tools/issues"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "prettier.json",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && prettier --write dist/**/*.{js,json,md}",
+    "clean": "rimraf dist/",
+    "format": "prettier --write \"./**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
+    "lint": "eslint src tests --ext .ts && markdownlint README.md docs",
+    "prebuild": "npm run clean",
+    "test:build": "npm run clean && tsc -p tsconfig.json",
+    "test": "npm run test:build && mocha --timeout 10000 --recursive dist/tests"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^6.0.0",
+    "glob": "^7.1.2",
+    "typescript": "~3.6.4"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.27",
+    "@types/chai": "^4.1.6",
+    "@types/eslint": "^4.16.8",
+    "@types/estree": "0.0.39",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/experimental-utils": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "@typescript-eslint/typescript-estree": "^2.0.0",
+    "bluebird": "^3.5.5",
+    "chai": "^4.2.0",
+    "eslint": "^6.1.0",
+    "markdownlint-cli": "^0.17.0",
+    "mocha": "^6.2.2",
+    "prettier": "^1.16.4"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": ">=6.0.0",
+    "eslint-plugin-no-only-tests": "^2.0.0",
+    "eslint-plugin-promise": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "prettier": "./prettier.json"
+}

@@ -458,6 +458,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/eslint-plugin-azure-sdk",
+      "projectFolder": "common/tools/eslint-plugin-azure-sdk",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-recorder",
       "projectFolder": "sdk/test-utils/recorder",
       "versionPolicyName": "utility"
