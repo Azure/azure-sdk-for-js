@@ -18,8 +18,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [useWithIotHub.ts][usewithiothub]                                         | demonstrates how to use the `EventHubClient` with an `IotHub` instance                                                                                                                  |
 | [websockets.ts][websockets]                                               | demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked (see the sample for more information)  |
 | [usingAadAuth.ts][usingaadauth]                                           | demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using Service Principal Secrets                                                               |
-| [receiveEventsUsingCheckpointStore.ts][receiveeventsusingcheckpointstore] | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance (requires running the `sendEvents` sample first) |
-| [receiveEvents.ts][receiveevents]                                         | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way.         |
+| [receiveEvents.ts][receiveevents]                                         | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance.                                                 |
 
 ## Prerequisites
 
@@ -73,7 +72,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usewithiothub]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/typescript/src/useWithIotHub.ts
 [websockets]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/typescript/src/websockets.ts
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/typescript/src/usingAadAuth.ts
-[receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEventsUsingCheckpointStore.ts
 [receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
