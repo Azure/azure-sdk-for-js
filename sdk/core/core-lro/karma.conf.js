@@ -17,9 +17,7 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-coverage",
-      "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-junit-reporter"
     ],
 
     files: [
@@ -58,27 +56,6 @@ module.exports = function(config) {
       nameFormatter: undefined,
       classNameFormatter: undefined,
       properties: {}
-    },
-
-    jsonToFileReporter: {
-      filter: function(obj) {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
-            }
-          });
-        }
-        return false;
-      },
-      outputPath: "."
     },
 
     port: 9328,
