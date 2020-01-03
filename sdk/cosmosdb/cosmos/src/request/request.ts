@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
 import { CosmosClientOptions } from "../CosmosClientOptions";
@@ -42,6 +44,8 @@ interface GetHeadersOptions {
   partitionKey?: PartitionKey;
 }
 
+const JsonContentType = "application/json";
+
 /**
  * @ignore
  * @param param0
@@ -69,9 +73,12 @@ export async function getHeaders({
   }
 
   if (options.continuationTokenLimitInKB) {
-    headers[Constants.HttpHeaders.ResponseContinuationTokenLimitInKB] = options.continuationTokenLimitInKB;
+    headers[Constants.HttpHeaders.ResponseContinuationTokenLimitInKB] =
+      options.continuationTokenLimitInKB;
   }
-  if (options.continuation) {
+  if (options.continuationToken) {
+    headers[Constants.HttpHeaders.Continuation] = options.continuationToken;
+  } else if (options.continuation) {
     headers[Constants.HttpHeaders.Continuation] = options.continuation;
   }
 
@@ -162,12 +169,12 @@ export async function getHeaders({
 
   if (verb === HTTPMethod.post || verb === HTTPMethod.put) {
     if (!headers[Constants.HttpHeaders.ContentType]) {
-      headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.Json;
+      headers[Constants.HttpHeaders.ContentType] = JsonContentType;
     }
   }
 
   if (!headers[Constants.HttpHeaders.Accept]) {
-    headers[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Json;
+    headers[Constants.HttpHeaders.Accept] = JsonContentType;
   }
 
   if (partitionKeyRangeId !== undefined) {

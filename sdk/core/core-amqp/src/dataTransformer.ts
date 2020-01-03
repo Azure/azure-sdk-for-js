@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { message } from "rhea-promise";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 
@@ -42,7 +42,7 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    log.transformer("[encode] The given message body that needs to be encoded is: ", body);
+    logger.verbose("[encode] The given message body that needs to be encoded is: ", body);
     if (isBuffer(body)) {
       result = message.data_section(body);
     } else {
@@ -58,11 +58,12 @@ export class DefaultDataTransformer implements DataTransformer {
           `An error occurred while executing JSON.stringify() on the given body ` +
           body +
           `${err ? err.stack : JSON.stringify(err)}`;
-        log.error("[encode] " + msg);
+        logger.warning("[encode] " + msg);
+        logErrorStackTrace(err);
         throw new Error(msg);
       }
     }
-    log.transformer("[encode] The encoded message body is: %O.", result);
+    logger.verbose("[encode] The encoded message body is: %O.", result);
     return result;
   }
 
@@ -77,7 +78,7 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      log.transformer("[decode] Received message body for decoding is: %O", body);
+      logger.verbose("[decode] Received message body for decoding is: %O", body);
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
@@ -88,19 +89,19 @@ export class DefaultDataTransformer implements DataTransformer {
         const bodyStr: string = processedBody.toString("utf8");
         processedBody = JSON.parse(bodyStr);
       } catch (err) {
-        log.error(
+        logger.verbose(
           "[decode] An error occurred while trying JSON.parse() on the received body. " +
             "The error is %O",
           err
         );
       }
     } catch (err) {
-      log.error(
+      logger.verbose(
         "[decode] An error occurred while decoding the received message body. The error is: %O",
         err
       );
     }
-    log.transformer("[decode] The decoded message body is: %O", processedBody);
+    logger.verbose("[decode] The decoded message body is: %O", processedBody);
     return processedBody;
   }
 }

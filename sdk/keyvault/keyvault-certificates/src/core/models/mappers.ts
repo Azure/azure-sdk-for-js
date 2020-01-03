@@ -6,11 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
 import * as coreHttp from "@azure/core-http";
-
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
 
 export const Attributes: coreHttp.CompositeMapper = {
   serializedName: "Attributes",
@@ -821,10 +817,7 @@ export const Action: coreHttp.CompositeMapper = {
         serializedName: "action_type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "EmailContacts",
-            "AutoRenew"
-          ]
+          allowedValues: ["EmailContacts", "AutoRenew"]
         }
       }
     }
@@ -2012,6 +2005,216 @@ export const KeyVerifyResult: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyListResult: coreHttp.CompositeMapper = {
+  serializedName: "KeyListResult",
+  type: {
+    name: "Composite",
+    className: "KeyListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedKeyListResult: coreHttp.CompositeMapper = {
+  serializedName: "DeletedKeyListResult",
+  type: {
+    name: "Composite",
+    className: "DeletedKeyListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedKeyItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecretListResult: coreHttp.CompositeMapper = {
+  serializedName: "SecretListResult",
+  type: {
+    name: "Composite",
+    className: "SecretListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SecretItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedSecretListResult: coreHttp.CompositeMapper = {
+  serializedName: "DeletedSecretListResult",
+  type: {
+    name: "Composite",
+    className: "DeletedSecretListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedSecretItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CertificateListResult: coreHttp.CompositeMapper = {
+  serializedName: "CertificateListResult",
+  type: {
+    name: "Composite",
+    className: "CertificateListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CertificateItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedCertificateListResult: coreHttp.CompositeMapper = {
+  serializedName: "DeletedCertificateListResult",
+  type: {
+    name: "Composite",
+    className: "DeletedCertificateListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedCertificateItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CertificateIssuerListResult: coreHttp.CompositeMapper = {
+  serializedName: "CertificateIssuerListResult",
+  type: {
+    name: "Composite",
+    className: "CertificateIssuerListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CertificateIssuerItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackupKeyResult: coreHttp.CompositeMapper = {
   serializedName: "BackupKeyResult",
   type: {
@@ -2407,6 +2610,66 @@ export const DeletedStorageAccountItem: coreHttp.CompositeMapper = {
   }
 };
 
+export const StorageListResult: coreHttp.CompositeMapper = {
+  serializedName: "StorageListResult",
+  type: {
+    name: "Composite",
+    className: "StorageListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageAccountItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedStorageListResult: coreHttp.CompositeMapper = {
+  serializedName: "DeletedStorageListResult",
+  type: {
+    name: "Composite",
+    className: "DeletedStorageListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedStorageAccountItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SasDefinitionAttributes: coreHttp.CompositeMapper = {
   serializedName: "SasDefinitionAttributes",
   type: {
@@ -2616,6 +2879,66 @@ export const DeletedSasDefinitionItem: coreHttp.CompositeMapper = {
   }
 };
 
+export const SasDefinitionListResult: coreHttp.CompositeMapper = {
+  serializedName: "SasDefinitionListResult",
+  type: {
+    name: "Composite",
+    className: "SasDefinitionListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SasDefinitionItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedSasDefinitionListResult: coreHttp.CompositeMapper = {
+  serializedName: "DeletedSasDefinitionListResult",
+  type: {
+    name: "Composite",
+    className: "DeletedSasDefinitionListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedSasDefinitionItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SasDefinitionCreateParameters: coreHttp.CompositeMapper = {
   serializedName: "SasDefinitionCreateParameters",
   type: {
@@ -2757,336 +3080,6 @@ export const BackupCertificateResult: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Base64Url"
-        }
-      }
-    }
-  }
-};
-
-export const KeyListResult: coreHttp.CompositeMapper = {
-  serializedName: "KeyListResult",
-  type: {
-    name: "Composite",
-    className: "KeyListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedKeyListResult: coreHttp.CompositeMapper = {
-  serializedName: "DeletedKeyListResult",
-  type: {
-    name: "Composite",
-    className: "DeletedKeyListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedKeyItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SecretListResult: coreHttp.CompositeMapper = {
-  serializedName: "SecretListResult",
-  type: {
-    name: "Composite",
-    className: "SecretListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SecretItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedSecretListResult: coreHttp.CompositeMapper = {
-  serializedName: "DeletedSecretListResult",
-  type: {
-    name: "Composite",
-    className: "DeletedSecretListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedSecretItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateListResult: coreHttp.CompositeMapper = {
-  serializedName: "CertificateListResult",
-  type: {
-    name: "Composite",
-    className: "CertificateListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CertificateItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateIssuerListResult: coreHttp.CompositeMapper = {
-  serializedName: "CertificateIssuerListResult",
-  type: {
-    name: "Composite",
-    className: "CertificateIssuerListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CertificateIssuerItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedCertificateListResult: coreHttp.CompositeMapper = {
-  serializedName: "DeletedCertificateListResult",
-  type: {
-    name: "Composite",
-    className: "DeletedCertificateListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedCertificateItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const StorageListResult: coreHttp.CompositeMapper = {
-  serializedName: "StorageListResult",
-  type: {
-    name: "Composite",
-    className: "StorageListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageAccountItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedStorageListResult: coreHttp.CompositeMapper = {
-  serializedName: "DeletedStorageListResult",
-  type: {
-    name: "Composite",
-    className: "DeletedStorageListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedStorageAccountItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SasDefinitionListResult: coreHttp.CompositeMapper = {
-  serializedName: "SasDefinitionListResult",
-  type: {
-    name: "Composite",
-    className: "SasDefinitionListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SasDefinitionItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedSasDefinitionListResult: coreHttp.CompositeMapper = {
-  serializedName: "DeletedSasDefinitionListResult",
-  type: {
-    name: "Composite",
-    className: "DeletedSasDefinitionListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedSasDefinitionItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }

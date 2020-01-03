@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { QueryRange } from "../../dist-esm/routing";
 import { createCompleteRoutingMap } from "../../dist-esm/routing/CollectionRoutingMapFactory";
@@ -23,12 +25,14 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       },
       { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
     ];
-    const partitionRangeWithInfo = partitionKeyRanges.map(r => [r, true]);
+    const partitionRangeWithInfo = partitionKeyRanges.map((r) => [r, true]);
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
     it("queryCompleteRange", function() {
       const completeRange = new QueryRange("", "FF", true, false);
-      const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(completeRange);
+      const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(
+        completeRange
+      );
 
       assert.equal(overlappingPartitionKeyRanges.length, partitionKeyRanges.length);
       assert.deepEqual(overlappingPartitionKeyRanges, partitionKeyRanges);
@@ -114,20 +118,6 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       assert.equal(3, collectionRoutingMap.orderedPartitionInfo[3]);
     });
 
-    it("validate getRangeByEffectivePartitionKey", function() {
-      assert.equal("0", collectionRoutingMap.getRangeByEffectivePartitionKey("").id);
-      assert.equal("0", collectionRoutingMap.getRangeByEffectivePartitionKey("0000000000").id);
-      assert.equal("1", collectionRoutingMap.getRangeByEffectivePartitionKey("0000000030").id);
-      assert.equal("1", collectionRoutingMap.getRangeByEffectivePartitionKey("0000000031").id);
-      assert.equal("3", collectionRoutingMap.getRangeByEffectivePartitionKey("0000000071").id);
-    });
-
-    // // TODO: bad practice to test implementation details
-    // it("validate getRangeByPartitionKeyRangeId", function () {
-    //     assert.equal("0", collectionRoutingMap.getRangeByPartitionKeyRangeId(0).id);
-    //     assert.equal("1", collectionRoutingMap.getRangeByPartitionKeyRangeId(1).id);
-    // });
-
     it("validate getOverlappingRanges", function() {
       const completeRange = new QueryRange("", "FF", true, false);
 
@@ -136,7 +126,9 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         return a["id"] - b["id"];
       };
 
-      const overlappingRanges = collectionRoutingMap.getOverlappingRanges([completeRange]).sort(compareId);
+      const overlappingRanges = collectionRoutingMap
+        .getOverlappingRanges([completeRange])
+        .sort(compareId);
       assert.equal(4, overlappingRanges.length);
 
       let onlyParitionRanges = partitionRangeWithInfo.map(function(item) {
@@ -159,7 +151,9 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         new QueryRange("0000000045", "0000000046", true, true),
         new QueryRange("0000000046", "0000000050", true, true)
       ];
-      overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(ranges).sort(compareId);
+      overlappingPartitionKeyRanges = collectionRoutingMap
+        .getOverlappingRanges(ranges)
+        .sort(compareId);
 
       assert.equal(2, overlappingPartitionKeyRanges.length);
       assert.equal("1", overlappingPartitionKeyRanges[0].id);

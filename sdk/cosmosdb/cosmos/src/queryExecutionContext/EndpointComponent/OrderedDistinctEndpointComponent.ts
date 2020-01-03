@@ -1,7 +1,8 @@
-import { sha1 } from "crypto-hash";
-import stableStringify from "fast-json-stable-stringify";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
+import { hashObject } from "../../utils/hashObject";
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
@@ -11,18 +12,13 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
   public async nextItem(): Promise<Response<any>> {
     const { headers, result } = await this.executionContext.nextItem();
     if (result) {
-      const stringifiedResult = stableStringify(result);
-      const hashedResult = await sha1(stringifiedResult);
+      const hashedResult = await hashObject(result);
       if (hashedResult === this.hashedLastResult) {
         return { result: undefined, headers };
       }
       this.hashedLastResult = hashedResult;
     }
     return { result, headers };
-  }
-
-  public async current(): Promise<Response<any>> {
-    return this.executionContext.current();
   }
 
   public hasMoreResults() {

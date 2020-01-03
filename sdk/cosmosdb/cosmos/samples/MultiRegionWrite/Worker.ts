@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { v4 as guid } from "uuid";
 import { Container } from "../../dist";
 

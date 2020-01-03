@@ -62,8 +62,11 @@ Tweet us with #CosmosDB and we'll respond on Twitter. Be sure to check out the M
 
 ## Contribute Code or Provide Feedback
 
-For our rules and guidelines on contributing, please see [Microsoft's contributor guide].(https://docs.microsoft.com/en-us/contribute/).
+For our rules and guidelines on contributing, please see [Microsoft's contributor guide](https://docs.microsoft.com/en-us/contribute/).
 
 For information on how build and test this repo, please see [./dev.md](./dev.md).
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcosmosdb%2Fcosmos%2FREADME.png)

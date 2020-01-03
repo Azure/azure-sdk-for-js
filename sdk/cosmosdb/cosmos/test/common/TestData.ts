@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /** @hidden */
 export class TestData {
   public numberOfDocuments: number;
@@ -35,7 +37,8 @@ export class TestData {
       docs.push(d);
     }
 
-    this.sum = (this.numberOfDocumentsWithNumbericId * (this.numberOfDocumentsWithNumbericId + 1)) / 2.0;
+    this.sum =
+      (this.numberOfDocumentsWithNumbericId * (this.numberOfDocumentsWithNumbericId + 1)) / 2.0;
 
     this.docs = docs;
   }

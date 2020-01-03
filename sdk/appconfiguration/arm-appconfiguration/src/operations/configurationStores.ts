@@ -218,6 +218,42 @@ export class ConfigurationStores {
   }
 
   /**
+   * Lists a configuration store key-value.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param listKeyValueParameters The parameters for retrieving a key-value.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ConfigurationStoresListKeyValueResponse>
+   */
+  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresListKeyValueResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param listKeyValueParameters The parameters for retrieving a key-value.
+   * @param callback The callback
+   */
+  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, callback: msRest.ServiceCallback<Models.KeyValue>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param listKeyValueParameters The parameters for retrieving a key-value.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyValue>): void;
+  listKeyValue(resourceGroupName: string, configStoreName: string, listKeyValueParameters: Models.ListKeyValueParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyValue>, callback?: msRest.ServiceCallback<Models.KeyValue>): Promise<Models.ConfigurationStoresListKeyValueResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        configStoreName,
+        listKeyValueParameters,
+        options
+      },
+      listKeyValueOperationSpec,
+      callback) as Promise<Models.ConfigurationStoresListKeyValueResponse>;
+  }
+
+  /**
    * Creates a configuration store with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
@@ -486,6 +522,38 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApiKey
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const listKeyValueOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeyValue",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.configStoreName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "listKeyValueParameters",
+    mapper: {
+      ...Mappers.ListKeyValueParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyValue
     },
     default: {
       bodyMapper: Mappers.ErrorModel

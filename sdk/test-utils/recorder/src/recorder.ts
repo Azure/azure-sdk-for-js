@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
-import { NiseRecorder, NockRecorder, BaseRecorder, setEnviromentOnLoad } from "./baseRecorder";
+import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
 
 /**
  * @export
@@ -19,7 +19,7 @@ export interface Recorder {
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
-  skip(runtime?: "node" | "browser"): void;
+  skip(runtime?: "node" | "browser", reason?: string): void;
   /**
    * In live test mode, random string is generated, appended to `prefix` and returned.
    *
@@ -72,7 +72,7 @@ export function record(testContext: Mocha.Context): Recorder {
     testTitle = testContext.test!.title;
   }
 
-  setEnviromentOnLoad();
+  setEnvironmentOnLoad();
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);
@@ -95,10 +95,12 @@ export function record(testContext: Mocha.Context): Recorder {
     },
     /**
      * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
-     * If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
-     * @param runtime Can either be "node" or "browser"
+     * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
+     * @param runtime Can either be `"node"` or `"browser"` or `undefined`
+     * @param reason Reason for skipping the test
      */
-    skip: function(runtime?: "node" | "browser"): void {
+    skip: function(runtime?: "node" | "browser", reason?: string): void {
+      if (!reason) reason = "Reason to skip the test is not specified";
       // 1. skipping the test only in node
       // 2. skipping the test only in browser
       // 3. skipping the test in both the node and browser runtimes
@@ -107,18 +109,21 @@ export function record(testContext: Mocha.Context): Recorder {
         (runtime === "browser" && isBrowser()) ||
         !runtime
       ) {
-        if (isRecordMode()) {
-          // record mode - recorder is stopped, test is skipped
-          recorder.stop();
-          testContext.skip();
-        } else if (isPlaybackMode()) {
-          // playback mode - test is skipped
+        // record mode - recorder is stopped
+        if (isRecordMode()) recorder.stop();
+
+        // record/playback modes
+        // - test title is updated with the given reason
+        // - test is skipped
+        if (isRecordMode() || isPlaybackMode()) {
+          testContext.test!.title = testContext.test!.title + ` (${reason})`;
           testContext.skip();
         } else {
           // live mode - no effect
         }
       }
     },
+
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {
@@ -126,9 +131,21 @@ export function record(testContext: Mocha.Context): Recorder {
       }
       if (isRecordMode()) {
         name = getUniqueName(prefix);
-        recorder.uniqueTestInfo["uniqueName"][label] = name;
+        if (recorder.uniqueTestInfo["uniqueName"][label]) {
+          throw new Error(
+            `getUniqueName: function(prefix: string, label?: string),
+            Label "${label}" is already taken,
+            please provide a different prefix OR give a new label while keeping the same prefix "${prefix}".`
+          );
+        } else {
+          recorder.uniqueTestInfo["uniqueName"][label] = name;
+        }
       } else if (isPlaybackMode()) {
-        name = recorder.uniqueTestInfo["uniqueName"][label];
+        if (recorder.uniqueTestInfo["uniqueName"]) {
+          name = recorder.uniqueTestInfo["uniqueName"][label];
+        } else {
+          name = (recorder.uniqueTestInfo as any)[label];
+        }
       } else {
         name = getUniqueName(prefix);
       }
@@ -138,9 +155,20 @@ export function record(testContext: Mocha.Context): Recorder {
       let date: Date;
       if (isRecordMode()) {
         date = new Date();
-        recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
+        if (recorder.uniqueTestInfo["newDate"][label]) {
+          throw new Error(
+            `newDate: function(label: string),
+            Label "${label}" is already taken, please provide a new label.`
+          );
+        } else {
+          recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
+        }
       } else if (isPlaybackMode()) {
-        date = new Date(recorder.uniqueTestInfo["newDate"][label]);
+        if (recorder.uniqueTestInfo["newDate"]) {
+          date = new Date(recorder.uniqueTestInfo["newDate"][label]);
+        } else {
+          date = new Date((recorder.uniqueTestInfo as any)[label]);
+        }
       } else {
         date = new Date();
       }

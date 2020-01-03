@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { UserDefinition } from "../../dist-esm/client";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
@@ -18,7 +20,12 @@ describe("NodeJS CRUD Tests", function() {
       const beforeCreateCount = users.length;
 
       // create user
-      const { resource: userDef } = await createOrUpsertUser(database, { id: "new user" }, undefined, isUpsertTest);
+      const { resource: userDef } = await createOrUpsertUser(
+        database,
+        { id: "new user" },
+        undefined,
+        isUpsertTest
+      );
       assert.equal(userDef.id, "new user", "user name error");
       let user = database.user(userDef.id);
 

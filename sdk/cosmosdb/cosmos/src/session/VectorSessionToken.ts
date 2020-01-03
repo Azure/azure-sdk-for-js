@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Models vector clock bases session token. Session token has the following format:
  * {Version}#{GlobalLSN}#{RegionId1}={LocalLsn1}#{RegionId2}={LocalLsn2}....#{RegionIdN}={LocalLsnN}
@@ -29,9 +31,7 @@ export class VectorSessionToken {
       if (regionProgress === "") {
         this.sessionToken = `${this.version}${VectorSessionToken.SEGMENT_SEPARATOR}${this.globalLsn}`;
       } else {
-        this.sessionToken = `${this.version}${VectorSessionToken.SEGMENT_SEPARATOR}${this.globalLsn}${
-          VectorSessionToken.SEGMENT_SEPARATOR
-        }${regionProgress}`;
+        this.sessionToken = `${this.version}${VectorSessionToken.SEGMENT_SEPARATOR}${this.globalLsn}${VectorSessionToken.SEGMENT_SEPARATOR}${regionProgress}`;
       }
     }
   }
@@ -41,7 +41,9 @@ export class VectorSessionToken {
       return null;
     }
 
-    const [versionStr, globalLsnStr, ...regionSegments] = sessionToken.split(VectorSessionToken.SEGMENT_SEPARATOR);
+    const [versionStr, globalLsnStr, ...regionSegments] = sessionToken.split(
+      VectorSessionToken.SEGMENT_SEPARATOR
+    );
 
     const version = parseInt(versionStr, 10);
     const globalLsn = parseFloat(globalLsnStr);
@@ -52,7 +54,9 @@ export class VectorSessionToken {
 
     const lsnByRegion = new Map<number, string>();
     for (const regionSegment of regionSegments) {
-      const [regionIdStr, localLsnStr] = regionSegment.split(VectorSessionToken.REGION_PROGRESS_SEPARATOR);
+      const [regionIdStr, localLsnStr] = regionSegment.split(
+        VectorSessionToken.REGION_PROGRESS_SEPARATOR
+      );
 
       if (!regionIdStr || !localLsnStr) {
         return null;
@@ -89,12 +93,19 @@ export class VectorSessionToken {
       throw new Error("other (Vector Session Token) must not be null");
     }
 
-    if (this.version === other.version && this.localLsnByregion.size !== other.localLsnByregion.size) {
-      throw new Error(`Compared session tokens ${this.sessionToken} and ${other.sessionToken} have unexpected regions`);
+    if (
+      this.version === other.version &&
+      this.localLsnByregion.size !== other.localLsnByregion.size
+    ) {
+      throw new Error(
+        `Compared session tokens ${this.sessionToken} and ${other.sessionToken} have unexpected regions`
+      );
     }
 
-    const [higherVersionSessionToken, lowerVersionSessionToken]: [VectorSessionToken, VectorSessionToken] =
-      this.version < other.version ? [other, this] : [this, other];
+    const [higherVersionSessionToken, lowerVersionSessionToken]: [
+      VectorSessionToken,
+      VectorSessionToken
+    ] = this.version < other.version ? [other, this] : [this, other];
 
     const highestLocalLsnByRegion = new Map<number, string>();
 
@@ -104,9 +115,7 @@ export class VectorSessionToken {
         highestLocalLsnByRegion.set(regionId, max(highLocalLsn, lowLocalLsn));
       } else if (this.version === other.version) {
         throw new Error(
-          `Compared session tokens have unexpected regions. Session 1: ${this.sessionToken} - Session 2: ${
-            this.sessionToken
-          }`
+          `Compared session tokens have unexpected regions. Session 1: ${this.sessionToken} - Session 2: ${this.sessionToken}`
         );
       } else {
         highestLocalLsnByRegion.set(regionId, highLocalLsn);

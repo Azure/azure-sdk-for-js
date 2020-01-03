@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ConflictResolutionMode } from "./ConflictResolutionMode";
 
 /**

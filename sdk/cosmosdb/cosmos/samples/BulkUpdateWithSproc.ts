@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
@@ -5,12 +7,12 @@ import uuid from "uuid/v4";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
-var getContext: any;
+let getContext: any;
 
 function body(continuation: string) {
-  var collection = getContext().getCollection();
-  var response = getContext().getResponse();
-  var responseBody: any = { updatedDocumentIds: [] }; // Setup Initial Response
+  const collection = getContext().getCollection();
+  const response = getContext().getResponse();
+  const responseBody: any = { updatedDocumentIds: [] }; // Setup Initial Response
 
   // Find all documents that need to be updated
   collection.queryDocuments(
@@ -32,7 +34,7 @@ function body(continuation: string) {
       response.setBody(responseBody);
     } else {
       // Grab the next document to update
-      var document = documents.pop();
+      const document = documents.pop();
       document.state = "open";
       collection.replaceDocument(document._self, document, {}, function(err: any) {
         if (err) throw err;
@@ -49,7 +51,7 @@ function body(continuation: string) {
 const client = new CosmosClient({ endpoint, key });
 
 async function run() {
-  //ensuring a database & container exists for us to work with
+  // ensuring a database & container exists for us to work with
   logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });

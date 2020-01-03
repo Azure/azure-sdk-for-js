@@ -25,6 +25,15 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
+import {
+  SharedKeyCredential,
+  AccessToken,
+  parseConnectionString,
+  ConnectionConfig
+} from "@azure/core-amqp";
+import { getEnvVars, EnvVarKeys } from "./utils/envVarUtils";
+import { StreamingReceiver } from "../src/core/streamingReceiver";
+
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -229,6 +238,48 @@ describe("Streaming - Misc Tests", function(): void {
       TestClientType.UnpartitionedSubscription
     );
     await testManualComplete();
+  });
+
+  it("onDetached should forward error messages if it fails to retry", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    let streamingReceiver: StreamingReceiver | undefined;
+    try {
+      let actualError: Error | undefined;
+      streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
+        receiveMode: ReceiveMode.peekLock
+      });
+
+      streamingReceiver.receive(
+        async () => {},
+        (err) => {
+          actualError = err;
+        }
+      );
+
+      // overwrite _init to throw a non-retryable error.
+      // this will be called by onDetached
+      (streamingReceiver as any)._init = async () => {
+        const error = new Error("Expected test error!");
+        // prevent retry from translating error.
+        (error as any).translated = true;
+        throw error;
+      };
+
+      // call detached directly
+      await streamingReceiver.onDetached();
+
+      should.equal(
+        actualError!.message,
+        "Expected test error!",
+        "Did not see the expected error in user-provided error handler."
+      );
+    } finally {
+      if (streamingReceiver) {
+        await streamingReceiver.close();
+      }
+    }
   });
 });
 
@@ -651,34 +702,10 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
     );
   }
 
-  it("Partitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testMultipleReceiveCalls();
-  });
-
-  it("Partitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testMultipleReceiveCalls();
-  });
-
   it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testMultipleReceiveCalls();
-  });
-
-  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
     await testMultipleReceiveCalls();
   });
 });
@@ -742,16 +769,6 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
-  it("Partitioned Queue: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testSettlement(DispositionType.complete);
-  });
-
-  it("Partitioned Subscription: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSettlement(DispositionType.complete);
-  });
-
   it("UnPartitioned Queue: complete() throws error #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.complete);
@@ -763,16 +780,6 @@ describe("Streaming - Settle an already Settled message throws error", () => {
       TestClientType.UnpartitionedSubscription
     );
     await testSettlement(DispositionType.complete);
-  });
-
-  it("Partitioned Queue: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testSettlement(DispositionType.abandon);
-  });
-
-  it("Partitioned Subscription: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSettlement(DispositionType.abandon);
   });
 
   it("UnPartitioned Queue: abandon() throws error #RunInBrowser", async function(): Promise<void> {
@@ -788,16 +795,6 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.abandon);
   });
 
-  it("Partitioned Queue: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testSettlement(DispositionType.defer);
-  });
-
-  it("Partitioned Subscription: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSettlement(DispositionType.defer);
-  });
-
   it("UnPartitioned Queue: defer() throws error #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.defer);
@@ -809,16 +806,6 @@ describe("Streaming - Settle an already Settled message throws error", () => {
       TestClientType.UnpartitionedSubscription
     );
     await testSettlement(DispositionType.defer);
-  });
-
-  it("Partitioned Queue: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testSettlement(DispositionType.deadletter);
-  });
-
-  it("Partitioned Subscription: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSettlement(DispositionType.deadletter);
   });
 
   it("UnPartitioned Queue: deadLetter() throws error #RunInBrowser", async function(): Promise<
@@ -856,6 +843,12 @@ describe("Streaming - User Error", function(): void {
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
+    should.equal(
+      !!(receiverClient as any)._context.streamingReceiver,
+      true,
+      "Expected streaming receiver not to be cached."
+    );
+
     await receiver.close();
 
     should.equal(
@@ -866,35 +859,98 @@ describe("Streaming - User Error", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
   }
 
-  it("Partitioned Queue: onError handler is called for user error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testUserError();
-  });
-
-  it("Partitioned Subscription: onError handler is called for user error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testUserError();
-  });
-
   it("UnPartitioned Queue: onError handler is called for user error #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testUserError();
   });
+});
 
-  it("UnPartitioned Subscription: onError handler is called for user error", async function(): Promise<
+describe("Streaming - Failed init should not cache recevier", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  class TestTokenProvider extends SharedKeyCredential {
+    private firstCall = true;
+    static errorMessage = "This is a faulty token provider.";
+    constructor(connectionObject: {
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+    }) {
+      super(connectionObject.SharedAccessKeyName, connectionObject.SharedAccessKey);
+    }
+
+    getToken(audience: string): AccessToken {
+      if (this.firstCall) {
+        this.firstCall = false;
+        throw new Error(TestTokenProvider.errorMessage);
+      }
+      return super.getToken(audience);
+    }
+  }
+
+  it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
+    const env = getEnvVars();
+
+    // Send a message using service bus client created with connection string
+    sbClient = getServiceBusClient();
+    let clients = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
     );
-    await testUserError();
+    sender = clients.senderClient.createSender();
+    await sender.send(TestMessage.getSample());
+    await sbClient.close();
+
+    // Receive using service bus client created with faulty token provider
+    const connectionObject: {
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+    } = parseConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+    const tokenProvider = new TestTokenProvider(connectionObject);
+    sbClient = new ServiceBusClient(
+      ConnectionConfig.create(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]),
+      tokenProvider
+    );
+    clients = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    receiver = clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+
+    let actualError: Error;
+    receiver.registerMessageHandler(
+      async (msg: ServiceBusMessage) => {
+        throw new Error("No messages should have been received with faulty token provider");
+      },
+      (err) => {
+        actualError = err;
+      }
+    );
+
+    // Check for expected error and that receiver was not cached
+    const errCheck = await checkWithTimeout(() => !!actualError === true);
+    should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
+    should.equal(
+      actualError!.message,
+      TestTokenProvider.errorMessage,
+      "Expected error from token provider, but unexpected error found."
+    );
+    should.equal(
+      !!(clients.receiverClient as any)._context.streamingReceiver,
+      false,
+      "Expected Streaming receiver to not be cached"
+    );
+
+    await receiver.close();
   });
 });
 
@@ -1060,56 +1116,10 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await testPeekMsgsLength(receiverClient, totalNumOfMessages);
   }
 
-  it("Partitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testReceiveMessages();
-  });
-
-  it("Partitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testReceiveMessages();
-  });
-
   it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testReceiveMessages();
-  });
-
-  it("UnPartitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
-    await testReceiveMessages();
-  });
-
-  it("Partitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueue,
-      TestClientType.PartitionedQueue,
-      ReceiveMode.receiveAndDelete
-    );
-    await testReceiveMessages();
-  });
-
-  it("Partitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopic,
-      TestClientType.PartitionedSubscription,
-      ReceiveMode.receiveAndDelete
-    );
     await testReceiveMessages();
   });
 
@@ -1119,17 +1129,6 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await beforeEachTest(
       TestClientType.UnpartitionedQueue,
       TestClientType.UnpartitionedQueue,
-      ReceiveMode.receiveAndDelete
-    );
-    await testReceiveMessages();
-  });
-
-  it("UnPartitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription,
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();

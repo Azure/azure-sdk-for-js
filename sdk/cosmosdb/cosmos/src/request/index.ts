@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export { ErrorResponse } from "./ErrorResponse";
 export { FeedOptions } from "./FeedOptions";
 export { RequestOptions } from "./RequestOptions";

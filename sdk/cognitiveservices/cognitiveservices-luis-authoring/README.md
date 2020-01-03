@@ -2,6 +2,11 @@
 
 This package contains an isomorphic SDK for LUISAuthoringClient.
 
+Package version | LUIS Authoring API version
+--------------- | --------------------------
+3.0.0           |  /luis/api/v2.0
+4.0.0-preview.1 |  /luis/authoring/v3.0-preview
+
 ### Currently supported environments
 
 - Node.js version 6.x.x or higher
@@ -15,7 +20,7 @@ npm install @azure/cognitiveservices-luis-authoring
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in TypeScript.
+#### nodejs - Authentication, client creation and listPhraseLists features as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-azure-js
 
@@ -47,7 +52,7 @@ const skip = 1;
 const take = 1;
 
 client.features
-  .listApplicationVersionPatternFeatures(appId, versionId, { skip, take })
+  .listPhraseLists(appId, versionId, { skip, take })
   .then((result) => {
     console.log("The result is:");
     console.log(result);
@@ -57,7 +62,7 @@ client.features
   });
 ```
 
-#### browser - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in JavaScript.
+#### browser - Authentication, client creation and listPhraseLists features as an example written in JavaScript.
 
 
 ##### Sample code
@@ -85,7 +90,7 @@ client.features
       const skip = 1;
       const take = 1;
       client.features
-        .listApplicationVersionPatternFeatures(appId, versionId, { skip, take })
+        .listPhraseLists(appId, versionId, { skip, take })
         .then((result) => {
           console.log("The result is:");
           console.log(result);
@@ -104,4 +109,4 @@ client.features
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-authoring/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-luis-authoring%2FREADME.png)

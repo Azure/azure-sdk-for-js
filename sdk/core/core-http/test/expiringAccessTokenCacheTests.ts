@@ -8,7 +8,7 @@ function mockToken(expirationDeltaMs: number) {
   };
 }
 
-describe("ExpiringAccessTokenCache", function () {
+describe("ExpiringAccessTokenCache", function() {
   it("returns a cached token within the expiration window", function() {
     const tokenCache = new ExpiringAccessTokenCache(2000);
     const accessToken = mockToken(5000);

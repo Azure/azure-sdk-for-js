@@ -92,20 +92,6 @@ export class RouteFilterRules {
   }
 
   /**
-   * Updates a route in the specified route filter.
-   * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the route filter rule.
-   * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.RouteFilterRulesUpdateResponse>
-   */
-  update(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,routeFilterName,ruleName,routeFilterRuleParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteFilterRulesUpdateResponse>;
-  }
-
-  /**
    * Gets all RouteFilterRules in a route filter.
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
@@ -177,28 +163,6 @@ export class RouteFilterRules {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
-  }
-
-  /**
-   * Updates a route in the specified route filter.
-   * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the route filter rule.
-   * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        routeFilterName,
-        ruleName,
-        routeFilterRuleParameters,
-        options
-      },
-      beginUpdateOperationSpec,
       options);
   }
 
@@ -337,39 +301,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RouteFilterRule
     },
     201: {
-      bodyMapper: Mappers.RouteFilterRule
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.routeFilterName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "routeFilterRuleParameters",
-    mapper: {
-      ...Mappers.PatchRouteFilterRule,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.RouteFilterRule
     },
     default: {

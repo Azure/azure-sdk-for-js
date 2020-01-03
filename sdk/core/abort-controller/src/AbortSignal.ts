@@ -131,10 +131,12 @@ export class AbortSignal implements AbortSignalLike {
   }
 
   /**
-    * Dispatches a synthetic event to the AbortSignal.
-    */
-  dispatchEvent(event: Event): boolean {
-    throw new Error("This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes.")
+   * Dispatches a synthetic event to the AbortSignal.
+   */
+  dispatchEvent(_event: Event): boolean {
+    throw new Error(
+      "This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes."
+    );
   }
 }
 

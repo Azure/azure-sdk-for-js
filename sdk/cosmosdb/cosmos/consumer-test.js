@@ -7,7 +7,7 @@ if (!process.env.SKIP_LATEST) {
 }
 
 async function exec(cmd) {
-  const command = execa.shell(cmd, { cwd: "./consumer-test" });
+  const command = execa(cmd, { cwd: "./consumer-test", shell: true });
   command.stderr.pipe(process.stderr);
   command.stdout.pipe(process.stdout);
   return command;
@@ -24,7 +24,9 @@ async function exec(cmd) {
       console.log(`Compling with typescript@${version} - Basic`);
       await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true`);
       console.log(`Compling with typescript@${version} - Custom lib`);
-      await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`);
+      await exec(
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
+      );
     }
     process.exit(0);
   } catch (error) {

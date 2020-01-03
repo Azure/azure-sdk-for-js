@@ -1,4 +1,6 @@
-﻿import { DocumentProducer } from "./documentProducer";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { DocumentProducer } from "./documentProducer";
 
 // TODO: this smells funny
 /** @hidden */
@@ -33,9 +35,12 @@ const TYPEORDCOMPARATOR: {
 
 /** @hidden */
 export class OrderByDocumentProducerComparator {
-  constructor(public sortOrder: string[]) {} // TODO: This should be an enum
+  constructor(public sortOrder: string[]) { } // TODO: This should be an enum
 
-  public targetPartitionKeyRangeDocProdComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
+  private targetPartitionKeyRangeDocProdComparator(
+    docProd1: DocumentProducer,
+    docProd2: DocumentProducer
+  ) {
     const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
     const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
     return a === b ? 0 : a > b ? 1 : -1;
@@ -88,7 +93,10 @@ export class OrderByDocumentProducerComparator {
     }
 
     // both are of the same type
-    if (type1Ord === TYPEORDCOMPARATOR["undefined"].ord || type1Ord === TYPEORDCOMPARATOR["NoValue"].ord) {
+    if (
+      type1Ord === TYPEORDCOMPARATOR["undefined"].ord ||
+      type1Ord === TYPEORDCOMPARATOR["NoValue"].ord
+    ) {
       // if both types are undefined or Null they are equal
       return 0;
     }
@@ -101,42 +109,43 @@ export class OrderByDocumentProducerComparator {
     return compFunc(item1, item2);
   }
 
-  public compareOrderByItem(orderByItem1: any, orderByItem2: any) {
+  private compareOrderByItem(orderByItem1: any, orderByItem2: any) {
     const type1 = this.getType(orderByItem1);
     const type2 = this.getType(orderByItem2);
     return this.compareValue(orderByItem1["item"], type1, orderByItem2["item"], type2);
   }
 
-  public validateOrderByItems(res1: string[], res2: string[]) {
-    this._throwIf(res1.length !== res2.length, `Expected ${res1.length}, but got ${res2.length}.`);
-    this._throwIf(res1.length !== this.sortOrder.length, "orderByItems cannot have a different size than sort orders.");
+  private validateOrderByItems(res1: string[], res2: string[]) {
+    if (res1.length !== res2.length) {
+      throw new Error(`Expected ${res1.length}, but got ${res2.length}.`);
+    }
+    if (res1.length !== this.sortOrder.length) {
+      throw new Error("orderByItems cannot have a different size than sort orders.");
+    }
 
     for (let i = 0; i < this.sortOrder.length; i++) {
       const type1 = this.getType(res1[i]);
       const type2 = this.getType(res2[i]);
-      this._throwIf(type1 !== type2, `Expected ${type1}, but got ${type2}.`);
+      if (type1 !== type2) {
+        throw new Error(`Expected ${type1}, but got ${type2}. Cannot execute cross partition order-by queries on mixed types. Consider filtering your query using IS_STRING or IS_NUMBER to get around this exception.`);
+      }
     }
   }
 
-  public getType(orderByItem: any) {
+  private getType(orderByItem: any) {
     // TODO: any item?
     if (orderByItem === undefined || orderByItem.item === undefined) {
       return "NoValue";
     }
     const type = typeof orderByItem.item;
-    this._throwIf(TYPEORDCOMPARATOR[type] === undefined, `unrecognizable type ${type}`);
+    if (TYPEORDCOMPARATOR[type] === undefined) {
+      throw new Error(`unrecognizable type ${type}`);
+    }
     return type;
   }
 
-  public getOrderByItems(res: any) {
+  private getOrderByItems(res: any) {
     // TODO: any res?
     return res["orderByItems"];
-  }
-
-  // TODO: this should be done differently...
-  public _throwIf(condition: boolean, msg: string) {
-    if (condition) {
-      throw Error(msg);
-    }
   }
 }

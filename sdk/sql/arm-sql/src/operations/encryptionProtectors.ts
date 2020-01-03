@@ -28,6 +28,19 @@ export class EncryptionProtectors {
   }
 
   /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  revalidate(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRevalidate(resourceGroupName,serverName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Gets a list of server encryption protectors
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -109,6 +122,25 @@ export class EncryptionProtectors {
   createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.EncryptionProtector, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionProtectorsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,serverName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EncryptionProtectorsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRevalidate(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        options
+      },
+      beginRevalidateOperationSpec,
+      options);
   }
 
   /**
@@ -207,6 +239,31 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.EncryptionProtector
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRevalidateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.encryptionProtectorName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

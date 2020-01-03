@@ -20,7 +20,12 @@ export {
   DeploymentListResult,
   DeploymentProperties,
   DeploymentPropertiesExtended,
+  DeploymentsWhatIfAtSubscriptionScopeHeaders,
+  DeploymentsWhatIfHeaders,
   DeploymentValidateResult,
+  DeploymentWhatIf,
+  DeploymentWhatIfProperties,
+  DeploymentWhatIfSettings,
   ErrorAdditionalInfo,
   ErrorResponse,
   GenericResource,
@@ -40,5 +45,8 @@ export {
   TagCount,
   TagValue,
   TemplateHashResult,
-  TemplateLink
+  TemplateLink,
+  WhatIfChange,
+  WhatIfOperationResult,
+  WhatIfPropertyChange
 } from "../models/mappers";

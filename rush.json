@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.12.0",
+  "rushVersion": "5.17.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "3.8.1",
+  "pnpmVersion": "4.6.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -51,7 +51,7 @@
      * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
      * can be reused; this is more similar to NPM's algorithm.
      */
-    "resolutionStrategy": "fast"
+    "resolutionStrategy": "fewer-dependencies"
   },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
@@ -324,99 +324,143 @@
     //
     {
       "packageName": "@azure/abort-controller",
-      "projectFolder": "sdk/core/abort-controller"
+      "projectFolder": "sdk/core/abort-controller",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/app-configuration",
-      "projectFolder": "sdk/appconfiguration/app-configuration"
+      "projectFolder": "sdk/appconfiguration/app-configuration",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/cognitiveservices-textanalytics",
+      "projectFolder": "sdk/textanalytics/cognitiveservices-textanalytics",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/core-amqp",
-      "projectFolder": "sdk/core/core-amqp"
+      "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-arm",
-      "projectFolder": "sdk/core/core-arm"
+      "projectFolder": "sdk/core/core-arm",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill"
+      "projectFolder": "sdk/core/core-asynciterator-polyfill",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-auth",
-      "projectFolder": "sdk/core/core-auth"
+      "projectFolder": "sdk/core/core-auth",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http"
+      "projectFolder": "sdk/core/core-http",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/core-lro",
+      "projectFolder": "sdk/core/core-lro",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-paging",
-      "projectFolder": "sdk/core/core-paging"
-    },
-    {
-      "packageName": "@azure/cosmos",
-      "projectFolder": "sdk/cosmosdb/cosmos"
-    },
-    {
-      "packageName": "@azure/event-hubs",
-      "projectFolder": "sdk/eventhub/event-hubs"
-    },
-    {
-      "packageName": "@azure/eventhubs-checkpointstore-blob",
-      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-blob"
-    },
-    {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub"
-    },
-    {
-      "packageName": "@azure/identity",
-      "projectFolder": "sdk/identity/identity"
-    },
-    {
-      "packageName": "@azure/keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates"
-    },
-    {
-      "packageName": "@azure/keyvault-keys",
-      "projectFolder": "sdk/keyvault/keyvault-keys"
-    },
-    {
-      "packageName": "@azure/keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets"
-    },
-    {
-      "packageName": "@azure/service-bus",
-      "projectFolder": "sdk/servicebus/service-bus"
-    },
-    {
-      "packageName": "@azure/storage-blob",
-      "projectFolder": "sdk/storage/storage-blob"
-    },
-    {
-      "packageName": "@azure/storage-file",
-      "projectFolder": "sdk/storage/storage-file"
-    },
-    {
-      "packageName": "@azure/storage-queue",
-      "projectFolder": "sdk/storage/storage-queue"
-    },
-    {
-      "packageName": "@azure/template",
-      "projectFolder": "sdk/template/template"
-    },
-    {
-      "packageName": "@azure/test-utils-recorder",
-      "projectFolder": "sdk/test-utils/recorder"
+      "projectFolder": "sdk/core/core-paging",
+      "versionPolicyName": "core"
     },
     {
       "packageName": "@azure/core-tracing",
-      "projectFolder": "sdk/core/core-tracing"
+      "projectFolder": "sdk/core/core-tracing",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/cosmos",
+      "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/event-hubs",
+      "projectFolder": "sdk/eventhub/event-hubs",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventhubs-checkpointstore-blob",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/event-processor-host",
+      "projectFolder": "sdk/eventhub/event-processor-host",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "testhub",
+      "projectFolder": "sdk/eventhub/testhub",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/identity",
+      "projectFolder": "sdk/identity/identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/keyvault-keys",
+      "projectFolder": "sdk/keyvault/keyvault-keys",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/logger",
+      "projectFolder": "sdk/core/logger",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/service-bus",
+      "projectFolder": "sdk/servicebus/service-bus",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-blob",
+      "projectFolder": "sdk/storage/storage-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-queue",
+      "projectFolder": "sdk/storage/storage-queue",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/template",
+      "projectFolder": "sdk/template/template",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-recorder",
+      "projectFolder": "sdk/test-utils/recorder",
+      "versionPolicyName": "utility"
     }
   ]
 }

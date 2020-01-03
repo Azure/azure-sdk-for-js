@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
   createDocumentUri,
@@ -69,9 +71,13 @@ export class Item {
    * ({body: item} = await item.read<TodoItem>());
    * ```
    */
-  public async read<T extends ItemDefinition = any>(options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public async read<T extends ItemDefinition = any>(
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
@@ -92,7 +98,13 @@ export class Item {
       response = error;
     }
 
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      this
+    );
   }
 
   /**
@@ -103,7 +115,10 @@ export class Item {
    * @param body The definition to replace the existing {@link Item}'s definition with.
    * @param options Additional options for the request, such as the partition key.
    */
-  public replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
+  public replace(
+    body: ItemDefinition,
+    options?: RequestOptions
+  ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Replace the item's definition.
    *
@@ -115,10 +130,18 @@ export class Item {
    * @param body The definition to replace the existing {@link Item}'s definition with.
    * @param options Additional options for the request, such as the partition key.
    */
-  public replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async replace<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public replace<T extends ItemDefinition>(
+    body: T,
+    options?: RequestOptions
+  ): Promise<ItemResponse<T>>;
+  public async replace<T extends ItemDefinition>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -138,7 +161,13 @@ export class Item {
       options,
       partitionKey: this.partitionKey
     });
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      this
+    );
   }
 
   /**
@@ -149,9 +178,13 @@ export class Item {
    *
    * @param options Additional options for the request, such as the partition key.
    */
-  public async delete<T extends ItemDefinition = any>(options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public async delete<T extends ItemDefinition = any>(
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
@@ -165,6 +198,12 @@ export class Item {
       options,
       partitionKey: this.partitionKey
     });
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      this
+    );
   }
 }

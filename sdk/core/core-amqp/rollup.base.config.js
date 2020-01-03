@@ -6,15 +6,15 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import inject from "rollup-plugin-inject";
 import shim from "rollup-plugin-shim";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
-const depNames = Object.keys(pkg.dependencies).concat(Object.keys(pkg.peerDependencies));
+const depNames = Object.keys(pkg.dependencies);
 
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";

@@ -182,6 +182,41 @@ export interface DeploymentExportResult {
 }
 
 /**
+ * Deployment What-If operation settings.
+ */
+export interface DeploymentWhatIfSettings {
+  /**
+   * The format of the What-If results. Possible values include: 'ResourceIdOnly',
+   * 'FullResourcePayloads'
+   */
+  resultFormat?: WhatIfResultFormat;
+}
+
+/**
+ * Deployment What-if properties.
+ */
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
+  /**
+   * Optional What-If operation settings.
+   */
+  whatIfSettings?: DeploymentWhatIfSettings;
+}
+
+/**
+ * Deployment What-if operation parameters.
+ */
+export interface DeploymentWhatIf {
+  /**
+   * The location to store the deployment data.
+   */
+  location?: string;
+  /**
+   * The deployment properties.
+   */
+  properties: DeploymentWhatIfProperties;
+}
+
+/**
  * The resource management error additional info.
  */
 export interface ErrorAdditionalInfo {
@@ -447,6 +482,10 @@ export interface DeploymentPropertiesExtended {
  * Information from validate template deployment response.
  */
 export interface DeploymentValidateResult {
+  /**
+   * The deployment validation error.
+   */
+  error?: ErrorResponse;
   /**
    * The template deployment properties.
    */
@@ -1000,6 +1039,78 @@ export interface TemplateHashResult {
 }
 
 /**
+ * The predicted change to the resource property.
+ */
+export interface WhatIfPropertyChange {
+  /**
+   * The path of the property.
+   */
+  path: string;
+  /**
+   * The type of property change. Possible values include: 'Create', 'Delete', 'Modify', 'Array'
+   */
+  propertyChangeType: PropertyChangeType;
+  /**
+   * The value of the property before the deployment is executed.
+   */
+  before?: any;
+  /**
+   * The value of the property after the deployment is executed.
+   */
+  after?: any;
+  /**
+   * Nested property changes.
+   */
+  children?: WhatIfPropertyChange[];
+}
+
+/**
+ * Information about a single resource change predicted by What-If operation.
+ */
+export interface WhatIfChange {
+  /**
+   * Resource ID
+   */
+  resourceId: string;
+  /**
+   * Type of change that will be made to the resource when the deployment is executed. Possible
+   * values include: 'Create', 'Delete', 'Ignore', 'Deploy', 'NoChange', 'Modify'
+   */
+  changeType: ChangeType;
+  /**
+   * The snapshot of the resource before the deployment is executed.
+   */
+  before?: any;
+  /**
+   * The predicted snapshot of the resource after the deployment is executed.
+   */
+  after?: any;
+  /**
+   * The predicted changes to resource properties.
+   */
+  delta?: WhatIfPropertyChange[];
+}
+
+/**
+ * Result of the What-If operation. Contains a list of predicted changes and a URL link to get to
+ * the next set of results.
+ */
+export interface WhatIfOperationResult {
+  /**
+   * Status of the What-If operation.
+   */
+  status?: string;
+  /**
+   * List of resource changes predicted by What-If operation.
+   */
+  changes?: WhatIfChange[];
+  /**
+   * Error when What-If operation fails.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DeploymentsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
@@ -1264,6 +1375,34 @@ export interface ResourceManagementClientOptions extends AzureServiceClientOptio
 }
 
 /**
+ * Defines headers for WhatIfAtSubscriptionScope operation.
+ */
+export interface DeploymentsWhatIfAtSubscriptionScopeHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
+ * Defines headers for WhatIf operation.
+ */
+export interface DeploymentsWhatIfHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
  * @interface
  * Result of the request to list Microsoft.Resources operations. It contains a list of operations
  * and a URL link to get the next set of results.
@@ -1371,6 +1510,14 @@ export type DeploymentMode = 'Incremental' | 'Complete';
 export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
 
 /**
+ * Defines values for WhatIfResultFormat.
+ * Possible values include: 'ResourceIdOnly', 'FullResourcePayloads'
+ * @readonly
+ * @enum {string}
+ */
+export type WhatIfResultFormat = 'ResourceIdOnly' | 'FullResourcePayloads';
+
+/**
  * Defines values for ResourceIdentityType.
  * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
  * 'None'
@@ -1378,6 +1525,22 @@ export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
  * @enum {string}
  */
 export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+
+/**
+ * Defines values for PropertyChangeType.
+ * Possible values include: 'Create', 'Delete', 'Modify', 'Array'
+ * @readonly
+ * @enum {string}
+ */
+export type PropertyChangeType = 'Create' | 'Delete' | 'Modify' | 'Array';
+
+/**
+ * Defines values for ChangeType.
+ * Possible values include: 'Create', 'Delete', 'Ignore', 'Deploy', 'NoChange', 'Modify'
+ * @readonly
+ * @enum {string}
+ */
+export type ChangeType = 'Create' | 'Delete' | 'Ignore' | 'Deploy' | 'NoChange' | 'Modify';
 
 /**
  * Contains response data for the list operation.
@@ -1880,6 +2043,31 @@ export type DeploymentsValidateAtSubscriptionScopeResponse = DeploymentValidateR
 };
 
 /**
+ * Contains response data for the whatIfAtSubscriptionScope operation.
+ */
+export type DeploymentsWhatIfAtSubscriptionScopeResponse = WhatIfOperationResult & DeploymentsWhatIfAtSubscriptionScopeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfAtSubscriptionScopeHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
+    };
+};
+
+/**
  * Contains response data for the exportTemplateAtSubscriptionScope operation.
  */
 export type DeploymentsExportTemplateAtSubscriptionScopeResponse = DeploymentExportResult & {
@@ -2001,6 +2189,31 @@ export type DeploymentsValidateResponse = DeploymentValidateResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the whatIf operation.
+ */
+export type DeploymentsWhatIfResponse = WhatIfOperationResult & DeploymentsWhatIfHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
     };
 };
 
@@ -2876,26 +3089,6 @@ export type ResourceGroupsListResponse = ResourceGroupListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ResourceGroupListResult;
-    };
-};
-
-/**
- * Contains response data for the beginExportTemplate operation.
- */
-export type ResourceGroupsBeginExportTemplateResponse = ResourceGroupExportResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceGroupExportResult;
     };
 };
 

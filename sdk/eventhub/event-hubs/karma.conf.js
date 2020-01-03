@@ -47,7 +47,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["EVENTHUB_CONNECTION_STRING", "EVENTHUB_NAME", "IOTHUB_CONNECTION_STRING"],
+    envPreprocessor: ["EVENTHUB_CONNECTION_STRING_BROWSER", "EVENTHUB_NAME", "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING_BROWSER"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

@@ -17,61 +17,60 @@ npm install @azure/cognitiveservices-spellcheck
 
 #### nodejs - Authentication, client creation and spellChecker  as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample performs a spell check on the text - 'Bill Gatos'. The result will return a suggestion of 'Gates'. To know more, refer to the [Azure Documentation on Spell Check](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { SpellCheckClient, SpellCheckModels, SpellCheckMappers } from "@azure/cognitiveservices-spellcheck";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  SpellCheckClient,
+  SpellCheckModels
+} from "@azure/cognitiveservices-spellcheck";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SpellCheckClient(creds, subscriptionId);
-  const text = "testtext";
-  const acceptLanguage = "testacceptLanguage";
-  const pragma = "testpragma";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const actionType = "Edit";
-  const appName = "testappName";
-  const countryCode = "testcountryCode";
-  const clientMachineName = "testclientMachineName";
-  const docId = "testdocId";
-  const market = "testmarket";
-  const sessionId = "testsessionId";
-  const setLang = "testsetLang";
-  const userId = "testuserId";
-  const mode = "proof";
-  const preContextText = "testpreContextText";
-  const postContextText = "testpostContextText";
-  client.spellChecker(text, acceptLanguage, pragma, userAgent, clientId, clientIp, location, actionType, appName, countryCode, clientMachineName, docId, market, sessionId, setLang, userId, mode, preContextText, postContextText).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const spellCheckKey = process.env["spellCheckKey"] || "<spellCheckKey>";
+  const spellCheckEndPoint =
+    process.env["spellCheckEndPoint"] || "<spellCheckEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    spellCheckKey
+  );
+  const client = new SpellCheckClient(cognitiveServiceCredentials, {
+    endpoint: spellCheckEndPoint
   });
-}).catch((err) => {
-  console.error(err);
-});
+
+  const options: SpellCheckModels.SpellCheckClientSpellCheckerOptionalParams = {
+    mode: "proof",
+    pragma: "no-cache"
+  };
+
+  client
+    .spellChecker("Bill Gatos", options)
+    .then(result => {
+      console.log("The result is: ");
+      result.flaggedTokens.forEach(flaggedToken => {
+        flaggedToken.suggestions!.forEach(suggestion => {
+          console.log(suggestion);
+        });
+      });
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and spellChecker  as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -80,47 +79,41 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-spellcheck sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-spellcheck/dist/cognitiveservices-spellcheck.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const spellcheckKey = "<YOUR_SPELL_CHECK_KEY>";
+      const spellcheckEndPoint = "<YOUR_SPELL_CHECK_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": spellcheckKey
         }
-        const client = new Azure.CognitiveservicesSpellcheck.SpellCheckClient(res.creds, subscriptionId);
-        const text = "testtext";
-        const acceptLanguage = "testacceptLanguage";
-        const pragma = "testpragma";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const actionType = "Edit";
-        const appName = "testappName";
-        const countryCode = "testcountryCode";
-        const clientMachineName = "testclientMachineName";
-        const docId = "testdocId";
-        const market = "testmarket";
-        const sessionId = "testsessionId";
-        const setLang = "testsetLang";
-        const userId = "testuserId";
-        const mode = "proof";
-        const preContextText = "testpreContextText";
-        const postContextText = "testpostContextText";
-        client.spellChecker(text, acceptLanguage, pragma, userAgent, clientId, clientIp, location, actionType, appName, countryCode, clientMachineName, docId, market, sessionId, setLang, userId, mode, preContextText, postContextText).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
+      });
+      const client = new Azure.CognitiveservicesSpellcheck.SpellCheckClient(
+        cognitiveServiceCredentials,
+        {
+          endpoint: spellcheckEndPoint
+        }
+      );
+
+      const options = {
+        mode: "proof",
+        pragma: "no-cache"
+      };
+
+      client
+        .spellChecker("Bill Gatos", options)
+        .then(result => {
+          console.log("The result is: ");
+          result.flaggedTokens.forEach(flaggedToken => {
+            flaggedToken.suggestions.forEach(suggestion => {
+              console.log(suggestion);
+            });
+          });
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
@@ -131,5 +124,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-spellcheck/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-spellcheck%2FREADME.png)

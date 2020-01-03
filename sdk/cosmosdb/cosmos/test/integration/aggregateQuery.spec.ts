@@ -1,5 +1,7 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
+import { Container, ContainerDefinition } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
 import { QueryIterator } from "../../dist-esm/index";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
@@ -12,7 +14,11 @@ describe("Aggregate Query", function() {
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
   const testdata = new TestData(partitionKey, uniquePartitionKey);
+  const average = testdata.sum / testdata.numberOfDocumentsWithNumbericId;
   const documentDefinitions = testdata.docs;
+  const samePartitionSum =
+    (testdata.numberOfDocsWithSamePartitionKey * (testdata.numberOfDocsWithSamePartitionKey + 1)) /
+    2.0;
   let container: Container;
 
   const containerDefinition: ContainerDefinition = {
@@ -52,12 +58,9 @@ describe("Aggregate Query", function() {
     await bulkInsertItems(container, documentDefinitions);
   });
 
-  const validateResult = function(actualValue: any, expectedValue: any) {
-    assert.deepEqual(actualValue, expectedValue, "actual value doesn't match with expected value.");
-  };
-
   const validateFetchAll = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
+    console.log(results);
     assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
     assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
@@ -71,47 +74,63 @@ describe("Aggregate Query", function() {
     fetchAllRequestCharge: number
   ) {
     const pageSize = options["maxItemCount"];
-    const listOfResultPages: any[] = [];
+
     let totalFetchedResults: any[] = [];
     let totalExecuteNextRequestCharge = 0;
 
     while (totalFetchedResults.length <= expectedResults.length) {
       const { resources: results, requestCharge } = await queryIterator.fetchNext();
-      listOfResultPages.push(results);
 
-      if (results === undefined || totalFetchedResults.length === expectedResults.length) {
+      if (results && results.length > 0) {
+        totalFetchedResults = totalFetchedResults.concat(results);
+      }
+      totalExecuteNextRequestCharge += requestCharge;
+
+      if (
+        !queryIterator.hasMoreResults() ||
+        totalFetchedResults.length === expectedResults.length
+      ) {
         break;
       }
 
-      totalFetchedResults = totalFetchedResults.concat(results);
-      totalExecuteNextRequestCharge += requestCharge;
-
       if (totalFetchedResults.length < expectedResults.length) {
         // there are more results
-        assert(results.length <= pageSize, "executeNext: invalid fetch block size");
-        assert.equal(results.length, pageSize, "executeNext: invalid fetch block size");
+        if (results) {
+          assert(results.length <= pageSize, "executeNext: invalid fetch block size");
+        }
         assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
       } else {
         // no more results
-        assert.equal(expectedResults.length, totalFetchedResults.length, "executeNext: didn't fetch all the results");
-        assert(results.length <= pageSize, "executeNext: actual fetch size is more than the requested page size");
+        assert.equal(
+          expectedResults.length,
+          totalFetchedResults.length,
+          "executeNext: didn't fetch all the results"
+        );
+        assert(
+          results.length <= pageSize,
+          "executeNext: actual fetch size is more than the requested page size"
+        );
       }
     }
 
     // no more results
-    validateResult(totalFetchedResults, expectedResults);
+    assert.deepStrictEqual(totalFetchedResults, expectedResults);
     assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
 
     assert(totalExecuteNextRequestCharge > 0);
     const percentDifference =
-      Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) / totalExecuteNextRequestCharge;
+      Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) /
+      totalExecuteNextRequestCharge;
     assert(
       percentDifference <= 0.01,
       "difference between fetchAll request charge and executeNext request charge should be less than 1%"
     );
   };
 
-  const ValidateAsyncIterator = async function(queryIterator: QueryIterator<any>, expectedResults: any[]) {
+  const ValidateAsyncIterator = async function(
+    queryIterator: QueryIterator<any>,
+    expectedResults: any[]
+  ) {
     const results: any[] = [];
     let completed = false;
     // forEach uses callbacks still, so just wrap in a promise
@@ -124,119 +143,142 @@ describe("Aggregate Query", function() {
       }
     }
     assert.equal(completed, true, "AsyncIterator should fetch expected number of results");
-    validateResult(results, expectedResults);
+    assert.deepStrictEqual(results, expectedResults);
   };
 
-  const executeQueryAndValidateResults = async function(query: string | SqlQuerySpec, expectedResults: any[]) {
+  const executeQueryAndValidateResults = async function(
+    query: string | SqlQuerySpec,
+    expectedResults: any[]
+  ) {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
     const queryIterator = container.items.query(query, options);
     const fetchAllRequestCharge = await validateFetchAll(queryIterator, expectedResults);
     queryIterator.reset();
-    await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults, fetchAllRequestCharge);
+    await validateExecuteNextAndHasMoreResults(
+      queryIterator,
+      options,
+      expectedResults,
+      fetchAllRequestCharge
+    );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
   };
 
-  const generateTestConfigs = function() {
-    const testConfigs: any[] = [];
-    const aggregateConfigs = [
-      {
-        operator: "AVG",
-        expected: testdata.sum / testdata.numberOfDocumentsWithNumbericId,
-        condition: `IS_NUMBER(r.${partitionKey})`
-      },
-      {
-        operator: "COUNT",
-        expected: testdata.numberOfDocuments,
-        condition: "true"
-      },
-      { operator: "MAX", expected: "xyz", condition: "true" },
-      { operator: "MIN", expected: null, condition: "true" },
-      {
-        operator: "SUM",
-        expected: testdata.sum,
-        condition: `IS_NUMBER(r.${partitionKey})`
-      }
-    ];
-
-    aggregateConfigs.forEach(function({ operator, condition, expected }) {
-      let query = `SELECT VALUE ${operator}(r.${partitionKey}) FROM r WHERE ${condition}`;
-      let testName = `${operator} ${condition}`;
-
-      testConfigs.push({
-        testName,
-        query,
-        expected
-      });
-
-      query = `SELECT VALUE ${operator}(r.${partitionKey}) FROM r WHERE ${condition} ORDER BY r.${partitionKey}`;
-      testName = `${operator} ${condition} OrderBy`;
-      testConfigs.push({
-        testName,
-        query,
-        expected
-      });
-    });
-
-    const samePartitionSum =
-      (testdata.numberOfDocsWithSamePartitionKey * (testdata.numberOfDocsWithSamePartitionKey + 1)) / 2.0;
-    const aggregateSinglePartitionConfigs = [
-      {
-        operator: "AVG",
-        expected: samePartitionSum / testdata.numberOfDocsWithSamePartitionKey
-      },
-      {
-        operator: "COUNT",
-        expected: testdata.numberOfDocsWithSamePartitionKey
-      },
-      {
-        operator: "MAX",
-        expected: testdata.numberOfDocsWithSamePartitionKey
-      },
-      { operator: "MIN", expected: 1 },
-      { operator: "SUM", expected: samePartitionSum }
-    ];
-
-    aggregateSinglePartitionConfigs.forEach(function({ operator, expected }) {
-      const query = `SELECT VALUE ${operator}(r.${
-        testdata.field
-      }) FROM r WHERE r.${partitionKey} = '${uniquePartitionKey}'`;
-      let testName = `${operator} SinglePartition SELECT VALUE`;
-      testConfigs.push({
-        testName,
-        query,
-        expected
-      });
-    });
-
-    return testConfigs;
-  };
-
-  generateTestConfigs().forEach(function(test) {
-    it(test.testName, async function() {
-      const expected = test.expected === undefined ? [] : [test.expected];
-      await executeQueryAndValidateResults(test.query, expected);
-    });
+  it("SELECT VALUE AVG", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
+      average
+    ]);
   });
 
-  it("should error for non-VALUE queries", async () => {
-    try {
-      const queryIterator = container.items.query("SELECT SUM(r.key) from r WHERE IS_NUMBER(r.key)");
-      const response = await queryIterator.fetchAll();
-      assert.fail("Should throw an error");
-    } catch (error) {
-      assert(error);
-    }
+  it("SELECT VALUE AVG with ORDER BY", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
+      [average]
+    );
   });
 
-  it("should error for GROUP BY queries", async () => {
-    try {
-      const queryIterator = container.items.query("SELECT * from r GROUP BY r.key");
-      const response = await queryIterator.fetchAll();
-      assert.fail("Should throw an error");
-    } catch (error) {
-      assert.equal(error.code, 400);
-    }
+  it("SELECT VALUE COUNT", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r", [
+      testdata.numberOfDocuments
+    ]);
+  });
+
+  it("SELECT VALUE COUNT with ORDER BY", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r ORDER BY r.key", [
+      testdata.numberOfDocuments
+    ]);
+  });
+
+  it("SELECT VALUE MAX", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r", ["xyz"]);
+  });
+
+  it("SELECT VALUE MAX with ORDER BY", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r ORDER BY r.key", ["xyz"]);
+  });
+
+  it("SELECT VALUE MIN", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r", [null]);
+  });
+
+  it("SELECT VALUE MIN with ORDER BY", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r ORDER BY r.key", [null]);
+  });
+
+  it("SELECT VALUE SUM", async function() {
+    await executeQueryAndValidateResults("SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key)", [
+      testdata.sum
+    ]);
+  });
+
+  it("SELECT VALUE SUM with ORDER BY", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
+      [testdata.sum]
+    );
+  });
+
+  it("SELECT VALUE AVG for single partiton", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE AVG(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
+      [samePartitionSum / testdata.numberOfDocsWithSamePartitionKey]
+    );
+  });
+
+  it("SELECT VALUE COUNT for single partiton", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE COUNT(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
+      [testdata.numberOfDocsWithSamePartitionKey]
+    );
+  });
+
+  it("SELECT VALUE MAX for single partiton", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE MAX(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
+      [testdata.numberOfDocsWithSamePartitionKey]
+    );
+  });
+
+  it("SELECT VALUE MIN for single partiton", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE MIN(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
+      [1]
+    );
+  });
+
+  it("SELECT VALUE SUM for single partiton", async function() {
+    await executeQueryAndValidateResults(
+      "SELECT VALUE SUM(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
+      [samePartitionSum]
+    );
+  });
+
+  it("Non VALUE aggregate", async function() {
+    await executeQueryAndValidateResults("SELECT AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
+      { $1: average }
+    ]);
+  });
+
+  it("Multiple Aggregates", async function() {
+    await executeQueryAndValidateResults("SELECT COUNT(1), MAX(r.key) FROM r", [
+      { $1: testdata.numberOfDocuments, $2: "xyz" }
+    ]);
+  });
+
+  it("should not error for MAX queries on with empty results", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MAX(r.missing) from r", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
+  });
+
+  it("should not error for MIN queries on with empty filter", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MIN(r.key) from r WHERE false", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
   });
 });

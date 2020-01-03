@@ -14,7 +14,7 @@ import {
   generate_uuid
 } from "rhea-promise";
 import * as Constants from "./util/constants";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
@@ -82,7 +82,7 @@ export class CbsClient {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
-        log.cbs("The CBS client is trying to establish an AMQP connection.");
+        logger.verbose("The CBS client is trying to establish an AMQP connection.");
         await defaultLock.acquire(this.connectionLock, () => {
           return this.connection.open();
         });
@@ -97,7 +97,7 @@ export class CbsClient {
           onSessionError: (context: EventContext) => {
             const id = context.connection.options.id;
             const ehError = translate(context.session!.error!);
-            log.error(
+            logger.verbose(
               "[%s] An error occurred on the session for request/response links " + "for $cbs: %O",
               id,
               ehError
@@ -105,7 +105,7 @@ export class CbsClient {
           }
         };
         const srOpt: SenderOptions = { target: { address: this.endpoint } };
-        log.cbs(
+        logger.verbose(
           "[%s] Creating sender/receiver links on a session for $cbs endpoint.",
           this.connection.id
         );
@@ -117,17 +117,17 @@ export class CbsClient {
         this._cbsSenderReceiverLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the cbs sender link.. %O", id, ehError);
+          logger.verbose("[%s] An error occurred on the cbs sender link.. %O", id, ehError);
         });
         this._cbsSenderReceiverLink.receiver.on(
           ReceiverEvents.receiverError,
           (context: EventContext) => {
             const id = context.connection.options.id;
             const ehError = translate(context.receiver!.error!);
-            log.error("[%s] An error occurred on the cbs receiver link.. %O", id, ehError);
+            logger.verbose("[%s] An error occurred on the cbs receiver link.. %O", id, ehError);
           }
         );
-        log.cbs(
+        logger.verbose(
           "[%s] Successfully created the cbs sender '%s' and receiver '%s' " +
             "links over cbs session.",
           this.connection.id,
@@ -135,7 +135,7 @@ export class CbsClient {
           this._cbsSenderReceiverLink.receiver.name
         );
       } else {
-        log.cbs(
+        logger.verbose(
           "[%s] CBS session is already present. Reusing the cbs sender '%s' " +
             "and receiver '%s' links over cbs session.",
           this.connection.id,
@@ -145,11 +145,12 @@ export class CbsClient {
       }
     } catch (err) {
       err = translate(err);
-      log.error(
+      logger.warning(
         "[%s] An error occured while establishing the cbs links: %O",
         this.connection.id,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -204,14 +205,15 @@ export class CbsClient {
         }
       };
       const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
-      log.cbs("[%s] The CBS response is: %O", this.connection.id, responseMessage);
+      logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromAmqpMessageResponse(responseMessage);
     } catch (err) {
-      log.error(
+      logger.warning(
         "[%s] An error occurred while negotiating the cbs claim: %O",
         this.connection.id,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -227,12 +229,12 @@ export class CbsClient {
         const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
         await cbsLink!.close();
-        log.cbs("[%s] Successfully closed the cbs session.", this.connection.id);
+        logger.verbose("[%s] Successfully closed the cbs session.", this.connection.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${err.stack ||
         JSON.stringify(err)}.`;
-      log.error("[%s] %s", this.connection.id, msg);
+      logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
   }
@@ -247,12 +249,12 @@ export class CbsClient {
         const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
         cbsLink!.remove();
-        log.cbs("[%s] Successfully removed the cbs session.", this.connection.id);
+        logger.verbose("[%s] Successfully removed the cbs session.", this.connection.id);
       }
     } catch (err) {
       const msg = `An error occurred while removing the cbs link: ${err.stack ||
         JSON.stringify(err)}.`;
-      log.error("[%s] %s", this.connection.id, msg);
+      logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
   }
@@ -274,7 +276,7 @@ export class CbsClient {
         ? msg.application_properties["status-description"]
         : ""
     };
-    log.cbs("[%s] The deserialized CBS response is: %o", this.connection.id, cbsResponse);
+    logger.verbose("[%s] The deserialized CBS response is: %o", this.connection.id, cbsResponse);
     return cbsResponse;
   }
 }

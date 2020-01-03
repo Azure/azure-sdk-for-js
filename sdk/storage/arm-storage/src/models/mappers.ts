@@ -281,11 +281,11 @@ export const Restriction: msRest.CompositeMapper = {
   }
 };
 
-export const Sku: msRest.CompositeMapper = {
-  serializedName: "Sku",
+export const SkuInformation: msRest.CompositeMapper = {
+  serializedName: "SkuInformation",
   type: {
     name: "Composite",
-    className: "Sku",
+    className: "SkuInformation",
     modelProperties: {
       name: {
         required: true,
@@ -295,7 +295,6 @@ export const Sku: msRest.CompositeMapper = {
         }
       },
       tier: {
-        readOnly: true,
         serializedName: "tier",
         type: {
           name: "Enum",
@@ -661,6 +660,58 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
   }
 };
 
+export const ActiveDirectoryProperties: msRest.CompositeMapper = {
+  serializedName: "ActiveDirectoryProperties",
+  type: {
+    name: "Composite",
+    className: "ActiveDirectoryProperties",
+    modelProperties: {
+      domainName: {
+        required: true,
+        serializedName: "domainName",
+        type: {
+          name: "String"
+        }
+      },
+      netBiosDomainName: {
+        required: true,
+        serializedName: "netBiosDomainName",
+        type: {
+          name: "String"
+        }
+      },
+      forestName: {
+        required: true,
+        serializedName: "forestName",
+        type: {
+          name: "String"
+        }
+      },
+      domainGuid: {
+        required: true,
+        serializedName: "domainGuid",
+        type: {
+          name: "String"
+        }
+      },
+      domainSid: {
+        required: true,
+        serializedName: "domainSid",
+        type: {
+          name: "String"
+        }
+      },
+      azureStorageSid: {
+        required: true,
+        serializedName: "azureStorageSid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureFilesIdentityBasedAuthentication: msRest.CompositeMapper = {
   serializedName: "AzureFilesIdentityBasedAuthentication",
   type: {
@@ -672,6 +723,41 @@ export const AzureFilesIdentityBasedAuthentication: msRest.CompositeMapper = {
         serializedName: "directoryServiceOptions",
         type: {
           name: "String"
+        }
+      },
+      activeDirectoryProperties: {
+        serializedName: "activeDirectoryProperties",
+        type: {
+          name: "Composite",
+          className: "ActiveDirectoryProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RoutingPreference: msRest.CompositeMapper = {
+  serializedName: "RoutingPreference",
+  type: {
+    name: "Composite",
+    className: "RoutingPreference",
+    modelProperties: {
+      routingChoice: {
+        serializedName: "routingChoice",
+        type: {
+          name: "String"
+        }
+      },
+      publishMicrosoftEndpoints: {
+        serializedName: "publishMicrosoftEndpoints",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishInternetEndpoints: {
+        serializedName: "publishInternetEndpoints",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -705,6 +791,33 @@ export const Identity: msRest.CompositeMapper = {
         defaultValue: 'SystemAssigned',
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Sku: msRest.CompositeMapper = {
+  serializedName: "Sku",
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Standard",
+            "Premium"
+          ]
         }
       }
     }
@@ -806,6 +919,109 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
+      },
+      routingPreference: {
+        serializedName: "properties.routingPreference",
+        type: {
+          name: "Composite",
+          className: "RoutingPreference"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountMicrosoftEndpoints: msRest.CompositeMapper = {
+  serializedName: "StorageAccountMicrosoftEndpoints",
+  type: {
+    name: "Composite",
+    className: "StorageAccountMicrosoftEndpoints",
+    modelProperties: {
+      blob: {
+        readOnly: true,
+        serializedName: "blob",
+        type: {
+          name: "String"
+        }
+      },
+      queue: {
+        readOnly: true,
+        serializedName: "queue",
+        type: {
+          name: "String"
+        }
+      },
+      table: {
+        readOnly: true,
+        serializedName: "table",
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        readOnly: true,
+        serializedName: "file",
+        type: {
+          name: "String"
+        }
+      },
+      web: {
+        readOnly: true,
+        serializedName: "web",
+        type: {
+          name: "String"
+        }
+      },
+      dfs: {
+        readOnly: true,
+        serializedName: "dfs",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountInternetEndpoints: msRest.CompositeMapper = {
+  serializedName: "StorageAccountInternetEndpoints",
+  type: {
+    name: "Composite",
+    className: "StorageAccountInternetEndpoints",
+    modelProperties: {
+      blob: {
+        readOnly: true,
+        serializedName: "blob",
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        readOnly: true,
+        serializedName: "file",
+        type: {
+          name: "String"
+        }
+      },
+      web: {
+        readOnly: true,
+        serializedName: "web",
+        type: {
+          name: "String"
+        }
+      },
+      dfs: {
+        readOnly: true,
+        serializedName: "dfs",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -858,6 +1074,20 @@ export const Endpoints: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      microsoftEndpoints: {
+        serializedName: "microsoftEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountMicrosoftEndpoints"
+        }
+      },
+      internetEndpoints: {
+        serializedName: "internetEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountInternetEndpoints"
+        }
       }
     }
   }
@@ -894,6 +1124,51 @@ export const GeoReplicationStats: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpoint: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpoint",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceConnectionState",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionRequired: {
+        serializedName: "actionRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -917,6 +1192,38 @@ export const Resource: msRest.CompositeMapper = {
       type: {
         readOnly: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        required: true,
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
@@ -1129,6 +1436,32 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        readOnly: true,
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      routingPreference: {
+        serializedName: "properties.routingPreference",
+        type: {
+          name: "Composite",
+          className: "RoutingPreference"
+        }
       }
     }
   }
@@ -1282,6 +1615,19 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
+        }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
+      },
+      routingPreference: {
+        serializedName: "properties.routingPreference",
+        type: {
+          name: "Composite",
+          className: "RoutingPreference"
         }
       },
       kind: {
@@ -1601,7 +1947,8 @@ export const DateAfterModification: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterModificationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -1652,7 +1999,8 @@ export const DateAfterCreation: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterCreationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -1844,6 +2192,91 @@ export const ManagementPolicy: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagementPolicySchema"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      groupId: {
+        readOnly: true,
+        serializedName: "properties.groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        readOnly: true,
+        serializedName: "properties.requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2398,6 +2831,22 @@ export const DeleteRetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const ChangeFeed: msRest.CompositeMapper = {
+  serializedName: "ChangeFeed",
+  type: {
+    name: "Composite",
+    className: "ChangeFeed",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const BlobServiceProperties: msRest.CompositeMapper = {
   serializedName: "BlobServiceProperties",
   type: {
@@ -2429,6 +2878,21 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
         serializedName: "properties.automaticSnapshotPolicyEnabled",
         type: {
           name: "Boolean"
+        }
+      },
+      changeFeed: {
+        serializedName: "properties.changeFeed",
+        type: {
+          name: "Composite",
+          className: "ChangeFeed"
+        }
+      },
+      sku: {
+        readOnly: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
         }
       }
     }
@@ -2492,6 +2956,140 @@ export const LeaseContainerResponse: msRest.CompositeMapper = {
         serializedName: "leaseTimeSeconds",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceProperties: msRest.CompositeMapper = {
+  serializedName: "FileServiceProperties",
+  type: {
+    name: "Composite",
+    className: "FileServiceProperties",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
+        }
+      },
+      shareDeleteRetentionPolicy: {
+        serializedName: "properties.shareDeleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy"
+        }
+      },
+      sku: {
+        readOnly: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceItems: msRest.CompositeMapper = {
+  serializedName: "FileServiceItems",
+  type: {
+    name: "Composite",
+    className: "FileServiceItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FileShare: msRest.CompositeMapper = {
+  serializedName: "FileShare",
+  type: {
+    name: "Composite",
+    className: "FileShare",
+    modelProperties: {
+      ...AzureEntityResource.type.modelProperties,
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      shareQuota: {
+        serializedName: "properties.shareQuota",
+        constraints: {
+          InclusiveMaximum: 100000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FileShareItem: msRest.CompositeMapper = {
+  serializedName: "FileShareItem",
+  type: {
+    name: "Composite",
+    className: "FileShareItem",
+    modelProperties: {
+      ...AzureEntityResource.type.modelProperties,
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      shareQuota: {
+        serializedName: "properties.shareQuota",
+        constraints: {
+          InclusiveMaximum: 100000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2614,7 +3212,7 @@ export const StorageSkuListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Sku"
+              className: "SkuInformation"
             }
           }
         }
@@ -2640,6 +3238,13 @@ export const StorageAccountListResult: msRest.CompositeMapper = {
               className: "StorageAccount"
             }
           }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2668,6 +3273,29 @@ export const UsageListResult: msRest.CompositeMapper = {
   }
 };
 
+export const BlobServiceItems: msRest.CompositeMapper = {
+  serializedName: "BlobServiceItems",
+  type: {
+    name: "Composite",
+    className: "BlobServiceItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BlobServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ListContainerItems: msRest.CompositeMapper = {
   serializedName: "ListContainerItems",
   type: {
@@ -2683,6 +3311,36 @@ export const ListContainerItems: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ListContainerItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileShareItems: msRest.CompositeMapper = {
+  serializedName: "FileShareItems",
+  type: {
+    name: "Composite",
+    className: "FileShareItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileShareItem"
             }
           }
         }

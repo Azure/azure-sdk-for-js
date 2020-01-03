@@ -1,7 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../dist-esm";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
@@ -16,8 +17,14 @@ describe("NodeJS CRUD Tests", function() {
       const { resource: databaseAccount, headers } = await client.getDatabaseAccount();
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");
-      assert.equal(databaseAccount.MaxMediaStorageUsageInMB, headers["x-ms-max-media-storage-usage-mb"]); // TODO: should use constants here
-      assert.equal(databaseAccount.CurrentMediaStorageUsageInMB, headers["x-ms-media-storage-usage-mb"]);
+      assert.equal(
+        databaseAccount.MaxMediaStorageUsageInMB,
+        headers["x-ms-max-media-storage-usage-mb"]
+      ); // TODO: should use constants here
+      assert.equal(
+        databaseAccount.CurrentMediaStorageUsageInMB,
+        headers["x-ms-media-storage-usage-mb"]
+      );
       assert(databaseAccount.ConsistencyPolicy !== undefined);
     });
   });

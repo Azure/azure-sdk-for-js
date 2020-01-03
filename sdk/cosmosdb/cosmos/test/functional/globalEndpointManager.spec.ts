@@ -1,7 +1,9 @@
-import { DatabaseAccount, ResourceResponse, RequestOptions, RequestContext, ConnectionPolicy } from "../../dist-esm";
-import { endpoint, masterKey } from "../common/_testConfig";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { DatabaseAccount, ResourceResponse, RequestOptions } from "../../dist-esm";
+import { masterKey } from "../common/_testConfig";
 import { GlobalEndpointManager } from "../../dist-esm/globalEndpointManager";
-import { sleep, HTTPMethod, OperationType, ResourceType } from "../../dist-esm/common";
+import { OperationType, ResourceType } from "../../dist-esm/common";
 
 import assert from "assert";
 
@@ -25,7 +27,9 @@ const headers = {
   "x-ms-throttle-retry-wait-time-ms": 0
 };
 const databaseAccountBody: any = {
-  writableLocations: [{ name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" }],
+  writableLocations: [
+    { name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" }
+  ],
   readableLocations: [
     { name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" },
     { name: "East US 2", databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/" }
@@ -42,43 +46,30 @@ describe("GlobalEndpointManager", function() {
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
-          connectionPolicy: { enableEndpointDiscovery: true, preferredLocations: ["East US 2", "West US 2"] }
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+            preferredLocations: ["East US 2", "West US 2"]
+          }
         },
         async (opts: RequestOptions) => {
-          await sleep(1000);
-
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
             200
           );
-
           return response;
         }
       );
-      const request: RequestContext = {
-        endpoint: undefined,
-        globalEndpointManager: gem,
-        requestAgent: undefined, // shouldn't be needed
-        connectionPolicy: this.connectionPolicy,
-        method: HTTPMethod.get,
-        client: undefined, // shouldn't be needed
-        operationType: OperationType.Read,
-        path: undefined, // shouldn't be needed
-        resourceType: ResourceType.none, // DatabaseAccount
-        options: undefined, // shouldn't be needed
-        plugins: undefined // shouldn't be needed
-      };
       // We don't block on init for database account calls
-      assert.equal(await gem.resolveServiceEndpoint(request), "https://test.documents.azure.com:443/");
+      assert.equal(
+        await gem.resolveServiceEndpoint(ResourceType.none, OperationType.Read),
+        "https://test.documents.azure.com:443/"
+      );
 
-      // For item calls, we do block on init, so this should resolve the correct regional endpoint
-      request.resourceType = ResourceType.item;
-      assert.equal(await gem.resolveServiceEndpoint(request), "https://test-eastus2.documents.azure.com:443/");
-
-      // This time, it should use the current regional endpoint.
-      request.resourceType = ResourceType.none; // DatabaseAccount
-      assert.equal(await gem.resolveServiceEndpoint(request), "https://test-eastus2.documents.azure.com:443/");
+      assert.equal(
+        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
+        "https://test-eastus2.documents.azure.com:443/"
+      );
     });
   });
 });

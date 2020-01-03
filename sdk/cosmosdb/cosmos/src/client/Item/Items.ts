@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import uuid from "uuid/v4";
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
@@ -18,7 +20,9 @@ import { ItemResponse } from "./ItemResponse";
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   const optionsType = typeof options;
-  return options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number");
+  return (
+    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
+  );
 }
 
 /**
@@ -32,7 +36,10 @@ export class Items {
    * @param container The parent container.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Queries all items.
@@ -65,7 +72,7 @@ export class Items {
    * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
@@ -75,13 +82,75 @@ export class Items {
         path,
         resourceType: ResourceType.item,
         resourceId: id,
-        resultFn: result => (result ? result.Documents : []),
+        resultFn: (result) => (result ? result.Documents : []),
         query,
         options: innerOptions
       });
     };
 
-    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url, ResourceType.item);
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      fetchFunction,
+      this.container.url,
+      ResourceType.item
+    );
+  }
+
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   * @deprecated Use `changeFeed` instead.
+   *
+   * @example Read from the beginning of the change feed.
+   * ```javascript
+   * const iterator = items.readChangeFeed({ startFromBeginning: true });
+   * const firstPage = await iterator.fetchNext();
+   * const firstPageResults = firstPage.result
+   * const secondPage = await iterator.fetchNext();
+   * ```
+   */
+  public readChangeFeed(
+    partitionKey: string | number | boolean,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
+   *
+   * @param changeFeedOptions
+   */
+  public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
+   *
+   * @param partitionKey
+   * @param changeFeedOptions
+   */
+  public readChangeFeed<T>(
+    partitionKey: string | number | boolean,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<T>;
+  /**
+   * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `changeFeed` instead.
+   *
+   * @param changeFeedOptions
+   */
+  public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+  public readChangeFeed<T>(
+    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
+  ): ChangeFeedIterator<T> {
+    if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+      return this.changeFeed(partitionKeyOrChangeFeedOptions);
+    } else {
+      return this.changeFeed(partitionKeyOrChangeFeedOptions, changeFeedOptions);
+    }
   }
 
   /**
@@ -98,33 +167,33 @@ export class Items {
    * const secondPage = await iterator.fetchNext();
    * ```
    */
-  public readChangeFeed(
+  public changeFeed(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
    * @param changeFeedOptions
    */
-  public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+  public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
    * @param partitionKey
    * @param changeFeedOptions
    */
-  public readChangeFeed<T>(
+  public changeFeed<T>(
     partitionKey: string | number | boolean,
-    changeFeedOptions: ChangeFeedOptions
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
    * @param changeFeedOptions
    */
-  public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
-  public readChangeFeed<T>(
+  public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+  public changeFeed<T>(
     partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
@@ -132,12 +201,15 @@ export class Items {
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;
-    } else if (partitionKeyOrChangeFeedOptions !== undefined && !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+    } else if (
+      partitionKeyOrChangeFeedOptions !== undefined &&
+      !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)
+    ) {
       partitionKey = partitionKeyOrChangeFeedOptions;
     }
 
     if (!changeFeedOptions) {
-      throw new Error("changeFeedOptions must be a valid object");
+      changeFeedOptions = {};
     }
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -177,7 +249,7 @@ export class Items {
   }
 
   /**
-   * Create a item.
+   * Create an item.
    *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
@@ -187,8 +259,11 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+  public async create<T extends ItemDefinition = any>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -214,8 +289,19 @@ export class Items {
       partitionKey
     });
 
-    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, ref);
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      partitionKey,
+      this.clientContext
+    );
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 
   /**
@@ -238,9 +324,15 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options?: RequestOptions
+  ): Promise<ItemResponse<T>>;
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -266,7 +358,18 @@ export class Items {
       partitionKey
     });
 
-    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, ref);
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      partitionKey,
+      this.clientContext
+    );
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 }

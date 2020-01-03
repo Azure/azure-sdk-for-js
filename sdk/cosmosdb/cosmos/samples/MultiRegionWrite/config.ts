@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 const endpoint = process.env["endpoint"];
 const key = process.env["key"];
 

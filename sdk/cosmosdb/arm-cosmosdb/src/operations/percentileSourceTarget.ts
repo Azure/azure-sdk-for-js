@@ -90,14 +90,14 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.sourceRegion,
     Parameters.targetRegion
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter0
   ],
   headerParameters: [

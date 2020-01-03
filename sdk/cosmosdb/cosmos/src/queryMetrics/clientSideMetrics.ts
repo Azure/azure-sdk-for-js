@@ -1,4 +1,5 @@
-import { getRequestChargeIfAny } from "../queryExecutionContext";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export class ClientSideMetrics {
   constructor(public readonly requestCharge: number) {}
@@ -13,7 +14,7 @@ export class ClientSideMetrics {
         throw new Error("clientSideMetrics has null or undefined item(s)");
       }
 
-      requestCharge += getRequestChargeIfAny(clientSideMetrics.requestCharge);
+      requestCharge += clientSideMetrics.requestCharge;
     }
 
     return new ClientSideMetrics(requestCharge);

@@ -73,7 +73,7 @@ export const containerName: msRest.OperationURLParameter = {
     }
   }
 };
-export const expand: msRest.OperationQueryParameter = {
+export const expand0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "expand"
@@ -85,6 +85,33 @@ export const expand: msRest.OperationQueryParameter = {
       allowedValues: [
         "geoReplicationStats"
       ]
+    }
+  }
+};
+export const expand1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "kerb"
+      ]
+    }
+  }
+};
+export const fileServicesName: msRest.OperationURLParameter = {
+  parameterPath: "fileServicesName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "FileServicesName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
     }
   }
 };
@@ -179,6 +206,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -194,13 +231,15 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const skipToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipToken"
-  ],
+export const shareName: msRest.OperationURLParameter = {
+  parameterPath: "shareName",
   mapper: {
-    serializedName: "$skipToken",
+    required: true,
+    serializedName: "shareName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3
+    },
     type: {
       name: "String"
     }

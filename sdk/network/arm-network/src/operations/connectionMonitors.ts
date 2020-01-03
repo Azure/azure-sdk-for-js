@@ -91,6 +91,46 @@ export class ConnectionMonitors {
   }
 
   /**
+   * Update tags of the specified connection monitor.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param connectionMonitorName The name of the connection monitor.
+   * @param parameters Parameters supplied to update connection monitor tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ConnectionMonitorsUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param connectionMonitorName The name of the connection monitor.
+   * @param parameters Parameters supplied to update connection monitor tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param connectionMonitorName The name of the connection monitor.
+   * @param parameters Parameters supplied to update connection monitor tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkWatcherName,
+        connectionMonitorName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
+  }
+
+  /**
    * Stops the specified connection monitor.
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
@@ -276,11 +316,44 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectionMonitorResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.networkWatcherName,
+    Parameters.connectionMonitorName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionMonitorResult
@@ -301,7 +374,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -327,7 +400,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -363,7 +436,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -388,7 +461,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -413,7 +486,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -438,7 +511,7 @@ const beginQueryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Enum for trigger operation values.
  * specifies the operations on which a trigger should be executed.

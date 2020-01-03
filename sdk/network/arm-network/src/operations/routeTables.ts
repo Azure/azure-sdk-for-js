@@ -92,9 +92,32 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,routeTableName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteTablesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param routeTableName The name of the route table.
+   * @param parameters Parameters supplied to update route table tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.RouteTable>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param routeTableName The name of the route table.
+   * @param parameters Parameters supplied to update route table tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteTable>): void;
+  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteTable>, callback?: msRest.ServiceCallback<Models.RouteTable>): Promise<Models.RouteTablesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        routeTableName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.RouteTablesUpdateTagsResponse>;
   }
 
   /**
@@ -188,26 +211,6 @@ export class RouteTables {
   }
 
   /**
-   * Updates a route table tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param routeTableName The name of the route table.
-   * @param parameters Parameters supplied to update route table tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        routeTableName,
-        parameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all route tables in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -281,6 +284,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RouteTable
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.routeTableName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.RouteTable
@@ -390,38 +425,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RouteTable
     },
     201: {
-      bodyMapper: Mappers.RouteTable
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.routeTableName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.RouteTable
     },
     default: {

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { isReadRequest, OperationType, ResourceType } from "../common";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
@@ -13,7 +15,7 @@ export class SessionRetryPolicy implements RetryPolicy {
   /** Current retry attempt count. */
   public currentRetryAttemptCount = 0;
   /** Retry interval in milliseconds. */
-  public retryAfterInMilliseconds = 0;
+  public retryAfterInMs = 0;
 
   /**
    * @constructor SessionReadRetryPolicy
@@ -46,7 +48,9 @@ export class SessionRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (this.globalEndpointManager.canUseMultipleWriteLocations(this.resourceType, this.operationType)) {
+    if (
+      this.globalEndpointManager.canUseMultipleWriteLocations(this.resourceType, this.operationType)
+    ) {
       // If we can write to multiple locations, we should against every write endpoint until we succeed
       const endpoints = isReadRequest(this.operationType)
         ? await this.globalEndpointManager.getReadEndpoints()
@@ -56,7 +60,8 @@ export class SessionRetryPolicy implements RetryPolicy {
       } else {
         retryContext.retryCount = ++this.currentRetryAttemptCount - 1;
         retryContext.retryRequestOnPreferredLocations = this.currentRetryAttemptCount > 1;
-        retryContext.clearSessionTokenNotAvailable = this.currentRetryAttemptCount === endpoints.length;
+        retryContext.clearSessionTokenNotAvailable =
+          this.currentRetryAttemptCount === endpoints.length;
         return true;
       }
     } else {

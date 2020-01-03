@@ -44,13 +44,14 @@ const predictionRequest = {
   query: "testquery",
   options: {
     datetimeReference: new Date(),
-    overridePredictions: true
+    preferExternalEntities: true
   },
   externalEntities: [
     {
       entityName: "testentityName",
       startIndex: 1,
       entityLength: 1,
+	    score: 0.86,
       resolution: {}
     }
   ],
@@ -116,13 +117,14 @@ client.prediction
         query: "testquery",
         options: {
           datetimeReference: new Date(),
-          overridePredictions: true
+          preferExternalEntities: true
         },
         externalEntities: [
           {
             entityName: "testentityName",
             startIndex: 1,
             entityLength: 1,
+			      score: 0.9,
             resolution: {}
           }
         ],
@@ -161,4 +163,4 @@ client.prediction
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-runtime/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-luis-runtime%2FREADME.png)

@@ -4,8 +4,8 @@
 import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
-import replace from "rollup-plugin-replace";
+import json from "@rollup/plugin-json";
+import replace from "@rollup/plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 

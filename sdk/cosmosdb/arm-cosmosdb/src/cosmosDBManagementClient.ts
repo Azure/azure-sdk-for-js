@@ -30,15 +30,23 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   collectionPartition: operations.CollectionPartition;
   partitionKeyRangeId: operations.PartitionKeyRangeId;
   partitionKeyRangeIdRegion: operations.PartitionKeyRangeIdRegion;
+  sqlResources: operations.SqlResources;
+  mongoDBResources: operations.MongoDBResources;
+  tableResources: operations.TableResources;
+  cassandraResources: operations.CassandraResources;
+  gremlinResources: operations.GremlinResources;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure subscription ID.
+   * @param subscriptionId1 The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CosmosDBManagementClientOptions) {
-    super(credentials, subscriptionId, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.CosmosDBManagementClientOptions) {
+    super(credentials, subscriptionId, subscriptionId1, options);
     this.databaseAccounts = new operations.DatabaseAccounts(this);
     this.operations = new operations.Operations(this);
     this.database = new operations.Database(this);
@@ -52,6 +60,13 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.collectionPartition = new operations.CollectionPartition(this);
     this.partitionKeyRangeId = new operations.PartitionKeyRangeId(this);
     this.partitionKeyRangeIdRegion = new operations.PartitionKeyRangeIdRegion(this);
+    this.sqlResources = new operations.SqlResources(this);
+    this.mongoDBResources = new operations.MongoDBResources(this);
+    this.tableResources = new operations.TableResources(this);
+    this.cassandraResources = new operations.CassandraResources(this);
+    this.gremlinResources = new operations.GremlinResources(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
   }
 }
 

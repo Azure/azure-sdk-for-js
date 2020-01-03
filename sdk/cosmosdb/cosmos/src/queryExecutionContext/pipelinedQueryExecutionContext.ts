@@ -1,16 +1,19 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response } from "../request";
+import { Response, FeedOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
-import { AggregateEndpointComponent } from "./EndpointComponent/AggregateEndpointComponent";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
+import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
+import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -23,7 +26,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private clientContext: ClientContext,
     private collectionLink: string,
     private query: any, // TODO: any query
-    private options: any, // TODO: any options
+    private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.endpoint = null;
@@ -55,13 +58,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.partitionedQueryExecutionInfo
       );
     }
-
-    // If aggregate then add that to the pipeline
-    const aggregates = partitionedQueryExecutionInfo.queryInfo.aggregates;
-    if (Array.isArray(aggregates) && aggregates.length > 0) {
-      this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
+    if (
+      Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
+    ) {
+      if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
+        this.endpoint = new GroupByValueEndpointComponent(
+          this.endpoint,
+          partitionedQueryExecutionInfo.queryInfo
+        );
+      } else {
+        this.endpoint = new GroupByEndpointComponent(
+          this.endpoint,
+          partitionedQueryExecutionInfo.queryInfo
+        );
+      }
     }
-
     // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
     const top = partitionedQueryExecutionInfo.queryInfo.top;
     if (typeof top === "number") {
@@ -87,10 +100,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async nextItem(): Promise<Response<any>> {
     return this.endpoint.nextItem();
-  }
-
-  public async current(): Promise<Response<any>> {
-    return this.endpoint.current();
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...

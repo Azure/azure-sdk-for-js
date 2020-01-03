@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common/constants";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 
@@ -31,8 +33,8 @@ export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[])
   }
 
   sortedRanges = sortedRanges.sort(compareRanges);
-  const partitionKeyOrderedRange = sortedRanges.map(r => r[0]);
-  const orderedPartitionInfo = sortedRanges.map(r => r[1]);
+  const partitionKeyOrderedRange = sortedRanges.map((r) => r[0]);
+  const orderedPartitionInfo = sortedRanges.map((r) => r[1]);
 
   if (!isCompleteSetOfRange(partitionKeyOrderedRange)) {
     return undefined;

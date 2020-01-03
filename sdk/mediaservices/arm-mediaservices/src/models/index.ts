@@ -36,7 +36,7 @@ export interface PresentationTimeRange {
    */
   timescale?: number;
   /**
-   * The indicator of forcing exsiting of end time stamp.
+   * The indicator of forcing existing of end time stamp.
    */
   forceEndTimestamp?: boolean;
 }
@@ -51,7 +51,7 @@ export interface FilterTrackPropertyCondition {
    */
   property: FilterTrackPropertyType;
   /**
-   * The track proprty value.
+   * The track property value.
    */
   value: string;
   /**
@@ -959,6 +959,20 @@ export interface ContentKeyPolicyPlayReadyConfiguration {
 }
 
 /**
+ * An interface representing ContentKeyPolicyFairPlayOfflineRentalConfiguration.
+ */
+export interface ContentKeyPolicyFairPlayOfflineRentalConfiguration {
+  /**
+   * Playback duration
+   */
+  playbackDurationSeconds: number;
+  /**
+   * Storage duration
+   */
+  storageDurationSeconds: number;
+}
+
+/**
  * Specifies a configuration for FairPlay licenses.
  */
 export interface ContentKeyPolicyFairPlayConfiguration {
@@ -980,7 +994,7 @@ export interface ContentKeyPolicyFairPlayConfiguration {
    */
   fairPlayPfx: string;
   /**
-   * The rental and lease key type. Possible values include: 'Unknown', 'Undefined',
+   * The rental and lease key type. Possible values include: 'Unknown', 'Undefined', 'DualExpiry',
    * 'PersistentUnlimited', 'PersistentLimited'
    */
   rentalAndLeaseKeyType: ContentKeyPolicyFairPlayRentalAndLeaseKeyType;
@@ -988,6 +1002,10 @@ export interface ContentKeyPolicyFairPlayConfiguration {
    * The rental duration. Must be greater than or equal to 0.
    */
   rentalDuration: number;
+  /**
+   * Offline rental policy
+   */
+  offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
 }
 
 /**
@@ -1190,6 +1208,10 @@ export interface FaceDetectorPreset {
    * values include: 'SourceResolution', 'StandardDefinition'
    */
   resolution?: AnalysisResolution;
+  /**
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
 }
 
 /**
@@ -1209,20 +1231,20 @@ export interface AudioAnalyzerPreset {
   odatatype: "#Microsoft.Media.AudioAnalyzerPreset";
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  The list of supported languages are English ('en-US' and
-   * 'en-GB'), Spanish ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
-   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'), Arabic ('ar-EG' and
-   * 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean ('ko-KR'). If you know the language
-   * of your content, it is recommended that you specify it. If the language isn't specified or set
-   * to null, automatic language detection will choose the first language detected and process with
-   * the selected language for the duration of the file. This language detection feature currently
-   * supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and
-   * Portuguese. It does not currently support dynamically switching between languages after the
-   * first language is detected. The automatic detection works best with audio recordings with
-   * clearly discernable speech. If automatic detection fails to find the language, transcription
-   * would fallback to 'en-US'."
+   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
+   * you specify it. If the language isn't specified or set to null, automatic language detection
+   * will choose the first language detected and process with the selected language for the
+   * duration of the file. It does not currently support dynamically switching between languages
+   * after the first language is detected. The automatic detection works best with audio recordings
+   * with clearly discernable speech. If automatic detection fails to find the language,
+   * transcription would fallback to 'en-US'." The list of supported languages is available here:
+   * https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
+  /**
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
 }
 
 /**
@@ -2048,8 +2070,8 @@ export interface BuiltInStandardEncoderPreset {
   /**
    * The built-in preset to be used for encoding videos. Possible values include:
    * 'H264SingleBitrateSD', 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
-   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p',
-   * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'ContentAwareEncoding',
+   * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
    */
   presetName: EncoderNamedPreset;
 }
@@ -2087,24 +2109,29 @@ export interface VideoAnalyzerPreset {
   odatatype: "#Microsoft.Media.VideoAnalyzerPreset";
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  The list of supported languages are English ('en-US' and
-   * 'en-GB'), Spanish ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
-   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'), Arabic ('ar-EG' and
-   * 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean ('ko-KR'). If you know the language
-   * of your content, it is recommended that you specify it. If the language isn't specified or set
-   * to null, automatic language detection will choose the first language detected and process with
-   * the selected language for the duration of the file. This language detection feature currently
-   * supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and
-   * Portuguese. It does not currently support dynamically switching between languages after the
-   * first language is detected. The automatic detection works best with audio recordings with
-   * clearly discernable speech. If automatic detection fails to find the language, transcription
-   * would fallback to 'en-US'."
+   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
+   * you specify it. If the language isn't specified or set to null, automatic language detection
+   * will choose the first language detected and process with the selected language for the
+   * duration of the file. It does not currently support dynamically switching between languages
+   * after the first language is detected. The automatic detection works best with audio recordings
+   * with clearly discernable speech. If automatic detection fails to find the language,
+   * transcription would fallback to 'en-US'." The list of supported languages is available here:
+   * https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
   /**
-   * The type of insights to be extracted. If not set then based on the content the type will
-   * selected.  If the content is audio only then only audio insights are extracted and if it is
-   * video only. Possible values include: 'AudioInsightsOnly', 'VideoInsightsOnly', 'AllInsights'
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
+  /**
+   * Defines the type of insights that you want the service to generate. The allowed values are
+   * 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If
+   * you set this to AllInsights and the input is audio only, then only audio insights are
+   * generated. Similarly if the input is video only, then only video insights are generated. It is
+   * recommended that you not use AudioInsightsOnly if you expect some of your inputs to be video
+   * only; or use VideoInsightsOnly if you expect some of your inputs to be audio only. Your Jobs
+   * in such conditions would error out. Possible values include: 'AudioInsightsOnly',
+   * 'VideoInsightsOnly', 'AllInsights'
    */
   insightsToExtract?: InsightsType;
 }
@@ -2263,6 +2290,22 @@ export interface JobInput {
 }
 
 /**
+ * Contains the possible cases for ClipTime.
+ */
+export type ClipTimeUnion = ClipTime | AbsoluteClipTime;
+
+/**
+ * Base class for specifying a clip time. Use sub classes of this class to specify the time
+ * position in the media.
+ */
+export interface ClipTime {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "ClipTime";
+}
+
+/**
  * Contains the possible cases for JobInputClip.
  */
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
@@ -2280,6 +2323,16 @@ export interface JobInputClip {
    */
   files?: string[];
   /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
+  /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
    * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
@@ -2287,6 +2340,23 @@ export interface JobInputClip {
    * 'xyz'.
    */
   label?: string;
+}
+
+/**
+ * Specifies the clip time as an absolute time position in the media file.  The absolute time can
+ * point to a different position depending on whether the media file starts from a timestamp of
+ * zero or not.
+ */
+export interface AbsoluteClipTime {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.AbsoluteClipTime";
+  /**
+   * The time position on the timeline of the input media. It is usually specified as an ISO8601
+   * period. e.g PT30S for 30 seconds.
+   */
+  time: string;
 }
 
 /**
@@ -2316,6 +2386,16 @@ export interface JobInputAsset {
    */
   files?: string[];
   /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
+  /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
    * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
@@ -2341,6 +2421,16 @@ export interface JobInputHttp {
    * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
    */
   files?: string[];
+  /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
   /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
@@ -2453,6 +2543,16 @@ export interface JobOutput {
    * Transform.
    */
   label?: string;
+  /**
+   * The UTC date and time at which this Job Output began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job Output finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
 }
 
 /**
@@ -2494,6 +2594,16 @@ export interface JobOutputAsset {
    * Transform.
    */
   label?: string;
+  /**
+   * The UTC date and time at which this Job Output began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job Output finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
   /**
    * The name of the output Asset.
    */
@@ -2543,6 +2653,16 @@ export interface Job extends ProxyResource {
    * Customer provided key, value pairs that will be returned in Job and JobOutput state events.
    */
   correlationData?: { [propertyName: string]: string };
+  /**
+   * The UTC date and time at which this Job began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
 }
 
 /**
@@ -3160,7 +3280,7 @@ export interface LiveEventPreview {
 export interface LiveEventEncoding {
   /**
    * The encoding type for Live Event.  This value is specified at creation time and cannot be
-   * updated. Possible values include: 'None', 'Basic', 'Standard'
+   * updated. Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
    */
   encodingType?: LiveEventEncodingType;
   /**
@@ -3395,7 +3515,7 @@ export interface AssetsListOptionalParams extends msRest.RequestOptionsBase {
    */
   top?: number;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3415,7 +3535,7 @@ export interface ContentKeyPoliciesListOptionalParams extends msRest.RequestOpti
    */
   top?: number;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3429,7 +3549,7 @@ export interface TransformsListOptionalParams extends msRest.RequestOptionsBase 
    */
   filter?: string;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3443,7 +3563,7 @@ export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
    */
   filter?: string;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3822,11 +3942,12 @@ export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
 
 /**
  * Defines values for ContentKeyPolicyFairPlayRentalAndLeaseKeyType.
- * Possible values include: 'Unknown', 'Undefined', 'PersistentUnlimited', 'PersistentLimited'
+ * Possible values include: 'Unknown', 'Undefined', 'DualExpiry', 'PersistentUnlimited',
+ * 'PersistentLimited'
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'PersistentUnlimited' | 'PersistentLimited';
+export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'DualExpiry' | 'PersistentUnlimited' | 'PersistentLimited';
 
 /**
  * Defines values for AacAudioProfile.
@@ -3904,12 +4025,12 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
- * 'H264MultipleBitrateSD'
+ * 'ContentAwareEncodingExperimental', 'ContentAwareEncoding', 'H264MultipleBitrate1080p',
+ * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.
@@ -4029,11 +4150,11 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Basic', 'Standard'
+ * Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard';
+export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard' | 'Premium1080p';
 
 /**
  * Defines values for LiveEventResourceState.

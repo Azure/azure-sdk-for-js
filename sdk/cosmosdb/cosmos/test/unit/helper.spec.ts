@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { isResourceValid, parseConnectionString } from "../../dist-esm/common";
 

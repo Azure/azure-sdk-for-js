@@ -27,6 +27,47 @@ export class BlobServices {
   }
 
   /**
+   * List blob services of storage account. It returns a collection of one object named default.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobServicesListResponse>
+   */
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceItems>, callback?: msRest.ServiceCallback<Models.BlobServiceItems>): Promise<Models.BlobServicesListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.BlobServicesListResponse>;
+  }
+
+  /**
    * Sets the properties of a storage account’s Blob service, including properties for Storage
    * Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
@@ -120,6 +161,31 @@ export class BlobServices {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.BlobServiceItems
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const setServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",

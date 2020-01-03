@@ -1,10 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
-  constructor(private executionContext: ExecutionContext, private offset: number, private limit: number) {}
+  constructor(
+    private executionContext: ExecutionContext,
+    private offset: number,
+    private limit: number
+  ) {}
 
   public async nextItem(): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
@@ -22,14 +28,6 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     }
     // If both limit and offset are 0, return nothing
     return { result: undefined, headers: getInitialHeader() };
-  }
-
-  public async current(): Promise<Response<any>> {
-    if (this.offset > 0) {
-      const current = await this.executionContext.current();
-      return { result: undefined, headers: current.headers };
-    }
-    return this.executionContext.current();
   }
 
   public hasMoreResults() {
