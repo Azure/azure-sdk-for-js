@@ -3,7 +3,6 @@
 
 import uuid from "uuid/v4";
 import { EventHubClient } from "./impl/eventHubClient";
-import { EventPosition } from "./eventPosition";
 import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
@@ -12,6 +11,7 @@ import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import { EventPosition, latestEventPosition } from "./eventPosition";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -215,7 +215,6 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
  */
 export class EventProcessor {
   private _consumerGroup: string;
-  private _eventHubClient: EventHubClient;
   private _processorOptions: FullEventProcessorOptions;
   private _pumpManager: PumpManager;
   private _id: string;
@@ -240,7 +239,7 @@ export class EventProcessor {
    */
   constructor(
     consumerGroup: string,
-    eventHubClient: EventHubClient,
+    private _eventHubClient: EventHubClient,
     private _subscriptionEventHandlers: SubscriptionEventHandlers,
     private _checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
@@ -254,7 +253,6 @@ export class EventProcessor {
     }
 
     this._consumerGroup = consumerGroup;
-    this._eventHubClient = eventHubClient;
     this._processorOptions = options;
     this._pumpManager =
       options.pumpManager || new PumpManagerImpl(this._id, this._processorOptions);
@@ -340,12 +338,12 @@ export class EventProcessor {
     );
 
     const eventPosition = await this._getStartingPosition(partitionId);
-    await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
+    await this._pumpManager.createPump(eventPosition, this._eventHubClient, partitionProcessor);
 
     logger.verbose(`[${this._id}] PartitionPump created successfully.`);
   }
 
-  private async _getStartingPosition(partitionIdToClaim: string) {
+  private async _getStartingPosition(partitionIdToClaim: string): Promise<EventPosition> {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._eventHubClient.fullyQualifiedNamespace,
       this._eventHubClient.eventHubName,
@@ -357,10 +355,13 @@ export class EventProcessor {
     );
 
     if (validCheckpoints.length > 0) {
-      return EventPosition.fromOffset(validCheckpoints[0].offset);
+      return { offset: validCheckpoints[0].offset };
     }
 
-    return undefined;
+    logger.verbose(
+      `No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`
+    );
+    return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
   private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
@@ -575,6 +576,31 @@ export class EventProcessor {
 
 function isAbandoned(ownership: PartitionOwnership): boolean {
   return ownership.ownerId === "";
+}
+
+function getStartPosition(
+  partitionIdToClaim: string,
+  startPositions?: EventPosition | { [partitionId: string]: EventPosition }
+): EventPosition {
+  if (startPositions == null) {
+    return latestEventPosition;
+  }
+
+  if (
+    startPositions.offset != undefined ||
+    startPositions.sequenceNumber != undefined ||
+    startPositions.enqueuedOn != undefined
+  ) {
+    return startPositions;
+  }
+
+  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[partitionIdToClaim];
+
+  if (startPosition == null) {
+    return latestEventPosition;
+  }
+
+  return startPosition;
 }
 
 function targetWithoutOwnership(target: PartitionLoadBalancer | string): target is string {

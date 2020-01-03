@@ -71,7 +71,7 @@
     "rhea": "^1.0.15",
     "rhea-promise": "^1.0.0",
     "stream-browserify": "^2.0.2",
-    "tslib": "^1.9.3",
+    "tslib": "^1.10.0",
     "url": "^0.11.0",
     "util": "^0.12.1"
   },

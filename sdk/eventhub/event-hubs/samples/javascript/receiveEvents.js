@@ -1,7 +1,7 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
 
+/*
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
   of a consumer group in an Event Hubs instance.
 
@@ -12,18 +12,18 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { runSample, cleanupAfterWaiting } from './sampleHelpers';
-import {
-  EventHubConsumerClient
-} from "@azure/event-hubs";
+const { EventHubConsumerClient } = require("@azure/event-hubs");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running receiveEvents sample`);
-  
+
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
   const subscription = consumerClient.subscribe({
@@ -40,12 +40,16 @@ export async function main() {
     }
   });
 
-  await cleanupAfterWaiting(async () => {
-      await subscription.close();
-      await consumerClient.close();
-  }, 30);
-
-  console.log(`Exiting receiveEvents sample`);
+  // Wait for a bit before cleaning up the sample
+  setTimeout(async () => {
+    await subscription.close();
+    await consumerClient.close();
+    console.log(`Exiting receiveEvents sample`);
+  }, 30 * 1000);
 }
 
-runSample(main);
+module.exports = { main };
+
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});

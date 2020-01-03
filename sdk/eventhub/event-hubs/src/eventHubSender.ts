@@ -343,7 +343,7 @@ export class EventHubSender extends LinkEntity {
    * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<number>
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getMaxMessageSize(
     options: {
