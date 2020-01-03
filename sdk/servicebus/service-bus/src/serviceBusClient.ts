@@ -11,7 +11,9 @@ import {
   ConnectionConfig,
   DataTransformer,
   TokenCredential,
-  SharedKeyCredential
+  SharedKeyCredential,
+  isTokenCredential,
+  parseConnectionString
 } from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
 
@@ -71,32 +73,29 @@ export class ServiceBusClient {
    * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
    *
    * @constructor
-   * @param config - The connection configuration needed to connect to the
-   * Service Bus Namespace.
+   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
    * @param credential - SharedKeyCredential object or your
    * credential that implements the TokenCredential interface.
    * @param options - Options to control ways to interact with the Service Bus
    * Namespace.
    */
+  constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
   constructor(
-    config: ConnectionConfig,
-    credential: SharedKeyCredential | TokenCredential,
-    options?: ServiceBusClientOptions
-  );
-  constructor(
-    configOrConnectionString: string | ConnectionConfig,
-    credentialOrOptions?: SharedKeyCredential | TokenCredential | ServiceBusClientOptions,
+    hostOrConnectionString: string,
+    credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
     let config;
     let credential;
+    let connectionString;
+
     if (!options) options = {};
 
-    if (typeof configOrConnectionString === "string") {
+    if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // connectionString and options based constructor was invoked
-      options = credentialOrOptions as ServiceBusClientOptions;
-
-      config = ConnectionConfig.create(configOrConnectionString);
+      connectionString = hostOrConnectionString;
+      config = ConnectionConfig.create(connectionString);
       config.webSocket = options && options.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
       config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
@@ -106,18 +105,27 @@ export class ServiceBusClient {
 
       ConnectionConfig.validate(config);
     } else {
-      if (config == undefined) {
-        throw new Error("Input parameter 'config' must be defined when using this overload.");
+      if (credentialOrServiceBusClientOptions == undefined) {
+        throw new Error("Input parameter connection string or token credential must be defined.");
       }
+      credential = credentialOrServiceBusClientOptions as TokenCredential;
+
+      if (!hostOrConnectionString.endsWith("/")) {
+        hostOrConnectionString += "/";
+      }
+      connectionString = `Endpoint=sb://${hostOrConnectionString};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
+      config = ConnectionConfig.create(connectionString);
     }
+
+    const parsedConfigObject = parseConnectionString(connectionString);
+    this.name = (parsedConfigObject as any).endpoint;
 
     if (credential == undefined) {
       throw new Error(
-        "Input 'credential' cannot be undefined, or could not be constructed from given connection string."
+        "credential cannot be undefined, or could not be constructed from given connection string."
       );
     }
 
-    this.name = config.endpoint;
     this._context = ConnectionContext.create(config, credential, options);
   }
 
