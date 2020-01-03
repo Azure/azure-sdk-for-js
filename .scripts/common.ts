@@ -9,7 +9,7 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { getChildFolderPaths, fileExistsSync, joinPath, readPackageJsonFileSync, PackageJson, getName } from '@ts-common/azure-js-dev-tools';
-import { listDataplanePackages, dataplaneListFilename } from "dataplane-list";
+import { versionUtils } from "../eng/tools/versioning/VersionUtils";
 
 export function arrayContains<T>(array: T[], el: T): boolean {
   return array.indexOf(el) != -1
@@ -144,6 +144,13 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
 //   "@azure/cognitiveservices-textanalytics",
 //   "testhub"
 // ];
+const dataplaneListFilename = "list-dataplane.json";
+
+const listDataplanePackages = async (dataplaneListFilename: string) => {
+  const dataplane:string = await versionUtils.readFile(dataplaneListFilename);
+  const listDataplane = dataplane.split(",");
+  return listDataplane;
+};
 
 export const packagesToIgnore = listDataplanePackages(dataplaneListFilename);
 export const folderNamesToIgnore: string[] = ["node_modules"];

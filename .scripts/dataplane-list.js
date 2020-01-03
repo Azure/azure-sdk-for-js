@@ -16,11 +16,11 @@ const parseArgs = () => {
   return [pathToRepo];
 };
 
-const listDataplanePackages = async pathToFileListName => {
-  dataplane = await versionUtils.readFile(pathToFileListName);
-  listDataplane = dataplane.split(",");
-  return listDataplane;
-};
+// const listDataplanePackages = async pathToFileListName => {
+//   dataplane = await versionUtils.readFile(pathToFileListName);
+//   listDataplane = dataplane.split(",");
+//   return listDataplane;
+// };
 
 async function main() {
   const [pathToRepo] = parseArgs();
@@ -31,7 +31,7 @@ async function main() {
     pathToFileListName,
     Object.keys(rushPackages).toString()
   );
-  var res = await listDataplanePackages(pathToFileListName);
-  console.log(res[0]);
+  // var res = await listDataplanePackages(pathToFileListName);
+  // console.log(res[0]);
 }
 main();
