@@ -15,7 +15,7 @@ export enum EnvVarNames {
 }
 
 /**
- * Utility to retrieve the environment variable value with given key.
+ * Utility to retrieve the environment variable value with given name.
  * @param name
  * @param forBrowser
  */
@@ -35,36 +35,38 @@ let envVars: any;
  * Utility to return cached map of environment variables,
  * or create and return one from configured values if not existing.
  *
- * The utility helps use the right environment variable key based on targetted platform and type.
+ * The utility helps use the right environment variable name based on targetted platform and type.
  * Specifically, we use different Service Bus namespaces for browser Vs node test runs.
  * Thus, the connection string value is retrieved from `SERVICE_BUS_CONNECTION_STRING_BROWSER`
- * environment variable key for browser, and from `SERVICE_BUS_CONNECTION_STRING` for Node.
+ * environment variable name for browser, and from `SERVICE_BUS_CONNECTION_STRING` for Node.
  */
 export function getEnvVars(): { [key in EnvVarNames]: any } {
   if (envVars != undefined) {
     return envVars;
   }
 
-  let serviceBusConnectionStringEnvVarKey: string = EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf();
+  let serviceBusConnectionStringEnvVarName: string = EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf();
 
   if (!isNode) {
-    serviceBusConnectionStringEnvVarKey += "_BROWSER";
+    serviceBusConnectionStringEnvVarName += "_BROWSER";
   }
 
   // Throw error if required environment variables are missing.
   [
-    serviceBusConnectionStringEnvVarKey,
+    serviceBusConnectionStringEnvVarName,
     EnvVarNames.AAD_CLIENT_ID,
     EnvVarNames.AAD_CLIENT_SECRET,
     EnvVarNames.AAD_TENANT_ID
-  ].forEach(function(key: string) {
-    if (!getEnvVarValue(key)) {
-      throw new Error(`Define ${key} in your environment before running integration tests.`);
+  ].forEach(function(name: string) {
+    if (!getEnvVarValue(name)) {
+      throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
   });
 
   envVars = {
-    [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(serviceBusConnectionStringEnvVarKey),
+    [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
+      serviceBusConnectionStringEnvVarName
+    ),
     [EnvVarNames.AAD_CLIENT_ID]: getEnvVarValue(EnvVarNames.AAD_CLIENT_ID),
     [EnvVarNames.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AAD_CLIENT_SECRET),
     [EnvVarNames.AAD_TENANT_ID]: getEnvVarValue(EnvVarNames.AAD_TENANT_ID)
