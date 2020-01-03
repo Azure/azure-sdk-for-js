@@ -84,6 +84,7 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
+      // required - to save the recordings of browser tests
       filter: jsonRecordingFilter,
       outputPath: "."
     },
