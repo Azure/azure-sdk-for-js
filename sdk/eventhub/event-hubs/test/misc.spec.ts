@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import {
-  EventPosition,
   EventData,
   EventHubProperties,
   ReceivedEventData,
@@ -66,7 +65,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
-      EventPosition.fromOffset(offset)
+      { offset }
     );
     let data = await receiver.receiveBatch(1, 1);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
@@ -106,7 +105,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
-      EventPosition.fromOffset(offset)
+      { offset }
     );
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
@@ -142,7 +141,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
-      EventPosition.fromOffset(offset)
+      { offset }
     );
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
@@ -167,7 +166,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
-      EventPosition.fromOffset(offset)
+      { offset }
     );
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
@@ -203,7 +202,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
-        EventPosition.fromOffset(offset)
+       { offset }
       );
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();
@@ -257,7 +256,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
-        EventPosition.fromOffset(offset)
+       { offset }
       );
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();

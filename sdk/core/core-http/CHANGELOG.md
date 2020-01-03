@@ -1,10 +1,12 @@
 # Release History
 
+## 1.0.4 (Unreleased)
+
 ## 1.0.3 (2020-01-02)
 - Added `x-ms-useragent` to the list of allowed headers in request logs.
 - Fix issue of data being pushed twice when reporting progress ([PR #6427](https://github.com/Azure/azure-sdk-for-js/issues/6427))
 - Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
-- Fix tracingPolicy() to set standard span attributes ([PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565)).  Now the following are set correctly for the spans
+- Fix tracingPolicy() to set standard span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)).  Now the following are set correctly for the spans
   - `http.method`
   - `http.url`
   - `http.user_agent`
@@ -44,7 +46,7 @@
 - Added new error type `ResponseBodyNotFoundError` for cases when the response body is unexpectedly empty.
   ([PR #5369](https://github.com/Azure/azure-sdk-for-js/pull/5369))
 - Temporary fix for a memory leak issue resulting from creating new agents every time WebResource is cloned.
-  ([PR #5396](https://github.com/Azure/azure-sdk-for-js/pull/5369))
+  ([PR #5396](https://github.com/Azure/azure-sdk-for-js/pull/5396))
 
 ## 1.0.0-preview.3 (2019-09-09)
 

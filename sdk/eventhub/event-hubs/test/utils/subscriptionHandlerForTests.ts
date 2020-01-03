@@ -29,9 +29,9 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
-      startPosition[props.partitionId] = EventPosition.fromSequenceNumber(
-        props.lastEnqueuedSequenceNumber
-      );
+      startPosition[props.partitionId] = {
+        sequenceNumber: props.lastEnqueuedSequenceNumber
+      };
     }
 
     return {

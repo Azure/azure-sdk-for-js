@@ -1,17 +1,23 @@
 {
-  "name": "azure-event-hubs-samples",
+  "name": "azure-event-hubs-samples-ts",
   "private": true,
-  "version": "1.0.0",
-  "description": "The samples in this folder are for version 5.0.0 and above of this library. If you are using version 2.1.0 or lower, then please use [samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples) instead",
-  "main": "dist-esm/runsamples.js",
+  "version": "0.1.0",
+  "description": "Azure Event Hubs client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
-    "samples": "ts-node ./runsamples.ts",
-    "build": "tsc -p ."
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
     "Azure",
-    "EventHubs",
-    "CheckpointStore",
+    "Event Hubs",
+    "Checkpoint Store",
     "Node.js",
     "TypeScript"
   ],
@@ -21,11 +27,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
-  "devDependencies": {
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.2",
-    "@types/node": "^12.12.17"
-  },
+  "sideEffects": false,
   "dependencies": {
     "@azure/core-amqp": "next",
     "@azure/event-hubs": "next",
@@ -37,5 +39,10 @@
     "rhea-promise": "^1.0.0",
     "tslib": "^1.9.3",
     "ws": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.17",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.2"
   }
 }

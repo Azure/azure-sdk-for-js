@@ -158,7 +158,7 @@ export interface Subscription {
   /**
    * Stops the subscription from receiving more messages.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   close(): Promise<void>;
   /**
