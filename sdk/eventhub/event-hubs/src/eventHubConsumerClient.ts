@@ -47,7 +47,11 @@ const defaultConsumerClientOptions: Required<Pick<
  * 
  * Optionally, you can also pass:
  * - An options bag to configure the retry policy or proxy settings.
- * - A checkpoint store used to store checkpoints. These are the positions from where your application
+ * - A checkpoint store that is used by the client to read checkpoints to determine the position from where it should
+   * resume receiving events when your application gets restarted. The checkpoint store is also used by the client 
+   * to load balance multiple instances of your application.
+ * 
+ used to store checkpoints. These are the positions from where your application
  * would resume receiving events when restarting. The checkpoint store is also used by the client 
  * to load balance multiple instances of your application.
  */
@@ -107,9 +111,9 @@ export class EventHubConsumerClient {
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
-   * @param checkpointStore Checkpoints from the checkpoint store contain the position per partition from where
-   * your application would resume receiving events when it is restarted. The checkpoint store is also used by the client 
-   * to load balance multiple instances of your application.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -152,9 +156,9 @@ export class EventHubConsumerClient {
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
-   * @param checkpointStore Checkpoints from the checkpoint store contain the position per partition from where
-   * your application would resume receiving events when it is restarted. The checkpoint store is also used by the client 
-   * to load balance multiple instances of your application.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -201,9 +205,9 @@ export class EventHubConsumerClient {
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
-   * @param checkpointStore Checkpoints from the checkpoint store contain the position per partition from where
-   * your application would resume receiving events when it is restarted. The checkpoint store is also used by the client 
-   * to load balance multiple instances of your application.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
