@@ -6,7 +6,9 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  getDefaultProxySettings} from "@azure/core-http";
+  getDefaultProxySettings,
+  URLBuilder
+} from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
   BlobDownloadResponseModel,
@@ -45,14 +47,12 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DevelopmentConnectionString,
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  appendToURLPath,
-  getValueInConnString
+  appendToURLPath
 } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -1196,10 +1196,12 @@ export class BlobClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (await this.blobContext.download({
-            abortSignal: options.abortSignal,
-            ...updatedOptions
-          })).readableStreamBody!;
+          return (
+            await this.blobContext.download({
+              abortSignal: options.abortSignal,
+              ...updatedOptions
+            })
+          ).readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -1924,26 +1926,24 @@ export class BlobClient extends StorageClient {
       // "https://myaccount.blob.core.windows.net/mycontainer/blob";
       // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
       // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername/blob`
+      // http://localhost:10001/devstoreaccount1/containername/blob
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10000/devstoreaccount1
-      const emulatorBlobEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "BlobEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorBlobEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
-        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)(/(.*))?");
-        containerName = partsOfUrl![1];
-        blobName = partsOfUrl![3];
+      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+        // "https://myaccount.blob.core.windows.net/containername/blob".
+        // .getPath() -> /containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        containerName = pathComponents![1];
+        blobName = pathComponents![3];
       } else {
-        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
-        containerName = partsOfUrl![3];
-        blobName = partsOfUrl![5];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
+        // .getPath() -> /devstoreaccount1/containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+        containerName = pathComponents![2];
+        blobName = pathComponents![4];
       }
 
       // decode the encoded blobName, containerName - to get all the special characters that might be present in them
@@ -1958,9 +1958,9 @@ export class BlobClient extends StorageClient {
         throw new Error("Provided blobName is invalid.");
       } else if (!containerName) {
         throw new Error("Provided containerName is invalid.");
-      } else {
-        return { blobName, containerName };
       }
+
+      return { blobName, containerName };
     } catch (error) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
@@ -6394,7 +6394,7 @@ export class ContainerClient extends StorageClient {
   private async *listItemsByHierarchy(
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem> {
+  ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
     let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
@@ -6498,7 +6498,7 @@ export class ContainerClient extends StorageClient {
     delimiter: string,
     options: ContainerListBlobsOptions = {}
   ): PagedAsyncIterableIterator<
-    { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
+    ({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem),
     ContainerListBlobHierarchySegmentResponse
   > {
     const include: ListBlobsIncludeItem[] = [];
@@ -6558,28 +6558,23 @@ export class ContainerClient extends StorageClient {
       //  URL may look like the following
       // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
       // "https://myaccount.blob.core.windows.net/mycontainer";
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername`
+      // http://localhost:10001/devstoreaccount1/containername
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10000/devstoreaccount1
-      const emulatorBlobEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "BlobEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorBlobEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
-
-        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)");
-        containerName = partsOfUrl![1];
+      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+        // "https://myaccount.blob.core.windows.net/containername".
+        // .getPath() -> /containername
+        containerName = parsedUrl.getPath()!.split("/")[1];
       } else {
-        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)");
-
-        // decode the encoded containerName - to get all the special characters that might be present in it
-        containerName = partsOfUrl![3];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername
+        // .getPath() -> /devstoreaccount1/containername
+        containerName = parsedUrl.getPath()!.split("/")[2];
       }
+
+      // decode the encoded containerName - to get all the special characters that might be present in it
       containerName = decodeURIComponent(containerName);
 
       if (!containerName) {
