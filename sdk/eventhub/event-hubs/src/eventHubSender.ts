@@ -20,7 +20,8 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  Constants
+  Constants,
+  MessagingError
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -227,7 +228,7 @@ export class EventHubSender extends LinkEntity {
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
         const translatedError = translate(senderError);
-        if (translatedError.retryable) {
+        if ((translatedError as MessagingError).retryable) {
           shouldReopen = true;
           logger.verbose(
             "[%s] close() method of Sender '%s' with address '%s' was not called. There " +

@@ -453,7 +453,7 @@ export class EventHubReceiver extends LinkEntity {
       if (receiverError && !wasCloseInitiated) {
         // if there was an error and it is retryable, recreate the link
         const translatedError = translate(receiverError);
-        if (translatedError.retryable) {
+        if ((translatedError as MessagingError).retryable) {
           shouldReopen = true;
           logger.verbose(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
