@@ -475,7 +475,7 @@ export function getShareNameAndPathFromUrl(
 
   try {
     const parsedUrl = URLBuilder.parse(url);
-    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+    if (parsedUrl.getHost()!.split(".")[1] === "file") {
       // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
       // .getPath() -> /myshare/mydirectory/file
       const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
