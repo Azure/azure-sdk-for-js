@@ -12,7 +12,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
-import { EnvVarKeys, getEnvVars, isNode } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 
 import * as dotenv from "dotenv";
@@ -487,11 +487,11 @@ export function getNamespace(serviceBusConnectionString: string): string {
 
 export function getServiceBusClient(): ServiceBusClient {
   const env = getEnvVars();
-  return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+  return ServiceBusClient.createFromConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
 }
 
 /**
- * Enum to abstract away string values used for the Service Bus entity key names.
+ * Enum to abstract away string values used for referencing the Service Bus entity names.
  */
 export enum EntityNameKeys {
   QUEUE_NAME = "QUEUE_NAME",
@@ -521,19 +521,11 @@ export enum EntityNameKeys {
   MANAGEMENT_NEW_ENTITY_2 = "MANAGEMENT_NEW_ENTITY_2"
 }
 
-// Reference to cached entityNames that is unique per test run.
-let entityNames: any;
-
 /**
- * Utility to return cached map of entity names,
- * or create and return one from configured values if not existing.
+ * Utility to return map of entity name values.
  */
 export function getEntityNames(): { [key in EntityNameKeys]: any } {
-  if (entityNames != undefined) {
-    return entityNames;
-  }
-
-  entityNames = {
+  return {
     [EntityNameKeys.QUEUE_NAME]: "partitioned-queue",
     [EntityNameKeys.QUEUE_NAME_NO_PARTITION]: "unpartitioned-queue",
     [EntityNameKeys.QUEUE_NAME_SESSION]: "partitioned-queue-sessions",
@@ -561,12 +553,4 @@ export function getEntityNames(): { [key in EntityNameKeys]: any } {
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_1]: "management-new-entity-1",
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]: "management-new-entity-2"
   };
-
-  if (!isNode) {
-    Object.keys(entityNames).forEach((key) => {
-      entityNames[key] = entityNames[key] + "-browser";
-    });
-  }
-
-  return entityNames;
 }

@@ -21,7 +21,7 @@ const assert = chai.assert;
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
 import { EntityNameKeys, getEntityNames } from "./utils/testUtils";
@@ -31,11 +31,11 @@ import { parseConnectionString } from "@azure/amqp-common";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
 const endpointWithProtocol = (parseConnectionString(
-  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 ) as any).Endpoint;
 
 enum EntityType {
@@ -139,6 +139,12 @@ const newManagementEntity2 = entityNames[EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]
       });
 
       it(`List on existing entities for type ${entityType} with skip 1 returns all entities skipping 1`, async () => {
+        const allEntitiesResult = await listEntities(
+          entityType,
+          managementTopic1,
+          managementSubscription1
+        );
+
         const skipEntitiesResult = await listEntities(
           entityType,
           managementTopic1,
@@ -154,9 +160,9 @@ const newManagementEntity2 = entityNames[EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]
         );
 
         should.equal(
-          skipEntitiesResult.length >= 2,
-          true,
-          "Result array size must be greater than or equal to minimum number of entities created"
+          skipEntitiesResult.length,
+          allEntitiesResult.length - 1,
+          "Result array size should be exactly 1 less than all entities"
         );
       });
 
