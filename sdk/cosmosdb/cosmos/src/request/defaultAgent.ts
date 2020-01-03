@@ -16,7 +16,8 @@ if (isNode) {
   // tslint:disable-next-line:no-var-requires
   const https = require("https");
   defaultHttpsAgent = new https.Agent({
-    keepAlive: true
+    keepAlive: true,
+    secureProtocol: "TLSv1_2_method"
   });
   // tslint:disable-next-line:no-var-requires
   const http = require("http");
