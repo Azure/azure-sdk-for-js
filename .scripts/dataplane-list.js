@@ -1,8 +1,6 @@
 const versionUtils = require("../eng/tools/versioning/VersionUtils");
 const process = require("process");
-const common = require("../.scripts/common");
-//const dataplaneListFilename = "list-dataplane.json";
-const dataplaneListFilename = common.dataplaneListFilename;
+const dataplaneListFilename = "list-dataplane.json";
 
 const parseArgs = () => {
   if (
