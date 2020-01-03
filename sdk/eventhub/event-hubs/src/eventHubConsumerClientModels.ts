@@ -70,18 +70,6 @@ export interface PartitionContext {
 }
 
 /**
- * A `PartitionContext` with the ability to also provide a default start
- * position if no checkpoint is found.
- */
-export interface InitializationContext extends PartitionContext {
-  /**
-   * Allows for setting the start position of a partition.
-   * Default (if not called) is `EventPosition.earliest()`.
-   */
-  setStartingPosition(startingPosition: EventPosition): void;
-}
-
-/**
  * Event handler called when events are received. The `context` parameter can be
  * used to get partition information as well as to checkpoint.
  */
@@ -98,7 +86,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
@@ -155,6 +143,12 @@ export interface SubscribeOptions extends TracingOptions {
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   maxWaitTimeInSeconds?: number;
+  /**
+   * The event position in a partition to start receiving events from if no checkpoint is found.
+   * Pass a map of partition id to position if you would like to use different starting
+   * position for each partition.
+   */
+  startPosition?: EventPosition | { [partitionId: string]: EventPosition };
 }
 
 /**

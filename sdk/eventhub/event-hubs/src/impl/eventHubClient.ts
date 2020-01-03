@@ -504,12 +504,6 @@ export class EventHubClient {
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
    * You can get identifiers for all partitions by using the `getPartitionProperties` method on the `EventHubClient`.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
-   * The easiest way to create an instance of EventPosition is to use the static helpers on it like
-   * - `EventPosition.fromOffset()`
-   * - `EventPosition.fromSequenceNumber()`
-   * - `EventPosition.fromEnqueuedTime()`
-   * - `EventPosition.earliest()`
-   * - `EventPosition.latest()`
    * @param options The set of options to apply when creating the consumer.
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.

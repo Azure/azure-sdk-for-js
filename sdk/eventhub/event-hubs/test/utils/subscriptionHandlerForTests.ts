@@ -1,6 +1,5 @@
 import {
   SubscriptionEventHandlers,
-  InitializationContext,
   PartitionContext
 } from "../../src/eventHubConsumerClientModels";
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
@@ -13,27 +12,32 @@ import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-export type SequenceNumberMap = Map<string, number>;
+export interface HandlerAndPositions {
+  startPosition: { [partitionId: string]: EventPosition };
+  subscriptionEventHandler: SubscriptionHandlerForTests;
+}
 
 export class SubscriptionHandlerForTests implements Required<SubscriptionEventHandlers> {
   private _maxTimeToWaitSeconds = 30;
   private _timeBetweenChecksMs = 1000;
 
-  constructor(private _initialSequenceNumbers?: SequenceNumberMap) {}
-
   static async startingFromHere(
     client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
-  ) {
+  ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
-
-    const sequenceNumbers = new Map<string, number>();
+    const startPosition: { [partitionId: string]: EventPosition } = {};
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
-      sequenceNumbers.set(props.partitionId, props.lastEnqueuedSequenceNumber);
+      startPosition[props.partitionId] = {
+        sequenceNumber: props.lastEnqueuedSequenceNumber
+      };
     }
 
-    return new SubscriptionHandlerForTests(sequenceNumbers);
+    return {
+      startPosition: startPosition,
+      subscriptionEventHandler: new SubscriptionHandlerForTests()
+    };
   }
 
   public data: Map<
@@ -46,20 +50,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
   public events: { partitionId: string; event: ReceivedEventData }[] = [];
 
-  async processInitialize(context: InitializationContext) {
+  async processInitialize(context: PartitionContext) {
     this.data.set(context.partitionId, {});
-
-    let startingPosition = EventPosition.latest();
-
-    if (this._initialSequenceNumbers && this._initialSequenceNumbers.get(context.partitionId)) {
-      const sequenceNumber = this._initialSequenceNumbers.get(context.partitionId)!;
-      loggerForTest(
-        `Overriding initial event position for partition ${context.partitionId} with ${sequenceNumber}`
-      );
-      startingPosition = EventPosition.fromSequenceNumber(sequenceNumber, false);
-    }
-
-    context.setStartingPosition(startingPosition);
   }
 
   async processClose(reason: CloseReason, context: PartitionContext) {
@@ -71,12 +63,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
 
-    this.events.push(...events.map(event => {
-      return {
-        event,
-        partitionId: context.partitionId
-      }
-    }));
+    this.events.push(
+      ...events.map((event) => {
+        return {
+          event,
+          partitionId: context.partitionId
+        };
+      })
+    );
   }
 
   async processError(err: Error, context: PartitionContext) {
@@ -105,7 +99,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   async waitForFullEvents(
     partitionIds: string[],
     countOfExpectedEvents?: number
-  ): Promise<{ partitionId: string, event: ReceivedEventData }[]> {
+  ): Promise<{ partitionId: string; event: ReceivedEventData }[]> {
     const startTime = Date.now();
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
@@ -118,9 +112,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
         if (Date.now() - startTime > this._maxTimeToWaitSeconds * 1000) {
           throw new Error(
-            `Waiting _way_ too long for messages to arrive (got ${
-              this.events.length
-            } out of ${countOfExpectedEvents})`
+            `Waiting _way_ too long for messages to arrive (got ${this.events.length} out of ${countOfExpectedEvents})`
           );
         }
       } else {
@@ -140,12 +132,13 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     countOfExpectedEvents?: number
   ): Promise<{ partitionId: string; body: string }[]> {
     const events = await this.waitForFullEvents(partitionIds, countOfExpectedEvents);
-    
-    return events.map(eventAndPartitionId => {
+
+    return events.map((eventAndPartitionId) => {
       return {
         body: eventAndPartitionId.event.body,
         partitionId: eventAndPartitionId.partitionId
-      }});
+      };
+    });
   }
 
   clear() {
