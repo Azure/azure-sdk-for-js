@@ -148,7 +148,7 @@ const dataplaneListFilename = "list-dataplane.json";
 
 const listDataplanePackages = async (dataplaneListFilename: string) => {
   const dataplane:string = await versionUtils.readFile(dataplaneListFilename);
-  const listDataplane = dataplane.split(",");
+  const listDataplane: string[] = dataplane.split(",");
   return listDataplane;
 };
 
