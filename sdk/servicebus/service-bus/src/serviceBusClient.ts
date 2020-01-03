@@ -12,8 +12,7 @@ import {
   DataTransformer,
   TokenCredential,
   SharedKeyCredential,
-  isTokenCredential,
-  parseConnectionString
+  isTokenCredential
 } from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
 
@@ -73,7 +72,7 @@ export class ServiceBusClient {
    * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
    *
    * @constructor
-   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * @param host - The host name for the Service Bus namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param credential - SharedKeyCredential object or your
    * credential that implements the TokenCredential interface.
@@ -92,6 +91,10 @@ export class ServiceBusClient {
 
     if (!options) options = {};
 
+    if (hostOrConnectionString == undefined || typeof hostOrConnectionString !== "string") {
+      throw new Error("Input parameter of host or connection string must be a string.");
+    }
+
     if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // connectionString and options based constructor was invoked
       connectionString = hostOrConnectionString;
@@ -106,7 +109,7 @@ export class ServiceBusClient {
       ConnectionConfig.validate(config);
     } else {
       if (credentialOrServiceBusClientOptions == undefined) {
-        throw new Error("Input parameter connection string or token credential must be defined.");
+        throw new Error("Input parameter token credential must be defined.");
       }
       credential = credentialOrServiceBusClientOptions as TokenCredential;
 
@@ -117,15 +120,7 @@ export class ServiceBusClient {
       config = ConnectionConfig.create(connectionString);
     }
 
-    const parsedConfigObject = parseConnectionString(connectionString);
-    this.name = (parsedConfigObject as any).endpoint;
-
-    if (credential == undefined) {
-      throw new Error(
-        "credential cannot be undefined, or could not be constructed from given connection string."
-      );
-    }
-
+    this.name = config.endpoint;
     this._context = ConnectionContext.create(config, credential, options);
   }
 
