@@ -5,15 +5,18 @@ import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpHeaders, } from "../../lib/httpHeaders";
+import { HttpHeaders } from "../../lib/httpHeaders";
 import { WebResource } from "../../lib/webResource";
 import { BearerTokenAuthenticationPolicy } from "../../lib/policies/bearerTokenAuthenticationPolicy";
-import { ExpiringAccessTokenCache, TokenRefreshBufferMs } from "../../lib/credentials/accessTokenCache";
+import {
+  ExpiringAccessTokenCache,
+  TokenRefreshBufferMs
+} from "../../lib/credentials/accessTokenCache";
 
-describe("BearerTokenAuthenticationPolicy", function () {
+describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -24,7 +27,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     }
   };
 
-  it("correctly adds an Authentication header with the Bearer token", async function () {
+  it("correctly adds an Authentication header with the Bearer token", async function() {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = fake.returns(Promise.resolve({ token: mockToken, expiresOn: new Date() }));
@@ -36,7 +39,10 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
     await bearerTokenAuthPolicy.sendRequest(request);
 
-    assert(fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined }));
+    assert(
+      fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined, tracingOptions: { spanOptions: undefined } }),
+      "fakeGetToken called incorrectly."
+    );
     assert.strictEqual(
       request.headers.get(Constants.HeaderConstants.AUTHORIZATION),
       `Bearer ${mockToken}`
@@ -47,9 +53,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const now = Date.now();
     const refreshCred1 = new MockRefreshAzureCredential(now);
     const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
-    const notRefreshCred1 = new MockRefreshAzureCredential(
-      now + TokenRefreshBufferMs + 5000
-    );
+    const notRefreshCred1 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs + 5000);
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
       [refreshCred1, 2],
@@ -78,7 +82,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       new RequestPolicyOptions(),
       credential,
       scopes,
-      new ExpiringAccessTokenCache());
+      new ExpiringAccessTokenCache()
+    );
   }
 });
 

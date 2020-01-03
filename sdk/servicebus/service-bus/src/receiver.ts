@@ -23,8 +23,6 @@ import {
   getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
 
-import { getAssociatedReceiverName } from "../src/util/utils";
-
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
@@ -44,6 +42,7 @@ export class Receiver {
 
   /**
    * @internal
+   * @throws Error if the underlying connection is closed.
    */
   constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -110,6 +109,9 @@ export class Receiver {
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws Error if current receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   registerMessageHandler(
     onMessage: OnMessage,
@@ -157,15 +159,17 @@ export class Receiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws Error if current receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   async receiveMessages(
     maxMessageCount: number,
-    idleTimeoutInSeconds?: number
+    maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -178,7 +182,7 @@ export class Receiver {
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    return this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
+    return this._context.batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   /**
@@ -189,6 +193,9 @@ export class Receiver {
    * property on the receiver.
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws Error if current receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -207,6 +214,8 @@ export class Receiver {
    *
    * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing message lock.
    */
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
@@ -224,10 +233,7 @@ export class Receiver {
         ? String(lockTokenOrMessage.lockToken)
         : String(lockTokenOrMessage);
 
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(
-      lockToken,
-      getAssociatedReceiverName(this._context)
-    );
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
 
     return lockedUntilUtc;
   }
@@ -238,7 +244,8 @@ export class Receiver {
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
-   * - Throws an error if the message has not been deferred.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred message.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
@@ -255,8 +262,7 @@ export class Receiver {
 
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
-      this._receiveMode,
-      getAssociatedReceiverName(this._context)
+      this._receiveMode
     );
     return messages[0];
   }
@@ -267,7 +273,8 @@ export class Receiver {
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
-   * - Throws an error if the messages have not been deferred.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -287,8 +294,7 @@ export class Receiver {
 
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-      this._receiveMode,
-      getAssociatedReceiverName(this._context)
+      this._receiveMode
     );
   }
 
@@ -372,6 +378,8 @@ export class SessionReceiver {
 
   /**
    * @internal
+   * @throws Error if the underlying connection is closed.
+   * @throws Error if an open receiver is already existing for given sessionId.
    */
   constructor(
     context: ClientEntityContext,
@@ -502,14 +510,15 @@ export class SessionReceiver {
    *   receive operation.
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing session lock.
    */
   async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
 
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-      this.sessionId!,
-      this._messageSession!.name
+      this.sessionId!
     );
     return this._messageSession!.sessionLockedUntilUtc!;
   }
@@ -518,29 +527,26 @@ export class SessionReceiver {
    * Sets the state on the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while setting the session state.
    */
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(
-      this.sessionId!,
-      state,
-      this._messageSession!.name
-    );
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
   }
 
   /**
    * Gets the state of the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @returns Promise<any> The state of that session
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while retrieving session state.
    */
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(
-      this.sessionId!,
-      this._messageSession!.name
-    );
+    return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
   /**
@@ -553,15 +559,13 @@ export class SessionReceiver {
    *
    * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekMessagesBySession(
-      this.sessionId!,
-      this._messageSession!.name,
-      maxMessageCount
-    );
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
   }
 
   /**
@@ -573,6 +577,8 @@ export class SessionReceiver {
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -583,8 +589,7 @@ export class SessionReceiver {
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId,
-      this._messageSession!.name
+      this.sessionId
     );
   }
 
@@ -594,7 +599,8 @@ export class SessionReceiver {
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
-   * - Throws an error if the message has not been deferred.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred message.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
@@ -613,7 +619,6 @@ export class SessionReceiver {
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode,
-      this._messageSession!.name,
       this.sessionId
     );
     return messages[0];
@@ -625,7 +630,8 @@ export class SessionReceiver {
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
-   * - Throws an error if the messages have not been deferred.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -647,7 +653,6 @@ export class SessionReceiver {
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
-      this._messageSession!.name,
       this.sessionId
     );
   }
@@ -661,11 +666,13 @@ export class SessionReceiver {
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws Error if the receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   async receiveMessages(
     maxMessageCount: number,
@@ -695,6 +702,9 @@ export class SessionReceiver {
    * before closing the receiver.
    *
    * @returns void
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws Error if the receiver is already in state of receiving messages.
+   * @throws MessagingErrormif the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   registerMessageHandler(
     onMessage: OnMessage,
@@ -738,6 +748,9 @@ export class SessionReceiver {
    * property on the receiver.
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws Error if the receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {

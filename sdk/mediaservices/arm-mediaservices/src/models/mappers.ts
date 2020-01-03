@@ -1559,6 +1559,30 @@ export const ContentKeyPolicyPlayReadyConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const ContentKeyPolicyFairPlayOfflineRentalConfiguration: msRest.CompositeMapper = {
+  serializedName: "ContentKeyPolicyFairPlayOfflineRentalConfiguration",
+  type: {
+    name: "Composite",
+    className: "ContentKeyPolicyFairPlayOfflineRentalConfiguration",
+    modelProperties: {
+      playbackDurationSeconds: {
+        required: true,
+        serializedName: "playbackDurationSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      storageDurationSeconds: {
+        required: true,
+        serializedName: "storageDurationSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ContentKeyPolicyFairPlayConfiguration: msRest.CompositeMapper = {
   serializedName: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration",
   type: {
@@ -1601,6 +1625,13 @@ export const ContentKeyPolicyFairPlayConfiguration: msRest.CompositeMapper = {
         serializedName: "rentalDuration",
         type: {
           name: "Number"
+        }
+      },
+      offlineRentalConfiguration: {
+        serializedName: "offlineRentalConfiguration",
+        type: {
+          name: "Composite",
+          className: "ContentKeyPolicyFairPlayOfflineRentalConfiguration"
         }
       }
     }
@@ -1868,6 +1899,17 @@ export const FaceDetectorPreset: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      experimentalOptions: {
+        serializedName: "experimentalOptions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1886,6 +1928,17 @@ export const AudioAnalyzerPreset: msRest.CompositeMapper = {
         serializedName: "audioLanguage",
         type: {
           name: "String"
+        }
+      },
+      experimentalOptions: {
+        serializedName: "experimentalOptions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2754,6 +2807,28 @@ export const JobInput: msRest.CompositeMapper = {
   }
 };
 
+export const ClipTime: msRest.CompositeMapper = {
+  serializedName: "ClipTime",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "@odata.type",
+      clientName: "odatatype"
+    },
+    uberParent: "ClipTime",
+    className: "ClipTime",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobInputClip: msRest.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobInputClip",
   type: {
@@ -2774,10 +2849,44 @@ export const JobInputClip: msRest.CompositeMapper = {
           }
         }
       },
+      start: {
+        serializedName: "start",
+        type: {
+          name: "Composite",
+          className: "ClipTime"
+        }
+      },
+      end: {
+        serializedName: "end",
+        type: {
+          name: "Composite",
+          className: "ClipTime"
+        }
+      },
       label: {
         serializedName: "label",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AbsoluteClipTime: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.AbsoluteClipTime",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ClipTime.type.polymorphicDiscriminator,
+    uberParent: "ClipTime",
+    className: "AbsoluteClipTime",
+    modelProperties: {
+      ...ClipTime.type.modelProperties,
+      time: {
+        required: true,
+        serializedName: "time",
+        type: {
+          name: "TimeSpan"
         }
       }
     }
@@ -2967,6 +3076,22 @@ export const JobOutput: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       odatatype: {
         required: true,
         serializedName: "@odata\\.type",
@@ -3071,6 +3196,22 @@ export const Job: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.endTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -3886,12 +4027,7 @@ export const LiveOutput: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.resourceState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Running",
-            "Deleting"
-          ]
+          name: "String"
         }
       }
     }
@@ -3997,11 +4133,7 @@ export const LiveEventInput: msRest.CompositeMapper = {
         required: true,
         serializedName: "streamingProtocol",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "FragmentedMP4",
-            "RTMP"
-          ]
+          name: "String"
         }
       },
       accessControl: {
@@ -4112,12 +4244,7 @@ export const LiveEventEncoding: msRest.CompositeMapper = {
       encodingType: {
         serializedName: "encodingType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "Basic",
-            "Standard"
-          ]
+          name: "String"
         }
       },
       presetName: {
@@ -4214,14 +4341,7 @@ export const LiveEvent: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.resourceState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Stopped",
-            "Starting",
-            "Running",
-            "Stopping",
-            "Deleting"
-          ]
+          name: "String"
         }
       },
       crossSiteAccessPolicies: {
@@ -4243,11 +4363,7 @@ export const LiveEvent: msRest.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Enum",
-              allowedValues: [
-                "Default",
-                "LowLatency"
-              ]
+              name: "String"
             }
           }
         }
@@ -4446,15 +4562,7 @@ export const StreamingEndpoint: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.resourceState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Stopped",
-            "Starting",
-            "Running",
-            "Stopping",
-            "Deleting",
-            "Scaling"
-          ]
+          name: "String"
         }
       },
       crossSiteAccessPolicies: {
@@ -4949,7 +5057,9 @@ export const discriminators = {
   'Format.#Microsoft.Media.TransportStreamFormat' : TransportStreamFormat,
   'Overlay.#Microsoft.Media.VideoOverlay' : VideoOverlay,
   'JobInput' : JobInput,
+  'ClipTime' : ClipTime,
   'JobInput.#Microsoft.Media.JobInputClip' : JobInputClip,
+  'ClipTime.#Microsoft.Media.AbsoluteClipTime' : AbsoluteClipTime,
   'JobInput.#Microsoft.Media.JobInputs' : JobInputs,
   'JobInput.#Microsoft.Media.JobInputAsset' : JobInputAsset,
   'JobInput.#Microsoft.Media.JobInputHttp' : JobInputHttp,

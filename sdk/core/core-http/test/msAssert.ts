@@ -5,10 +5,14 @@ import { assert } from "chai";
 import { SuiteFunction, PendingSuiteFunction, TestFunction, PendingTestFunction } from "mocha";
 import { isNode } from "../lib/util/utils";
 
-export const nodeIt: TestFunction | PendingTestFunction = (!isNode ? it.skip : it);
-export const browserIt: TestFunction | PendingTestFunction = (isNode ? it.skip : it);
-export const nodeDescribe: SuiteFunction | PendingSuiteFunction = (!isNode ? describe.skip : describe);
-export const browserDescribe: SuiteFunction | PendingSuiteFunction = (isNode ? describe.skip : describe);
+export const nodeIt: TestFunction | PendingTestFunction = !isNode ? it.skip : it;
+export const browserIt: TestFunction | PendingTestFunction = isNode ? it.skip : it;
+export const nodeDescribe: SuiteFunction | PendingSuiteFunction = !isNode
+  ? describe.skip
+  : describe;
+export const browserDescribe: SuiteFunction | PendingSuiteFunction = isNode
+  ? describe.skip
+  : describe;
 
 /**
  * Assert that the provided syncFunction throws an Error. If the expectedError is undefined, then
@@ -17,7 +21,10 @@ export const browserDescribe: SuiteFunction | PendingSuiteFunction = (isNode ? d
  * @param syncFunction The synchronous function that is expected to thrown an Error.
  * @param expectedError The Error that is expected to be thrown.
  */
-export function throws(syncFunction: () => void, expectedError?: ((error: Error) => void) | Error): Error {
+export function throws(
+  syncFunction: () => void,
+  expectedError?: ((error: Error) => void) | Error
+): Error {
   let thrownError: Error | undefined;
 
   try {
@@ -27,7 +34,7 @@ export function throws(syncFunction: () => void, expectedError?: ((error: Error)
   }
 
   if (!thrownError) {
-    assert.throws(() => { });
+    assert.throws(() => {});
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {
@@ -44,7 +51,10 @@ export function throws(syncFunction: () => void, expectedError?: ((error: Error)
  * @param asyncFunction The asynchronous function that is expected to thrown an Error.
  * @param expectedError The Error that is expected to be thrown.
  */
-export async function throwsAsync<T>(asyncFunction: (() => Promise<T>) | Promise<T>, expectedError?: ((error: Error) => void) | Error): Promise<Error> {
+export async function throwsAsync<T>(
+  asyncFunction: (() => Promise<T>) | Promise<T>,
+  expectedError?: ((error: Error) => void) | Error
+): Promise<Error> {
   let thrownError: Error | undefined;
 
   try {
@@ -54,7 +64,7 @@ export async function throwsAsync<T>(asyncFunction: (() => Promise<T>) | Promise
   }
 
   if (!thrownError) {
-    assert.throws(() => { });
+    assert.throws(() => {});
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {

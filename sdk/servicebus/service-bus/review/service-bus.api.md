@@ -60,12 +60,12 @@ export interface OnMessage {
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;
@@ -101,7 +101,7 @@ export class Receiver {
     isReceivingMessages(): boolean;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMessages(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]>;
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
     readonly receiveMode: ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
@@ -166,7 +166,7 @@ export interface ServiceBusClientOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {

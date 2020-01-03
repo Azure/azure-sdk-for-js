@@ -1,33 +1,33 @@
-import { URLBuilder } from "@azure/ms-rest-js";
+import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
+import { QueueClient, RestError, newPipeline } from "../src";
 import * as dotenv from "dotenv";
-
-import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
+import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
-import { QueueURL } from "../src/QueueURL";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "./utils/testutils.common";
 
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  const serviceURL = getQSU();
+  setupEnvironment();
+  const queueServiceClient = getQSU();
   let queueName: string;
-  let queueURL: QueueURL;
+  let queueClient: QueueClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
   });
 
-  afterEach(async () => {
-    await queueURL.delete(Aborter.none);
+  afterEach(async function() {
+    await queueClient.delete();
     recorder.stop();
   });
 
@@ -39,19 +39,19 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = queueURL.pipeline.factories.slice(); // clone factories array
+    const factories = (queueClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectQueueURL = queueURL.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb"
     };
-    await injectQueueURL.setMetadata(Aborter.none, metadata);
+    await injectqueueClient.setMetadata(metadata);
 
-    const result = await queueURL.getProperties(Aborter.none);
+    const result = await queueClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -64,10 +64,10 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const factories = queueURL.pipeline.factories.slice(); // clone factories array
+    const factories = (queueClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectQueueURL = queueURL.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -79,7 +79,9 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await injectQueueURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+      await injectqueueClient.setMetadata(metadata, {
+        abortSignal: AbortController.timeout(2 * 1000)
+      });
     } catch (err) {
       hasError = true;
     }
@@ -91,13 +93,15 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = queueURL.pipeline.factories[queueURL.pipeline.factories.length - 1];
-    const factories = StorageURL.newPipeline(credential, {
+    const credential = (queueClient as any).pipeline.factories[
+      (queueClient as any).pipeline.factories.length - 1
+    ];
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueURL = queueURL.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     let hasError = false;
     try {
@@ -106,7 +110,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectqueueURL.setMetadata(Aborter.none, metadata);
+      await injectqueueClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }
@@ -121,7 +125,7 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const url = serviceURL.url;
+    const url = queueServiceClient.url;
     const urlParsed = URLBuilder.parse(url);
     const host = urlParsed.getHost()!;
     const hostParts = host.split(".");
@@ -130,17 +134,19 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential = queueURL.pipeline.factories[queueURL.pipeline.factories.length - 1];
-    const factories = StorageURL.newPipeline(credential, {
+    const credential = (queueClient as any).pipeline.factories[
+      (queueClient as any).pipeline.factories.length - 1
+    ];
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueURL = queueURL.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     let finalRequestURL = "";
     try {
-      const response = await injectqueueURL.getProperties(Aborter.none);
+      const response = await injectqueueClient.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err) {
       finalRequestURL = err.request ? err.request.url : "";

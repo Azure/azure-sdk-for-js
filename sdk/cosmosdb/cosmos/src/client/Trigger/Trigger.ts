@@ -1,5 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { createTriggerUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import {
+  createTriggerUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType
+} from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
@@ -51,7 +59,10 @@ export class Trigger {
    * @param body The specified {@link TriggerDefinition} to replace the existing definition with.
    * @param options
    */
-  public async replace(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
+  public async replace(
+    body: TriggerDefinition,
+    options?: RequestOptions
+  ): Promise<TriggerResponse> {
     if (body.body) {
       body.body = body.body.toString();
     }

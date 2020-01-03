@@ -4,19 +4,24 @@
 
  This sample demonstrates how to use the EventHubClient with an IotHub instance
 */
-import { EventHubClient } from "@azure/event-hubs";
+import { runSample } from './sampleHelpers';
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
-// Define IoT Hub connection string here
-const connectionString = "";
+// Define IoT Hub Event Hubs-compatible connection string here.
+// To find the correct connection string to use, visit:
+// https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+const connectionString = process.env["IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"] || "";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-async function main(): Promise<void> {
-  const client = await EventHubClient.createFromIotHubConnectionString(connectionString);
+export async function main(): Promise<void> {
+  console.log(`Running useWithIotHub sample`);
+  const client = new EventHubConsumerClient(consumerGroup, connectionString);
   /*
-   Refer to other samples, and place your code here to send/receive events using the above client
+   Refer to other samples, and place your code here to receive events using the above client.
+   Please note that send operations are not supported when this client is used against an IotHub instance
   */
   await client.close();
+  console.log(`Exiting useWithIotHub sample`);
 }
 
-main().catch(err => {
-  console.log("Error occurred: ", err);
-});
+runSample(main);

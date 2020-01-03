@@ -26,7 +26,6 @@ export const environment: msRest.OperationURLParameter = {
   parameterPath: "environment",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "environment",
     type: {
       name: "String"
@@ -37,7 +36,6 @@ export const kbId: msRest.OperationURLParameter = {
   parameterPath: "kbId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "kbId",
     type: {
       name: "String"
@@ -48,7 +46,6 @@ export const keyType: msRest.OperationURLParameter = {
   parameterPath: "keyType",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "keyType",
     type: {
       name: "String"
@@ -59,7 +56,6 @@ export const operationId: msRest.OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "operationId",
     type: {
       name: "String"

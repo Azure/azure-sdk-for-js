@@ -145,7 +145,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.HubVirtualNetworkConnection
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -170,7 +170,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -191,7 +191,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

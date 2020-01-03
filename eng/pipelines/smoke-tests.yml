@@ -1,22 +1,28 @@
 jobs:
-  - job: SmokeTest   
+  - job: SmokeTest
     variables:
-       - template: ./templates/variables/globals.yml
-    
-    pool: 
+      - template: ./templates/variables/globals.yml
+
+    pool:
       vmImage: $(OSVmImage)
 
     steps:
-      - task: NodeTool@0 
-        displayName: "Use Node"
+      - task: NodeTool@0
+        displayName: Use Node $(NodeVersion)
         inputs:
           versionSpec: $(NodeVersion)
-      - script: npm install --prefix ./samples/SmokeTest/ ./samples/SmokeTest/
-        displayName: "Install packages"
-      - script: tsc --p ./samples/SmokeTest/
+
+      - task: Npm@1
+        inputs:
+          command: install
+          workingDir: common/smoke-test/
+          displayName: Install packages
+
+      - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"
-      - script: node ./samples/SmokeTest/app.js
-        displayName: "Run Smoke Test "
+
+      - script: node ./common/smoke-test/app.js
+        displayName: Run Smoke Test
         env:
           AZURE_PROJECT_URL: $(smoke-tests-key-vault-project-url)
           EVENT_HUBS_CONNECTION_STRING: $(smoke-tests-event-hubs-connection-string)

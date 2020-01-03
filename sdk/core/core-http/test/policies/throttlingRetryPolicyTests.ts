@@ -10,7 +10,7 @@ import { HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
-    constructor(private _response: HttpOperationResponse) { }
+    constructor(private _response: HttpOperationResponse) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
@@ -27,7 +27,13 @@ describe("ThrottlingRetryPolicy", () => {
     headers: new HttpHeaders()
   };
 
-  function createDefaultThrottlingRetryPolicy(response?: HttpOperationResponse, actionHandler?: (httpRequest: WebResource, response: HttpOperationResponse) => Promise<HttpOperationResponse>) {
+  function createDefaultThrottlingRetryPolicy(
+    response?: HttpOperationResponse,
+    actionHandler?: (
+      httpRequest: WebResource,
+      response: HttpOperationResponse
+    ) => Promise<HttpOperationResponse>
+  ) {
     if (!response) {
       response = defaultResponse;
     }
@@ -54,11 +60,13 @@ describe("ThrottlingRetryPolicy", () => {
       request.url = "http://url";
       request.method = "PATCH";
       request.body = { someProperty: "someValue" };
-      request.headers = new HttpHeaders({ "header": "abc" });
+      request.headers = new HttpHeaders({ header: "abc" });
       request.query = { q: "param" };
 
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
+      delete response.request.requestId;
+      delete request.requestId;
 
       assert.deepEqual(response.request, request);
     });
@@ -72,9 +80,13 @@ describe("ThrottlingRetryPolicy", () => {
         }),
         request: request
       };
-      const policy = createDefaultThrottlingRetryPolicy(mockResponse, _ => { throw new AssertionError("fail"); });
+      const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_) => {
+        throw new AssertionError("fail");
+      });
 
       const response = await policy.sendRequest(request);
+      delete request.requestId;
+      delete response.request.requestId;
 
       assert.deepEqual(response, mockResponse);
     });
@@ -89,30 +101,36 @@ describe("ThrottlingRetryPolicy", () => {
         request: request
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
+        delete response.request.requestId;
+        delete mockResponse.request.requestId;
         assert.deepEqual(response, mockResponse);
         return Promise.resolve(response);
       });
 
       const response = await policy.sendRequest(request);
+      delete request.requestId;
+      delete response.request.requestId;
       assert.deepEqual(response, mockResponse);
     });
   });
 
   describe("parseRetryAfterHeader", () => {
-    it("should return undefined for ill-formed header", function () {
+    it("should return undefined for ill-formed header", function() {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("foobar");
       assert.equal(retryAfter, undefined);
     });
 
-    it("should return sleep interval value in milliseconds if parameter is a number", function (done) {
+    it("should return sleep interval value in milliseconds if parameter is a number", function(done) {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("1");
       assert.equal(retryAfter, 1000);
       done();
     });
 
-    it("should return sleep interval value in milliseconds for full date format", function (done) {
+    it("should return sleep interval value in milliseconds for full date format", function(done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
-      const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("Fri, 31 Dec 1999 23:02:00 GMT");
+      const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader(
+        "Fri, 31 Dec 1999 23:02:00 GMT"
+      );
 
       assert.equal(retryAfter, 2 * 60 * 1000);
 
@@ -120,7 +138,7 @@ describe("ThrottlingRetryPolicy", () => {
       done();
     });
 
-    it("should return sleep interval value in milliseconds for shorter date format", function (done) {
+    it("should return sleep interval value in milliseconds for shorter date format", function(done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("31 Dec 1999 23:03:00 GMT");
 

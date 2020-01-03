@@ -1,8 +1,8 @@
-import * as Models from "./generated/src/models";
+import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import { blobToString } from "./utils/utils.browser";
 
 export async function getBodyAsText(
-  batchResponse: Models.ServiceSubmitBatchResponse
+  batchResponse: ServiceSubmitBatchResponseModel
 ): Promise<string> {
   const blob = (await batchResponse.blobBody) as Blob;
   return await blobToString(blob);

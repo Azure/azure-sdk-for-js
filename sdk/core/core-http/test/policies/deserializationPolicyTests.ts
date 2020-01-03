@@ -4,12 +4,18 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer } from "../../lib/coreHttp";
-import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../lib/policies/deserializationPolicy";
+import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../lib/coreHttp";
+import {
+  DeserializationPolicy,
+  deserializationPolicy,
+  deserializeResponseBody,
+  defaultJsonContentTypes,
+  defaultXmlContentTypes
+} from "../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 
-describe("deserializationPolicy", function () {
+describe("deserializationPolicy", function() {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -20,8 +26,12 @@ describe("deserializationPolicy", function () {
     }
   };
 
-  it(`should not modify a request that has no request body mapper`, async function () {
-    const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, new RequestPolicyOptions());
+  it(`should not modify a request that has no request body mapper`, async function() {
+    const deserializationPolicy = new DeserializationPolicy(
+      mockPolicy,
+      {},
+      new RequestPolicyOptions()
+    );
 
     const request = createRequest();
     request.body = "hello there!";
@@ -30,15 +40,16 @@ describe("deserializationPolicy", function () {
     assert.strictEqual(request.body, "hello there!");
   });
 
-  it("should parse a JSON response body", async function () {
+  it("should parse a JSON response body", async function() {
     const request: WebResource = createRequest();
     const mockClient: HttpClient = {
-      sendRequest: req => Promise.resolve({
-        request: req,
-        status: 200,
-        headers: new HttpHeaders({ "Content-Type": "application/json" }),
-        bodyAsText: "[123, 456, 789]"
-      })
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "application/json" }),
+          bodyAsText: "[123, 456, 789]"
+        })
     };
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
@@ -46,15 +57,16 @@ describe("deserializationPolicy", function () {
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with a charset specified in Content-Type", async function () {
+  it("should parse a JSON response body with a charset specified in Content-Type", async function() {
     const request: WebResource = createRequest();
     const mockClient: HttpClient = {
-      sendRequest: req => Promise.resolve({
-        request: req,
-        status: 200,
-        headers: new HttpHeaders({ "Content-Type": "application/json;charset=UTF-8" }),
-        bodyAsText: "[123, 456, 789]"
-      })
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "application/json;charset=UTF-8" }),
+          bodyAsText: "[123, 456, 789]"
+        })
     };
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
@@ -62,15 +74,16 @@ describe("deserializationPolicy", function () {
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with an uppercase Content-Type", async function () {
+  it("should parse a JSON response body with an uppercase Content-Type", async function() {
     const request: WebResource = createRequest();
     const mockClient: HttpClient = {
-      sendRequest: req => Promise.resolve({
-        request: req,
-        status: 200,
-        headers: new HttpHeaders({ "Content-Type": "APPLICATION/JSON" }),
-        bodyAsText: "[123, 456, 789]"
-      })
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders({ "Content-Type": "APPLICATION/JSON" }),
+          bodyAsText: "[123, 456, 789]"
+        })
     };
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
@@ -78,15 +91,16 @@ describe("deserializationPolicy", function () {
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with a missing Content-Type", async function () {
+  it("should parse a JSON response body with a missing Content-Type", async function() {
     const request: WebResource = createRequest();
     const mockClient: HttpClient = {
-      sendRequest: req => Promise.resolve({
-        request: req,
-        status: 200,
-        headers: new HttpHeaders(),
-        bodyAsText: "[123, 456, 789]"
-      })
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders(),
+          bodyAsText: "[123, 456, 789]"
+        })
     };
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
@@ -95,7 +109,7 @@ describe("deserializationPolicy", function () {
   });
 
   describe(`parse(HttpOperationResponse)`, () => {
-    it(`with no response headers or body`, async function () {
+    it(`with no response headers or body`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -112,7 +126,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, but no operation spec`, async function () {
+    it(`with xml response body, application/xml content-type, but no operation spec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -128,11 +142,11 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples>3</apples></fruit>`);
-      assert.deepEqual(deserializedResponse.parsedBody, { "apples": "3" });
+      assert.deepEqual(deserializedResponse.parsedBody, { apples: "3" });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body with child element with attributes and value, application/xml content-type, but no operation spec`, async function () {
+    it(`with xml response body with child element with attributes and value, application/xml content-type, but no operation spec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -147,19 +161,22 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples tasty="yes">3</apples></fruit>`
+      );
       assert.deepEqual(deserializedResponse.parsedBody, {
-        "apples": {
-          "$": {
-            "tasty": "yes"
+        apples: {
+          $: {
+            tasty: "yes"
           },
-          "_": "3"
+          _: "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, and operation spec for only String value`, async function () {
+    it(`with xml response body, application/xml content-type, and operation spec for only String value`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest({
           httpMethod: "GET",
@@ -198,12 +215,15 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
-      assert.deepEqual(deserializedResponse.parsedBody, { "apples": "3" });
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples tasty="yes">3</apples></fruit>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, { apples: "3" });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, and operation spec for only number value`, async function () {
+    it(`with xml response body, application/xml content-type, and operation spec for only number value`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest({
           httpMethod: "GET",
@@ -242,12 +262,15 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
-      assert.deepEqual(deserializedResponse.parsedBody, { "apples": 3 });
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples tasty="yes">3</apples></fruit>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, { apples: 3 });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, and operation spec for only headers`, async function () {
+    it(`with xml response body, application/xml content-type, and operation spec for only headers`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest({
           httpMethod: "GET",
@@ -297,12 +320,15 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
-      assert.deepEqual(deserializedResponse.parsedBody, { "apples": { "tasty": "yes" } });
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples tasty="yes">3</apples></fruit>`
+      );
+      assert.deepEqual(deserializedResponse.parsedBody, { apples: { tasty: "yes" } });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function () {
+    it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -318,11 +344,11 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples>3</apples></fruit>`);
-      assert.deepEqual(deserializedResponse.parsedBody, { "apples": "3" });
+      assert.deepEqual(deserializedResponse.parsedBody, { apples: "3" });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function () {
+    it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -337,19 +363,22 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples taste="good">3</apples></fruit>`);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples taste="good">3</apples></fruit>`
+      );
       assert.deepEqual(deserializedResponse.parsedBody, {
-        "apples": {
-          "$": {
-            "taste": "good"
+        apples: {
+          $: {
+            taste: "good"
           },
-          "_": "3"
+          _: "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function () {
+    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -359,24 +388,31 @@ describe("deserializationPolicy", function () {
         bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody([], ["my/weird-xml"], response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
+        [],
+        ["my/weird-xml"],
+        response
+      );
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples taste="good">3</apples></fruit>`);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<fruit><apples taste="good">3</apples></fruit>`
+      );
       assert.deepEqual(deserializedResponse.parsedBody, {
-        "apples": {
-          "$": {
-            "taste": "good"
+        apples: {
+          $: {
+            taste: "good"
           },
-          "_": "3"
+          _: "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function () {
+    it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {
       const response: HttpOperationResponse = {
         request: createRequest(),
         status: 200,
@@ -391,28 +427,31 @@ describe("deserializationPolicy", function () {
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
       assert.strictEqual(deserializedResponse.blobBody, undefined);
-      assert.strictEqual(deserializedResponse.bodyAsText, `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`);
+      assert.strictEqual(
+        deserializedResponse.bodyAsText,
+        `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`
+      );
       assert.deepEqual(deserializedResponse.parsedBody, {
-        "$": {
-          "xmlns": "http://www.w3.org/2005/Atom"
+        $: {
+          xmlns: "http://www.w3.org/2005/Atom"
         },
-        "author": {
-          "name": "daschulttest1"
+        author: {
+          name: "daschulttest1"
         },
-        "content": {
-          "$": {
-            "type": "application/xml"
+        content: {
+          $: {
+            type: "application/xml"
           },
-          "QueueDescription": {
-            "$": {
-              "xmlns": "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+          QueueDescription: {
+            $: {
+              xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
               "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
             },
-            "AccessedAt": "0001-01-01T00:00:00Z",
-            "AuthorizationRules": "",
-            "AutoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-            "CountDetails": {
-              "$": {
+            AccessedAt: "0001-01-01T00:00:00Z",
+            AuthorizationRules: "",
+            AutoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+            CountDetails: {
+              $: {
                 "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
               },
               "d2p1:ActiveMessageCount": "0",
@@ -421,44 +460,110 @@ describe("deserializationPolicy", function () {
               "d2p1:TransferDeadLetterMessageCount": "0",
               "d2p1:TransferMessageCount": "0"
             },
-            "CreatedAt": "2018-10-09T19:56:34.903Z",
-            "DeadLetteringOnMessageExpiration": "false",
-            "DefaultMessageTimeToLive": "P14D",
-            "DuplicateDetectionHistoryTimeWindow": "PT10M",
-            "EnableBatchedOperations": "true",
-            "EnableExpress": "false",
-            "EnablePartitioning": "false",
-            "EntityAvailabilityStatus": "Available",
-            "IsAnonymousAccessible": "false",
-            "LockDuration": "PT1M",
-            "MaxDeliveryCount": "10",
-            "MaxSizeInMegabytes": "1024",
-            "MessageCount": "0",
-            "RequiresDuplicateDetection": "false",
-            "RequiresSession": "false",
-            "SizeInBytes": "0",
-            "Status": "Active",
-            "SupportOrdering": "true",
-            "UpdatedAt": "2018-10-09T19:56:35.013Z"
+            CreatedAt: "2018-10-09T19:56:34.903Z",
+            DeadLetteringOnMessageExpiration: "false",
+            DefaultMessageTimeToLive: "P14D",
+            DuplicateDetectionHistoryTimeWindow: "PT10M",
+            EnableBatchedOperations: "true",
+            EnableExpress: "false",
+            EnablePartitioning: "false",
+            EntityAvailabilityStatus: "Available",
+            IsAnonymousAccessible: "false",
+            LockDuration: "PT1M",
+            MaxDeliveryCount: "10",
+            MaxSizeInMegabytes: "1024",
+            MessageCount: "0",
+            RequiresDuplicateDetection: "false",
+            RequiresSession: "false",
+            SizeInBytes: "0",
+            Status: "Active",
+            SupportOrdering: "true",
+            UpdatedAt: "2018-10-09T19:56:35.013Z"
           }
         },
-        "id": "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False",
-        "link": {
-          "$": {
-            "href": "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False",
-            "rel": "self"
+        id:
+          "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False",
+        link: {
+          $: {
+            href:
+              "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False",
+            rel: "self"
           }
         },
-        "published": "2018-10-09T19:56:34Z",
-        "title": {
-          "$": {
-            "type": "text"
+        published: "2018-10-09T19:56:34Z",
+        title: {
+          $: {
+            type: "text"
           },
-          "_": "testQueuePath"
+          _: "testQueuePath"
         },
-        "updated": "2018-10-09T19:56:35Z"
+        updated: "2018-10-09T19:56:35Z"
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with default response headers`, async function() {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.fail();
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
+      }
     });
   });
 });

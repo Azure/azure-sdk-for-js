@@ -10,8 +10,28 @@
       "name": "Launch Program",
       "preLaunchTask": "Build Node",
       "program": "${workspaceFolder}\\src\\index.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
       "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run unit tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test-dist/index.js"
+      ],
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**/async_hooks.js",
+        "<node_internals>/**/*.js"
+      ]
     }
   ]
 }

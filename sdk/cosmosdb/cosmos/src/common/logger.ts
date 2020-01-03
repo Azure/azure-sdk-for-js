@@ -1,7 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import debugLib from "debug";
 
 /** @hidden */
-const cosmosLevelFilter = process.env.COSMOS_LOG_LEVEL || "warn|error";
+let cosmosLevelFilter = "warn|error";
+
+if (typeof process !== "undefined" && process.env && process.env.COSMOS_LOG_LEVEL) {
+  cosmosLevelFilter = process.env.COSMOS_LOG_LEVEL;
+}
 
 /** @hidden */
 const cosmosDebug = debugLib("cosmos");

@@ -15,8 +15,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
-import Long from 'long';
-import { getAssociatedReceiverName } from "../src/util/utils";
+import Long from "long";
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
@@ -69,6 +68,7 @@ export class SubscriptionClient implements Client {
    * @param topicName - The Topic name.
    * @param subscriptionName - The Subscription name.
    * @param context - The connection context to create the SubscriptionClient.
+   * @throws Error if the underlying connection is closed.
    */
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
@@ -111,10 +111,6 @@ export class SubscriptionClient implements Client {
 
   /**
    * Creates a Receiver for receiving messages from a Subscription which does not have sessions enabled.
-   * - Throws error if an open receiver already exists for this SubscriptionClient.
-   * - Throws `InvalidOperationError` if the Subscription has sessions enabled (in which case, use the
-   * overload of this method which takes `sessionOptions` argument)
-   *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
    * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
@@ -125,16 +121,17 @@ export class SubscriptionClient implements Client {
    *
    * @returns Receiver A receiver to receive messages from a Subscription which does not have
    * sessions enabled.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the SubscriptionClient.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
+   * (in which case, use the overload of this method which takes
+   * `sessionOptions` argument)
    */
   public createReceiver(receiveMode: ReceiveMode): Receiver;
+  
   /**
    * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
    * given, a random session among the available sessions is used.
-   * - Throws error if an open receiver already exists for given sessionId.
-   * - Throws `SessionCannotBeLockedError` if the Subscription does not have sessions enabled (in which
-   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
-   * the session (in which case try again after some time)
-   *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
    * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
@@ -146,23 +143,17 @@ export class SubscriptionClient implements Client {
    * the session receiver.
    *
    * @returns SessionReceiver A receiver to receive from a session in the Subscription.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the SubscriptionClient for given sessionId.
+   * @throws MessagingError with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
+   * the session (in which case try again after some time)
    */
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
   ): SessionReceiver;
-  /**
-   * Create a Receiver for receiving messages from a Subscription.
-   *
-   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
-   * @param sessionOptions Applicable only for Subscriptions that have sessions enabled. Use these options
-   * to provide sessionId and duration for which automatic lock renewal for should be done for the
-   * receiver.
-   *
-   * @returns Receiver|SessionReceiver A receiver to receive from a session in the Subscription if
-   * `sessionOptions` were provided. Else, a receiver to receive messages from the Subscription.
-   */
+
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
@@ -197,6 +188,8 @@ export class SubscriptionClient implements Client {
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -205,10 +198,7 @@ export class SubscriptionClient implements Client {
       this._context.isClosed
     );
 
-    return this._context.managementClient!.peek(
-      maxMessageCount,
-      getAssociatedReceiverName(this._context)
-    );
+    return this._context.managementClient!.peek(maxMessageCount);
   }
 
   /**
@@ -220,6 +210,8 @@ export class SubscriptionClient implements Client {
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -233,9 +225,7 @@ export class SubscriptionClient implements Client {
 
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount,
-      undefined,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 
@@ -243,6 +233,8 @@ export class SubscriptionClient implements Client {
 
   /**
    * Gets all rules associated with the subscription
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while retrieving rules.
    */
   async getRules(): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -259,6 +251,8 @@ export class SubscriptionClient implements Client {
    * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
    * any more messages.
    * @param ruleName
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while removing rules.
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
@@ -280,6 +274,8 @@ export class SubscriptionClient implements Client {
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
    * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
    * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while adding rules.
    */
   async addRule(
     ruleName: string,

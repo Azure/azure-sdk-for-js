@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-luis-runtime",
   "author": "Microsoft Corporation",
   "description": "LUISRuntimeClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "dependencies": {
     "@azure/ms-rest-js": "^2.0.3",
     "tslib": "^1.10.0"
@@ -57,7 +57,7 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-luis-runtime.js.map'\" -o ./dist/cognitiveservices-luis-runtime.min.js ./dist/cognitiveservices-luis-runtime.js",
-    "prepack": "npm install && npm run build && npm run test",
+    "prepack": "npm install && npm run build",
     "test": "ts-mocha -p tsconfig.test.json test/**/*.test.ts --timeout 100000"
   },
   "sideEffects": false,

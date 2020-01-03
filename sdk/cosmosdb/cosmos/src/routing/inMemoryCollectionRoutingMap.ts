@@ -1,4 +1,5 @@
-import * as bs from "binary-search-bounds"; // TODO: missing types
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common";
 import { QueryRange } from "./QueryRange";
 
@@ -16,7 +17,7 @@ export class InMemoryCollectionRoutingMap {
    */
   constructor(orderedPartitionKeyRanges: any[], orderedPartitionInfo: any) {
     this.orderedPartitionKeyRanges = orderedPartitionKeyRanges;
-    this.orderedRanges = orderedPartitionKeyRanges.map(pkr => {
+    this.orderedRanges = orderedPartitionKeyRanges.map((pkr) => {
       return new QueryRange(
         pkr[Constants.PartitionKeyRange.MinInclusive],
         pkr[Constants.PartitionKeyRange.MaxExclusive],
@@ -30,84 +31,66 @@ export class InMemoryCollectionRoutingMap {
     return this.orderedPartitionKeyRanges;
   }
 
-  public getRangeByEffectivePartitionKey(effectivePartitionKeyValue: string) {
-    if (Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey === effectivePartitionKeyValue) {
-      return this.orderedPartitionKeyRanges[0];
-    }
-
-    if (Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey === effectivePartitionKeyValue) {
-      return undefined;
-    }
-
-    const sortedLow = this.orderedRanges.map(r => {
-      return { v: r.min, b: !r.isMinInclusive };
-    });
-
-    const index = bs.le(
-      sortedLow,
-      { v: effectivePartitionKeyValue, b: true },
-      InMemoryCollectionRoutingMap._vbCompareFunction
-    );
-    // that's an error
-    if (index < 0) {
-      throw new Error("error in collection routing map, queried partition key is less than the start range.");
-    }
-
-    return this.orderedPartitionKeyRanges[index];
-  }
-
-  private static _vbCompareFunction(x: any, y: any) {
-    // TODO: What is x & y? A bs type?
-    if (x.v > y.v) {
-      return 1;
-    }
-    if (x.v < y.v) {
-      return -1;
-    }
-    if (x.b > y.b) {
-      return 1;
-    }
-    if (x.b < y.b) {
-      return -1;
-    }
-    return 0;
-  }
-
   public getOverlappingRanges(providedQueryRanges: QueryRange | QueryRange[]) {
-    const pqr: QueryRange[] = Array.isArray(providedQueryRanges) ? providedQueryRanges : [providedQueryRanges];
+    // TODO This code has all kinds of smells. Multiple iterations and sorts just to grab overlapping ranges
+    // stfaul attempted to bring it down to one for-loop and failed
+    const pqr: QueryRange[] = Array.isArray(providedQueryRanges)
+      ? providedQueryRanges
+      : [providedQueryRanges];
     const minToPartitionRange: any = {}; // TODO: any
-    const sortedLow = this.orderedRanges.map(r => {
-      return { v: r.min, b: !r.isMinInclusive };
-    });
-    const sortedHigh = this.orderedRanges.map(r => {
-      return { v: r.max, b: r.isMaxInclusive };
-    });
 
     // this for loop doesn't invoke any async callback
     for (const queryRange of pqr) {
       if (queryRange.isEmpty()) {
         continue;
       }
-      const minIndex = bs.le(
-        sortedLow,
-        { v: queryRange.min, b: !queryRange.isMinInclusive },
-        InMemoryCollectionRoutingMap._vbCompareFunction
-      );
+
+      if (queryRange.isFullRange()) {
+        return this.orderedPartitionKeyRanges;
+      }
+
+      const minIndex = this.orderedRanges.findIndex((range) => {
+        if (queryRange.min > range.min && queryRange.min < range.max) {
+          return true;
+        }
+        if (queryRange.min === range.min) {
+          return true;
+        }
+        if (queryRange.min === range.max) {
+          return true;
+        }
+      });
 
       if (minIndex < 0) {
-        throw new Error("error in collection routing map, queried value is less than the start range.");
+        throw new Error(
+          "error in collection routing map, queried value is less than the start range."
+        );
       }
 
-      const maxIndex = bs.ge(
-        sortedHigh,
-        { v: queryRange.max, b: queryRange.isMaxInclusive },
-        InMemoryCollectionRoutingMap._vbCompareFunction
-      );
-      if (maxIndex > sortedHigh.length) {
-        throw new Error("error in collection routing map, queried value is greater than the end range.");
+      // Start at the end and work backwards
+      let maxIndex: number;
+      for (let i = this.orderedRanges.length - 1; i >= 0; i--) {
+        const range = this.orderedRanges[i];
+        if (queryRange.max > range.min && queryRange.max < range.max) {
+          maxIndex = i;
+          break;
+        }
+        if (queryRange.max === range.min) {
+          maxIndex = i;
+          break;
+        }
+        if (queryRange.max === range.max) {
+          maxIndex = i;
+          break;
+        }
       }
 
-      // the for loop doesn't invoke any async callback
+      if (maxIndex > this.orderedRanges.length) {
+        throw new Error(
+          "error in collection routing map, queried value is greater than the end range."
+        );
+      }
+
       for (let j = minIndex; j < maxIndex + 1; j++) {
         if (queryRange.overlaps(this.orderedRanges[j])) {
           minToPartitionRange[
@@ -117,10 +100,14 @@ export class InMemoryCollectionRoutingMap {
       }
     }
 
-    const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(k => minToPartitionRange[k]);
+    const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(
+      (k) => minToPartitionRange[k]
+    );
 
     return overlappingPartitionKeyRanges.sort((a, b) => {
-      return a[Constants.PartitionKeyRange.MinInclusive].localeCompare(b[Constants.PartitionKeyRange.MinInclusive]);
+      return a[Constants.PartitionKeyRange.MinInclusive].localeCompare(
+        b[Constants.PartitionKeyRange.MinInclusive]
+      );
     });
   }
 }

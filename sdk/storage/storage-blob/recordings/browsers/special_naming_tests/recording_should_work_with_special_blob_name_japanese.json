@@ -2,77 +2,77 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%2F%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156776233714207901",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%2F%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94157003464900404721",
    "query": {},
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "PiO3pTJ67n0=",
-    "date": "Fri, 06 Sep 2019 09:32:16 GMT",
-    "last-modified": "Fri, 06 Sep 2019 09:32:17 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:08 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D732AD1BBD8BD5\"",
-    "x-ms-request-id": "dbd1515e-501e-00c3-2395-64eed9000000",
+    "etag": "\"0x8D74757BEEAD208\"",
+    "x-ms-request-id": "21600214-201e-0080-2240-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "e9ae5724-a7e2-4df9-a26b-5bea0e2bd6dc",
+    "x-ms-client-request-id": "a95a49cb-2ec6-4777-b986-b38cbb6c6bf9",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%2F%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156776233714207901",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%2F%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94157003464900404721",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "BlockBlob",
-    "date": "Fri, 06 Sep 2019 09:32:16 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:08 GMT",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
     "x-ms-tag-count": "0",
     "x-ms-server-encrypted": "true",
-    "x-ms-access-tier": "Hot",
-    "x-ms-client-request-id": "b6bb4d26-b6ff-4341-9f75-4e2e8a05aeb9",
+    "x-ms-access-tier": "Cool",
+    "x-ms-client-request-id": "31b0aca2-8bf6-46b0-908d-65339a0b6f8d",
     "content-length": "1",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
-    "x-ms-creation-time": "Fri, 06 Sep 2019 09:32:17 GMT",
-    "last-modified": "Fri, 06 Sep 2019 09:32:17 GMT",
+    "x-ms-creation-time": "Wed, 02 Oct 2019 16:44:08 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D732AD1BBD8BD5\"",
+    "etag": "\"0x8D74757BEEAD208\"",
     "content-type": "application/octet-stream",
     "x-ms-access-tier-inferred": "true",
     "x-ms-version": "2019-02-02",
     "accept-ranges": "bytes",
-    "x-ms-request-id": "dbd15186-501e-00c3-4595-64eed9000000"
+    "x-ms-request-id": "21600244-201e-0080-4d40-7993dc000000"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968",
    "query": {
     "comp": "list",
-    "prefix": "にっぽんご/にほんご156776233714207901",
+    "prefix": "にっぽんご/にほんご157003464900404721",
     "restype": "container"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash156776232694206071\"><Prefix>にっぽんご/にほんご156776233714207901</Prefix><Blobs><Blob><Name>にっぽんご/にほんご156776233714207901</Name><Properties><Creation-Time>Fri, 06 Sep 2019 09:32:17 GMT</Creation-Time><Last-Modified>Fri, 06 Sep 2019 09:32:17 GMT</Last-Modified><Etag>0x8D732AD1BBD8BD5</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash157003464545607968\"><Prefix>にっぽんご/にほんご157003464900404721</Prefix><Blobs><Blob><Name>にっぽんご/にほんご157003464900404721</Name><Properties><Creation-Time>Wed, 02 Oct 2019 16:44:08 GMT</Creation-Time><Last-Modified>Wed, 02 Oct 2019 16:44:08 GMT</Last-Modified><Etag>0x8D74757BEEAD208</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Fri, 06 Sep 2019 09:32:17 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "dbd151bc-501e-00c3-7595-64eed9000000",
+    "x-ms-request-id": "2160026d-201e-0080-7340-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "2cb0336f-994c-49c1-9fe5-1da6b63f25ff"
+    "x-ms-client-request-id": "6806e93b-1814-468b-9d2f-3a095a32710c"
    }
   }
  ],
  "uniqueTestInfo": {
-  "にっぽんご/にほんご": "にっぽんご/にほんご156776233714207901"
+  "にっぽんご/にほんご": "にっぽんご/にほんご157003464900404721"
  }
 }

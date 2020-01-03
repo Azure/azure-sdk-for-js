@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import AbortController from "node-abort-controller";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { trimSlashes } from "../common";
@@ -15,8 +17,7 @@ import { TimeoutError } from "./TimeoutError";
 /** @hidden */
 const log = logger("RequestHandler");
 
-/** @hidden */
-export async function executeRequest(requestContext: RequestContext) {
+async function executeRequest(requestContext: RequestContext) {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }
 
@@ -84,12 +85,22 @@ async function httpRequest(requestContext: RequestContext) {
     headers[key] = value;
   });
 
-  const substatus = parseInt(headers[Constants.HttpHeaders.SubStatus], 10);
+  const substatus = headers[Constants.HttpHeaders.SubStatus]
+    ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
+    : undefined;
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
 
-    log.warn(response.status + " " + requestContext.endpoint + " " + requestContext.path + " " + result.message);
+    log.warn(
+      response.status +
+        " " +
+        requestContext.endpoint +
+        " " +
+        requestContext.path +
+        " " +
+        result.message
+    );
 
     errorResponse.code = response.status;
     errorResponse.body = result;
@@ -103,8 +114,13 @@ async function httpRequest(requestContext: RequestContext) {
       errorResponse.substatus = substatus;
     }
 
-    if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
-      errorResponse.retryAfterInMilliseconds = parseInt(headers[Constants.HttpHeaders.RetryAfterInMilliseconds], 10);
+    if (Constants.HttpHeaders.RetryAfterInMs in headers) {
+      errorResponse.retryAfterInMs = parseInt(headers[Constants.HttpHeaders.RetryAfterInMs], 10);
+      Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
+        get: () => {
+          return errorResponse.retryAfterInMs;
+        }
+      });
     }
 
     throw errorResponse;
@@ -130,6 +146,7 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
   }
 
   return RetryUtility.execute({
-    requestContext
+    requestContext,
+    executeRequest
   });
 }

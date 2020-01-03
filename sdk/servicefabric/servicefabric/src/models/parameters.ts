@@ -52,7 +52,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.2',
+    defaultValue: '7.0',
     type: {
       name: "String"
     }
@@ -64,7 +64,7 @@ export const apiVersion4: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.1',
+    defaultValue: '6.2',
     type: {
       name: "String"
     }
@@ -76,7 +76,7 @@ export const apiVersion5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.5',
+    defaultValue: '6.1',
     type: {
       name: "String"
     }
@@ -88,7 +88,7 @@ export const apiVersion6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.0-preview',
+    defaultValue: '6.5',
     type: {
       name: "String"
     }
@@ -100,13 +100,25 @@ export const apiVersion7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.4-preview',
+    defaultValue: '6.0-preview',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion8: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '6.4-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion9: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -551,7 +563,19 @@ export const executorFilter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const force: msRest.OperationQueryParameter = {
+export const force0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "force"
+  ],
+  mapper: {
+    serializedName: "Force",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const force1: msRest.OperationQueryParameter = {
   parameterPath: "force",
   mapper: {
     required: true,

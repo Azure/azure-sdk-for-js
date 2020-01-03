@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Enum for trigger type values.
  * Specifies the type of the trigger.

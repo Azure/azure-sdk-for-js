@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { RequestContext } from "../request/RequestContext";
 import { Response } from "../request/Response";
 

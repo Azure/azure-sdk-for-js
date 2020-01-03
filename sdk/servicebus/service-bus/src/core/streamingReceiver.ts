@@ -110,8 +110,8 @@ export class StreamingReceiver extends MessageReceiver {
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    context.streamingReceiver = sReceiver;
     await sReceiver._init();
+    context.streamingReceiver = sReceiver;
     return sReceiver;
   }
 }

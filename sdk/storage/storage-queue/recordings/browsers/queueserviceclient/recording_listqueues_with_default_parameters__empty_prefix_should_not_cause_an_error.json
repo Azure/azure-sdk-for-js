@@ -1,0 +1,29 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net",
+   "query": {
+    "comp": "list",
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.queue.core.windows.net/\"><Queues /><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/xml",
+    "date": "Thu, 21 Nov 2019 23:39:10 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "4e1c03a7-a406-4b9d-8d89-433b3d206b9a",
+    "x-ms-request-id": "fd3eeee7-5003-0081-64c4-a0df85000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ }
+}

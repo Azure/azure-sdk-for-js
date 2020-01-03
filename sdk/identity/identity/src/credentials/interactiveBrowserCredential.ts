@@ -16,10 +16,20 @@ const BrowserNotSupportedError = new Error(
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions) {
+  constructor(options?: InteractiveBrowserCredentialOptions) {
     throw BrowserNotSupportedError;
   }
 
+  /**
+   * Authenticates with Azure Active Directory and returns an access token if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
+   *
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
   public getToken(
     scopes: string | string[],
     options?: GetTokenOptions

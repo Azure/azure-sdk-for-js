@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/pageBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class PageBlob {
    * The page blob size must be aligned to a 512-byte boundary.
    * @param callback The callback
    */
-  create(contentLength: number, blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, blobContentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param contentLength The length of the request.
    * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
@@ -49,8 +49,8 @@ export class PageBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCreateResponse> {
+  create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -68,21 +68,21 @@ export class PageBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.PageBlobUploadPagesResponse>
    */
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse>;
+  uploadPages(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse>;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  uploadPages(body: coreHttp.HttpRequestBody, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesResponse> {
+  uploadPages(body: coreHttp.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  uploadPages(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -104,14 +104,14 @@ export class PageBlob {
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  clearPages(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  clearPages(contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobClearPagesResponse> {
+  clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobClearPagesResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
@@ -143,7 +143,7 @@ export class PageBlob {
    * 512 aligned and range-end is required.
    * @param callback The callback
    */
-  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, callback: msRest.ServiceCallback<void>): void;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param sourceRange Bytes of source data in the specified range. The length of this range should
@@ -154,8 +154,8 @@ export class PageBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options: Models.PageBlobUploadPagesFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options: Models.PageBlobUploadPagesFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         sourceUrl,
@@ -178,13 +178,13 @@ export class PageBlob {
   /**
    * @param callback The callback
    */
-  getPageRanges(callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRanges(callback: coreHttp.ServiceCallback<Models.PageList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
-  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams | msRest.ServiceCallback<Models.PageList>, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesResponse> {
+  getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams, callback: coreHttp.ServiceCallback<Models.PageList>): void;
+  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams | coreHttp.ServiceCallback<Models.PageList>, callback?: coreHttp.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -203,13 +203,13 @@ export class PageBlob {
   /**
    * @param callback The callback
    */
-  getPageRangesDiff(callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRangesDiff(callback: coreHttp.ServiceCallback<Models.PageList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
-  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams | msRest.ServiceCallback<Models.PageList>, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesDiffResponse> {
+  getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams, callback: coreHttp.ServiceCallback<Models.PageList>): void;
+  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams | coreHttp.ServiceCallback<Models.PageList>, callback?: coreHttp.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -231,15 +231,15 @@ export class PageBlob {
    * The page blob size must be aligned to a 512-byte boundary.
    * @param callback The callback
    */
-  resize(blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  resize(blobContentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param blobContentLength This header specifies the maximum size for the page blob, up to 1 TB.
    * The page blob size must be aligned to a 512-byte boundary.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobResizeResponse> {
+  resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobResizeResponse> {
     return this.client.sendOperationRequest(
       {
         blobContentLength,
@@ -264,7 +264,7 @@ export class PageBlob {
    * should modify the blob's sequence number. Possible values include: 'max', 'update', 'increment'
    * @param callback The callback
    */
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, callback: msRest.ServiceCallback<void>): void;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param sequenceNumberAction Required if the x-ms-blob-sequence-number header is set for the
    * request. This property applies to page blobs only. This property indicates how the service
@@ -272,8 +272,8 @@ export class PageBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     return this.client.sendOperationRequest(
       {
         sequenceNumberAction,
@@ -304,7 +304,7 @@ export class PageBlob {
    * via a shared access signature.
    * @param callback The callback
    */
-  copyIncremental(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  copyIncremental(copySource: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
    * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
@@ -313,8 +313,8 @@ export class PageBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCopyIncrementalResponse> {
+  copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobCopyIncrementalResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
@@ -326,24 +326,24 @@ export class PageBlob {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
+    Parameters.tier0,
     Parameters.metadata,
     Parameters.blobContentLength,
     Parameters.blobSequenceNumber,
     Parameters.version,
     Parameters.requestId,
-    Parameters.tier0,
     Parameters.blobType0,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -365,21 +365,22 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobCreateHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const uploadPagesOperationSpec: msRest.OperationSpec = {
+const uploadPagesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -418,21 +419,22 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUploadPagesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const clearPagesOperationSpec: msRest.OperationSpec = {
+const clearPagesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -458,21 +460,22 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobClearPagesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobClearPagesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
+const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -506,14 +509,15 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobUploadPagesFromURLHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUploadPagesFromURLHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getPageRangesOperationSpec: msRest.OperationSpec = {
+const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -521,7 +525,7 @@ const getPageRangesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp13
   ],
   headerParameters: [
@@ -540,14 +544,15 @@ const getPageRangesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobGetPageRangesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobGetPageRangesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
+const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -555,7 +560,7 @@ const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.prevsnapshot,
     Parameters.comp13
   ],
@@ -575,21 +580,22 @@ const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobGetPageRangesDiffHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobGetPageRangesDiffHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const resizeOperationSpec: msRest.OperationSpec = {
+const resizeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -610,21 +616,22 @@ const resizeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobResizeHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobResizeHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const updateSequenceNumberOperationSpec: msRest.OperationSpec = {
+const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -643,21 +650,22 @@ const updateSequenceNumberOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobUpdateSequenceNumberHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobUpdateSequenceNumberHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const copyIncrementalOperationSpec: msRest.OperationSpec = {
+const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp14
   ],
   headerParameters: [
@@ -674,7 +682,8 @@ const copyIncrementalOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PageBlobCopyIncrementalHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PageBlobCopyIncrementalHeaders
     }
   },
   isXML: true,

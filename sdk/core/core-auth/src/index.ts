@@ -8,5 +8,10 @@ export {
   isTokenCredential
 } from "./tokenCredential";
 
-export { SimpleTokenCredential } from "./simpleTokenCredential";
+export {
+  OperationOptions,
+  OperationTracingOptions,
+  OperationRequestOptions
+} from "./operationOptions";
+
 export { AbortSignalLike } from '@azure/abort-controller';

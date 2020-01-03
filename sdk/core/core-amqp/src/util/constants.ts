@@ -51,6 +51,7 @@ export const senderError = "sender_error";
 export const sessionError = "session_error";
 export const connectionError = "connection_error";
 export const defaultOperationTimeoutInMs = 60000;
+export const defaultConnectionIdleTimeoutInMs = 60000;
 export const managementRequestKey = "managementRequest";
 export const negotiateCbsKey = "negotiateCbs";
 export const negotiateClaim = "negotiateClaim";

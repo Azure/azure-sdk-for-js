@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 
-export const AccessPolicy: msRest.CompositeMapper = {
+export const AccessPolicy: coreHttp.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
     name: "Composite",
     className: "AccessPolicy",
     modelProperties: {
-      start: {
+      startsOn: {
         xmlName: "Start",
         required: true,
         serializedName: "Start",
@@ -23,7 +23,7 @@ export const AccessPolicy: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      expiry: {
+      expiresOn: {
         xmlName: "Expiry",
         required: true,
         serializedName: "Expiry",
@@ -31,7 +31,7 @@ export const AccessPolicy: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      permission: {
+      permissions: {
         xmlName: "Permission",
         required: true,
         serializedName: "Permission",
@@ -43,7 +43,7 @@ export const AccessPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const QueueItem: msRest.CompositeMapper = {
+export const QueueItem: coreHttp.CompositeMapper = {
   xmlName: "Queue",
   serializedName: "QueueItem",
   type: {
@@ -74,7 +74,7 @@ export const QueueItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
+export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListQueuesSegmentResponse",
   type: {
@@ -105,7 +105,7 @@ export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         required: true,
         serializedName: "MaxResults",
@@ -128,7 +128,7 @@ export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         required: true,
         serializedName: "NextMarker",
@@ -140,7 +140,7 @@ export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
   }
 };
 
-export const CorsRule: msRest.CompositeMapper = {
+export const CorsRule: coreHttp.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
     name: "Composite",
@@ -193,7 +193,7 @@ export const CorsRule: msRest.CompositeMapper = {
   }
 };
 
-export const GeoReplication: msRest.CompositeMapper = {
+export const GeoReplication: coreHttp.CompositeMapper = {
   serializedName: "GeoReplication",
   type: {
     name: "Composite",
@@ -207,7 +207,7 @@ export const GeoReplication: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      lastSyncTime: {
+      lastSyncOn: {
         xmlName: "LastSyncTime",
         required: true,
         serializedName: "LastSyncTime",
@@ -219,7 +219,7 @@ export const GeoReplication: msRest.CompositeMapper = {
   }
 };
 
-export const RetentionPolicy: msRest.CompositeMapper = {
+export const RetentionPolicy: coreHttp.CompositeMapper = {
   serializedName: "RetentionPolicy",
   type: {
     name: "Composite",
@@ -247,7 +247,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const Logging: msRest.CompositeMapper = {
+export const Logging: coreHttp.CompositeMapper = {
   serializedName: "Logging",
   type: {
     name: "Composite",
@@ -298,7 +298,7 @@ export const Logging: msRest.CompositeMapper = {
   }
 };
 
-export const StorageError: msRest.CompositeMapper = {
+export const StorageError: coreHttp.CompositeMapper = {
   serializedName: "StorageError",
   type: {
     name: "Composite",
@@ -315,7 +315,7 @@ export const StorageError: msRest.CompositeMapper = {
   }
 };
 
-export const Metrics: msRest.CompositeMapper = {
+export const Metrics: coreHttp.CompositeMapper = {
   serializedName: "Metrics",
   type: {
     name: "Composite",
@@ -355,7 +355,7 @@ export const Metrics: msRest.CompositeMapper = {
   }
 };
 
-export const QueueMessage: msRest.CompositeMapper = {
+export const QueueMessage: coreHttp.CompositeMapper = {
   serializedName: "QueueMessage",
   type: {
     name: "Composite",
@@ -373,7 +373,7 @@ export const QueueMessage: msRest.CompositeMapper = {
   }
 };
 
-export const DequeuedMessageItem: msRest.CompositeMapper = {
+export const DequeuedMessageItem: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "DequeuedMessageItem",
   type: {
@@ -388,7 +388,7 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -396,7 +396,7 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -412,7 +412,7 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         xmlName: "TimeNextVisible",
         required: true,
         serializedName: "TimeNextVisible",
@@ -440,7 +440,7 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
   }
 };
 
-export const PeekedMessageItem: msRest.CompositeMapper = {
+export const PeekedMessageItem: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "PeekedMessageItem",
   type: {
@@ -455,7 +455,7 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -463,7 +463,7 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -491,7 +491,7 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
   }
 };
 
-export const EnqueuedMessage: msRest.CompositeMapper = {
+export const EnqueuedMessage: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "EnqueuedMessage",
   type: {
@@ -506,7 +506,7 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -514,7 +514,7 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -530,7 +530,7 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         xmlName: "TimeNextVisible",
         required: true,
         serializedName: "TimeNextVisible",
@@ -542,7 +542,7 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
   }
 };
 
-export const SignedIdentifier: msRest.CompositeMapper = {
+export const SignedIdentifier: coreHttp.CompositeMapper = {
   serializedName: "SignedIdentifier",
   type: {
     name: "Composite",
@@ -569,13 +569,14 @@ export const SignedIdentifier: msRest.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: msRest.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const QueueServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "QueueServiceProperties",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "QueueServiceProperties",
     modelProperties: {
-      logging: {
+      queueAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {
@@ -618,11 +619,12 @@ export const StorageServiceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const StorageServiceStats: msRest.CompositeMapper = {
-  serializedName: "StorageServiceStats",
+export const QueueServiceStatistics: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceStats",
+  serializedName: "QueueServiceStatistics",
   type: {
     name: "Composite",
-    className: "StorageServiceStats",
+    className: "QueueServiceStatistics",
     modelProperties: {
       geoReplication: {
         xmlName: "GeoReplication",
@@ -636,18 +638,12 @@ export const StorageServiceStats: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-setproperties-headers",
   type: {
     name: "Composite",
     className: "ServiceSetPropertiesHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -656,6 +652,12 @@ export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -670,18 +672,12 @@ export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-getproperties-headers",
   type: {
     name: "Composite",
     className: "ServiceGetPropertiesHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -690,6 +686,12 @@ export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -704,18 +706,12 @@ export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsHeaders: msRest.CompositeMapper = {
+export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-getstatistics-headers",
   type: {
     name: "Composite",
     className: "ServiceGetStatisticsHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -734,6 +730,12 @@ export const ServiceGetStatisticsHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -744,18 +746,12 @@ export const ServiceGetStatisticsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceListQueuesSegmentHeaders: msRest.CompositeMapper = {
+export const ServiceListQueuesSegmentHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-listqueuessegment-headers",
   type: {
     name: "Composite",
     className: "ServiceListQueuesSegmentHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -774,6 +770,12 @@ export const ServiceListQueuesSegmentHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -784,18 +786,12 @@ export const ServiceListQueuesSegmentHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueCreateHeaders: msRest.CompositeMapper = {
+export const QueueCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-create-headers",
   type: {
     name: "Composite",
     className: "QueueCreateHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -814,6 +810,12 @@ export const QueueCreateHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -824,18 +826,12 @@ export const QueueCreateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueDeleteHeaders: msRest.CompositeMapper = {
+export const QueueDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-delete-headers",
   type: {
     name: "Composite",
     className: "QueueDeleteHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -854,6 +850,12 @@ export const QueueDeleteHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -864,18 +866,12 @@ export const QueueDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueGetPropertiesHeaders: msRest.CompositeMapper = {
+export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-getproperties-headers",
   type: {
     name: "Composite",
     className: "QueueGetPropertiesHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       metadata: {
         serializedName: "x-ms-meta",
         type: {
@@ -912,6 +908,12 @@ export const QueueGetPropertiesHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -922,18 +924,12 @@ export const QueueGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueSetMetadataHeaders: msRest.CompositeMapper = {
+export const QueueSetMetadataHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-setmetadata-headers",
   type: {
     name: "Composite",
     className: "QueueSetMetadataHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -952,6 +948,12 @@ export const QueueSetMetadataHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -962,18 +964,12 @@ export const QueueSetMetadataHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueGetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const QueueGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-getaccesspolicy-headers",
   type: {
     name: "Composite",
     className: "QueueGetAccessPolicyHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -992,6 +988,12 @@ export const QueueGetAccessPolicyHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1002,18 +1004,12 @@ export const QueueGetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueSetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const QueueSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-setaccesspolicy-headers",
   type: {
     name: "Composite",
     className: "QueueSetAccessPolicyHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1032,6 +1028,12 @@ export const QueueSetAccessPolicyHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1042,18 +1044,12 @@ export const QueueSetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesDequeueHeaders: msRest.CompositeMapper = {
+export const MessagesDequeueHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-dequeue-headers",
   type: {
     name: "Composite",
     className: "MessagesDequeueHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1072,6 +1068,12 @@ export const MessagesDequeueHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1082,18 +1084,12 @@ export const MessagesDequeueHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesClearHeaders: msRest.CompositeMapper = {
+export const MessagesClearHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-clear-headers",
   type: {
     name: "Composite",
     className: "MessagesClearHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1112,6 +1108,12 @@ export const MessagesClearHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1122,18 +1124,12 @@ export const MessagesClearHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesEnqueueHeaders: msRest.CompositeMapper = {
+export const MessagesEnqueueHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-enqueue-headers",
   type: {
     name: "Composite",
     className: "MessagesEnqueueHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1152,6 +1148,12 @@ export const MessagesEnqueueHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1162,18 +1164,12 @@ export const MessagesEnqueueHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesPeekHeaders: msRest.CompositeMapper = {
+export const MessagesPeekHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-peek-headers",
   type: {
     name: "Composite",
     className: "MessagesPeekHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1192,6 +1188,12 @@ export const MessagesPeekHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1202,18 +1204,12 @@ export const MessagesPeekHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
+export const MessageIdUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "messageid-update-headers",
   type: {
     name: "Composite",
     className: "MessageIdUpdateHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1238,10 +1234,16 @@ export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         serializedName: "x-ms-time-next-visible",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -1254,18 +1256,12 @@ export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIdDeleteHeaders: msRest.CompositeMapper = {
+export const MessageIdDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "messageid-delete-headers",
   type: {
     name: "Composite",
     className: "MessageIdDeleteHeaders",
     modelProperties: {
-      clientRequestId: {
-        serializedName: "x-ms-client-request-id",
-        type: {
-          name: "String"
-        }
-      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1282,6 +1278,12 @@ export const MessageIdDeleteHeaders: msRest.CompositeMapper = {
         serializedName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       errorCode: {

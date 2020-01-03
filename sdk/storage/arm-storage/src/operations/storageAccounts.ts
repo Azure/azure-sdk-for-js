@@ -268,7 +268,8 @@ export class StorageAccounts {
   }
 
   /**
-   * Lists the access keys for the specified storage account.
+   * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage
+   * account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -277,7 +278,7 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListKeysResponse>;
+  listKeys(resourceGroupName: string, accountName: string, options?: Models.StorageAccountsListKeysOptionalParams): Promise<Models.StorageAccountsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -296,8 +297,8 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options: Models.StorageAccountsListKeysOptionalParams, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
+  listKeys(resourceGroupName: string, accountName: string, options?: Models.StorageAccountsListKeysOptionalParams | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -309,14 +310,14 @@ export class StorageAccounts {
   }
 
   /**
-   * Regenerates one of the access keys for the specified storage account.
+   * Regenerates one of the access keys or Kerberos keys for the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
-   * key2.
+   * key2, kerb1, kerb2.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsRegenerateKeyResponse>
    */
@@ -328,7 +329,7 @@ export class StorageAccounts {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
-   * key2.
+   * key2, kerb1, kerb2.
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, accountName: string, keyName: string, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
@@ -339,7 +340,7 @@ export class StorageAccounts {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
-   * key2.
+   * key2, kerb1, kerb2.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -552,6 +553,35 @@ export class StorageAccounts {
       beginFailoverOperationSpec,
       options);
   }
+
+  /**
+   * Lists all the storage accounts available under the subscription. Note that storage keys are not
+   * returned; use the ListKeys operation for this.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StorageAccountsListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.StorageAccountsListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -622,7 +652,7 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand
+    Parameters.expand0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -726,7 +756,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.expand1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -913,6 +944,27 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -4470,6 +4470,12 @@ export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
    * include: 'CreateBackup', 'ExistingBackup'
    */
   backupMode?: BackupMode;
+  /**
+   * Azure Active Directory domain name in the format of 'contoso.com' for federated Azure AD or
+   * 'contoso.onmicrosoft.com' for managed domain, required if and only if Windows logins are
+   * selected
+   */
+  aadDomainName?: string;
 }
 
 /**
@@ -5605,7 +5611,7 @@ export interface MigrationEligibilityInfo {
    * Whether object is eligible for migration or not.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly isEligibileForMigration?: boolean;
+  readonly isEligibleForMigration?: boolean;
   /**
    * Information about eligibility failure for the server object.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -7163,9 +7169,8 @@ export interface CheckOCIDriverTaskInput {
 export interface CheckOCIDriverTaskOutput {
   /**
    * Information about the installed driver if found and valid.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly installedDriver?: { [propertyName: string]: OracleOCIDriverInfo[] };
+  installedDriver?: OracleOCIDriverInfo;
   /**
    * Validation errors
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

@@ -6,6 +6,8 @@
  * You cannot use any reserved keys. You can see the reserved key list
  * in {@link ItemBody}
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface ItemDefinition {
   /** The id of the item. User settable property. Uniquely identifies the item along with the partition key */
   id?: string;

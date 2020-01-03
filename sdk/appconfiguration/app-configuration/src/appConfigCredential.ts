@@ -1,4 +1,7 @@
-import * as crypto from "crypto";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { createHash, createHmac } from "crypto";
 import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
 
 /**
@@ -23,8 +26,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
   signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
-    const contentHash = crypto
-      .createHash("sha256")
+    const contentHash = createHash("sha256")
       .update(webResource.body || "")
       .digest("base64");
 
@@ -37,8 +39,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.getHost()};${contentHash}`;
 
     const decodedSecret = Buffer.from(this.secret, "base64");
-    var signature = crypto
-      .createHmac("sha256", decodedSecret)
+    var signature = createHmac("sha256", decodedSecret)
       .update(stringToSign)
       .digest("base64");
 
