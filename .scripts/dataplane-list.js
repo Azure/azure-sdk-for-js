@@ -1,14 +1,16 @@
 const versionUtils = require("../eng/tools/versioning/VersionUtils");
 const process = require("process");
-const dataplaneListFilename = "list-dataplane.json";
+const common = require("../.scripts/common");
+//const dataplaneListFilename = "list-dataplane.json";
+const dataplaneListFilename = common.dataplaneListFilename;
 
 const parseArgs = () => {
   if (
     process.argv.length < 3 ||
     process.argv.some(a => ["-h", "--help"].includes(a.toLowerCase()))
   ) {
-    console.error("Usage: dataplane-list.js <pathToRepo> <pathToFileListName>");
-    console.error("Example: dataplane-list.js . list-dataplane.json");
+    console.error("Usage: dataplane-list.js <pathToRepo>");
+    console.error("Example: dataplane-list.js .");
     process.exit(1);
   }
   var pathToRepo = process.argv[2];

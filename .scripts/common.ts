@@ -112,7 +112,7 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-const dataplaneListFilename = "list-dataplane.json";
+export const dataplaneListFilename = "list-dataplane.json";
 
 const listDataplanePackages = (dataplaneListFilename: string) => {
   const dataplane: string = fssync.readFileSync(dataplaneListFilename).toString();
