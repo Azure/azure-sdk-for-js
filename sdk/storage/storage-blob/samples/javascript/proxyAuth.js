@@ -51,8 +51,6 @@ async function main() {
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

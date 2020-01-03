@@ -30,8 +30,6 @@ async function main() {
   console.log(`Exiting useWithIotHub sample`);
 }
 
-module.exports = { main };
-
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
