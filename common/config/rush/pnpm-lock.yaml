@@ -7847,7 +7847,7 @@ packages:
   /rollup/1.27.14:
     dependencies:
       '@types/estree': 0.0.41
-      '@types/node': 13.1.2
+      '@types/node': 8.10.59
       acorn: 7.1.0
     dev: false
     hasBin: true
