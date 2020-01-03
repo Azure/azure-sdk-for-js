@@ -146,8 +146,8 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
 // ];
 const dataplaneListFilename = "list-dataplane.json";
 
-const listDataplanePackages = async (dataplaneListFilename: string) => {
-  const dataplane:string = await versionUtils.readFile(dataplaneListFilename);
+const listDataplanePackages = (dataplaneListFilename: string) => {
+  const dataplane: string = fssync.readFileSync(dataplaneListFilename);
   const listDataplane: string[] = dataplane.split(",");
   return listDataplane;
 };
