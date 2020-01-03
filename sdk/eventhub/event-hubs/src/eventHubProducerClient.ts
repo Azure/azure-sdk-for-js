@@ -22,8 +22,7 @@ import { EventHubProducer } from "./sender";
  * - Use the connection string from the SAS policy created for your Event Hub instance.
  * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
- * - Use the fully qualified version of the namespace like `<yournamespace>.servicebus.windows.net`,
- * and a credentials object.
+ * - Use the full namespace like `<yournamespace>.servicebus.windows.net`, and a credentials object.
  * 
  * Optionally, you can also pass an options bag to configure the retry policy or proxy settings.
  *
@@ -85,8 +84,8 @@ export class EventHubProducerClient {
    * @constructor
    * The `EventHubProducerClient` is the main point of interaction for sending events to an
    * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param fullyQualifiedNamespace - The fully qualified version of the Event Hubs namespace.
-   * This is likely to be similar to <yournamespace>.servicebus.windows.net
+   * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
