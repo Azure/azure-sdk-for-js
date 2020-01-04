@@ -150,7 +150,6 @@ export namespace ConnectionContext {
           context.error
         );
       }
-
       const state: Readonly<{	
         wasConnectionCloseCalled: boolean;	
         numSenders: number;	

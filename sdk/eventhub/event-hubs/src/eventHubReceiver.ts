@@ -291,7 +291,7 @@ export class EventHubReceiver extends LinkEntity {
       this.address,
       rheaReceiver ? rheaReceiver.isItselfClosed().toString(): undefined
     );
-    if (rheaReceiver) {
+    if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close();
     }
@@ -307,7 +307,7 @@ export class EventHubReceiver extends LinkEntity {
       this.address,
       rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString(): undefined
     );
-    if (rheaReceiver) {
+    if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
       await rheaReceiver.close();
     }

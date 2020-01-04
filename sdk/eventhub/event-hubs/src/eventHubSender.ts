@@ -128,7 +128,7 @@ export class EventHubSender extends LinkEntity {
         this.address,
         sender ? sender.isItselfClosed().toString(): undefined
       );
-      if (sender) {
+      if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
         await sender.close();
       }
@@ -144,7 +144,7 @@ export class EventHubSender extends LinkEntity {
         this.address,
         sender ? sender.isSessionItselfClosed().toString(): undefined
       );
-      if (sender) {
+      if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
         await sender.close();
       }
