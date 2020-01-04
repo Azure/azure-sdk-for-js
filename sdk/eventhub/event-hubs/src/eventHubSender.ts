@@ -126,7 +126,7 @@ export class EventHubSender extends LinkEntity {
         this._context.connectionId,
         this.name,
         this.address,
-        sender ? sender.isItselfClosed().toString(): undefined
+        sender ? sender.isItselfClosed().toString() : undefined
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
@@ -142,7 +142,7 @@ export class EventHubSender extends LinkEntity {
         this._context.connectionId,
         this.name,
         this.address,
-        sender ? sender.isSessionItselfClosed().toString(): undefined
+        sender ? sender.isSessionItselfClosed().toString() : undefined
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
@@ -546,7 +546,7 @@ export class EventHubSender extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
         await this._negotiateClaim();
-       
+
         logger.verbose(
           "[%s] Trying to create sender '%s'...",
           this._context.connectionId,
@@ -562,7 +562,7 @@ export class EventHubSender extends LinkEntity {
           options
         );
         this._sender.setMaxListeners(1000);
-       
+
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;

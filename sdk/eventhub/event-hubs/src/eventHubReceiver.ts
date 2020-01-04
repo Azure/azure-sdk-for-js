@@ -10,12 +10,7 @@ import {
   ReceiverOptions as RheaReceiverOptions,
   types
 } from "rhea-promise";
-import {
-  delay,
-  translate,
-  Constants,
-  MessagingError
-} from "@azure/core-amqp";
+import { delay, translate, Constants, MessagingError } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
@@ -289,7 +284,7 @@ export class EventHubReceiver extends LinkEntity {
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isItselfClosed().toString(): undefined
+      rheaReceiver ? rheaReceiver.isItselfClosed().toString() : undefined
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
@@ -305,7 +300,7 @@ export class EventHubReceiver extends LinkEntity {
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString(): undefined
+      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString() : undefined
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
@@ -504,7 +499,7 @@ export class EventHubReceiver extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
         await this._negotiateClaim();
-        
+
         const receiverOptions: CreateReceiverOptions = {
           onClose: (context: EventContext) => this._onAmqpClose(context),
           onError: (context: EventContext) => this._onAmqpError(context),

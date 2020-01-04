@@ -150,16 +150,20 @@ export namespace ConnectionContext {
           context.error
         );
       }
-      const state: Readonly<{	
-        wasConnectionCloseCalled: boolean;	
-        numSenders: number;	
-        numReceivers: number;	
-      }> = {	
-        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,	
-        numSenders: Object.keys(connectionContext.senders).length,	
-        numReceivers: Object.keys(connectionContext.receivers).length	
+      const state: Readonly<{
+        wasConnectionCloseCalled: boolean;
+        numSenders: number;
+        numReceivers: number;
+      }> = {
+        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
+        numSenders: Object.keys(connectionContext.senders).length,
+        numReceivers: Object.keys(connectionContext.receivers).length
       };
-      logger.verbose("[%s] Closing all open senders and receivers in the state: %O", connectionContext.connection.id, state);
+      logger.verbose(
+        "[%s] Closing all open senders and receivers in the state: %O",
+        connectionContext.connection.id,
+        state
+      );
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
       // connection is back up.
@@ -173,13 +177,13 @@ export namespace ConnectionContext {
       // Close all senders and receivers to ensure clean up of timers & other resources.
       if (state.numSenders || state.numReceivers) {
         for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];	
+          const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
             await sender.close();
           }
         }
         for (const receiverName of Object.keys(connectionContext.receivers)) {
-          const receiver = connectionContext.receivers[receiverName];	
+          const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
             await receiver.close();
           }
