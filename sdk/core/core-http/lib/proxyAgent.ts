@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as tls from "tls";
 import * as http from "http";
 import * as https from "https";
 import * as tunnel from "tunnel";
@@ -13,14 +14,16 @@ export type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
 export function createProxyAgent(
   requestUrl: string,
   proxySettings: ProxySettings,
-  headers?: HttpHeaders
+  headers?: HttpHeaders,
+  tlsOptions?: tls.TlsOptions
 ): ProxyAgent {
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
     proxy: {
       host: URLBuilder.parse(proxySettings.host).getHost() as string,
       port: proxySettings.port,
-      headers: (headers && headers.rawHeaders()) || {}
-    }
+      headers: (headers && headers.rawHeaders()) || {},
+      ...tlsOptions // tunnel passes TLS options down to tls.connect via https.request
+    } as tunnel.ProxyOptions
   };
 
   if (proxySettings.username && proxySettings.password) {

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as tls from "tls";
 import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
@@ -10,6 +11,13 @@ import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
+
+// Ensure that TLS 1.2 or greater is used for SSL connections.  We have to
+// cheat a bit with the types while we still use the Node 8 typings files.
+const tlsOptions: Partial<tls.TlsOptions> =
+  (tls as any).DEFAULT_MIN_VERSION !== undefined
+    ? { minVersion: "TLSv1.2" } as Partial<tls.TlsOptions>  // Node 10+
+    : { secureProtocol: "TLSv1_2_method" };                 // Node 8 and below
 
 interface GlobalWithFetch extends NodeJS.Global {
   fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
@@ -54,7 +62,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
       const tunnel: ProxyAgent = createProxyAgent(
         httpRequest.url,
         httpRequest.proxySettings,
-        httpRequest.headers
+        httpRequest.headers,
+        tlsOptions
       );
 
       agent = tunnel.agent;
@@ -72,7 +81,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
       }
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
-        keepAlive: httpRequest.keepAlive
+        keepAlive: httpRequest.keepAlive,
+        ...tlsOptions
       };
 
       if (isHttps) {
