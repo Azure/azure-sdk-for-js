@@ -23,7 +23,7 @@ import { EventHubProducer } from "./sender";
  * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
  * - Use the full namespace like `<yournamespace>.servicebus.windows.net`, and a credentials object.
- * 
+ *
  * Optionally, you can also pass an options bag to configure the retry policy or proxy settings.
  *
  */
@@ -133,7 +133,7 @@ export class EventHubProducerClient {
   /**
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
-   * @param options  Configures the behavior of the batch. 
+   * @param options  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
    * - `partitionId`   : Id of the partition to which the batch of events need to be sent.

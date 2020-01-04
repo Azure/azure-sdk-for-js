@@ -594,7 +594,9 @@ function getStartPosition(
     return startPositions;
   }
 
-  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[partitionIdToClaim];
+  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[
+    partitionIdToClaim
+  ];
 
   if (startPosition == null) {
     return latestEventPosition;

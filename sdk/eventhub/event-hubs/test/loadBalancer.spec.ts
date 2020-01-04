@@ -39,11 +39,11 @@ describe("PartitionLoadBalancer", () => {
         consumerGroup: "",
         fullyQualifiedNamespace: "",
         eventHubName: "",
-        // owned by someone else - we'll steal this 
+        // owned by someone else - we'll steal this
         // partition
         ownerId: "someOtherOwnerId",
         partitionId: ""
-      })
+      });
 
       const lb = new GreedyPartitionLoadBalancer(["1", "2", "3"]);
 

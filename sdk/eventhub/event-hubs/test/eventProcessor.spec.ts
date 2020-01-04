@@ -122,10 +122,7 @@ describe("Event Processor", function(): void {
       });
 
       it("using a single default event position for any partition", async () => {
-        const processor = createEventProcessor(
-          emptyCheckpointStore,
-          { offset: 1009 }
-        );
+        const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
 
         let eventPosition = await processor["_getStartingPosition"]("0");
         eventPosition!.offset!.should.equal(1009);

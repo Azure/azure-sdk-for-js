@@ -19,7 +19,7 @@ export interface PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
-   * @param eventHubClient The EventHubClient to forward to the PartitionPump.   
+   * @param eventHubClient The EventHubClient to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
    * @ignore
