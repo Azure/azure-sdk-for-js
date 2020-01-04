@@ -11,7 +11,7 @@ import {
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
@@ -223,6 +223,81 @@ describe("EventHubConsumerClient", () => {
 
       clients = [];
       await producerClient.close();
+    });
+
+    describe("Reinitialize partition processing after error", function(): void {
+      it("when subscribed to single partition", async function(): Promise<void> {
+        const partitionId = "0";
+        const consumerClient1 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+        const consumerClient2 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        clients.push(consumerClient1, consumerClient2);
+
+        // keep track of the handlers called on subscription 1
+        const handlerCalls = {
+          initialize: 0,
+          processEvents: 0,
+          processError: 0,
+          close: 0
+        };
+        const subscriptionHandlers1: SubscriptionEventHandlers = {
+          async processError() {
+            handlerCalls.processError++;
+          },
+          async processEvents() {
+            handlerCalls.processEvents++;
+            if (!handlerCalls.close) {
+              // start the 2nd subscription that will kick the 1st subscription off
+              subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
+                ownerLevel: 1,
+                maxBatchSize: 1,
+                maxWaitTimeInSeconds: 1
+              });
+            } else {
+              // stop this subscription, we know close was called so we've restarted
+              await subscription1.close();
+            }
+          },
+          async processClose() {
+            handlerCalls.close++;
+          },
+          async processInitialize() {
+            handlerCalls.initialize++;
+          }
+        };
+        const subscriptionHandlers2: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents() {
+            // stop this subscription since it already should have forced the 1st subscription to have an error.
+            await subscription2!.close();
+          }
+        };
+        let subscription2: Subscription | undefined;
+        const subscription1 = consumerClient1.subscribe(partitionId, subscriptionHandlers1, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to recover",
+          timeBetweenRunsMs: 5000,
+          async until() {
+            return !subscription1.isRunning && !subscription2!.isRunning;
+          }
+        });
+
+        handlerCalls.initialize.should.be.greaterThan(1);
+        handlerCalls.close.should.be.greaterThan(1);
+      });
     });
 
     it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<

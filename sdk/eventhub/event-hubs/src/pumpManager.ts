@@ -19,7 +19,7 @@ export interface PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
-   * @param eventHubClient The EventHubClient to forward to the PartitionPump.   
+   * @param eventHubClient The EventHubClient to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
    * @ignore
@@ -29,6 +29,14 @@ export interface PumpManager {
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor
   ): Promise<void>;
+
+  /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId The partition to check.
+   * @ignore
+   * @internal
+   */
+  isReceivingFromPartition(partitionId: string): boolean;
 
   /**
    * Stops all PartitionPumps and removes them from the internal map.
@@ -69,6 +77,17 @@ export class PumpManagerImpl implements PumpManager {
       const pump = this._partitionIdToPumps[id];
       return Boolean(pump && pump.isReceiving);
     });
+  }
+
+  /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId
+   * @ignore
+   * @internal
+   */
+  public isReceivingFromPartition(partitionId: string): boolean {
+    const pump = this._partitionIdToPumps[partitionId];
+    return Boolean(pump && pump.isReceiving);
   }
 
   /**

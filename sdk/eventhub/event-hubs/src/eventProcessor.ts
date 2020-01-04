@@ -364,13 +364,27 @@ export class EventProcessor {
     return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
-  private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
-    try {
-      return this._startPump(partitionId);
-    } catch (err) {
-      logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
-      logErrorStackTrace(err);
-      await this._handleSubscriptionError(err);
+  private async _runLoopForSinglePartition(
+    partitionId: string,
+    abortSignal: AbortSignalLike
+  ): Promise<void> {
+    while (!abortSignal.aborted) {
+      try {
+        if (!this._pumpManager.isReceivingFromPartition(partitionId)) {
+          await this._startPump(partitionId);
+        }
+      } catch (err) {
+        logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+        logErrorStackTrace(err);
+        await this._handleSubscriptionError(err).catch(() => {}); // swallow errors from user error handler
+      } finally {
+        // sleep for some time after which we can attempt to create a pump again.
+        logger.verbose(
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
+        );
+        // swallow errors from delay since it's fine for delay to exit early
+        await delay(this._loopIntervalInMs, abortSignal).catch(() => {});
+      }
     }
   }
 
@@ -444,16 +458,17 @@ export class EventProcessor {
             }
           }
         }
-
-        // sleep
-        logger.verbose(
-          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
-        );
-        await delay(this._loopIntervalInMs, abortSignal);
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
-        await this._handleSubscriptionError(err);
+        await this._handleSubscriptionError(err).catch(() => {}); // swallow errors from user error handler
+      } finally {
+        // sleep for some time, then continue the loop again.
+        logger.verbose(
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
+        );
+        // swallow the error since it's fine to exit early from delay
+        await delay(this._loopIntervalInMs, abortSignal).catch(() => {});
       }
     }
   }
@@ -507,7 +522,10 @@ export class EventProcessor {
 
     if (targetWithoutOwnership(this._processingTarget)) {
       logger.verbose(`[${this._id}] Single partition target: ${this._processingTarget}`);
-      this._loopTask = this._runLoopWithoutLoadBalancing(this._processingTarget);
+      this._loopTask = this._runLoopForSinglePartition(
+        this._processingTarget,
+        this._abortController.signal
+      );
     } else {
       logger.verbose(`[${this._id}] Multiple partitions, using load balancer`);
       this._loopTask = this._runLoopWithLoadBalancing(
@@ -594,7 +612,9 @@ function getStartPosition(
     return startPositions;
   }
 
-  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[partitionIdToClaim];
+  const startPosition = (startPositions as { [partitionId: string]: EventPosition })[
+    partitionIdToClaim
+  ];
 
   if (startPosition == null) {
     return latestEventPosition;
