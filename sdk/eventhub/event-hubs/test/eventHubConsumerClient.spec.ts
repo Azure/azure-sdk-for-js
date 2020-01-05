@@ -244,16 +244,11 @@ describe("EventHubConsumerClient", () => {
         // keep track of the handlers called on subscription 1
         const handlerCalls = {
           initialize: 0,
-          processEvents: 0,
-          processError: 0,
           close: 0
         };
         const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {
-            handlerCalls.processError++;
-          },
+          async processError() {},
           async processEvents() {
-            handlerCalls.processEvents++;
             if (!handlerCalls.close) {
               // start the 2nd subscription that will kick the 1st subscription off
               subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
@@ -297,6 +292,113 @@ describe("EventHubConsumerClient", () => {
 
         handlerCalls.initialize.should.be.greaterThan(1);
         handlerCalls.close.should.be.greaterThan(1);
+      });
+
+      it("when subscribed to multiple partitions", async function(): Promise<void> {
+        const consumerClient1 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+        const consumerClient2 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        clients.push(consumerClient1, consumerClient2);
+
+        const partitionIds = await consumerClient1.getPartitionIds();
+
+        const partitionHandlerCalls: {
+          [partitionId: string]: {
+            initialize: number;
+            close: number;
+          };
+        } = {};
+
+        // keep track of the handlers called on subscription 1
+        for (const id of partitionIds) {
+          partitionHandlerCalls[id] = { initialize: 0, close: 0 };
+        }
+
+        const subscriptionHandlers1: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents() {},
+          async processClose(_, context) {
+            partitionHandlerCalls[context.partitionId].close++;
+          },
+          async processInitialize(context) {
+            partitionHandlerCalls[context.partitionId].initialize++;
+          }
+        };
+
+        const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to read from all partitions",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            // wait until we've seen an initialize for each partition.
+            return (
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].initialize;
+              }).length === partitionIds.length
+            );
+          }
+        });
+
+        const partitionsReadFromSub2 = new Set<string>();
+        const subscriptionHandlers2: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents(_, context) {
+            partitionsReadFromSub2.add(context.partitionId);
+          }
+        };
+
+        // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
+        const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1,
+          ownerLevel: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription2 to read from all partitions",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            return partitionsReadFromSub2.size === partitionIds.length;
+          }
+        });
+
+        // close subscription2 so subscription1 can recover.
+        await subscription2.close();
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to recover",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            // wait until we've seen an additional initialize for each partition.
+            return (
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].initialize > 1;
+              }).length === partitionIds.length
+            );
+          }
+        });
+
+        await subscription1.close();
+
+        for (const id of partitionIds) {
+          partitionHandlerCalls[id].initialize.should.be.greaterThan(1);
+          partitionHandlerCalls[id].close.should.be.greaterThan(1);
+        }
       });
     });
 
