@@ -28,10 +28,11 @@ export interface PartitionLoadBalancer {
  * This class does no load balancing - it's intended to be used when
  * you want to avoid load balancing and consume a set of partitions (or all
  * available partitions)
+ * @intenal
+ * @ignore
  */
 export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   private partitionsToClaim?: Set<string>;
-  private _shouldReclaim: boolean;
 
   /**
    * @param partitionIds An optional set of partition IDs. undefined means all partitions.
@@ -43,7 +44,6 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
       }.`
     );
     this.partitionsToClaim = partitionIds && new Set(partitionIds);
-    this._shouldReclaim = false;
   }
 
   loadBalance(
@@ -58,37 +58,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
       potential = partitionsToAdd.filter((part) => partitionsToClaim.has(part));
     }
 
-    // now remove any partitions that are already claimed
-    // unless we're basically reclaiming partitions in which
-    // case ignore that.
-    if (this._shouldReclaim) {
-      logger.verbose(`GreedyPartitionLoadBalancer: reclaiming partitions`);
-      this._shouldReclaim = false;
-      return potential;
-    }
-
-    // don't try to reclaim partitions that are already owned
-    return potential.filter(
-      (id) =>
-        // nobody has created an ownership claim
-        !partitionOwnershipMap.has(id) ||
-        // we don't own it but someone else does (we steal)
-        partitionOwnershipMap.get(id)!.ownerId !== ownerId
-    );
-  }
-
-  /**
-   * Makes it so the next load balancing interval forces partitions to be "reclaimed"
-   *
-   * This is useful in testing when you want to stop a processor and go through the
-   * entire cycle again without having to wait for the "expiration" interval for each
-   * claim.
-   *
-   * @internal
-   * @ignore
-   */
-  public expireAll(): void {
-    this._shouldReclaim = true;
+    return potential;
   }
 }
 
@@ -101,6 +71,8 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
  * partition ownership entry has not be updated for a specified duration of time, the owner of that partition is
  * considered inactive and the partition is available for other EventProcessors to own.
  * @class PartitionLoadBalancer
+ * @intenal
+ * @ignore
  */
 export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
   private _inactiveTimeLimitInMS: number;

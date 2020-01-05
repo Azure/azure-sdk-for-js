@@ -313,20 +313,25 @@ describe("EventHubConsumerClient", () => {
         const partitionHandlerCalls: {
           [partitionId: string]: {
             initialize: number;
+            processEvents: number;
             close: number;
           };
         } = {};
 
         // keep track of the handlers called on subscription 1
         for (const id of partitionIds) {
-          partitionHandlerCalls[id] = { initialize: 0, close: 0 };
+          partitionHandlerCalls[id] = { initialize: 0, processEvents: 0, close: 0 };
         }
 
         const subscriptionHandlers1: SubscriptionEventHandlers = {
           async processError() {},
-          async processEvents() {},
+          async processEvents(_, context) {
+            partitionHandlerCalls[context.partitionId].processEvents++;
+          },
           async processClose(_, context) {
             partitionHandlerCalls[context.partitionId].close++;
+            // reset processEvents count
+            partitionHandlerCalls[context.partitionId].processEvents = 0;
           },
           async processInitialize(context) {
             partitionHandlerCalls[context.partitionId].initialize++;
@@ -343,10 +348,10 @@ describe("EventHubConsumerClient", () => {
           name: "Wait for subscription1 to read from all partitions",
           timeBetweenRunsMs: 1000,
           async until() {
-            // wait until we've seen an initialize for each partition.
+            // wait until we've seen processEvents invoked for each partition.
             return (
               partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].initialize;
+                return partitionHandlerCalls[id].processEvents;
               }).length === partitionIds.length
             );
           }
@@ -369,10 +374,16 @@ describe("EventHubConsumerClient", () => {
 
         await loopUntil({
           maxTimes: 10,
-          name: "Wait for subscription2 to read from all partitions",
+          name:
+            "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
           timeBetweenRunsMs: 1000,
           async until() {
-            return partitionsReadFromSub2.size === partitionIds.length;
+            const sub1CloseHandlersCalled = Boolean(
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].close > 0;
+              }).length === partitionIds.length
+            );
+            return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
           }
         });
 
@@ -384,10 +395,10 @@ describe("EventHubConsumerClient", () => {
           name: "Wait for subscription1 to recover",
           timeBetweenRunsMs: 1000,
           async until() {
-            // wait until we've seen an additional initialize for each partition.
+            // wait until we've seen an additional processEvent for each partition.
             return (
               partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].initialize > 1;
+                return partitionHandlerCalls[id].processEvents > 0;
               }).length === partitionIds.length
             );
           }
@@ -396,8 +407,14 @@ describe("EventHubConsumerClient", () => {
         await subscription1.close();
 
         for (const id of partitionIds) {
-          partitionHandlerCalls[id].initialize.should.be.greaterThan(1);
-          partitionHandlerCalls[id].close.should.be.greaterThan(1);
+          partitionHandlerCalls[id].initialize.should.be.greaterThan(
+            1,
+            `Initialize on partition ${id} was not called more than 1 time.`
+          );
+          partitionHandlerCalls[id].close.should.be.greaterThan(
+            1,
+            `Close on partition ${id} was not called more than 1 time.`
+          );
         }
       });
     });

@@ -710,7 +710,6 @@ describe("Event Processor", function(): void {
     // start it again
     loggerForTest(`Starting processor again`);
     subscriptionEventHandler.clear();
-    partitionLoadBalancer.expireAll();
 
     processor.start();
 
