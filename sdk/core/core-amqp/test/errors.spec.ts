@@ -45,7 +45,8 @@ describe("Errors", function() {
       const err = new Error("error message");
       err.name = "OperationTimeoutError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
-      should.equal(translatedError.name === "OperationTimeoutError", true);
+      should.equal(translatedError.name === "MessagingError", true);
+      should.equal(translatedError.code === "OperationTimeoutError", true);
       translatedError.message.should.equal(err.message);
       translatedError.stack!.should.equal(err.stack);
       translatedError.retryable.should.equal(true);
@@ -55,10 +56,22 @@ describe("Errors", function() {
       const err = new Error("error message");
       err.name = "InsufficientCreditError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
-      should.equal(translatedError.name === "InsufficientCreditError", true);
+      should.equal(translatedError.name === "MessagingError", true);
+      should.equal(translatedError.code === "InsufficientCreditError", true);
       translatedError.message.should.equal(err.message);
       translatedError.stack!.should.equal(err.stack);
       translatedError.retryable.should.equal(true);
+    });
+
+    it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", function() {
+      const err = new Error("error message");
+      err.name = "SendOperationFailedError";
+      const translatedError = Errors.translate(err) as Errors.MessagingError;
+      should.equal(translatedError.name === "MessagingError", true);
+      should.equal(translatedError.code === "SendOperationFailedError", true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(false);
     });
 
     it("Does not set retryable, if input is the custom AbortError", function() {

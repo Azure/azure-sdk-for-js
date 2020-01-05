@@ -497,10 +497,6 @@ export class MessagingError extends Error {
    */
   syscall?: string;
   /**
-   * @property {boolean} translated Has the error been translated. Default: true.
-   */
-  translated: boolean = true;
-  /**
    *
    * @property {boolean} retryable Describes whether the error is retryable. Default: true.
    */
@@ -517,7 +513,6 @@ export class MessagingError extends Error {
   constructor(message: string, originalError?: Error) {
     super(message);
 
-    // copy properties from the original error.
     if (!originalError) {
       return;
     }
@@ -615,6 +610,25 @@ function isBrowserWebsocketError(err: any): boolean {
   return result;
 }
 
+const rheaPromiseErrors = [
+  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
+  "OperationTimeoutError",
+
+  // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
+  "InsufficientCreditError",
+
+  // Defines the error that occurs when the Sender fails to send a message.
+  "SendOperationFailedError"
+];
+
+/**
+ * This utility checks if an error is a retryable error from rhea-promise.
+ * @param err
+ */
+function isRheaPromiseError(err: Error): boolean {
+  return rheaPromiseErrors.indexOf(err.name) !== -1;
+}
+
 /**
  * Translates the AQMP error received at the protocol layer or a SystemError into a MessagingError.
  * All other errors are returned unaltered.
@@ -623,7 +637,7 @@ function isBrowserWebsocketError(err: any): boolean {
  * @returns {MessagingError} MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError | Error {
-  if ((err as MessagingError).translated) {
+  if ((err as MessagingError).name === "MessagingError") {
     // already translated
     return err as MessagingError;
   }
@@ -686,13 +700,15 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     return error;
   }
 
-  // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-  // Must do a name check until the custom error is updated, and that doesn't break compatibility
-  // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-  const errorName = err.name;
-  if (retryableErrors.indexOf(errorName) > -1) {
-    (err as any).retryable = true;
-    return err;
+  // Some errors come from rhea-promise and should be treated as retryable.
+  if (isRheaPromiseError(err)) {
+    const error = new MessagingError(err.message, err);
+    error.code = err.name;
+    if (error.code && retryableErrors.indexOf(error.code) === -1) {
+      // not found
+      error.retryable = false;
+    }
+    return error;
   }
 
   return err;

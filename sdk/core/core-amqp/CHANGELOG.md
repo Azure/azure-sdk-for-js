@@ -4,6 +4,8 @@
 
 - Improved detection of when an established socket is no longer receiving data from the service.
 - Added logging around the network connectivity check.
+- Updated MessagingError translation so that all MessagingErrors have the name `MessagingError`.
+  Now use the `error.code` property to determine the cause of the error when `error.name` is `MessagingError`.
 
 ## 1.0.0-preview.6 (2019-12-03)
 
