@@ -40,10 +40,6 @@ jobs:
         inputs:
           command: install
 
-      - script: |
-          node $(Build.SourcesDirectory)/.scripts/dataplane-list.js $(Build.SourcesDirectory)
-        displayName: "Generate dataplane package list"
-
       - task: Npm@1
         displayName: 'npm run build'
         inputs:
@@ -62,10 +58,6 @@ jobs:
         displayName: 'npm install'
         inputs:
           command: install
-
-      - script: |
-          node $(Build.SourcesDirectory)/.scripts/dataplane-list.js $(Build.SourcesDirectory)
-        displayName: "Generate dataplane package list"
 
       - task: Npm@1
         displayName: 'npm audit'
