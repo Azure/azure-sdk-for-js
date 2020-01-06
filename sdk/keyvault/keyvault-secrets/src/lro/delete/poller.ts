@@ -52,4 +52,11 @@ export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, D
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+   * Could be used to get a publicly safe version of the poller state.
+   */
+  public getOperationState(): DeleteSecretPollOperationState {
+    return this.operation.state;
+  }
 }
