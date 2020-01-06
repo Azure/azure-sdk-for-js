@@ -113,7 +113,7 @@ An operation result collection, such as `AnalyzeSentimentResultCollection`, is a
 
 ### Operation Overloads
 
-For each supported operation, `TextAnalyticsClient` provides method overloads to take a batch of text inputs as strings or a batch of `LanguageInput` or `MultiLanguageInput` objects, depending on the operation. Overloads that take an object batches allows callers to give each document a unique ID, or indicate extra metadata such as the langauge the document is written in or the country of origin.
+For each supported operation, `TextAnalyticsClient` provides method overloads to take a batch of text inputs as strings or a batch of `DetectLanguageInput` or `TextDocumentInput` objects, depending on the operation. Overloads that take an object batches allows callers to give each document a unique ID, or indicate extra metadata such as the langauge the document is written in or the country of origin.
 
 ## Examples
 
