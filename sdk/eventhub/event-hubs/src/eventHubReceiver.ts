@@ -288,7 +288,14 @@ export class EventHubReceiver extends LinkEntity {
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
-      await rheaReceiver.close();
+      await rheaReceiver.close().catch((err) => {
+        logger.verbose(
+          "[%s] Error when closing receiver [%s] after 'receiver_close' event: %O",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+      });
     }
   }
 
@@ -304,7 +311,14 @@ export class EventHubReceiver extends LinkEntity {
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
-      await rheaReceiver.close();
+      await rheaReceiver.close().catch((err) => {
+        logger.verbose(
+          "[%s] Error when closing receiver [%s] after 'session_close' event: %O",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+      });
     }
   }
 

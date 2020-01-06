@@ -179,13 +179,27 @@ export namespace ConnectionContext {
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
-            await sender.close();
+            await sender.close().catch((err) => {
+              logger.verbose(
+                "[%s] Error when closing sender [%s] after disconnected event: %O",
+                connectionContext.connection.id,
+                senderName,
+                err
+              );
+            });
           }
         }
         for (const receiverName of Object.keys(connectionContext.receivers)) {
           const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
-            await receiver.close();
+            await receiver.close().catch((err) => {
+              logger.verbose(
+                "[%s] Error when closing sender [%s] after disconnected event: %O",
+                connectionContext.connection.id,
+                receiverName,
+                err
+              );
+            });
           }
         }
       }

@@ -130,7 +130,14 @@ export class EventHubSender extends LinkEntity {
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
-        await sender.close();
+        await sender.close().catch((err) => {
+          logger.verbose(
+            "[%s] Error when closing sender [%s] after 'sender_close' event: %O",
+            this._context.connectionId,
+            this.name,
+            err
+          );
+        });
       }
     };
 
@@ -146,7 +153,14 @@ export class EventHubSender extends LinkEntity {
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
-        await sender.close();
+        await sender.close().catch((err) => {
+          logger.verbose(
+            "[%s] Error when closing sender [%s] after 'session_close' event: %O",
+            this._context.connectionId,
+            this.name,
+            err
+          );
+        });
       }
     };
   }
